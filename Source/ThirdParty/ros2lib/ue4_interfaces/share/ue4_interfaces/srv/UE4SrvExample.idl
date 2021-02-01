@@ -1,0 +1,17 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from ue4_interfaces/srv/UE4SrvExample.srv
+// generated code does not contain a copyright notice
+
+
+module ue4_interfaces {
+  module srv {
+    struct UE4SrvExample_Request {
+      int64 a;
+
+      int64 b;
+    };
+    struct UE4SrvExample_Response {
+      int64 res;
+    };
+  };
+};
