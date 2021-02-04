@@ -58,6 +58,7 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 - rosidl_typesupport_c
 - rosidl_typesupport_interface
 - rosidl_typesupport_introspection_c
+- rosidl_runtime_c (Ubuntu 20/Foxy)
 - rosgraph_msgs
 - std_msgs
 - ue4_interfaces (contains an example of custom interface)
@@ -65,10 +66,16 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 Currently, the plugin requires the following shared libraries at runtime:
 - libfastcdr.so
 - libfastcdr.so.1
-- libfastrtps.so.1
+- libfastrtps.so.1 (Ubuntu 18/Eloquent)
+- libfastrtps.so.2 (Ubuntu 20/Foxy)
 - librcl_logging_spdlog.so
 - librmw_fastrtps_cpp.so
 - librmw_fastrtps_shared_cpp.so
 - librmw_implementation.so
+- librosidl_typesupport_cpp.so (Ubuntu 20/Foxy)
 - librosidl_typesupport_fastrtps_cpp.so
 - librosidl_typesupport_fastrtps_c.so
+- librcpputils.so (Ubuntu 20/Foxy)
+- librmw_dds_common.so (Ubuntu 20/Foxy)
+- librmw_dds_common__rosidl_typesupport_cpp.so (Ubuntu 20/Foxy)
+- librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so (Ubuntu 20/Foxy)
