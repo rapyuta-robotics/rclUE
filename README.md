@@ -1,5 +1,5 @@
 # Basic information
-This build of the plugin is based on ROS2 Eloquent and has been tested on Ubuntu 18
+This build of the plugin is based on ROS2 Eloquent and has been tested on Ubuntu 18 (master branch)
 
 # Installation
 ## How to install this plugin (Ubuntu 18):
