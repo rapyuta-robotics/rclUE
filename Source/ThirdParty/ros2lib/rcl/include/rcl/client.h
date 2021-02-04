@@ -20,7 +20,7 @@ extern "C"
 {
 #endif
 
-#include "rosidl_generator_c/service_type_support_struct.h"
+#include "rosidl_runtime_c/service_type_support_struct.h"
 
 #include "rcl/macros.h"
 #include "rcl/node.h"
@@ -32,6 +32,7 @@ struct rcl_client_impl_t;
 /// Structure which encapsulates a ROS Client.
 typedef struct rcl_client_t
 {
+  /// Pointer to the client implementation
   struct rcl_client_impl_t * impl;
 } rcl_client_t;
 
@@ -75,7 +76,7 @@ rcl_get_zero_initialized_client(void);
  * For C, a macro can be used (for example `example_interfaces/AddTwoInts`):
  *
  * ```c
- * #include <rosidl_generator_c/service_type_support_struct.h>
+ * #include <rosidl_runtime_c/service_type_support_struct.h>
  * #include <example_interfaces/srv/add_two_ints.h>
  *
  * const rosidl_service_type_support_t * ts =
@@ -109,7 +110,7 @@ rcl_get_zero_initialized_client(void);
  *
  * ```c
  * #include <rcl/rcl.h>
- * #include <rosidl_generator_c/service_type_support_struct.h>
+ * #include <rosidl_runtime_c/service_type_support_struct.h>
  * #include <example_interfaces/srv/add_two_ints.h>
  *
  * rcl_node_t node = rcl_get_zero_initialized_node();
@@ -174,7 +175,7 @@ rcl_client_init(
  * Lock-Free          | Yes
  *
  * \param[inout] client handle to the client to be finalized
- * \param[in] node handle to the node used to create the client
+ * \param[in] node a valid (not finalized) handle to the node used to create the client
  * \return `RCL_RET_OK` if client was finalized successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_NODE_INVALID` if the node is invalid, or
@@ -282,6 +283,15 @@ rcl_send_request(const rcl_client_t * client, const void * ros_request, int64_t 
  *         in the middleware, or
  * \return `RCL_RET_ERROR` if an unspecified error occurs.
  */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_take_response_with_info(
+  const rcl_client_t * client,
+  rmw_service_info_t * request_header,
+  void * ros_response);
+
+/// backwards compatibility function that takes a rmw_request_id_t only
 RCL_PUBLIC
 RCL_WARN_UNUSED
 rcl_ret_t

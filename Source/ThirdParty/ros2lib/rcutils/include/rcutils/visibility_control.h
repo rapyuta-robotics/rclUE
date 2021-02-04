@@ -15,44 +15,18 @@
 #ifndef RCUTILS__VISIBILITY_CONTROL_H_
 #define RCUTILS__VISIBILITY_CONTROL_H_
 
-#ifdef __cplusplus
-extern "C"
-{
-#endif
+#include "rcutils/visibility_control_macros.h"
 
-// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-//     https://gcc.gnu.org/wiki/Visibility
-
-#if defined _WIN32 || defined __CYGWIN__
-  #ifdef __GNUC__
-    #define RCUTILS_EXPORT __attribute__ ((dllexport))
-    #define RCUTILS_IMPORT __attribute__ ((dllimport))
-  #else
-    #define RCUTILS_EXPORT __declspec(dllexport)
-    #define RCUTILS_IMPORT __declspec(dllimport)
-  #endif
-  #ifdef RCUTILS_BUILDING_DLL
-    #define RCUTILS_PUBLIC RCUTILS_EXPORT
-  #else
-    #define RCUTILS_PUBLIC RCUTILS_IMPORT
-  #endif
-  #define RCUTILS_PUBLIC_TYPE RCUTILS_PUBLIC
-  #define RCUTILS_LOCAL
+#ifdef RCUTILS_BUILDING_DLL
+# define RCUTILS_PUBLIC RCUTILS_EXPORT
 #else
-  #define RCUTILS_EXPORT __attribute__ ((visibility("default")))
-  #define RCUTILS_IMPORT
-  #if __GNUC__ >= 4
-    #define RCUTILS_PUBLIC __attribute__ ((visibility("default")))
-    #define RCUTILS_LOCAL  __attribute__ ((visibility("hidden")))
-  #else
-    #define RCUTILS_PUBLIC
-    #define RCUTILS_LOCAL
-  #endif
-  #define RCUTILS_PUBLIC_TYPE
-#endif
+# define RCUTILS_PUBLIC RCUTILS_IMPORT
+#endif  // !RCUTILS_BUILDING_DLL
 
-#ifdef __cplusplus
-}
-#endif
+#if defined(_MSC_VER) || defined(__CYGWIN__)
+# define RCUTILS_PUBLIC_TYPE RCUTILS_PUBLIC
+#else  // defined(_MSC_VER) || defined(__CYGWIN__)
+# define RCUTILS_PUBLIC_TYPE
+#endif  // !defined(_MSC_VER) && !defined(__CYGWIN__)
 
 #endif  // RCUTILS__VISIBILITY_CONTROL_H_

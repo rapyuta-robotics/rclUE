@@ -25,6 +25,11 @@ extern "C"
 #include "rmw/types.h"
 #include "rmw/visibility_control.h"
 
+/// Map a `rcutil_ret_t` value to the equivalent `rmw_ret_t` value
+/**
+ * \param[in] rcutils_ret The rcutils type to map
+ * \return rmw_ret_t result mapped value, or RMW_RET_ERROR if the rcutils_ret value is not supported
+ */
 RMW_PUBLIC
 RMW_WARN_UNUSED
 rmw_ret_t

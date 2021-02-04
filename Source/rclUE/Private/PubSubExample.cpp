@@ -55,11 +55,11 @@ void APubSubExample::BeginPlay()
 	rclc_support_t support;
 
 	// create init_options
-	RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
+	RCCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
 
 	// create node
 	rcl_node_t my_node;
-	RCSOFTCHECK(rclc_node_init_default(&my_node, "node_0", "executor_examples", &support));
+	RCCHECK(rclc_node_init_default(&my_node, "node_0", "executor_examples", &support));
 
 	// create a publisher to publish topic 'topic_0' with type std_msg::msg::String
 	// my_pub is global, so that the timer callback can access this publisher.

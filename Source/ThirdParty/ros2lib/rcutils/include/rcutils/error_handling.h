@@ -36,6 +36,7 @@ extern "C"
 #include "rcutils/allocator.h"
 #include "rcutils/macros.h"
 #include "rcutils/snprintf.h"
+#include "rcutils/testing/fault_injection.h"
 #include "rcutils/types/rcutils_ret.h"
 #include "rcutils/visibility_control.h"
 
@@ -86,18 +87,17 @@ typedef struct rcutils_error_state_t
   uint64_t line_number;
 } rcutils_error_state_t;
 
-// __STDC_VERSION__ does not seem to be defined when compiling with UE4 
 // make sure our math is right...
-// #if __STDC_VERSION__ >= 201112L
-// static_assert(
-//   sizeof(rcutils_error_string_t) == (
-//     RCUTILS_ERROR_STATE_MESSAGE_MAX_LENGTH +
-//     RCUTILS_ERROR_STATE_FILE_MAX_LENGTH +
-//     RCUTILS_ERROR_STATE_LINE_NUMBER_STR_MAX_LENGTH +
-//     RCUTILS_ERROR_FORMATTING_CHARACTERS +
-//     1 /* null terminating character */),
-//   "Maximum length calculations incorrect");
-// #endif
+//#if __STDC_VERSION__ >= 201112L
+static_assert(
+  sizeof(rcutils_error_string_t) == (
+    RCUTILS_ERROR_STATE_MESSAGE_MAX_LENGTH +
+    RCUTILS_ERROR_STATE_FILE_MAX_LENGTH +
+    RCUTILS_ERROR_STATE_LINE_NUMBER_STR_MAX_LENGTH +
+    RCUTILS_ERROR_FORMATTING_CHARACTERS +
+    1 /* null terminating character */),
+  "Maximum length calculations incorrect");
+//#endif
 
 /// Forces initialization of thread-local storage if called in a newly created thread.
 /**
@@ -131,6 +131,7 @@ typedef struct rcutils_error_state_t
  * If already initialized, the given allocator is ignored, even if it does not
  * match the allocator used originally to initialize the thread-local storage.
  *
+ * \param[in] allocator to be used to allocate and deallocate memory
  * \return `RCUTILS_RET_OK` if successful, or
  * \return `RCUTILS_RET_INVALID_ARGUMENT` if the allocator is invalid, or
  * \return `RCUTILS_RET_BAD_ALLOC` if allocating memory fails, or
@@ -168,7 +169,8 @@ rcutils_set_error_state(const char * error_string, const char * file, size_t lin
  * \param[in] error_return_type The type to return if the argument is `NULL`.
  */
 #define RCUTILS_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type) \
-  RCUTILS_CHECK_FOR_NULL_WITH_MSG(argument, #argument " argument is null", \
+  RCUTILS_CHECK_FOR_NULL_WITH_MSG( \
+    argument, #argument " argument is null", \
     return error_return_type)
 
 /// Check a value for null, with an error message and error statement.
@@ -220,6 +222,24 @@ rcutils_set_error_state(const char * error_string, const char * file, size_t lin
       RCUTILS_SET_ERROR_MSG(output_msg); \
     } \
   } while (0)
+
+/// Indicate that the function intends to set an error message and return an error value.
+/**
+ * \def RCUTILS_CAN_SET_MSG_AND_RETURN_WITH_ERROR_OF
+ * Indicating macro similar to RCUTILS_CAN_RETURN_WITH_ERROR_OF, that also sets an error
+ * message.
+ *
+ * For now, this macro simply relies on `RCUTILS_CAN_FAIL_WITH` to set a generic error
+ * message and return the given `error_return_value` if fault injection is enabled.
+ *
+ * \param error_return_value the value returned as a result of a given error.
+ */
+#define RCUTILS_CAN_SET_MSG_AND_RETURN_WITH_ERROR_OF(error_return_value) \
+  RCUTILS_CAN_FAIL_WITH( \
+  { \
+    RCUTILS_SET_ERROR_MSG("Injecting " RCUTILS_STRINGIFY(error_return_value)); \
+    return error_return_value; \
+  })
 
 /// Return `true` if the error is set, otherwise `false`.
 RCUTILS_PUBLIC

@@ -40,6 +40,8 @@ typedef struct RMW_PUBLIC_TYPE rmw_context_t
   uint64_t instance_id;
   /// Implementation identifier, used to ensure two different implementations are not being mixed.
   const char * implementation_identifier;
+  /// Options used to initialize the context.
+  rmw_init_options_t options;
   /// Implementation defined context information.
   /** May be NULL if there is no implementation defined context information. */
   rmw_context_impl_t * impl;
@@ -53,10 +55,22 @@ rmw_get_zero_initialized_context(void);
 
 /// Initialize the middleware with the given options, and yielding an context.
 /**
- * The given context must be zero initialized, and is filled with
- * middleware specific data upon success of this function.
+ * Context is filled with middleware specific data upon success of this function.
  * The context is used when initializing some entities like nodes and
- * guard conditions, and is also required to properly call rmw_shutdown().
+ * guard conditions, and is also required to properly call `rmw_shutdown()`.
+ *
+ * \pre The given options must have been initialized
+ *   i.e. `rmw_init_options_init()` called on it and
+ *   an enclave set.
+ * \pre The given context must be zero initialized.
+ *
+ * \post If initialization fails, context will remain zero initialized.
+ *
+ * \remarks If options are zero-initialized, then `RMW_RET_INVALID_ARGUMENT` is returned.
+ *   If options are initialized but no enclave is provided, then `RMW_RET_INVALID_ARGUMENT`
+ *   is returned.
+ *   If context has been already initialized (`rmw_init()` was called on it), then
+ *   `RMW_RET_INVALID_ARGUMENT` is returned.
  *
  * <hr>
  * Attribute          | Adherence
@@ -71,9 +85,9 @@ rmw_get_zero_initialized_context(void);
  * \param[in] options initialization options to be used during initialization
  * \param[out] context resulting context struct
  * \return `RMW_RET_OK` if successful, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the implementation
  *   identifier does not match, or
- * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are null or invalid, or
  * \return `RMW_RET_ERROR` if an unexpected error occurs.
  */
 RMW_PUBLIC
@@ -83,8 +97,11 @@ rmw_init(const rmw_init_options_t * options, rmw_context_t * context);
 
 /// Shutdown the middleware for a given context.
 /**
- * The given context must be a valid context which has been initialized
- * with rmw_init().
+ * \pre The given context must be a valid context which has been initialized with `rmw_init()`.
+ *
+ * \remarks If context is zero initialized, then `RMW_RET_INVALID_ARGUMENT` is returned.
+ *   If context has been already invalidated (`rmw_shutdown()` was called on it), then
+ *   this function is a no-op and `RMW_RET_OK` is returned.
  *
  * <hr>
  * Attribute          | Adherence
@@ -98,9 +115,9 @@ rmw_init(const rmw_init_options_t * options, rmw_context_t * context);
  *
  * \param[in] context resulting context struct
  * \return `RMW_RET_OK` if successful, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if any argument are invalid, or
  * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the implementation
  *   identifier does not match, or
- * \return `RMW_RET_INVALID_ARGUMENT` if the argument is null or invalid, or
  * \return `RMW_RET_ERROR` if an unexpected error occurs.
  */
 RMW_PUBLIC
@@ -110,12 +127,17 @@ rmw_shutdown(rmw_context_t * context);
 
 /// Finalize a context.
 /**
- * The context to be finalized must have been previously initialized with
- * `rmw_init()`, and then later invalidated with `rmw_shutdown()`.
- * If context is `NULL`, then `RMW_RET_INVALID_ARGUMENT` is returned.
- * If context is zero-initialized, then `RMW_RET_INVALID_ARGUMENT` is returned.
- * If context is initialized and valid (`rmw_shutdown()` was not called on it),
- * then `RMW_RET_INVALID_ARGUMENT` is returned.
+ * This function will return early if a logical error, such as `RMW_RET_INVALID_ARGUMENT`
+ * or `RMW_RET_INCORRECT_RMW_IMPLEMENTATION`, ensues, leaving the given context unchanged.
+ * Otherwise, it will proceed despite errors, freeing as much resources as it can and zero
+ * initializing the given context.
+ *
+ * \pre The context to be finalized must have been previously initialized with
+ *   `rmw_init()`, and then later invalidated with `rmw_shutdown()`.
+ *
+ * \remarks If context is zero initialized, then `RMW_RET_INVALID_ARGUMENT` is returned.
+ *   If context is initialized and valid (`rmw_shutdown()` was not called on it), then
+ *   `RMW_RET_INVALID_ARGUMENT` is returned.
  *
  * <hr>
  * Attribute          | Adherence
@@ -126,8 +148,12 @@ rmw_shutdown(rmw_context_t * context);
  * Lock-Free          | Yes [1]
  * <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
  *
- * \return `RMW_RET_OK` if the shutdown was completed successfully, or
+ * This should be defined by the rmw implementation.
+ *
+ * \return `RMW_RET_OK` if successful, or
  * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the implementation
+ *   identifier does not match, or
  * \return `RMW_RET_ERROR` if an unspecified error occur.
  */
 RMW_PUBLIC

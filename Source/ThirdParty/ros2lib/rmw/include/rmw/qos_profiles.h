@@ -100,6 +100,19 @@ static const rmw_qos_profile_t rmw_qos_profile_system_default =
   false
 };
 
+static const rmw_qos_profile_t rmw_qos_profile_unknown =
+{
+  RMW_QOS_POLICY_HISTORY_UNKNOWN,
+  RMW_QOS_POLICY_DEPTH_SYSTEM_DEFAULT,
+  RMW_QOS_POLICY_RELIABILITY_UNKNOWN,
+  RMW_QOS_POLICY_DURABILITY_UNKNOWN,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_UNKNOWN,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
+
 #ifdef __cplusplus
 }
 #endif

@@ -97,7 +97,10 @@ rcl_validate_topic_name(
 /// Validate a given topic name.
 /**
  * This is an overload with an extra parameter for the length of topic_name.
+ * \param[in] topic_name the topic name to be validated, must be null terminated
  * \param[in] topic_name_length The number of characters in topic_name.
+ * \param[out] validation_result the reason for validation failure, if any
+ * \param[out] invalid_index index of violation if the input topic is invalid
  *
  * \sa rcl_validate_topic_name(const char *, int *, size_t *)
  */

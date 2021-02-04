@@ -26,7 +26,13 @@ extern "C"
 #include "rmw/types.h"
 #include "rmw/visibility_control.h"
 
-/// Check that a rmw_node_names_t struct is zero initialized.
+/// Check that a string_array struct is zero initialized
+/**
+ * This sets error message and returns error code if array is not zero initialized
+ *
+ * \param[in] array The string array to check
+ * \return RMW_RET_OK if array is zero initialized, otherwise RMW_RET_ERROR
+ */
 RMW_PUBLIC
 RMW_WARN_UNUSED
 rmw_ret_t

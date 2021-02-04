@@ -154,8 +154,9 @@ rcl_get_zero_initialized_context(void);
 /**
  * The context to be finalized must have been previously initialized with
  * `rcl_init()`, and then later invalidated with `rcl_shutdown()`.
+ * A zero-initialized context that has not been initialized can be finalized.
  * If context is `NULL`, then `RCL_RET_INVALID_ARGUMENT` is returned.
- * If context is zero-initialized, then `RCL_RET_INVALID_ARGUMENT` is returned.
+ * If context is zero-initialized, then `RCL_RET_OK` is returned.
  * If context is initialized and valid (`rcl_shutdown()` was not called on it),
  * then `RCL_RET_INVALID_ARGUMENT` is returned.
  *
@@ -168,6 +169,7 @@ rcl_get_zero_initialized_context(void);
  * Lock-Free          | Yes [1]
  * <i>[1] if `atomic_is_lock_free()` returns true for `atomic_uint_least64_t`</i>
  *
+ * \param[inout] context object to be finalized.
  * \return `RCL_RET_OK` if the shutdown was completed successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_ERROR` if an unspecified error occur.

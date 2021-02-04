@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__MSG__LIST_PARAMETERS_RESULT_H_
 #define RCL_INTERFACES__MSG__LIST_PARAMETERS_RESULT_H_
 
-#include "rcl_interfaces/msg/list_parameters_result__struct.h"
-#include "rcl_interfaces/msg/list_parameters_result__functions.h"
-#include "rcl_interfaces/msg/list_parameters_result__type_support.h"
+#include "rcl_interfaces/msg/detail/list_parameters_result__struct.h"
+#include "rcl_interfaces/msg/detail/list_parameters_result__functions.h"
+#include "rcl_interfaces/msg/detail/list_parameters_result__type_support.h"
 
 #endif  // RCL_INTERFACES__MSG__LIST_PARAMETERS_RESULT_H_

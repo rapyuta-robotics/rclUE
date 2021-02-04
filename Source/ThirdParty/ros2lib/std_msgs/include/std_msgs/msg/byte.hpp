@@ -4,7 +4,8 @@
 #ifndef STD_MSGS__MSG__BYTE_HPP_
 #define STD_MSGS__MSG__BYTE_HPP_
 
-#include "std_msgs/msg/byte__struct.hpp"
-#include "std_msgs/msg/byte__traits.hpp"
+#include "std_msgs/msg/detail/byte__struct.hpp"
+#include "std_msgs/msg/detail/byte__builder.hpp"
+#include "std_msgs/msg/detail/byte__traits.hpp"
 
 #endif  // STD_MSGS__MSG__BYTE_HPP_

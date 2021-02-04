@@ -28,23 +28,47 @@ extern "C"
 #include <rcutils/logging.h>
 
 #include "rmw/init.h"
-#include "rmw/loaned_message_sequence.h"
+#include "rmw/init_options.h"
 #include "rmw/ret_types.h"
+#include "rmw/security_options.h"
 #include "rmw/serialized_message.h"
 #include "rmw/visibility_control.h"
 
 // 24 bytes is the most memory needed to represent the GID by any current
 // implementation. It may need to be increased in the future.
-#define RMW_GID_STORAGE_SIZE 24
+#define RMW_GID_STORAGE_SIZE 24u
 
+/// Structure which encapsulates an rmw node
 typedef struct RMW_PUBLIC_TYPE rmw_node_t
 {
+  /// Name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this node's data
   void * data;
+
+  /// A concise name of this rmw node for identification
   const char * name;
+
+  /// The namespace of this rmw node
   const char * namespace_;
+
+  /// Context information about node's init specific information
   rmw_context_t * context;
 } rmw_node_t;
+
+/// Endpoint enumeration type
+typedef enum RMW_PUBLIC_TYPE rmw_endpoint_type_t
+{
+  /// Endpoint type has not yet been set
+  RMW_ENDPOINT_INVALID = 0,
+
+  /// Creates and publishes messages to the ROS topic
+  RMW_ENDPOINT_PUBLISHER,
+
+  /// Listens for and receives messages from a topic
+  RMW_ENDPOINT_SUBSCRIPTION
+} rmw_endpoint_type_t;
 
 /// Options that can be used to configure the creation of a publisher in rmw.
 typedef struct RMW_PUBLIC_TYPE rmw_publisher_options_t
@@ -62,11 +86,18 @@ typedef struct RMW_PUBLIC_TYPE rmw_publisher_options_t
   void * rmw_specific_publisher_payload;
 } rmw_publisher_options_t;
 
+/// Structure which encapsulates an rmw publisher
 typedef struct RMW_PUBLIC_TYPE rmw_publisher_t
 {
+  /// Name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this publisher's data
   void * data;
+
+  /// The name of the ROS topic this publisher publishes to
   const char * topic_name;
+
   /// Publisher options.
   /**
    * The options structure passed to rmw_create_publisher() should be
@@ -77,6 +108,8 @@ typedef struct RMW_PUBLIC_TYPE rmw_publisher_t
    * This field is not marked const to avoid any const casting during setup.
    */
   rmw_publisher_options_t options;
+
+  /// Indicate whether this publisher supports loaning messages
   bool can_loan_messages;
 } rmw_publisher_t;
 
@@ -110,9 +143,15 @@ typedef struct RMW_PUBLIC_TYPE rmw_subscription_options_t
 
 typedef struct RMW_PUBLIC_TYPE rmw_subscription_t
 {
+  /// Name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this subscription
   void * data;
+
+  /// Name of the ros topic this subscription listens to
   const char * topic_name;
+
   /// Subscription options.
   /**
    * The options structure passed to rmw_create_subscription() should be
@@ -123,39 +162,67 @@ typedef struct RMW_PUBLIC_TYPE rmw_subscription_t
    * This field is not marked const to avoid any const casting during setup.
    */
   rmw_subscription_options_t options;
+
+  /// Indicates whether this subscription can loan messages
   bool can_loan_messages;
 } rmw_subscription_t;
 
+/// A handle to an rmw service
 typedef struct RMW_PUBLIC_TYPE rmw_service_t
 {
+  /// The name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this service
   void * data;
+
+  /// The name of this service as exposed to the ros graph
   const char * service_name;
 } rmw_service_t;
 
+/// A handle to an rmw service client
 typedef struct RMW_PUBLIC_TYPE rmw_client_t
 {
+  /// The name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this service client
   void * data;
+
+  /// The name of this service as exposed to the ros graph
   const char * service_name;
 } rmw_client_t;
 
+/// Handle for an rmw guard condition
 typedef struct RMW_PUBLIC_TYPE rmw_guard_condition_t
 {
+  /// The name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this guard condition
   void * data;
+
+  /// rmw context associated with this guard condition
   rmw_context_t * context;
 } rmw_guard_condition_t;
 
+/// Allocation of memory for an rmw publisher
 typedef struct RMW_PUBLIC_TYPE rmw_publisher_allocation_t
 {
+  /// The name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this allocation
   void * data;
 } rmw_publisher_allocation_t;
 
+/// Allocation of memory for an rmw subscription
 typedef struct RMW_PUBLIC_TYPE rmw_subscription_allocation_t
 {
+  /// The name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Type erased pointer to this allocation
   void * data;
 } rmw_subscription_allocation_t;
 
@@ -227,72 +294,142 @@ typedef struct RMW_PUBLIC_TYPE rmw_guard_conditions_t
   void ** guard_conditions;
 } rmw_guard_conditions_t;
 
+/// Container for guard conditions to be waited on
 typedef struct RMW_PUBLIC_TYPE rmw_wait_set_t
 {
+  /// The name of the rmw implementation
   const char * implementation_identifier;
+
+  /// The guard condition to be waited on
   rmw_guard_conditions_t * guard_conditions;
+
+  /// Type erased pointer to this wait set's data
   void * data;
 } rmw_wait_set_t;
 
+/// An rmw service request identifier
 typedef struct RMW_PUBLIC_TYPE rmw_request_id_t
 {
+  /// The guid of the writer associated with this request
   int8_t writer_guid[16];
+
+  /// Sequence number of this service
   int64_t sequence_number;
 } rmw_request_id_t;
 
+/// Struct representing a time point for rmw
 typedef struct RMW_PUBLIC_TYPE rmw_time_t
 {
+  /// Seconds since the epoch
   uint64_t sec;
+
+  /// Nanoseconds component of this time point
   uint64_t nsec;
 } rmw_time_t;
 
-enum RMW_PUBLIC_TYPE rmw_security_enforcement_policy_t
-{
-  RMW_SECURITY_ENFORCEMENT_PERMISSIVE,
-  RMW_SECURITY_ENFORCEMENT_ENFORCE,
-};
+typedef rcutils_time_point_value_t rmw_time_point_value_t;
 
-typedef struct RMW_PUBLIC_TYPE rmw_node_security_options_t
+/// Meta-data for a service-related take.
+typedef struct RMW_PUBLIC_TYPE rmw_service_info_t
 {
-  enum rmw_security_enforcement_policy_t enforce_security;
-  const char * security_root_path;
-} rmw_node_security_options_t;
+  rmw_time_point_value_t source_timestamp;
+  rmw_time_point_value_t received_timestamp;
+  rmw_request_id_t request_id;
+} rmw_service_info_t;
 
 enum RMW_PUBLIC_TYPE rmw_qos_reliability_policy_t
 {
+  /// Implementation specific default
   RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT,
+
+  /// Guarantee that samples are delivered, may retry multiple times.
   RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+
+  /// Attempt to deliver samples, but some may be lost if the network is not robust
   RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT,
+
+  /// Reliability policy has not yet been set
   RMW_QOS_POLICY_RELIABILITY_UNKNOWN
 };
 
+/// QoS history enumerations describing how samples endure
 enum RMW_PUBLIC_TYPE rmw_qos_history_policy_t
 {
+  /// Implementation default for history policy
   RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT,
+
+  /// Only store up to a maximum number of samples, dropping oldest once max is exceeded
   RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+
+  /// Store all samples, subject to resource limits
   RMW_QOS_POLICY_HISTORY_KEEP_ALL,
+
+  /// History policy has not yet been set
   RMW_QOS_POLICY_HISTORY_UNKNOWN
 };
 
+/// QoS durability enumerations describing how samples persist
 enum RMW_PUBLIC_TYPE rmw_qos_durability_policy_t
 {
+  /// Impplementation specific default
   RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT,
+
+  /// The rmw publisher is responsible for persisting samples for “late-joining” subscribers
   RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
+
+  /// Samples are not persistent
   RMW_QOS_POLICY_DURABILITY_VOLATILE,
+
+  /// Durability policy has not yet been set
   RMW_QOS_POLICY_DURABILITY_UNKNOWN
 };
 
+#define RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_NODE_DEPRECATED_MSG \
+  "RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_NODE is deprecated. " \
+  "Use RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC if manually asserted liveliness is needed."
+
+#ifndef _WIN32
+# define RMW_DECLARE_DEPRECATED(name, msg) name __attribute__((deprecated(msg)))
+#else
+# define RMW_DECLARE_DEPRECATED(name, msg) name __pragma(deprecated(name))
+#endif
+
+/// QoS liveliness enumerations that describe a publisher's reporting policy for its alive status.
+/// For a subscriber, these are its requirements for its topic's publishers.
+// Suppress syntax errors, as cppcheck does not seem to handle enumerator attributes.
+// cppcheck-suppress syntaxError
 enum RMW_PUBLIC_TYPE rmw_qos_liveliness_policy_t
 {
-  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-  RMW_QOS_POLICY_LIVELINESS_AUTOMATIC,
-  RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_NODE,
-  RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC,
-  RMW_QOS_POLICY_LIVELINESS_UNKNOWN
+  /// Implementation specific default
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT = 0,
+
+  /// The signal that establishes a Topic is alive comes from the ROS rmw layer.
+  RMW_QOS_POLICY_LIVELINESS_AUTOMATIC = 1,
+
+  /// Explicitly asserting node liveliness is required in this case.
+  /// This option is deprecated, use RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC if your application
+  /// requires to assert liveliness manually.
+  RMW_DECLARE_DEPRECATED(
+    RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_NODE,
+    RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_NODE_DEPRECATED_MSG) = 2,
+
+  /// The signal that establishes a Topic is alive is at the Topic level. Only publishing a message
+  /// on the Topic or an explicit signal from the application to assert liveliness on the Topic
+  /// will mark the Topic as being alive.
+  // Using `3` for backwards compatibility.
+  RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_TOPIC = 3,
+
+  /// Liveliness policy has not yet been set
+  RMW_QOS_POLICY_LIVELINESS_UNKNOWN = 4
 };
 
+/// QoS Deadline default, 0s indicates deadline policies are not tracked or enforced
 #define RMW_QOS_DEADLINE_DEFAULT {0, 0}
+
+/// QoS Lifespan default, 0s indicate lifespan policies are not tracked or enforced
 #define RMW_QOS_LIFESPAN_DEFAULT {0, 0}
+
+/// QoS Liveliness lease duration default, 0s indicate lease durations are not tracked or enforced
 #define RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT {0, 0}
 
 /// ROS MiddleWare quality of service profile.
@@ -327,35 +464,53 @@ typedef struct RMW_PUBLIC_TYPE rmw_qos_profile_t
   bool avoid_ros_namespace_conventions;
 } rmw_qos_profile_t;
 
+/// ROS graph ID of the topic
 typedef struct RMW_PUBLIC_TYPE rmw_gid_t
 {
+  /// Name of the rmw implementation
   const char * implementation_identifier;
+
+  /// Bype data Gid value
   uint8_t data[RMW_GID_STORAGE_SIZE];
 } rmw_gid_t;
 
+/// Information describing an rmw message
 typedef struct RMW_PUBLIC_TYPE rmw_message_info_t
 {
-  // const rmw_time_t received_timestamp;
+  rmw_time_point_value_t source_timestamp;
+  rmw_time_point_value_t received_timestamp;
   rmw_gid_t publisher_gid;
+
+  /// Whether this message is from intra_process communication or not
   bool from_intra_process;
 } rmw_message_info_t;
 
-typedef struct RMW_PUBLIC_TYPE rmw_message_info_sequence_t
-{
-  rmw_message_info_t * message_info_sequence;
-  size_t size;
-  size_t capacity;
-} rmw_message_info_sequence_t;
+/// Get zero initialized mesage info.
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_message_info_t
+rmw_get_zero_initialized_message_info(void);
 
+/// Default size of the rmw queue when history is set to RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+/// 0 indicates it is currently not set
 enum {RMW_QOS_POLICY_DEPTH_SYSTEM_DEFAULT = 0};
 
 /// Type mapping of rcutils log severity types to rmw specific types.
 typedef enum RMW_PUBLIC_TYPE
 {
+  /// Debug log severity, for pedantic messaging
   RMW_LOG_SEVERITY_DEBUG = RCUTILS_LOG_SEVERITY_DEBUG,
+
+  /// Informational log severity, for reporting expected but not overwhelming information
   RMW_LOG_SEVERITY_INFO = RCUTILS_LOG_SEVERITY_INFO,
+
+  /// Warning log severity, for reporting recoverable issues
   RMW_LOG_SEVERITY_WARN = RCUTILS_LOG_SEVERITY_WARN,
+
+  /// Error log severity, for reporting uncoverable issues
   RMW_LOG_SEVERITY_ERROR = RCUTILS_LOG_SEVERITY_ERROR,
+
+  /// Fatal log severity, for reporting issue causing imminent shutdown
   RMW_LOG_SEVERITY_FATAL = RCUTILS_LOG_SEVERITY_FATAL
 } rmw_log_severity_t;
 

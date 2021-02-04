@@ -132,6 +132,7 @@ rcl_get_zero_initialized_node(void);
  *   pass in.
  * \return `RCL_RET_OK` if the node was initialized successfully, or
  * \return `RCL_RET_ALREADY_INIT` if the node has already be initialized, or
+ * \return `RCL_RET_NOT_INIT` if the given context is invalid, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_BAD_ALLOC` if allocating memory failed, or
  * \return `RCL_RET_NODE_INVALID_NAME` if the name is invalid, or
@@ -153,8 +154,13 @@ rcl_node_init(
  * Destroys any automatically created infrastructure and deallocates memory.
  * After calling, the rcl_node_t can be safely deallocated.
  *
- * Any middleware primitives created by the user, e.g. publishers, services, etc.,
- * are invalid after deinitialization.
+ * All middleware primitives created by the user, e.g. publishers, services, etc,
+ * which were created from this node must be finalized using their respective
+ * `rcl_*_fini()` functions before this is called.
+ * \sa rcl_publisher_fini()
+ * \sa rcl_subscription_fini()
+ * \sa rcl_client_fini()
+ * \sa rcl_service_fini()
  *
  * <hr>
  * Attribute          | Adherence
@@ -336,7 +342,7 @@ rcl_node_get_options(const rcl_node_t * node);
  * This function returns the ROS domain ID that the node is in.
  *
  * This function should be used to determine what `domain_id` was used rather
- * than checking the domin_id field in the node options, because if
+ * than checking the domain_id field in the node options, because if
  * `RCL_NODE_OPTIONS_DEFAULT_DOMAIN_ID` is used when creating the node then
  * it is not changed after creation, but this function will return the actual
  * `domain_id` used.
@@ -363,31 +369,6 @@ RCL_PUBLIC
 RCL_WARN_UNUSED
 rcl_ret_t
 rcl_node_get_domain_id(const rcl_node_t * node, size_t * domain_id);
-
-/// Manually assert that this node is alive (for RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_NODE)
-/**
- * If the rmw Liveliness policy is set to RMW_QOS_POLICY_LIVELINESS_MANUAL_BY_NODE, the creator of
- * this node may manually call `assert_liveliness` at some point in time to signal to the rest
- * of the system that this Node is still alive.
- * This function must be called at least as often as the qos_profile's liveliness_lease_duration
- *
- * <hr>
- * Attribute          | Adherence
- * ------------------ | -------------
- * Allocates Memory   | No
- * Thread-Safe        | Yes
- * Uses Atomics       | No
- * Lock-Free          | Yes
- *
- * \param[in] node handle to the node that needs liveliness to be asserted
- * \return `RCL_RET_OK` if the liveliness assertion was completed successfully, or
- * \return `RCL_RET_NODE_INVALID` if the node is invalid, or
- * \return `RCL_RET_ERROR` if an unspecified error occurs.
- */
-RCL_PUBLIC
-RCL_WARN_UNUSED
-rcl_ret_t
-rcl_node_assert_liveliness(const rcl_node_t * node);
 
 /// Return the rmw node handle.
 /**

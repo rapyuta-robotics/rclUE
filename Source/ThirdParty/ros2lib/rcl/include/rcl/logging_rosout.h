@@ -93,13 +93,12 @@ rcl_logging_rosout_fini();
  * Lock-Free          | Yes
  *
  * \param[in] node a valid rcl_node_t that the publisher will be created on
- * \return `RCL_RET_OK` if the publisher was created successfully, or
- * \return `RCL_RET_ALREADY_INIT` if the publisher has already exists, or
- * \return `RCL_RET_NODE_INVALID` if any arguments are invalid, or
+ * \return `RCL_RET_OK` if the logging publisher was created successfully, or
+ * \return `RCL_RET_NODE_INVALID` if the argument is invalid, or
  * \return `RCL_RET_BAD_ALLOC` if allocating memory failed, or
  * \return `RCL_RET_ERROR` if an unspecified error occurs.
  */
-RCL_LOCAL
+RCL_PUBLIC
 RCL_WARN_UNUSED
 rcl_ret_t
 rcl_logging_rosout_init_publisher_for_node(
@@ -120,12 +119,12 @@ rcl_logging_rosout_init_publisher_for_node(
  * Lock-Free          | Yes
  *
  * \param[in] node a valid rcl_node_t that the publisher will be created on
- * \return `RCL_RET_OK` if the publisher was created successfully, or
+ * \return `RCL_RET_OK` if the logging publisher was finalized successfully, or
  * \return `RCL_RET_NODE_INVALID` if any arguments are invalid, or
  * \return `RCL_RET_BAD_ALLOC` if allocating memory failed, or
  * \return `RCL_RET_ERROR` if an unspecified error occurs.
  */
-RCL_LOCAL
+RCL_PUBLIC
 RCL_WARN_UNUSED
 rcl_ret_t
 rcl_logging_rosout_fini_publisher_for_node(
@@ -152,7 +151,8 @@ rcl_logging_rosout_fini_publisher_for_node(
  * \param[in] severity The severity level
  * \param[in] name The name of the logger, must be null terminated c string
  * \param[in] timestamp The timestamp for when the log message was made
- * \param[in] log_str The string to be logged
+ * \param[in] format The list of arguments to insert into the formatted log message
+ * \param[in] args argument for the string format
  */
 RCL_PUBLIC
 void rcl_logging_rosout_output_handler(

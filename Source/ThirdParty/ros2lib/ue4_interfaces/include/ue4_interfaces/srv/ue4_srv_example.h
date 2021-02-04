@@ -5,8 +5,8 @@
 #ifndef UE4_INTERFACES__SRV__UE4_SRV_EXAMPLE_H_
 #define UE4_INTERFACES__SRV__UE4_SRV_EXAMPLE_H_
 
-#include "ue4_interfaces/srv/ue4_srv_example__struct.h"
-#include "ue4_interfaces/srv/ue4_srv_example__functions.h"
-#include "ue4_interfaces/srv/ue4_srv_example__type_support.h"
+#include "ue4_interfaces/srv/detail/ue4_srv_example__struct.h"
+#include "ue4_interfaces/srv/detail/ue4_srv_example__functions.h"
+#include "ue4_interfaces/srv/detail/ue4_srv_example__type_support.h"
 
 #endif  // UE4_INTERFACES__SRV__UE4_SRV_EXAMPLE_H_

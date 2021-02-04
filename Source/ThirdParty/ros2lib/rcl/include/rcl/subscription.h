@@ -20,11 +20,13 @@ extern "C"
 {
 #endif
 
-#include "rosidl_generator_c/message_type_support_struct.h"
+#include "rosidl_runtime_c/message_type_support_struct.h"
 
 #include "rcl/macros.h"
 #include "rcl/node.h"
 #include "rcl/visibility_control.h"
+
+#include "rmw/message_sequence.h"
 
 /// Internal rcl implementation struct.
 struct rcl_subscription_impl_t;
@@ -32,6 +34,7 @@ struct rcl_subscription_impl_t;
 /// Structure which encapsulates a ROS Subscription.
 typedef struct rcl_subscription_t
 {
+  /// Pointer to the subscription implementation
   struct rcl_subscription_impl_t * impl;
 } rcl_subscription_t;
 
@@ -73,7 +76,7 @@ rcl_get_zero_initialized_subscription(void);
  * For C a macro can be used (for example `std_msgs/String`):
  *
  * ```c
- * #include <rosidl_generator_c/message_type_support_struct.h>
+ * #include <rosidl_runtime_c/message_type_support_struct.h>
  * #include <std_msgs/msg/string.h>
  * const rosidl_message_type_support_t * string_ts =
  *   ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
@@ -82,7 +85,7 @@ rcl_get_zero_initialized_subscription(void);
  * For C++ a template function is used:
  *
  * ```cpp
- * #include <rosidl_generator_cpp/message_type_support.hpp>
+ * #include <rosidl_runtime_cpp/message_type_support.hpp>
  * #include <std_msgs/msgs/string.hpp>
  * using rosidl_typesupport_cpp::get_message_type_support_handle;
  * const rosidl_message_type_support_t * string_ts =
@@ -106,7 +109,7 @@ rcl_get_zero_initialized_subscription(void);
  *
  * ```c
  * #include <rcl/rcl.h>
- * #include <rosidl_generator_c/message_type_support_struct.h>
+ * #include <rosidl_runtime_c/message_type_support_struct.h>
  * #include <std_msgs/msg/string.h>
  *
  * rcl_node_t node = rcl_get_zero_initialized_node();
@@ -140,6 +143,7 @@ rcl_get_zero_initialized_subscription(void);
  * \param[in] options subscription options, including quality of service settings
  * \return `RCL_RET_OK` if subscription was initialized successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_ALREADY_INIT` if the subcription is already initialized, or
  * \return `RCL_RET_NODE_INVALID` if the node is invalid, or
  * \return `RCL_RET_BAD_ALLOC` if allocating memory failed, or
  * \return `RCL_RET_TOPIC_NAME_INVALID` if the given topic name is invalid, or
@@ -175,7 +179,7 @@ rcl_subscription_init(
  * Lock-Free          | Yes
  *
  * \param[inout] subscription handle to the subscription to be deinitialized
- * \param[in] node handle to the node used to create the subscription
+ * \param[in] node a valid (not finalized) handle to the node used to create the subscription
  * \return `RCL_RET_OK` if subscription was deinitialized successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_SUBSCRIPTION_INVALID` if the subscription is invalid, or
@@ -191,9 +195,9 @@ rcl_subscription_fini(rcl_subscription_t * subscription, rcl_node_t * node);
 /**
  * The defaults are:
  *
- * - ignore_local_publications = false
  * - qos = rmw_qos_profile_default
  * - allocator = rcl_get_default_allocator()
+ * - rmw_subscription_options = rmw_get_default_subscription_options();
  */
 RCL_PUBLIC
 RCL_WARN_UNUSED
@@ -203,7 +207,7 @@ rcl_subscription_get_default_options(void);
 /// Take a ROS message from a topic using a rcl subscription.
 /**
  * It is the job of the caller to ensure that the type of the ros_message
- * argument and the type associate with the subscription, via the type
+ * argument and the type associated with the subscription, via the type
  * support, match.
  * Passing a different type to rcl_take produces undefined behavior and cannot
  * be checked by this function and therefore no deliberate error will occur.
@@ -227,7 +231,7 @@ rcl_subscription_get_default_options(void);
  * be allocated for a dynamically sized array in the target message, then the
  * allocator given in the subscription options is used.
  *
- * The rmw message_info struct contains meta information about this particular
+ * The rmw_message_info struct contains meta information about this particular
  * message instance, like what the GUID of the publisher which published it
  * originally or whether or not the message received from within the same
  * process.
@@ -248,7 +252,7 @@ rcl_subscription_get_default_options(void);
  * \param[inout] ros_message type-erased ptr to a allocated ROS message
  * \param[out] message_info rmw struct which contains meta-data for the message
  * \param[in] allocation structure pointer used for memory preallocation (may be NULL)
- * \return `RCL_RET_OK` if the message was published, or
+ * \return `RCL_RET_OK` if the message was taken, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_SUBSCRIPTION_INVALID` if the subscription is invalid, or
  * \return `RCL_RET_BAD_ALLOC` if allocating memory failed, or
@@ -263,6 +267,58 @@ rcl_take(
   const rcl_subscription_t * subscription,
   void * ros_message,
   rmw_message_info_t * message_info,
+  rmw_subscription_allocation_t * allocation
+);
+
+/// Take a sequence of messages from a topic using a rcl subscription.
+/**
+ * In contrast to `rcl_take`, this function can take multiple messages at
+ * the same time.
+ * It is the job of the caller to ensure that the type of the message_sequence
+ * argument and the type associated with the subscription, via the type
+ * support, match.
+ *
+ * The message_sequence pointer should point to an already allocated sequence
+ * of ROS messages of the correct type, into which the taken ROS messages will
+ * be copied if messages are available.
+ * The message_sequence `size` member will be set to the number of messages
+ * correctly taken.
+ *
+ * The rmw_message_info_sequence struct contains meta information about the
+ * corresponding message instance index.
+ * The message_info_sequence argument should be an already allocated
+ * rmw_message_info_sequence_t structure.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Maybe [1]
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ * <i>[1] only if storage in the serialized_message is insufficient</i>
+ *
+ * \param[in] subscription the handle to the subscription from which to take.
+ * \param[in] count number of messages to attempt to take.
+ * \param[inout] message_sequence pointer to a (pre-allocated) message sequence.
+ * \param[inout] message_info_sequence pointer to a (pre-allocated) message info sequence.
+ * \param[in] allocation structure pointer used for memory preallocation (may be NULL)
+ * \return `RCL_RET_OK` if one or more messages was taken, or
+ * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_SUBSCRIPTION_INVALID` if the subscription is invalid, or
+ * \return `RCL_RET_BAD_ALLOC` if allocating memory failed, or
+ * \return `RCL_RET_SUBSCRIPTION_TAKE_FAILED` if take failed but no error
+ *         occurred in the middleware, or
+ * \return `RCL_RET_ERROR` if an unspecified error occurs.
+ */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_take_sequence(
+  const rcl_subscription_t * subscription,
+  size_t count,
+  rmw_message_sequence_t * message_sequence,
+  rmw_message_info_sequence_t * message_info_sequence,
   rmw_subscription_allocation_t * allocation
 );
 

@@ -20,7 +20,7 @@ extern "C"
 {
 #endif
 
-#include "rosidl_generator_c/service_type_support_struct.h"
+#include "rosidl_runtime_c/service_type_support_struct.h"
 
 #include "rcl/macros.h"
 #include "rcl/node.h"
@@ -32,6 +32,7 @@ struct rcl_service_impl_t;
 /// Structure which encapsulates a ROS Service.
 typedef struct rcl_service_t
 {
+  /// Pointer to the service implementation
   struct rcl_service_impl_t * impl;
 } rcl_service_t;
 
@@ -73,7 +74,7 @@ rcl_get_zero_initialized_service(void);
  * For C, a macro can be used (for example `example_interfaces/AddTwoInts`):
  *
  * ```c
- * #include <rosidl_generator_c/service_type_support_struct.h>
+ * #include <rosidl_runtime_c/service_type_support_struct.h>
  * #include <example_interfaces/srv/add_two_ints.h>
  * const rosidl_service_type_support_t * ts =
  *   ROSIDL_GET_SRV_TYPE_SUPPORT(example_interfaces, srv, AddTwoInts);
@@ -82,7 +83,7 @@ rcl_get_zero_initialized_service(void);
  * For C++, a template function is used:
  *
  * ```cpp
- * #include <rosidl_generator_cpp/service_type_support.hpp>
+ * #include <rosidl_runtime_cpp/service_type_support.hpp>
  * #include <example_interfaces/srv/add_two_ints.h>
  * using rosidl_typesupport_cpp::get_service_type_support_handle;
  * const rosidl_service_type_support_t * ts =
@@ -105,7 +106,7 @@ rcl_get_zero_initialized_service(void);
  *
  * ```c
  * #include <rcl/rcl.h>
- * #include <rosidl_generator_c/service_type_support_struct.h>
+ * #include <rosidl_runtime_c/service_type_support_struct.h>
  * #include <example_interfaces/srv/add_two_ints.h>
  *
  * rcl_node_t node = rcl_get_zero_initialized_node();
@@ -139,6 +140,7 @@ rcl_get_zero_initialized_service(void);
  * \param[in] options service options, including quality of service settings
  * \return `RCL_RET_OK` if service was initialized successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_ALREADY_INIT` if the service is already initialized, or
  * \return `RCL_RET_NODE_INVALID` if the node is invalid, or
  * \return `RCL_RET_BAD_ALLOC` if allocating memory failed, or
  * \return `RCL_RET_SERVICE_NAME_INVALID` if the given service name is invalid, or
@@ -173,7 +175,7 @@ rcl_service_init(
  * Lock-Free          | Yes
  *
  * \param[inout] service handle to the service to be deinitialized
- * \param[in] node handle to the node used to create the service
+ * \param[in] node a valid (not finalized) handle to the node used to create the service
  * \return `RCL_RET_OK` if service was deinitialized successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_SERVICE_INVALID` if the service is invalid, or
@@ -232,7 +234,7 @@ rcl_service_get_default_options(void);
  * <i>[1] only if required when filling the request, avoided for fixed sizes</i>
  *
  * \param[in] service the handle to the service from which to take
- * \param[inout] request_header ptr to the struct holding metadata about the request ID
+ * \param[inout] request_header ptr to the struct holding metadata about the request
  * \param[inout] ros_request type-erased ptr to an allocated ROS request message
  * \return `RCL_RET_OK` if the request was taken, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
@@ -242,6 +244,15 @@ rcl_service_get_default_options(void);
  *         in the middleware, or
  * \return `RCL_RET_ERROR` if an unspecified error occurs.
  */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_take_request_with_info(
+  const rcl_service_t * service,
+  rmw_service_info_t * request_header,
+  void * ros_request);
+
+/// backwards compatibility version that takes a request_id only
 RCL_PUBLIC
 RCL_WARN_UNUSED
 rcl_ret_t

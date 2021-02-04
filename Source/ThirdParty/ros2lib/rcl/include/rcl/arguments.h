@@ -42,20 +42,14 @@ typedef struct rcl_arguments_t
 #define RCL_PARAM_FILE_FLAG "--params-file"
 #define RCL_REMAP_FLAG "--remap"
 #define RCL_SHORT_REMAP_FLAG "-r"
+#define RCL_ENCLAVE_FLAG "--enclave"
+#define RCL_SHORT_ENCLAVE_FLAG "-e"
 #define RCL_LOG_LEVEL_FLAG "--log-level"
 #define RCL_EXTERNAL_LOG_CONFIG_FLAG "--log-config-file"
 // To be prefixed with --enable- or --disable-
 #define RCL_LOG_STDOUT_FLAG_SUFFIX "stdout-logs"
 #define RCL_LOG_ROSOUT_FLAG_SUFFIX "rosout-logs"
 #define RCL_LOG_EXT_LIB_FLAG_SUFFIX "external-lib-logs"
-
-// \deprecated to be removed in F-Turtle
-#define RCL_LOG_LEVEL_ARG_RULE "__log_level:="
-#define RCL_EXTERNAL_LOG_CONFIG_ARG_RULE "__log_config_file:="
-#define RCL_LOG_DISABLE_STDOUT_ARG_RULE "__log_disable_stdout:="
-#define RCL_LOG_DISABLE_ROSOUT_ARG_RULE "__log_disable_rosout:="
-#define RCL_LOG_DISABLE_EXT_LIB_ARG_RULE "__log_disable_external_lib:="
-#define RCL_PARAM_FILE_ARG_RULE "__params:="
 
 /// Return a rcl_arguments_t struct with members initialized to `NULL`.
 RCL_PUBLIC
@@ -218,7 +212,7 @@ rcl_arguments_get_count_unparsed_ros(
  *
  * \param[in] args An arguments structure that has been parsed.
  * \param[in] allocator A valid allocator.
- * \param[out] output_unparsed_indices An allocated array of indices into the original argv array.
+ * \param[out] output_unparsed_ros_indices An allocated array of indices into the original argv array.
  *   This array must be deallocated by the caller using the given allocator.
  *   If there are no unparsed ROS specific arguments then the output will be set to NULL.
  * \return `RCL_RET_OK` if everything goes correctly, or

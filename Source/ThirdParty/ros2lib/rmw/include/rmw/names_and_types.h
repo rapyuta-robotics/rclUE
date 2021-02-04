@@ -31,37 +31,77 @@ extern "C"
 /// Associative array of topic or service names and types.
 typedef struct RMW_PUBLIC_TYPE rmw_names_and_types_t
 {
+  /// Array of names
   rcutils_string_array_t names;
-  // The length of this array is the same as names.size
+
+  /// Dynamic array of arrays of type names, with the same length as `names`
   rcutils_string_array_t * types;
 } rmw_names_and_types_t;
 
-/// Return a rmw_names_and_types_t struct with members initialized to `NULL`.
+/// Return a zero initialized array of names and types.
 RMW_PUBLIC
 RMW_WARN_UNUSED
 rmw_names_and_types_t
 rmw_get_zero_initialized_names_and_types(void);
 
-/// Check that a rmw_topic_names_and_types_t struct is zero initialized.
+/// Check that the given `names_and_types` array is zero initialized.
+/**
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | Yes
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \par Thread-safety
+ *   Access to the array of names and types is read-only, but it is not synchronized.
+ *   Concurrent `names_and_types` reads are safe, but concurrent reads and writes are not.
+ *
+ * \param[in] names_and_types Array to be checked.
+ * \return RMW_RET_OK if array is zero initialized, RMW_RET_INVALID_ARGUMENT otherwise.
+ * \remark This function sets the RMW error state on failure.
+ */
 RMW_PUBLIC
 RMW_WARN_UNUSED
 rmw_ret_t
 rmw_names_and_types_check_zero(rmw_names_and_types_t * names_and_types);
 
-/// Initialize a rmw_names_and_types_t object.
+/// Initialize an array of names and types.
 /**
  * This function initializes the string array for the names and allocates space
  * for all the string arrays for the types according to the given size, but
  * it does not initialize the string array for each setup of types.
  * However, the string arrays for each set of types is zero initialized.
  *
- * \param[inout] names_and_types object to be initialized
- * \param[in] size the number of names and sets of types to be stored
- * \param[in] allocator to be used to allocate and deallocate memory
- * \returns `RMW_RET_OK` on successfully running the check, or
- * \returns `RMW_RET_INVALID_ARGUMENT` if names_and_types is NULL, or
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \par Thread-safety
+ *   Initialization is a reentrant procedure, but:
+ *   - Access to arrays of names and types is not synchronized.
+ *     It is not safe to read or write `names_and_types` during initialization.
+ *   - The default allocators are thread-safe objects, but any custom `allocator` may not be.
+ *     Check your allocator documentation for further reference.
+ *
+ * \param[inout] names_and_types Array to be initialized on success,
+ *   but left unchanged on failure.
+ * \param[in] size Size of the array.
+ * \param[in] allocator Allocator to be used to populate `names_and_types`.
+ * \returns `RMW_RET_OK` if successful, or
+ * \returns `RMW_RET_INVALID_ARGUMENT` if `names_and_types` is NULL, or
+ * \returns `RMW_RET_INVALID_ARGUMENT` if `names_and_types` is not
+ *   a zero initialized array, or
+ * \returns `RMW_RET_INVALID_ARGUMENT` if `allocator` is invalid,
+ *   by rcutils_allocator_is_valid() definition, or
  * \returns `RMW_BAD_ALLOC` if memory allocation fails, or
  * \returns `RMW_RET_ERROR` when an unspecified error occurs.
+ * \remark This function sets the RMW error state on failure.
  */
 RMW_PUBLIC
 RMW_WARN_UNUSED
@@ -71,21 +111,32 @@ rmw_names_and_types_init(
   size_t size,
   rcutils_allocator_t * allocator);
 
-/// Finalize a rmw_names_and_types_t object.
+/// Finalize an array of names and types.
 /**
- * The names_and_types_t objects are populated by one of the
- * rmw_get_*_names_and_types() functions.
- * During which memory is allocated to store the names and types.
- * This function will reclaim any resources within the object so it is safe
- * to destroy without leaking memory.
+ * This function deallocates the string array of names and the array of string arrays of types,
+ * and zero initializes the given array.
+ * If a logical error, such as `RMW_RET_INVALID_ARGUMENT`, ensues, this function will return
+ * early, leaving the given array unchanged.
+ * Otherwise, it will proceed despite errors.
  *
- * The allocator within the rmw_names_and_types_t object is used to deallocate
- * memory.
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
  *
- * \param[inout] names_and_types object to be finalized
- * \returns `RMW_RET_OK` on successfully running the check, or
- * \returns `RMW_RET_INVALID_ARGUMENT` if names_and_types is NULL, or
+ * \par Thread-safety
+ *   Finalization is a reentrant procedure, but access to arrays of names and types
+ *   is not synchronized.
+ *   It is not safe to read or write `names_and_types` during initialization.
+ *
+ * \param[inout] names_and_types Array to be finalized.
+ * \returns `RMW_RET_OK` if successful, or
+ * \returns `RMW_RET_INVALID_ARGUMENT` if `names_and_types` is NULL, or
  * \returns `RMW_RET_ERROR` when an unspecified error occurs.
+ * \remark This function sets the RMW error state on failure.
  */
 RMW_PUBLIC
 RMW_WARN_UNUSED

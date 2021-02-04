@@ -208,10 +208,11 @@ rcl_action_server_wait_set_get_num_entities(
  * Uses Atomics       | No
  * Lock-Free          | Yes
  *
+ * \param[in] wait_set struct where action server services are to be stored
  * \param[in] action_client an action client to query
  * \param[out] is_feedback_ready `true` if there is a feedback message ready to take,
  *   `false` otherwise
- * \param[out] is_status_message `true` if there is a status message ready to take,
+ * \param[out] is_status_ready `true` if there is a status message ready to take,
  *   `false` otherwise
  * \param[out] is_goal_response_ready `true` if there is a goal response message ready
  *   to take, `false` otherwise
@@ -251,6 +252,7 @@ rcl_action_client_wait_set_get_entities_ready(
  * Uses Atomics       | No
  * Lock-Free          | Yes
  *
+ * \param[in] wait_set struct where action server services are to be stored
  * \param[in] action_server an action server to query
  * \param[out] is_goal_request_ready `true` if there is a goal request message ready
  *   to take, `false` otherwise

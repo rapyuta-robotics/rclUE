@@ -25,49 +25,65 @@ extern "C"
 #include "rmw/types.h"
 #include "rmw/visibility_control.h"
 
-/// Return a list of topic names and their types.
+/// Return all topic names and types in the ROS graph.
 /**
- * This function returns a list of topic names in the ROS graph and their types.
+ * This function returns an array of all topic names and types in the ROS graph
+ * i.e. for which a publisher and/or a subscription exists, as discovered so far
+ * by the given local node.
  *
- * The node parameter must not be `NULL`, and must point to a valid node.
+ * Unless `no_demangle` is true, some demangling and filtering may take place when
+ * listing topics as implemented by the middleware.
+ * Whether demangling applies or not, and how it applies, depends on the underlying
+ * implementation.
+ * See http://design.ros2.org/articles/topic_and_service_names.html for an example
+ * on how it is used in DDS and RTPS based implementations.
  *
- * The topic_names_and_types parameter must be allocated and zero initialized.
- * The topic_names_and_types is the output for this function, and contains
- * allocated memory.
- * Therefore, it should be passed to rmw_names_and_types_fini() when
- * it is no longer needed.
- * Failing to do so will result in leaked memory.
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | Yes
+ * Uses Atomics       | Maybe [1]
+ * Lock-Free          | Maybe [1]
+ * <i>[1] rmw implementation defined, check the implementation documentation</i>
  *
- * There may be some demangling that occurs when listing the topics from the
- * middleware implementation.
- * This is the mechanism by which this function can discriminate between ROS
- * topics, non-ROS topics, and topics which may be used to implement other
- * concepts like ROS Services.
+ * \par Runtime behavior
+ *   To query the ROS graph is a synchronous operation.
+ *   It is also non-blocking, but it is not guaranteed to be lock-free.
+ *   Generally speaking, implementations may synchronize access to internal resources using
+ *   locks but are not allowed to wait for events with no guaranteed time bound (barring
+ *   the effects of starvation due to OS scheduling).
  *
- * For example, if the underlying implementation is DDS or RTPS, ROS specific
- * prefixes may be prepended to the user namespace, and the namespace may be
- * stripped of leading and trailing slashes, see:
+ * \par Thread-safety
+ *   Nodes are thread-safe objects, and so are all operations on them except for finalization.
+ *   Therefore, it is safe to query the ROS graph using the same node concurrently.
+ *   However, when querying topic names and types:
+ *   - Access to the array of names and types is not synchronized.
+ *     It is not safe to read or write `topic_names_and_types`
+ *     while rmw_get_topic_names_and_types() uses it.
+ *   - The default allocators are thread-safe objects, but any custom `allocator` may not be.
+ *     Check your allocator documentation for further reference.
  *
- * http://design.ros2.org/articles/topic_and_service_names.html#ros-namespaces-with-dds-partitions
+ * \pre Given `node` must be a valid node handle, as returned by rmw_create_node().
+ * \pre Given `topic_names_and_types` must be a zero-initialized array of names and types,
+ *   as returned by rmw_get_zero_initialized_names_and_types().
  *
- * As well as:
- *
- * http://design.ros2.org/articles/topic_and_service_names.html#communicating-with-non-ros-topics
- *
- * If the no_demangle argument is true, then the topic names given by the
- * middleware will be returned without any demangling or filtering.
- * For example, the ROS topic `/foo` may be returned as `rt/foo` or the DDS
- * topic (non-ROS topic) with a partition list `['foo', 'bar']` and topic `baz`
- * may be returned as `foo/baz` (note that only the first partition is used but
- * it is still concatenated to the topic).
- *
- * \param[in] node the handle to the node being used to query the ROS graph
- * \param[in] allocator allocator to be used when allocating space for strings
- * \param[in] no_demangle if true, list all topics without any demangling
- * \param[out] topic_names_and_types list of topic names and their types
+ * \param[in] node Node to query the ROS graph.
+ * \param[in] allocator Allocator to be used when populating the `topic_names_and_types` array.
+ * \param[in] no_demangle Whether to demangle all topic names following ROS conventions or not.
+ * \param[out] topic_names_and_types Array of topic names and their types,
+ *   populated on success but left unchanged on failure.
+ *   If populated, it is up to the caller to finalize this array later on
+ *   using rmw_names_and_types_fini().
  * \return `RMW_RET_OK` if the query was successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if the node is invalid, or
- * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `allocator` is not valid, by rcutils_allocator_is_valid()
+ *   definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `topic_names_and_types` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `topic_names_and_types` is not a
+ *   zero-initialized array, or
+ * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the `node` implementation
+ *   identifier does not match this implementation, or
  * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
  * \return `RMW_RET_ERROR` if an unspecified error occurs.
  */

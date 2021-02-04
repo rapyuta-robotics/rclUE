@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__SRV__GET_PARAMETER_TYPES_H_
 #define RCL_INTERFACES__SRV__GET_PARAMETER_TYPES_H_
 
-#include "rcl_interfaces/srv/get_parameter_types__struct.h"
-#include "rcl_interfaces/srv/get_parameter_types__functions.h"
-#include "rcl_interfaces/srv/get_parameter_types__type_support.h"
+#include "rcl_interfaces/srv/detail/get_parameter_types__struct.h"
+#include "rcl_interfaces/srv/detail/get_parameter_types__functions.h"
+#include "rcl_interfaces/srv/detail/get_parameter_types__type_support.h"
 
 #endif  // RCL_INTERFACES__SRV__GET_PARAMETER_TYPES_H_

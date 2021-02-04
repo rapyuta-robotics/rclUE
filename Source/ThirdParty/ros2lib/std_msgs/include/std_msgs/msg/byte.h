@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__BYTE_H_
 #define STD_MSGS__MSG__BYTE_H_
 
-#include "std_msgs/msg/byte__struct.h"
-#include "std_msgs/msg/byte__functions.h"
-#include "std_msgs/msg/byte__type_support.h"
+#include "std_msgs/msg/detail/byte__struct.h"
+#include "std_msgs/msg/detail/byte__functions.h"
+#include "std_msgs/msg/detail/byte__type_support.h"
 
 #endif  // STD_MSGS__MSG__BYTE_H_

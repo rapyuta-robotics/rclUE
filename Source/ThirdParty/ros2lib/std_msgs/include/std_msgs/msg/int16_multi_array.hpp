@@ -4,7 +4,8 @@
 #ifndef STD_MSGS__MSG__INT16_MULTI_ARRAY_HPP_
 #define STD_MSGS__MSG__INT16_MULTI_ARRAY_HPP_
 
-#include "std_msgs/msg/int16_multi_array__struct.hpp"
-#include "std_msgs/msg/int16_multi_array__traits.hpp"
+#include "std_msgs/msg/detail/int16_multi_array__struct.hpp"
+#include "std_msgs/msg/detail/int16_multi_array__builder.hpp"
+#include "std_msgs/msg/detail/int16_multi_array__traits.hpp"
 
 #endif  // STD_MSGS__MSG__INT16_MULTI_ARRAY_HPP_

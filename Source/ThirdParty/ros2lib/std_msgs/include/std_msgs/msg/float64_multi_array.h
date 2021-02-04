@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__FLOAT64_MULTI_ARRAY_H_
 #define STD_MSGS__MSG__FLOAT64_MULTI_ARRAY_H_
 
-#include "std_msgs/msg/float64_multi_array__struct.h"
-#include "std_msgs/msg/float64_multi_array__functions.h"
-#include "std_msgs/msg/float64_multi_array__type_support.h"
+#include "std_msgs/msg/detail/float64_multi_array__struct.h"
+#include "std_msgs/msg/detail/float64_multi_array__functions.h"
+#include "std_msgs/msg/detail/float64_multi_array__type_support.h"
 
 #endif  // STD_MSGS__MSG__FLOAT64_MULTI_ARRAY_H_

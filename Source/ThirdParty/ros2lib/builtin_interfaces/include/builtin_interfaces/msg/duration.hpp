@@ -4,7 +4,8 @@
 #ifndef BUILTIN_INTERFACES__MSG__DURATION_HPP_
 #define BUILTIN_INTERFACES__MSG__DURATION_HPP_
 
-#include "builtin_interfaces/msg/duration__struct.hpp"
-#include "builtin_interfaces/msg/duration__traits.hpp"
+#include "builtin_interfaces/msg/detail/duration__struct.hpp"
+#include "builtin_interfaces/msg/detail/duration__builder.hpp"
+#include "builtin_interfaces/msg/detail/duration__traits.hpp"
 
 #endif  // BUILTIN_INTERFACES__MSG__DURATION_HPP_

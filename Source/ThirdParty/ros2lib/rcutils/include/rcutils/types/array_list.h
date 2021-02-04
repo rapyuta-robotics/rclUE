@@ -36,7 +36,7 @@ typedef struct RCUTILS_PUBLIC_TYPE rcutils_array_list_t
 
 /**
  * Validates that an rcutils_array_list_t* points to a valid array list.
- * \param array_list A pointer to an rcutils_array_list_t
+ * \param[in] array_list A pointer to an rcutils_array_list_t
  * \return RCUTILS_RET_INVALID_ARGUMENT if array_list is null
  * \return RCUTILS_RET_NOT_INITIALIZED if array_list is not initialized
  */

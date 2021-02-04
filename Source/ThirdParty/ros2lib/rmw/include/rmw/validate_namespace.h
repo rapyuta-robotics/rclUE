@@ -80,6 +80,8 @@ extern "C"
  * This is done so that the length limit can be treated as a warning rather
  * than an error if desired.
  *
+ * If a non RMW_RET_OK return value is returned, the RMW error message will be set
+ *
  * \param[in] namespace_ namespace to be validated
  * \param[out] validation_result int in which the result of the check is stored
  * \param[out] invalid_index index of the input string where an error occurred
@@ -98,6 +100,8 @@ rmw_validate_namespace(
 /// Deterimine if a given namespace is valid.
 /**
  * This is an overload with an extra parameter for the length of namespace_.
+ * If a non RMW_RET_OK return value is returned, the RMW error message will be set
+ *
  * \param[in] namespace_length The number of characters in namespace_.
  *
  * \sa rmw_validate_namespace(const char *, int *, size_t *)

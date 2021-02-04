@@ -25,25 +25,57 @@ extern "C"
 #include "rmw/types.h"
 #include "rmw/visibility_control.h"
 
-/// Return a list of service names and their types.
+/// Return all service names and types in the ROS graph.
 /**
- * This function returns a list of service names in the ROS graph and their types.
+ * This function returns an array of all service names and types in the ROS graph
+ * i.e. for which a server and/or client exists, as discovered so far by the given
+ * local node.
  *
- * The node parameter must not be `NULL`, and must point to a valid node.
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | Yes
+ * Uses Atomics       | Maybe [1]
+ * Lock-Free          | Maybe [1]
+ * <i>[1] rmw implementation defined, check the implementation documentation</i>
  *
- * The service_names_and_types parameter must be allocated and zero initialized.
- * The service_names_and_types is the output for this function, and contains
- * allocated memory.
- * Therefore, it should be passed to rmw_names_and_types_fini() when
- * it is no longer needed.
- * Failing to do so will result in leaked memory.
+ * \par Runtime behavior
+ *   To query the ROS graph is a synchronous operation.
+ *   It is also non-blocking, but it is not guaranteed to be lock-free.
+ *   Generally speaking, implementations may synchronize access to internal resources using
+ *   locks but are not allowed to wait for events with no guaranteed time bound (barring
+ *   the effects of starvation due to OS scheduling).
  *
- * \param[in] node the handle to the node being used to query the ROS graph
- * \param[in] allocator allocator to be used when allocating space for strings
- * \param[out] service_names_and_types list of service names and their types
+ * \par Thread-safety
+ *   Nodes are thread-safe objects, and so are all operations on them except for finalization.
+ *   Therefore, it is safe to query the ROS graph using the same node concurrently.
+ *   However, when querying services names and types:
+ *   - Access to the array of names and types is not synchronized.
+ *     It is not safe to read or write `service_names_and_types`
+ *     while rmw_get_service_names_and_types() uses it.
+ *   - The default allocators are thread-safe objects, but any custom `allocator` may not be.
+ *     Check your allocator documentation for further reference.
+ *
+ * \pre Given `node` must be a valid node handle, as returned by rmw_create_node().
+ * \pre Given `services_names_and_types` must be a zero-initialized array of names and types,
+ *   as returned by rmw_get_zero_initialized_names_and_types().
+ *
+ * \param[in] node Node to query the ROS graph.
+ * \param[in] allocator Allocator to be used when populating the `service_names_and_types` array.
+ * \param[out] service_names_and_types Array of service names and their types,
+ *   populated on success but left unchanged on failure.
+ *   If populated, it is up to the caller to finalize this array later
+ *   on using rmw_names_and_types_fini().
  * \return `RMW_RET_OK` if the query was successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if the node is invalid, or
- * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `allocator` is not valid,
+ *   by rcutils_allocator_is_valid() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `service_names_and_types` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `service_names_and_types` is not a
+ *   zero-initialized array, or
+ * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the `node` implementation
+ *   identifier does not match this implementation, or
  * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
  * \return `RMW_RET_ERROR` if an unspecified error occurs.
  */

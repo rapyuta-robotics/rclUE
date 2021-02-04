@@ -25,28 +25,66 @@ extern "C"
 #include "rmw/types.h"
 #include "rmw/visibility_control.h"
 
-/// Return a list of subscribed topic names and their types.
+/// Return all topic names and types for which a given remote node has subscriptions.
 /**
- * This function returns a list of subscribed topic names and their types.
+ * This function returns an array of topic names and types for which a given remote
+ * node has subscriptions, as discovered so far by the given local node.
  *
- * The node parameter must not be `NULL`, and must point to a valid node.
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | Yes
+ * Uses Atomics       | Maybe [1]
+ * Lock-Free          | Maybe [1]
+ * <i>[1] rmw implementation defined, check the implementation documentation</i>
  *
- * The topic_names_and_types parameter must be allocated and zero initialized.
- * The topic_names_and_types is the output for this function, and contains
- * allocated memory.
- * Therefore, it should be passed to rmw_names_and_types_fini() when
- * it is no longer needed.
- * Failing to do so will result in leaked memory.
+ * \par Runtime behavior
+ *   To query the ROS graph is a synchronous operation.
+ *   It is also non-blocking, but it is not guaranteed to be lock-free.
+ *   Generally speaking, implementations may synchronize access to internal resources using
+ *   locks but are not allowed to wait for events with no guaranteed time bound (barring
+ *   the effects of starvation due to OS scheduling).
  *
- * \param[in] node the handle to the node being used to query the ROS graph
- * \param[in] allocator allocator to be used when allocating space for strings
- * \param[in] node_name the name of the node to get information for
- * \param[in] node_namespace the namespace of the node to get information for
- * \param[in] no_demangle if true, list all topics without any demangling
- * \param[out] topic_names_and_types list of topic names and their types the node_name is subscribed to
+ * \par Thread-safety
+ *   Nodes are thread-safe objects, and so are all operations on them except for finalization.
+ *   Therefore, it is safe to query the ROS graph using the same node concurrently.
+ *   However, when querying subscribed topic names and types:
+ *   - Access to the array of names and types is not synchronized.
+ *     It is not safe to read or write `topic_names_and_types`
+ *     while rmw_get_subscriber_names_and_types_by_node() uses it.
+ *   - Access to node name and namespace is read-only but it is not synchronized.
+ *     Concurrent `node_name` and `node_namespace` reads are safe, but concurrent reads and
+ *     writes are not.
+ *   - The default allocators are thread-safe objects, but any custom `allocator` may not be.
+ *     Check your allocator documentation for further reference.
+ *
+ * \pre Given `node` must be a valid node handle, as returned by rmw_create_node().
+ * \pre Given `topic_names_and_types` must be a zero-initialized array of names and types,
+ *   as returned by rmw_get_zero_initialized_names_and_types().
+ *
+ * \param[in] node Local node to query the ROS graph.
+ * \param[in] allocator Allocator to be used when populating the `topic_names_and_types` array.
+ * \param[in] node_name Name of the remote node to get information for.
+ * \param[in] node_namespace Namespace of the remote node to get information for.
+ * \param[in] no_demangle Whether to demangle all topic names following ROS conventions or not.
+ * \param[out] topic_names_and_types Array of topic names and types the remote node has created
+ *   a subscription for, populated on success but left unchanged on failure.
+ *   If populated, it is up to the caller to finalize this array later on
+ *   using rmw_names_and_types_fini().
  * \return `RMW_RET_OK` if the query was successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if the node is invalid, or
- * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `allocator` is not valid,
+ *   by rcutils_allocator_is_valid() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_name` is not valid,
+ *   by rmw_validate_node_name() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_namespace` is not valid,
+ *   by rmw_validate_namespace() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `topic_names_and_types` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `topic_names_and_types` is not a
+ *   zero-initialized array, or
+ * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the `node` implementation
+ *   identifier does not match this implementation, or
  * \return `RMW_RET_NODE_NAME_NON_EXISTENT` if the node name wasn't found, or
  * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
  * \return `RMW_RET_ERROR` if an unspecified error occurs.
@@ -59,31 +97,69 @@ rmw_get_subscriber_names_and_types_by_node(
   rcutils_allocator_t * allocator,
   const char * node_name,
   const char * node_namespace,
-  bool demangle,
-  rmw_names_and_types_t * topics_names_and_types);
+  bool no_demangle,
+  rmw_names_and_types_t * topic_names_and_types);
 
-/// Return a list of published topic names and their types.
+/// Return all topic names and types for which a given remote node has publishers.
 /**
- * This function returns a list of published topic names and their types.
+ * This function returns an array of topic names and types for which a given remote
+ * node has created publishers, as discovered so far by the given local node.
  *
- * The node parameter must not be `NULL`, and must point to a valid node.
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | Yes
+ * Uses Atomics       | Maybe [1]
+ * Lock-Free          | Maybe [1]
+ * <i>[1] rmw implementation defined, check the implementation documentation</i>
  *
- * The topic_names_and_types parameter must be allocated and zero initialized.
- * The topic_names_and_types is the output for this function, and contains
- * allocated memory.
- * Therefore, it should be passed to rmw_names_and_types_fini() when
- * it is no longer needed.
- * Failing to do so will result in leaked memory.
+ * \par Runtime behavior
+ *   To query the ROS graph is a synchronous operation.
+ *   It is also non-blocking, but it is not guaranteed to be lock-free.
+ *   Generally speaking, implementations may synchronize access to internal resources using
+ *   locks but are not allowed to wait for events with no guaranteed time bound (barring
+ *   the effects of starvation due to OS scheduling).
  *
- * \param[in] node the handle to the node being used to query the ROS graph
- * \param[in] allocator allocator to be used when allocating space for strings
- * \param[in] node_name the name of the node to get information for
- * \param[in] node_namespace the namespace of the node to get information for
- * \param[in] no_demangle if true, list all topics without any demangling
- * \param[out] topic_names_and_types list of topic names and their types the node_name is publishing
+ * \par Thread-safety
+ *   Nodes are thread-safe objects, and so are all operations on them except for finalization.
+ *   Therefore, it is safe to query the ROS graph using the same node concurrently.
+ *   However, when querying published topic names and types:
+ *   - Access to the array of names and types is not synchronized.
+ *     It is not safe to read or write `topic_names_and_types`
+ *     while rmw_get_publisher_names_and_types_by_node() uses it.
+ *   - Access to node name and namespace is read-only but it is not synchronized.
+ *     Concurrent `node_name` and `node_namespace` reads are safe, but concurrent reads and
+ *     writes are not.
+ *   - The default allocators are thread-safe objects, but any custom `allocator` may not be.
+ *     Check your allocator documentation for further reference.
+ *
+ * \pre Given `node` must be a valid node handle, as returned by rmw_create_node().
+ * \pre Given `topic_names_and_types` must be a zero-initialized array of names and types,
+ *   as returned by rmw_get_zero_initialized_names_and_types().
+ *
+ * \param[in] Local node to query the ROS graph.
+ * \param[in] allocator Allocator to be used when populating the `topic_names_and_types` array.
+ * \param[in] node_name Name of the remote node to get information for.
+ * \param[in] node_namespace Namespace of the remote node to get information for.
+ * \param[in] no_demangle Whether to demangle all topic names following ROS conventions or not.
+ * \param[out] topic_names_and_types Array of topic names and types the remote node has created
+ *   a publisher for, populated on success but left unchanged on failure.
+ *   If populated, it is up to the caller to finalize this array later on
+ *   using rmw_names_and_types_fini().
  * \return `RMW_RET_OK` if the query was successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if the node is invalid, or
- * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `allocator` is not valid,
+ *   by rcutils_allocator_is_valid() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_name` is not valid,
+ *   by rmw_validate_node_name() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_namespace` is not valid,
+ *   by rmw_validate_namespace() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `topic_names_and_types` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `topic_names_and_types` is not a
+ *   zero-initialized array, or
+ * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the `node` implementation
+ *   identifier does not match this implementation, or
  * \return `RMW_RET_NODE_NAME_NON_EXISTENT` if the node name wasn't found, or
  * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
  * \return `RMW_RET_ERROR` if an unspecified error occurs.
@@ -99,27 +175,61 @@ rmw_get_publisher_names_and_types_by_node(
   bool demangle,
   rmw_names_and_types_t * topic_names_and_types);
 
-/// Return a list of service topic names and their types.
+/// Return all service names and types for which a given remote node has servers.
 /**
- * This function returns a list of service topic names and their types.
+ * This function returns an array of service names and types for which a given remote
+ * node has servers, as discovered so far by the given local node.
  *
- * The node parameter must not be `NULL`, and must point to a valid node.
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | Yes
+ * Uses Atomics       | Maybe [1]
+ * Lock-Free          | Maybe [1]
+ * <i>[1] rmw implementation defined, check the implementation documentation</i>
  *
- * The topic_names_and_types parameter must be allocated and zero initialized.
- * The topic_names_and_types is the output for this function, and contains
- * allocated memory.
- * Therefore, it should be passed to rmw_names_and_types_fini() when
- * it is no longer needed.
- * Failing to do so will result in leaked memory.
+ * \par Runtime behavior
+ *   To query the ROS graph is a synchronous operation.
+ *   It is also non-blocking, but it is not guaranteed to be lock-free.
+ *   Generally speaking, implementations may synchronize access to internal resources using
+ *   locks but are not allowed to wait for events with no guaranteed time bound (barring
+ *   the effects of starvation due to OS scheduling).
  *
- * \param[in] node the handle to the node being used to query the ROS graph
- * \param[in] allocator allocator to be used when allocating space for strings
- * \param[in] node_name the name of the node to get information for
- * \param[in] node_namespace the namespace of the node to get information for
- * \param[out] topic_names_and_types list of topic names and their types the node_name has created a service for
+ * \par Thread-safety
+ *   Nodes are thread-safe objects, and so are all operations on them except for finalization.
+ *   Therefore, it is safe to query the ROS graph using the same node concurrently.
+ *   However, when querying served service names and types:
+ *   - Access to the array of names and types is not synchronized.
+ *     It is not safe to read or write `service_names_and_types`
+ *     while rmw_get_service_names_and_types_by_node() uses it.
+ *   - Access to node name and namespace is read-only but it is not synchronized.
+ *     Concurrent `node_name` and `node_namespace` reads are safe, but concurrent reads and
+ *     writes are not.
+ *   - The default allocators are thread-safe objects, but any custom `allocator` may not be.
+ *     Check your allocator documentation for further reference.
+ *
+ * \param[in] node Local node to query the ROS graph.
+ * \param[in] node_name Name of the remote node to get information for.
+ * \param[in] node_namespace Namespace of the remote node to get information for.
+ * \param[in] no_demangle Whether to demangle all topic names following ROS conventions or not.
+ * \param[out] service_names_and_types Array of service names and types the remote node has
+ *   created a service server for, populated on success but left unchanged on failure.
+ *   If populated, it is up to the caller to finalize this array later on
+ *   using rmw_names_and_types_fini().
  * \return `RMW_RET_OK` if the query was successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if the node is invalid, or
- * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `allocator` is not valid,
+ *   by rcutils_allocator_is_valid() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_name` is not valid,
+ *   by rmw_validate_node_name() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_namespace` is not valid,
+ *   by rmw_validate_namespace() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `service_names_and_types` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `service_names_and_types` is not a
+ *   zero-initialized array, or
+ * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the `node` implementation
+ *   identifier does not match this implementation, or
  * \return `RMW_RET_NODE_NAME_NON_EXISTENT` if the node name wasn't found, or
  * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
  * \return `RMW_RET_ERROR` if an unspecified error occurs.
@@ -134,28 +244,61 @@ rmw_get_service_names_and_types_by_node(
   const char * node_namespace,
   rmw_names_and_types_t * service_names_and_types);
 
-/// Return a list of service client topic names and their types.
+/// Return all service names and types for which a given remote node has clients.
 /**
- * This function returns a list of service client topic names and their types.
+ * This function returns an array of service names and types for which a given remote
+ * node has clients, as discovered so far by the given local node.
  *
- * The node parameter must not be `NULL`, and must point to a valid node.
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | Yes
+ * Uses Atomics       | Maybe [1]
+ * Lock-Free          | Maybe [1]
+ * <i>[1] rmw implementation defined, check the implementation documentation</i>
  *
- * The topic_names_and_types parameter must be allocated and zero initialized.
- * The topic_names_and_types is the output for this function, and contains
- * allocated memory.
- * Therefore, it should be passed to rmw_names_and_types_fini() when
- * it is no longer needed.
- * Failing to do so will result in leaked memory.
+ * \par Runtime behavior
+ *   To query the ROS graph is a synchronous operation.
+ *   It is also non-blocking, but it is not guaranteed to be lock-free.
+ *   Generally speaking, implementations may synchronize access to internal resources using
+ *   locks but are not allowed to wait for events with no guaranteed time bound (barring
+ *   the effects of starvation due to OS scheduling).
  *
- * \param[in] node the handle to the node being used to query the ROS graph
- * \param[in] allocator allocator to be used when allocating space for strings
- * \param[in] node_name the name of the node to get information for
- * \param[in] node_namespace the namespace of the node to get information for
- * \param[out] topic_names_and_types list of topic names and their types the
- *   node_name has created a service client for
+ * \par Thread-safety
+ *   Nodes are thread-safe objects, and so are all operations on them except for finalization.
+ *   Therefore, it is safe to query the ROS graph using the same node concurrently.
+ *   However, when querying served service names and types:
+ *   - Access to the array of names and types is not synchronized.
+ *     It is not safe to read or write `service_names_and_types`
+ *     while rmw_get_client_names_and_types_by_node() uses it.
+ *   - Access to C-style string arguments is read-only but it is not synchronized.
+ *     Concurrent `node_name` and `node_namespace` reads are safe, but concurrent reads and
+ *     writes are not.
+ *   - The default allocators are thread-safe objects, but any custom `allocator` may not be.
+ *     Check your allocator documentation for further reference.
+ *
+ * \param[in] node Local node to query the ROS graph.
+ * \param[in] node_name Name of the remote node to get information for.
+ * \param[in] node_namespace Namespace of the remote node to get information for.
+ * \param[in] no_demangle Whether to demangle all topic names following ROS conventions or not.
+ * \param[out] service_names_and_types Array of service names and types the remote node has
+ *   created a service client for, populated on success but left unchanged on failure.
+ *   If populated, it is up to the caller to finalize this array later on
+ *   using rmw_names_and_types_fini().
  * \return `RMW_RET_OK` if the query was successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if the node is invalid, or
- * \return `RMW_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `allocator` is not valid,
+ *   by rcutils_allocator_is_valid() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_name` is not valid,
+ *   by rmw_validate_node_name() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `node_namespace` is not valid,
+ *   by rmw_validate_namespace() definition, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `service_names_and_types` is NULL, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `service_names_and_types` is not a
+ *   zero-initialized array, or
+ * \return `RMW_RET_INCORRECT_RMW_IMPLEMENTATION` if the `node` implementation
+ *   identifier does not match this implementation, or
  * \return `RMW_RET_NODE_NAME_NON_EXISTENT` if the node name wasn't found, or
  * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
  * \return `RMW_RET_ERROR` if an unspecified error occurs.

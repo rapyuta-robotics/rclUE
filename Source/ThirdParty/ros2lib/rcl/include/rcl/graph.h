@@ -22,10 +22,11 @@ extern "C"
 
 #include <rmw/names_and_types.h>
 #include <rmw/get_topic_names_and_types.h>
+#include <rmw/topic_endpoint_info_array.h>
 
 #include "rcutils/types.h"
 
-#include "rosidl_generator_c/service_type_support_struct.h"
+#include "rosidl_runtime_c/service_type_support_struct.h"
 
 #include "rcl/macros.h"
 #include "rcl/client.h"
@@ -33,8 +34,13 @@ extern "C"
 #include "rcl/visibility_control.h"
 
 typedef rmw_names_and_types_t rcl_names_and_types_t;
+typedef rmw_topic_endpoint_info_t rcl_topic_endpoint_info_t;
+typedef rmw_topic_endpoint_info_array_t rcl_topic_endpoint_info_array_t;
 
 #define rcl_get_zero_initialized_names_and_types rmw_get_zero_initialized_names_and_types
+#define rcl_get_zero_initialized_topic_endpoint_info_array \
+  rmw_get_zero_initialized_topic_endpoint_info_array
+#define rcl_topic_endpoint_info_array_fini rmw_topic_endpoint_info_array_fini
 
 /// Return a list of topic names and types for publishers associated with a node.
 /**
@@ -420,9 +426,11 @@ rcl_names_and_types_fini(rcl_names_and_types_t * names_and_types);
  *
  * \param[in] node the handle to the node being used to query the ROS graph
  * \param[in] allocator used to control allocation and deallocation of names
- * \param[out] node_names struct storing discovered node names.
- * \param[out] node_namesspaces struct storing discovered node namespaces.
+ * \param[out] node_names struct storing discovered node names
+ * \param[out] node_namespaces struct storing discovered node namespaces
  * \return `RCL_RET_OK` if the query was successful, or
+ * \return `RCL_RET_BAD_ALLOC` if an error occurred while allocating memory, or
+ * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_ERROR` if an unspecified error occurs.
  */
 RCL_PUBLIC
@@ -433,6 +441,40 @@ rcl_get_node_names(
   rcl_allocator_t allocator,
   rcutils_string_array_t * node_names,
   rcutils_string_array_t * node_namespaces);
+
+/// Return a list of available nodes in the ROS graph, including their enclave names.
+/**
+ * An \ref rcl_get_node_names equivalent, but including in its output the enclave
+ * name the node is using.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Maybe [1]
+ * <i>[1] RMW implementation in use may need to protect the data structure with a lock</i>
+ *
+ * \param[in] node the handle to the node being used to query the ROS graph
+ * \param[in] allocator used to control allocation and deallocation of names
+ * \param[out] node_names struct storing discovered node names
+ * \param[out] node_namespaces struct storing discovered node namespaces
+ * \param[out] enclaves struct storing discovered node enclaves
+ * \return `RCL_RET_OK` if the query was successful, or
+ * \return `RCL_RET_BAD_ALLOC` if an error occurred while allocating memory, or
+ * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_ERROR` if an unspecified error occurs.
+ */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_get_node_names_with_enclaves(
+  const rcl_node_t * node,
+  rcl_allocator_t allocator,
+  rcutils_string_array_t * node_names,
+  rcutils_string_array_t * node_namespaces,
+  rcutils_string_array_t * enclaves);
 
 /// Return the number of publishers on a given topic.
 /**
@@ -523,6 +565,128 @@ rcl_count_subscribers(
   const rcl_node_t * node,
   const char * topic_name,
   size_t * count);
+
+/// Return a list of all publishers to a topic.
+/**
+ * The `node` parameter must point to a valid node.
+ *
+ * The `topic_name` parameter must not be `NULL`.
+ *
+ * When the `no_mangle` parameter is `true`, the provided `topic_name` should be a valid topic name
+ * for the middleware (useful when combining ROS with native middleware (e.g. DDS) apps).
+ * When the `no_mangle` parameter is `false`, the provided `topic_name` should follow
+ * ROS topic name conventions.
+ * In either case, the topic name should always be fully qualified.
+ *
+ * Each element in the `publishers_info` array will contain the node name, node namespace,
+ * topic type, gid and the qos profile of the publisher.
+ * It is the responsibility of the caller to ensure that `publishers_info` parameter points
+ * to a valid struct of type rcl_topic_endpoint_info_array_t.
+ * The `count` field inside the struct must be set to 0 and the `info_array` field inside
+ * the struct must be set to null.
+ * \see rmw_get_zero_initialized_topic_endpoint_info_array
+ *
+ * The `allocator` will be used to allocate memory to the `info_array` member
+ * inside of `publishers_info`.
+ * Moreover, every const char * member inside of
+ * rmw_topic_endpoint_info_t will be assigned a copied value on allocated memory.
+ * \see rmw_topic_endpoint_info_set_node_name and the likes.
+ * However, it is the responsibility of the caller to
+ * reclaim any allocated resources to `publishers_info` to avoid leaking memory.
+ * \see rmw_topic_endpoint_info_array_fini
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Maybe [1]
+ * <i>[1] implementation may need to protect the data structure with a lock</i>
+ *
+ * \param[in] node the handle to the node being used to query the ROS graph
+ * \param[in] allocator allocator to be used when allocating space for
+ *            the array inside publishers_info
+ * \param[in] topic_name the name of the topic in question
+ * \param[in] no_mangle if `true`, `topic_name` needs to be a valid middleware topic name,
+ *            otherwise it should be a valid ROS topic name
+ * \param[out] publishers_info a struct representing a list of publisher information
+ * \return `RCL_RET_OK` if the query was successful, or
+ * \return `RCL_RET_NODE_INVALID` if the node is invalid, or
+ * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_BAD_ALLOC` if memory allocation fails, or
+ * \return `RCL_RET_ERROR` if an unspecified error occurs.
+ */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_get_publishers_info_by_topic(
+  const rcl_node_t * node,
+  rcutils_allocator_t * allocator,
+  const char * topic_name,
+  bool no_mangle,
+  rcl_topic_endpoint_info_array_t * publishers_info);
+
+/// Return a list of all subscriptions to a topic.
+/**
+ * The `node` parameter must point to a valid node.
+ *
+ * The `topic_name` parameter must not be `NULL`.
+ *
+ * When the `no_mangle` parameter is `true`, the provided `topic_name` should be a valid topic name
+ * for the middleware (useful when combining ROS with native middleware (e.g. DDS) apps).
+ * When the `no_mangle` parameter is `false`, the provided `topic_name` should follow
+ * ROS topic name conventions.
+ * In either case, the topic name should always be fully qualified.
+ *
+ * Each element in the `subscriptions_info` array will contain the node name, node namespace,
+ * topic type, gid and the qos profile of the subscription.
+ * It is the responsibility of the caller to ensure that `subscriptions_info` parameter points
+ * to a valid struct of type rcl_topic_endpoint_info_array_t.
+ * The `count` field inside the struct must be set to 0 and the `info_array` field inside
+ * the struct must be set to null.
+ * \see rmw_get_zero_initialized_topic_endpoint_info_array
+ *
+ * The `allocator` will be used to allocate memory to the `info_array` member
+ * inside of `subscriptions_info`.
+ * Moreover, every const char * member inside of
+ * rmw_topic_endpoint_info_t will be assigned a copied value on allocated memory.
+ * \see rmw_topic_endpoint_info_set_node_name and the likes.
+ * However, it is the responsibility of the caller to
+ * reclaim any allocated resources to `subscriptions_info` to avoid leaking memory.
+ * \see rmw_topic_endpoint_info_array_fini
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Maybe [1]
+ * <i>[1] implementation may need to protect the data structure with a lock</i>
+ *
+ * \param[in] node the handle to the node being used to query the ROS graph
+ * \param[in] allocator allocator to be used when allocating space for
+ *            the array inside publishers_info
+ * \param[in] topic_name the name of the topic in question
+ * \param[in] no_mangle if `true`, `topic_name` needs to be a valid middleware topic name,
+ *            otherwise it should be a valid ROS topic name
+ * \param[out] subscriptions_info a struct representing a list of subscriptions information
+ * \return `RCL_RET_OK` if the query was successful, or
+ * \return `RCL_RET_NODE_INVALID` if the node is invalid, or
+ * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_BAD_ALLOC` if memory allocation fails, or
+ * \return `RCL_RET_ERROR` if an unspecified error occurs.
+ */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_get_subscriptions_info_by_topic(
+  const rcl_node_t * node,
+  rcutils_allocator_t * allocator,
+  const char * topic_name,
+  bool no_mangle,
+  rcl_topic_endpoint_info_array_t * subscriptions_info);
 
 /// Check if a service server is available for the given service client.
 /**

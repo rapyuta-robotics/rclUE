@@ -4,7 +4,8 @@
 #ifndef RCL_INTERFACES__MSG__PARAMETER_VALUE_HPP_
 #define RCL_INTERFACES__MSG__PARAMETER_VALUE_HPP_
 
-#include "rcl_interfaces/msg/parameter_value__struct.hpp"
-#include "rcl_interfaces/msg/parameter_value__traits.hpp"
+#include "rcl_interfaces/msg/detail/parameter_value__struct.hpp"
+#include "rcl_interfaces/msg/detail/parameter_value__builder.hpp"
+#include "rcl_interfaces/msg/detail/parameter_value__traits.hpp"
 
 #endif  // RCL_INTERFACES__MSG__PARAMETER_VALUE_HPP_

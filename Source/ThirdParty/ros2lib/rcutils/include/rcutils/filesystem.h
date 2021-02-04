@@ -31,9 +31,9 @@ extern "C"
 /**
  * \param[in] buffer Allocated string to store current directory path to
  * \param[in] max_length maximum length to be stored in buffer
- * \return bool True if success
- *              False if buffer is NULL
- *              False on failure
+ * \return `True` if success
+ * \return `False` if buffer is NULL
+ * \return `False` on failure
  */
 RCUTILS_PUBLIC
 RCUTILS_WARN_UNUSED
@@ -43,9 +43,9 @@ rcutils_get_cwd(char * buffer, size_t max_length);
 /// Check if the provided path points to a directory.
 /**
  * \param[in] abs_path Absolute path to check.
- * \return bool True if directory
- *              False if abs_path is NULL
- *              False on failure
+ * \return `True` if directory
+ * \return `False` if abs_path is NULL
+ * \return `False` on failure
  */
 RCUTILS_PUBLIC
 bool
@@ -54,9 +54,9 @@ rcutils_is_directory(const char * abs_path);
 /// Check if the provided path points to a file.
 /**
  * \param[in] abs_path Absolute path to check.
- * \return bool True if file
- *              False if abs_path is NULL
- *              False on failure
+ * \return `True` if file
+ * \return `False` if abs_path is NULL
+ * \return `False` on failure
  */
 RCUTILS_PUBLIC
 bool
@@ -65,9 +65,9 @@ rcutils_is_file(const char * abs_path);
 /// Check if the provided path points to an existing file/folder.
 /**
  * \param[in] abs_path Absolute path to check.
- * \return bool True if the path exists
- *              False if abs_path is NULL
- *              False on failure
+ * \return `True` if the path exists
+ * \return `False` if abs_path is NULL
+ * \return `False` on failure
  */
 RCUTILS_PUBLIC
 bool
@@ -76,9 +76,9 @@ rcutils_exists(const char * abs_path);
 /// Check if the provided path points to a file/folder readable by current user.
 /**
  * \param[in] abs_path Absolute path to check.
- * \return bool True if the file is readable
- *              False if abs_path is NULL
- *              False on failure
+ * \return `True` if the file is readable
+ * \return `False` if abs_path is NULL
+ * \return `False` on failure
  */
 RCUTILS_PUBLIC
 bool
@@ -87,9 +87,9 @@ rcutils_is_readable(const char * abs_path);
 /// Check if the provided path points to a file/folder writable by current user.
 /**
  * \param[in] abs_path Absolute path to check.
- * \return bool True if the file is writable
- *              False if abs_path is NULL
- *              False on failure
+ * \return `True` if the file is writable
+ * \return `False` if abs_path is NULL
+ * \return `False` on failure
  */
 RCUTILS_PUBLIC
 bool
@@ -98,9 +98,9 @@ rcutils_is_writable(const char * abs_path);
 /// Check if the provided path points to a file/folder both readable and writable by current user.
 /**
  * \param[in] abs_path Absolute path to check.
- * \return bool True if the file is redable and writable False otherwise
- *              False if abs_path is NULL
- *              False on failure
+ * \return `True` if the file is redable and writable False otherwise
+ * \return `False` if abs_path is NULL
+ * \return `False` on failure
  */
 RCUTILS_PUBLIC
 bool
@@ -115,9 +115,9 @@ rcutils_is_readable_and_writable(const char * abs_path);
  * \param[in] left_hand_path
  * \param[in] right_hand_path
  * \param[in] allocator
- * \return char * concatenated path on success
- *         NULL on invalid arguments
- *         NULL on failure
+ * \return concatenated path on success
+ * \return `NULL` on invalid arguments
+ * \return `NULL` on failure
  */
 RCUTILS_PUBLIC
 char *
@@ -134,9 +134,9 @@ rcutils_join_path(
  *
  * \param[in] path
  * \param[in] allocator
- * \return char * path using platform specific delimiters on success
- *         NULL on invalid arguments
- *         NULL on failure
+ * \return path using platform specific delimiters on success
+ * \return `NULL` on invalid arguments
+ * \return `NULL` on failure
  */
 RCUTILS_PUBLIC
 char *
@@ -156,16 +156,36 @@ rcutils_to_native_path(
  * openat(2) documentation.
  *
  * \param[in] abs_path
- * \param[in] allocator
- * \return bool True if making the directory was successful, False otherwise
- *              False if path is NULL
- *              False if path is empty
- *              False if path is not absolute
- *              False if any intermediate directories don't exist
+ * \return `True` if making the directory was successful, False otherwise
+ * \return `False` if path is NULL
+ * \return `False` if path is empty
+ * \return `False` if path is not absolute
+ * \return `False` if any intermediate directories don't exist
  */
 RCUTILS_PUBLIC
 bool
 rcutils_mkdir(const char * abs_path);
+
+/// Calculate the size of the specified directory.
+/*
+ * Calculates the size of a directory by summarizing the file size of all files.
+ * \note This operation is not recursive.
+ * \param[in] directory_path The directory path to calculate the size of.
+ * \param[in] allocator Allocator being used for internal file path composition.
+ * \return The size of the directory in bytes.
+ */
+RCUTILS_PUBLIC
+size_t
+rcutils_calculate_directory_size(const char * directory_path, rcutils_allocator_t allocator);
+
+/// Calculate the size of the specifed file.
+/*
+ * \param[in] file_path The path of the file to obtain its size of.
+ * \return The size of the file in bytes.
+ */
+RCUTILS_PUBLIC
+size_t
+rcutils_get_file_size(const char * file_path);
 
 #ifdef __cplusplus
 }

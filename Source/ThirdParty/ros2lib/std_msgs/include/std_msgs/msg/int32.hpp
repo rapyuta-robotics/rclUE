@@ -4,7 +4,8 @@
 #ifndef STD_MSGS__MSG__INT32_HPP_
 #define STD_MSGS__MSG__INT32_HPP_
 
-#include "std_msgs/msg/int32__struct.hpp"
-#include "std_msgs/msg/int32__traits.hpp"
+#include "std_msgs/msg/detail/int32__struct.hpp"
+#include "std_msgs/msg/detail/int32__builder.hpp"
+#include "std_msgs/msg/detail/int32__traits.hpp"
 
 #endif  // STD_MSGS__MSG__INT32_HPP_

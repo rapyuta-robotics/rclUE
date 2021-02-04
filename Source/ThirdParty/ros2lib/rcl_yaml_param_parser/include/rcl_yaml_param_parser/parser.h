@@ -12,6 +12,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/** rcl_yaml_param_parser: Parse a YAML parameter file and populate the C data structure
+ *
+ *  - Parser
+ *  - rcl/parser.h
+ *
+ * Some useful abstractions and utilities:
+ * - Return code types
+ *   - rcl/types.h
+ * - Macros for controlling symbol visibility on the library
+ *   - rcl/visibility_control.h
+ */
+
 #ifndef RCL_YAML_PARAM_PARSER__PARSER_H_
 #define RCL_YAML_PARAM_PARSER__PARSER_H_
 
@@ -45,9 +57,11 @@ RCL_YAML_PARAM_PARSER_PUBLIC
 void rcl_yaml_node_struct_fini(
   rcl_params_t * params_st);
 
-/// \brief Parse the YAML file, initialize and populate params_st
+/// \brief Parse the YAML file and populate \p params_st
+/// \pre Given \p params_st must be a valid parameter struct
+///   as returned by `rcl_yaml_node_struct_init()`
 /// \param[in] file_path is the path to the YAML file
-/// \param[inout] params_st points to the populated parameter struct
+/// \param[inout] params_st points to the struct to be populated
 /// \return true on success and false on failure
 RCL_YAML_PARAM_PARSER_PUBLIC
 bool rcl_parse_yaml_file(

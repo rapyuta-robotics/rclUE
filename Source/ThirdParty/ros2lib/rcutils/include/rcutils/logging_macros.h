@@ -57,11 +57,11 @@ extern "C"
  *
  * \note The condition will only be evaluated if this logging statement is enabled.
  *
- * \param severity The severity level
- * \param condition_before The condition macro(s) inserted before the log call
- * \param condition_after The condition macro(s) inserted after the log call
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] severity The severity level
+ * \param[in] condition_before The condition macro(s) inserted before the log call
+ * \param[in] condition_after The condition macro(s) inserted after the log call
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 #define RCUTILS_LOG_COND_NAMED(severity, condition_before, condition_after, name, ...) \
   do { \
@@ -101,7 +101,7 @@ extern "C"
  * A macro finalizing the `once` condition.
  */
 #define RCUTILS_LOG_CONDITION_ONCE_AFTER } \
-  }
+}
 ///@}
 
 /** @name Macros for the `expression` condition which ignores the log calls
@@ -162,7 +162,7 @@ typedef bool (* RclLogFilter)();
  * A macro finalizing the `skipfirst` condition.
  */
 #define RCUTILS_LOG_CONDITION_SKIPFIRST_AFTER } \
-  }
+}
 ///@}
 
 /** @name Macros for the `throttle` condition which ignores log calls if the
@@ -195,7 +195,7 @@ typedef bool (* RclLogFilter)();
  * A macro finalizing the `throttle` condition.
  */
 #define RCUTILS_LOG_CONDITION_THROTTLE_AFTER } \
-  }
+}
 ///@}
 
 /** @name Logging macros for severity DEBUG.
@@ -236,7 +236,7 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_DEBUG
  * Log a message with severity DEBUG.
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -246,8 +246,8 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_DEBUG_NAMED
  * Log a message with severity DEBUG.
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -261,7 +261,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_ONCE(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -275,8 +275,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_ONCE_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -290,8 +290,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_EXPRESSION(expression, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -305,9 +305,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_EXPRESSION_NAMED(expression, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -321,8 +321,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_FUNCTION(function, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -336,9 +336,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_FUNCTION_NAMED(function, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -352,7 +352,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_SKIPFIRST(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -366,8 +366,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_SKIPFIRST_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -381,9 +381,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -398,9 +398,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_SKIPFIRST_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -414,10 +414,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -432,10 +432,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_DEBUG_SKIPFIRST_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -483,7 +483,7 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_INFO
  * Log a message with severity INFO.
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -493,8 +493,8 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_INFO_NAMED
  * Log a message with severity INFO.
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -508,7 +508,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_ONCE(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -522,8 +522,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_ONCE_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -537,8 +537,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_EXPRESSION(expression, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -552,9 +552,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_EXPRESSION_NAMED(expression, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -568,8 +568,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_FUNCTION(function, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -583,9 +583,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_FUNCTION_NAMED(function, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -599,7 +599,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_SKIPFIRST(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -613,8 +613,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_SKIPFIRST_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -628,9 +628,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -645,9 +645,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_SKIPFIRST_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -661,10 +661,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -679,10 +679,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_INFO_SKIPFIRST_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -730,7 +730,7 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_WARN
  * Log a message with severity WARN.
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -740,8 +740,8 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_WARN_NAMED
  * Log a message with severity WARN.
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -755,7 +755,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_ONCE(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -769,8 +769,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_ONCE_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -784,8 +784,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_EXPRESSION(expression, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -799,9 +799,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_EXPRESSION_NAMED(expression, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -815,8 +815,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_FUNCTION(function, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -830,9 +830,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_FUNCTION_NAMED(function, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -846,7 +846,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_SKIPFIRST(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -860,8 +860,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_SKIPFIRST_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -875,9 +875,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -892,9 +892,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_SKIPFIRST_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -908,10 +908,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -926,10 +926,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_WARN_SKIPFIRST_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -977,7 +977,7 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_ERROR
  * Log a message with severity ERROR.
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -987,8 +987,8 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_ERROR_NAMED
  * Log a message with severity ERROR.
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1002,7 +1002,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_ONCE(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1016,8 +1016,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_ONCE_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1031,8 +1031,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_EXPRESSION(expression, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1046,9 +1046,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_EXPRESSION_NAMED(expression, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1062,8 +1062,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_FUNCTION(function, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1077,9 +1077,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_FUNCTION_NAMED(function, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1093,7 +1093,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_SKIPFIRST(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1107,8 +1107,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_SKIPFIRST_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1122,9 +1122,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1139,9 +1139,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_SKIPFIRST_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1155,10 +1155,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1173,10 +1173,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_ERROR_SKIPFIRST_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1224,7 +1224,7 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_FATAL
  * Log a message with severity FATAL.
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1234,8 +1234,8 @@ typedef bool (* RclLogFilter)();
 /**
  * \def RCUTILS_LOG_FATAL_NAMED
  * Log a message with severity FATAL.
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1249,7 +1249,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_ONCE(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1263,8 +1263,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_ONCE_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1278,8 +1278,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_EXPRESSION(expression, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1293,9 +1293,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param expression The expression determining if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] expression The expression determining if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_EXPRESSION_NAMED(expression, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1309,8 +1309,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_FUNCTION(function, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1324,9 +1324,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param function The functions return value determines if the message should be logged
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] function The functions return value determines if the message should be logged
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_FUNCTION_NAMED(function, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1340,7 +1340,7 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_SKIPFIRST(...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1354,8 +1354,8 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_SKIPFIRST_NAMED(name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1369,9 +1369,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1386,9 +1386,9 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_SKIPFIRST_THROTTLE(get_time_point_value, duration, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1402,10 +1402,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \
@@ -1420,10 +1420,10 @@ typedef bool (* RclLogFilter)();
  *
  * \note The conditions will only be evaluated if this logging statement is enabled.
  *
- * \param get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
- * \param duration The duration of the throttle interval
- * \param name The name of the logger
- * \param ... The format string, followed by the variable arguments for the format string
+ * \param[in] get_time_point_value Function that returns rcutils_ret_t and expects a rcutils_time_point_value_t pointer.
+ * \param[in] duration The duration of the throttle interval
+ * \param[in] name The name of the logger
+ * \param[in] ... The format string, followed by the variable arguments for the format string
  */
 # define RCUTILS_LOG_FATAL_SKIPFIRST_THROTTLE_NAMED(get_time_point_value, duration, name, ...) \
   RCUTILS_LOG_COND_NAMED( \

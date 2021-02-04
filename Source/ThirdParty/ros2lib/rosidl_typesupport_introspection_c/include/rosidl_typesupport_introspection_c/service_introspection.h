@@ -18,8 +18,8 @@
 #include <stddef.h>
 #include <stdint.h>
 
-#include "rosidl_generator_c/service_type_support_struct.h"
-#include "rosidl_generator_c/visibility_control.h"
+#include "rosidl_runtime_c/service_type_support_struct.h"
+#include "rosidl_runtime_c/visibility_control.h"
 
 #include "rosidl_typesupport_introspection_c/message_introspection.h"
 

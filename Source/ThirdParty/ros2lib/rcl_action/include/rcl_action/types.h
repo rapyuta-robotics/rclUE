@@ -31,7 +31,7 @@ extern "C"
 #include "rcl/macros.h"
 #include "rcl/types.h"
 
-#include "rosidl_generator_c/action_type_support_struct.h"
+#include "rosidl_runtime_c/action_type_support_struct.h"
 
 // rcl action specific ret codes in 2XXX
 /// Action name does not pass validation return code.
@@ -65,15 +65,19 @@ typedef struct rcl_action_server_t rcl_action_server_t;
 // Typedef generated messages for convenience
 typedef action_msgs__msg__GoalInfo rcl_action_goal_info_t;
 typedef action_msgs__msg__GoalStatus rcl_action_goal_status_t;
+/// Struct with the action goal status array
 typedef struct rcl_action_goal_status_array_t
 {
+  /// Goal status array message
   action_msgs__msg__GoalStatusArray msg;
   /// Allocator used to initialize this struct.
   rcl_allocator_t allocator;
 } rcl_action_goal_status_array_t;
 typedef action_msgs__srv__CancelGoal_Request rcl_action_cancel_request_t;
+/// Struct with the action cancel response
 typedef struct rcl_action_cancel_response_t
 {
+  /// Cancel goal response message
   action_msgs__srv__CancelGoal_Response msg;
   /// Allocator used to initialize this struct.
   rcl_allocator_t allocator;

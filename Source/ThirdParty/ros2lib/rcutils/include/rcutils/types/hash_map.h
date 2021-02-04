@@ -36,7 +36,7 @@ typedef struct RCUTILS_PUBLIC_TYPE rcutils_hash_map_t
 
 /// The function signature for a key hashing function.
 /**
- * \param key The key that needs to be hashed
+ * \param[in] key The key that needs to be hashed
  * \return A hash value for the provided string
  */
 typedef size_t (* rcutils_hash_map_key_hasher_t)(
@@ -45,8 +45,8 @@ typedef size_t (* rcutils_hash_map_key_hasher_t)(
 
 /// The function signature for a key comparison function.
 /**
- * \param val1 The first value to compare
- * \param val2 The second value to compare
+ * \param[in] val1 The first value to compare
+ * \param[in] val2 The second value to compare
  * \return A negative number if val1 < val2, or
  * \return A positve number if val1 > val2, or
  * \return Zero if val1 == val2
@@ -58,7 +58,7 @@ typedef int (* rcutils_hash_map_key_cmp_t)(
 
 /**
  * Validates that an rcutils_hash_map_t* points to a valid hash map.
- * \param map A pointer to an rcutils_hash_map_t
+ * \param[in] map A pointer to an rcutils_hash_map_t
  * \return RCUTILS_RET_INVALID_ARGUMENT if map is null
  * \return RCUTILS_RET_NOT_INITIALIZED if map is not initialized
  */

@@ -32,6 +32,7 @@ struct rcl_action_goal_handle_impl_t;
 /// Goal handle for an action.
 typedef struct rcl_action_goal_handle_t
 {
+  /// Pointer to the action goal handle implementation
   struct rcl_action_goal_handle_impl_t * impl;
 } rcl_action_goal_handle_t;
 

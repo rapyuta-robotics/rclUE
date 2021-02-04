@@ -36,25 +36,23 @@ def main(argv=sys.argv[1:]):
         print('idl_file', idl_file)
         idl_file = pathlib.Path(idl_file)
         if not idl_file.exists():
-            print("File '{idl_file} not found".format_map(locals()),
-                  file=sys.stderr)
+            print(f"File '{idl_file} not found", file=sys.stderr)
             continue
 
         string = idl_file.read_text()
         try:
             tree = get_ast_from_idl_string(string)
         except Exception as e:  # noqa: F841
-            print("Failed to parse '{idl_file}': {e}", file=sys.stderr)
+            print(f"Failed to parse '{idl_file}': {e}", file=sys.stderr)
             continue
 
         png_file = idl_file.with_suffix('.png')
         try:
             pydot__tree_to_png(tree, png_file)
         except ImportError as e:  # noqa: F841
-            print('Failed to generate png files: {e}'.format_map(locals()),
-                  file=sys.stderr)
+            print(f'Failed to generate png files: {e}', file=sys.stderr)
             return 1
-        print("Generated '{png_file}'".format_map(locals()))
+        print(f"Generated '{png_file}'")
 
 
 if __name__ == '__main__':

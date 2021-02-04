@@ -32,6 +32,7 @@ struct rcl_action_client_impl_t;
 /// Structure which encapsulates a ROS action client.
 typedef struct rcl_action_client_t
 {
+  /// Pointer to the action client implementation
   struct rcl_action_client_impl_t * impl;
 } rcl_action_client_t;
 
@@ -39,10 +40,15 @@ typedef struct rcl_action_client_t
 typedef struct rcl_action_client_options_t
 {
   /// Middleware quality of service settings for the action client.
+  /// Goal service quality of service
   rmw_qos_profile_t goal_service_qos;
+  /// Result service quality of service
   rmw_qos_profile_t result_service_qos;
+  /// Cancel service quality of service
   rmw_qos_profile_t cancel_service_qos;
+  /// Feedback topic quality of service
   rmw_qos_profile_t feedback_topic_qos;
+  /// Status topic quality of service
   rmw_qos_profile_t status_topic_qos;
   /// Custom allocator for the action client, used for incidental allocations.
   /** For default behavior (malloc/free), see: rcl_get_default_allocator() */
@@ -94,7 +100,7 @@ rcl_action_get_zero_initialized_client(void);
  * For C, a macro can be used (for example `example_interfaces/Fibonacci`):
  *
  * ```c
- * #include <rosidl_generator_c/action_type_support_struct.h>
+ * #include <rosidl_runtime_c/action_type_support_struct.h>
  * #include <example_interfaces/action/fibonacci.h>
  * const rosidl_action_type_support_t * ts =
  *   ROSIDL_GET_ACTION_TYPE_SUPPORT(example_interfaces, Fibonacci);
@@ -103,7 +109,7 @@ rcl_action_get_zero_initialized_client(void);
  * For C++, a template function is used:
  *
  * ```cpp
- * #include <rosidl_generator_cpp/action_type_support.hpp>
+ * #include <rosidl_runtime_cpp/action_type_support.hpp>
  * #include <example_interfaces/action/fibonacci.h>
  * using rosidl_typesupport_cpp::get_action_type_support_handle;
  * const rosidl_action_type_support_t * ts =
@@ -127,7 +133,7 @@ rcl_action_get_zero_initialized_client(void);
  * ```c
  * #include <rcl/rcl.h>
  * #include <rcl_action/action_client.h>
- * #include <rosidl_generator_c/action_type_support_struct.h>
+ * #include <rosidl_runtime_c/action_type_support_struct.h>
  * #include <example_interfaces/action/fibonacci.h>
  *
  * rcl_node_t node = rcl_get_zero_initialized_node();
@@ -548,7 +554,7 @@ rcl_action_send_result_request(
  *
  * \param[in] action_client handle to the client that will take the result response
  * \param[out] response_header pointer to the result response header
- * \param[out] ros_result_response preallocated, zero-initialized, struct where the ROS
+ * \param[out] ros_result preallocated, zero-initialized, struct where the ROS
  *   result message is copied.
  * \return `RCL_RET_OK` if the response was taken successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
@@ -639,7 +645,7 @@ rcl_action_send_cancel_request(
  * Lock-Free          | Yes
  *
  * \param[in] action_client handle to the client that will take the cancel response
- * \param[out] request_header pointer to the cancel response header
+ * \param[out] response_header pointer to the cancel response header
  * \param[out] ros_cancel_response a zero-initialized ROS cancel response message where
  *   the cancel response is copied.
  * \return `RCL_RET_OK` if the response was taken successfully, or

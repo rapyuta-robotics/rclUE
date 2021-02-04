@@ -35,10 +35,12 @@ typedef enum rmw_event_type_t
   // subscription events
   RMW_EVENT_LIVELINESS_CHANGED,
   RMW_EVENT_REQUESTED_DEADLINE_MISSED,
+  RMW_EVENT_REQUESTED_QOS_INCOMPATIBLE,
 
   // publisher events
   RMW_EVENT_LIVELINESS_LOST,
   RMW_EVENT_OFFERED_DEADLINE_MISSED,
+  RMW_EVENT_OFFERED_QOS_INCOMPATIBLE,
 
   // sentinel value
   RMW_EVENT_INVALID
@@ -64,10 +66,11 @@ rmw_get_zero_initialized_event(void);
 /// Initialize a rmw publisher event.
 /**
  * \param[in|out] rmw_event to initialize
- * \param publisher to initialize with
- * \param event_type for the event to handle
+ * \param[in] publisher to initialize with
+ * \param[in|out] event_type for the event to initialize
  * \return `RMW_RET_OK` if successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if invalid argument
+ * \return `RMW_RET_INVALID_ARGUMENT` if invalid argument, or
+ * \return `RMW_RET_UNSUPPORTED` if event_type is not supported, or
  * \return `RMW_RET_ERROR` if an unexpected error occurs.
  */
 RMW_PUBLIC
@@ -81,10 +84,11 @@ rmw_publisher_event_init(
 /// Initialize a rmw subscription event.
 /**
  * \param[in|out] rmw_event to initialize
- * \param subscription to initialize with
- * \param event_type for the event to handle
+ * \param[in] subscription to initialize with
+ * \param[in|out] event_type for the event to handle
  * \return `RMW_RET_OK` if successful, or
- * \return `RMW_RET_INVALID_ARGUMENT` if invalid argument
+ * \return `RMW_RET_INVALID_ARGUMENT` if invalid argument, or
+ * \return `RMW_RET_UNSUPPORTED` if event_type is not supported, or
  * \return `RMW_RET_ERROR` if an unexpected error occurs.
  */
 RMW_PUBLIC
@@ -97,9 +101,9 @@ rmw_subscription_event_init(
 
 /// Take an event from the event handle.
 /**
- * \param event_handle event object to take from
- * \param event_info event info object to write taken data into
- * \param taken boolean flag indicating if an event was taken or not
+ * \param[in] event_handle event object to take from
+ * \param[in|out] event_info event info object to write taken data into
+ * \param[out] taken boolean flag indicating if an event was taken or not
  * \return `RMW_RET_OK` if successful, or
  * \return `RMW_RET_BAD_ALLOC` if memory allocation failed, or
  * \return `RMW_RET_ERROR` if an unexpected error occurs.
@@ -114,7 +118,7 @@ rmw_take_event(
 
 /// Finalize an rmw_event_t.
 /**
- * \param event to finalize
+ * \param[in] event to finalize
  */
 RMW_PUBLIC
 RMW_WARN_UNUSED

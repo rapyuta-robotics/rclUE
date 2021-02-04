@@ -27,18 +27,18 @@ extern "C"
 #include "rcutils/visibility_control.h"
 
 /// Convenience macro to convert seconds to nanoseconds.
-#define RCUTILS_S_TO_NS(seconds) (seconds * (1000LL * 1000LL * 1000LL))
+#define RCUTILS_S_TO_NS(seconds) ((seconds) * (1000LL * 1000LL * 1000LL))
 /// Convenience macro to convert milliseconds to nanoseconds.
-#define RCUTILS_MS_TO_NS(milliseconds) (milliseconds * (1000LL * 1000LL))
+#define RCUTILS_MS_TO_NS(milliseconds) ((milliseconds) * (1000LL * 1000LL))
 /// Convenience macro to convert microseconds to nanoseconds.
-#define RCUTILS_US_TO_NS(microseconds) (microseconds * 1000LL)
+#define RCUTILS_US_TO_NS(microseconds) ((microseconds) * 1000LL)
 
 /// Convenience macro to convert nanoseconds to seconds.
-#define RCUTILS_NS_TO_S(nanoseconds) (nanoseconds / (1000LL * 1000LL * 1000LL))
+#define RCUTILS_NS_TO_S(nanoseconds) ((nanoseconds) / (1000LL * 1000LL * 1000LL))
 /// Convenience macro to convert nanoseconds to milliseconds.
-#define RCUTILS_NS_TO_MS(nanoseconds) (nanoseconds / (1000LL * 1000LL))
+#define RCUTILS_NS_TO_MS(nanoseconds) ((nanoseconds) / (1000LL * 1000LL))
 /// Convenience macro to convert nanoseconds to microseconds.
-#define RCUTILS_NS_TO_US(nanoseconds) (nanoseconds / 1000LL)
+#define RCUTILS_NS_TO_US(nanoseconds) ((nanoseconds) / 1000LL)
 /// Convenience macro for rcutils_steady_time_now(rcutils_time_point_value_t *).
 #define RCUTILS_STEADY_TIME rcutils_steady_time_now
 

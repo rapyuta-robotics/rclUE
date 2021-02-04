@@ -34,4 +34,5 @@ private:
 	UROS2Context* GetContext();
 
 	UROS2Context* context;
+	rcl_node_t node;
 };

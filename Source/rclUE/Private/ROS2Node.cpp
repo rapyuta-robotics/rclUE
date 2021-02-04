@@ -16,7 +16,7 @@ AROS2Node::AROS2Node()
 void AROS2Node::BeginPlay()
 {
 	Super::BeginPlay();
-	
+    //RCSOFTCHECK(rclc_node_init_default(&node, "node", "ros_global", &context->Get()));
 }
 
 // Called every frame

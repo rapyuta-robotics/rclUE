@@ -30,13 +30,15 @@ extern "C"
 typedef enum rcl_publisher_event_type_t
 {
   RCL_PUBLISHER_OFFERED_DEADLINE_MISSED,
-  RCL_PUBLISHER_LIVELINESS_LOST
+  RCL_PUBLISHER_LIVELINESS_LOST,
+  RCL_PUBLISHER_OFFERED_INCOMPATIBLE_QOS,
 } rcl_publisher_event_type_t;
 
 typedef enum rcl_subscription_event_type_t
 {
   RCL_SUBSCRIPTION_REQUESTED_DEADLINE_MISSED,
-  RCL_SUBSCRIPTION_LIVELINESS_CHANGED
+  RCL_SUBSCRIPTION_LIVELINESS_CHANGED,
+  RCL_SUBSCRIPTION_REQUESTED_INCOMPATIBLE_QOS,
 } rcl_subscription_event_type_t;
 
 /// rmw struct.
@@ -48,6 +50,7 @@ struct rcl_event_impl_t;
 /// Structure which encapsulates a ROS QoS event handle.
 typedef struct rcl_event_t
 {
+  /// Pointer to the event implementation
   struct rcl_event_impl_t * impl;
 } rcl_event_t;
 
@@ -70,6 +73,8 @@ rcl_get_zero_initialized_event(void);
  * \param[in] event_type to listen for
  * \return `RCL_RET_OK` if the rcl_event_t is filled, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_BAD_ALLOC` if allocating memory fails, or
+ * \return `RCL_RET_UNSUPPORTED` if event_type is not supported, or
  * \return `RCL_RET_ERROR` if an unspecified error occurs.
  */
 RCL_PUBLIC
@@ -89,6 +94,8 @@ rcl_publisher_event_init(
  * \param[in] event_type to listen for
  * \return `RCL_RET_OK` if the rcl_event_t is filled, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
+ * \return `RCL_RET_BAD_ALLOC` if allocating memory fails, or
+ * \return `RCL_RET_UNSUPPORTED` if event_type is not supported, or
  * \return `RCL_RET_ERROR` if an unspecified error occurs.
  */
 RCL_PUBLIC
@@ -103,11 +110,12 @@ rcl_subscription_event_init(
 /**
  * Take an event from the event handle.
  *
- * \param[in] event_handle event object to take from
+ * \param[in] event event object to take from
  * \param[in, out] event_info event info object to write taken data into
- * \param[in, out] taken boolean flag indicating if an event was taken or not
  * \return `RCL_RET_OK` if successful, or
+ * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
  * \return `RCL_RET_BAD_ALLOC` if memory allocation failed, or
+ * \return `RCL_RET_EVENT_TAKE_FAILED` if the take event failed, or
  * \return `RCL_RET_ERROR` if an unexpected error occurs.
  */
 RCL_PUBLIC

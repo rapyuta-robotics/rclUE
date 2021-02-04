@@ -36,6 +36,54 @@ RCL_LIFECYCLE_PUBLIC extern const char * rcl_lifecycle_transition_success_label;
 RCL_LIFECYCLE_PUBLIC extern const char * rcl_lifecycle_transition_failure_label;
 RCL_LIFECYCLE_PUBLIC extern const char * rcl_lifecycle_transition_error_label;
 
+/// Initialize a default state machine
+/*
+ * This function initializes a default state machine. It registers all: primary states,
+ * transition states, transitions and the initial state. The primary state is unconfigured.
+ *
+ * States: unknown, unconfigured, inactive, active and finalized.
+ * Transition states: configuring, cleaningup, activating, deactivating, errorprocessing
+ *                    and shuttingdown.
+ * Transitions:
+ *    - unconfigured to configuring
+ *    - unconfigured to shuttingdown
+ *    - configuring to inactive
+ *    - configuring to unconfigured
+ *    - configuring to errorprocessing
+ *    - inactive to activating
+ *    - inactive to cleaningup
+ *    - inactive to shuttingdown
+ *    - cleaningup to unconfigured
+ *    - cleaningup to inactive
+ *    - cleaniningup to errorprocessing
+ *    - activating to active
+ *    - activating to inactive
+ *    - activating to errorprocessing
+ *    - active to deactivating
+ *    - active to shuttingdown
+ *    - deactivating to inactive
+ *    - deactivating to active
+ *    - deactivating to errorprocessing
+ *    - shutting down to finalized
+ *    - shutting down to finalized
+ *    - shutting down to errorprocessing
+ *    - errorprocessing to uncofigured
+ *    - errorprocessing to finalized
+ *    - errorprocessing to finalized
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param[inout] state_machine struct to be initialized
+ * \param[in] allocator a valid allocator used to initialized the state machine
+ * \return `RCL_RET_OK` if the state machine was initialized successfully, or
+ * \return `RCL_RET_ERROR` if an unspecified error occurs.
+ */
 RCL_LIFECYCLE_PUBLIC
 RCL_WARN_UNUSED
 rcl_ret_t

@@ -375,7 +375,6 @@ rcl_timer_get_time_since_last_call(const rcl_timer_t * timer, int64_t * time_sin
  * \param[out] period the int64_t in which the period is stored
  * \return `RCL_RET_OK` if the period was retrieved successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
- * \return `RCL_RET_TIMER_INVALID` if the timer is invalid, or
  * \return `RCL_RET_ERROR` an unspecified error occur.
  */
 RCL_PUBLIC
@@ -406,7 +405,6 @@ rcl_timer_get_period(const rcl_timer_t * timer, int64_t * period);
  * \param[out] old_period the int64_t in which the previous period is stored
  * \return `RCL_RET_OK` if the period was retrieved successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
- * \return `RCL_RET_TIMER_INVALID` if the timer is invalid, or
  * \return `RCL_RET_ERROR` an unspecified error occur.
  */
 RCL_PUBLIC
@@ -513,7 +511,6 @@ rcl_timer_cancel(rcl_timer_t * timer);
  * \param[out] is_canceled storage for the is canceled bool
  * \return `RCL_RET_OK` if the last call time was retrieved successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or
- * \return `RCL_RET_TIMER_INVALID` if the timer is invalid, or
  * \return `RCL_RET_ERROR` an unspecified error occur.
  */
 RCL_PUBLIC
@@ -566,6 +563,8 @@ rcl_timer_reset(rcl_timer_t * timer);
  * \param[inout] timer handle to the timer object
  * \return pointer to the allocator, or `NULL` if an error occurred
  */
+RCL_PUBLIC
+RCL_WARN_UNUSED
 const rcl_allocator_t *
 rcl_timer_get_allocator(const rcl_timer_t * timer);
 

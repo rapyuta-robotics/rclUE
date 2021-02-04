@@ -27,7 +27,7 @@ extern "C"
 #include "rcl/node.h"
 #include "rcl/time.h"
 
-#include "rosidl_generator_c/action_type_support_struct.h"
+#include "rosidl_runtime_c/action_type_support_struct.h"
 
 /// Internal rcl_action implementation struct.
 struct rcl_action_server_impl_t;
@@ -35,6 +35,7 @@ struct rcl_action_server_impl_t;
 /// Structure which encapsulates a ROS Action Server.
 typedef struct rcl_action_server_t
 {
+  /// Pointer to the action server implementation
   struct rcl_action_server_impl_t * impl;
 } rcl_action_server_t;
 
@@ -42,10 +43,15 @@ typedef struct rcl_action_server_t
 typedef struct rcl_action_server_options_t
 {
   /// Middleware quality of service settings for the action server.
+  /// Goal service quality of service
   rmw_qos_profile_t goal_service_qos;
+  /// Cancel service quality of service
   rmw_qos_profile_t cancel_service_qos;
+  /// Result service quality of service
   rmw_qos_profile_t result_service_qos;
+  /// Feedback topic quality of service
   rmw_qos_profile_t feedback_topic_qos;
+  /// Status topic quality of service
   rmw_qos_profile_t status_topic_qos;
   /// Custom allocator for the action server, used for incidental allocations.
   /** For default behavior (malloc/free), see: rcl_get_default_allocator() */
@@ -91,7 +97,7 @@ rcl_action_get_zero_initialized_server(void);
  * For C, a macro can be used (for example `example_interfaces/Fibonacci`):
  *
  * ```c
- * #include <rosidl_generator_c/action_type_support_struct.h>
+ * #include <rosidl_runtime_c/action_type_support_struct.h>
  * #include <example_interfaces/action/fibonacci.h>
  * const rosidl_action_type_support_t * ts =
  *   ROSIDL_GET_ACTION_TYPE_SUPPORT(example_interfaces, Fibonacci);
@@ -100,7 +106,7 @@ rcl_action_get_zero_initialized_server(void);
  * For C++, a template function is used:
  *
  * ```cpp
- * #include <rosidl_generator_cpp/action_type_support.hpp>
+ * #include <rosidl_runtime_cpp/action_type_support.hpp>
  * #include <example_interfaces/action/fibonacci.h>
  * using rosidl_typesupport_cpp::get_action_type_support_handle;
  * const rosidl_action_type_support_t * ts =
@@ -124,7 +130,7 @@ rcl_action_get_zero_initialized_server(void);
  * ```c
  * #include <rcl/rcl.h>
  * #include <rcl_action/rcl_action.h>
- * #include <rosidl_generator_c/action_type_support_struct.h>
+ * #include <rosidl_runtime_c/action_type_support_struct.h>
  * #include <example_interfaces/action/fibonacci.h>
  *
  * rcl_node_t node = rcl_get_zero_initialized_node();
@@ -712,7 +718,7 @@ rcl_action_take_cancel_request(
  *
  * \param[in] action_server handle to the action server that will process the cancel request
  * \param[in] cancel_request a C-typed ROS cancel request to process
- * \param[out] cancel_reponse a zero-initialized cancel response struct
+ * \param[out] cancel_response a zero-initialized cancel response struct
  *   where the goal info of goals which should be cancelled are copied
  * \return `RCL_RET_OK` if the response was sent successfully, or
  * \return `RCL_RET_INVALID_ARGUMENT` if any arguments are invalid, or

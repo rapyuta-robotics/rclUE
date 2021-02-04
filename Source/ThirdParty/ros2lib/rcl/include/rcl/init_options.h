@@ -144,13 +144,38 @@ rcl_init_options_fini(rcl_init_options_t * init_options);
  * Lock-Free          | Yes
  *
  * \param[in] init_options object from which the rmw init options should be retrieved
- * \return pointer to the the rmw init options, or
+ * \return pointer to the the rcl init options, or
  * \return `NULL` if there was an error
  */
 RCL_PUBLIC
 RCL_WARN_UNUSED
 rmw_init_options_t *
 rcl_init_options_get_rmw_init_options(rcl_init_options_t * init_options);
+
+/// Return the allocator stored in the init_options.
+/**
+ * This function can fail and return `NULL` if:
+ *   - init_options is NULL
+ *   - init_options is invalid, e.g. init_options->impl is NULL
+ *
+ * If NULL is returned an error message will have been set.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | Yes
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param[in] init_options object from which the allocator should be retrieved
+ * \return pointer to the rcl allocator, or
+ * \return `NULL` if there was an error
+ */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+const rcl_allocator_t *
+rcl_init_options_get_allocator(const rcl_init_options_t * init_options);
 
 #ifdef __cplusplus
 }

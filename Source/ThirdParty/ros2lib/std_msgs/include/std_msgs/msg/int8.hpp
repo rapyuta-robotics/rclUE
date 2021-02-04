@@ -4,7 +4,8 @@
 #ifndef STD_MSGS__MSG__INT8_HPP_
 #define STD_MSGS__MSG__INT8_HPP_
 
-#include "std_msgs/msg/int8__struct.hpp"
-#include "std_msgs/msg/int8__traits.hpp"
+#include "std_msgs/msg/detail/int8__struct.hpp"
+#include "std_msgs/msg/detail/int8__builder.hpp"
+#include "std_msgs/msg/detail/int8__traits.hpp"
 
 #endif  // STD_MSGS__MSG__INT8_HPP_

@@ -16,5 +16,6 @@
 #define TRACETOOLS__CONFIG_H_
 
 /* #undef TRACETOOLS_DISABLED */
+/* #undef TRACETOOLS_LTTNG_ENABLED */
 
 #endif  // TRACETOOLS__CONFIG_H_

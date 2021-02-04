@@ -109,6 +109,8 @@ rcutils_get_default_allocator(void);
 /// Return true if the given allocator has non-null function pointers.
 /**
  * Will also return false if the allocator pointer is null.
+ *
+ * \param[in] allocator to be checked by the function
  */
 RCUTILS_PUBLIC
 RCUTILS_WARN_UNUSED
@@ -130,6 +132,9 @@ rcutils_allocator_is_valid(const rcutils_allocator_t * allocator);
 /**
  * This function will return `NULL` if the allocator is `NULL` or has `NULL` for
  * function pointer fields.
+ * \param[inout] pointer to the memory which will be reallocated
+ * \param[in] size in bytes
+ * \param[in] allocator to be used to allocate and deallocate memory
  */
 RCUTILS_PUBLIC
 RCUTILS_WARN_UNUSED

@@ -49,9 +49,9 @@ rcutils_get_zero_initialized_uint8_array(void);
  * If the capacity is set to 0, no memory is allocated and the internal buffer
  * is still NULL.
  *
- * \param uint8_array a pointer to the to be initialized uint8 array struct
- * \param buffer_capacity the size of the memory to allocate for the byte stream
- * \param allocator the allocator to use for the memory allocation
+ * \param[inout] uint8_array a pointer to the to be initialized uint8 array struct
+ * \param[in] buffer_capacity the size of the memory to allocate for the byte stream
+ * \param[in] allocator the allocator to use for the memory allocation
  * \return `RCUTILS_RET_OK` if successful, or
  * \return `RCUTILS_RET_INVALID_ARGUMENTS` if any arguments are invalid, or
  * \return 'RCUTILS_RET_BAD_ALLOC` if no memory could be allocated correctly
@@ -73,7 +73,7 @@ rcutils_uint8_array_init(
  * Passing an uninitialized instance to this function leads to undefined
  * behavior.
  *
- * \param uint8_array pointer to the rcutils_uint8_array_t to be cleaned up
+ * \param[in] uint8_array pointer to the rcutils_uint8_array_t to be cleaned up
  * \return `RCUTILS_RET_OK` if successful, or
  * \return `RCUTILS_RET_INVALID_ARGUMENTS` if the uint8_array argument is invalid
  * \return `RCUTILS_RET_ERROR` if an unexpected error occurs
@@ -91,8 +91,9 @@ rcutils_uint8_array_fini(rcutils_uint8_array_t * uint8_array);
  * Be aware, that this might deallocate the memory and therefore invalidates any
  * pointers to this storage.
  *
- * \param uint8_array pointer to the instance of rcutils_uint8_array_t which is being resized
- * \param new_size the new size of the internal buffer
+ * \param[inout] uint8_array pointer to the instance of rcutils_uint8_array_t which is
+ * being resized
+ * \param[in] new_size the new size of the internal buffer
  * \return `RCUTILS_RET_OK` if successful, or
  * \return `RCUTILS_RET_INVALID_ARGUMENT` if new_size is set to zero
  * \return `RCUTILS_RET_BAD_ALLOC` if memory allocation failed, or

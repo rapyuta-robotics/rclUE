@@ -23,7 +23,9 @@ extern "C"
 #include <string.h>
 
 #include "rcutils/allocator.h"
+#include "rcutils/error_handling.h"
 #include "rcutils/macros.h"
+#include "rcutils/qsort.h"
 #include "rcutils/types/rcutils_ret.h"
 #include "rcutils/visibility_control.h"
 
@@ -113,11 +115,11 @@ rcutils_string_array_fini(rcutils_string_array_t * string_array);
 
 /// Compare two string arrays.
 /**
- * The two string arrays are compared according to lexographical order.
+ * The two string arrays are compared according to lexicographical order.
  *
- * \param[in] sa0 The first string array.
- * \param[in] sa1 The second string array.
- * \param[out] res Negative value if `lhs` appears before `rhs` in lexographical order.
+ * \param[in] lhs The first string array.
+ * \param[in] rhs The second string array.
+ * \param[out] res Negative value if `lhs` appears before `rhs` in lexicographical order.
  *   Zero if `lhs` and `rhs` are equal.
  *   Positive value if `lhs` appears after `rhs in lexographical order.
  * \return `RCUTILS_RET_OK` if successful, or
@@ -132,6 +134,77 @@ rcutils_string_array_cmp(
   const rcutils_string_array_t * lhs,
   const rcutils_string_array_t * rhs,
   int * res);
+
+/// Resize a string array, reclaiming removed resources.
+/**
+ * This function changes the size of an existing string array.
+ * If the new size is larger, new entries are added to the end of the array and
+ * are zero- initialized.
+ * If the new size is smaller, entries are removed from the end of the array
+ * and their resources reclaimed.
+ *
+ * \par Note:
+ * Resizing to 0 is not a substitute for calling ::rcutils_string_array_fini.
+ *
+ * \par Note:
+ * If this function fails, \p string_array remains unchanged and should still
+ * be reclaimed with ::rcutils_string_array_fini.
+ *
+ * \param[inout] string_array object to be resized.
+ * \param[in] new_size the size the array should be changed to.
+ * \return `RCUTILS_RET_OK` if successful, or
+ * \return `RCUTILS_RET_INVALID_ARGUMENT` for invalid arguments, or
+ * \return `RCUTILS_RET_BAD_ALLOC` if memory allocation fails, or
+ * \return `RCUTILS_RET_ERROR` if an unknown error occurs.
+ */
+RCUTILS_PUBLIC
+RCUTILS_WARN_UNUSED
+rcutils_ret_t
+rcutils_string_array_resize(
+  rcutils_string_array_t * string_array,
+  size_t new_size);
+
+/// Lexicographic comparer for pointers to string pointers.
+/**
+ * This functions compares pointers to string pointers lexicographically
+ * ascending.
+ *
+ * \param[in] lhs pointer to the first string pointer.
+ * \param[in] rhs pointer to the second string pointer.
+ * \return <0 if lhs is lexicographically lower, or
+ * \return 0 if the strings are the same, or
+ * \return >0 if lhs is lexicographically higher.
+ */
+RCUTILS_PUBLIC
+RCUTILS_WARN_UNUSED
+int
+rcutils_string_array_sort_compare(const void * lhs, const void * rhs);
+
+/// Sort a string array according to lexicographical order.
+/**
+ * This function changes the order of the entries in a string array so that
+ * they are in lexicographically ascending order.
+ * Empty entries are placed at the end of the array.
+ *
+ * \param[inout] string_array object whose elements should be sorted.
+ * \return `RCUTILS_RET_OK` if successful, or
+ * \return `RCUTILS_RET_INVALID_ARGUMENT` for invalid arguments, or
+ * \return `RCUTILS_RET_ERROR` if an unknown error occurs.
+ */
+inline
+RCUTILS_WARN_UNUSED
+rcutils_ret_t
+rcutils_string_array_sort(rcutils_string_array_t * string_array)
+{
+  RCUTILS_CHECK_FOR_NULL_WITH_MSG(
+    string_array, "string_array is null", return RCUTILS_RET_INVALID_ARGUMENT);
+
+  return rcutils_qsort(
+    string_array->data,
+    string_array->size,
+    sizeof(string_array->data[0]),
+    rcutils_string_array_sort_compare);
+}
 
 #ifdef __cplusplus
 }
