@@ -8,6 +8,18 @@
 
 #include "ROS2Context.generated.h"
 
+
+/**
+ * Do we need the full rclc_support_t? or is storing the rcl_context_t sufficient?
+ * For reference:
+typedef struct
+{
+  rcl_init_options_t init_options;
+  rcl_context_t context;
+  rcl_allocator_t * allocator;
+  rcl_clock_t clock;
+} rclc_support_t;
+ */
 UCLASS(Blueprintable)
 class RCLUE_API UROS2Context : public UObject
 {

@@ -5,33 +5,37 @@
 
 
 // Sets default values
-AROS2Node::AROS2Node()
+UROS2Node::UROS2Node()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
 
 }
 
 // Called when the game starts or when spawned
-void AROS2Node::BeginPlay()
+void UROS2Node::BeginPlay()
 {
 	Super::BeginPlay();
     //RCSOFTCHECK(rclc_node_init_default(&node, "node", "ros_global", &context->Get()));
 }
 
 // Called every frame
-void AROS2Node::Tick(float DeltaTime)
+void UROS2Node::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	Super::Tick(DeltaTime);
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+	// ...
 }
 
-void AROS2Node::Subscribe()
+FString UROS2Node::GetName()
 {
-	
+	return NodeName;
 }
 
-UROS2Context* AROS2Node::GetContext()
+FString UROS2Node::GetNamespace()
+{
+	return NodeNamespace;
+}
+
+UROS2Context* UROS2Node::GetContext()
 {
 	return context;
 }
