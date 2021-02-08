@@ -27,10 +27,9 @@ class RCLUE_API UROS2Context : public UObject
 	
 public:	
 	UROS2Context();
-    ~UROS2Context();
+  ~UROS2Context();
 
-	rclc_support_t Get();
-	void Set(rclc_support_t supportContext);
+	rclc_support_t& Get();
 	
 private:
 
