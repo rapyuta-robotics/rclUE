@@ -16,11 +16,8 @@ bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
 void UROS2Subsystem::Initialize(FSubsystemCollectionBase &Collection)
 {
 	Super::Initialize(Collection);
-	
-    rcl_allocator_t allocator = rcl_get_default_allocator();
 
-    // create init_options
-    //RCSOFTCHECK(rclc_support_init(context->Get(), 0, nullptr, &allocator));
+	context = NewObject<UROS2Context>();
 }
 
 void UROS2Subsystem::Deinitialize()
