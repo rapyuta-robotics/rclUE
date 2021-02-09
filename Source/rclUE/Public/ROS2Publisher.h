@@ -35,9 +35,20 @@ public:
 	
 	UFUNCTION(BlueprintCallable)
 	FString GetTopicName();
+	
+	UFUNCTION(BlueprintCallable)
+	void SetPubFrequency(int32 PubFrequencyHz);
+	
+	UFUNCTION(BlueprintCallable)
+	int32 GetPubFrequency();
+	
+	UFUNCTION(BlueprintCallable)
+	AROS2Node* GetOwnerNode();
 
 	virtual void InitializeMessage();
 	virtual void UpdateMessage();
+
+	virtual void Destroy();
 
 protected:
 	FROS2PublisherThread* PublisherThread = nullptr;
@@ -46,7 +57,7 @@ protected:
 	const rosidl_message_type_support_t* GetTypeSupport(FString MsgType);
 
 	UPROPERTY(EditAnywhere)
-	int32 PubFrequencyHz = 1000;
+	int32 PublicationFrequencyHz = 1000;
 	
 	UPROPERTY(EditAnywhere)
 	FString TopicName = TEXT("DefaultTopic");

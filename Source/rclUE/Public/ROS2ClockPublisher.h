@@ -31,6 +31,8 @@ public:
 	virtual void InitializeMessage() override;
     virtual void UpdateMessage() override;
 	virtual const rosidl_message_type_support_t* GetTypeSupport();
+
+	virtual void Destroy() override;
     
 private:
 	rosgraph_msgs__msg__Clock pub_msg;

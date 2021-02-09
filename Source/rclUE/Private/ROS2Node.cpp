@@ -15,21 +15,40 @@ AROS2Node::AROS2Node()
 // Called when the game starts or when spawned
 void AROS2Node::BeginPlay()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
 	Super::BeginPlay();
+	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - SuperDone"));
 
-	context = GetWorld()->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
-    RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), TCHAR_TO_ANSI(*Namespace), &context->Get()));
-
-	executor = NewObject<UROS2Executor>();
+	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
 
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	// this is called before the components
+	UE_LOG(LogTemp, Warning, TEXT("Node EndPlay"));
+
 	for (auto& s : subs)
 	{
 		RCSOFTCHECK(rcl_subscription_fini(&s.Value, &node));
 	}
+
+	// this is better done with the component registering itself to the owner at creation
+	TArray<UActorComponent*> pubComponents;
+	GetComponents(UROS2Publisher::StaticClass(), pubComponents, true);
+	for (auto& c : pubComponents)
+	{
+		UROS2Publisher* pub = Cast<UROS2Publisher>(c);
+		if (pub != nullptr)
+		{
+			pub->Destroy();
+		}
+	}
+	
+	UE_LOG(LogTemp, Warning, TEXT("Node EndPlay - rcl_node_fini"));
 	RCSOFTCHECK(rcl_node_fini(&node));
+
+	Super::EndPlay(EndPlayReason);
+	UE_LOG(LogTemp, Warning, TEXT("Node EndPlay - Done"));
 }
 
 // Called every frame
@@ -38,6 +57,25 @@ void AROS2Node::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	// ...
+}
+
+// this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
+void AROS2Node::Init()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Node Init"));
+
+	//UE_LOG(LogTemp, Warning, TEXT("check if we need to initialize the node"));
+	if (!rcl_node_is_valid(&node)) // ensures that it stays safe when called multiple times
+	{
+		//UE_LOG(LogTemp, Warning, TEXT("Init Node"));
+		context = GetWorld()->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
+		UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - rclc_node_init_default"));
+		RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), TCHAR_TO_ANSI(*Namespace), &context->Get()));
+
+		executor = NewObject<UROS2Executor>();
+		//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Node Init - Done"));
 }
 
 FString AROS2Node::GetName()

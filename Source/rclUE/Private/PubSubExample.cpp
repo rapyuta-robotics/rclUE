@@ -55,11 +55,21 @@ void APubSubExample::BeginPlay()
 	rclc_support_t support;
 
 	// create init_options
-	RCCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
+	rcl_ret_t rc = rclc_support_init(&support, 0, nullptr, &allocator);
+	if (rc != RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (PubSubExample). Terminating."),__LINE__,(int)rc);
+		UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
+	}
 
 	// create node
 	rcl_node_t my_node;
-	RCCHECK(rclc_node_init_default(&my_node, "node_0", "executor_examples", &support));
+	rc = rclc_node_init_default(&my_node, "node_0", "executor_examples", &support);
+	if (rc != RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (PubSubExample). Terminating."),__LINE__,(int)rc);
+		UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
+	}
 
 	// create a publisher to publish topic 'topic_0' with type std_msg::msg::String
 	// my_pub is global, so that the timer callback can access this publisher.

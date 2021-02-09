@@ -16,22 +16,30 @@ UROS2ClockPublisher::UROS2ClockPublisher() : UROS2Publisher()
 // Called when the game starts
 void UROS2ClockPublisher::BeginPlay()
 {
+	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay"));
+
 	Super::BeginPlay();
 
 	RunningThread = FRunnableThread::Create(PublisherThread, TEXT("Clock Thread"));
+
+	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay - Done"));
 }
 
 void UROS2ClockPublisher::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
+	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher EndPlay"));
 	Super::EndPlay(EndPlayReason);
+	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher EndPlay - Done"));
 }
 
 // Called every frame
 void UROS2ClockPublisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("ClockPublisher TickComponent"));
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	// ...
+	//UE_LOG(LogTemp, Warning, TEXT("ClockPublisher TickComponent - Done"));
 }
 
 void UROS2ClockPublisher::InitializeMessage()
@@ -50,4 +58,11 @@ void UROS2ClockPublisher::UpdateMessage()
 const rosidl_message_type_support_t* UROS2ClockPublisher::GetTypeSupport()
 {
     return ROSIDL_GET_MSG_TYPE_SUPPORT(rosgraph_msgs, msg, Clock);
+}
+
+void UROS2ClockPublisher::Destroy()
+{
+	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher Destroy"));
+	Super::Destroy();
+	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher Destroy - Done"));
 }

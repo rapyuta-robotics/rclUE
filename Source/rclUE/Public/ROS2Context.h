@@ -29,6 +29,9 @@ public:
 	UROS2Context();
   ~UROS2Context();
 
+  void Init();
+  void Deinit();
+
 	rclc_support_t& Get();
 	
 private:

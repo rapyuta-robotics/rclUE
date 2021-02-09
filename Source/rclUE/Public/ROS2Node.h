@@ -35,6 +35,8 @@ public:
 
 	
 public:
+	void Init();
+
 	FString GetName();
 	FString GetNamespace();
 
