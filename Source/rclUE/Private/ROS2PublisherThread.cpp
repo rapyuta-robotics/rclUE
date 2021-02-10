@@ -18,11 +18,15 @@ void FROS2PublisherThread::timer_callback(rcl_timer_t * timer, int64_t last_call
     if (timer != NULL)
     {
         UE_LOG(LogTemp, Log, TEXT("Timer: time since last call %d"), (int) last_call_time);
-        //rc = rcl_publish(&my_pub, &pub_msg, NULL);
-        // if (rc == RCL_RET_OK) {
-        //   UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
-        // } else {
-        //   UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
+        rc = rcl_publish(&UROS2Publisher::pub, UROS2Publisher::pub_msg, NULL);
+        //RCSOFTCHECK(rcl_publish(&UROS2Publisher::pub, UROS2Publisher::pub_msg, NULL));
+        // if (rc == RCL_RET_OK)
+        // {
+        //    UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(ANSI_TO_TCHAR(UROS2Publisher::pub_msg.data.data)));
+        // } 
+        // else 
+        // {
+        //    UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(ANSI_TO_TCHAR(UROS2Publisher::pub_msg.data.data)));
         // }
     }
     else
@@ -94,8 +98,6 @@ void FROS2PublisherThread::Stop()
     // clean up
     UE_LOG(LogTemp, Warning, TEXT("rclc_executor_fini"));
     RCSOFTCHECK(rclc_executor_fini(&executor));
-    UE_LOG(LogTemp, Warning, TEXT("rcl_publisher_fini"));
-    RCSOFTCHECK(rcl_publisher_fini(&pub, PublisherComponent->GetOwnerNode()->GetNode()));
     UE_LOG(LogTemp, Warning, TEXT("rcl_timer_fini"));
     RCSOFTCHECK(rcl_timer_fini(&timer));
 

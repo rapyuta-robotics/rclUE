@@ -5,7 +5,6 @@
 #include "Kismet/GameplayStatics.h"
 #include "rclcUtilities.h"
 
-
 // Sets default values for this component's properties
 UROS2ClockPublisher::UROS2ClockPublisher() : UROS2Publisher()
 {
@@ -44,19 +43,21 @@ void UROS2ClockPublisher::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UROS2ClockPublisher::InitializeMessage()
 {
-	rosgraph_msgs__msg__Clock__init(&pub_msg);
+	rosgraph_msgs__msg__Clock__init(&clock_pub_msg);
 }
 
 void UROS2ClockPublisher::UpdateMessage()
 {
 	float elapsedTime = UGameplayStatics::GetTimeSeconds(GetWorld()); // other variations are available in UGameplayStatics - this one accounts for time dilation and pause
-	pub_msg.clock.sec = (int32_t)elapsedTime;
+	clock_pub_msg.clock.sec = (int32_t)elapsedTime;
 	unsigned long long ns = (unsigned long long)(elapsedTime * 1000000000.0f);
-	pub_msg.clock.nanosec = (uint32_t)(ns - (pub_msg.clock.sec * 1000000000ul));
+	clock_pub_msg.clock.nanosec = (uint32_t)(ns - (clock_pub_msg.clock.sec * 1000000000ul));
+	pub_msg = &clock_pub_msg;
 }
 
 const rosidl_message_type_support_t* UROS2ClockPublisher::GetTypeSupport()
 {
+	UE_LOG(LogTemp, Warning, TEXT("Clock message type"));
     return ROSIDL_GET_MSG_TYPE_SUPPORT(rosgraph_msgs, msg, Clock);
 }
 

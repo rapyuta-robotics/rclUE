@@ -49,12 +49,15 @@ public:
 	virtual void UpdateMessage();
 
 	virtual void Destroy();
+	
+	static const void * pub_msg;
+	static rcl_publisher_t pub;
 
 protected:
 	FROS2PublisherThread* PublisherThread = nullptr;
 	FRunnableThread* RunningThread = nullptr;
 	
-	const rosidl_message_type_support_t* GetTypeSupport(FString MsgType);
+	virtual const rosidl_message_type_support_t* GetTypeSupport();
 
 	UPROPERTY(EditAnywhere)
 	int32 PublicationFrequencyHz = 1000;
@@ -62,6 +65,6 @@ protected:
 	UPROPERTY(EditAnywhere)
 	FString TopicName = TEXT("DefaultTopic");
 
-	rcl_publisher_t pub;
 	AROS2Node* ownerNode;
+	
 };

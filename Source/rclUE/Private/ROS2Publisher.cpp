@@ -4,6 +4,9 @@
 #include "ROS2Publisher.h"
 
 
+rcl_publisher_t UROS2Publisher::pub;
+const void * UROS2Publisher::pub_msg;
+
 // Sets default values for this component's properties
 UROS2Publisher::UROS2Publisher()
 {
@@ -14,7 +17,6 @@ UROS2Publisher::UROS2Publisher()
 	// ...
 }
 
-
 // Called when the game starts
 void UROS2Publisher::BeginPlay()
 {
@@ -22,7 +24,7 @@ void UROS2Publisher::BeginPlay()
 
 	Super::BeginPlay();
 
-  	const rosidl_message_type_support_t * my_type_support = GetTypeSupport(TEXT("String")); // this should be a parameter, but for the moment we leave it fixed
+  	const rosidl_message_type_support_t * my_type_support = GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 	ownerNode = Cast<AROS2Node>(GetOwner());
 	if (ownerNode != nullptr)
 	{
@@ -92,17 +94,10 @@ int32 UROS2Publisher::GetPubFrequency()
 }
 
 // this should go in a common space as Node will need it too
-const rosidl_message_type_support_t* UROS2Publisher::GetTypeSupport(FString MsgType)
+const rosidl_message_type_support_t* UROS2Publisher::GetTypeSupport()
 {
-    // a quick google search suggests that switch-case might not be supported for FString
-    if (MsgType.Equals(TEXT("String")))
-    {
-        return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
-    }
-    else
-    {
-        return nullptr;
-    }
+	UE_LOG(LogTemp, Warning, TEXT("No message type"));
+    return nullptr;
 }
 
 AROS2Node* UROS2Publisher::GetOwnerNode()
@@ -126,7 +121,7 @@ void UROS2Publisher::Destroy()
 	if (ownerNode != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
-		RCSOFTCHECK(rcl_publisher_fini(&pub, ownerNode->GetNode())); // this is failing?!
+		RCSOFTCHECK(rcl_publisher_fini(&pub, ownerNode->GetNode()));
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - Done"));
 }

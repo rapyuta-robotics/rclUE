@@ -34,6 +34,5 @@ public:
 
 	virtual void Destroy() override;
     
-private:
-	rosgraph_msgs__msg__Clock pub_msg;
+	rosgraph_msgs__msg__Clock clock_pub_msg;
 };

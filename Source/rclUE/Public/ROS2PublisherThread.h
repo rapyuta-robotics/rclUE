@@ -40,6 +40,4 @@ private:
 	
 	rclc_executor_t executor;
 	rcl_timer_t timer; // this is not needed? callback should be on Tick?
-	
-	rcl_publisher_t pub;
 };
