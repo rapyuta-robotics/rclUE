@@ -18,8 +18,9 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 
 (exec "$EDITOR_COMMAND" "PROJECT_PATH/PROJECT_NAME.uproject")
 ```
-3. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-4. add a PubSubExample actor to the scene and test
+3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
+4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
+5. add a PubSubExample actor to the scene and test
 
 ## How to install this plugin (Ubuntu 20):
 1. clone this repository in your Unreal Engine 4 Plugin folder
@@ -33,8 +34,9 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 
 (exec "$EDITOR_COMMAND" "PROJECT_PATH/PROJECT_NAME.uproject")
 ```
-3. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-4. add a PubSubExample actor to the scene and test
+3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
+4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
+5. add a PubSubExample actor to the scene and test
 
 ## How to install this plugin (Windows 10)
 1. clone this repository in your Unreal Engine 4 Plugin folder (branch?)
