@@ -35,6 +35,6 @@ public:
 	rclc_support_t& Get();
 	
 private:
-
+  rcl_allocator_t allocator;
 	rclc_support_t support;
 };

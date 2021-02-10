@@ -52,6 +52,14 @@ void APubSubExample::BeginPlay()
 
 	// pubsub example from https://github.com/ros2/rclc/blob/master/rclc_examples/src/example_executor_convenience.c
 	rcl_allocator_t allocator = rcl_get_default_allocator();
+
+    if (allocator.allocate == nullptr ||
+        allocator.deallocate == nullptr || 
+        allocator.zero_allocate == nullptr ||
+        allocator.reallocate == nullptr)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Allocator problems in PubSubExample!"));
+    }
 	rclc_support_t support;
 
 	// create init_options

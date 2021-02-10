@@ -49,10 +49,10 @@ void UROS2ClockPublisher::InitializeMessage()
 
 void UROS2ClockPublisher::UpdateMessage()
 {
-		float elapsedTime = UGameplayStatics::GetTimeSeconds(GetWorld()); // other variations are available in UGameplayStatics - this one accounts for time dilation and pause
-		pub_msg.clock.sec = (int32_t)elapsedTime;
-		unsigned long long ns = (unsigned long long)(elapsedTime * 1000000000.0f);
-		pub_msg.clock.nanosec = (uint32_t)(ns - (pub_msg.clock.sec * 1000000000ul));
+	float elapsedTime = UGameplayStatics::GetTimeSeconds(GetWorld()); // other variations are available in UGameplayStatics - this one accounts for time dilation and pause
+	pub_msg.clock.sec = (int32_t)elapsedTime;
+	unsigned long long ns = (unsigned long long)(elapsedTime * 1000000000.0f);
+	pub_msg.clock.nanosec = (uint32_t)(ns - (pub_msg.clock.sec * 1000000000ul));
 }
 
 const rosidl_message_type_support_t* UROS2ClockPublisher::GetTypeSupport()

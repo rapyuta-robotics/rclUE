@@ -31,8 +31,7 @@ public:
 
 	bool bSpin;
 
-    
-	//static void clock_timer_callback(rcl_timer_t * timer, int64_t last_call_time, rcl_publisher_t& pub, rosgraph_msgs__msg__Clock& msg);
+    static void timer_callback(rcl_timer_t * timer, int64_t last_call_time);
 
 private:
 	UROS2Publisher* PublisherComponent;

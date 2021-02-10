@@ -59,6 +59,13 @@ TStatId UROS2Subsystem::GetStatId() const
 
 UROS2Context* UROS2Subsystem::GetContext()
 {
+    if (context->Get().allocator->allocate == nullptr ||
+        context->Get().allocator->deallocate == nullptr || 
+        context->Get().allocator->zero_allocate == nullptr ||
+        context->Get().allocator->reallocate == nullptr)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Allocator problems in ROS2Subsystem!"));
+    }
     return context;
 }
 

@@ -29,7 +29,15 @@ rclc_support_t& UROS2Context::Get()
 void UROS2Context::Init()
 {
     UE_LOG(LogTemp, Warning, TEXT("Init Context"));
-    rcl_allocator_t allocator = rcl_get_default_allocator();
+    allocator = rcl_get_default_allocator();
+
+    if (allocator.allocate == nullptr ||
+        allocator.deallocate == nullptr || 
+        allocator.zero_allocate == nullptr ||
+        allocator.reallocate == nullptr)
+    {
+        UE_LOG(LogTemp, Error, TEXT("Allocator problems in ROS2Context!"));
+    }
 
     // create init_options
     RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));

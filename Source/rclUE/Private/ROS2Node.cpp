@@ -69,6 +69,7 @@ void AROS2Node::Init()
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Init Node"));
 		context = GetWorld()->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
+		
 		UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - rclc_node_init_default"));
 		RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), TCHAR_TO_ANSI(*Namespace), &context->Get()));
 
