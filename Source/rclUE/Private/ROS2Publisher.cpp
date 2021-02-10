@@ -4,8 +4,8 @@
 #include "ROS2Publisher.h"
 
 
-rcl_publisher_t UROS2Publisher::pub;
-const void * UROS2Publisher::pub_msg;
+// rcl_publisher_t UROS2Publisher::pub;
+// const void * UROS2Publisher::pub_msg;
 
 // Sets default values for this component's properties
 UROS2Publisher::UROS2Publisher()
@@ -40,7 +40,7 @@ void UROS2Publisher::BeginPlay()
 		//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
 	}
 
-	PublisherThread = new FROS2PublisherThread(this);
+	//PublisherThread = new FROS2PublisherThread(this);
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 
@@ -69,6 +69,11 @@ void UROS2Publisher::InitializeMessage()
 }
 
 void UROS2Publisher::UpdateMessage()
+{
+	
+}
+
+void UROS2Publisher::UpdateAndPublishMessage()
 {
 	
 }
@@ -108,15 +113,15 @@ AROS2Node* UROS2Publisher::GetOwnerNode()
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
-	if (RunningThread && PublisherThread)
-	{
-		RunningThread->Suspend(true);
-		PublisherThread->bSpin = false;
-		RunningThread->Suspend(false);
-		RunningThread->Kill(true);
-		RunningThread->WaitForCompletion();
-		delete PublisherThread;
-	}
+	// if (RunningThread && PublisherThread)
+	// {
+	// 	RunningThread->Suspend(true);
+	// 	PublisherThread->bSpin = false;
+	// 	RunningThread->Suspend(false);
+	// 	RunningThread->Kill(true);
+	// 	RunningThread->WaitForCompletion();
+	// 	delete PublisherThread;
+	// }
 
 	if (ownerNode != nullptr)
 	{

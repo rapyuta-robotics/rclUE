@@ -20,6 +20,15 @@ class RCLUE_API UROS2Executor : public UObject
 public:	
 	UROS2Executor();
     ~UROS2Executor();
+
+	void Init();
+	void Fini();
+
+	void AddTimer();
+	void AddSubscriber();
+	void AddClient();
+
+	void SpinSome();
 	
 private:
 };

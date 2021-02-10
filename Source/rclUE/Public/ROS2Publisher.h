@@ -47,15 +47,16 @@ public:
 
 	virtual void InitializeMessage();
 	virtual void UpdateMessage();
+	virtual void UpdateAndPublishMessage();
 
 	virtual void Destroy();
 	
-	static const void * pub_msg;
-	static rcl_publisher_t pub;
+	// static const void * pub_msg;
+	// static rcl_publisher_t pub;
 
 protected:
-	FROS2PublisherThread* PublisherThread = nullptr;
-	FRunnableThread* RunningThread = nullptr;
+	// FROS2PublisherThread* PublisherThread = nullptr;
+	// FRunnableThread* RunningThread = nullptr;
 	
 	virtual const rosidl_message_type_support_t* GetTypeSupport();
 
@@ -66,5 +67,9 @@ protected:
 	FString TopicName = TEXT("DefaultTopic");
 
 	AROS2Node* ownerNode;
+
+	const void* pub_msg;
+	rcl_publisher_t pub;
 	
+	FTimerHandle timerHandle;
 };

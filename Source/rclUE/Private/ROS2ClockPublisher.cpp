@@ -3,6 +3,7 @@
 
 #include "ROS2ClockPublisher.h"
 #include "Kismet/GameplayStatics.h"
+#include "TimerManager.h"
 #include "rclcUtilities.h"
 
 // Sets default values for this component's properties
@@ -19,7 +20,9 @@ void UROS2ClockPublisher::BeginPlay()
 
 	Super::BeginPlay();
 
-	RunningThread = FRunnableThread::Create(PublisherThread, TEXT("Clock Thread"));
+	GetOwner()->GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2ClockPublisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
+
+	//RunningThread = FRunnableThread::Create(PublisherThread, TEXT("Clock Thread"));
 
 	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay - Done"));
 }
@@ -53,6 +56,25 @@ void UROS2ClockPublisher::UpdateMessage()
 	unsigned long long ns = (unsigned long long)(elapsedTime * 1000000000.0f);
 	clock_pub_msg.clock.nanosec = (uint32_t)(ns - (clock_pub_msg.clock.sec * 1000000000ul));
 	pub_msg = &clock_pub_msg;
+}
+
+void UROS2ClockPublisher::UpdateAndPublishMessage()
+{
+	float elapsedTime = UGameplayStatics::GetTimeSeconds(GetWorld()); // other variations are available in UGameplayStatics - this one accounts for time dilation and pause
+	clock_pub_msg.clock.sec = (int32_t)elapsedTime;
+	unsigned long long ns = (unsigned long long)(elapsedTime * 1000000000.0f);
+	clock_pub_msg.clock.nanosec = (uint32_t)(ns - (clock_pub_msg.clock.sec * 1000000000ul));
+	pub_msg = &clock_pub_msg;
+
+    rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
+	if (rc == RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Published message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
+	} 
+	else 
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
+	}
 }
 
 const rosidl_message_type_support_t* UROS2ClockPublisher::GetTypeSupport()

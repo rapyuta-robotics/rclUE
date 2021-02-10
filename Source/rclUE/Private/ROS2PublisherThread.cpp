@@ -18,8 +18,7 @@ void FROS2PublisherThread::timer_callback(rcl_timer_t * timer, int64_t last_call
     if (timer != NULL)
     {
         UE_LOG(LogTemp, Log, TEXT("Timer: time since last call %d"), (int) last_call_time);
-        rc = rcl_publish(&UROS2Publisher::pub, UROS2Publisher::pub_msg, NULL);
-        //RCSOFTCHECK(rcl_publish(&UROS2Publisher::pub, UROS2Publisher::pub_msg, NULL));
+        //rc = rcl_publish(&UROS2Publisher::pub, UROS2Publisher::pub_msg, NULL);
         // if (rc == RCL_RET_OK)
         // {
         //    UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(ANSI_TO_TCHAR(UROS2Publisher::pub_msg.data.data)));
