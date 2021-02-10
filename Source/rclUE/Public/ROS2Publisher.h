@@ -4,9 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-#include "HAL/Runnable.h"
-#include "HAL/RunnableThread.h"
-#include "ROS2PublisherThread.h"
 #include "ROS2Node.h"
 #include "ROS2Publisher.generated.h"
 
@@ -50,14 +47,8 @@ public:
 	virtual void UpdateAndPublishMessage();
 
 	virtual void Destroy();
-	
-	// static const void * pub_msg;
-	// static rcl_publisher_t pub;
 
-protected:
-	// FROS2PublisherThread* PublisherThread = nullptr;
-	// FRunnableThread* RunningThread = nullptr;
-	
+protected:	
 	virtual const rosidl_message_type_support_t* GetTypeSupport();
 
 	UPROPERTY(EditAnywhere)

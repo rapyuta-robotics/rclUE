@@ -22,8 +22,6 @@ void UROS2ClockPublisher::BeginPlay()
 
 	GetOwner()->GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2ClockPublisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
 
-	//RunningThread = FRunnableThread::Create(PublisherThread, TEXT("Clock Thread"));
-
 	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay - Done"));
 }
 

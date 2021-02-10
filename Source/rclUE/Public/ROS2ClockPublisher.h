@@ -4,8 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ROS2Publisher.h"
-#include "HAL/Runnable.h"
-#include "HAL/RunnableThread.h"
+#include <rosgraph_msgs/msg/clock.h>
 #include "ROS2ClockPublisher.generated.h"
 
 

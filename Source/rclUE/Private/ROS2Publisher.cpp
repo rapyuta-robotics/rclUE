@@ -40,7 +40,6 @@ void UROS2Publisher::BeginPlay()
 		//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
 	}
 
-	//PublisherThread = new FROS2PublisherThread(this);
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 
@@ -113,16 +112,6 @@ AROS2Node* UROS2Publisher::GetOwnerNode()
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
-	// if (RunningThread && PublisherThread)
-	// {
-	// 	RunningThread->Suspend(true);
-	// 	PublisherThread->bSpin = false;
-	// 	RunningThread->Suspend(false);
-	// 	RunningThread->Kill(true);
-	// 	RunningThread->WaitForCompletion();
-	// 	delete PublisherThread;
-	// }
-
 	if (ownerNode != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
