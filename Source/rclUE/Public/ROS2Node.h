@@ -7,6 +7,7 @@
 
 #include "ROS2Context.h"
 #include "ROS2Executor.h"
+#include "ROS2Topic.h"
 
 #include "ROS2Node.generated.h"
 
@@ -45,11 +46,10 @@ public:
 	void SetName(FString NodeName);
 	void SetNamespace(FString NodeNamespace);
 
-	void Subscribe(FString Topic, FString MsgType); // Topic could be a struct with everything associated with it
+	void Subscribe(UROS2Topic* Topic); // Topic could be a struct with everything associated with it
 
 private:
 	UROS2Context* GetContext();
-	const rosidl_message_type_support_t* GetTypeSupport(FString MsgType);
 
 	UROS2Context* context;
 	UROS2Executor* executor;

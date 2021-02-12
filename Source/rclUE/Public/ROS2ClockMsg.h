@@ -7,20 +7,25 @@
 #include "rclcUtilities.h"
 #include <rosgraph_msgs/msg/clock.h>
 
+#include "ROS2ClockMsg.generated.h"
+
 /**
  * 
  */
-class RCLUE_API ROS2ClockMsg : public UObject, public IROS2MsgInterface
+UCLASS()
+class RCLUE_API UROS2ClockMsg : public UObject, public IROS2MsgInterface
 {
-public:
-	ROS2ClockMsg();
-	~ROS2ClockMsg();
+	GENERATED_BODY()
 
-	void Init();
-	const rosidl_message_type_support_t* GetTypeSupport();
-	void Update(const void* data);
-	const void* Get();
-	void PrintToLog(rcl_ret_t rc);
+public:
+	UROS2ClockMsg();
+	~UROS2ClockMsg();
+
+	virtual void Init() override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() override;
+	virtual void Update(const void* data) override;
+	virtual const void* Get() override;
+	virtual void PrintToLog(rcl_ret_t rc) override;
 
 private:
 	rosgraph_msgs__msg__Clock clock_pub_msg;

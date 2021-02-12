@@ -5,25 +5,25 @@
 #include "Kismet/GameplayStatics.h"
 
 
-ROS2ClockMsg::ROS2ClockMsg()
+UROS2ClockMsg::UROS2ClockMsg()
 {
 }
 
-ROS2ClockMsg::~ROS2ClockMsg()
+UROS2ClockMsg::~UROS2ClockMsg()
 {
 }
 
-void ROS2ClockMsg::Init()
+void UROS2ClockMsg::Init()
 {
 	rosgraph_msgs__msg__Clock__init(&clock_pub_msg);
 }
 
-const rosidl_message_type_support_t* ROS2ClockMsg::GetTypeSupport()
+const rosidl_message_type_support_t* UROS2ClockMsg::GetTypeSupport()
 {
     return ROSIDL_GET_MSG_TYPE_SUPPORT(rosgraph_msgs, msg, Clock);
 }
 
-void ROS2ClockMsg::Update(const void* data)
+void UROS2ClockMsg::Update(const void* data)
 {
     float elapsedTime = *((float*)data);
 	clock_pub_msg.clock.sec = (int32_t)elapsedTime;
@@ -31,13 +31,13 @@ void ROS2ClockMsg::Update(const void* data)
 	clock_pub_msg.clock.nanosec = (uint32_t)(ns - (clock_pub_msg.clock.sec * 1000000000ul));
 }
 
-const void* ROS2ClockMsg::Get()
+const void* UROS2ClockMsg::Get()
 {
 	return &clock_pub_msg;
 }
 
 
-void ROS2ClockMsg::PrintToLog(rcl_ret_t rc)
+void UROS2ClockMsg::PrintToLog(rcl_ret_t rc)
 {
 	if (rc == RCL_RET_OK)
 	{

@@ -31,7 +31,7 @@ void UROS2Publisher::BeginPlay()
 		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
 		ownerNode->Init();
 		UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - rclc_publisher_init_default"));
-		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*TopicName));
+		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name));
 		if (rc != RCL_RET_OK)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
@@ -64,14 +64,14 @@ void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	//UE_LOG(LogTemp, Warning, TEXT("Publisher TickComponent - Done"));
 }
 
-void UROS2Publisher::SetTopicName(FString Topic)
+void UROS2Publisher::SetTopic(UROS2Topic* InTopic)
 {
-	TopicName = Topic;
+	Topic = InTopic;
 }
 
-FString UROS2Publisher::GetTopicName()
+UROS2Topic* UROS2Publisher::GetTopic()
 {
-	return TopicName;
+	return Topic;
 }
 
 void UROS2Publisher::SetPubFrequency(int32 PubFrequencyHz)

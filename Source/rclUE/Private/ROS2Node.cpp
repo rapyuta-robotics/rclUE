@@ -109,26 +109,13 @@ rcl_node_t* AROS2Node::GetNode()
 	return &node;
 }
 
-void AROS2Node::Subscribe(FString Topic, FString MsgType)
+void AROS2Node::Subscribe(UROS2Topic* Topic)
 {
-	if (!subs.Contains(Topic))
+	if (!subs.Contains(Topic->Name))
 	{
-		subs.Add(Topic, rcl_get_zero_initialized_subscription());
-		const rosidl_message_type_support_t * type_support = GetTypeSupport(MsgType);
-  		RCSOFTCHECK(rclc_subscription_init_default(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic)));
+		subs.Add(Topic->Name, rcl_get_zero_initialized_subscription());
+		const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
+  		rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
+  		RCSOFTCHECK(rcl_subscription_init(&subs[Topic->Name], &node, type_support, TCHAR_TO_ANSI(*Topic->Name), &sub_opt));
 	}
-}
-
-// this should go in a common space as Publisher will need it too
-const rosidl_message_type_support_t* AROS2Node::GetTypeSupport(FString MsgType)
-{
-    // a quick google search suggests that switch-case might not be supported for FString
-    if (MsgType.Equals(TEXT("String")))
-    {
-        return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
-    }
-    else
-    {
-        return nullptr;
-    }
 }

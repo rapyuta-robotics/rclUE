@@ -5,10 +5,12 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ROS2Node.h"
+#include "ROS2Topic.h"
 #include "ROS2Publisher.generated.h"
 
 
 // Should this be an interface instead?
+// Should use ROS2Topic
 UCLASS( ClassGroup=(Custom), Blueprintable, abstract )
 class RCLUE_API UROS2Publisher : public UActorComponent
 {
@@ -29,10 +31,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	UFUNCTION(BlueprintCallable)
-	void SetTopicName(FString Topic);
+	void SetTopic(UROS2Topic* InTopic);
 	
 	UFUNCTION(BlueprintCallable)
-	FString GetTopicName();
+	UROS2Topic* GetTopic();
 	
 	UFUNCTION(BlueprintCallable)
 	void SetPubFrequency(int32 PubFrequencyHz);
@@ -54,7 +56,7 @@ protected:
 	int32 PublicationFrequencyHz = 1000;
 	
 	UPROPERTY(EditAnywhere)
-	FString TopicName = TEXT("DefaultTopic");
+	UROS2Topic* Topic;
 
 	AROS2Node* ownerNode;
 

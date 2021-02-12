@@ -8,8 +8,8 @@
 // Sets default values for this component's properties
 UROS2ClockPublisher::UROS2ClockPublisher() : UROS2Publisher()
 {
-	TopicName = TEXT("clock");
-	ClockMsg = NewObject<ROS2ClockMsg>();
+	Topic->Name = TEXT("clock");
+	Topic->Msg = NewObject<UROS2ClockMsg>();
 }
 
 
@@ -43,22 +43,22 @@ void UROS2ClockPublisher::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UROS2ClockPublisher::InitializeMessage()
 {
-	ClockMsg->Init();
+	Topic->Msg->Init();
 }
 
 void UROS2ClockPublisher::UpdateAndPublishMessage()
 {
 	float elapsedTime = UGameplayStatics::GetTimeSeconds(GetWorld()); // other variations are available in UGameplayStatics - this one accounts for time dilation and pause
-	ClockMsg->Update(&elapsedTime);
-	pub_msg = ClockMsg->Get();
+	Topic->Msg->Update(&elapsedTime);
+	pub_msg = Topic->Msg->Get();
 
     rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
 
-	ClockMsg->PrintToLog(rc);
+	Topic->Msg->PrintToLog(rc);
 }
 
 const rosidl_message_type_support_t* UROS2ClockPublisher::GetTypeSupport()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Clock message type"));
-    return ClockMsg->GetTypeSupport();
+    return Topic->Msg->GetTypeSupport();
 }

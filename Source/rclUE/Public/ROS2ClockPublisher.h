@@ -32,6 +32,4 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport();
 
 	virtual void Destroy() override;
-    
-	ROS2ClockMsg* ClockMsg;
 };
