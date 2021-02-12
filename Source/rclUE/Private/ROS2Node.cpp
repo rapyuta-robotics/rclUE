@@ -9,8 +9,6 @@
 // Sets default values
 AROS2Node::AROS2Node()
 {
-	wait_set = rcl_get_zero_initialized_wait_set();
-	//RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
 }
 
 // Called when the game starts or when spawned
@@ -19,6 +17,8 @@ void AROS2Node::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - SuperDone"));
+	wait_set = rcl_get_zero_initialized_wait_set();
+	RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
 
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }

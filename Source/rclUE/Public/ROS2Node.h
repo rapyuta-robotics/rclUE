@@ -36,29 +36,46 @@ public:
 
 	
 public:
+	UFUNCTION(BlueprintCallable)
 	void Init();
 
+	UFUNCTION(BlueprintCallable)
 	FString GetName();
+	
+	UFUNCTION(BlueprintCallable)
 	FString GetNamespace();
 
 	rcl_node_t* GetNode();
 
+	UFUNCTION(BlueprintCallable)
 	void SetName(FString NodeName);
+
+	UFUNCTION(BlueprintCallable)
 	void SetNamespace(FString NodeNamespace);
 
+	UFUNCTION(BlueprintCallable)
 	void Subscribe(UROS2Topic* Topic); // Topic could be a struct with everything associated with it
 
 private:
+	UFUNCTION()
 	UROS2Context* GetContext();
 
+	UPROPERTY(VisibleAnywhere)
 	UROS2Context* context;
+
+	UPROPERTY(VisibleAnywhere)
 	UROS2Executor* executor;
 
 	rcl_node_t node;
+	
 	TMap<FString, rcl_subscription_t> subs; // map topic to sub to avoid double subs
+	
 	rcl_wait_set_t wait_set;
 
+	UPROPERTY(EditAnywhere)
 	FString Name = TEXT("node");
+	
+	UPROPERTY(EditAnywhere)
 	FString Namespace = TEXT("ros_global");
 
 	UPROPERTY(EditAnywhere)

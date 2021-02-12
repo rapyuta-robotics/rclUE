@@ -29,7 +29,10 @@ public:
 	UROS2Context();
   ~UROS2Context();
 
+  UFUNCTION(BlueprintCallable)
   void Init();
+
+  UFUNCTION(BlueprintCallable)
   void Deinit();
 
 	rclc_support_t& Get();

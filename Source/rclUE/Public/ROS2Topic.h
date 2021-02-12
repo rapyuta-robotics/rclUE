@@ -21,6 +21,8 @@ public:
 	UROS2Topic();
 	~UROS2Topic();
 
+	UPROPERTY()
 	FString Name;
+	
 	IROS2MsgInterface* Msg;
 };

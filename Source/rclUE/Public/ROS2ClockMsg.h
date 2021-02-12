@@ -21,10 +21,15 @@ public:
 	UROS2ClockMsg();
 	~UROS2ClockMsg();
 
+  	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
+
 	virtual const rosidl_message_type_support_t* GetTypeSupport() override;
+	
 	virtual void Update(const void* data) override;
+	
 	virtual const void* Get() override;
+	
 	virtual void PrintToLog(rcl_ret_t rc) override;
 
 private:

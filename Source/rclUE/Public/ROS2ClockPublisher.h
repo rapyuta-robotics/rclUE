@@ -28,6 +28,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	virtual void InitializeMessage() override;
+
     virtual void UpdateAndPublishMessage() override;
 
 	virtual void Destroy() override;

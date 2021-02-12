@@ -51,5 +51,6 @@ public:
 	virtual TStatId GetStatId() const override;
 	
 private:
+	UPROPERTY()
     UROS2Context* context;
 };

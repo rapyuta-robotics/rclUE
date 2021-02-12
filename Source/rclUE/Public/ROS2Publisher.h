@@ -43,10 +43,12 @@ public:
 	int32 GetPubFrequency();
 	
 	UFUNCTION(BlueprintCallable)
-
 	virtual void InitializeMessage() PURE_VIRTUAL(UROS2Publisher::InitializeMessage,);
+	
+	UFUNCTION(BlueprintCallable)
 	virtual void UpdateAndPublishMessage() PURE_VIRTUAL(UROS2Publisher::UpdateAndPublishMessage,);
 	
+	UFUNCTION()
 	virtual void Destroy();
 
 protected:	
@@ -57,10 +59,13 @@ protected:
 	UPROPERTY(EditAnywhere)
 	UROS2Topic* Topic;
 
+	UPROPERTY()
 	AROS2Node* ownerNode;
 
 	const void* pub_msg;
+	
 	rcl_publisher_t pub;
 	
+	UPROPERTY()
 	FTimerHandle timerHandle;
 };
