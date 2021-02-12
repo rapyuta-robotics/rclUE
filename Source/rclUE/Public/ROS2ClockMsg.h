@@ -10,7 +10,7 @@
 /**
  * 
  */
-class RCLUE_API ROS2ClockMsg : public UObject, IROS2MsgInterface
+class RCLUE_API ROS2ClockMsg : public UObject, public IROS2MsgInterface
 {
 public:
 	ROS2ClockMsg();

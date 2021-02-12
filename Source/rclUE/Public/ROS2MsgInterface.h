@@ -15,7 +15,9 @@ class UROS2MsgInterface : public UInterface
 };
 
 /**
- * 
+ * Having this as an abstract class allows the abstract ROS2Publisher class to have a pointer to this,
+ * forcing its implementation to use it
+ * However, not having ROS2Publisher storing a pointer allows for more flexibility (but: is it needed?)
  */
 class RCLUE_API IROS2MsgInterface
 {

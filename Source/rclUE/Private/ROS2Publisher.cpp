@@ -84,13 +84,6 @@ int32 UROS2Publisher::GetPubFrequency()
 	return PublicationFrequencyHz;
 }
 
-// this should go in a common space as Node will need it too
-// const rosidl_message_type_support_t* UROS2Publisher::GetTypeSupport()
-// {
-// 	UE_LOG(LogTemp, Warning, TEXT("No message type"));
-//     return nullptr;
-// }
-
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
