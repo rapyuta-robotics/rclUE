@@ -40,6 +40,8 @@ void UROS2Publisher::BeginPlay()
 		//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
 	}
 
+	ownerNode->GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
+
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 
@@ -60,21 +62,6 @@ void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 	// ...
 	//UE_LOG(LogTemp, Warning, TEXT("Publisher TickComponent - Done"));
-}
-
-void UROS2Publisher::InitializeMessage()
-{
-	
-}
-
-void UROS2Publisher::UpdateMessage()
-{
-	
-}
-
-void UROS2Publisher::UpdateAndPublishMessage()
-{
-	
 }
 
 void UROS2Publisher::SetTopicName(FString Topic)
@@ -98,16 +85,11 @@ int32 UROS2Publisher::GetPubFrequency()
 }
 
 // this should go in a common space as Node will need it too
-const rosidl_message_type_support_t* UROS2Publisher::GetTypeSupport()
-{
-	UE_LOG(LogTemp, Warning, TEXT("No message type"));
-    return nullptr;
-}
-
-AROS2Node* UROS2Publisher::GetOwnerNode()
-{
-	return ownerNode;
-}
+// const rosidl_message_type_support_t* UROS2Publisher::GetTypeSupport()
+// {
+// 	UE_LOG(LogTemp, Warning, TEXT("No message type"));
+//     return nullptr;
+// }
 
 void UROS2Publisher::Destroy()
 {

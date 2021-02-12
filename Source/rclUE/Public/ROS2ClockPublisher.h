@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ROS2Publisher.h"
-#include <rosgraph_msgs/msg/clock.h>
+#include "ROS2ClockMsg.h"
 #include "ROS2ClockPublisher.generated.h"
 
 
@@ -28,11 +28,10 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	virtual void InitializeMessage() override;
-    virtual void UpdateMessage() override;
     virtual void UpdateAndPublishMessage() override;
 	virtual const rosidl_message_type_support_t* GetTypeSupport();
 
 	virtual void Destroy() override;
     
-	rosgraph_msgs__msg__Clock clock_pub_msg;
+	ROS2ClockMsg* ClockMsg;
 };

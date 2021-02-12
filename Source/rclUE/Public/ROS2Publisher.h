@@ -8,7 +8,8 @@
 #include "ROS2Publisher.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), abstract )
+// Should this be an interface instead?
+UCLASS( ClassGroup=(Custom), Blueprintable, abstract )
 class RCLUE_API UROS2Publisher : public UActorComponent
 {
 	GENERATED_BODY()
@@ -40,16 +41,14 @@ public:
 	int32 GetPubFrequency();
 	
 	UFUNCTION(BlueprintCallable)
-	AROS2Node* GetOwnerNode();
 
-	virtual void InitializeMessage();
-	virtual void UpdateMessage();
-	virtual void UpdateAndPublishMessage();
+	virtual void InitializeMessage() PURE_VIRTUAL(UROS2Publisher::InitializeMessage,);
+	virtual void UpdateAndPublishMessage() PURE_VIRTUAL(UROS2Publisher::UpdateAndPublishMessage,);
+	virtual const rosidl_message_type_support_t* GetTypeSupport() PURE_VIRTUAL(UROS2Publisher::GetTypeSupport,return nullptr;);
 
 	virtual void Destroy();
 
 protected:	
-	virtual const rosidl_message_type_support_t* GetTypeSupport();
 
 	UPROPERTY(EditAnywhere)
 	int32 PublicationFrequencyHz = 1000;
