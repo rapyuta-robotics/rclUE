@@ -46,8 +46,7 @@ public:
 
 	virtual void InitializeMessage() PURE_VIRTUAL(UROS2Publisher::InitializeMessage,);
 	virtual void UpdateAndPublishMessage() PURE_VIRTUAL(UROS2Publisher::UpdateAndPublishMessage,);
-	virtual const rosidl_message_type_support_t* GetTypeSupport() PURE_VIRTUAL(UROS2Publisher::GetTypeSupport,return nullptr;);
-
+	
 	virtual void Destroy();
 
 protected:	

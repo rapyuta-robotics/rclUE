@@ -8,8 +8,6 @@
 // Sets default values for this component's properties
 UROS2ClockPublisher::UROS2ClockPublisher() : UROS2Publisher()
 {
-	Topic->Name = TEXT("clock");
-	Topic->Msg = NewObject<UROS2ClockMsg>();
 }
 
 
@@ -17,6 +15,9 @@ UROS2ClockPublisher::UROS2ClockPublisher() : UROS2Publisher()
 void UROS2ClockPublisher::BeginPlay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay"));
+
+	InitializeMessage();
+
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay - Done"));
 }
@@ -43,7 +44,17 @@ void UROS2ClockPublisher::TickComponent(float DeltaTime, ELevelTick TickType, FA
 
 void UROS2ClockPublisher::InitializeMessage()
 {
-	Topic->Msg->Init();
+	Topic = NewObject<UROS2Topic>();
+	Topic->Name = TEXT("clock");
+	Topic->Msg = NewObject<UROS2ClockMsg>();
+	if (Topic != nullptr && Topic->Msg != nullptr)
+	{
+		Topic->Msg->Init();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+	}
 }
 
 void UROS2ClockPublisher::UpdateAndPublishMessage()
@@ -55,10 +66,4 @@ void UROS2ClockPublisher::UpdateAndPublishMessage()
     rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
 
 	Topic->Msg->PrintToLog(rc);
-}
-
-const rosidl_message_type_support_t* UROS2ClockPublisher::GetTypeSupport()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Clock message type"));
-    return Topic->Msg->GetTypeSupport();
 }

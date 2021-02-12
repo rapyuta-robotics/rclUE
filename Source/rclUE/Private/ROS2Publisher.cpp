@@ -23,8 +23,8 @@ void UROS2Publisher::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay"));
 
 	Super::BeginPlay();
-
-  	const rosidl_message_type_support_t * my_type_support = GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+	
+  	const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 	ownerNode = Cast<AROS2Node>(GetOwner());
 	if (ownerNode != nullptr)
 	{

@@ -56,7 +56,29 @@ private:
 
 	rcl_node_t node;
 	TMap<FString, rcl_subscription_t> subs; // map topic to sub to avoid double subs
+	rcl_wait_set_t wait_set;
 
 	FString Name = TEXT("node");
 	FString Namespace = TEXT("ros_global");
+
+	UPROPERTY(EditAnywhere)
+	int NSubscriptions = 1;
+
+	UPROPERTY(EditAnywhere)
+	int SubIdx = 0;
+
+	UPROPERTY(EditAnywhere)
+	int NGuardConditions = 0;
+
+	UPROPERTY(EditAnywhere)
+	int NTimers = 0;
+
+	UPROPERTY(EditAnywhere)
+	int NClients = 0;
+
+	UPROPERTY(EditAnywhere)
+	int NServices = 0;
+
+	UPROPERTY(EditAnywhere)
+	int NEvents = 0;
 };

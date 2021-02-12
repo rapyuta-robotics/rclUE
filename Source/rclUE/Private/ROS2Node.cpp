@@ -9,7 +9,8 @@
 // Sets default values
 AROS2Node::AROS2Node()
 {
-
+	wait_set = rcl_get_zero_initialized_wait_set();
+	//RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
 }
 
 // Called when the game starts or when spawned
@@ -117,5 +118,8 @@ void AROS2Node::Subscribe(UROS2Topic* Topic)
 		const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
   		rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
   		RCSOFTCHECK(rcl_subscription_init(&subs[Topic->Name], &node, type_support, TCHAR_TO_ANSI(*Topic->Name), &sub_opt));
+
+		//rcl_wait_set_add_subscription(&wait_set, &subs[Topic->Name], &((size_t)SubIdx));
+		SubIdx++;
 	}
 }

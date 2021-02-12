@@ -13,7 +13,7 @@ const rosidl_message_type_support_t* IROS2MsgInterface::GetTypeSupport()
 
 void IROS2MsgInterface::Init()
 {
-
+	UE_LOG(LogTemp, Error, TEXT("Something is wrong if we're here"));
 }
 
 void IROS2MsgInterface::Update(const void* data)

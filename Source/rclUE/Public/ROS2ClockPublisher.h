@@ -29,7 +29,6 @@ public:
 
 	virtual void InitializeMessage() override;
     virtual void UpdateAndPublishMessage() override;
-	virtual const rosidl_message_type_support_t* GetTypeSupport();
 
 	virtual void Destroy() override;
 };

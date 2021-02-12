@@ -15,6 +15,7 @@ UROS2ClockMsg::~UROS2ClockMsg()
 
 void UROS2ClockMsg::Init()
 {
+	UE_LOG(LogTemp, Warning, TEXT("UROS2ClockMsg::Init"));
 	rosgraph_msgs__msg__Clock__init(&clock_pub_msg);
 }
 
