@@ -57,7 +57,7 @@ TStatId UROS2Subsystem::GetStatId() const
 	RETURN_QUICK_DECLARE_CYCLE_STAT(UROS2Subsystem, STATGROUP_Tickables);
 }
 
-UROS2Context* UROS2Subsystem::GetContext()
+UROS2Context* UROS2Subsystem::GetContext() const
 {
     if (context->Get().allocator->allocate == nullptr ||
         context->Get().allocator->deallocate == nullptr || 
@@ -69,10 +69,10 @@ UROS2Context* UROS2Subsystem::GetContext()
     return context;
 }
 
-void UROS2Subsystem::ListRosNodes()
+void UROS2Subsystem::ListRosNodes() const
 {
 }
 
-void UROS2Subsystem::ListRosTopics()
+void UROS2Subsystem::ListRosTopics() const
 {
 }

@@ -65,5 +65,5 @@ void UROS2ClockPublisher::UpdateAndPublishMessage()
 
     rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
 
-	Topic->Msg->PrintToLog(rc);
+	Topic->Msg->PrintPubToLog(rc);
 }

@@ -24,13 +24,17 @@ public:
   	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
 
-	virtual const rosidl_message_type_support_t* GetTypeSupport() override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
 	virtual void Update(const void* data) override;
 	
-	virtual const void* Get() override;
+	virtual const void* Get() const override;
 	
-	virtual void PrintToLog(rcl_ret_t rc) override;
+	virtual void* Get() override;
+	
+	virtual void PrintPubToLog(rcl_ret_t rc) const override;
+	
+	virtual void PrintSubToLog(rcl_ret_t rc) const override;
 
 private:
 	rosgraph_msgs__msg__Clock clock_pub_msg;

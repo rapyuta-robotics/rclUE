@@ -25,10 +25,12 @@ class RCLUE_API IROS2MsgInterface
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
-	virtual const rosidl_message_type_support_t* GetTypeSupport();
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const;
 
 	virtual void Init();
 	virtual void Update(const void* data);
-	virtual const void* Get();
-	virtual void PrintToLog(rcl_ret_t rc);
+	virtual const void* Get() const;
+	virtual void* Get();
+	virtual void PrintPubToLog(rcl_ret_t rc) const;
+	virtual void PrintSubToLog(rcl_ret_t rc) const;
 };

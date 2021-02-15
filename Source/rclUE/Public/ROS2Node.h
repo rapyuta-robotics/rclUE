@@ -4,13 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "Containers/Map.h"
 
 #include "ROS2Context.h"
-#include "ROS2Executor.h"
 #include "ROS2Topic.h"
 
 #include "ROS2Node.generated.h"
-
 
 /**
  * ROS2 Node that additionally acts as a factory for Publishers, Subscribers, Clients, Services
@@ -40,18 +39,18 @@ public:
 	void Init();
 
 	UFUNCTION(BlueprintCallable)
-	FString GetName();
+	FName GetName() const;
 	
 	UFUNCTION(BlueprintCallable)
-	FString GetNamespace();
+	FName GetNamespace() const;
 
 	rcl_node_t* GetNode();
 
 	UFUNCTION(BlueprintCallable)
-	void SetName(FString NodeName);
+	void SetName(FName NodeName);
 
 	UFUNCTION(BlueprintCallable)
-	void SetNamespace(FString NodeNamespace);
+	void SetNamespace(FName NodeNamespace);
 
 	UFUNCTION(BlueprintCallable)
 	void Subscribe(UROS2Topic* Topic); // Topic could be a struct with everything associated with it
@@ -60,42 +59,39 @@ private:
 	UFUNCTION()
 	UROS2Context* GetContext();
 
+	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
+	void SpinSome(const uint64 timeout_ns);
+
 	UPROPERTY(VisibleAnywhere)
 	UROS2Context* context;
 
-	UPROPERTY(VisibleAnywhere)
-	UROS2Executor* executor;
-
 	rcl_node_t node;
 	
-	TMap<FString, rcl_subscription_t> subs; // map topic to sub to avoid double subs
+	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
 	rcl_wait_set_t wait_set;
 
 	UPROPERTY(EditAnywhere)
-	FString Name = TEXT("node");
+	FName Name = TEXT("node");
 	
 	UPROPERTY(EditAnywhere)
-	FString Namespace = TEXT("ros_global");
+	FName Namespace = TEXT("ros_global");
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	int NSubscriptions = 1;
 
-	UPROPERTY(EditAnywhere)
-	int SubIdx = 0;
-
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	int NGuardConditions = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	int NTimers = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	int NClients = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	int NServices = 0;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere)
 	int NEvents = 0;
 };

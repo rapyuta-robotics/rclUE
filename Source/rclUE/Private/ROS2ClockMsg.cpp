@@ -19,7 +19,7 @@ void UROS2ClockMsg::Init()
 	rosgraph_msgs__msg__Clock__init(&clock_pub_msg);
 }
 
-const rosidl_message_type_support_t* UROS2ClockMsg::GetTypeSupport()
+const rosidl_message_type_support_t* UROS2ClockMsg::GetTypeSupport() const
 {
     return ROSIDL_GET_MSG_TYPE_SUPPORT(rosgraph_msgs, msg, Clock);
 }
@@ -32,13 +32,17 @@ void UROS2ClockMsg::Update(const void* data)
 	clock_pub_msg.clock.nanosec = (uint32_t)(ns - (clock_pub_msg.clock.sec * 1000000000ul));
 }
 
-const void* UROS2ClockMsg::Get()
+const void* UROS2ClockMsg::Get() const
 {
 	return &clock_pub_msg;
 }
 
+void* UROS2ClockMsg::Get()
+{
+	return &clock_pub_msg;
+}
 
-void UROS2ClockMsg::PrintToLog(rcl_ret_t rc)
+void UROS2ClockMsg::PrintPubToLog(rcl_ret_t rc) const
 {
 	if (rc == RCL_RET_OK)
 	{
@@ -47,6 +51,18 @@ void UROS2ClockMsg::PrintToLog(rcl_ret_t rc)
 	else 
 	{
 		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
+	}
+}
+
+void UROS2ClockMsg::PrintSubToLog(rcl_ret_t rc) const
+{
+	if (rc == RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Subscriber received message message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
+	} 
+	else 
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
 	}
 }
 

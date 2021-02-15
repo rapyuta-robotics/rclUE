@@ -9,6 +9,7 @@
 // Sets default values
 AROS2Node::AROS2Node()
 {
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
@@ -17,8 +18,23 @@ void AROS2Node::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - SuperDone"));
+	
+	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - rcl_wait_set_init"));
 	wait_set = rcl_get_zero_initialized_wait_set();
 	RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
+
+	UROS2Topic* SubTopic = NewObject<UROS2Topic>();
+	SubTopic->Name = TEXT("clock");
+	SubTopic->Msg = NewObject<UROS2ClockMsg>();
+	if (SubTopic != nullptr && SubTopic->Msg != nullptr)
+	{
+		SubTopic->Msg->Init();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("SubTopic (%s) or Msg (%s) is nullptr!"), SubTopic != nullptr, SubTopic->Msg != nullptr);
+	}
+	Subscribe(SubTopic);
 
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
@@ -57,7 +73,7 @@ void AROS2Node::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	// ...
+	SpinSome(DeltaTime*1000*1000*1000);
 }
 
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
@@ -71,31 +87,30 @@ void AROS2Node::Init()
 		//UE_LOG(LogTemp, Warning, TEXT("Init Node"));
 		context = GetWorld()->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 		
-		UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - rclc_node_init_default"));
-		RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), TCHAR_TO_ANSI(*Namespace), &context->Get()));
-
-		executor = NewObject<UROS2Executor>();
+		UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
+		RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name.ToString()), TCHAR_TO_ANSI(*Namespace.ToString()), &context->Get()));
 		//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
 	}
+
 	UE_LOG(LogTemp, Warning, TEXT("Node Init - Done"));
 }
 
-FString AROS2Node::GetName()
+FName AROS2Node::GetName() const
 {
 	return Name;
 }
 
-FString AROS2Node::GetNamespace()
+FName AROS2Node::GetNamespace() const
 {
 	return Namespace;
 }
 
-void AROS2Node::SetName(FString NodeName)
+void AROS2Node::SetName(FName NodeName)
 {
 	Name = NodeName;
 }
 
-void AROS2Node::SetNamespace(FString NodeNamespace)
+void AROS2Node::SetNamespace(FName NodeNamespace)
 {
 	Namespace = NodeNamespace;
 }
@@ -110,16 +125,62 @@ rcl_node_t* AROS2Node::GetNode()
 	return &node;
 }
 
+// assumes Topic->Msg has been created with NewObject already
 void AROS2Node::Subscribe(UROS2Topic* Topic)
 {
-	if (!subs.Contains(Topic->Name))
+	UE_LOG(LogTemp, Warning, TEXT("Subscribe to Topic %s"), *Topic->Name.ToString());
+	if (!subs.Contains(Topic))
 	{
-		subs.Add(Topic->Name, rcl_get_zero_initialized_subscription());
+		subs.Add(Topic, rcl_get_zero_initialized_subscription());
 		const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
   		rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-  		RCSOFTCHECK(rcl_subscription_init(&subs[Topic->Name], &node, type_support, TCHAR_TO_ANSI(*Topic->Name), &sub_opt));
-
-		//rcl_wait_set_add_subscription(&wait_set, &subs[Topic->Name], &((size_t)SubIdx));
-		SubIdx++;
+  		RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()), &sub_opt));
 	}
+	UE_LOG(LogTemp, Warning, TEXT("Subscribe to Topic %s - Done"), *Topic->Name.ToString());
+}
+
+void AROS2Node::SpinSome(const uint64 timeout_ns)
+{
+	UE_LOG(LogTemp, Warning, TEXT("Spin Some for %d subscriptions"), wait_set.size_of_subscriptions);
+	
+	if (!rcl_wait_set_is_valid(&wait_set))
+	{
+		wait_set = rcl_get_zero_initialized_wait_set();
+		RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
+	}
+	
+	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
+
+	for (auto& pair : subs)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &pair.Value, nullptr));
+	}
+
+	rcl_ret_t rc = rcl_wait(&wait_set, timeout_ns);
+  	RCLC_UNUSED(rc);
+
+	UE_LOG(LogTemp, Warning, TEXT("Spin Some - Looping"));
+	for (int i=0; i<wait_set.size_of_subscriptions; i++)
+	{
+		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Spin Some - Getting message"));
+			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
+			UROS2Topic* topic; // somehow using FindKey produces errors (caused by the comparison of rcl_subscription_t structs)
+			for (auto& pair : subs)
+			{
+				if (&pair.Value == currentSub)
+				{
+					topic = pair.Key;
+				}
+			}
+			void * data = topic->Msg->Get();
+			rmw_message_info_t messageInfo;
+			rc = rcl_take(wait_set.subscriptions[i], data, &messageInfo, NULL);
+
+			// callback here
+			topic->Msg->PrintSubToLog(rc);
+		}
+	}
+	UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }

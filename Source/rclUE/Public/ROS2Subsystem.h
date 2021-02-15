@@ -26,13 +26,13 @@ public:
 	UROS2Subsystem();
 
     UFUNCTION(BlueprintCallable, Category="ROS2")
-    UROS2Context* GetContext();
+    UROS2Context* GetContext() const;
 
     UFUNCTION(BlueprintCallable, Category="ROS2")
-    void ListRosNodes();
+    void ListRosNodes() const;
 
     UFUNCTION(BlueprintCallable, Category="ROS2")
-    void ListRosTopics();
+    void ListRosTopics() const;
 
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 

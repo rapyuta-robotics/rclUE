@@ -34,13 +34,13 @@ public:
 	void SetTopic(UROS2Topic* InTopic);
 	
 	UFUNCTION(BlueprintCallable)
-	UROS2Topic* GetTopic();
+	UROS2Topic* GetTopic() const;
 	
 	UFUNCTION(BlueprintCallable)
 	void SetPubFrequency(int32 PubFrequencyHz);
 	
 	UFUNCTION(BlueprintCallable)
-	int32 GetPubFrequency();
+	int32 GetPubFrequency() const;
 	
 	UFUNCTION(BlueprintCallable)
 	virtual void InitializeMessage() PURE_VIRTUAL(UROS2Publisher::InitializeMessage,);
