@@ -3,23 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "UObject/Interface.h"
 
-#include "ROS2MsgInterface.generated.h"
+#include "ROS2GenericMsg.generated.h"
 
 // This class does not need to be modified.
-UINTERFACE(MinimalAPI)
-class UROS2MsgInterface : public UInterface
-{
-	GENERATED_BODY()
-};
-
-/**
- * Having this as an abstract class allows the abstract ROS2Publisher class to have a pointer to this,
- * forcing its implementation to use it
- * However, not having ROS2Publisher storing a pointer allows for more flexibility (but: is it needed?)
- */
-class RCLUE_API IROS2MsgInterface
+UCLASS(Blueprintable)
+class UROS2GenericMsg : public UObject
 {
 	GENERATED_BODY()
 
@@ -28,8 +17,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const;
 
 	virtual void Init();
-	virtual void Update(const void* data);
-	virtual const void* Get() const;
+	virtual void Fini();
 	virtual void* Get();
 	virtual void PrintPubToLog(rcl_ret_t rc) const;
 	virtual void PrintSubToLog(rcl_ret_t rc) const;

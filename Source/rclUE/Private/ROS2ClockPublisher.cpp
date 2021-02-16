@@ -15,9 +15,6 @@ UROS2ClockPublisher::UROS2ClockPublisher() : UROS2Publisher()
 void UROS2ClockPublisher::BeginPlay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay"));
-
-	InitializeMessage();
-
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("ClockPublisher BeginPlay - Done"));
 }
@@ -42,7 +39,7 @@ void UROS2ClockPublisher::TickComponent(float DeltaTime, ELevelTick TickType, FA
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-void UROS2ClockPublisher::InitializeMessage()
+void UROS2ClockPublisher::InitializeMessage_Implementation()
 {
 	Topic = NewObject<UROS2Topic>();
 	Topic->Name = TEXT("clock");
@@ -57,13 +54,17 @@ void UROS2ClockPublisher::InitializeMessage()
 	}
 }
 
-void UROS2ClockPublisher::UpdateAndPublishMessage()
+void UROS2ClockPublisher::UpdateAndPublishMessage_Implementation()
 {
 	float elapsedTime = UGameplayStatics::GetTimeSeconds(GetWorld()); // other variations are available in UGameplayStatics - this one accounts for time dilation and pause
-	Topic->Msg->Update(&elapsedTime);
-	pub_msg = Topic->Msg->Get();
-
-    rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
-
-	Topic->Msg->PrintPubToLog(rc);
+	UROS2ClockMsg* Message = Cast<UROS2ClockMsg>(Topic->Msg);
+	//if (Message->IsValid())
+	{
+		Message->Update(elapsedTime);
+		Publish();
+	}
+	// else
+	// {
+	// 	ensureMsgf(false, TEXT("%s should not be here"), *FString(__FUNCTION__));
+	// }
 }

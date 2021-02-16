@@ -11,3 +11,8 @@ UROS2Topic::UROS2Topic()
 UROS2Topic::~UROS2Topic()
 {
 }
+
+void UROS2Topic::Fini()
+{
+    Msg->Fini();
+}

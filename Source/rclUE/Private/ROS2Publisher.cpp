@@ -22,6 +22,8 @@ void UROS2Publisher::BeginPlay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay"));
 
+	InitializeMessage();
+
 	Super::BeginPlay();
 	
   	const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
@@ -87,10 +89,30 @@ int32 UROS2Publisher::GetPubFrequency() const
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
+	Topic->Fini();
 	if (ownerNode != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
 		RCSOFTCHECK(rcl_publisher_fini(&pub, ownerNode->GetNode()));
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - Done"));
+}
+
+void UROS2Publisher::InitializeMessage_Implementation()
+{
+	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+}
+
+void UROS2Publisher::UpdateAndPublishMessage_Implementation()
+{
+	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+}
+
+void UROS2Publisher::Publish()
+{
+	pub_msg = Topic->Msg->Get();
+	
+    rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
+
+	Topic->Msg->PrintPubToLog(rc);
 }

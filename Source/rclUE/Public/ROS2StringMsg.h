@@ -5,21 +5,21 @@
 #include "CoreMinimal.h"
 #include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
-#include <rosgraph_msgs/msg/clock.h>
+#include <std_msgs/msg/string.h>
 
-#include "ROS2ClockMsg.generated.h"
+#include "ROS2StringMsg.generated.h"
 
 /**
  * 
  */
-UCLASS()
-class RCLUE_API UROS2ClockMsg : public UROS2GenericMsg
+UCLASS(Blueprintable)
+class RCLUE_API UROS2StringMsg : public UROS2GenericMsg
 {
 	GENERATED_BODY()
 
 public:
-	UROS2ClockMsg();
-	~UROS2ClockMsg();
+	UROS2StringMsg();
+	~UROS2StringMsg();
 
   	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
@@ -29,16 +29,16 @@ public:
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
-	void Update(const float elapsedTime);
+	void Update(const FString stringData);
 	
-	const rosgraph_msgs__msg__Clock* Get() const;
+	const std_msgs__msg__String* Get() const;
 	
-	virtual void* Get() override;
+	void* Get();
 	
 	virtual void PrintPubToLog(rcl_ret_t rc) const override;
 	
 	virtual void PrintSubToLog(rcl_ret_t rc) const override;
 
 private:
-	rosgraph_msgs__msg__Clock clock_pub_msg;
+	std_msgs__msg__String string_pub_msg;
 };

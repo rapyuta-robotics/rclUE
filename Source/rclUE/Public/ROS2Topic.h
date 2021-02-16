@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "rclcUtilities.h"
-#include "ROS2MsgInterface.h"
+#include "ROS2GenericMsg.h"
 
 #include "ROS2Topic.generated.h"
 
@@ -12,7 +12,7 @@
  * Is this overengineering?
  * It feels useful at the moment to keep some consistency
  */
-UCLASS()
+UCLASS(Blueprintable,EditInlineNew)
 class RCLUE_API UROS2Topic : public UObject
 {
 	GENERATED_BODY()
@@ -21,8 +21,12 @@ public:
 	UROS2Topic();
 	~UROS2Topic();
 
-	UPROPERTY()
+	UFUNCTION(BlueprintCallable)
+	void Fini();
+
+	UPROPERTY(BlueprintReadWrite)
 	FName Name;
 	
-	IROS2MsgInterface* Msg;
+	UPROPERTY(BlueprintReadWrite)
+	UROS2GenericMsg* Msg;
 };

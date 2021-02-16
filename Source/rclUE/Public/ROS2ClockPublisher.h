@@ -27,9 +27,9 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
-	virtual void InitializeMessage() override;
+	virtual void InitializeMessage_Implementation() override;
 
-    virtual void UpdateAndPublishMessage() override;
+    virtual void UpdateAndPublishMessage_Implementation() override;
 
 	virtual void Destroy() override;
 };

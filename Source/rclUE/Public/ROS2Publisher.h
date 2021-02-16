@@ -42,30 +42,32 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetPubFrequency() const;
 	
-	UFUNCTION(BlueprintCallable)
-	virtual void InitializeMessage() PURE_VIRTUAL(UROS2Publisher::InitializeMessage,);
+	UFUNCTION(BlueprintNativeEvent)
+	void InitializeMessage();
 	
-	UFUNCTION(BlueprintCallable)
-	virtual void UpdateAndPublishMessage() PURE_VIRTUAL(UROS2Publisher::UpdateAndPublishMessage,);
+	UFUNCTION(BlueprintNativeEvent)
+	void UpdateAndPublishMessage();
 	
 	UFUNCTION()
 	virtual void Destroy();
 
-protected:	
+protected:
+	UFUNCTION(BlueprintCallable)
+	void Publish();
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int32 PublicationFrequencyHz = 1000;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UROS2Topic* Topic;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	AROS2Node* ownerNode;
 
 	const void* pub_msg;
 	
 	rcl_publisher_t pub;
 	
-	UPROPERTY()
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FTimerHandle timerHandle;
 };

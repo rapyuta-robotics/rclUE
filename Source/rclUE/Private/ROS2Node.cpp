@@ -173,6 +173,7 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 					topic = pair.Key;
 				}
 			}
+			
 			void * data = topic->Msg->Get();
 			rmw_message_info_t messageInfo;
 			rc = rcl_take(wait_set.subscriptions[i], data, &messageInfo, NULL);
