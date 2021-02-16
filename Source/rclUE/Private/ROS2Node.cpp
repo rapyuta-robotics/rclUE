@@ -18,10 +18,9 @@ void AROS2Node::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
 	Super::BeginPlay();
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - SuperDone"));
-	
-	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - rcl_wait_set_init"));
-	wait_set = rcl_get_zero_initialized_wait_set();
-	RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
+
+	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Init"));
+	Init();
 
 	UROS2Topic* SubTopic = NewObject<UROS2Topic>();
 	SubTopic->Name = TEXT("clock");
