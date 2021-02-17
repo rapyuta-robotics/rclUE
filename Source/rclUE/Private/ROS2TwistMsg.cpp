@@ -1,0 +1,76 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
+#include "ROS2TwistMsg.h"
+#include "Kismet/GameplayStatics.h"
+
+
+UROS2TwistMsg::UROS2TwistMsg()
+{
+}
+
+UROS2TwistMsg::~UROS2TwistMsg()
+{
+}
+
+void UROS2TwistMsg::Init()
+{
+	UE_LOG(LogTemp, Warning, TEXT("UROS2TwistMsg::Init"));
+	geometry_msgs__msg__Twist__init(&twist_pub_msg);
+}
+
+void UROS2TwistMsg::Fini()
+{
+	UE_LOG(LogTemp, Warning, TEXT("UROS2TwistMsg::Fini"));
+	geometry_msgs__msg__Twist__fini(&twist_pub_msg);
+}
+
+const rosidl_message_type_support_t* UROS2TwistMsg::GetTypeSupport() const
+{
+    return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Twist);
+}
+
+void UROS2TwistMsg::Update(const FVector Linear, const FVector Angular)
+{
+	twist_pub_msg.linear.x = Linear.X;
+	twist_pub_msg.linear.y = Linear.Y;
+	twist_pub_msg.linear.z = Linear.Z;
+	twist_pub_msg.angular.x = Angular.X;
+	twist_pub_msg.angular.y = Angular.Y;
+	twist_pub_msg.angular.z = Angular.Z;
+}
+
+const geometry_msgs__msg__Twist* UROS2TwistMsg::Get() const
+{
+	return &twist_pub_msg;
+}
+
+void* UROS2TwistMsg::Get()
+{
+	return &twist_pub_msg;
+}
+
+void UROS2TwistMsg::PrintPubToLog(rcl_ret_t rc) const
+{
+	if (rc == RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Published message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
+	} 
+	else 
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
+	}
+}
+
+void UROS2TwistMsg::PrintSubToLog(rcl_ret_t rc) const
+{
+	if (rc == RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Subscriber received message message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
+	} 
+	else 
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
+	}
+}
+

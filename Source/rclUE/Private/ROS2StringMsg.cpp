@@ -57,7 +57,7 @@ void UROS2StringMsg::PrintPubToLog(rcl_ret_t rc) const
 	} 
 	else 
 	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %ds"), *FString(string_pub_msg.data.data));
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(string_pub_msg.data.data));
 	}
 }
 
