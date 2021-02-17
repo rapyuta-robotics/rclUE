@@ -42,9 +42,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	int32 GetPubFrequency() const;
 	
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();
 	
+	// with a callback function, this might not needed anymore, eliminating the need to create Publisher classes for each MsgClass
 	UFUNCTION(BlueprintNativeEvent)
 	void UpdateAndPublishMessage();
 	
@@ -56,18 +57,24 @@ protected:
 	void Publish();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	int32 PublicationFrequencyHz = 1000;
-	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	UROS2Topic* Topic;
+	FName TopicName;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TSubclassOf<UROS2GenericMsg> MsgClass;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int32 PublicationFrequencyHz = 1000;
+	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UROS2Topic* Topic;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	AROS2Node* ownerNode;
+	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	FTimerHandle timerHandle;
 
 	const void* pub_msg;
 	
 	rcl_publisher_t pub;
-	
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	FTimerHandle timerHandle;
 };

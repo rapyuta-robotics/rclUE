@@ -27,23 +27,25 @@ void UROS2Publisher::BeginPlay()
 
 	InitializeMessage(); // needed to get type support
 	
-  	const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
-	if (ownerNode != nullptr)
+	if (Topic != nullptr && Topic->Msg != nullptr)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
-		ownerNode->Init();
-		UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - rclc_publisher_init_default"));
-		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()));
-		if (rc != RCL_RET_OK)
+		const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+		if (ownerNode != nullptr)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
-			UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
+			//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
+			ownerNode->Init();
+			UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - rclc_publisher_init_default"));
+			rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()));
+			if (rc != RCL_RET_OK)
+			{
+				UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
+				UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
+			}
+			//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
 		}
-		//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
+
+		ownerNode->GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
 	}
-
-	ownerNode->GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
-
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 
@@ -89,7 +91,10 @@ int32 UROS2Publisher::GetPubFrequency() const
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
-	Topic->Fini();
+	if (Topic != nullptr)
+	{
+		Topic->Fini();
+	}
 	if (ownerNode != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
@@ -98,9 +103,26 @@ void UROS2Publisher::Destroy()
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - Done"));
 }
 
-void UROS2Publisher::InitializeMessage_Implementation()
+void UROS2Publisher::InitializeMessage()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	if (TopicName != FName() && MsgClass)
+	{
+		Topic = NewObject<UROS2Topic>();
+		Topic->Name = TopicName;
+		Topic->Msg = NewObject<UROS2GenericMsg>(this, MsgClass);
+		if (Topic != nullptr && Topic->Msg != nullptr)
+		{
+			Topic->Msg->Init();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("TopicName or MsgClass uninitialized!"));
+	}
 }
 
 void UROS2Publisher::UpdateAndPublishMessage_Implementation()

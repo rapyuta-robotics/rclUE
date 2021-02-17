@@ -53,7 +53,7 @@ public:
 	void SetNamespace(FName NodeNamespace);
 
 	UFUNCTION(BlueprintCallable)
-	void Subscribe(UROS2Topic* Topic); // Topic could be a struct with everything associated with it
+	void Subscribe(FName TopicName, TSubclassOf<UROS2GenericMsg> MsgClass);
 
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");
@@ -62,7 +62,7 @@ public:
 	FName Namespace = TEXT("ros_global");
 
 	UPROPERTY(EditAnywhere)
-	int NSubscriptions = 2;
+	int NSubscriptions = 0;
 
 	UPROPERTY(VisibleAnywhere)
 	int NGuardConditions = 0;

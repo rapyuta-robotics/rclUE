@@ -25,31 +25,8 @@ void AROS2Node::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Init"));
 	Init();
 
-	UROS2Topic* SubTopicClock = NewObject<UROS2Topic>();
-	SubTopicClock->Name = TEXT("clock");
-	SubTopicClock->Msg = NewObject<UROS2ClockMsg>();
-	if (SubTopicClock != nullptr && SubTopicClock->Msg != nullptr)
-	{
-		SubTopicClock->Msg->Init();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("SubTopicClock (%s) or Msg (%s) is nullptr!"), SubTopicClock != nullptr, SubTopicClock->Msg != nullptr);
-	}
-	Subscribe(SubTopicClock);
-
-	UROS2Topic* SubTopicString = NewObject<UROS2Topic>();
-	SubTopicString->Name = TEXT("StringMsg");
-	SubTopicString->Msg = NewObject<UROS2StringMsg>();
-	if (SubTopicString != nullptr && SubTopicString->Msg != nullptr)
-	{
-		SubTopicString->Msg->Init();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("SubTopicString (%s) or Msg (%s) is nullptr!"), SubTopicString != nullptr, SubTopicString->Msg != nullptr);
-	}
-	Subscribe(SubTopicString);
+	// Subscribe(FName("clock"), UROS2ClockMsg::StaticClass());
+	// Subscribe(FName("StringMsg"), UROS2StringMsg::StaticClass());
 
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
@@ -140,9 +117,21 @@ rcl_node_t* AROS2Node::GetNode()
 	return &node;
 }
 
-// assumes Topic->Msg has been created with NewObject already
-void AROS2Node::Subscribe(UROS2Topic* Topic)
+void AROS2Node::Subscribe(FName TopicName, TSubclassOf<UROS2GenericMsg> MsgClass)
 {
+	UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
+	Topic->Name = TopicName;
+	Topic->Msg = NewObject<UROS2GenericMsg>(this, MsgClass);
+	if (Topic != nullptr && Topic->Msg != nullptr)
+	{
+		Topic->Msg->Init();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+	}
+
+	//Subscribe(Topic);
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe to Topic %s"), *Topic->Name.ToString());
 	if (!subs.Contains(Topic))
 	{
@@ -150,13 +139,13 @@ void AROS2Node::Subscribe(UROS2Topic* Topic)
 		const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
   		rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
   		RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()), &sub_opt));
+		NSubscriptions++;
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe to Topic %s - Done"), *Topic->Name.ToString());
 }
 
 void AROS2Node::SpinSome(const uint64 timeout_ns)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Spin Some"));
 	if (!rcl_wait_set_is_valid(&wait_set))
 	{
 		wait_set = rcl_get_zero_initialized_wait_set();
@@ -174,12 +163,10 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 	rcl_ret_t rc = rcl_wait(&wait_set, timeout_ns);
   	RCLC_UNUSED(rc);
 
-	UE_LOG(LogTemp, Warning, TEXT("Spin Some - Looping"));
 	for (int i=0; i<wait_set.size_of_subscriptions; i++)
 	{
 		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
 		{
-			UE_LOG(LogTemp, Warning, TEXT("Spin Some - Getting message"));
 			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
 			UROS2Topic* topic; // somehow using FindKey produces errors (caused by the comparison of rcl_subscription_t structs)
 			for (auto& pair : subs)
