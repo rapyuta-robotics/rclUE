@@ -32,7 +32,7 @@ const rosidl_message_type_support_t* UROS2StringMsg::GetTypeSupport() const
 
 void UROS2StringMsg::Update(const FString stringData)
 {
-	const unsigned int PUB_MSG_CAPACITY = stringData.Len();
+	const unsigned int PUB_MSG_CAPACITY = stringData.Len()+1;
 	string_pub_msg.data.data = (char*)malloc(PUB_MSG_CAPACITY);
 	string_pub_msg.data.capacity = PUB_MSG_CAPACITY;
 	snprintf(string_pub_msg.data.data, string_pub_msg.data.capacity, "%s", TCHAR_TO_ANSI(*stringData));
@@ -53,11 +53,11 @@ void UROS2StringMsg::PrintPubToLog(rcl_ret_t rc) const
 {
 	if (rc == RCL_RET_OK)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Published message %s"), string_pub_msg.data.data);
+		UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(string_pub_msg.data.data));
 	} 
 	else 
 	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %ds"), string_pub_msg.data.data);
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %ds"), *FString(string_pub_msg.data.data));
 	}
 }
 
@@ -65,11 +65,11 @@ void UROS2StringMsg::PrintSubToLog(rcl_ret_t rc) const
 {
 	if (rc == RCL_RET_OK)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Subscriber received message message %s"), string_pub_msg.data.data);
+		UE_LOG(LogTemp, Log, TEXT("Subscriber received message message %s"), *FString(string_pub_msg.data.data));
 	} 
 	else 
 	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message %s"), string_pub_msg.data.data);
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message %s"), *FString(string_pub_msg.data.data));
 	}
 }
 

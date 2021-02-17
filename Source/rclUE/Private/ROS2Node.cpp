@@ -5,6 +5,9 @@
 #include "ROS2Subsystem.h"
 #include "Kismet/GameplayStatics.h"
 
+#include "ROS2ClockMsg.h"
+#include "ROS2StringMsg.h"
+
 
 // Sets default values
 AROS2Node::AROS2Node()
@@ -22,18 +25,31 @@ void AROS2Node::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Init"));
 	Init();
 
-	UROS2Topic* SubTopic = NewObject<UROS2Topic>();
-	SubTopic->Name = TEXT("clock");
-	SubTopic->Msg = NewObject<UROS2ClockMsg>();
-	if (SubTopic != nullptr && SubTopic->Msg != nullptr)
+	UROS2Topic* SubTopicClock = NewObject<UROS2Topic>();
+	SubTopicClock->Name = TEXT("clock");
+	SubTopicClock->Msg = NewObject<UROS2ClockMsg>();
+	if (SubTopicClock != nullptr && SubTopicClock->Msg != nullptr)
 	{
-		SubTopic->Msg->Init();
+		SubTopicClock->Msg->Init();
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("SubTopic (%s) or Msg (%s) is nullptr!"), SubTopic != nullptr, SubTopic->Msg != nullptr);
+		UE_LOG(LogTemp, Error, TEXT("SubTopicClock (%s) or Msg (%s) is nullptr!"), SubTopicClock != nullptr, SubTopicClock->Msg != nullptr);
 	}
-	Subscribe(SubTopic);
+	Subscribe(SubTopicClock);
+
+	UROS2Topic* SubTopicString = NewObject<UROS2Topic>();
+	SubTopicString->Name = TEXT("StringMsg");
+	SubTopicString->Msg = NewObject<UROS2StringMsg>();
+	if (SubTopicString != nullptr && SubTopicString->Msg != nullptr)
+	{
+		SubTopicString->Msg->Init();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("SubTopicString (%s) or Msg (%s) is nullptr!"), SubTopicString != nullptr, SubTopicString->Msg != nullptr);
+	}
+	Subscribe(SubTopicString);
 
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
@@ -140,13 +156,13 @@ void AROS2Node::Subscribe(UROS2Topic* Topic)
 
 void AROS2Node::SpinSome(const uint64 timeout_ns)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Spin Some for %d subscriptions"), wait_set.size_of_subscriptions);
-	
+	UE_LOG(LogTemp, Warning, TEXT("Spin Some"));
 	if (!rcl_wait_set_is_valid(&wait_set))
 	{
 		wait_set = rcl_get_zero_initialized_wait_set();
 		RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
 	}
+	UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subscriptions"), wait_set.size_of_subscriptions);
 	
 	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
 

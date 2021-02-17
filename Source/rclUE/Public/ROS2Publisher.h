@@ -61,7 +61,7 @@ protected:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UROS2Topic* Topic;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	AROS2Node* ownerNode;
 
 	const void* pub_msg;

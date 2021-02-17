@@ -55,30 +55,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Subscribe(UROS2Topic* Topic); // Topic could be a struct with everything associated with it
 
-private:
-	UFUNCTION()
-	UROS2Context* GetContext();
-
-	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
-	void SpinSome(const uint64 timeout_ns);
-
-	UPROPERTY(VisibleAnywhere)
-	UROS2Context* context;
-
-	rcl_node_t node;
-	
-	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
-	
-	rcl_wait_set_t wait_set;
-
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");
 	
 	UPROPERTY(EditAnywhere)
 	FName Namespace = TEXT("ros_global");
 
-	UPROPERTY(VisibleAnywhere)
-	int NSubscriptions = 1;
+	UPROPERTY(EditAnywhere)
+	int NSubscriptions = 2;
 
 	UPROPERTY(VisibleAnywhere)
 	int NGuardConditions = 0;
@@ -94,4 +78,20 @@ private:
 
 	UPROPERTY(VisibleAnywhere)
 	int NEvents = 0;
+
+private:
+	UFUNCTION()
+	UROS2Context* GetContext();
+
+	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
+	void SpinSome(const uint64 timeout_ns);
+
+	UPROPERTY(VisibleAnywhere)
+	UROS2Context* context;
+
+	rcl_node_t node;
+	
+	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
+	
+	rcl_wait_set_t wait_set;
 };

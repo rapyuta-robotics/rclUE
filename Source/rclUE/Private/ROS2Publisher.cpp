@@ -21,13 +21,13 @@ UROS2Publisher::UROS2Publisher()
 void UROS2Publisher::BeginPlay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay"));
-
-	InitializeMessage();
+	ownerNode = Cast<AROS2Node>(GetOwner());
 
 	Super::BeginPlay();
+
+	InitializeMessage(); // needed to get type support
 	
   	const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
-	ownerNode = Cast<AROS2Node>(GetOwner());
 	if (ownerNode != nullptr)
 	{
 		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));

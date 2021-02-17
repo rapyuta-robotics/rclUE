@@ -29,6 +29,7 @@ public:
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
+  	UFUNCTION(BlueprintCallable)
 	void Update(const FString stringData);
 	
 	const std_msgs__msg__String* Get() const;
