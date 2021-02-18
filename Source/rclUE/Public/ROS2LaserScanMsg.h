@@ -9,6 +9,31 @@
 
 #include "ROS2LaserScanMsg.generated.h"
 
+USTRUCT(Blueprintable)
+struct RCLUE_API FLaserScanData
+{
+	GENERATED_BODY()
+
+public:
+    // header - stamp
+    int sec;
+    uint nanosec;
+
+    // header - frame_id
+    FString frame_id;
+
+    float angle_min;
+    float angle_max;
+    float angle_increment;
+    float time_increment;
+    float scan_time;
+    float range_min;
+    float range_max;
+
+    TArray<float> ranges;
+    TArray<float> intensities;
+};
+
 /**
  * 
  */
@@ -30,7 +55,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void Update();
+	void Update(FLaserScanData data);
 	
 	const sensor_msgs__msg__LaserScan* Get() const;
 	
