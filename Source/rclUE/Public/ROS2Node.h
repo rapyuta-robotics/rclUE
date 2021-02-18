@@ -43,6 +43,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Subscribe();
 
+	// this is meant as a helper for BP
+	UFUNCTION(BlueprintCallable)
+	void AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass);
+
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");
 	
@@ -67,13 +71,14 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	int NEvents = 0;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TMap<FName,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
-
-private:
+protected:
 	UFUNCTION()
 	UROS2Context* GetContext();
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TMap<FName,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
+
+	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
 	void SpinSome(const uint64 timeout_ns);
 
@@ -85,4 +90,6 @@ private:
 	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
 	rcl_wait_set_t wait_set;
+
+private:
 };

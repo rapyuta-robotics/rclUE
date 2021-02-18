@@ -168,3 +168,8 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }
+
+void AROS2Node::AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass)
+{
+	TopicsToSubscribe.Add(TopicName, MsgClass);
+}
