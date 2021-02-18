@@ -19,6 +19,9 @@ public:
 	virtual void Init();
 	virtual void Fini();
 	virtual void* Get();
-	virtual void PrintPubToLog(rcl_ret_t rc) const;
-	virtual void PrintSubToLog(rcl_ret_t rc) const;
+	void PrintPubToLog(rcl_ret_t rc, FName NodeName) const;
+	void PrintSubToLog(rcl_ret_t rc, FName NodeName) const;
+
+private:
+	virtual FString MsgToString() const;
 };

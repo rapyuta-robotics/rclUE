@@ -34,12 +34,9 @@ public:
 	
 	const std_msgs__msg__String* Get() const;
 	
-	void* Get();
-	
-	virtual void PrintPubToLog(rcl_ret_t rc) const override;
-	
-	virtual void PrintSubToLog(rcl_ret_t rc) const override;
+	virtual void* Get() override;
 
 private:
+	virtual FString MsgToString() const override;
 	std_msgs__msg__String string_pub_msg;
 };

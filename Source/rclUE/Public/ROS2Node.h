@@ -38,22 +38,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Init();
 
-	UFUNCTION(BlueprintCallable)
-	FName GetName() const;
-	
-	UFUNCTION(BlueprintCallable)
-	FName GetNamespace() const;
-
 	rcl_node_t* GetNode();
 
 	UFUNCTION(BlueprintCallable)
-	void SetName(FName NodeName);
-
-	UFUNCTION(BlueprintCallable)
-	void SetNamespace(FName NodeNamespace);
-
-	UFUNCTION(BlueprintCallable)
-	void Subscribe(FName TopicName, TSubclassOf<UROS2GenericMsg> MsgClass);
+	void Subscribe();
 
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");
@@ -79,6 +67,9 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	int NEvents = 0;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	TMap<FName,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
+
 private:
 	UFUNCTION()
 	UROS2Context* GetContext();
@@ -86,7 +77,7 @@ private:
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
 	void SpinSome(const uint64 timeout_ns);
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY()
 	UROS2Context* context;
 
 	rcl_node_t node;

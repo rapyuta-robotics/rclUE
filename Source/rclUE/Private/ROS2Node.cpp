@@ -24,9 +24,7 @@ void AROS2Node::BeginPlay()
 
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Init"));
 	Init();
-
-	// Subscribe(FName("clock"), UROS2ClockMsg::StaticClass());
-	// Subscribe(FName("StringMsg"), UROS2StringMsg::StaticClass());
+	Subscribe();
 
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
@@ -87,26 +85,6 @@ void AROS2Node::Init()
 	UE_LOG(LogTemp, Warning, TEXT("Node Init - Done"));
 }
 
-FName AROS2Node::GetName() const
-{
-	return Name;
-}
-
-FName AROS2Node::GetNamespace() const
-{
-	return Namespace;
-}
-
-void AROS2Node::SetName(FName NodeName)
-{
-	Name = NodeName;
-}
-
-void AROS2Node::SetNamespace(FName NodeNamespace)
-{
-	Namespace = NodeNamespace;
-}
-
 UROS2Context* AROS2Node::GetContext()
 {
 	return context;
@@ -117,31 +95,34 @@ rcl_node_t* AROS2Node::GetNode()
 	return &node;
 }
 
-void AROS2Node::Subscribe(FName TopicName, TSubclassOf<UROS2GenericMsg> MsgClass)
-{
-	UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
-	Topic->Name = TopicName;
-	Topic->Msg = NewObject<UROS2GenericMsg>(this, MsgClass);
-	if (Topic != nullptr && Topic->Msg != nullptr)
+void AROS2Node::Subscribe()
+{		
+	UE_LOG(LogTemp, Warning, TEXT("Subscribe"));
+	for (auto& e : TopicsToSubscribe)
 	{
-		Topic->Msg->Init();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
-	}
+		UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
+		Topic->Name = e.Key;
+		Topic->Msg = NewObject<UROS2GenericMsg>(this, e.Value);
+		if (Topic != nullptr && Topic->Msg != nullptr)
+		{
+			Topic->Msg->Init();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+		}
 
-	//Subscribe(Topic);
-	UE_LOG(LogTemp, Warning, TEXT("Subscribe to Topic %s"), *Topic->Name.ToString());
-	if (!subs.Contains(Topic))
-	{
-		subs.Add(Topic, rcl_get_zero_initialized_subscription());
-		const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
-  		rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-  		RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()), &sub_opt));
-		NSubscriptions++;
+
+		if (!subs.Contains(Topic))
+		{
+			subs.Add(Topic, rcl_get_zero_initialized_subscription());
+			const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
+			rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
+			RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()), &sub_opt));
+			NSubscriptions++;
+		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Subscribe to Topic %s - Done"), *Topic->Name.ToString());
+	UE_LOG(LogTemp, Warning, TEXT("Subscribe - Done"));
 }
 
 void AROS2Node::SpinSome(const uint64 timeout_ns)
@@ -151,7 +132,7 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 		wait_set = rcl_get_zero_initialized_wait_set();
 		RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subscriptions"), wait_set.size_of_subscriptions);
+	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subscriptions"), wait_set.size_of_subscriptions);
 	
 	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
 
@@ -182,8 +163,8 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 			rc = rcl_take(wait_set.subscriptions[i], data, &messageInfo, NULL);
 
 			// callback here
-			topic->Msg->PrintSubToLog(rc);
+			topic->Msg->PrintSubToLog(rc, Name);
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
+	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }

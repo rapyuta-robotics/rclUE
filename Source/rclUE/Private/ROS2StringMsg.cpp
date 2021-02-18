@@ -49,27 +49,7 @@ void* UROS2StringMsg::Get()
 	return &string_pub_msg;
 }
 
-void UROS2StringMsg::PrintPubToLog(rcl_ret_t rc) const
+FString UROS2StringMsg::MsgToString() const
 {
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(string_pub_msg.data.data));
-	} 
-	else 
-	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(string_pub_msg.data.data));
-	}
+	return FString(string_pub_msg.data.data);
 }
-
-void UROS2StringMsg::PrintSubToLog(rcl_ret_t rc) const
-{
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Subscriber received message message %s"), *FString(string_pub_msg.data.data));
-	} 
-	else 
-	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message %s"), *FString(string_pub_msg.data.data));
-	}
-}
-

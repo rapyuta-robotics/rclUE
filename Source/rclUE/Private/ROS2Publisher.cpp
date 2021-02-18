@@ -3,10 +3,6 @@
 
 #include "ROS2Publisher.h"
 
-
-// rcl_publisher_t UROS2Publisher::pub;
-// const void * UROS2Publisher::pub_msg;
-
 // Sets default values for this component's properties
 UROS2Publisher::UROS2Publisher()
 {
@@ -68,26 +64,6 @@ void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 	//UE_LOG(LogTemp, Warning, TEXT("Publisher TickComponent - Done"));
 }
 
-void UROS2Publisher::SetTopic(UROS2Topic* InTopic)
-{
-	Topic = InTopic;
-}
-
-UROS2Topic* UROS2Publisher::GetTopic() const
-{
-	return Topic;
-}
-
-void UROS2Publisher::SetPubFrequency(int32 PubFrequencyHz)
-{
-	PublicationFrequencyHz = PubFrequencyHz;
-}
-
-int32 UROS2Publisher::GetPubFrequency() const
-{
-	return PublicationFrequencyHz;
-}
-
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
@@ -136,5 +112,5 @@ void UROS2Publisher::Publish()
 	
     rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
 
-	Topic->Msg->PrintPubToLog(rc);
+	Topic->Msg->PrintPubToLog(rc, ownerNode->Name);
 }

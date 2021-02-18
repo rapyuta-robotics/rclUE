@@ -17,8 +17,6 @@ public:
 	// Sets default values for this component's properties
 	UROS2ClockPublisher();
 
-protected:
-
 public:	
 	virtual void UpdateAndPublishMessage_Implementation() override;
 };

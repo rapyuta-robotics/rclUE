@@ -47,27 +47,7 @@ void* UROS2ClockMsg::Get()
 	return &clock_pub_msg;
 }
 
-void UROS2ClockMsg::PrintPubToLog(rcl_ret_t rc) const
+FString UROS2ClockMsg::MsgToString() const
 {
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Published message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
-	} 
-	else 
-	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
-	}
+	return FString::Printf(TEXT("%ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
 }
-
-void UROS2ClockMsg::PrintSubToLog(rcl_ret_t rc) const
-{
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Subscriber received message message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
-	} 
-	else 
-	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message %ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
-	}
-}
-

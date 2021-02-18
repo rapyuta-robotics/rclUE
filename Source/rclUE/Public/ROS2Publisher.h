@@ -9,8 +9,6 @@
 #include "ROS2Publisher.generated.h"
 
 
-// Should this be an interface instead?
-// Should use ROS2Topic
 UCLASS( ClassGroup=(Custom), Blueprintable, abstract )
 class RCLUE_API UROS2Publisher : public UActorComponent
 {
@@ -31,18 +29,6 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 	
 	UFUNCTION(BlueprintCallable)
-	void SetTopic(UROS2Topic* InTopic);
-	
-	UFUNCTION(BlueprintCallable)
-	UROS2Topic* GetTopic() const;
-	
-	UFUNCTION(BlueprintCallable)
-	void SetPubFrequency(int32 PubFrequencyHz);
-	
-	UFUNCTION(BlueprintCallable)
-	int32 GetPubFrequency() const;
-	
-	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();
 	
 	// with a callback function, this might not needed anymore, eliminating the need to create Publisher classes for each MsgClass
@@ -56,9 +42,11 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void Publish();
 
+	// this information is redundant with Topic, but it's used to initialize it
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FName TopicName;
 
+	// this information is redundant with Topic, but it's used to initialize it
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
 

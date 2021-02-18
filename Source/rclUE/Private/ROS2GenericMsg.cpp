@@ -26,12 +26,32 @@ void* UROS2GenericMsg::Get()
 	return nullptr;
 }
 
-void UROS2GenericMsg::PrintPubToLog(rcl_ret_t rc) const
+void UROS2GenericMsg::PrintPubToLog(rcl_ret_t rc, FName NodeName) const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	if (rc == RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Published (node %s) message %s"), *NodeName.ToString(), *MsgToString());
+	} 
+	else 
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message (node %s) %s"), *NodeName.ToString(), *MsgToString());
+	}
 }
 
-void UROS2GenericMsg::PrintSubToLog(rcl_ret_t rc) const
+void UROS2GenericMsg::PrintSubToLog(rcl_ret_t rc, FName NodeName) const
+{
+	if (rc == RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Subscriber (node %s) received message message %s"), *NodeName.ToString(), *MsgToString());
+	} 
+	else 
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message (node %s) %s"), *NodeName.ToString(), *MsgToString());
+	}
+}
+
+FString UROS2GenericMsg::MsgToString() const
 {
 	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	return FString();
 }

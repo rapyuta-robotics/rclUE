@@ -35,11 +35,8 @@ public:
 	const rosgraph_msgs__msg__Clock* Get() const;
 	
 	virtual void* Get() override;
-	
-	virtual void PrintPubToLog(rcl_ret_t rc) const override;
-	
-	virtual void PrintSubToLog(rcl_ret_t rc) const override;
 
 private:
+	virtual FString MsgToString() const override;
 	rosgraph_msgs__msg__Clock clock_pub_msg;
 };

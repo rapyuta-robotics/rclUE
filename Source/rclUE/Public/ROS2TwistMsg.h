@@ -34,12 +34,9 @@ public:
 	
 	const geometry_msgs__msg__Twist* Get() const;
 	
-	void* Get();
-	
-	virtual void PrintPubToLog(rcl_ret_t rc) const override;
-	
-	virtual void PrintSubToLog(rcl_ret_t rc) const override;
+	virtual void* Get() override;
 
 private:
+	virtual FString MsgToString() const override;
 	geometry_msgs__msg__Twist twist_pub_msg;
 };

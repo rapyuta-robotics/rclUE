@@ -50,27 +50,7 @@ void* UROS2TwistMsg::Get()
 	return &twist_pub_msg;
 }
 
-void UROS2TwistMsg::PrintPubToLog(rcl_ret_t rc) const
+FString UROS2TwistMsg::MsgToString() const
 {
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Published message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
-	} 
-	else 
-	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
-	}
+	return FString::Printf(TEXT("(%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
 }
-
-void UROS2TwistMsg::PrintSubToLog(rcl_ret_t rc) const
-{
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogTemp, Log, TEXT("Subscriber received message message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
-	} 
-	else 
-	{
-		UE_LOG(LogTemp, Log, TEXT("timer_callback: Error receiving message (%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
-	}
-}
-

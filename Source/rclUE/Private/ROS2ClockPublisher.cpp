@@ -14,13 +14,6 @@ void UROS2ClockPublisher::UpdateAndPublishMessage_Implementation()
 {
 	float elapsedTime = UGameplayStatics::GetTimeSeconds(GetWorld()); // other variations are available in UGameplayStatics - this one accounts for time dilation and pause
 	UROS2ClockMsg* Message = Cast<UROS2ClockMsg>(Topic->Msg);
-	//if (Message->IsValid())
-	{
-		Message->Update(elapsedTime);
-		Publish();
-	}
-	// else
-	// {
-	// 	ensureMsgf(false, TEXT("%s should not be here"), *FString(__FUNCTION__));
-	// }
+	Message->Update(elapsedTime);
+	Publish();
 }
