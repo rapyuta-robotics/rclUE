@@ -3,6 +3,7 @@
 #pragma once
 
 #include <rclc/rclc.h>
+#include <rcl/wait.h>
 #include <cstdlib>
 #include "Kismet/KismetSystemLibrary.h"
 
