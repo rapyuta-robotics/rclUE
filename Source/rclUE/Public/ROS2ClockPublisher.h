@@ -4,7 +4,6 @@
 
 #include "CoreMinimal.h"
 #include "ROS2Publisher.h"
-#include "ROS2ClockMsg.h"
 #include "ROS2ClockPublisher.generated.h"
 
 
