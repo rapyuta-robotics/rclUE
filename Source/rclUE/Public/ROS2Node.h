@@ -53,22 +53,22 @@ public:
 	UPROPERTY(EditAnywhere)
 	FName Namespace = TEXT("ros_global");
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NSubscriptions = 0;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NGuardConditions = 0;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NTimers = 0;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NClients = 0;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NServices = 0;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NEvents = 0;
 
 protected:

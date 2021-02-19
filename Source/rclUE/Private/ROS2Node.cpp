@@ -10,6 +10,8 @@
 AROS2Node::AROS2Node()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
 
 // Called when the game starts or when spawned
