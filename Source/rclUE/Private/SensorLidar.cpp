@@ -98,7 +98,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	unsigned long long ns = (unsigned long long)(TimeOfLastScan * 1000000000.0f);
 	retValue.nanosec = (uint32_t)(ns - (retValue.sec * 1000000000ul));
 	
-	retValue.frame_id = FName(GetName());
+	retValue.frame_id = FName("Lidar");
 
 	retValue.angle_min = -PI;
 	retValue.angle_max = PI;
@@ -106,7 +106,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	retValue.time_increment = 1;
 	retValue.scan_time = 1.f/RotationFrequency;
 	retValue.range_min = 0;
-	retValue.range_max = 100;
+	retValue.range_max = Range;
 
 	for (auto& e : RecordedHits)
 	{

@@ -77,7 +77,7 @@ void AROS2Node::Init()
 		context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 		
 		UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
-		RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name.ToString()), TCHAR_TO_ANSI(*Namespace.ToString()), &context->Get()));
+		RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name.ToString()), Namespace != NAME_None ? TCHAR_TO_ANSI(*Namespace.ToString()) : "", &context->Get()));
 		//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
 	}
 

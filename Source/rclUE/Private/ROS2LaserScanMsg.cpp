@@ -69,7 +69,7 @@ void* UROS2LaserScanMsg::Get()
 FString UROS2LaserScanMsg::MsgToString() const
 {
 	return FString::Printf(TEXT("(%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d"),
-                            laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, laserscan_pub_msg.header.frame_id.data, 
+                            laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, *FString(laserscan_pub_msg.header.frame_id.data), 
                             laserscan_pub_msg.angle_min, laserscan_pub_msg.angle_max, laserscan_pub_msg.angle_increment, laserscan_pub_msg.time_increment, laserscan_pub_msg.scan_time, laserscan_pub_msg.range_min, laserscan_pub_msg.range_max,
                             laserscan_pub_msg.ranges.size, laserscan_pub_msg.intensities.size);
 }
