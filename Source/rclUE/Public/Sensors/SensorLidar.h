@@ -31,13 +31,10 @@ public:
 
 	// this should probably be removed so that the sensor can be decoupled from the message types
 	UFUNCTION(BlueprintCallable)
-	FLaserScanData GetROS2Data();
+	FLaserScanData GetROS2Data() const;
 	
 	UPROPERTY(EditAnywhere)
     UStaticMeshComponent* LidarMesh;
-
-	UPROPERTY(EditAnywhere)
-	uint32 nLasers;
 
 	UPROPERTY(EditAnywhere)
 	uint32 nSamplesPerSecond;

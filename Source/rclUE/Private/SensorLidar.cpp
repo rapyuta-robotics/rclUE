@@ -1,8 +1,9 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "SensorLidar.h"
+#include "Sensors/SensorLidar.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "DrawDebugHelpers.h"
 
 
 // Sets default values
@@ -41,8 +42,9 @@ void ASensorLidar::Tick(float DeltaTime)
 	const float CurrentHAngle = 0.f;
 
 	DHAngle = RotationFrequency * FOVHorizontal * DeltaTime;
-	const int nSamplesPerLaserPerFrame = FMath::RoundHalfFromZero(float(nSamplesPerSecond) * DeltaTime / float(nLasers));
+	const int nSamplesPerLaserPerFrame = FMath::RoundHalfFromZero(float(nSamplesPerSecond) * DeltaTime);
 
+	RecordedHits.Empty();
 	RecordedHits.Reserve(nSamplesPerLaserPerFrame);
 	
 	for (int p=0; p<nSamplesPerLaserPerFrame; p++)
@@ -70,6 +72,16 @@ void ASensorLidar::Tick(float DeltaTime)
 		}
 	}
 	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GetWorld());
+
+	// need to store on a structure associating hits with time?
+	// GetROS2Data needs to get all data since the last Get? or the last within the last time interval?
+
+
+	for (auto& h : RecordedHits)
+	{
+		DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), true, .1, 0, 1);
+		//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), true, .1, 0, 1);
+	}
 }
 
 void ASensorLidar::GetData(TArray<FHitResult>& hits, float& time)
@@ -79,7 +91,7 @@ void ASensorLidar::GetData(TArray<FHitResult>& hits, float& time)
 	time = TimeOfLastScan;
 }
 
-FLaserScanData ASensorLidar::GetROS2Data()
+FLaserScanData ASensorLidar::GetROS2Data() const
 {
 	FLaserScanData retValue;
 	retValue.sec = (int32_t)TimeOfLastScan;
@@ -92,7 +104,7 @@ FLaserScanData ASensorLidar::GetROS2Data()
 	retValue.angle_max = PI;
 	retValue.angle_increment = PI;
 	retValue.time_increment = 1;
-	retValue.scan_time = 1;
+	retValue.scan_time = 1.f/RotationFrequency;
 	retValue.range_min = 0;
 	retValue.range_max = 100;
 
