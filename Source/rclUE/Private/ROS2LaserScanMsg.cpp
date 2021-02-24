@@ -35,7 +35,13 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
 {
     laserscan_pub_msg.header.stamp.sec = data.sec;
     laserscan_pub_msg.header.stamp.nanosec = data.nanosec;
-    laserscan_pub_msg.header.frame_id.data = TCHAR_TO_ANSI(*data.frame_id.ToString());
+
+    // reason for this:
+    //  TCHAR_TO_ANSI(*data.frame_id.ToString()) returns a temp object
+    //  tringCast<ANSICHAR>(*data.frame_id.ToString()).Get() does not seem to work here
+    free(laserscan_pub_msg.header.frame_id.data);
+    laserscan_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    strcpy(laserscan_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id.ToString()));
     laserscan_pub_msg.header.frame_id.size = data.frame_id.GetStringLength(); // GetStringLength excludes nullterm char
     laserscan_pub_msg.header.frame_id.capacity = data.frame_id.GetStringLength()+1;
 
@@ -68,8 +74,11 @@ void* UROS2LaserScanMsg::Get()
 
 FString UROS2LaserScanMsg::MsgToString() const
 {
+    //FString frame_id = laserscan_pub_msg.header.frame_id.data;
+    FString frame_id;
+    frame_id.AppendChars(laserscan_pub_msg.header.frame_id.data, laserscan_pub_msg.header.frame_id.size);
 	return FString::Printf(TEXT("(%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d"),
-                            laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, *FString(laserscan_pub_msg.header.frame_id.data), 
+                            laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, *frame_id, 
                             laserscan_pub_msg.angle_min, laserscan_pub_msg.angle_max, laserscan_pub_msg.angle_increment, laserscan_pub_msg.time_increment, laserscan_pub_msg.scan_time, laserscan_pub_msg.range_min, laserscan_pub_msg.range_max,
                             laserscan_pub_msg.ranges.size, laserscan_pub_msg.intensities.size);
 }

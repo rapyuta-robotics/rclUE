@@ -39,9 +39,8 @@ public:
 	UPROPERTY(EditAnywhere)
 	uint32 nSamplesPerSecond;
 
-	UPROPERTY(EditAnywhere)
-	uint32 RotationFrequency;
-
+	// scan goes from -FOVHorizontal to +FOVHorizontal
+	// [degrees]
 	UPROPERTY(EditAnywhere)
 	float FOVHorizontal;
 
@@ -51,8 +50,13 @@ public:
 	UPROPERTY(VisibleAnywhere)
 	float TimeOfLastScan;
 
-	UPROPERTY()
+	// [degrees]
+	UPROPERTY(VisibleAnywhere)
 	float DHAngle;
 
   	TArray<FHitResult> RecordedHits;
+
+private:
+	uint32 nSamplesPerFrame;
+	float dt;
 };

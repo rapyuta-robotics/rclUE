@@ -41,17 +41,19 @@ void ASensorLidar::Tick(float DeltaTime)
 
 	const float CurrentHAngle = 0.f;
 
-	DHAngle = RotationFrequency * FOVHorizontal * DeltaTime;
-	const int nSamplesPerLaserPerFrame = FMath::RoundHalfFromZero(float(nSamplesPerSecond) * DeltaTime);
+	nSamplesPerFrame = FMath::RoundHalfFromZero(float(nSamplesPerSecond) * DeltaTime);
+	DHAngle = FOVHorizontal / (float)nSamplesPerFrame;
 
 	RecordedHits.Empty();
-	RecordedHits.Reserve(nSamplesPerLaserPerFrame);
+	RecordedHits.Reserve(nSamplesPerFrame);
 	
-	for (int p=0; p<nSamplesPerLaserPerFrame; p++)
+	for (int p=0; p<nSamplesPerFrame; p++)
 	{
 		float remainder;
-		const float HAngle = UKismetMathLibrary::FMod(CurrentHAngle + DHAngle * p, FOVHorizontal, remainder) - FOVHorizontal * .5f;
+		UKismetMathLibrary::FMod(CurrentHAngle + DHAngle * p, FOVHorizontal, remainder);
+		const float HAngle = remainder - FOVHorizontal * .5f;
 	
+		//UE_LOG(LogTemp, Warning, TEXT("Shooting ray with angle %f (%f) (samples/frame: %d)"), HAngle, CurrentHAngle + DHAngle * p, nSamplesPerFrame);
 		FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this);
 		TraceParams.bTraceComplex = true;
 		TraceParams.bReturnPhysicalMaterial = false;
@@ -72,6 +74,7 @@ void ASensorLidar::Tick(float DeltaTime)
 		}
 	}
 	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GetWorld());
+	dt = DeltaTime;
 
 	// need to store on a structure associating hits with time?
 	// GetROS2Data needs to get all data since the last Get? or the last within the last time interval?
@@ -100,11 +103,11 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	
 	retValue.frame_id = FName("Lidar");
 
-	retValue.angle_min = -PI;
-	retValue.angle_max = PI;
-	retValue.angle_increment = PI;
-	retValue.time_increment = 1;
-	retValue.scan_time = 1.f/RotationFrequency;
+	retValue.angle_min = -.5f*FMath::DegreesToRadians(FOVHorizontal);
+	retValue.angle_max = .5f*FMath::DegreesToRadians(FOVHorizontal);
+	retValue.angle_increment = FMath::DegreesToRadians(DHAngle);
+	retValue.time_increment = dt / nSamplesPerFrame;
+	retValue.scan_time = dt;
 	retValue.range_min = 0;
 	retValue.range_max = Range;
 
