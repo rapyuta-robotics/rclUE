@@ -126,6 +126,7 @@ void AROS2Node::Subscribe()
 
 void AROS2Node::SpinSome(const uint64 timeout_ns)
 {
+	NSpinCalls++;
 	if (!rcl_wait_set_is_valid(&wait_set))
 	{
 		wait_set = rcl_get_zero_initialized_wait_set();
@@ -157,12 +158,24 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 				}
 			}
 			
-			void * data = topic->Msg->Get();
-			rmw_message_info_t messageInfo;
-			rc = rcl_take(wait_set.subscriptions[i], data, &messageInfo, NULL);
+			if (topic->Msg != nullptr)
+			{
+				NSubMsgGets++;
+				UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
+				// crashes here after X iterations (is X constant? variable?) with either one of these 2 errors:
+				// Unhandled Exception: SIGSEGV: invalid attempt to read memory at address 0x00000000e30803e8
+				// Unhandled Exception: SIGSEGV: unaligned memory access (SIMD vectors?)
+				void * data = topic->Msg->Get(); // why does this sometimes crash UE4? different errors (unaligned memory access, invalid attempt to read memory)
+				rmw_message_info_t messageInfo;
+				rc = rcl_take(wait_set.subscriptions[i], data, &messageInfo, NULL);
 
-			// callback here
-			topic->Msg->PrintSubToLog(rc, Name);
+				// callback here
+				topic->Msg->PrintSubToLog(rc, Name);
+			}
+			else
+			{
+				UE_LOG(LogTemp, Error, TEXT("Topic %s: Message is nullptr"), *(topic->Name.ToString()));
+			}
 		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));

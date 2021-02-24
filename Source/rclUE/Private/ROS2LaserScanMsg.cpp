@@ -53,11 +53,29 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     laserscan_pub_msg.range_min = data.range_min;
     laserscan_pub_msg.range_max = data.range_max;
 
-    laserscan_pub_msg.ranges.data = data.ranges.GetData();
+    if (laserscan_pub_msg.ranges.data != nullptr)
+    {
+        free(laserscan_pub_msg.ranges.data);
+    }
+    laserscan_pub_msg.ranges.data = (float*)malloc(data.ranges.Num()*sizeof(float));
+    //laserscan_pub_msg.ranges.data = data.ranges.GetData();
+    for (int i=0; i<data.ranges.Num(); i++)
+    {
+        laserscan_pub_msg.ranges.data[i] = data.ranges[i];
+    }
     laserscan_pub_msg.ranges.size = data.ranges.Num();
     laserscan_pub_msg.ranges.capacity = data.ranges.Num();
 
-    laserscan_pub_msg.intensities.data = data.intensities.GetData();
+    if (laserscan_pub_msg.intensities.data)
+    {
+        free(laserscan_pub_msg.intensities.data);
+    }
+    laserscan_pub_msg.intensities.data = (float*)malloc(data.intensities.Num()*sizeof(float));
+    //laserscan_pub_msg.intensities.data = data.intensities.GetData();
+    for (int i=0; i<data.intensities.Num(); i++)
+    {
+        laserscan_pub_msg.intensities.data[i] = data.intensities[i];
+    }
     laserscan_pub_msg.intensities.size = data.intensities.Num();
     laserscan_pub_msg.intensities.capacity = data.intensities.Num();
 }
@@ -77,8 +95,14 @@ FString UROS2LaserScanMsg::MsgToString() const
     //FString frame_id = laserscan_pub_msg.header.frame_id.data;
     FString frame_id;
     frame_id.AppendChars(laserscan_pub_msg.header.frame_id.data, laserscan_pub_msg.header.frame_id.size);
-	return FString::Printf(TEXT("(%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d"),
+    FString data;
+    for (int i=0; i<FGenericPlatformMath::Min(5,(int)laserscan_pub_msg.ranges.size); i++)
+    {
+        data.Append(FString::SanitizeFloat(laserscan_pub_msg.ranges.data[i]));
+        data.Append("\t");
+    }
+	return FString::Printf(TEXT("(%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d - data (up to 5 values): %s"),
                             laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, *frame_id, 
                             laserscan_pub_msg.angle_min, laserscan_pub_msg.angle_max, laserscan_pub_msg.angle_increment, laserscan_pub_msg.time_increment, laserscan_pub_msg.scan_time, laserscan_pub_msg.range_min, laserscan_pub_msg.range_max,
-                            laserscan_pub_msg.ranges.size, laserscan_pub_msg.intensities.size);
+                            laserscan_pub_msg.ranges.size, laserscan_pub_msg.intensities.size, *data);
 }
