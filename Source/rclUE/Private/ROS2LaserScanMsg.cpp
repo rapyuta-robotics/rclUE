@@ -11,6 +11,7 @@ UROS2LaserScanMsg::UROS2LaserScanMsg()
 
 UROS2LaserScanMsg::~UROS2LaserScanMsg()
 {
+	UE_LOG(LogTemp, Error, TEXT("UROS2LaserScanMsg::~UROS2LaserScanMsg"));
 }
 
 void UROS2LaserScanMsg::Init()
@@ -21,8 +22,10 @@ void UROS2LaserScanMsg::Init()
 
 void UROS2LaserScanMsg::Fini()
 {
-    // somehow this crashes UE4 - double free error? why?
-	//UE_LOG(LogTemp, Warning, TEXT("UROS2LaserScanMsg::Fini"));
+    // somehow this crashes UE4 - double free error? why? 
+    // and why not the others? is it somehow because this contains other msgs?
+    // seems to crash on rosidl_runtime_c__float__Sequence__fini
+	UE_LOG(LogTemp, Warning, TEXT("UROS2LaserScanMsg::Fini"));
 	//sensor_msgs__msg__LaserScan__fini(&laserscan_pub_msg);
 }
 
@@ -38,7 +41,7 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
 
     // reason for this:
     //  TCHAR_TO_ANSI(*data.frame_id.ToString()) returns a temp object
-    //  tringCast<ANSICHAR>(*data.frame_id.ToString()).Get() does not seem to work here
+    //  stringCast<ANSICHAR>(*data.frame_id.ToString()).Get() does not seem to work here
     free(laserscan_pub_msg.header.frame_id.data);
     laserscan_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
     strcpy(laserscan_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id.ToString()));
@@ -53,12 +56,12 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     laserscan_pub_msg.range_min = data.range_min;
     laserscan_pub_msg.range_max = data.range_max;
 
+    // should free every time as the length of the array can vary
     if (laserscan_pub_msg.ranges.data != nullptr)
     {
         free(laserscan_pub_msg.ranges.data);
     }
     laserscan_pub_msg.ranges.data = (float*)malloc(data.ranges.Num()*sizeof(float));
-    //laserscan_pub_msg.ranges.data = data.ranges.GetData();
     for (int i=0; i<data.ranges.Num(); i++)
     {
         laserscan_pub_msg.ranges.data[i] = data.ranges[i];
@@ -71,7 +74,6 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
         free(laserscan_pub_msg.intensities.data);
     }
     laserscan_pub_msg.intensities.data = (float*)malloc(data.intensities.Num()*sizeof(float));
-    //laserscan_pub_msg.intensities.data = data.intensities.GetData();
     for (int i=0; i<data.intensities.Num(); i++)
     {
         laserscan_pub_msg.intensities.data[i] = data.intensities[i];
@@ -92,7 +94,6 @@ void* UROS2LaserScanMsg::Get()
 
 FString UROS2LaserScanMsg::MsgToString() const
 {
-    //FString frame_id = laserscan_pub_msg.header.frame_id.data;
     FString frame_id;
     frame_id.AppendChars(laserscan_pub_msg.header.frame_id.data, laserscan_pub_msg.header.frame_id.size);
     FString data;

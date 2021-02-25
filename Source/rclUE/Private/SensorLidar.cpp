@@ -117,7 +117,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	retValue.range_min = 0;
 	retValue.range_max = Range;
 
-	UE_LOG(LogTemp, Error, TEXT("Recorded hits distance (%d entries): %f %f %f %f %f"), RecordedHits.Num(), RecordedHits.Last(0).Distance*.01, RecordedHits.Last(1).Distance*.01, RecordedHits.Last(2).Distance*.01, RecordedHits.Last(3).Distance*.01, RecordedHits.Last(4).Distance*.01);
+	//UE_LOG(LogTemp, Error, TEXT("Recorded hits distance (%d entries): %f %f %f %f %f"), RecordedHits.Num(), RecordedHits.Last(0).Distance*.01, RecordedHits.Last(1).Distance*.01, RecordedHits.Last(2).Distance*.01, RecordedHits.Last(3).Distance*.01, RecordedHits.Last(4).Distance*.01);
 
 	retValue.ranges.Empty();
 	// note that angles are reversed compared to rviz
