@@ -40,6 +40,16 @@ void UROS2TwistMsg::Update(const FVector Linear, const FVector Angular)
 	twist_pub_msg.angular.z = Angular.Z;
 }
 
+FVector UROS2TwistMsg::GetLinearVelocity() const
+{
+	return FVector(twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z);
+}
+
+FVector UROS2TwistMsg::GetAngularVelocity() const
+{
+	return FVector(twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
+}
+
 const geometry_msgs__msg__Twist* UROS2TwistMsg::Get() const
 {
 	return &twist_pub_msg;

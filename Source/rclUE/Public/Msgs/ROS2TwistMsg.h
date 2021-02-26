@@ -31,6 +31,12 @@ public:
 	
   	UFUNCTION(BlueprintCallable)
 	void Update(const FVector Linear, const FVector Angular);
+
+  	UFUNCTION(BlueprintCallable)
+	FVector GetLinearVelocity() const;
+
+  	UFUNCTION(BlueprintCallable)
+	FVector GetAngularVelocity() const;
 	
 	const geometry_msgs__msg__Twist* Get() const;
 	
