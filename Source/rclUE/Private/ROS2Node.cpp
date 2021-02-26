@@ -40,6 +40,7 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	for (auto& s : subs)
 	{
+		s.Key->RemoveFromRoot();
 		RCSOFTCHECK(rcl_subscription_fini(&s.Value, &node));
 	}
 
@@ -107,6 +108,7 @@ void AROS2Node::Subscribe()
 		UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
 		Topic->Name = e.Key;
 		Topic->Msg = NewObject<UROS2GenericMsg>(this, e.Value);
+		Topic->AddToRoot(); // prevents GC - is it safe or can it lead to other issues?
 		if (Topic != nullptr && Topic->Msg != nullptr)
 		{
 			Topic->Msg->Init(); // does this needs to be done every time?
@@ -116,7 +118,6 @@ void AROS2Node::Subscribe()
 			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
 		}
 
-		subtopics.Add(Topic);
 		if (!subs.Contains(Topic))
 		{
 			subs.Add(Topic, rcl_get_zero_initialized_subscription());

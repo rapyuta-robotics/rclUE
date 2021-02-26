@@ -87,9 +87,6 @@ protected:
 	UROS2Context* context;
 
 	rcl_node_t node;
-	
-	UPROPERTY()
-	TArray<UROS2Topic*> subtopics; // this is needed just to avoid GC of the topics since subs is not a UPROPERTY and thus its references don't seem to count
 
 	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
