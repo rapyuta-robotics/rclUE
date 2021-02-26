@@ -5,6 +5,8 @@
 #include "Kismet/KismetMathLibrary.h"
 #include "DrawDebugHelpers.h"
 
+DEFINE_LOG_CATEGORY(LogROS2Sensor);
+
 
 // Sets default values
 ASensorLidar::ASensorLidar()
@@ -53,7 +55,7 @@ void ASensorLidar::Tick(float DeltaTime)
 		UKismetMathLibrary::FMod(CurrentHAngle + DHAngle * p, FOVHorizontal, remainder);
 		const float HAngle = remainder;
 	
-		//UE_LOG(LogTemp, Warning, TEXT("Shooting ray with angle %f (%f) (samples/frame: %d)"), HAngle, CurrentHAngle + DHAngle * p, nSamplesPerFrame);
+		//UE_LOG(LogROS2Sensor, Warning, TEXT("Shooting ray with angle %f (%f) (samples/frame: %d)"), HAngle, CurrentHAngle + DHAngle * p, nSamplesPerFrame);
 		FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this);
 		TraceParams.bTraceComplex = true;
 		TraceParams.bReturnPhysicalMaterial = false;
@@ -74,7 +76,7 @@ void ASensorLidar::Tick(float DeltaTime)
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Missed hit"));
+			UE_LOG(LogROS2Sensor, Error, TEXT("Missed hit"));
 
 			RecordedHits.Add(HitInfo);
 		}
@@ -117,7 +119,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	retValue.range_min = 0;
 	retValue.range_max = Range;
 
-	//UE_LOG(LogTemp, Error, TEXT("Recorded hits distance (%d entries): %f %f %f %f %f"), RecordedHits.Num(), RecordedHits.Last(0).Distance*.01, RecordedHits.Last(1).Distance*.01, RecordedHits.Last(2).Distance*.01, RecordedHits.Last(3).Distance*.01, RecordedHits.Last(4).Distance*.01);
+	//UE_LOG(LogROS2Sensor, Error, TEXT("Recorded hits distance (%d entries): %f %f %f %f %f"), RecordedHits.Num(), RecordedHits.Last(0).Distance*.01, RecordedHits.Last(1).Distance*.01, RecordedHits.Last(2).Distance*.01, RecordedHits.Last(3).Distance*.01, RecordedHits.Last(4).Distance*.01);
 
 	retValue.ranges.Empty();
 	// note that angles are reversed compared to rviz

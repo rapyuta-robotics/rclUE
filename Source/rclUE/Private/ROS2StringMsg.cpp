@@ -15,13 +15,13 @@ UROS2StringMsg::~UROS2StringMsg()
 
 void UROS2StringMsg::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UROS2StringMsg::Init"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2StringMsg::Init"));
 	std_msgs__msg__String__init(&string_pub_msg);
 }
 
 void UROS2StringMsg::Fini()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UROS2StringMsg::Fini"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2StringMsg::Fini"));
 	std_msgs__msg__String__fini(&string_pub_msg);
 }
 

@@ -7,6 +7,8 @@
 #include "Msgs/ROS2LaserScanMsg.h"
 #include "SensorLidar.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Sensor, Log, All);
+
 UCLASS()
 class RCLUE_API ASensorLidar : public AActor
 {

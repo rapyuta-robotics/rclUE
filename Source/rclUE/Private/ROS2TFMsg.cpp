@@ -15,13 +15,13 @@ UROS2TFMsg::~UROS2TFMsg()
 
 void UROS2TFMsg::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UROS2TFMsg::Init"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TFMsg::Init"));
 	tf2_msgs__msg__TFMessage__init(&tf_pub_msg);
 }
 
 void UROS2TFMsg::Fini()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UROS2TFMsg::Fini"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TFMsg::Fini"));
 	tf2_msgs__msg__TFMessage__fini(&tf_pub_msg);
 }
 

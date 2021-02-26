@@ -15,13 +15,13 @@ UROS2TwistMsg::~UROS2TwistMsg()
 
 void UROS2TwistMsg::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UROS2TwistMsg::Init"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TwistMsg::Init"));
 	geometry_msgs__msg__Twist__init(&twist_pub_msg);
 }
 
 void UROS2TwistMsg::Fini()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UROS2TwistMsg::Fini"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TwistMsg::Fini"));
 	geometry_msgs__msg__Twist__fini(&twist_pub_msg);
 }
 

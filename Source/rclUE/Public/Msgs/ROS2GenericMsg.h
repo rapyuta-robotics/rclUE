@@ -6,6 +6,8 @@
 
 #include "ROS2GenericMsg.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Msg, Log, All);
+
 // This class does not need to be modified.
 UCLASS(Blueprintable)
 class UROS2GenericMsg : public UObject

@@ -11,12 +11,12 @@ UROS2LaserScanMsg::UROS2LaserScanMsg()
 
 UROS2LaserScanMsg::~UROS2LaserScanMsg()
 {
-	UE_LOG(LogTemp, Error, TEXT("UROS2LaserScanMsg::~UROS2LaserScanMsg"));
+	UE_LOG(LogROS2Msg, Error, TEXT("UROS2LaserScanMsg::~UROS2LaserScanMsg"));
 }
 
 void UROS2LaserScanMsg::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("UROS2LaserScanMsg::Init"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2LaserScanMsg::Init"));
 	ensureMsgf(sensor_msgs__msg__LaserScan__init(&laserscan_pub_msg), TEXT("%s failed for LaserScan"), *FString(__FUNCTION__));
 }
 
@@ -25,7 +25,7 @@ void UROS2LaserScanMsg::Fini()
     // somehow this crashes UE4 - double free error? why? 
     // and why not the others? is it somehow because this contains other msgs?
     // seems to crash on rosidl_runtime_c__float__Sequence__fini
-	UE_LOG(LogTemp, Warning, TEXT("UROS2LaserScanMsg::Fini"));
+	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2LaserScanMsg::Fini"));
 	//sensor_msgs__msg__LaserScan__fini(&laserscan_pub_msg);
 }
 
