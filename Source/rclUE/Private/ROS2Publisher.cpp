@@ -38,9 +38,9 @@ void UROS2Publisher::BeginPlay()
 				UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 			}
 			//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
-		}
 
-		ownerNode->GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
+			GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
+		}
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
