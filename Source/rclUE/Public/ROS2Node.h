@@ -11,6 +11,8 @@
 
 #include "ROS2Node.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
+
 /**
  * ROS2 Node that additionally acts as a factory for Publishers, Subscribers, Clients, Services
  */
@@ -45,7 +47,7 @@ public:
 
 	// this is meant as a helper for BP
 	UFUNCTION(BlueprintCallable)
-	void AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass);
+	void AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
 
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");
@@ -77,6 +79,7 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TMap<FName,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
+	TMap<FName,FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
@@ -88,6 +91,9 @@ protected:
 	rcl_node_t node;
 	
 	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
+	
+	UPROPERTY()
+	TMap<UROS2Topic*, FSubscriptionCallback> callbacks; // could be combined with above
 	
 	rcl_wait_set_t wait_set;
 

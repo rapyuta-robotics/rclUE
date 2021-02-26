@@ -10,6 +10,7 @@
 AROS2Node::AROS2Node()
 {
 	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bStartWithTickEnabled = true;
 
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
@@ -19,11 +20,6 @@ void AROS2Node::BeginPlay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
 	Super::BeginPlay();
-	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - SuperDone"));
-
-	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Init"));
-	Init();
-	Subscribe();
 
 	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
@@ -115,6 +111,12 @@ void AROS2Node::Subscribe()
 		if (!subs.Contains(Topic))
 		{
 			subs.Add(Topic, rcl_get_zero_initialized_subscription());
+			FSubscriptionCallback *cb = TopicsToCallback.Find(e.Key);
+			if (ensure(cb))
+			{
+				callbacks.Add(Topic, *cb);
+			}
+
 			const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
 			rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
 			RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()), &sub_opt));
@@ -163,12 +165,19 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 
 			// callback here
 			topic->Msg->PrintSubToLog(rc, Name);
+			FSubscriptionCallback *cb = callbacks.Find(topic);
+
+			if (cb)
+			{
+				cb->ExecuteIfBound(topic->Msg);
+			}
 		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }
 
-void AROS2Node::AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass)
+void AROS2Node::AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
 {
 	TopicsToSubscribe.Add(TopicName, MsgClass);
+	TopicsToCallback.Add(TopicName, Callback);
 }
