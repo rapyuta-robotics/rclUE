@@ -56,6 +56,8 @@ public:
 	virtual void* Get() override;
 
 private:
+	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const override;
+	
 	tf2_msgs__msg__TFMessage tf_pub_msg;
 };

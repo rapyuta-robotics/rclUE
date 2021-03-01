@@ -25,5 +25,6 @@ public:
 	void PrintSubToLog(rcl_ret_t rc, FName NodeName) const;
 
 private:
+	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const;
 };

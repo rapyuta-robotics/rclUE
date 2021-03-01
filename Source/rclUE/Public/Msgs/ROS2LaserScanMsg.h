@@ -64,6 +64,8 @@ public:
 	virtual void* Get() override;
 
 private:
+	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const override;
+	
 	sensor_msgs__msg__LaserScan laserscan_pub_msg;
 };

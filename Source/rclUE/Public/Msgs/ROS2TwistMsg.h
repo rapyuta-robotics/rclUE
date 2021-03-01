@@ -43,6 +43,8 @@ public:
 	virtual void* Get() override;
 
 private:
+	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const override;
+	
 	geometry_msgs__msg__Twist twist_pub_msg;
 };

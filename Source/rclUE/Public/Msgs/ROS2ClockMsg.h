@@ -37,6 +37,8 @@ public:
 	virtual void* Get() override;
 
 private:
+	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const override;
+
 	rosgraph_msgs__msg__Clock clock_pub_msg;
 };

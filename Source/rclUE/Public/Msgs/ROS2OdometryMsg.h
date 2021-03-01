@@ -64,6 +64,8 @@ public:
 	virtual void* Get() override;
 
 private:
+	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const override;
+	
 	nav_msgs__msg__Odometry odometry_pub_msg;
 };

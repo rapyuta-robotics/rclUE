@@ -175,19 +175,6 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 					readySubs.Add(pair);
 				}
 			}
-      
-			void * data = topic->Msg->Get();
-			rmw_message_info_t messageInfo;
-			rc = rcl_take(wait_set.subscriptions[i], data, &messageInfo, NULL);
-
-			// callback here
-			topic->Msg->PrintSubToLog(rc, Name);
-			FSubscriptionCallback *cb = callbacks.Find(topic);
-
-			if (cb)
-			{
-				cb->ExecuteIfBound(topic->Msg);
-			}
 		}
 	}
 
@@ -195,18 +182,18 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 	{	
 		NSubMsgGets++;
 		UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
-		// crashes here after X iterations (is X constant? variable?) with either one of these 2 errors:
-		// Unhandled Exception: SIGSEGV: invalid attempt to read memory at address 0x00000000e30803e8
-		// Unhandled Exception: SIGSEGV: unaligned memory access (SIMD vectors?)
-		UROS2Topic* topic = pair.Key;
-		auto msg = topic->Msg;
-		void * data = msg->Get();
-		//void * data = pair.Key->Msg->Get(); // why does this crash UE4? different errors (unaligned memory access, invalid attempt to read memory)
+		void * data = pair.Key->Msg->Get();
 		rmw_message_info_t messageInfo;
 		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);
 
 		// callback here
-		topic->Msg->PrintSubToLog(rc, Name);
+		pair.Key->Msg->PrintSubToLog(rc, Name);
+		FSubscriptionCallback *cb = callbacks.Find(pair.Key);
+
+		if (cb)
+		{
+			cb->ExecuteIfBound(pair.Key->Msg);
+		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }

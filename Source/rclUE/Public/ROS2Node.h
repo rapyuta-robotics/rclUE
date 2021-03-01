@@ -80,6 +80,8 @@ protected:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TMap<FName,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
+	
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TMap<FName,FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
 	// this will be handled by the executor as anything related to the wait_set
