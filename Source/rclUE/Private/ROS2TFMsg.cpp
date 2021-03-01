@@ -30,7 +30,7 @@ const rosidl_message_type_support_t* UROS2TFMsg::GetTypeSupport() const
     return ROSIDL_GET_MSG_TYPE_SUPPORT(tf2_msgs, msg, TFMessage);
 }
 
-void UROS2TFMsg::Update(const TArray<FTFData> data)
+void UROS2TFMsg::Update(const TArray<FTFData> &data)
 {
 	tf_pub_msg.transforms.data = (geometry_msgs__msg__TransformStamped*)malloc(sizeof(geometry_msgs__msg__TransformStamped)*data.Num());
 	tf_pub_msg.transforms.size = data.Num();

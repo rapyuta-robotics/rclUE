@@ -30,7 +30,7 @@ const rosidl_message_type_support_t* UROS2StringMsg::GetTypeSupport() const
     return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
 }
 
-void UROS2StringMsg::Update(const FString stringData)
+void UROS2StringMsg::Update(const FString &stringData)
 {
 	const unsigned int PUB_MSG_CAPACITY = stringData.Len()+1;
 	string_pub_msg.data.data = (char*)malloc(PUB_MSG_CAPACITY);

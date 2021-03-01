@@ -49,7 +49,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void Update(const TArray<FTFData> data);
+	void Update(const TArray<FTFData> &data);
 	
 	const tf2_msgs__msg__TFMessage* Get() const;
 	
