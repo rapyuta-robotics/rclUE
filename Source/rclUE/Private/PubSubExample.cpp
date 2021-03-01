@@ -7,6 +7,7 @@
 rcl_publisher_t APubSubExample::my_pub;
 std_msgs__msg__String APubSubExample::pub_msg;
 std_msgs__msg__String APubSubExample::sub_msg;
+static int counter = 0;
 
 void APubSubExample::my_subscriber_callback(const void * msgin)
 {
@@ -14,7 +15,7 @@ void APubSubExample::my_subscriber_callback(const void * msgin)
   if (msg == NULL) {
     UE_LOG(LogTemp, Log, TEXT("Callback: msg NULL"));
   } else {
-    UE_LOG(LogTemp, Log, TEXT("Callback: I heard: %s"), *FString(ANSI_TO_TCHAR(msg->data.data)));
+    UE_LOG(LogTemp, Log, TEXT("Callback (%d): I heard: %s"), counter++, *FString(ANSI_TO_TCHAR(msg->data.data)));
   }
 }
 
@@ -51,7 +52,7 @@ void APubSubExample::BeginPlay()
 	Super::BeginPlay();
 
 	// pubsub example from https://github.com/ros2/rclc/blob/master/rclc_examples/src/example_executor_convenience.c
-	rcl_allocator_t allocator = rcl_get_default_allocator();
+	allocator = rcl_get_default_allocator();
 
     if (allocator.allocate == nullptr ||
         allocator.deallocate == nullptr || 
@@ -60,7 +61,6 @@ void APubSubExample::BeginPlay()
     {
         UE_LOG(LogTemp, Error, TEXT("Allocator problems in PubSubExample!"));
     }
-	rclc_support_t support;
 
 	// create init_options
 	rcl_ret_t rc = rclc_support_init(&support, 0, nullptr, &allocator);
@@ -71,7 +71,6 @@ void APubSubExample::BeginPlay()
 	}
 
 	// create node
-	rcl_node_t my_node;
 	rc = rclc_node_init_default(&my_node, "node_0", "executor_examples", &support);
 	if (rc != RCL_RET_OK)
 	{
@@ -86,8 +85,7 @@ void APubSubExample::BeginPlay()
 	RCSOFTCHECK(rclc_publisher_init_default(&my_pub, &my_node, my_type_support, topic_name));
 	
   	// create a timer, which will call the publisher with period=`timer_timeout` ms in the 'my_timer_callback'
-	rcl_timer_t my_timer;
-  	const unsigned int timer_timeout = 1000;
+	const unsigned int timer_timeout = 1000;
 	RCSOFTCHECK(rclc_timer_init_default(&my_timer, &support, RCL_MS_TO_NS(timer_timeout), APubSubExample::my_timer_callback));
 	UE_LOG(LogTemp, Log, TEXT("Created timer with timeout %d ms."), timer_timeout);
 	
@@ -100,7 +98,7 @@ void APubSubExample::BeginPlay()
 	pub_msg.data.size = strlen(pub_msg.data.data);
 
 	// create subscription
-  	rcl_subscription_t my_sub = rcl_get_zero_initialized_subscription();
+  	my_sub = rcl_get_zero_initialized_subscription();
   	RCSOFTCHECK(rclc_subscription_init_default(&my_sub, &my_node, my_type_support, topic_name));
 	UE_LOG(LogTemp, Log, TEXT("Created subscriber %s:"), *FString(ANSI_TO_TCHAR(topic_name)));
 
@@ -110,7 +108,6 @@ void APubSubExample::BeginPlay()
 	////////////////////////////////////////////////////////////////////////////
 	// Configuration of RCL Executor
 	////////////////////////////////////////////////////////////////////////////
-	rclc_executor_t executor;
 	executor = rclc_executor_get_zero_initialized_executor();
 	// total number of handles = #subscriptions + #timers
 	unsigned int num_handles = 1 + 1;
@@ -121,12 +118,16 @@ void APubSubExample::BeginPlay()
 
 	RCSOFTCHECK(rclc_executor_add_timer(&executor, &my_timer));
 
-	for (unsigned int i = 0; i < 10; i++)
-	{
-		// timeout specified in nanoseconds (here 1s)
-		rclc_executor_spin_some(&executor, 1000 * (1000 * 1000));
-	}
+	// for (unsigned int i = 0; i < 10; i++)
+	// {
+	// 	// timeout specified in nanoseconds (here 1s)
+	// }
+	
+	UE_LOG(LogTemp, Warning, TEXT("BeginPlay end"));
+}
 
+void APubSubExample::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
 	// clean up
 	RCSOFTCHECK(rclc_executor_fini(&executor));
 	RCSOFTCHECK(rcl_publisher_fini(&my_pub, &my_node));
@@ -137,13 +138,13 @@ void APubSubExample::BeginPlay()
 
 	std_msgs__msg__String__fini(&pub_msg);
 	std_msgs__msg__String__fini(&sub_msg);
-	
-	UE_LOG(LogTemp, Warning, TEXT("BeginPlay end"));
 }
 
 // Called every frame
 void APubSubExample::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	rclc_executor_spin_some(&executor, DeltaTime * 1000 * (1000 * 1000));
 }
 

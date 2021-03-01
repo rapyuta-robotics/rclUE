@@ -24,6 +24,7 @@ class RCLUE_API AROS2Node : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AROS2Node();
+	~AROS2Node();
 
 protected:
 	// Called when the game starts or when spawned
@@ -89,13 +90,16 @@ protected:
 	UROS2Context* context;
 
 	rcl_node_t node;
-	
+
 	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
 	UPROPERTY()
 	TMap<UROS2Topic*, FSubscriptionCallback> callbacks; // could be combined with above
 	
 	rcl_wait_set_t wait_set;
+
+	int NSpinCalls = 0;
+	int NSubMsgGets = 0;
 
 private:
 };

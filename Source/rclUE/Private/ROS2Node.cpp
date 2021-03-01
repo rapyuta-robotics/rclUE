@@ -15,6 +15,11 @@ AROS2Node::AROS2Node()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
 
+AROS2Node::~AROS2Node()
+{
+	UE_LOG(LogTemp, Error, TEXT("UROS2LaserScanMsg::~UROS2LaserScanMsg"));
+}
+
 // Called when the game starts or when spawned
 void AROS2Node::BeginPlay()
 {
@@ -31,6 +36,7 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	for (auto& s : subs)
 	{
+		s.Key->RemoveFromRoot();
 		RCSOFTCHECK(rcl_subscription_fini(&s.Value, &node));
 	}
 
@@ -98,15 +104,15 @@ void AROS2Node::Subscribe()
 		UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
 		Topic->Name = e.Key;
 		Topic->Msg = NewObject<UROS2GenericMsg>(this, e.Value);
+		Topic->AddToRoot(); // prevents GC - is it safe or can it lead to other issues?
 		if (Topic != nullptr && Topic->Msg != nullptr)
 		{
-			Topic->Msg->Init();
+			Topic->Msg->Init(); // does this needs to be done every time?
 		}
 		else
 		{
 			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
 		}
-
 
 		if (!subs.Contains(Topic))
 		{
@@ -123,15 +129,25 @@ void AROS2Node::Subscribe()
 			NSubscriptions++;
 		}
 	}
+
+	// invalidate wait_set
+	if (rcl_wait_set_is_valid(&wait_set))
+	{
+    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+    }
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe - Done"));
 }
 
 void AROS2Node::SpinSome(const uint64 timeout_ns)
 {
+	NSpinCalls++;
 	if (!rcl_wait_set_is_valid(&wait_set))
 	{
+    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 		wait_set = rcl_get_zero_initialized_wait_set();
-		RCSOFTCHECK(rcl_wait_set_init(&wait_set, NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, &context->Get().context, rcl_get_default_allocator()));
+		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
+									NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, 
+									&context->Get().context, rcl_get_default_allocator()));
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subscriptions"), wait_set.size_of_subscriptions);
 	
@@ -145,20 +161,21 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 	rcl_ret_t rc = rcl_wait(&wait_set, timeout_ns);
   	RCLC_UNUSED(rc);
 
+	// based on _rclc_default_scheduling
+	TMap<UROS2Topic*, rcl_subscription_t> readySubs;
 	for (int i=0; i<wait_set.size_of_subscriptions; i++)
 	{
 		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
 		{
 			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
-			UROS2Topic* topic; // somehow using FindKey produces errors (caused by the comparison of rcl_subscription_t structs)
 			for (auto& pair : subs)
 			{
 				if (&pair.Value == currentSub)
 				{
-					topic = pair.Key;
+					readySubs.Add(pair);
 				}
 			}
-			
+      
 			void * data = topic->Msg->Get();
 			rmw_message_info_t messageInfo;
 			rc = rcl_take(wait_set.subscriptions[i], data, &messageInfo, NULL);
@@ -172,6 +189,24 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 				cb->ExecuteIfBound(topic->Msg);
 			}
 		}
+	}
+
+	for (auto& pair : readySubs)
+	{	
+		NSubMsgGets++;
+		UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
+		// crashes here after X iterations (is X constant? variable?) with either one of these 2 errors:
+		// Unhandled Exception: SIGSEGV: invalid attempt to read memory at address 0x00000000e30803e8
+		// Unhandled Exception: SIGSEGV: unaligned memory access (SIMD vectors?)
+		UROS2Topic* topic = pair.Key;
+		auto msg = topic->Msg;
+		void * data = msg->Get();
+		//void * data = pair.Key->Msg->Get(); // why does this crash UE4? different errors (unaligned memory access, invalid attempt to read memory)
+		rmw_message_info_t messageInfo;
+		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);
+
+		// callback here
+		topic->Msg->PrintSubToLog(rc, Name);
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }

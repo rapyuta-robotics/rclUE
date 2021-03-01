@@ -25,6 +25,8 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:	
 	// Called every frame
@@ -33,6 +35,16 @@ public:
 	static rcl_publisher_t my_pub;
 	static std_msgs__msg__String pub_msg;
 	static std_msgs__msg__String sub_msg;
+	
+	rcl_node_t my_node;
+	rcl_timer_t my_timer;
+	rclc_executor_t executor;
+	rcl_subscription_t my_sub;
+	rclc_support_t support;
+	rcl_allocator_t allocator;
+
+	UPROPERTY(EditAnywhere)
+	int frameMS = 100;
 
 	static void my_subscriber_callback(const void * msgin);
 	static void my_timer_callback(rcl_timer_t * timer, int64_t last_call_time);

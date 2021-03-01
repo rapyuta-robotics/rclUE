@@ -7,6 +7,8 @@
 #include "Msgs/ROS2LaserScanMsg.h"
 #include "SensorLidar.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Sensor, Log, All);
+
 UCLASS()
 class RCLUE_API ASensorLidar : public AActor
 {
@@ -39,7 +41,11 @@ public:
 	UPROPERTY(EditAnywhere)
 	uint32 nSamplesPerSecond;
 
-	// scan goes from -FOVHorizontal to +FOVHorizontal
+	// [degrees]
+	UPROPERTY(EditAnywhere)
+	float StartAngle;
+
+	// scan goes from StartAngle to StartAngle+FOVHorizontal
 	// [degrees]
 	UPROPERTY(EditAnywhere)
 	float FOVHorizontal;
