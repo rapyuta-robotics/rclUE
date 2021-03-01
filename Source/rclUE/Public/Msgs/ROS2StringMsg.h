@@ -37,7 +37,6 @@ public:
 	virtual void* Get() override;
 
 private:
-	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const override;
 	
 	std_msgs__msg__String string_pub_msg;
