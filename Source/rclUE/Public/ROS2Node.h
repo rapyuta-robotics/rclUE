@@ -11,6 +11,8 @@
 
 #include "ROS2Node.generated.h"
 
+class UROS2Publisher;
+
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
 
 /**
@@ -48,7 +50,10 @@ public:
 
 	// this is meant as a helper for BP
 	UFUNCTION(BlueprintCallable)
-	void AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
+	void AddSubscription(FName TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
+
+	UFUNCTION(BlueprintCallable)
+	void AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass);
 
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");
@@ -92,6 +97,9 @@ protected:
 	UROS2Context* context;
 
 	rcl_node_t node;
+
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	TArray<UROS2Publisher*> pubs;
 
 	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	

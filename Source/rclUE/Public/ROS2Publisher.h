@@ -38,20 +38,20 @@ public:
 	UFUNCTION()
 	virtual void Destroy();
 
-protected:
-	UFUNCTION(BlueprintCallable)
-	void Publish();
-
 	// this information is redundant with Topic, but it's used to initialize it
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FName TopicName;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int32 PublicationFrequencyHz = 1000;
 
 	// this information is redundant with Topic, but it's used to initialize it
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	int32 PublicationFrequencyHz = 1000;
+protected:
+	UFUNCTION(BlueprintCallable)
+	void Publish();
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	UROS2Topic* Topic;

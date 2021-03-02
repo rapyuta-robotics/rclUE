@@ -206,3 +206,12 @@ void AROS2Node::AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> M
 	TopicsToSubscribe.Add(TopicName, MsgClass);
 	TopicsToCallback.Add(TopicName, Callback);
 }
+
+void AROS2Node::AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass)
+{
+	pubs.Add(NewObject<UROS2Publisher>(this, PubClass));
+	pubs.Last()->TopicName = TopicName;
+	pubs.Last()->PublicationFrequencyHz = PubFrequency;
+	pubs.Last()->MsgClass = MsgClass;
+	pubs.Last()->RegisterComponent();
+}
