@@ -27,7 +27,7 @@ ASensorLidar::ASensorLidar()
         LidarMesh->SetStaticMesh(LidarCylinderMesh.Object);
     }
 
-	LidarMesh->SetWorldScale3D(FVector(.1f,.1f,.1f));
+	//LidarMesh->SetWorldScale3D(FVector(.1f,.1f,.1f));
 }
 
 // Called when the game starts or when spawned
@@ -76,7 +76,7 @@ void ASensorLidar::Tick(float DeltaTime)
 		}
 		else
 		{
-			UE_LOG(LogROS2Sensor, Error, TEXT("Missed hit"));
+			//UE_LOG(LogROS2Sensor, Error, TEXT("Missed hit"));
 
 			RecordedHits.Add(HitInfo);
 		}
@@ -88,11 +88,11 @@ void ASensorLidar::Tick(float DeltaTime)
 	// GetROS2Data needs to get all data since the last Get? or the last within the last time interval?
 
 
-	for (auto& h : RecordedHits)
-	{
-		DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), true, DeltaTime, 0, 1);
-		//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), true, .1, 0, 1);
-	}
+	// for (auto& h : RecordedHits)
+	// {
+	// 	DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), true, DeltaTime, 0, 1);
+	// 	//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), true, .1, 0, 1);
+	// }
 }
 
 void ASensorLidar::GetData(TArray<FHitResult>& hits, float& time)

@@ -38,28 +38,29 @@ public:
 	UPROPERTY(EditAnywhere)
     UStaticMeshComponent* LidarMesh;
 
-	UPROPERTY(EditAnywhere)
-	uint32 nSamplesPerSecond;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int nSamplesPerSecond;
 
 	// [degrees]
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float StartAngle;
 
 	// scan goes from StartAngle to StartAngle+FOVHorizontal
 	// [degrees]
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float FOVHorizontal;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float Range;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	float TimeOfLastScan;
 
 	// [degrees]
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	float DHAngle;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
   	TArray<FHitResult> RecordedHits;
 
 private:
