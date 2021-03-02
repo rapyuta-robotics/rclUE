@@ -64,7 +64,10 @@ void AROS2Node::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	SpinSome(DeltaTime*1000*1000*1000);
+	if (TopicsToSubscribe.Num() > 0)
+	{
+		SpinSome(DeltaTime*1000*1000*1000);
+	}
 }
 
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
