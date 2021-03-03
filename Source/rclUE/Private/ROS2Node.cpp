@@ -207,11 +207,21 @@ void AROS2Node::AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> M
 	TopicsToCallback.Add(TopicName, Callback);
 }
 
-void AROS2Node::AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass)
+// void AROS2Node::AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass)
+// {
+// 	pubs.Emplace(NewObject<UROS2Publisher>(this, PubClass));
+// 	pubs.Last()->TopicName = TopicName;
+// 	pubs.Last()->PublicationFrequencyHz = PubFrequency;
+// 	pubs.Last()->MsgClass = MsgClass;
+// 	pubs.Last()->RegisterComponent();
+// }
+
+void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 {
-	pubs.Add(NewObject<UROS2Publisher>(this, PubClass));
-	pubs.Last()->TopicName = TopicName;
-	pubs.Last()->PublicationFrequencyHz = PubFrequency;
-	pubs.Last()->MsgClass = MsgClass;
-	pubs.Last()->RegisterComponent();
+	Publisher->RegisterComponent();
+	Publisher->ownerNode = this;
+	// why are these not allowed?
+	//Publisher->SetupAttachment(RootComponent);
+	//Publisher->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
+	pubs.Add(Publisher);
 }

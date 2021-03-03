@@ -52,8 +52,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddSubscription(FName TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
 
+	// UFUNCTION(BlueprintCallable)
+	// void AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass);
+
 	UFUNCTION(BlueprintCallable)
-	void AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass);
+	void AddPublisher(UROS2Publisher* Publisher);
 
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");

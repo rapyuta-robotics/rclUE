@@ -17,31 +17,36 @@ UROS2Publisher::UROS2Publisher()
 void UROS2Publisher::BeginPlay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay"));
-	ownerNode = Cast<AROS2Node>(GetOwner());
+
+	if (ownerNode == nullptr)
+	{
+		ownerNode = Cast<AROS2Node>(GetOwner());
+	}
 
 	Super::BeginPlay();
 
 	InitializeMessage(); // needed to get type support
 	
-	if (Topic != nullptr && Topic->Msg != nullptr)
-	{
-		const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
-		if (ownerNode != nullptr)
-		{
-			//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
-			ownerNode->Init();
-			UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - rclc_publisher_init_default"));
-			rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()));
-			if (rc != RCL_RET_OK)
-			{
-				UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
-				UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
-			}
-			//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
+	ensure(Topic != nullptr);
+	ensure(Topic->Msg != nullptr);
+	ensure(ownerNode != nullptr);
+	
+	const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
-			GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
-		}
+	//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
+	ownerNode->Init();
+	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - rclc_publisher_init_default"));
+	rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()));
+	if (rc != RCL_RET_OK)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
+		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
+	//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
+
+	GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
+	
+
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 

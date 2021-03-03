@@ -54,7 +54,7 @@ public:
 	float Range;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	float TimeOfLastScan;
+	float TimeOfLastScan = 0.f;
 
 	// [degrees]
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)

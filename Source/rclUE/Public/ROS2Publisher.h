@@ -49,15 +49,15 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
 
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	AROS2Node* ownerNode;
+
 protected:
 	UFUNCTION(BlueprintCallable)
 	void Publish();
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	UROS2Topic* Topic;
-
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	AROS2Node* ownerNode;
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FTimerHandle timerHandle;
