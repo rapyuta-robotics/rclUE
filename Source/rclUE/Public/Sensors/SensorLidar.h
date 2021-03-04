@@ -9,6 +9,9 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Sensor, Log, All);
 
+class AROS2Node;
+class UROS2LidarPublisher;
+
 UCLASS()
 class RCLUE_API ASensorLidar : public AActor
 {
@@ -22,9 +25,14 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
+
+	UFUNCTION(BlueprintCallable)
+	void InitToNode(AROS2Node *Node);
 
 	// adding the rest of the necessary information might be tedious
 	// eventually split into multiple getters
@@ -37,6 +45,9 @@ public:
 	
 	UPROPERTY(EditAnywhere)
     UStaticMeshComponent* LidarMesh;
+
+	UPROPERTY(EditAnywhere)
+	UROS2LidarPublisher *LidarPublisher;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int nSamplesPerSecond;

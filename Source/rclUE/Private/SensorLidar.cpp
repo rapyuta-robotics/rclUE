@@ -27,6 +27,11 @@ ASensorLidar::ASensorLidar()
         LidarMesh->SetStaticMesh(LidarCylinderMesh.Object);
     }
 
+	LidarPublisher = CreateDefaultSubobject<UROS2LidarPublisher>(TEXT("LidarPubliser"));
+	LidarPublisher->TopicName = FName("scan");
+	LidarPublisher->PublicationFrequencyHz = 10;
+	LidarPublisher->MsgClass = UROS2LaserScanMsg::StaticClass();
+	
 	//LidarMesh->SetWorldScale3D(FVector(.1f,.1f,.1f));
 }
 
@@ -34,6 +39,13 @@ ASensorLidar::ASensorLidar()
 void ASensorLidar::BeginPlay()
 {
 	Super::BeginPlay();
+	LidarPublisher->Lidar = this;
+}
+
+void ASensorLidar::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+	LidarPublisher->Lidar = nullptr;
 }
 
 // Called every frame
@@ -93,6 +105,14 @@ void ASensorLidar::Tick(float DeltaTime)
 	// 	DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), true, DeltaTime, 0, 1);
 	// 	//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), true, .1, 0, 1);
 	// }
+}
+
+void ASensorLidar::InitToNode(AROS2Node *Node)
+{
+	if (IsValid(Node))
+	{
+		Node->AddPublisher(LidarPublisher);
+	}
 }
 
 void ASensorLidar::GetData(TArray<FHitResult>& hits, float& time)

@@ -23,6 +23,6 @@ public:
 public:	
 	virtual void UpdateAndPublishMessage_Implementation() override;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY()
 	ASensorLidar* Lidar;
 };
