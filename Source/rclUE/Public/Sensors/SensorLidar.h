@@ -46,7 +46,7 @@ public:
 	UPROPERTY(EditAnywhere)
     UStaticMeshComponent* LidarMesh;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UROS2LidarPublisher *LidarPublisher;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)

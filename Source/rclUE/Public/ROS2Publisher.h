@@ -27,6 +27,9 @@ protected:
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	UFUNCTION(BlueprintCallable)
+	void Init();
 	
 	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();
@@ -49,8 +52,11 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UPROPERTY(EditAnywhere,BlueprintReadOnly)
 	AROS2Node* ownerNode;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
 protected:
 	UFUNCTION(BlueprintCallable)

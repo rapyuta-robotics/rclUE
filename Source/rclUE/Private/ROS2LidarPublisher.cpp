@@ -13,6 +13,9 @@ UROS2LidarPublisher::UROS2LidarPublisher() : UROS2Publisher()
 
 void UROS2LidarPublisher::UpdateAndPublishMessage_Implementation()
 {
+	ensure(State == UROS2State::Initialized);
+	ensure(ownerNode != nullptr);
+	
 	if (Lidar != nullptr)
 	{
 		FLaserScanData LidarData = Lidar->GetROS2Data();

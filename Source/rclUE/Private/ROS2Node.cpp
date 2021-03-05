@@ -62,6 +62,8 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 // Called every frame
 void AROS2Node::Tick(float DeltaTime)
 {
+	ensure(State == UROS2State::Initialized);
+
 	Super::Tick(DeltaTime);
 
 	if (TopicsToSubscribe.Num() > 0)
@@ -75,15 +77,20 @@ void AROS2Node::Init()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Node Init"));
 
-	//UE_LOG(LogTemp, Warning, TEXT("check if we need to initialize the node"));
-	if (!rcl_node_is_valid(&node)) // ensures that it stays safe when called multiple times
+	if (State == UROS2State::Created)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("Init Node"));
-		context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
-		
-		UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
-		RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name.ToString()), Namespace != NAME_None ? TCHAR_TO_ANSI(*Namespace.ToString()) : "", &context->Get()));
-		//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
+		//UE_LOG(LogTemp, Warning, TEXT("check if we need to initialize the node"));
+		if (!rcl_node_is_valid(&node)) // ensures that it stays safe when called multiple times
+		{
+			//UE_LOG(LogTemp, Warning, TEXT("Init Node"));
+			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
+			
+			UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
+			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name.ToString()), Namespace != NAME_None ? TCHAR_TO_ANSI(*Namespace.ToString()) : "", &context->Get()));
+			//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
+		}
+
+		State = UROS2State::Initialized;
 	}
 
 	UE_LOG(LogTemp, Warning, TEXT("Node Init - Done"));
@@ -100,7 +107,9 @@ rcl_node_t* AROS2Node::GetNode()
 }
 
 void AROS2Node::Subscribe()
-{		
+{
+	ensure(State == UROS2State::Initialized);
+			
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe"));
 	for (auto& e : TopicsToSubscribe)
 	{

@@ -82,6 +82,9 @@ public:
 	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NEvents = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TEnumAsByte<UROS2State> State = UROS2State::Created;
+
 protected:
 	UFUNCTION()
 	UROS2Context* GetContext();
