@@ -248,7 +248,10 @@ TMap<FName, FName> AROS2Node::GetListOfNodes()
 	check(NodeNames.size == NodeNamespaces.size);
 	for (int i=0; i<NodeNames.size; i++)
 	{
-		Result.Add(FName(NodeNames.data[i]), FName(NodeNamespaces.data[i]));
+		if (NodeNames.data[i] != nullptr && NodeNamespaces.data[i] != nullptr && NodeNames.data[i][0] != '_')
+		{
+			Result.Add(FName(NodeNames.data[i]), FName(NodeNamespaces.data[i]));
+		}
 	}
 
 	for (auto& pair : Result)
@@ -274,7 +277,13 @@ TMap<FName, FName> AROS2Node::GetListOfTopics()
 
 	for (int i=0; i<TopicNamesAndTypes.names.size; i++)
 	{
-		Result.Add(FName(TopicNamesAndTypes.names.data[i]), FName(TopicNamesAndTypes.types->data[i]));
+		if (TopicNamesAndTypes.names.data[i] != nullptr &&
+		    TopicNamesAndTypes.types != nullptr && 
+			TopicNamesAndTypes.types->data[i] != nullptr && 
+			TopicNamesAndTypes.types->size >= i)
+		{
+			Result.Add(FName(TopicNamesAndTypes.names.data[i]), FName(TopicNamesAndTypes.types->data[i]));
+		}
 	}
 
 	for (auto& pair : Result)

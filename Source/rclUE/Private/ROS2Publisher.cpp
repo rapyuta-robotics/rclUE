@@ -68,7 +68,7 @@ void UROS2Publisher::Init()
 	}
 	else if (ownerNode->State == UROS2State::Created)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Publisher Init - Node needs to be initialized before publisher!"));
+		UE_LOG(LogTemp, Error, TEXT("Publisher Init (%s) - Node needs to be initialized before publisher!"), *TopicName.ToString());
 	}
 	else
 	{
