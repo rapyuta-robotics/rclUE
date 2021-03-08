@@ -21,24 +21,29 @@ void UROS2Publisher::BeginPlay()
 		ownerNode = Cast<AROS2Node>(GetOwner());
 	}
 
-	ensure(ownerNode != nullptr);
-
 	Super::BeginPlay();
 
-	Init();	
+	if (ownerNode != nullptr)
+	{
+		Init();
+	}
+	else
+	{
+	UE_LOG(LogTemp, Error, TEXT("Publisher BeginPlay - Owner not set"));
+	}
 	
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 
 void UROS2Publisher::Init()
 {
-	ensure(ownerNode != nullptr);
+	check(ownerNode != nullptr);
 	if (State == UROS2State::Created && ownerNode->State == UROS2State::Initialized)
 	{
 		InitializeMessage(); // needed to get type support
 		
-		ensure(Topic != nullptr);
-		ensure(Topic->Msg != nullptr);
+		check(Topic != nullptr);
+		check(Topic->Msg != nullptr);
 		
 		const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
@@ -134,8 +139,8 @@ void UROS2Publisher::UpdateAndPublishMessage_Implementation()
 
 void UROS2Publisher::Publish()
 {
-	ensure(State == UROS2State::Initialized);
-	ensure(ownerNode != nullptr);
+	check(State == UROS2State::Initialized);
+	check(ownerNode != nullptr);
 
 	pub_msg = Topic->Msg->Get();
 	

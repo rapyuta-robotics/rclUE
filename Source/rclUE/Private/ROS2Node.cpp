@@ -62,7 +62,7 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 // Called every frame
 void AROS2Node::Tick(float DeltaTime)
 {
-	ensure(State == UROS2State::Initialized);
+	check(State == UROS2State::Initialized);
 
 	Super::Tick(DeltaTime);
 
@@ -108,7 +108,7 @@ rcl_node_t* AROS2Node::GetNode()
 
 void AROS2Node::Subscribe()
 {
-	ensure(State == UROS2State::Initialized);
+	check(State == UROS2State::Initialized);
 			
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe"));
 	for (auto& e : TopicsToSubscribe)

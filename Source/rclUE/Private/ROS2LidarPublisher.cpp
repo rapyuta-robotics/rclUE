@@ -13,8 +13,8 @@ UROS2LidarPublisher::UROS2LidarPublisher() : UROS2Publisher()
 
 void UROS2LidarPublisher::UpdateAndPublishMessage_Implementation()
 {
-	ensure(State == UROS2State::Initialized);
-	ensure(ownerNode != nullptr);
+	check(State == UROS2State::Initialized);
+	check(ownerNode != nullptr);
 	
 	if (Lidar != nullptr)
 	{
