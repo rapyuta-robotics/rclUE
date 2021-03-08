@@ -3,6 +3,7 @@
 
 #include "ROS2Node.h"
 #include "ROS2Subsystem.h"
+#include <rcl/graph.h>
 #include "Kismet/GameplayStatics.h"
 
 
@@ -233,4 +234,55 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 	//Publisher->SetupAttachment(RootComponent);
 	//Publisher->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	pubs.Add(Publisher);
+}
+
+TMap<FName, FName> AROS2Node::GetListOfNodes()
+{
+	TMap<FName, FName> Result;
+
+	rcutils_string_array_t NodeNames = rcutils_get_zero_initialized_string_array();
+	rcutils_string_array_t NodeNamespaces = rcutils_get_zero_initialized_string_array();
+
+	RCSOFTCHECK(rcl_get_node_names(&node, rcl_get_default_allocator(), &NodeNames, &NodeNamespaces));
+	
+	check(NodeNames.size == NodeNamespaces.size);
+	for (int i=0; i<NodeNames.size; i++)
+	{
+		Result.Add(FName(NodeNames.data[i]), FName(NodeNamespaces.data[i]));
+	}
+
+	for (auto& pair : Result)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Node: %s - Namespace: %s"), *pair.Key.ToString(), *pair.Value.ToString());
+	}
+
+	RCSOFTCHECK(rcutils_string_array_fini(&NodeNames));
+	RCSOFTCHECK(rcutils_string_array_fini(&NodeNamespaces));
+
+	return Result;
+}
+
+// need a way to convert the message type as well
+TMap<FName, FName> AROS2Node::GetListOfTopics()
+{
+	TMap<FName, FName> Result;
+
+	rcl_names_and_types_t TopicNamesAndTypes = rcl_get_zero_initialized_names_and_types();
+	rcl_allocator_t Allocator = rcl_get_default_allocator();
+
+	RCSOFTCHECK(rcl_get_topic_names_and_types(&node, &Allocator, false, &TopicNamesAndTypes));
+
+	for (int i=0; i<TopicNamesAndTypes.names.size; i++)
+	{
+		Result.Add(FName(TopicNamesAndTypes.names.data[i]), FName(TopicNamesAndTypes.types->data[i]));
+	}
+
+	for (auto& pair : Result)
+	{
+		UE_LOG(LogTemp, Warning, TEXT("Topic: %s - MsgTypes: %s"), *pair.Key.ToString(), *pair.Value.ToString());
+	}
+
+	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));
+
+	return Result;
 }

@@ -71,8 +71,11 @@ UROS2Context* UROS2Subsystem::GetContext() const
 
 void UROS2Subsystem::ListRosNodes() const
 {
+	// this method requires a valid node
 }
 
 void UROS2Subsystem::ListRosTopics() const
 {
+	// this method requires a valid node
+	// rcl_get_topic_names_and_types();
 }

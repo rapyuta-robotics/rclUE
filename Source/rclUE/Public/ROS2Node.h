@@ -58,6 +58,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddPublisher(UROS2Publisher* Publisher);
 
+	UFUNCTION(BlueprintCallable)
+	TMap<FName, FName> GetListOfNodes();
+
+	UFUNCTION(BlueprintCallable)
+	TMap<FName, FName> GetListOfTopics();
+
 	UPROPERTY(EditAnywhere)
 	FName Name = TEXT("node");
 	
