@@ -7,7 +7,6 @@
 
 DEFINE_LOG_CATEGORY(LogROS2Sensor);
 
-
 // Sets default values
 ASensorLidar::ASensorLidar()
 {
@@ -53,12 +52,33 @@ void ASensorLidar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+#if TRACE_ASYNC
+	for (int i = 0; i < nSamplesPerScan; ++i)
+	{
+		if (TraceHandles[i]._Data.FrameNumber != 0)
+		{
+			FTraceDatum Output;
+
+			if (GWorld->QueryTraceData(TraceHandles[i], Output))
+			{
+				TraceHandles[i]._Data.FrameNumber = 0;
+				RecordedHits[i] = Output.OutHits[0];	// We should only be tracing the first hit anyhow
+			}
+		}
+	}
+#endif
 }
 
 void ASensorLidar::Run()
 {
 	RecordedHits.Empty();
 	RecordedHits.Init(FHitResult(ForceInit), nSamplesPerScan);
+
+#if TRACE_ASYNC
+	TraceHandles.Empty();
+	TraceHandles.Init(FTraceHandle{}, nSamplesPerScan);
+#endif
+
 	GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &ASensorLidar::Scan, 1.f/(float)ScanFrequency, true);
 }
 
@@ -69,11 +89,31 @@ void ASensorLidar::Scan()
 	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), false, this);
 	//TraceParams.bTraceComplex = false;
 	TraceParams.bReturnPhysicalMaterial = false;
+	TraceParams.bIgnoreTouches = true;
 
 	FTransform lidarTransform = GetTransform();
 	FVector lidarPos = lidarTransform.GetLocation();
 	FRotator lidarRot = lidarTransform.Rotator();
 
+#if TRACE_ASYNC
+	// This is cheesy, but basically if the first trace is in flight we assume they're all waiting and don't do another trace.
+	// This is not good if done on other threads and only works because both timers and actor ticks happen on the game thread.
+	if (TraceHandles[0]._Data.FrameNumber == 0)
+	{
+		for (int i = 0; i < nSamplesPerScan; ++i)
+		{
+			const float HAngle = StartAngle + DHAngle * i;
+
+			FRotator laserRot(0, HAngle, 0);
+			FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
+
+			FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
+			FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);
+
+			TraceHandles[i] = GWorld->AsyncLineTraceByChannel(EAsyncTraceType::Single, startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam, nullptr);
+		}
+	}
+#else
 	ParallelFor(nSamplesPerScan, [this, &TraceParams, &lidarPos, &lidarRot](int32 Index)
 	{
 		const float HAngle = StartAngle + DHAngle * Index;
@@ -86,6 +126,7 @@ void ASensorLidar::Scan()
 
 		GWorld->LineTraceSingleByChannel(RecordedHits[Index], startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
 	}, false);
+#endif
 	
 	// for (int p=0; p<nSamplesPerScan; p++)
 	// {

@@ -12,6 +12,8 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Sensor, Log, All);
 class AROS2Node;
 class UROS2LidarPublisher;
 
+#define TRACE_ASYNC 1
+
 UCLASS()
 class RCLUE_API ASensorLidar : public AActor
 {
@@ -85,6 +87,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
   	TArray<FHitResult> RecordedHits;
+
+#if TRACE_ASYNC
+ 	TArray<FTraceHandle> TraceHandles;
+#endif
 	
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FTimerHandle timerHandle;
