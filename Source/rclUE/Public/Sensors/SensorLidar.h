@@ -32,6 +32,12 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
+	void Run();
+
+	UFUNCTION(BlueprintCallable)
+	void Scan();
+
+	UFUNCTION(BlueprintCallable)
 	void InitToNode(AROS2Node *Node);
 
 	// adding the rest of the necessary information might be tedious
@@ -50,7 +56,10 @@ public:
 	UROS2LidarPublisher *LidarPublisher;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	int nSamplesPerSecond;
+	int nSamplesPerScan;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	int ScanFrequency;
 
 	// [degrees]
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
@@ -62,7 +71,10 @@ public:
 	float FOVHorizontal;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	float Range;
+	float MinRange;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float MaxRange;
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	float TimeOfLastScan = 0.f;
@@ -73,8 +85,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
   	TArray<FHitResult> RecordedHits;
+	
+	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	FTimerHandle timerHandle;
 
 private:
-	uint32 nSamplesPerFrame;
 	float dt;
 };

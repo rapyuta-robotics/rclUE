@@ -53,58 +53,77 @@ void ASensorLidar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	const float CurrentHAngle = StartAngle;
+}
 
-	nSamplesPerFrame = FMath::RoundHalfFromZero(float(nSamplesPerSecond) * DeltaTime);
-	DHAngle = FOVHorizontal / (float)nSamplesPerFrame;
-
+void ASensorLidar::Run()
+{
 	RecordedHits.Empty();
-	RecordedHits.Reserve(nSamplesPerFrame);
+	RecordedHits.Init(FHitResult(ForceInit), nSamplesPerScan);
+	GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &ASensorLidar::Scan, 1.f/(float)ScanFrequency, true);
+}
+
+void ASensorLidar::Scan()
+{
+	DHAngle = FOVHorizontal / (float)nSamplesPerScan;
 	
-	for (int p=0; p<nSamplesPerFrame; p++)
+	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), false, this);
+	//TraceParams.bTraceComplex = false;
+	TraceParams.bReturnPhysicalMaterial = false;
+
+	FTransform lidarTransform = GetTransform();
+	FVector lidarPos = lidarTransform.GetLocation();
+	FRotator lidarRot = lidarTransform.Rotator();
+
+	ParallelFor(nSamplesPerScan, [this, &TraceParams, &lidarPos, &lidarRot](int32 Index)
 	{
-		float remainder;
-		UKismetMathLibrary::FMod(CurrentHAngle + DHAngle * p, FOVHorizontal, remainder);
-		const float HAngle = remainder;
-	
-		//UE_LOG(LogROS2Sensor, Warning, TEXT("Shooting ray with angle %f (%f) (samples/frame: %d)"), HAngle, CurrentHAngle + DHAngle * p, nSamplesPerFrame);
-		FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this);
-		TraceParams.bTraceComplex = true;
-		TraceParams.bReturnPhysicalMaterial = false;
+		const float HAngle = StartAngle + DHAngle * Index;
 
-		FHitResult HitInfo(ForceInit);
-
-		FTransform lidarTransform = GetTransform();
-		FVector lidarPos = lidarTransform.GetLocation();
-		FRotator lidarRot = lidarTransform.Rotator();
 		FRotator laserRot(0, HAngle, 0);
 		FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
 
-		FVector endPos = lidarPos + Range * UKismetMathLibrary::GetForwardVector(rot);
+		FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
+		FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);
 
-		if (GetWorld()->LineTraceSingleByChannel(HitInfo, lidarPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam))
-		{
-			RecordedHits.Add(HitInfo);
-		}
-		else
-		{
-			//UE_LOG(LogROS2Sensor, Error, TEXT("Missed hit"));
+		GWorld->LineTraceSingleByChannel(RecordedHits[Index], startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
+	}, false);
+	
+	// for (int p=0; p<nSamplesPerScan; p++)
+	// {
+	// 	//float remainder;
+	// 	//UKismetMathLibrary::FMod(CurrentHAngle + DHAngle * p, FOVHorizontal, remainder);
+	// 	const float HAngle = CurrentHAngle + DHAngle * p;//remainder;
+	
+	// 	//UE_LOG(LogROS2Sensor, Warning, TEXT("Shooting ray with angle %f (%f) (samples/frame: %d)"), HAngle, CurrentHAngle + DHAngle * p, nSamplesPerFrame);
+	// 	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), false, this);
+	// 	//TraceParams.bTraceComplex = false;
+	// 	TraceParams.bReturnPhysicalMaterial = false;
 
-			RecordedHits.Add(HitInfo);
-		}
-	}
-	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GetWorld());
-	dt = DeltaTime;
+	// 	FHitResult HitInfo(ForceInit);
+
+	// 	FTransform lidarTransform = GetTransform();
+	// 	FVector lidarPos = lidarTransform.GetLocation();
+	// 	FRotator lidarRot = lidarTransform.Rotator();
+	// 	FRotator laserRot(0, HAngle, 0);
+	// 	FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
+
+	// 	FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
+	// 	FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);
+
+	// 	GWorld->LineTraceSingleByChannel(HitInfo, startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
+	// 	RecordedHits.Add(HitInfo);
+	// }
+
+	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GWorld);
+	dt = 1.f/(float)ScanFrequency;
 
 	// need to store on a structure associating hits with time?
 	// GetROS2Data needs to get all data since the last Get? or the last within the last time interval?
 
-
-	// for (auto& h : RecordedHits)
-	// {
-	// 	DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), true, DeltaTime, 0, 1);
-	// 	//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), true, .1, 0, 1);
-	// }
+	for (auto& h : RecordedHits)
+	{
+		DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), true, dt, 0, 1);
+		//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), true, .1, 0, 1);
+	}
 }
 
 void ASensorLidar::InitToNode(AROS2Node *Node)
@@ -131,13 +150,13 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	
 	retValue.frame_id = FName("Lidar");
 
-	retValue.angle_min = -FMath::DegreesToRadians(StartAngle+FOVHorizontal);
+	retValue.angle_min = FMath::DegreesToRadians(StartAngle+FOVHorizontal);
 	retValue.angle_max = FMath::DegreesToRadians(StartAngle);
 	retValue.angle_increment = FMath::DegreesToRadians(DHAngle);
-	retValue.time_increment = dt / nSamplesPerFrame;
+	retValue.time_increment = dt / nSamplesPerScan;
 	retValue.scan_time = dt;
-	retValue.range_min = 0;
-	retValue.range_max = Range;
+	retValue.range_min = MinRange*.01;
+	retValue.range_max = MaxRange*.01;
 
 	//UE_LOG(LogROS2Sensor, Error, TEXT("Recorded hits distance (%d entries): %f %f %f %f %f"), RecordedHits.Num(), RecordedHits.Last(0).Distance*.01, RecordedHits.Last(1).Distance*.01, RecordedHits.Last(2).Distance*.01, RecordedHits.Last(3).Distance*.01, RecordedHits.Last(4).Distance*.01);
 
