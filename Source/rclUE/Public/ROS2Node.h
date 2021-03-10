@@ -103,7 +103,7 @@ protected:
 
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
-	void SpinSome(const uint64 timeout_ns);
+	void SpinSome();
 
 	UPROPERTY()
 	UROS2Context* context;
@@ -119,6 +119,12 @@ protected:
 	TMap<UROS2Topic*, FSubscriptionCallback> callbacks; // could be combined with above
 	
 	rcl_wait_set_t wait_set;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	float SubsTimeout; // [s]
+	
+	UPROPERTY()
+	FTimerHandle timerHandle;
 
 	// int NSpinCalls = 0;
 	// int NSubMsgGets = 0;

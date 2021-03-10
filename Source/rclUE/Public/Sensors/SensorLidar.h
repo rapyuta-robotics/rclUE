@@ -92,7 +92,7 @@ public:
  	TArray<FTraceHandle> TraceHandles;
 #endif
 	
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UPROPERTY()
 	FTimerHandle timerHandle;
 
 	UPROPERTY(EditAnywhere)

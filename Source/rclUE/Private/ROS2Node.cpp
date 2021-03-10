@@ -66,11 +66,6 @@ void AROS2Node::Tick(float DeltaTime)
 	check(State == UROS2State::Initialized);
 
 	Super::Tick(DeltaTime);
-
-	if (TopicsToSubscribe.Num() > 0)
-	{
-		SpinSome(DeltaTime*1000*1000*1000);
-	}
 }
 
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
@@ -148,10 +143,16 @@ void AROS2Node::Subscribe()
 	{
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
+
+	if (NSubscriptions > 0)
+	{
+		GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &AROS2Node::SpinSome, SubsTimeout, true);
+	}
+
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe - Done"));
 }
 
-void AROS2Node::SpinSome(const uint64 timeout_ns)
+void AROS2Node::SpinSome()
 {
 	//NSpinCalls++;
 	if (!rcl_wait_set_is_valid(&wait_set))
@@ -171,7 +172,7 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &pair.Value, nullptr));
 	}
 
-	rcl_ret_t rc = rcl_wait(&wait_set, timeout_ns);
+	rcl_ret_t rc = rcl_wait(&wait_set, SubsTimeout*1e9);
   	RCLC_UNUSED(rc);
 
 	// based on _rclc_default_scheduling
@@ -216,15 +217,6 @@ void AROS2Node::AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> M
 	TopicsToSubscribe.Add(TopicName, MsgClass);
 	TopicsToCallback.Add(TopicName, Callback);
 }
-
-// void AROS2Node::AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass)
-// {
-// 	pubs.Emplace(NewObject<UROS2Publisher>(this, PubClass));
-// 	pubs.Last()->TopicName = TopicName;
-// 	pubs.Last()->PublicationFrequencyHz = PubFrequency;
-// 	pubs.Last()->MsgClass = MsgClass;
-// 	pubs.Last()->RegisterComponent();
-// }
 
 void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 {
