@@ -120,8 +120,8 @@ protected:
 	
 	rcl_wait_set_t wait_set;
 
-	int NSpinCalls = 0;
-	int NSubMsgGets = 0;
+	// int NSpinCalls = 0;
+	// int NSubMsgGets = 0;
 
 private:
 };

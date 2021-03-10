@@ -153,7 +153,7 @@ void AROS2Node::Subscribe()
 
 void AROS2Node::SpinSome(const uint64 timeout_ns)
 {
-	NSpinCalls++;
+	//NSpinCalls++;
 	if (!rcl_wait_set_is_valid(&wait_set))
 	{
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
@@ -193,8 +193,8 @@ void AROS2Node::SpinSome(const uint64 timeout_ns)
 
 	for (auto& pair : readySubs)
 	{	
-		NSubMsgGets++;
-		UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
+		// NSubMsgGets++;
+		// UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
 		void * data = pair.Key->Msg->Get();
 		rmw_message_info_t messageInfo;
 		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);

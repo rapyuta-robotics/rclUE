@@ -29,7 +29,7 @@ ASensorLidar::ASensorLidar()
 
 	LidarPublisher = CreateDefaultSubobject<UROS2LidarPublisher>(TEXT("LidarPubliser"));
 	LidarPublisher->TopicName = FName("scan");
-	LidarPublisher->PublicationFrequencyHz = 10;
+	LidarPublisher->PublicationFrequencyHz = ScanFrequency;
 	LidarPublisher->MsgClass = UROS2LaserScanMsg::StaticClass();
 	
 	//LidarMesh->SetWorldScale3D(FVector(.1f,.1f,.1f));
@@ -86,32 +86,6 @@ void ASensorLidar::Scan()
 
 		GWorld->LineTraceSingleByChannel(RecordedHits[Index], startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
 	}, false);
-	
-	// for (int p=0; p<nSamplesPerScan; p++)
-	// {
-	// 	//float remainder;
-	// 	//UKismetMathLibrary::FMod(CurrentHAngle + DHAngle * p, FOVHorizontal, remainder);
-	// 	const float HAngle = CurrentHAngle + DHAngle * p;//remainder;
-	
-	// 	//UE_LOG(LogROS2Sensor, Warning, TEXT("Shooting ray with angle %f (%f) (samples/frame: %d)"), HAngle, CurrentHAngle + DHAngle * p, nSamplesPerFrame);
-	// 	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), false, this);
-	// 	//TraceParams.bTraceComplex = false;
-	// 	TraceParams.bReturnPhysicalMaterial = false;
-
-	// 	FHitResult HitInfo(ForceInit);
-
-	// 	FTransform lidarTransform = GetTransform();
-	// 	FVector lidarPos = lidarTransform.GetLocation();
-	// 	FRotator lidarRot = lidarTransform.Rotator();
-	// 	FRotator laserRot(0, HAngle, 0);
-	// 	FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
-
-	// 	FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
-	// 	FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);
-
-	// 	GWorld->LineTraceSingleByChannel(HitInfo, startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
-	// 	RecordedHits.Add(HitInfo);
-	// }
 
 	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GWorld);
 	dt = 1.f/(float)ScanFrequency;
@@ -119,10 +93,13 @@ void ASensorLidar::Scan()
 	// need to store on a structure associating hits with time?
 	// GetROS2Data needs to get all data since the last Get? or the last within the last time interval?
 
-	for (auto& h : RecordedHits)
+	if (DrawDebugLines)
 	{
-		DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), true, dt, 0, 1);
-		//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), true, .1, 0, 1);
+		for (auto& h : RecordedHits)
+		{
+			DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), false, 10*dt, 0, 1);
+			//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), false, .1, 0, 1);
+		}
 	}
 }
 

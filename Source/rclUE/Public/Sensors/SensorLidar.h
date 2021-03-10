@@ -89,6 +89,9 @@ public:
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	FTimerHandle timerHandle;
 
+	UPROPERTY(EditAnywhere)
+	bool DrawDebugLines = false;
+
 private:
 	float dt;
 };
