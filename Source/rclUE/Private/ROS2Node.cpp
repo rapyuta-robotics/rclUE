@@ -66,6 +66,11 @@ void AROS2Node::Tick(float DeltaTime)
 	check(State == UROS2State::Initialized);
 
 	Super::Tick(DeltaTime);
+
+	if (NSubscriptions > 0)
+	{
+		SpinSome();
+	}
 }
 
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
@@ -144,10 +149,10 @@ void AROS2Node::Subscribe()
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
 
-	if (NSubscriptions > 0)
-	{
-		GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &AROS2Node::SpinSome, SubsTimeout, true);
-	}
+	// if (NSubscriptions > 0)
+	// {
+	// 	GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &AROS2Node::SpinSome, SubsTimeout, true);
+	// }
 
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe - Done"));
 }
