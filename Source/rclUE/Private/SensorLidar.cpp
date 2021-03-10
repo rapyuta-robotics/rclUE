@@ -126,6 +126,7 @@ void ASensorLidar::Scan()
 
 		GWorld->LineTraceSingleByChannel(RecordedHits[Index], startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
 	}, false);
+#endif
 
 	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GWorld);
 	dt = 1.f/(float)ScanFrequency;
