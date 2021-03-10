@@ -91,9 +91,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	float SubsTimeout; // [s]
-
 protected:
 	UFUNCTION()
 	UROS2Context* GetContext();

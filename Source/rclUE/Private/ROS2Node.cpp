@@ -149,11 +149,6 @@ void AROS2Node::Subscribe()
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
 
-	// if (NSubscriptions > 0)
-	// {
-	// 	GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &AROS2Node::SpinSome, SubsTimeout, true);
-	// }
-
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe - Done"));
 }
 
@@ -177,7 +172,7 @@ void AROS2Node::SpinSome()
 		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &pair.Value, nullptr));
 	}
 
-	rcl_ret_t rc = rcl_wait(&wait_set, SubsTimeout*1e9);
+	rcl_ret_t rc = rcl_wait(&wait_set, 0);
   	RCLC_UNUSED(rc);
 
 	// based on _rclc_default_scheduling
