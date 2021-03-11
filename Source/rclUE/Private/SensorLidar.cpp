@@ -86,8 +86,7 @@ void ASensorLidar::Scan()
 {
 	DHAngle = FOVHorizontal / (float)nSamplesPerScan;
 	
-	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), false, this);
-	//TraceParams.bTraceComplex = false;
+	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this); // complex collisions: true
 	TraceParams.bReturnPhysicalMaterial = false;
 	TraceParams.bIgnoreTouches = true;
 
