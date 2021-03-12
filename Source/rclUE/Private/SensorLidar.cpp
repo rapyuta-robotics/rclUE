@@ -137,8 +137,15 @@ void ASensorLidar::Scan()
 	{
 		for (auto& h : RecordedHits)
 		{
-			DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), false, 10*dt, 0, 1);
-			//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), false, .1, 0, 1);
+			if (h.Actor != nullptr)
+			{
+				DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), false, dt, 0, .5);
+				//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), false, .1, 0, 1);
+			}
+			else
+			{
+				DrawDebugLine(GetWorld(), h.TraceStart, h.TraceEnd, FColor(255, 127, 0, 255), false, dt, 0, .25);
+			}
 		}
 	}
 }
