@@ -102,7 +102,7 @@ FString UROS2LaserScanMsg::MsgToString() const
         data.Append(FString::SanitizeFloat(laserscan_pub_msg.ranges.data[i]));
         data.Append("\t");
     }
-	return FString::Printf(TEXT("(%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d - data (up to 5 values): %s"),
+	return FString::Printf(TEXT("Lidar (%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d - data (up to 5 values): %s"),
                             laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, *frame_id, 
                             laserscan_pub_msg.angle_min, laserscan_pub_msg.angle_max, laserscan_pub_msg.angle_increment, laserscan_pub_msg.time_increment, laserscan_pub_msg.scan_time, laserscan_pub_msg.range_min, laserscan_pub_msg.range_max,
                             laserscan_pub_msg.ranges.size, laserscan_pub_msg.intensities.size, *data);

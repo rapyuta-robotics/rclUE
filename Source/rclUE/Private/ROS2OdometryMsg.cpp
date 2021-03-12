@@ -34,13 +34,18 @@ void UROS2OdometryMsg::Update(const FOdometryData data)
 {
     odometry_pub_msg.header.stamp.sec = data.sec;
     odometry_pub_msg.header.stamp.nanosec = data.nanosec;
-    odometry_pub_msg.header.frame_id.data = TCHAR_TO_ANSI(*data.frame_id);
-    odometry_pub_msg.header.frame_id.size = data.frame_id.Len();
-    odometry_pub_msg.header.frame_id.capacity = data.frame_id.Len()+1;
-	
-    odometry_pub_msg.child_frame_id.data = TCHAR_TO_ANSI(*data.child_frame_id);
-    odometry_pub_msg.child_frame_id.size = data.child_frame_id.Len();
-    odometry_pub_msg.child_frame_id.capacity = data.child_frame_id.Len()+1;
+
+    free(odometry_pub_msg.header.frame_id.data);
+    odometry_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    strcpy(odometry_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id.ToString()));
+    odometry_pub_msg.header.frame_id.size = data.frame_id.GetStringLength(); // GetStringLength excludes nullterm char
+    odometry_pub_msg.header.frame_id.capacity = data.frame_id.GetStringLength()+1;
+
+    free(odometry_pub_msg.child_frame_id.data);
+    odometry_pub_msg.child_frame_id.data = (char*)malloc((data.child_frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    strcpy(odometry_pub_msg.child_frame_id.data, TCHAR_TO_ANSI(*data.child_frame_id.ToString()));
+    odometry_pub_msg.child_frame_id.size = data.child_frame_id.GetStringLength(); // GetStringLength excludes nullterm char
+    odometry_pub_msg.child_frame_id.capacity = data.child_frame_id.GetStringLength()+1;
 
 	odometry_pub_msg.pose.pose.position.x = data.position.X;
 	odometry_pub_msg.pose.pose.position.y = data.position.Y;
@@ -77,5 +82,11 @@ void* UROS2OdometryMsg::Get()
 
 FString UROS2OdometryMsg::MsgToString() const
 {
-    return FString();
+    FString frame_id, child_frame_id;
+    frame_id.AppendChars(odometry_pub_msg.header.frame_id.data, odometry_pub_msg.header.frame_id.size);
+    child_frame_id.AppendChars(odometry_pub_msg.child_frame_id.data, odometry_pub_msg.child_frame_id.size);
+	return FString::Printf(TEXT("Odometry: (%ds %dns %s %s), (%f %f %f, %f %f %f %f)"),
+                            odometry_pub_msg.header.stamp.sec, odometry_pub_msg.header.stamp.nanosec, *frame_id, *child_frame_id,
+                            odometry_pub_msg.pose.pose.position.x, odometry_pub_msg.pose.pose.position.y, odometry_pub_msg.pose.pose.position.z,
+							odometry_pub_msg.pose.pose.orientation.x, odometry_pub_msg.pose.pose.orientation.y, odometry_pub_msg.pose.pose.orientation.z, odometry_pub_msg.pose.pose.orientation.w);
 }

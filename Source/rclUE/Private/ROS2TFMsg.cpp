@@ -40,13 +40,24 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 	{
 		tf_pub_msg.transforms.data[i].header.stamp.sec = data[i].sec;
 		tf_pub_msg.transforms.data[i].header.stamp.nanosec = data[i].nanosec;
-		tf_pub_msg.transforms.data[i].header.frame_id.data = TCHAR_TO_ANSI(*data[i].frame_id);
-		tf_pub_msg.transforms.data[i].header.frame_id.size = data[i].frame_id.Len();
-		tf_pub_msg.transforms.data[i].header.frame_id.capacity = data[i].frame_id.Len()+1;
-		
-		tf_pub_msg.transforms.data[i].child_frame_id.data = TCHAR_TO_ANSI(*data[i].child_frame_id);
-		tf_pub_msg.transforms.data[i].child_frame_id.size = data[i].child_frame_id.Len();
-		tf_pub_msg.transforms.data[i].child_frame_id.capacity = data[i].child_frame_id.Len()+1;
+
+		// if (tf_pub_msg.transforms.data[i].header.frame_id.data != nullptr)
+		// {
+		// 	free(tf_pub_msg.transforms.data[i].header.frame_id.data);
+		// }
+		tf_pub_msg.transforms.data[i].header.frame_id.data = (char*)malloc((data[i].frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+		strcpy(tf_pub_msg.transforms.data[i].header.frame_id.data, TCHAR_TO_ANSI(*data[i].frame_id.ToString()));
+		tf_pub_msg.transforms.data[i].header.frame_id.size = data[i].frame_id.GetStringLength(); // GetStringLength excludes nullterm char
+		tf_pub_msg.transforms.data[i].header.frame_id.capacity = data[i].frame_id.GetStringLength()+1;
+
+		// if (tf_pub_msg.transforms.data[i].child_frame_id.data != nullptr)
+		// {
+		// 	free(tf_pub_msg.transforms.data[i].child_frame_id.data);
+		// }
+		tf_pub_msg.transforms.data[i].child_frame_id.data = (char*)malloc((data[i].child_frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+		strcpy(tf_pub_msg.transforms.data[i].child_frame_id.data, TCHAR_TO_ANSI(*data[i].child_frame_id.ToString()));
+		tf_pub_msg.transforms.data[i].child_frame_id.size = data[i].child_frame_id.GetStringLength(); // GetStringLength excludes nullterm char
+		tf_pub_msg.transforms.data[i].child_frame_id.capacity = data[i].child_frame_id.GetStringLength()+1;
 
 		tf_pub_msg.transforms.data[i].transform.translation.x = data[i].translation.X;
 		tf_pub_msg.transforms.data[i].transform.translation.y = data[i].translation.Y;
@@ -72,5 +83,11 @@ void* UROS2TFMsg::Get()
 
 FString UROS2TFMsg::MsgToString() const
 {
-    return FString();
+    FString frame_id, child_frame_id;
+    frame_id.AppendChars(tf_pub_msg.transforms.data[0].header.frame_id.data, tf_pub_msg.transforms.data[0].header.frame_id.size);
+    child_frame_id.AppendChars(tf_pub_msg.transforms.data[0].child_frame_id.data, tf_pub_msg.transforms.data[0].child_frame_id.size);
+	return FString::Printf(TEXT("TF Element 0: (%ds %dns %s %s), (%f %f %f, %f %f %f %f)"),
+                            tf_pub_msg.transforms.data[0].header.stamp.sec, tf_pub_msg.transforms.data[0].header.stamp.nanosec, *frame_id, *child_frame_id,
+                            tf_pub_msg.transforms.data[0].transform.translation.x, tf_pub_msg.transforms.data[0].transform.translation.y, tf_pub_msg.transforms.data[0].transform.translation.z,
+							tf_pub_msg.transforms.data[0].transform.rotation.x, tf_pub_msg.transforms.data[0].transform.rotation.y, tf_pub_msg.transforms.data[0].transform.rotation.z, tf_pub_msg.transforms.data[0].transform.rotation.w);
 }
