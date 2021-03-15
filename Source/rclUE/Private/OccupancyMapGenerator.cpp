@@ -4,6 +4,7 @@
 #include "OccupancyMapGenerator.h"
 #include <Runtime/Core/Public/Misc/Paths.h>
 #include <Runtime/Core/Public/HAL/PlatformFilemanager.h>
+#include <DrawDebugHelpers.h>
 
 
 // Sets default values
@@ -40,17 +41,19 @@ void AOccupancyMapGenerator::BeginPlay()
 	TraceParams.bReturnPhysicalMaterial = false;
 	TraceParams.bIgnoreTouches = true;
 
-	for (int j=0; j<NCellsY; j++)
+	for (int j=NCellsY-1; j>=0; j--)
 	{
-		for (int i=0; i<NCellsX; i++)
+		for (int i=NCellsX-1; i>=0; i--)
 		{
-			FVector Start(Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), GridRes_cm);
-			FVector End(Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), MaxVerticalHeight*100);
+			FVector OccupancyRayStart(Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), GridRes_cm);
+			FVector OccupancyRayEnd(  Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), MaxVerticalHeight*100);
 
 			FHitResult hit;
-			GWorld->LineTraceSingleByChannel(hit, Start, End, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
+			GWorld->LineTraceSingleByChannel(hit, OccupancyRayStart, OccupancyRayEnd, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
 
 			OccupancyGrid.Add(hit.bBlockingHit ? 0 : 255);
+
+			//DrawDebugLine(GetWorld(), hit.TraceStart, hit.Location, FColor(0, 255, 0, 255), true, 1, 0, .25);
 		}
 	}
 

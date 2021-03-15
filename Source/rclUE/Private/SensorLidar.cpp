@@ -174,8 +174,8 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	
 	retValue.frame_id = FName("base_scan");
 
-	retValue.angle_min = FMath::DegreesToRadians(StartAngle+FOVHorizontal);
-	retValue.angle_max = FMath::DegreesToRadians(StartAngle);
+	retValue.angle_min = FMath::DegreesToRadians(StartAngle+FOVHorizontal+180);
+	retValue.angle_max = FMath::DegreesToRadians(StartAngle+180);
 	retValue.angle_increment = FMath::DegreesToRadians(DHAngle);
 	retValue.time_increment = dt / nSamplesPerScan;
 	retValue.scan_time = dt;

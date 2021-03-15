@@ -146,5 +146,5 @@ void UROS2Publisher::Publish()
 	
     rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
 
-	Topic->Msg->PrintPubToLog(rc, ownerNode->Name);
+	//Topic->Msg->PrintPubToLog(rc, ownerNode->Name);
 }
