@@ -20,9 +20,9 @@ public:
     uint nanosec;
 
     // header - frame_id
-    FString frame_id;
+    FName frame_id;
 
-  	FString child_frame_id;
+  	FName child_frame_id;
 
 	FVector translation;
 	FQuat rotation;

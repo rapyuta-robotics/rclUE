@@ -86,8 +86,7 @@ void ASensorLidar::Scan()
 {
 	DHAngle = FOVHorizontal / (float)nSamplesPerScan;
 	
-	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), false, this);
-	//TraceParams.bTraceComplex = false;
+	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this); // complex collisions: true
 	TraceParams.bReturnPhysicalMaterial = false;
 	TraceParams.bIgnoreTouches = true;
 
@@ -138,8 +137,15 @@ void ASensorLidar::Scan()
 	{
 		for (auto& h : RecordedHits)
 		{
-			DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), false, 10*dt, 0, 1);
-			//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), false, .1, 0, 1);
+			if (h.Actor != nullptr)
+			{
+				DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), false, dt, 0, .5);
+				//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), false, .1, 0, 1);
+			}
+			else
+			{
+				DrawDebugLine(GetWorld(), h.TraceStart, h.TraceEnd, FColor(255, 127, 0, 255), false, dt, 0, .25);
+			}
 		}
 	}
 }
@@ -166,7 +172,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	unsigned long long ns = (unsigned long long)(TimeOfLastScan * 1000000000.0f);
 	retValue.nanosec = (uint32_t)(ns - (retValue.sec * 1000000000ul));
 	
-	retValue.frame_id = FName("Lidar");
+	retValue.frame_id = FName("base_scan");
 
 	retValue.angle_min = FMath::DegreesToRadians(StartAngle+FOVHorizontal);
 	retValue.angle_max = FMath::DegreesToRadians(StartAngle);
