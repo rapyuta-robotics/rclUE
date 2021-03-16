@@ -22,8 +22,8 @@ public:
 	virtual void Init();
 	virtual void Fini();
 	virtual void* Get();
-	void PrintPubToLog(rcl_ret_t rc, FName NodeName) const;
-	void PrintSubToLog(rcl_ret_t rc, FName NodeName) const;
+	void PrintPubToLog(rcl_ret_t rc, FString NodeName) const;
+	void PrintSubToLog(rcl_ret_t rc, FString NodeName) const;
 
 private:
 	UFUNCTION(BlueprintCallable)

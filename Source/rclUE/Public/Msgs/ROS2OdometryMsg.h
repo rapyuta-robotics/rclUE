@@ -20,10 +20,10 @@ public:
     uint nanosec;
 
     // header - frame_id
-    FName frame_id;
+    FString frame_id;
 
 	// child_frame_id
-	FName child_frame_id;
+	FString child_frame_id;
 
 	// pose with covariance - are floats enough? type is double
 	FVector position;

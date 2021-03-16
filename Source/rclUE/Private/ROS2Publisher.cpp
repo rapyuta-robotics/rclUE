@@ -50,7 +50,7 @@ void UROS2Publisher::Init()
 		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
 		ownerNode->Init();
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Init - rclc_publisher_init_default"));
-		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()));
+		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name));
 		if (rc != RCL_RET_OK)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
@@ -68,7 +68,7 @@ void UROS2Publisher::Init()
 	}
 	else if (ownerNode->State == UROS2State::Created)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Publisher Init (%s) - Node needs to be initialized before publisher!"), *TopicName.ToString());
+		UE_LOG(LogTemp, Error, TEXT("Publisher Init (%s) - Node needs to be initialized before publisher!"), *TopicName);
 	}
 	else
 	{
@@ -112,7 +112,7 @@ void UROS2Publisher::Destroy()
 
 void UROS2Publisher::InitializeMessage()
 {
-	if (TopicName != FName() && MsgClass)
+	if (TopicName != FString() && MsgClass)
 	{
 		Topic = NewObject<UROS2Topic>();
 		Topic->Name = TopicName;

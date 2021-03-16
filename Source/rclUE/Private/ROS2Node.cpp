@@ -87,7 +87,7 @@ void AROS2Node::Init()
 			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 			
 			UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
-			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name.ToString()), Namespace != NAME_None ? TCHAR_TO_ANSI(*Namespace.ToString()) : "", &context->Get()));
+			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &context->Get()));
 			//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
 		}
 
@@ -138,7 +138,7 @@ void AROS2Node::Subscribe()
 
 			const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
 			rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-			RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name.ToString()), &sub_opt));
+			RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name), &sub_opt));
 			NSubscriptions++;
 		}
 	}
@@ -212,7 +212,7 @@ void AROS2Node::SpinSome()
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }
 
-void AROS2Node::AddSubscription(FName  TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
+void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
 {
 	TopicsToSubscribe.Add(TopicName, MsgClass);
 	TopicsToCallback.Add(TopicName, Callback);
@@ -228,9 +228,9 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 	pubs.Add(Publisher);
 }
 
-TMap<FName, FName> AROS2Node::GetListOfNodes()
+TMap<FString, FString> AROS2Node::GetListOfNodes()
 {
-	TMap<FName, FName> Result;
+	TMap<FString, FString> Result;
 
 	rcutils_string_array_t NodeNames = rcutils_get_zero_initialized_string_array();
 	rcutils_string_array_t NodeNamespaces = rcutils_get_zero_initialized_string_array();
@@ -242,13 +242,13 @@ TMap<FName, FName> AROS2Node::GetListOfNodes()
 	{
 		if (NodeNames.data[i] != nullptr && NodeNamespaces.data[i] != nullptr && NodeNames.data[i][0] != '_')
 		{
-			Result.Add(FName(NodeNames.data[i]), FName(NodeNamespaces.data[i]));
+			Result.Add(FString(NodeNames.data[i]), FString(NodeNamespaces.data[i]));
 		}
 	}
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Node: %s - Namespace: %s"), *pair.Key.ToString(), *pair.Value.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Node: %s - Namespace: %s"), *pair.Key, *pair.Value);
 	}
 
 	RCSOFTCHECK(rcutils_string_array_fini(&NodeNames));
@@ -258,9 +258,9 @@ TMap<FName, FName> AROS2Node::GetListOfNodes()
 }
 
 // need a way to convert the message type as well
-TMap<FName, FName> AROS2Node::GetListOfTopics()
+TMap<FString, FString> AROS2Node::GetListOfTopics()
 {
-	TMap<FName, FName> Result;
+	TMap<FString, FString> Result;
 
 	rcl_names_and_types_t TopicNamesAndTypes = rcl_get_zero_initialized_names_and_types();
 	rcl_allocator_t Allocator = rcl_get_default_allocator();
@@ -274,13 +274,13 @@ TMap<FName, FName> AROS2Node::GetListOfTopics()
 			TopicNamesAndTypes.types->data[i] != nullptr && 
 			TopicNamesAndTypes.types->size >= i)
 		{
-			Result.Add(FName(TopicNamesAndTypes.names.data[i]), FName(TopicNamesAndTypes.types->data[i]));
+			Result.Add(FString(TopicNamesAndTypes.names.data[i]), FString(TopicNamesAndTypes.types->data[i]));
 		}
 	}
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Topic: %s - MsgTypes: %s"), *pair.Key.ToString(), *pair.Value.ToString());
+		UE_LOG(LogTemp, Warning, TEXT("Topic: %s - MsgTypes: %s"), *pair.Key, *pair.Value);
 	}
 
 	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));

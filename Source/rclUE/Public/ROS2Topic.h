@@ -25,7 +25,7 @@ public:
 	void Fini();
 
 	UPROPERTY(BlueprintReadWrite)
-	FName Name;
+	FString Name;
 	
 	UPROPERTY(BlueprintReadWrite)
 	UROS2GenericMsg* Msg;

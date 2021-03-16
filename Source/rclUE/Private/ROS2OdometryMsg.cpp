@@ -36,16 +36,16 @@ void UROS2OdometryMsg::Update(const FOdometryData data)
     odometry_pub_msg.header.stamp.nanosec = data.nanosec;
 
     free(odometry_pub_msg.header.frame_id.data);
-    odometry_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-    strcpy(odometry_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id.ToString()));
-    odometry_pub_msg.header.frame_id.size = data.frame_id.GetStringLength(); // GetStringLength excludes nullterm char
-    odometry_pub_msg.header.frame_id.capacity = data.frame_id.GetStringLength()+1;
+    odometry_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    strcpy(odometry_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id));
+    odometry_pub_msg.header.frame_id.size = data.frame_id.Len(); // Len excludes nullterm char
+    odometry_pub_msg.header.frame_id.capacity = data.frame_id.Len()+1;
 
     free(odometry_pub_msg.child_frame_id.data);
-    odometry_pub_msg.child_frame_id.data = (char*)malloc((data.child_frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-    strcpy(odometry_pub_msg.child_frame_id.data, TCHAR_TO_ANSI(*data.child_frame_id.ToString()));
-    odometry_pub_msg.child_frame_id.size = data.child_frame_id.GetStringLength(); // GetStringLength excludes nullterm char
-    odometry_pub_msg.child_frame_id.capacity = data.child_frame_id.GetStringLength()+1;
+    odometry_pub_msg.child_frame_id.data = (char*)malloc((data.child_frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    strcpy(odometry_pub_msg.child_frame_id.data, TCHAR_TO_ANSI(*data.child_frame_id));
+    odometry_pub_msg.child_frame_id.size = data.child_frame_id.Len(); // Len excludes nullterm char
+    odometry_pub_msg.child_frame_id.capacity = data.child_frame_id.Len()+1;
 
 	odometry_pub_msg.pose.pose.position.x = data.position.X;
 	odometry_pub_msg.pose.pose.position.y = data.position.Y;

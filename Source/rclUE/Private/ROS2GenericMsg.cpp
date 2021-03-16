@@ -29,27 +29,27 @@ void* UROS2GenericMsg::Get()
 	return nullptr;
 }
 
-void UROS2GenericMsg::PrintPubToLog(rcl_ret_t rc, FName NodeName) const
+void UROS2GenericMsg::PrintPubToLog(rcl_ret_t rc, FString NodeName) const
 {
 	if (rc == RCL_RET_OK)
 	{
-		UE_LOG(LogROS2Msg, Log, TEXT("Published  (node %s) message %s"), *NodeName.ToString(), *MsgToString());
+		UE_LOG(LogROS2Msg, Log, TEXT("Published  (node %s) message %s"), *NodeName, *MsgToString());
 	} 
 	else 
 	{
-		UE_LOG(LogROS2Msg, Log, TEXT("timer_callback: Error publishing message (node %s) %s"), *NodeName.ToString(), *MsgToString());
+		UE_LOG(LogROS2Msg, Log, TEXT("timer_callback: Error publishing message (node %s) %s"), *NodeName, *MsgToString());
 	}
 }
 
-void UROS2GenericMsg::PrintSubToLog(rcl_ret_t rc, FName NodeName) const
+void UROS2GenericMsg::PrintSubToLog(rcl_ret_t rc, FString NodeName) const
 {
 	if (rc == RCL_RET_OK)
 	{
-		UE_LOG(LogROS2Msg, Log, TEXT("Subscriber (node %s) message %s"), *NodeName.ToString(), *MsgToString());
+		UE_LOG(LogROS2Msg, Log, TEXT("Subscriber (node %s) message %s"), *NodeName, *MsgToString());
 	} 
 	else 
 	{
-		UE_LOG(LogROS2Msg, Log, TEXT("timer_callback: Error receiving message (node %s) %s"), *NodeName.ToString(), *MsgToString());
+		UE_LOG(LogROS2Msg, Log, TEXT("timer_callback: Error receiving message (node %s) %s"), *NodeName, *MsgToString());
 	}
 }
 

@@ -40,13 +40,13 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     laserscan_pub_msg.header.stamp.nanosec = data.nanosec;
 
     // reason for this:
-    //  TCHAR_TO_ANSI(*data.frame_id.ToString()) returns a temp object
-    //  stringCast<ANSICHAR>(*data.frame_id.ToString()).Get() does not seem to work here
+    //  TCHAR_TO_ANSI(*data.frame_id) returns a temp object
+    //  stringCast<ANSICHAR>(*data.frame_id).Get() does not seem to work here
     free(laserscan_pub_msg.header.frame_id.data);
-    laserscan_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.GetStringLength()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-    strcpy(laserscan_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id.ToString()));
-    laserscan_pub_msg.header.frame_id.size = data.frame_id.GetStringLength(); // GetStringLength excludes nullterm char
-    laserscan_pub_msg.header.frame_id.capacity = data.frame_id.GetStringLength()+1;
+    laserscan_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    strcpy(laserscan_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id));
+    laserscan_pub_msg.header.frame_id.size = data.frame_id.Len(); // Len excludes nullterm char
+    laserscan_pub_msg.header.frame_id.capacity = data.frame_id.Len()+1;
 
     laserscan_pub_msg.angle_min = data.angle_min;
     laserscan_pub_msg.angle_max = data.angle_max;

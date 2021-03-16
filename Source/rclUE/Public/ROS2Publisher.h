@@ -43,7 +43,7 @@ public:
 
 	// this information is redundant with Topic, but it's used to initialize it
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FName TopicName;
+	FString TopicName;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int32 PublicationFrequencyHz = 1000;

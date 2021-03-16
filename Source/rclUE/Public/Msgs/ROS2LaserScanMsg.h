@@ -22,7 +22,7 @@ public:
     uint nanosec; // time of the scan - sec [ns]
 
     // header - frame_id
-    FName frame_id; // robot link associated with lidar
+    FString frame_id; // robot link associated with lidar
 
     float angle_min; // start angle of the scan [rad]
     float angle_max; // end angle of the scan [rad]

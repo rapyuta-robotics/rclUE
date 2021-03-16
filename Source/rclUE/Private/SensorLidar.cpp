@@ -3,7 +3,8 @@
 
 #include "Sensors/SensorLidar.h"
 #include "Kismet/KismetMathLibrary.h"
-#include "DrawDebugHelpers.h"
+//#include "DrawDebugHelpers.h"
+#include "Components/LineBatchComponent.h"
 
 DEFINE_LOG_CATEGORY(LogROS2Sensor);
 
@@ -27,7 +28,7 @@ ASensorLidar::ASensorLidar()
     }
 
 	LidarPublisher = CreateDefaultSubobject<UROS2LidarPublisher>(TEXT("LidarPubliser"));
-	LidarPublisher->TopicName = FName("scan");
+	LidarPublisher->TopicName = FString("scan");
 	LidarPublisher->PublicationFrequencyHz = ScanFrequency;
 	LidarPublisher->MsgClass = UROS2LaserScanMsg::StaticClass();
 	
@@ -133,18 +134,18 @@ void ASensorLidar::Scan()
 	// need to store on a structure associating hits with time?
 	// GetROS2Data needs to get all data since the last Get? or the last within the last time interval?
 
-	if (DrawDebugLines)
+	ULineBatchComponent* const LineBatcher = GetWorld()->PersistentLineBatcher;
+	if (LineBatcher != nullptr)
 	{
 		for (auto& h : RecordedHits)
 		{
 			if (h.Actor != nullptr)
 			{
-				DrawDebugLine(GetWorld(), h.TraceStart, h.Location, FColor(255, 0, 0, 255), false, dt, 0, .5);
-				//DrawDebugCircle(GetWorld(), h.Location, 1.f, 4, FColor(255, 0, 0, 255), false, .1, 0, 1);
+				LineBatcher->DrawLine(h.TraceStart, h.Location, FColor(255, 0, 0, 255), 10, .5, dt);
 			}
 			else
 			{
-				DrawDebugLine(GetWorld(), h.TraceStart, h.TraceEnd, FColor(255, 127, 0, 255), false, dt, 0, .25);
+				LineBatcher->DrawLine(h.TraceStart, h.TraceEnd, FColor(255, 127, 0, 255), 10, .25, dt);
 			}
 		}
 	}
@@ -172,7 +173,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	unsigned long long ns = (unsigned long long)(TimeOfLastScan * 1000000000.0f);
 	retValue.nanosec = (uint32_t)(ns - (retValue.sec * 1000000000ul));
 	
-	retValue.frame_id = FName("base_scan");
+	retValue.frame_id = FString("base_scan");
 
 	retValue.angle_min = FMath::DegreesToRadians(StartAngle+FOVHorizontal+180);
 	retValue.angle_max = FMath::DegreesToRadians(StartAngle+180);

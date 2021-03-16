@@ -95,9 +95,6 @@ public:
 	UPROPERTY()
 	FTimerHandle timerHandle;
 
-	UPROPERTY(EditAnywhere)
-	bool DrawDebugLines = false;
-
 private:
 	float dt;
 };

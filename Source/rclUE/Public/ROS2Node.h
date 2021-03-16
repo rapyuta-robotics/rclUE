@@ -50,25 +50,22 @@ public:
 
 	// this is meant as a helper for BP
 	UFUNCTION(BlueprintCallable)
-	void AddSubscription(FName TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
-
-	// UFUNCTION(BlueprintCallable)
-	// void AddPublisher(FName TopicName, TSubclassOf<UROS2Publisher> PubClass, int PubFrequency, TSubclassOf<UROS2GenericMsg> MsgClass);
+	void AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
 
 	UFUNCTION(BlueprintCallable)
 	void AddPublisher(UROS2Publisher* Publisher);
 
 	UFUNCTION(BlueprintCallable)
-	TMap<FName, FName> GetListOfNodes();
+	TMap<FString, FString> GetListOfNodes();
 
 	UFUNCTION(BlueprintCallable)
-	TMap<FName, FName> GetListOfTopics();
+	TMap<FString, FString> GetListOfTopics();
 
-	UPROPERTY(EditAnywhere)
-	FName Name = TEXT("node");
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name = TEXT("node");
 	
-	UPROPERTY(EditAnywhere)
-	FName Namespace = TEXT("ros_global");
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Namespace = TEXT("ros_global");
 
 	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NSubscriptions = 0;
@@ -96,10 +93,10 @@ protected:
 	UROS2Context* GetContext();
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TMap<FName,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
+	TMap<FString,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
 	
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TMap<FName,FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
+	TMap<FString,FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here

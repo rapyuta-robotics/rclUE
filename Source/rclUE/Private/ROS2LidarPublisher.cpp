@@ -15,16 +15,15 @@ void UROS2LidarPublisher::UpdateAndPublishMessage_Implementation()
 {
 	check(State == UROS2State::Initialized);
 	check(ownerNode != nullptr);
+	check(Lidar != nullptr);
+
+	if (ownerNode == nullptr || Lidar == nullptr || State != UROS2State::Initialized)
+	{
+		UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
+	}
 	
-	if (Lidar != nullptr)
-	{
-		FLaserScanData LidarData = Lidar->GetROS2Data();
-		UROS2LaserScanMsg* Message = Cast<UROS2LaserScanMsg>(Topic->Msg);
-		Message->Update(LidarData);
-		Publish();
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("LidarPublisher: Lidar is null!"));
-	}
+	FLaserScanData LidarData = Lidar->GetROS2Data();
+	UROS2LaserScanMsg* Message = Cast<UROS2LaserScanMsg>(Topic->Msg);
+	Message->Update(LidarData);
+	Publish();
 }
