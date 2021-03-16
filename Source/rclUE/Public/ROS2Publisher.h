@@ -52,7 +52,7 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
 
-	UPROPERTY(EditAnywhere,BlueprintReadOnly)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	AROS2Node* ownerNode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
