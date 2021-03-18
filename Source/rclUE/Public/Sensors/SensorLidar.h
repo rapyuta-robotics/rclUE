@@ -95,6 +95,9 @@ public:
 	UPROPERTY()
 	FTimerHandle timerHandle;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	bool ShowLidarRays = true;
+
 private:
 	float dt;
 };

@@ -31,8 +31,6 @@ ASensorLidar::ASensorLidar()
 	LidarPublisher->TopicName = FString("scan");
 	LidarPublisher->PublicationFrequencyHz = ScanFrequency;
 	LidarPublisher->MsgClass = UROS2LaserScanMsg::StaticClass();
-	
-	//LidarMesh->SetWorldScale3D(FVector(.1f,.1f,.1f));
 }
 
 // Called when the game starts or when spawned
@@ -135,7 +133,7 @@ void ASensorLidar::Scan()
 	// GetROS2Data needs to get all data since the last Get? or the last within the last time interval?
 
 	ULineBatchComponent* const LineBatcher = GetWorld()->PersistentLineBatcher;
-	if (LineBatcher != nullptr)
+	if (LineBatcher != nullptr && ShowLidarRays)
 	{
 		for (auto& h : RecordedHits)
 		{
