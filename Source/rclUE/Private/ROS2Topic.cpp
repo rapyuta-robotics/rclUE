@@ -8,9 +8,15 @@ UROS2Topic::UROS2Topic()
 {
 }
 
-UROS2Topic::~UROS2Topic()
+void UROS2Topic::Init(const FString &TopicName, TSubclassOf<UROS2GenericMsg> MessageType)
 {
-	//UE_LOG(LogTemp, Error, TEXT("UROS2Topic::~UROS2Topic"));
+    Name = TopicName;
+	Msg = NewObject<UROS2GenericMsg>(this, MessageType);
+
+    if (IsValid(Msg))
+    {
+        Msg->Init();
+    }
 }
 
 void UROS2Topic::Fini()

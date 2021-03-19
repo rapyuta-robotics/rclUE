@@ -62,10 +62,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void Publish();
 	
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UROS2Topic* Topic;
 	
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FTimerHandle timerHandle;
 
 	const void* pub_msg;

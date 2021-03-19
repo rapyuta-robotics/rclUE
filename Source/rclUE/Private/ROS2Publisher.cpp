@@ -88,11 +88,7 @@ void UROS2Publisher::EndPlay(const EEndPlayReason::Type EndPlayReason)
 // Called every frame
 void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Publisher TickComponent"));
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-	//UE_LOG(LogTemp, Warning, TEXT("Publisher TickComponent - Done"));
 }
 
 void UROS2Publisher::Destroy()
@@ -102,6 +98,7 @@ void UROS2Publisher::Destroy()
 	{
 		Topic->Fini();
 	}
+
 	if (ownerNode != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
@@ -114,16 +111,15 @@ void UROS2Publisher::InitializeMessage()
 {
 	if (TopicName != FString() && MsgClass)
 	{
-		Topic = NewObject<UROS2Topic>();
-		Topic->Name = TopicName;
-		Topic->Msg = NewObject<UROS2GenericMsg>(this, MsgClass);
-		if (Topic != nullptr && Topic->Msg != nullptr)
+		Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
+
+		if (ensure(IsValid(Topic)))
 		{
-			Topic->Msg->Init();
+			Topic->Init(TopicName, MsgClass);
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *TopicName);
 		}
 	}
 	else

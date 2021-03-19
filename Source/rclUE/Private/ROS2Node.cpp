@@ -80,15 +80,12 @@ void AROS2Node::Init()
 
 	if (State == UROS2State::Created)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("check if we need to initialize the node"));
 		if (!rcl_node_is_valid(&node)) // ensures that it stays safe when called multiple times
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("Init Node"));
 			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 			
 			UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &context->Get()));
-			//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
 		}
 
 		State = UROS2State::Initialized;
@@ -115,16 +112,15 @@ void AROS2Node::Subscribe()
 	for (auto& e : TopicsToSubscribe)
 	{
 		UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
-		Topic->Name = e.Key;
-		Topic->Msg = NewObject<UROS2GenericMsg>(this, e.Value);
-		Topic->AddToRoot(); // prevents GC - is it safe or can it lead to other issues?
-		if (Topic != nullptr && Topic->Msg != nullptr)
+
+		if (ensure(IsValid(Topic)))
 		{
-			Topic->Msg->Init(); // does this needs to be done every time?
+			Topic->AddToRoot(); // prevents GC - is it safe or can it lead to other issues?
+			Topic->Init(e.Key, e.Value);
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *e.Key);
 		}
 
 		if (!subs.Contains(Topic))

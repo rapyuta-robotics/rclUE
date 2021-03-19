@@ -18,15 +18,18 @@ class RCLUE_API UROS2Topic : public UObject
 	GENERATED_BODY()
 
 public:
+
 	UROS2Topic();
-	~UROS2Topic();
+
+	UFUNCTION(BlueprintCallable)
+	void Init(const FString &TopicName, TSubclassOf<UROS2GenericMsg> MessageType);
 
 	UFUNCTION(BlueprintCallable)
 	void Fini();
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly)
 	FString Name;
 	
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(BlueprintReadOnly)
 	UROS2GenericMsg* Msg;
 };
