@@ -85,18 +85,18 @@ public:
 	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NEvents = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
 protected:
 	UFUNCTION()
 	UROS2Context* GetContext();
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TMap<FString,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TMap<FString,FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
@@ -107,7 +107,7 @@ protected:
 
 	rcl_node_t node;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<UROS2Publisher*> pubs;
 
 	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
