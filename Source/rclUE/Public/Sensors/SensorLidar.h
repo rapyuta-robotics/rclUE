@@ -12,7 +12,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Sensor, Log, All);
 class AROS2Node;
 class UROS2LidarPublisher;
 
-#define TRACE_ASYNC 0
+#define TRACE_ASYNC 1
 
 UCLASS()
 class RCLUE_API ASensorLidar : public AActor

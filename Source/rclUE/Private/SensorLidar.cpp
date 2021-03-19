@@ -60,8 +60,21 @@ void ASensorLidar::Tick(float DeltaTime)
 
 			if (GWorld->QueryTraceData(TraceHandles[i], Output))
 			{
-				TraceHandles[i]._Data.FrameNumber = 0;
-				RecordedHits[i] = Output.OutHits[0];	// We should only be tracing the first hit anyhow
+				if (Output.OutHits.Num() > 0)
+				{
+					check(Output.OutHits.Num() > 0);
+					check(i < RecordedHits.Num());
+					check(i < TraceHandles.Num());
+					TraceHandles[i]._Data.FrameNumber = 0;
+					RecordedHits[i] = Output.OutHits[0];	// We should only be tracing the first hit anyhow
+				}
+				else
+				{
+					TraceHandles[i]._Data.FrameNumber = 0;
+					RecordedHits[i] = FHitResult();
+					RecordedHits[i].TraceStart = Output.Start;
+					RecordedHits[i].TraceEnd = Output.End;
+				}
 			}
 		}
 	}
@@ -89,9 +102,8 @@ void ASensorLidar::Scan()
 	TraceParams.bReturnPhysicalMaterial = false;
 	TraceParams.bIgnoreTouches = true;
 
-	FTransform lidarTransform = GetTransform();
-	FVector lidarPos = lidarTransform.GetLocation();
-	FRotator lidarRot = lidarTransform.Rotator();
+	FVector lidarPos = GetActorLocation();
+	FRotator lidarRot = GetActorRotation();
 
 #if TRACE_ASYNC
 	// This is cheesy, but basically if the first trace is in flight we assume they're all waiting and don't do another trace.
