@@ -110,10 +110,10 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<UROS2Publisher*> pubs;
 
-	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
+	TMap<UROS2GenericMsg *, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
 	UPROPERTY()
-	TMap<UROS2Topic*, FSubscriptionCallback> callbacks; // could be combined with above
+	TMap<UROS2GenericMsg *, FSubscriptionCallback> callbacks; // could be combined with above
 	
 	rcl_wait_set_t wait_set;
 	

@@ -110,29 +110,30 @@ void AROS2Node::Subscribe()
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe"));
 	for (auto& e : TopicsToSubscribe)
 	{
-		UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
+		UROS2GenericMsg *TopicMessage = NewObject<UROS2GenericMsg>(this, e.Value);
 
-		if (ensure(IsValid(Topic)))
+		if (ensure(IsValid(TopicMessage)))
 		{
-			Topic->Init(e.Key, e.Value);
+			TopicMessage->Init();
 		}
 		else
 		{
 			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *e.Key);
 		}
 
-		if (!subs.Contains(Topic))
+		if (!subs.Contains(TopicMessage))
 		{
-			subs.Add(Topic, rcl_get_zero_initialized_subscription());
+			subs.Add(TopicMessage, rcl_get_zero_initialized_subscription());
 			FSubscriptionCallback *cb = TopicsToCallback.Find(e.Key);
+
 			if (ensure(cb))
 			{
-				callbacks.Add(Topic, *cb);
+				callbacks.Add(TopicMessage, *cb);
 			}
 
-			const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
+			const rosidl_message_type_support_t * type_support = TopicMessage->GetTypeSupport();
 			rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-			RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name), &sub_opt));
+			RCSOFTCHECK(rcl_subscription_init(&subs[TopicMessage], &node, type_support, TCHAR_TO_ANSI(*e.Key), &sub_opt));
 			NSubscriptions++;
 		}
 	}
@@ -170,7 +171,7 @@ void AROS2Node::SpinSome()
   	RCLC_UNUSED(rc);
 
 	// based on _rclc_default_scheduling
-	TMap<UROS2Topic*, rcl_subscription_t> readySubs;
+	TMap<UROS2GenericMsg *, rcl_subscription_t> readySubs;
 	for (int i=0; i<wait_set.size_of_subscriptions; i++)
 	{
 		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
@@ -190,17 +191,17 @@ void AROS2Node::SpinSome()
 	{	
 		// NSubMsgGets++;
 		// UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
-		void * data = pair.Key->Msg->Get();
+		void * data = pair.Key->Get();
 		rmw_message_info_t messageInfo;
 		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);
 
 		// callback here
-		pair.Key->Msg->PrintSubToLog(rc, Name);
+		pair.Key->PrintSubToLog(rc, Name);
 		FSubscriptionCallback *cb = callbacks.Find(pair.Key);
 
 		if (cb)
 		{
-			cb->ExecuteIfBound(pair.Key->Msg);
+			cb->ExecuteIfBound(pair.Key);
 		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
