@@ -37,7 +37,6 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	for (auto& s : subs)
 	{
-		s.Key->RemoveFromRoot();
 		RCSOFTCHECK(rcl_subscription_fini(&s.Value, &node));
 	}
 
@@ -115,7 +114,6 @@ void AROS2Node::Subscribe()
 
 		if (ensure(IsValid(Topic)))
 		{
-			Topic->AddToRoot(); // prevents GC - is it safe or can it lead to other issues?
 			Topic->Init(e.Key, e.Value);
 		}
 		else
