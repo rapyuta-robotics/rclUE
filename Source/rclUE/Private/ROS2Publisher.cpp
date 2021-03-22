@@ -42,15 +42,14 @@ void UROS2Publisher::Init()
 	{
 		InitializeMessage(); // needed to get type support
 		
-		check(Topic != nullptr);
-		check(Topic->Msg != nullptr);
+		check(IsValid(TopicMessage));
 		
-		const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+		const rosidl_message_type_support_t * my_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
 		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
 		ownerNode->Init();
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Init - rclc_publisher_init_default"));
-		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name));
+		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*TopicName));
 		if (rc != RCL_RET_OK)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
@@ -94,9 +93,9 @@ void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
-	if (Topic != nullptr)
+	if (TopicMessage != nullptr)
 	{
-		Topic->Fini();
+		TopicMessage->Fini();
 	}
 
 	if (ownerNode != nullptr)
@@ -111,11 +110,11 @@ void UROS2Publisher::InitializeMessage()
 {
 	if (TopicName != FString() && MsgClass)
 	{
-		Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
+		TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
 
-		if (ensure(IsValid(Topic)))
+		if (ensure(IsValid(TopicMessage)))
 		{
-			Topic->Init(TopicName, MsgClass);
+			TopicMessage->Init();
 		}
 		else
 		{
@@ -138,7 +137,7 @@ void UROS2Publisher::Publish()
 	check(State == UROS2State::Initialized);
 	check(ownerNode != nullptr);
 
-	pub_msg = Topic->Msg->Get();
+	pub_msg = TopicMessage->Get();
 	
     rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
 

@@ -63,7 +63,7 @@ protected:
 	void Publish();
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UROS2Topic* Topic;
+	UROS2GenericMsg* TopicMessage;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FTimerHandle timerHandle;

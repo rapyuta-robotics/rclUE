@@ -23,7 +23,7 @@ void UROS2LidarPublisher::UpdateAndPublishMessage_Implementation()
 	}
 	
 	FLaserScanData LidarData = Lidar->GetROS2Data();
-	UROS2LaserScanMsg* Message = Cast<UROS2LaserScanMsg>(Topic->Msg);
+	UROS2LaserScanMsg* Message = Cast<UROS2LaserScanMsg>(TopicMessage);
 	Message->Update(LidarData);
 	Publish();
 }
