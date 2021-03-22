@@ -7,7 +7,6 @@
 #include "Containers/Map.h"
 
 #include "ROS2Context.h"
-#include "ROS2Topic.h"
 
 #include "ROS2Node.generated.h"
 

@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ROS2Node.h"
-#include "ROS2Topic.h"
 #include "ROS2Publisher.generated.h"
 
 
