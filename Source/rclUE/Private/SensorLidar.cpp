@@ -27,7 +27,7 @@ ASensorLidar::ASensorLidar()
         LidarMesh->SetStaticMesh(LidarCylinderMesh.Object);
     }
 
-	LidarPublisher = CreateDefaultSubobject<UROS2LidarPublisher>(TEXT("LidarPubliser"));
+	LidarPublisher = CreateDefaultSubobject<UROS2Publisher>(TEXT("LidarPublisher"));
 	LidarPublisher->TopicName = FString("scan");
 	LidarPublisher->PublicationFrequencyHz = ScanFrequency;
 	LidarPublisher->MsgClass = UROS2LaserScanMsg::StaticClass();
@@ -39,14 +39,11 @@ ASensorLidar::ASensorLidar()
 void ASensorLidar::BeginPlay()
 {
 	Super::BeginPlay();
-	LidarPublisher->Lidar = this;
-	LidarPublisher->UpdateDelegate.BindDynamic(this, &ASensorLidar::LidarMessageUpdate);
 }
 
 void ASensorLidar::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
-	LidarPublisher->Lidar = nullptr;
 }
 
 void ASensorLidar::LidarMessageUpdate(UROS2GenericMsg *TopicMessage)
@@ -162,7 +159,11 @@ void ASensorLidar::InitToNode(AROS2Node *Node)
 {
 	if (IsValid(Node))
 	{
+		check(IsValid(LidarPublisher));
+
+		LidarPublisher->UpdateDelegate.BindDynamic(this, &ASensorLidar::LidarMessageUpdate);
 		Node->AddPublisher(LidarPublisher);
+		LidarPublisher->Init();
 	}
 }
 

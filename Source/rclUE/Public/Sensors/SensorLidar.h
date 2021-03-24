@@ -10,7 +10,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Sensor, Log, All);
 
 class AROS2Node;
-class UROS2LidarPublisher;
+class UROS2Publisher;
 
 #define TRACE_ASYNC 0
 
@@ -58,7 +58,7 @@ public:
     UStaticMeshComponent* LidarMesh;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	UROS2LidarPublisher *LidarPublisher;
+	UROS2Publisher *LidarPublisher;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int nSamplesPerScan;
