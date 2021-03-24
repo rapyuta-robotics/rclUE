@@ -10,7 +10,7 @@
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg *, TopicMessage);
 
-UCLASS( ClassGroup=(Custom), Blueprintable, abstract )
+UCLASS( ClassGroup=(Custom), Blueprintable, meta=(BlueprintSpawnableComponent) )
 class RCLUE_API UROS2Publisher : public UActorComponent
 {
 	GENERATED_BODY()

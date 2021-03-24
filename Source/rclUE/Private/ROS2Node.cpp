@@ -215,6 +215,8 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
 
 void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 {
+	check(IsValid(Publisher));
+	
 	Publisher->RegisterComponent();
 	Publisher->ownerNode = this;
 	// why are these not allowed?
