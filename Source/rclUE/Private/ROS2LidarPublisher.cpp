@@ -22,8 +22,6 @@ void UROS2LidarPublisher::UpdateAndPublishMessage_Implementation()
 		UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
 	
-	FLaserScanData LidarData = Lidar->GetROS2Data();
-	UROS2LaserScanMsg* Message = Cast<UROS2LaserScanMsg>(TopicMessage);
-	Message->Update(LidarData);
+	UpdateDelegate.ExecuteIfBound(TopicMessage);
 	Publish();
 }

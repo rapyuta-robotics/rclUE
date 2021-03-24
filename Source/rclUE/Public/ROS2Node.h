@@ -51,8 +51,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
 
+	// The update callback replaces UpdateAndPublishMessage
 	UFUNCTION(BlueprintCallable)
-	void AddPublisher(UROS2Publisher* Publisher);
+	void AddPublisher(UROS2Publisher *Publisher);
 
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfNodes();
@@ -106,8 +107,8 @@ protected:
 
 	rcl_node_t node;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TArray<UROS2Publisher*> pubs;
+	UPROPERTY()
+	TArray<UROS2Publisher *> pubs;
 
 	TMap<UROS2GenericMsg *, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	

@@ -129,7 +129,11 @@ void UROS2Publisher::InitializeMessage()
 
 void UROS2Publisher::UpdateAndPublishMessage_Implementation()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	check(State == UROS2State::Initialized);
+	check(IsValid(ownerNode));
+	
+	UpdateDelegate.ExecuteIfBound(TopicMessage);
+	Publish();
 }
 
 void UROS2Publisher::Publish()

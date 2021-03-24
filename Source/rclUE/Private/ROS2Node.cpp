@@ -223,6 +223,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 	pubs.Add(Publisher);
 }
 
+
 TMap<FString, FString> AROS2Node::GetListOfNodes()
 {
 	TMap<FString, FString> Result;

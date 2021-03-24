@@ -22,7 +22,7 @@ public:
 	virtual void Init();
 	virtual void Fini();
 	virtual void* Get();
-	void PrintPubToLog(rcl_ret_t rc, FString NodeName) const;
+	virtual void PrintPubToLog(rcl_ret_t rc, FString NodeName) const;
 	void PrintSubToLog(rcl_ret_t rc, FString NodeName) const;
 
 private:

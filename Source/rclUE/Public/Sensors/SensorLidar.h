@@ -29,6 +29,9 @@ protected:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	UFUNCTION()
+	void LidarMessageUpdate(UROS2GenericMsg *TopicMessage);
+
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;

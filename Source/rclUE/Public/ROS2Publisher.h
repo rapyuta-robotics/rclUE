@@ -8,6 +8,8 @@
 #include "ROS2Publisher.generated.h"
 
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg *, TopicMessage);
+
 UCLASS( ClassGroup=(Custom), Blueprintable, abstract )
 class RCLUE_API UROS2Publisher : public UActorComponent
 {
@@ -50,6 +52,9 @@ public:
 	// this information is redundant with Topic, but it's used to initialize it
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FPublisherUpdateCallback UpdateDelegate;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	AROS2Node* ownerNode;

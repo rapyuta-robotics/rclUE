@@ -40,12 +40,19 @@ void ASensorLidar::BeginPlay()
 {
 	Super::BeginPlay();
 	LidarPublisher->Lidar = this;
+	LidarPublisher->UpdateDelegate.BindDynamic(this, &ASensorLidar::LidarMessageUpdate);
 }
 
 void ASensorLidar::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	Super::EndPlay(EndPlayReason);
 	LidarPublisher->Lidar = nullptr;
+}
+
+void ASensorLidar::LidarMessageUpdate(UROS2GenericMsg *TopicMessage)
+{
+	UROS2LaserScanMsg* ScanMessage = Cast<UROS2LaserScanMsg>(TopicMessage);
+	ScanMessage->Update(GetROS2Data());
 }
 
 // Called every frame
