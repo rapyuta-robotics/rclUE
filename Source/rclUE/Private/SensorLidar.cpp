@@ -16,16 +16,16 @@ ASensorLidar::ASensorLidar()
  	
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 
-    LidarMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LidarMesh"));
-    LidarMesh->SetupAttachment(RootComponent);
-    static ConstructorHelpers::FObjectFinder<UStaticMesh> LidarCylinderMesh(TEXT("'/Engine/BasicShapes/Cylinder.Cylinder'"));
+    // LidarMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LidarMesh"));
+    // LidarMesh->SetupAttachment(RootComponent);
+    // static ConstructorHelpers::FObjectFinder<UStaticMesh> LidarCylinderMesh(TEXT("'/Engine/BasicShapes/Cylinder.Cylinder'"));
 
-    // check if path is valid
-    if (LidarCylinderMesh.Succeeded())
-    {
-        // mesh = valid path
-        LidarMesh->SetStaticMesh(LidarCylinderMesh.Object);
-    }
+    // // check if path is valid
+    // if (LidarCylinderMesh.Succeeded())
+    // {
+    //     // mesh = valid path
+    //     LidarMesh->SetStaticMesh(LidarCylinderMesh.Object);
+    // }
 
 	LidarPublisher = CreateDefaultSubobject<UROS2LidarPublisher>(TEXT("LidarPubliser"));
 	LidarPublisher->TopicName = FString("scan");
@@ -96,6 +96,7 @@ void ASensorLidar::Run()
 
 void ASensorLidar::Scan()
 {
+	//UE_LOG(LogTemp, Error, TEXT("scan at time %f"), UGameplayStatics::GetTimeSeconds(GWorld));
 	DHAngle = FOVHorizontal / (float)nSamplesPerScan;
 	
 	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this); // complex collisions: true

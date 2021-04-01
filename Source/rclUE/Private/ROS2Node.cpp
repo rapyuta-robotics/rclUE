@@ -201,7 +201,7 @@ void AROS2Node::SpinSome()
 		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);
 
 		// callback here
-		pair.Key->Msg->PrintSubToLog(rc, Name);
+		//pair.Key->Msg->PrintSubToLog(rc, Name);
 		FSubscriptionCallback *cb = callbacks.Find(pair.Key);
 
 		if (cb)

@@ -51,8 +51,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	FLaserScanData GetROS2Data() const;
 	
-	UPROPERTY(EditAnywhere)
-    UStaticMeshComponent* LidarMesh;
+	// UPROPERTY(EditAnywhere)
+    // UStaticMeshComponent* LidarMesh;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UROS2LidarPublisher *LidarPublisher;
