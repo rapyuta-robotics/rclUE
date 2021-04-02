@@ -177,6 +177,18 @@ void ASensorLidar::GetData(TArray<FHitResult>& hits, float& time)
 	time = TimeOfLastScan;
 }
 
+float ASensorLidar::GetMinAngleRadians() const
+{
+	return FMath::DegreesToRadians(-StartAngle-FOVHorizontal);
+	//return FMath::DegreesToRadians(StartAngle+FOVHorizontal+180);
+}
+
+float ASensorLidar::GetMaxAngleRadians() const
+{
+	return FMath::DegreesToRadians(-StartAngle);
+	//return FMath::DegreesToRadians(StartAngle+180);
+}
+
 FLaserScanData ASensorLidar::GetROS2Data() const
 {
 	FLaserScanData retValue;
@@ -186,8 +198,8 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	
 	retValue.frame_id = FString("base_scan");
 
-	retValue.angle_min = FMath::DegreesToRadians(StartAngle+FOVHorizontal+180);
-	retValue.angle_max = FMath::DegreesToRadians(StartAngle+180);
+	retValue.angle_min = GetMinAngleRadians();
+	retValue.angle_max = GetMaxAngleRadians();
 	retValue.angle_increment = FMath::DegreesToRadians(DHAngle);
 	retValue.time_increment = dt / nSamplesPerScan;
 	retValue.scan_time = dt;
