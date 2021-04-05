@@ -33,11 +33,15 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	// multithreaded from the main thread - works in "bursts" during ticks (through UE4 timers)
+	// idles most of the time
 	UFUNCTION(BlueprintCallable)
 	void Run();
-
 	UFUNCTION(BlueprintCallable)
 	void Scan();
+
+	UFUNCTION()
+	void RunAsync();
 
 	UFUNCTION(BlueprintCallable)
 	void InitToNode(AROS2Node *Node);
@@ -100,4 +104,27 @@ public:
 
 private:
 	float dt;
+};
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+class LidarScanAsync : public FNonAbandonableTask
+{
+public:
+	LidarScanAsync(TArray<FHitResult>& RecordedHits);
+	~LidarScanAsync();
+
+	// required by UE4
+	FORCEINLINE TStatId GetStatId() const
+	{
+		RETURN_QUICK_DECLARE_CYCLE_STAT(LidarScanAsync, STATGROUP_ThreadPoolAsyncTasks);
+	}
+
+	// this is called automatically
+	void DoWork();
+
+private:
+  	TArray<FHitResult>& RecordedHits;
 };

@@ -69,6 +69,11 @@ void ASensorLidar::Tick(float DeltaTime)
 #endif
 }
 
+void ASensorLidar::RunAsync()
+{
+	(new FAutoDeleteAsyncTask<LidarScanAsync>(RecordedHits))->StartBackgroundTask();
+}
+
 void ASensorLidar::Run()
 {
 	RecordedHits.Empty();
@@ -113,6 +118,9 @@ void ASensorLidar::Scan()
 		}
 	}
 #else
+	// optimizations
+	//	- if we're always doing 360 scans, then compose rotator is not needed and a simple LUT would remove most of the computation (only the offset of the lidarPosition is needed and can be precomputed for the step)
+	//	- running asynchronously does not block the main thread and the publisher can just get the latest data
 	ParallelFor(nSamplesPerScan, [this, &TraceParams, &lidarPos, &lidarRot](int32 Index)
 	{
 		const float HAngle = StartAngle + DHAngle * Index;
@@ -194,4 +202,27 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	}
 
 	return retValue;
+}
+
+
+///////////////////////////////////////////////////////////////////////////
+
+
+LidarScanAsync::LidarScanAsync(TArray<FHitResult>& RecordedHits)
+: RecordedHits(RecordedHits)
+{
+
+}
+
+LidarScanAsync::~LidarScanAsync()
+{
+
+}
+
+void LidarScanAsync::DoWork()
+{
+	while (true)
+	{
+
+	}
 }
