@@ -3,6 +3,8 @@
 
 #include "ROS2Node.h"
 #include "ROS2Subsystem.h"
+#include "ROS2Publisher.h"
+
 #include <rcl/graph.h>
 #include "Kismet/GameplayStatics.h"
 
@@ -37,7 +39,6 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	for (auto& s : subs)
 	{
-		s.Key->RemoveFromRoot();
 		RCSOFTCHECK(rcl_subscription_fini(&s.Value, &node));
 	}
 
@@ -80,15 +81,12 @@ void AROS2Node::Init()
 
 	if (State == UROS2State::Created)
 	{
-		//UE_LOG(LogTemp, Warning, TEXT("check if we need to initialize the node"));
 		if (!rcl_node_is_valid(&node)) // ensures that it stays safe when called multiple times
 		{
-			//UE_LOG(LogTemp, Warning, TEXT("Init Node"));
 			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 			
 			UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &context->Get()));
-			//UE_LOG(LogTemp, Warning, TEXT("Init Node done"));
 		}
 
 		State = UROS2State::Initialized;
@@ -114,31 +112,30 @@ void AROS2Node::Subscribe()
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe"));
 	for (auto& e : TopicsToSubscribe)
 	{
-		UROS2Topic* Topic = NewObject<UROS2Topic>(this, UROS2Topic::StaticClass());
-		Topic->Name = e.Key;
-		Topic->Msg = NewObject<UROS2GenericMsg>(this, e.Value);
-		Topic->AddToRoot(); // prevents GC - is it safe or can it lead to other issues?
-		if (Topic != nullptr && Topic->Msg != nullptr)
+		UROS2GenericMsg *TopicMessage = NewObject<UROS2GenericMsg>(this, e.Value);
+
+		if (ensure(IsValid(TopicMessage)))
 		{
-			Topic->Msg->Init(); // does this needs to be done every time?
+			TopicMessage->Init();
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *e.Key);
 		}
 
-		if (!subs.Contains(Topic))
+		if (!subs.Contains(TopicMessage))
 		{
-			subs.Add(Topic, rcl_get_zero_initialized_subscription());
+			subs.Add(TopicMessage, rcl_get_zero_initialized_subscription());
 			FSubscriptionCallback *cb = TopicsToCallback.Find(e.Key);
+
 			if (ensure(cb))
 			{
-				callbacks.Add(Topic, *cb);
+				callbacks.Add(TopicMessage, *cb);
 			}
 
-			const rosidl_message_type_support_t * type_support = Topic->Msg->GetTypeSupport();
+			const rosidl_message_type_support_t * type_support = TopicMessage->GetTypeSupport();
 			rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-			RCSOFTCHECK(rcl_subscription_init(&subs[Topic], &node, type_support, TCHAR_TO_ANSI(*Topic->Name), &sub_opt));
+			RCSOFTCHECK(rcl_subscription_init(&subs[TopicMessage], &node, type_support, TCHAR_TO_ANSI(*e.Key), &sub_opt));
 			NSubscriptions++;
 		}
 	}
@@ -176,7 +173,7 @@ void AROS2Node::SpinSome()
   	RCLC_UNUSED(rc);
 
 	// based on _rclc_default_scheduling
-	TMap<UROS2Topic*, rcl_subscription_t> readySubs;
+	TMap<UROS2GenericMsg *, rcl_subscription_t> readySubs;
 	for (int i=0; i<wait_set.size_of_subscriptions; i++)
 	{
 		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
@@ -196,17 +193,17 @@ void AROS2Node::SpinSome()
 	{	
 		// NSubMsgGets++;
 		// UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
-		void * data = pair.Key->Msg->Get();
+		void * data = pair.Key->Get();
 		rmw_message_info_t messageInfo;
 		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);
 
 		// callback here
-		//pair.Key->Msg->PrintSubToLog(rc, Name);
+		//pair.Key->PrintSubToLog(rc, Name);
 		FSubscriptionCallback *cb = callbacks.Find(pair.Key);
 
 		if (cb)
 		{
-			cb->ExecuteIfBound(pair.Key->Msg);
+			cb->ExecuteIfBound(pair.Key);
 		}
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
@@ -220,6 +217,8 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
 
 void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 {
+	check(IsValid(Publisher));
+
 	Publisher->RegisterComponent();
 	Publisher->ownerNode = this;
 	// why are these not allowed?
@@ -227,6 +226,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 	//Publisher->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	pubs.Add(Publisher);
 }
+
 
 TMap<FString, FString> AROS2Node::GetListOfNodes()
 {

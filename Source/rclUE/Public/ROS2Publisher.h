@@ -5,11 +5,12 @@
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ROS2Node.h"
-#include "ROS2Topic.h"
 #include "ROS2Publisher.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), Blueprintable, abstract )
+DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg *, TopicMessage);
+
+UCLASS( ClassGroup=(Custom), Blueprintable, meta=(BlueprintSpawnableComponent) )
 class RCLUE_API UROS2Publisher : public UActorComponent
 {
 	GENERATED_BODY()
@@ -42,30 +43,33 @@ public:
 	virtual void Destroy();
 
 	// this information is redundant with Topic, but it's used to initialize it
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString TopicName;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 PublicationFrequencyHz = 1000;
 
 	// this information is redundant with Topic, but it's used to initialize it
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FPublisherUpdateCallback UpdateDelegate;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	AROS2Node* ownerNode;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
 protected:
 	UFUNCTION(BlueprintCallable)
 	void Publish();
 	
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	UROS2Topic* Topic;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UROS2GenericMsg *TopicMessage;
 	
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FTimerHandle timerHandle;
 
 	const void* pub_msg;

@@ -42,15 +42,14 @@ void UROS2Publisher::Init()
 	{
 		InitializeMessage(); // needed to get type support
 		
-		check(Topic != nullptr);
-		check(Topic->Msg != nullptr);
+		check(IsValid(TopicMessage));
 		
-		const rosidl_message_type_support_t * my_type_support = Topic->Msg->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+		const rosidl_message_type_support_t * my_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
 		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
 		ownerNode->Init();
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Init - rclc_publisher_init_default"));
-		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*Topic->Name));
+		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*TopicName));
 		if (rc != RCL_RET_OK)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
@@ -88,20 +87,17 @@ void UROS2Publisher::EndPlay(const EEndPlayReason::Type EndPlayReason)
 // Called every frame
 void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Publisher TickComponent"));
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-	//UE_LOG(LogTemp, Warning, TEXT("Publisher TickComponent - Done"));
 }
 
 void UROS2Publisher::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
-	if (Topic != nullptr)
+	if (TopicMessage != nullptr)
 	{
-		Topic->Fini();
+		TopicMessage->Fini();
 	}
+
 	if (ownerNode != nullptr)
 	{
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
@@ -114,16 +110,15 @@ void UROS2Publisher::InitializeMessage()
 {
 	if (TopicName != FString() && MsgClass)
 	{
-		Topic = NewObject<UROS2Topic>();
-		Topic->Name = TopicName;
-		Topic->Msg = NewObject<UROS2GenericMsg>(this, MsgClass);
-		if (Topic != nullptr && Topic->Msg != nullptr)
+		TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+
+		if (ensure(IsValid(TopicMessage)))
 		{
-			Topic->Msg->Init();
+			TopicMessage->Init();
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) or Msg (%s) is nullptr!"), Topic != nullptr, Topic->Msg != nullptr);
+			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *TopicName);
 		}
 	}
 	else
@@ -134,7 +129,11 @@ void UROS2Publisher::InitializeMessage()
 
 void UROS2Publisher::UpdateAndPublishMessage_Implementation()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	check(State == UROS2State::Initialized);
+	check(IsValid(ownerNode));
+	
+	UpdateDelegate.ExecuteIfBound(TopicMessage);
+	Publish();
 }
 
 void UROS2Publisher::Publish()
@@ -142,7 +141,7 @@ void UROS2Publisher::Publish()
 	check(State == UROS2State::Initialized);
 	check(ownerNode != nullptr);
 
-	pub_msg = Topic->Msg->Get();
+	pub_msg = TopicMessage->Get();
 	
     rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
 

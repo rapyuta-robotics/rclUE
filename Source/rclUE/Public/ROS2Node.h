@@ -7,7 +7,6 @@
 #include "Containers/Map.h"
 
 #include "ROS2Context.h"
-#include "ROS2Topic.h"
 
 #include "ROS2Node.generated.h"
 
@@ -52,8 +51,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
 
+	// The update callback replaces UpdateAndPublishMessage
 	UFUNCTION(BlueprintCallable)
-	void AddPublisher(UROS2Publisher* Publisher);
+	void AddPublisher(UROS2Publisher *Publisher);
 
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfNodes();
@@ -85,18 +85,18 @@ public:
 	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NEvents = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
 protected:
 	UFUNCTION()
 	UROS2Context* GetContext();
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TMap<FString,TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
 	
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	TMap<FString,FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
@@ -107,13 +107,13 @@ protected:
 
 	rcl_node_t node;
 
-	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
-	TArray<UROS2Publisher*> pubs;
+	UPROPERTY()
+	TArray<UROS2Publisher *> pubs;
 
-	TMap<UROS2Topic*, rcl_subscription_t> subs; // map topic to sub to avoid double subs
+	TMap<UROS2GenericMsg *, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
 	UPROPERTY()
-	TMap<UROS2Topic*, FSubscriptionCallback> callbacks; // could be combined with above
+	TMap<UROS2GenericMsg *, FSubscriptionCallback> callbacks; // could be combined with above
 	
 	rcl_wait_set_t wait_set;
 	
