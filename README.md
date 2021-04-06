@@ -1,8 +1,8 @@
 # Basic information
 ## Branches
-### master
+### master - not maintained
 This build of the plugin is based on ROS2 Eloquent and has been tested on Ubuntu 18
-### focal-foxy-devel
+### focal-foxy-devel - default branch
 This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20
 
 # Installation
