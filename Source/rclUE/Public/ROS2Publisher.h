@@ -30,7 +30,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)
-	void Init();
+	void Init(bool IsTransientLocal = false);
 	
 	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();

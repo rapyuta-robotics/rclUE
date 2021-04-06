@@ -35,7 +35,7 @@ void UROS2Publisher::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 
-void UROS2Publisher::Init()
+void UROS2Publisher::Init(bool IsTransientLocal)
 {
 	check(ownerNode != nullptr);
 	if (State == UROS2State::Created && ownerNode->State == UROS2State::Initialized)
@@ -49,11 +49,33 @@ void UROS2Publisher::Init()
 		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
 		ownerNode->Init();
 		UE_LOG(LogTemp, Warning, TEXT("Publisher Init - rclc_publisher_init_default"));
-		rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*TopicName));
-		if (rc != RCL_RET_OK)
+
+		if (IsTransientLocal) // required for tf_static
 		{
-			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
-			UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
+			pub = rcl_get_zero_initialized_publisher();
+			rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
+			pub_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+			rcl_ret_t rc = rcl_publisher_init(
+				&pub,
+				ownerNode->GetNode(),
+				my_type_support,
+				TCHAR_TO_ANSI(*TopicName),
+				&pub_opt);
+				
+			if (rc != RCL_RET_OK)
+			{
+				UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
+				UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
+			}
+		}
+		else
+		{
+			rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*TopicName));
+			if (rc != RCL_RET_OK)
+			{
+				UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
+				UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
+			}
 		}
 		//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
 
