@@ -151,6 +151,10 @@ void AROS2Node::Subscribe()
 
 void AROS2Node::SpinSome()
 {
+	// size_t domain_id;
+	// rcl_ret_t rc_did = rcl_node_get_domain_id(&node, &domain_id);
+	// UE_LOG(LogTemp, Warning, TEXT("Domain ID for node %s: %d"), *Name, domain_id);
+
 	//NSpinCalls++;
 	if (!rcl_wait_set_is_valid(&wait_set))
 	{

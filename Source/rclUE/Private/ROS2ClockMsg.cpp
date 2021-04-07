@@ -51,3 +51,8 @@ FString UROS2ClockMsg::MsgToString() const
 {
 	return FString::Printf(TEXT("%ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
 }
+
+void UROS2ClockMsg::PrintSubToLog() const
+{
+	UE_LOG(LogROS2Msg, Log, TEXT("Subscriber clock message %s"), *MsgToString());
+}

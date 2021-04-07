@@ -31,6 +31,9 @@ public:
 	
   	UFUNCTION(BlueprintCallable)
 	void Update(const float elapsedTime);
+
+	UFUNCTION(BlueprintCallable)
+	void PrintSubToLog() const;
 	
 	const rosgraph_msgs__msg__Clock* Get() const;
 	

@@ -55,6 +55,7 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 			pub = rcl_get_zero_initialized_publisher();
 			rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 			pub_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+			//pub_opt.qos.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
 			rcl_ret_t rc = rcl_publisher_init(
 				&pub,
 				ownerNode->GetNode(),
