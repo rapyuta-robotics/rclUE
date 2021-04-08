@@ -1,6 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 // code based on the rclc examples
+// the purpose of this example is to just give a quick way to test if rcl/ros2 is setup correctly
+// for actual implementation, please look at turtlebot3-UE repo
 
 #pragma once
 
