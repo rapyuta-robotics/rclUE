@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "PubSubExample.h"
+#include "Tests/PubSubExample.h"
 #include "rclcUtilities.h"
 
 rcl_publisher_t APubSubExample::my_pub;

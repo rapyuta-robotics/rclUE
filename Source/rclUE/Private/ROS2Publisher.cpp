@@ -44,7 +44,7 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 		
 		check(IsValid(TopicMessage));
 		
-		const rosidl_message_type_support_t * my_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+		const rosidl_message_type_support_t * msg_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
 		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
 		ownerNode->Init();
@@ -59,7 +59,7 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 			rcl_ret_t rc = rcl_publisher_init(
 				&pub,
 				ownerNode->GetNode(),
-				my_type_support,
+				msg_type_support,
 				TCHAR_TO_ANSI(*TopicName),
 				&pub_opt);
 				
@@ -71,7 +71,7 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 		}
 		else
 		{
-			rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), my_type_support, TCHAR_TO_ANSI(*TopicName));
+			rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), msg_type_support, TCHAR_TO_ANSI(*TopicName));
 			if (rc != RCL_RET_OK)
 			{
 				UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);

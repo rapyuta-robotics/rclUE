@@ -1,7 +1,7 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 
-#include "ClientNodeExample.h"
+#include "Tests/ClientNodeExample.h"
 
 #include <rcl/error_handling.h>
 #include <rclc/rclc.h>
