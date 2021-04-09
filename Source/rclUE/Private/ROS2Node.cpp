@@ -4,6 +4,7 @@
 #include "ROS2Node.h"
 #include "ROS2Subsystem.h"
 #include "ROS2Publisher.h"
+#include "ROS2ServiceClient.h"
 
 #include <rcl/graph.h>
 #include "Kismet/GameplayStatics.h"
@@ -130,7 +131,7 @@ void AROS2Node::Subscribe()
 
 			if (ensure(cb))
 			{
-				callbacks.Add(TopicMessage, *cb);
+				subCallbacks.Add(TopicMessage, *cb);
 			}
 
 			const rosidl_message_type_support_t * type_support = TopicMessage->GetTypeSupport();
@@ -147,6 +148,50 @@ void AROS2Node::Subscribe()
     }
 
 	UE_LOG(LogTemp, Warning, TEXT("Subscribe - Done"));
+}
+
+void AROS2Node::CreateServices()
+{
+	check(State == UROS2State::Initialized);
+			
+	UE_LOG(LogTemp, Warning, TEXT("Create Services"));
+	for (auto& e : ServicesToProvide)
+	{
+		UROS2GenericSrv *Service = NewObject<UROS2GenericSrv>(this, e.Value);
+
+		if (ensure(IsValid(Service)))
+		{
+			Service->Init();
+		}
+		else
+		{
+			UE_LOG(LogTemp, Error, TEXT("Service (%s) is nullptr!"), *e.Key);
+		}
+
+		if (!services.Contains(Service))
+		{
+			services.Add(Service, rcl_get_zero_initialized_service());
+			FServiceCallback *cb = ServicesToCallback.Find(e.Key);
+
+			if (ensure(cb))
+			{
+				srvCallbacks.Add(Service, *cb);
+			}
+
+			const rosidl_service_type_support_t * type_support = Service->GetTypeSupport();
+			rcl_service_options_t srv_opt = rcl_service_get_default_options();
+			RCSOFTCHECK(rcl_service_init(&services[Service], &node, type_support, TCHAR_TO_ANSI(*e.Key), &srv_opt));
+			NServices++;
+		}
+	}
+
+	// invalidate wait_set
+	if (rcl_wait_set_is_valid(&wait_set))
+	{
+    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+    }
+
+	UE_LOG(LogTemp, Warning, TEXT("Create Services - Done"));
 }
 
 void AROS2Node::SpinSome()
@@ -171,6 +216,16 @@ void AROS2Node::SpinSome()
 	for (auto& pair : subs)
 	{
 		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &pair.Value, nullptr));
+	}
+
+	for (auto& c : srvClients)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
+	}
+
+	for (auto& pair : services)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &pair.Value, nullptr));
 	}
 
 	rcl_ret_t rc = rcl_wait(&wait_set, 0);
@@ -203,13 +258,78 @@ void AROS2Node::SpinSome()
 
 		// callback here
 		//pair.Key->PrintSubToLog(rc, Name);
-		FSubscriptionCallback *cb = callbacks.Find(pair.Key);
+		FSubscriptionCallback *cb = subCallbacks.Find(pair.Key);
 
 		if (cb)
 		{
 			cb->ExecuteIfBound(pair.Key);
 		}
 	}
+
+	TMap<UROS2GenericSrv *, rcl_service_t> readyServices;
+	for (int i=0; i<wait_set.size_of_services; i++)
+	{
+		if (wait_set.services[i])
+		{
+			const rcl_service_t* currentService = wait_set.services[i];
+			for (auto& pair : services)
+			{
+				if (&pair.Value == currentService)
+				{
+					readyServices.Add(pair);
+				}
+			}
+		}
+	}
+
+	for (auto& pair : readyServices)
+	{	
+		rmw_request_id_t req_id;
+		void * data = pair.Key->GetRequest();
+		rc = rcl_take_request(&pair.Value, &req_id, data);
+
+		// there's a variant with req_id in the callback and one with context
+		FServiceCallback *cb = srvCallbacks.Find(pair.Key);
+
+		if (cb)
+		{
+			cb->ExecuteIfBound(pair.Key);
+		}
+	}
+
+	TArray<UROS2ServiceClient *> readyClients;
+	for (int i=0; i<wait_set.size_of_clients; i++)
+	{
+		if (wait_set.clients[i])
+		{
+			const rcl_client_t* currentClient = wait_set.clients[i];
+			for (auto& c : srvClients)
+			{
+				if (&c->client == currentClient)
+				{
+					readyClients.Add(c);
+				}
+			}
+		}
+	}
+
+	for (auto& c : readyClients)
+	{	
+		rmw_request_id_t req_id;
+		void * data = c->Service->GetResponse();
+		rc = rcl_take_response(&c->client, &req_id, data);
+
+		// there's a variant with req_id in the callback
+		FServiceClientCallback *cb = &c->AnswerDelegate;
+
+		if (cb)
+		{
+			cb->ExecuteIfBound(c->Service);
+		}
+	}
+
+
+	
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }
 
@@ -225,10 +345,23 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 
 	Publisher->RegisterComponent();
 	Publisher->ownerNode = this;
-	// why are these not allowed?
-	//Publisher->SetupAttachment(RootComponent);
-	//Publisher->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepWorldTransform);
 	pubs.Add(Publisher);
+}
+
+void AROS2Node::AddClient(UROS2ServiceClient* Client)
+{
+	check(IsValid(Client));
+
+	Client->RegisterComponent();
+	Client->ownerNode = this;
+	srvClients.Add(Client);
+	NClients++;
+}
+
+void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback)
+{
+	ServicesToProvide.Add(ServiceName, SrvClass);
+	ServicesToCallback.Add(ServiceName, Callback);
 }
 
 
@@ -288,6 +421,14 @@ TMap<FString, FString> AROS2Node::GetListOfTopics()
 	}
 
 	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));
+
+	return Result;
+}
+
+
+TMap<FString, FString> AROS2Node::GetListOfServices()
+{
+	TMap<FString, FString> Result;
 
 	return Result;
 }

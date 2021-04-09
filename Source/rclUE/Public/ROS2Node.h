@@ -11,8 +11,10 @@
 #include "ROS2Node.generated.h"
 
 class UROS2Publisher;
+class UROS2ServiceClient;
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, const UROS2GenericSrv *, Service);
 
 /**
  * ROS2 Node that additionally acts as a factory for Publishers, Subscribers, Clients, Services
@@ -47,19 +49,31 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Subscribe();
 
+	UFUNCTION(BlueprintCallable)
+	void CreateServices();
+
 	// this is meant as a helper for BP
 	UFUNCTION(BlueprintCallable)
 	void AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
 
 	// The update callback replaces UpdateAndPublishMessage
 	UFUNCTION(BlueprintCallable)
-	void AddPublisher(UROS2Publisher *Publisher);
+	void AddPublisher(UROS2Publisher* Publisher);
+
+	UFUNCTION(BlueprintCallable)
+	void AddClient(UROS2ServiceClient* Client);
+
+	UFUNCTION(BlueprintCallable)
+	void AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback);
 
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfNodes();
 
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfTopics();
+
+	UFUNCTION(BlueprintCallable)
+	TMap<FString, FString> GetListOfServices();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name = TEXT("node");
@@ -98,6 +112,15 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FString, FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, TSubclassOf<UROS2GenericSrv>> Clients;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, TSubclassOf<UROS2GenericSrv>> ServicesToProvide;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TMap<FString, FServiceCallback> ServicesToCallback;
+
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
 	void SpinSome();
@@ -110,10 +133,18 @@ protected:
 	UPROPERTY()
 	TArray<UROS2Publisher *> pubs;
 
+	UPROPERTY()
+	TArray<UROS2ServiceClient *> srvClients;
+
 	TMap<UROS2GenericMsg *, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
 	UPROPERTY()
-	TMap<UROS2GenericMsg *, FSubscriptionCallback> callbacks; // could be combined with above
+	TMap<UROS2GenericMsg *, FSubscriptionCallback> subCallbacks; // could be combined with above
+
+	TMap<UROS2GenericSrv *, rcl_service_t> services; // map services to servers
+	
+	UPROPERTY()
+	TMap<UROS2GenericSrv *, FServiceCallback> srvCallbacks; // could be combined with above
 	
 	rcl_wait_set_t wait_set;
 	
