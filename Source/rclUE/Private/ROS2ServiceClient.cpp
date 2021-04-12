@@ -78,7 +78,7 @@ void UROS2ServiceClient::Init()
 	}
 	else if (ownerNode->State == UROS2State::Created)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Client Init (%s) - Node needs to be initialized before publisher!"), *ServiceName);
+		UE_LOG(LogTemp, Error, TEXT("Client Init (%s) - Node needs to be initialized before client!"), *ServiceName);
 	}
 	else
 	{
@@ -88,6 +88,7 @@ void UROS2ServiceClient::Init()
 
 void UROS2ServiceClient::InitializeService()
 {
+	UE_LOG(LogTemp, Log, TEXT("Initializing Service"));
 	if (ServiceName != FString() && SrvClass)
 	{
 		Service = NewObject<UROS2GenericSrv>(this, SrvClass);
@@ -107,8 +108,9 @@ void UROS2ServiceClient::InitializeService()
 	}
 }
 
-void UROS2ServiceClient::UpdateAndSendRequest_Implementation()
+void UROS2ServiceClient::UpdateAndSendRequest()
 {
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 	
@@ -134,6 +136,7 @@ void UROS2ServiceClient::Destroy()
 
 void UROS2ServiceClient::SendRequest()
 {
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	check(State == UROS2State::Initialized);
 	check(ownerNode != nullptr);
 

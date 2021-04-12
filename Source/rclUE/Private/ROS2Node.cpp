@@ -27,16 +27,16 @@ AROS2Node::~AROS2Node()
 // Called when the game starts or when spawned
 void AROS2Node::BeginPlay()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
+	//UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
 	Super::BeginPlay();
 
-	UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
+	//UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
 
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	// this is called before the components
-	UE_LOG(LogTemp, Warning, TEXT("Node EndPlay"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 
 	for (auto& s : subs)
 	{
@@ -59,7 +59,7 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	RCSOFTCHECK(rcl_node_fini(&node));
 
 	Super::EndPlay(EndPlayReason);
-	UE_LOG(LogTemp, Warning, TEXT("Node EndPlay - Done"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 // Called every frame
@@ -69,7 +69,7 @@ void AROS2Node::Tick(float DeltaTime)
 
 	Super::Tick(DeltaTime);
 
-	if (NSubscriptions > 0)
+	if (NSubscriptions > 0 || NClients > 0 || NServices > 0)
 	{
 		SpinSome();
 	}
@@ -78,7 +78,7 @@ void AROS2Node::Tick(float DeltaTime)
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
 void AROS2Node::Init()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Node Init"));
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 
 	if (State == UROS2State::Created)
 	{
@@ -93,7 +93,7 @@ void AROS2Node::Init()
 		State = UROS2State::Initialized;
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("Node Init - Done"));
+    UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 UROS2Context* AROS2Node::GetContext()
@@ -110,7 +110,7 @@ void AROS2Node::Subscribe()
 {
 	check(State == UROS2State::Initialized);
 			
-	UE_LOG(LogTemp, Warning, TEXT("Subscribe"));
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	for (auto& e : TopicsToSubscribe)
 	{
 		UROS2GenericMsg *TopicMessage = NewObject<UROS2GenericMsg>(this, e.Value);
@@ -147,14 +147,14 @@ void AROS2Node::Subscribe()
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
 
-	UE_LOG(LogTemp, Warning, TEXT("Subscribe - Done"));
+	UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void AROS2Node::CreateServices()
 {
 	check(State == UROS2State::Initialized);
 			
-	UE_LOG(LogTemp, Warning, TEXT("Create Services"));
+	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	for (auto& e : ServicesToProvide)
 	{
 		UROS2GenericSrv *Service = NewObject<UROS2GenericSrv>(this, e.Value);
@@ -191,15 +191,11 @@ void AROS2Node::CreateServices()
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
 
-	UE_LOG(LogTemp, Warning, TEXT("Create Services - Done"));
+	UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void AROS2Node::SpinSome()
 {
-	// size_t domain_id;
-	// rcl_ret_t rc_did = rcl_node_get_domain_id(&node, &domain_id);
-	// UE_LOG(LogTemp, Warning, TEXT("Domain ID for node %s: %d"), *Name, domain_id);
-
 	//NSpinCalls++;
 	if (!rcl_wait_set_is_valid(&wait_set))
 	{
@@ -209,7 +205,7 @@ void AROS2Node::SpinSome()
 									NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, 
 									&context->Get().context, rcl_get_default_allocator()));
 	}
-	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subscriptions"), wait_set.size_of_subscriptions);
+	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subs, %d clients, %d services"), wait_set.size_of_subscriptions, wait_set.size_of_clients, wait_set.size_of_services);
 	
 	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
 
@@ -288,6 +284,9 @@ void AROS2Node::SpinSome()
 		void * data = pair.Key->GetRequest();
 		rc = rcl_take_request(&pair.Value, &req_id, data);
 
+    	UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
+		pair.Key->PrintRequestToLog(rc, Name);
+
 		// there's a variant with req_id in the callback and one with context
 		FServiceCallback *cb = srvCallbacks.Find(pair.Key);
 
@@ -295,6 +294,8 @@ void AROS2Node::SpinSome()
 		{
 			cb->ExecuteIfBound(pair.Key);
 		}
+
+		rc = rcl_send_response(&pair.Value, &req_id, pair.Key->GetResponse());
 	}
 
 	TArray<UROS2ServiceClient *> readyClients;
@@ -319,6 +320,8 @@ void AROS2Node::SpinSome()
 		void * data = c->Service->GetResponse();
 		rc = rcl_take_response(&c->client, &req_id, data);
 
+    	UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
+
 		// there's a variant with req_id in the callback
 		FServiceClientCallback *cb = &c->AnswerDelegate;
 
@@ -326,9 +329,7 @@ void AROS2Node::SpinSome()
 		{
 			cb->ExecuteIfBound(c->Service);
 		}
-	}
-
-
+	}	
 	
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }

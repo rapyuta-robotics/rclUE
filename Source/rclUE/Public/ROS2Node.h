@@ -130,7 +130,7 @@ protected:
 
 	rcl_node_t node;
 
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly)
 	TArray<UROS2Publisher *> pubs;
 
 	UPROPERTY()

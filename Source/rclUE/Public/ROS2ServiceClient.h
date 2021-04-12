@@ -36,7 +36,7 @@ public:
 	void InitializeService();
 	
 	// with a callback function, this might not needed anymore, eliminating the need to create Publisher classes for each MsgClass
-	UFUNCTION(BlueprintNativeEvent)
+	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendRequest();
 	
 	UFUNCTION()
@@ -68,7 +68,7 @@ public:
 	UROS2GenericSrv *Service;
 
 protected:
-	UFUNCTION(BlueprintCallable)
+	UFUNCTION()
 	void SendRequest();
 
 	const void* req;

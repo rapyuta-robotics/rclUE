@@ -26,8 +26,21 @@ public:
 
 	virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
 	
+	// used by client
   	UFUNCTION(BlueprintCallable)
-	void Update(int a, int b);
+	void SetInputs(int64 a, int64 b);
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void GetInputs(int64& a, int64& b);
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void SetOutput(int64 res);
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void GetOutput(int64& res);
 	
 	const ue4_interfaces__srv__UE4SrvExample_Request* GetRequest() const;
 	const ue4_interfaces__srv__UE4SrvExample_Response* GetResponse() const;
