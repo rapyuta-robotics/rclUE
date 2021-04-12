@@ -56,7 +56,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FPublisherUpdateCallback UpdateDelegate;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	AROS2Node* ownerNode;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
