@@ -5,7 +5,7 @@
 #include "CoreMinimal.h"
 #include "Srvs/ROS2GenericSrv.h"
 #include "rclcUtilities.h"
-#include <ue4_interfaces/srv/ue4_srv_example.h>
+#include <ue4_interfaces/srv/add_ints.h>
 
 #include "ROS2TestSrv.generated.h"
 
@@ -42,8 +42,8 @@ public:
   	UFUNCTION(BlueprintCallable)
 	void GetOutput(int64& res);
 	
-	const ue4_interfaces__srv__UE4SrvExample_Request* GetRequest() const;
-	const ue4_interfaces__srv__UE4SrvExample_Response* GetResponse() const;
+	const ue4_interfaces__srv__AddInts_Request* GetRequest() const;
+	const ue4_interfaces__srv__AddInts_Response* GetResponse() const;
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;
@@ -52,6 +52,6 @@ private:
 	virtual FString SrvRequestToString() const override;
 	virtual FString SrvResponseToString() const override;
 
-	ue4_interfaces__srv__UE4SrvExample_Request ue4test_req;
-	ue4_interfaces__srv__UE4SrvExample_Response ue4test_res;
+	ue4_interfaces__srv__AddInts_Request ue4test_req;
+	ue4_interfaces__srv__AddInts_Response ue4test_res;
 };

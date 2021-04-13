@@ -7,6 +7,7 @@
 #include "ROS2ServiceClient.h"
 
 #include <rcl/graph.h>
+
 #include "Kismet/GameplayStatics.h"
 
 
@@ -280,10 +281,10 @@ void AROS2Node::SpinSome()
 
 	for (auto& pair : readyServices)
 	{	
-		rmw_request_id_t req_id;
+		rmw_service_info_t req_info;
 		void * data = pair.Key->GetRequest();
-		rc = rcl_take_request(&pair.Value, &req_id, data);
-
+		rc = rcl_take_request_with_info(&pair.Value, &req_info, data);
+		
     	UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
 		pair.Key->PrintRequestToLog(rc, Name);
 
@@ -295,7 +296,7 @@ void AROS2Node::SpinSome()
 			cb->ExecuteIfBound(pair.Key);
 		}
 
-		rc = rcl_send_response(&pair.Value, &req_id, pair.Key->GetResponse());
+		rc = rcl_send_response(&pair.Value, &req_info.request_id, pair.Key->GetResponse());
 	}
 
 	TArray<UROS2ServiceClient *> readyClients;
@@ -316,10 +317,10 @@ void AROS2Node::SpinSome()
 
 	for (auto& c : readyClients)
 	{	
-		rmw_request_id_t req_id;
+		rmw_service_info_t req_info;
 		void * data = c->Service->GetResponse();
-		rc = rcl_take_response(&c->client, &req_id, data);
-
+		rc = rcl_take_response_with_info(&c->client, &req_info, data);
+		
     	UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
 
 		// there's a variant with req_id in the callback

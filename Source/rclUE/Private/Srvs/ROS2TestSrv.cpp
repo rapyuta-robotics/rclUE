@@ -6,58 +6,54 @@
 
 const rosidl_service_type_support_t* UROS2TestSrv::GetTypeSupport() const
 {
-    return ROSIDL_GET_SRV_TYPE_SUPPORT(ue4_interfaces, srv, UE4SrvExample);
+    return ROSIDL_GET_SRV_TYPE_SUPPORT(ue4_interfaces, srv, AddInts);
 }
 
 void UROS2TestSrv::Init()
 {
 	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TestSrv::Init"));
-    ue4_interfaces__srv__UE4SrvExample_Request__init(&ue4test_req);
-    ue4_interfaces__srv__UE4SrvExample_Response__init(&ue4test_res);
+    ue4_interfaces__srv__AddInts_Request__init(&ue4test_req);
+    ue4_interfaces__srv__AddInts_Response__init(&ue4test_res);
     ue4test_req.a = 0;
     ue4test_req.b = 0;
-    ue4test_res.res = 0;
+    ue4test_res.sum = 0;
 }
 
 void UROS2TestSrv::Fini()
 {
 	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TestSrv::Fini"));
-    ue4_interfaces__srv__UE4SrvExample_Request__fini(&ue4test_req);
-    ue4_interfaces__srv__UE4SrvExample_Response__fini(&ue4test_res);
+    ue4_interfaces__srv__AddInts_Request__fini(&ue4test_req);
+    ue4_interfaces__srv__AddInts_Response__fini(&ue4test_res);
 }
 
 void UROS2TestSrv::SetInputs(int64 a, int64 b)
 {
-    UE_LOG(LogTemp, Warning, TEXT("Set inputs"));
     ue4test_req.a = a;
     ue4test_req.b = b;
 }
 
 void UROS2TestSrv::GetInputs(int64& a, int64& b)
 {
-    UE_LOG(LogTemp, Warning, TEXT("Get inputs"));
     a = ue4test_req.a;
     b = ue4test_req.b;
 }
 
-void UROS2TestSrv::SetOutput(int64 res)
+void UROS2TestSrv::SetOutput(int64 sum)
 {
-    UE_LOG(LogTemp, Warning, TEXT("Set output"));
-    ue4test_res.res = res;
+    ue4test_res.sum = sum;
 }
 
-void UROS2TestSrv::GetOutput(int64& res)
+void UROS2TestSrv::GetOutput(int64& sum)
 {
-    UE_LOG(LogTemp, Warning, TEXT("Get output"));
-    res = ue4test_res.res;
+    sum = ue4test_res.sum;
 }
 
-const ue4_interfaces__srv__UE4SrvExample_Request* UROS2TestSrv::GetRequest() const
+const ue4_interfaces__srv__AddInts_Request* UROS2TestSrv::GetRequest() const
 {
     return &ue4test_req;
 }
 
-const ue4_interfaces__srv__UE4SrvExample_Response* UROS2TestSrv::GetResponse() const
+const ue4_interfaces__srv__AddInts_Response* UROS2TestSrv::GetResponse() const
 {
     return &ue4test_res;
 }
@@ -79,7 +75,7 @@ FString UROS2TestSrv::SrvRequestToString() const
 
 FString UROS2TestSrv::SrvResponseToString() const
 {
-	return FString::Printf(TEXT("%d"), ue4test_res.res);
+	return FString::Printf(TEXT("%d"), ue4test_res.sum);
 }
 
 

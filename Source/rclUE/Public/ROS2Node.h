@@ -113,9 +113,6 @@ protected:
 	TMap<FString, FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FString, TSubclassOf<UROS2GenericSrv>> Clients;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FString, TSubclassOf<UROS2GenericSrv>> ServicesToProvide;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

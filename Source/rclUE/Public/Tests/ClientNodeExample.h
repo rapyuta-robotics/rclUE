@@ -5,7 +5,7 @@
 #pragma once
 
 
-#include <ue4_interfaces/srv/ue4_srv_example.h>
+#include <ue4_interfaces/srv/add_ints.h>
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
@@ -36,7 +36,7 @@ public:
     int v2;
 
 
-	static ue4_interfaces__srv__UE4SrvExample_Request req;
-	static ue4_interfaces__srv__UE4SrvExample_Response res;
+	static ue4_interfaces__srv__AddInts_Request req;
+	static ue4_interfaces__srv__AddInts_Response res;
 	static void client_callback(const void * msg);
 };

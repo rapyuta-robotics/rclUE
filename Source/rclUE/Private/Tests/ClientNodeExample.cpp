@@ -12,13 +12,13 @@
 
 #include "rclcUtilities.h"
 
-ue4_interfaces__srv__UE4SrvExample_Request AClientNodeExample::req;
-ue4_interfaces__srv__UE4SrvExample_Response AClientNodeExample::res;
+ue4_interfaces__srv__AddInts_Request AClientNodeExample::req;
+ue4_interfaces__srv__AddInts_Response AClientNodeExample::res;
 
 void AClientNodeExample::client_callback(const void * msg)
 {
-  ue4_interfaces__srv__UE4SrvExample_Response * msgin = (ue4_interfaces__srv__UE4SrvExample_Response *) msg;
-  UE_LOG(LogTemp, Log, TEXT("Received service response %ld * %ld = %ld."), AClientNodeExample::req.a, AClientNodeExample::req.b, msgin->res);
+  ue4_interfaces__srv__AddInts_Response * msgin = (ue4_interfaces__srv__AddInts_Response *) msg;
+  UE_LOG(LogTemp, Log, TEXT("Received service response %ld * %ld = %ld."), AClientNodeExample::req.a, AClientNodeExample::req.b, msgin->sum);
 }
 
 // Sets default values
@@ -46,7 +46,7 @@ void AClientNodeExample::BeginPlay()
 
 	// create client
 	rcl_client_t client;
-	RCSOFTCHECK(rclc_client_init_default(&client, &node, ROSIDL_GET_SRV_TYPE_SUPPORT(ue4_interfaces, srv, UE4SrvExample), "/ue4srvexample"));
+	RCSOFTCHECK(rclc_client_init_default(&client, &node, ROSIDL_GET_SRV_TYPE_SUPPORT(ue4_interfaces, srv, AddInts), "/ue4srvexample"));
 
 	// create executor
 	rclc_executor_t executor = rclc_executor_get_zero_initialized_executor();
@@ -57,7 +57,7 @@ void AClientNodeExample::BeginPlay()
 	RCSOFTCHECK(rclc_executor_add_client(&executor, &client, &AClientNodeExample::res, AClientNodeExample::client_callback));
 
 	int64_t seq;
-	ue4_interfaces__srv__UE4SrvExample_Request__init(&AClientNodeExample::req);
+	ue4_interfaces__srv__AddInts_Request__init(&AClientNodeExample::req);
 	AClientNodeExample::req.a = v1;
 	AClientNodeExample::req.b = v2;
 

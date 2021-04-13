@@ -68,7 +68,10 @@ void UROS2ServiceClient::Init()
 
 		const rosidl_service_type_support_t * srv_type_support = Service->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
-		rcl_ret_t rc = rclc_client_init_default(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName));
+		client = rcl_get_zero_initialized_client();
+  		rcl_client_options_t client_opt = rcl_client_get_default_options();
+		rcl_ret_t rc = rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt);
+		
 	
 		State = UROS2State::Initialized;
 	}
@@ -108,16 +111,6 @@ void UROS2ServiceClient::InitializeService()
 	}
 }
 
-void UROS2ServiceClient::UpdateAndSendRequest()
-{
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
-	
-	RequestDelegate.ExecuteIfBound(Service);
-	SendRequest();
-}
-
 void UROS2ServiceClient::Destroy()
 {
 	UE_LOG(LogTemp, Warning, TEXT("Client Destroy"));
@@ -134,6 +127,16 @@ void UROS2ServiceClient::Destroy()
 	UE_LOG(LogTemp, Warning, TEXT("Client Destroy - Done"));
 }
 
+void UROS2ServiceClient::UpdateAndSendRequest()
+{
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+	check(State == UROS2State::Initialized);
+	check(IsValid(ownerNode));
+	
+	RequestDelegate.ExecuteIfBound(Service);
+	SendRequest();
+}
+
 void UROS2ServiceClient::SendRequest()
 {
     UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
@@ -143,5 +146,5 @@ void UROS2ServiceClient::SendRequest()
 	req = Service->GetRequest();
 
 	int64_t seq;
-	rcl_ret_t rc = rcl_send_request(&client, &req, &seq);
+	rcl_ret_t rc = rcl_send_request(&client, req, &seq);
 }
