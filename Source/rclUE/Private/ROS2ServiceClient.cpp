@@ -39,15 +39,6 @@ void UROS2ServiceClient::BeginPlay()
 	UE_LOG(LogTemp, Warning, TEXT("Client BeginPlay - Done"));	
 }
 
-void UROS2ServiceClient::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Client EndPlay"));
-
-	Super::EndPlay(EndPlayReason);
-	
-	UE_LOG(LogTemp, Warning, TEXT("Client EndPlay - Done"));
-}
-
 
 // Called every frame
 void UROS2ServiceClient::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
@@ -71,8 +62,7 @@ void UROS2ServiceClient::Init()
 		client = rcl_get_zero_initialized_client();
   		rcl_client_options_t client_opt = rcl_client_get_default_options();
 		rcl_ret_t rc = rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt);
-		
-	
+			
 		State = UROS2State::Initialized;
 	}
 	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)

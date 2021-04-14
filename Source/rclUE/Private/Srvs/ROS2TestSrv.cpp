@@ -11,7 +11,7 @@ const rosidl_service_type_support_t* UROS2TestSrv::GetTypeSupport() const
 
 void UROS2TestSrv::Init()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TestSrv::Init"));
+	UE_LOG(LogROS2Srv, Warning, TEXT("UROS2TestSrv::Init"));
     ue4_interfaces__srv__AddInts_Request__init(&ue4test_req);
     ue4_interfaces__srv__AddInts_Response__init(&ue4test_res);
     ue4test_req.a = 0;
@@ -21,7 +21,7 @@ void UROS2TestSrv::Init()
 
 void UROS2TestSrv::Fini()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TestSrv::Fini"));
+	UE_LOG(LogROS2Srv, Warning, TEXT("UROS2TestSrv::Fini"));
     ue4_interfaces__srv__AddInts_Request__fini(&ue4test_req);
     ue4_interfaces__srv__AddInts_Response__fini(&ue4test_res);
 }
@@ -77,6 +77,3 @@ FString UROS2TestSrv::SrvResponseToString() const
 {
 	return FString::Printf(TEXT("%d"), ue4test_res.sum);
 }
-
-
-

@@ -281,6 +281,8 @@ void AROS2Node::SpinSome()
 
 	for (auto& pair : readyServices)
 	{	
+		// this should all go in the callback?
+		// can't go in the callback unless the rcl functions are wrapped
 		rmw_service_info_t req_info;
 		void * data = pair.Key->GetRequest();
 		rc = rcl_take_request_with_info(&pair.Value, &req_info, data);
@@ -317,6 +319,8 @@ void AROS2Node::SpinSome()
 
 	for (auto& c : readyClients)
 	{	
+		// this should all go in the callback?
+		// can't go in the callback unless the rcl functions are wrapped
 		rmw_service_info_t req_info;
 		void * data = c->Service->GetResponse();
 		rc = rcl_take_response_with_info(&c->client, &req_info, data);

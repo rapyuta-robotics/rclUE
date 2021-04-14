@@ -14,7 +14,7 @@ public class rclUE : ModuleRules
 
 		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
 		var folders = new string[] { "rcutils", "rmw", "tracetools",
-									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "ue4_interfaces",
+									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "ue4_interfaces", "unique_identifier_msgs", "action_msgs",
 									 "rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
 									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
 									 "rclc", "rclc_lifecycle" };

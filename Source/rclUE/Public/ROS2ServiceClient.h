@@ -23,8 +23,6 @@ protected:
 	// Called when the game starts
 	virtual void BeginPlay() override;
 
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
 public:	
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
@@ -41,6 +39,7 @@ public:
 	
 	UFUNCTION()
 	virtual void Destroy();
+	
 	// this information is redundant with Topic, but it's used to initialize it
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString ServiceName;
