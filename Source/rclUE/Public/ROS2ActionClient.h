@@ -6,6 +6,7 @@
 #include "Components/ActorComponent.h"
 #include "ROS2Node.h"
 #include "Actions/ROS2GenericAction.h"
+#include <rcl_action/action_client.h>
 #include "ROS2ActionClient.generated.h"
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionClientCallback, UROS2GenericAction *, Action);

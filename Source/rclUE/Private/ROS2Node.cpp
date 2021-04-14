@@ -225,6 +225,9 @@ void AROS2Node::SpinSome()
 		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &pair.Value, nullptr));
 	}
 
+	// rcl_action_wait_set_add_action_client
+	// rcl_action_wait_set_add_action_server
+
 	rcl_ret_t rc = rcl_wait(&wait_set, 0);
   	RCLC_UNUSED(rc);
 

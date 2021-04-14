@@ -106,15 +106,19 @@ protected:
 	UFUNCTION()
 	UROS2Context* GetContext();
 
+	// can be merged with subs by using a struct?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FString, TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
 	
+	// can be merged with subCallbacks by using a struct?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FString, FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
 
+	// can be merged with services by using a struct?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FString, TSubclassOf<UROS2GenericSrv>> ServicesToProvide;
 	
+	// can be merged with srvCallbacks by using a struct?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TMap<FString, FServiceCallback> ServicesToCallback;
 
@@ -130,14 +134,17 @@ protected:
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UROS2Publisher *> pubs;
 
+	// used for wait_set
 	UPROPERTY()
 	TArray<UROS2ServiceClient *> srvClients;
 
+	// used for wait_set
 	TMap<UROS2GenericMsg *, rcl_subscription_t> subs; // map topic to sub to avoid double subs
 	
 	UPROPERTY()
 	TMap<UROS2GenericMsg *, FSubscriptionCallback> subCallbacks; // could be combined with above
-
+	
+	// used for wait_set
 	TMap<UROS2GenericSrv *, rcl_service_t> services; // map services to servers
 	
 	UPROPERTY()

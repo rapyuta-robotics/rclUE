@@ -108,8 +108,17 @@ void UROS2ActionClient::UpdateAndSendGoal()
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 
-	SetGoalDelegate.ExecuteIfBound(Action);
-	SendGoal();
+	bool ActionServerIsAvailable = false;
+	rcl_ret_t rc = rcl_action_server_is_available(ownerNode->GetNode(), &client, &ActionServerIsAvailable);
+	if (ActionServerIsAvailable)
+	{
+		SetGoalDelegate.ExecuteIfBound(Action);
+		SendGoal();
+	}
+	else
+	{
+		UE_LOG(LogTemp, Error, TEXT("Action Server Unavailable"));
+	}
 }
 
 void UROS2ActionClient::SendGoal()
