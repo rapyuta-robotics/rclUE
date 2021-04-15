@@ -39,9 +39,9 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	// this is called before the components
     //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 
-	for (auto& s : subs)
+	for (auto& s : Subscriptions)
 	{
-		RCSOFTCHECK(rcl_subscription_fini(&s.Value, &node));
+		RCSOFTCHECK(rcl_subscription_fini(&s.RCLSubscription, &node));
 	}
 
 	// this is better done with the component registering itself to the owner at creation
@@ -70,7 +70,7 @@ void AROS2Node::Tick(float DeltaTime)
 
 	Super::Tick(DeltaTime);
 
-	if (NSubscriptions > 0 || NClients > 0 || NServices > 0)
+	if (Subscriptions.Num() > 0 || NClients > 0 || NServices > 0)
 	{
 		SpinSome();
 	}
@@ -107,48 +107,30 @@ rcl_node_t* AROS2Node::GetNode()
 	return &node;
 }
 
-void AROS2Node::Subscribe()
+void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
 {
-	check(State == UROS2State::Initialized);
-			
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-	for (auto& e : TopicsToSubscribe)
-	{
-		UROS2GenericMsg *TopicMessage = NewObject<UROS2GenericMsg>(this, e.Value);
+	UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+	TopicMessage->Init();
 
-		if (ensure(IsValid(TopicMessage)))
-		{
-			TopicMessage->Init();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *e.Key);
-		}
+	FSubscription NewSub;
+	NewSub.TopicName = TopicName;
+	NewSub.TopicType = MsgClass;
+	NewSub.TopicMsg = TopicMessage;
+	NewSub.Callback = Callback;
+	NewSub.Ready = false;
 
-		if (!subs.Contains(TopicMessage))
-		{
-			subs.Add(TopicMessage, rcl_get_zero_initialized_subscription());
-			FSubscriptionCallback *cb = TopicsToCallback.Find(e.Key);
-
-			if (ensure(cb))
-			{
-				subCallbacks.Add(TopicMessage, *cb);
-			}
-
-			const rosidl_message_type_support_t * type_support = TopicMessage->GetTypeSupport();
-			rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-			RCSOFTCHECK(rcl_subscription_init(&subs[TopicMessage], &node, type_support, TCHAR_TO_ANSI(*e.Key), &sub_opt));
-			NSubscriptions++;
-		}
-	}
+	NewSub.RCLSubscription = rcl_get_zero_initialized_subscription();
+	const rosidl_message_type_support_t * type_support = TopicMessage->GetTypeSupport();
+	rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
+	RCSOFTCHECK(rcl_subscription_init(&NewSub.RCLSubscription, &node, type_support, TCHAR_TO_ANSI(*TopicName), &sub_opt));
+	
+	Subscriptions.Add(NewSub);
 
 	// invalidate wait_set
 	if (rcl_wait_set_is_valid(&wait_set))
 	{
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
-
-	UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void AROS2Node::CreateServices()
@@ -203,16 +185,16 @@ void AROS2Node::SpinSome()
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 		wait_set = rcl_get_zero_initialized_wait_set();
 		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-									NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, 
+									Subscriptions.Num(), NGuardConditions, NTimers, NClients, NServices, NEvents, 
 									&context->Get().context, rcl_get_default_allocator()));
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subs, %d clients, %d services"), wait_set.size_of_subscriptions, wait_set.size_of_clients, wait_set.size_of_services);
 	
 	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
 
-	for (auto& pair : subs)
+	for (auto& s : Subscriptions)
 	{
-		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &pair.Value, nullptr));
+		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.RCLSubscription, nullptr));
 	}
 
 	for (auto& c : srvClients)
@@ -232,37 +214,37 @@ void AROS2Node::SpinSome()
   	RCLC_UNUSED(rc);
 
 	// based on _rclc_default_scheduling
-	TMap<UROS2GenericMsg *, rcl_subscription_t> readySubs;
 	for (int i=0; i<wait_set.size_of_subscriptions; i++)
 	{
 		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
 		{
 			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
-			for (auto& pair : subs)
+			for (auto& s : Subscriptions)
 			{
-				if (&pair.Value == currentSub)
+				if (&s.RCLSubscription == currentSub)
 				{
-					readySubs.Add(pair);
+					s.Ready = true;
 				}
 			}
 		}
 	}
 
-	for (auto& pair : readySubs)
+	for (auto& s : Subscriptions)
 	{	
-		// NSubMsgGets++;
-		// UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
-		void * data = pair.Key->Get();
-		rmw_message_info_t messageInfo;
-		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);
-
-		// callback here
-		//pair.Key->PrintSubToLog(rc, Name);
-		FSubscriptionCallback *cb = subCallbacks.Find(pair.Key);
-
-		if (cb)
+		if (s.Ready == true)
 		{
-			cb->ExecuteIfBound(pair.Key);
+			void * data = s.TopicMsg->Get();
+			rmw_message_info_t messageInfo;
+			rc = rcl_take(&s.RCLSubscription, data, &messageInfo, NULL);
+
+			FSubscriptionCallback *cb = &s.Callback;
+
+			if (cb)
+			{
+				cb->ExecuteIfBound(s.TopicMsg);
+			}
+
+			s.Ready = false;
 		}
 	}
 
@@ -342,12 +324,6 @@ void AROS2Node::SpinSome()
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
 }
 
-void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
-{
-	TopicsToSubscribe.Add(TopicName, MsgClass);
-	TopicsToCallback.Add(TopicName, Callback);
-}
-
 void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 {
 	check(IsValid(Publisher));
@@ -374,6 +350,7 @@ void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> Srv
 }
 
 
+// Queries/Diagnostics
 TMap<FString, FString> AROS2Node::GetListOfNodes()
 {
 	TMap<FString, FString> Result;
