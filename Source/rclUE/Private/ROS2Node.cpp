@@ -5,8 +5,8 @@
 #include "ROS2Subsystem.h"
 #include "ROS2Publisher.h"
 #include "ROS2ServiceClient.h"
-
-#include <rcl/graph.h>
+#include "ROS2ActionServer.h"
+#include "ROS2ActionClient.h"
 
 #include "Kismet/GameplayStatics.h"
 
@@ -186,42 +186,21 @@ void AROS2Node::AddClient(UROS2ServiceClient* Client)
 	Clients.Add(Client);
 }
 
-void AROS2Node::SpinSome()
+void AROS2Node::AddActionClient(UROS2ActionClient* ActionClient)
 {
-	//NSpinCalls++;
-	if (!rcl_wait_set_is_valid(&wait_set))
-	{
-    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-		wait_set = rcl_get_zero_initialized_wait_set();
-		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-									Subscriptions.Num(), NGuardConditions, NTimers, Clients.Num(), Services.Num(), NEvents, 
-									&context->Get().context, rcl_get_default_allocator()));
-	}
-	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subs, %d clients, %d services"), wait_set.size_of_subscriptions, wait_set.size_of_clients, wait_set.size_of_services);
-	
-	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
+	check(IsValid(ActionClient));
 
-	for (auto& s : Subscriptions)
-	{
-		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.RCLSubscription, nullptr));
-	}
+	ActionClient->RegisterComponent();
+	ActionClient->ownerNode = this;
+	ActionClients.Add(ActionClient);
+}
 
-	for (auto& c : Clients)
-	{
-		RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
-	}
+void AROS2Node::AddActionServer()
+{
+}
 
-	for (auto& s : Services)
-	{
-		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.RCLService, nullptr));
-	}
-
-	// rcl_action_wait_set_add_action_client
-	// rcl_action_wait_set_add_action_server
-
-	rcl_ret_t rc = rcl_wait(&wait_set, 0);
-  	RCLC_UNUSED(rc);
-
+void AROS2Node::HandleSubscriptions()
+{
 	// based on _rclc_default_scheduling
 	for (int i=0; i<wait_set.size_of_subscriptions; i++)
 	{
@@ -244,7 +223,7 @@ void AROS2Node::SpinSome()
 		{
 			void * data = s.TopicMsg->Get();
 			rmw_message_info_t messageInfo;
-			rc = rcl_take(&s.RCLSubscription, data, &messageInfo, NULL);
+			rcl_ret_t rc = rcl_take(&s.RCLSubscription, data, &messageInfo, NULL);
 
 			FSubscriptionCallback *cb = &s.Callback;
 
@@ -257,6 +236,11 @@ void AROS2Node::SpinSome()
 		}
 	}
 
+	// handle action related subscriptions
+}
+
+void AROS2Node::HandleServices()
+{
 	for (int i=0; i<wait_set.size_of_services; i++)
 	{
 		if (wait_set.services[i])
@@ -280,7 +264,7 @@ void AROS2Node::SpinSome()
 			// can't go in the callback unless the rcl functions are wrapped
 			rmw_service_info_t req_info;
 			void * data = s.Service->GetRequest();
-			rc = rcl_take_request_with_info(&s.RCLService, &req_info, data);
+			rcl_ret_t rc = rcl_take_request_with_info(&s.RCLService, &req_info, data);
 			
 			UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
 			s.Service->PrintRequestToLog(rc, Name);
@@ -298,7 +282,10 @@ void AROS2Node::SpinSome()
 			s.Ready = false;
 		}
 	}
+}
 
+void AROS2Node::HandleClients()
+{
 	for (int i=0; i<wait_set.size_of_clients; i++)
 	{
 		if (wait_set.clients[i])
@@ -322,7 +309,7 @@ void AROS2Node::SpinSome()
 			// can't go in the callback unless the rcl functions are wrapped
 			rmw_service_info_t req_info;
 			void * data = c->Service->GetResponse();
-			rc = rcl_take_response_with_info(&c->client, &req_info, data);
+			rcl_ret_t rc = rcl_take_response_with_info(&c->client, &req_info, data);
 			
 			UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
 
@@ -336,7 +323,135 @@ void AROS2Node::SpinSome()
 
 			c->Ready = false;
 		}
-	}	
+	}
+}
+
+void AROS2Node::HandleActionServers()
+{
+	for (auto& a : ActionServers)
+	{
+		rcl_ret_t rc = rcl_action_server_wait_set_get_entities_ready(&wait_set, &a->server,
+			&a->GoalRequestReady,
+			&a->CancelRequestReady,
+			&a->ResultRequestReady,
+			&a->GoalExpired);
+
+		if (a->GoalRequestReady)
+		{
+			rmw_request_id_t req_id;
+			void* data = a->Action->GetGoalRequest();
+			rc = rcl_action_take_goal_request(&a->server, &req_id, data);
+		}
+
+		if (a->CancelRequestReady)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action Server cancel request not implemented yet"));
+		}
+
+		if (a->ResultRequestReady)
+		{
+			rmw_request_id_t req_id;
+			void* data = a->Action->GetResultRequest();
+			rc = rcl_action_take_result_request(&a->server, &req_id, data);
+		}
+
+		if (a->GoalExpired)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action Server goal expired not implemented yet"));
+		}
+	}
+}
+
+void AROS2Node::HandleActionClients()
+{
+	for (auto& a : ActionClients)
+	{
+		rcl_ret_t rc = rcl_action_client_wait_set_get_entities_ready(&wait_set, &a->client,
+			&a->FeedbackReady,
+			&a->StatusReady,
+			&a->GoalResponseReady,
+			&a->CancelResponseReady,
+			&a->ResultResponseReady);
+
+		if (a->FeedbackReady)
+		{
+			void* data = a->Action->GetFeedbackMessage();
+			rc = rcl_action_take_feedback(&a->client, data);
+		}
+
+		if (a->StatusReady)
+		{
+			//rc = rcl_action_take_status(&a->client, );
+			UE_LOG(LogTemp, Error, TEXT("Action Client take status not implemented yet"));
+		}
+
+		if (a->GoalResponseReady)
+		{
+			rmw_request_id_t req_id;
+			void* data = a->Action->GetGoalResponse();
+			rc = rcl_action_take_goal_response(&a->client, &req_id, data);
+		}
+
+		if (a->CancelResponseReady)
+		{
+			rmw_request_id_t req_id;
+			void* data = a->Action->GetGoalResponse();
+			rc = rcl_action_take_cancel_response(&a->client, &req_id, data);
+		}
+
+		if (a->ResultResponseReady)
+		{
+			rmw_request_id_t req_id;
+			void* data = a->Action->GetResultResponse();
+			rc = rcl_action_take_result_response(&a->client, &req_id, data);
+		}
+	}
+}
+
+void AROS2Node::SpinSome()
+{
+	if (!rcl_wait_set_is_valid(&wait_set))
+	{
+    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+		wait_set = rcl_get_zero_initialized_wait_set();
+		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
+									Subscriptions.Num(), NGuardConditions, NTimers, Clients.Num(), Services.Num(), NEvents, 
+									&context->Get().context, rcl_get_default_allocator()));
+	}
+	
+	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
+
+	for (auto& s : Subscriptions)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.RCLSubscription, nullptr));
+	}
+
+	for (auto& c : Clients)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
+	}
+
+	for (auto& s : Services)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.RCLService, nullptr));
+	}
+
+	for (auto& a : ActionClients)
+	{
+		RCSOFTCHECK(rcl_action_wait_set_add_action_client(&wait_set, &a->client, nullptr, nullptr));
+	}
+
+	for (auto& a : ActionServers)
+	{
+		RCSOFTCHECK(rcl_action_wait_set_add_action_server(&wait_set, &a->server, nullptr));
+	}
+
+	rcl_ret_t rc = rcl_wait(&wait_set, 0);
+  	RCLC_UNUSED(rc);
+
+	HandleSubscriptions();
+	HandleServices();
+	HandleClients();
 }
 
 

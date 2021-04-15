@@ -12,6 +12,8 @@
 
 class UROS2Publisher;
 class UROS2ServiceClient;
+class UROS2ActionServer;
+class UROS2ActionClient;
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, const UROS2GenericSrv *, Service);
@@ -122,6 +124,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback);
 
+	UFUNCTION(BlueprintCallable)
+	void AddActionClient(UROS2ActionClient* ActionClient);
+
+	UFUNCTION(BlueprintCallable)
+	void AddActionServer();
+
 
 
 	// Queries/Diagnostics
@@ -169,11 +177,17 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FService> Services;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<UROS2Publisher *> Publishers;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<UROS2ServiceClient *> Clients;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UROS2ActionClient *> ActionClients;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UROS2ActionServer *> ActionServers;
 
 
 
@@ -181,4 +195,18 @@ protected:
 	FTimerHandle timerHandle;
 
 private:
+	UFUNCTION()
+	void HandleSubscriptions();
+	
+	UFUNCTION()
+	void HandleServices();
+	
+	UFUNCTION()
+	void HandleClients();
+	
+	UFUNCTION()
+	void HandleActionServers();
+	
+	UFUNCTION()
+	void HandleActionClients();
 };

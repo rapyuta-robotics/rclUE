@@ -6,20 +6,19 @@
 #include "Components/ActorComponent.h"
 #include "ROS2Node.h"
 #include "Actions/ROS2GenericAction.h"
-#include <rcl_action/action_client.h>
-#include "ROS2ActionClient.generated.h"
+#include <rcl_action/action_server.h>
+#include "ROS2ActionServer.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FActionClientCallback, UROS2GenericAction *, Action);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FActionServerCallback, UROS2GenericAction *, Action);
 
-// should be refactored with Service and Pub
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class RCLUE_API UROS2ActionClient : public UActorComponent
+class RCLUE_API UROS2ActionServer : public UActorComponent
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
-	UROS2ActionClient();
+	UROS2ActionServer();
 
 protected:
 	// Called when the game starts
@@ -38,11 +37,9 @@ public:
 	UFUNCTION()
 	void Destroy();
 
-	UFUNCTION(BlueprintCallable)
-	void UpdateAndSendGoal();
 
-
-	rcl_action_client_t client;
+	rcl_clock_t ros_clock;
+	rcl_action_server_t server;	
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -54,19 +51,16 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UROS2GenericAction *Action;
 
-	// used to pass data for the request
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback SetGoalDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback GoalResponseDelegate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback FeedbackDelegate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback ResultDelegate;
+	FActionServerCallback HandleGoalDelegate;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FActionServerCallback HandleCancelDelegate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FActionServerCallback HandleAcceptedDelegate;
+	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	AROS2Node* ownerNode;
@@ -75,18 +69,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
-	bool FeedbackReady;
-	bool StatusReady;
-	bool GoalResponseReady;
-	bool CancelResponseReady;
-	bool ResultResponseReady;
-
-private:
-
-	const void* goal;
-	const void* result;
-	const void* feedback;
-
-	UFUNCTION(BlueprintCallable)
-	void SendGoal();
+	
+	bool GoalRequestReady;
+	bool CancelRequestReady;
+	bool ResultRequestReady;
+	bool GoalExpired;
 };

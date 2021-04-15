@@ -4,6 +4,8 @@
 
 #include <rclc/rclc.h>
 #include <rcl/wait.h>
+#include <rcl_action/wait.h>
+#include <rcl/graph.h>
 #include <cstdlib>
 #include "Kismet/KismetSystemLibrary.h"
 

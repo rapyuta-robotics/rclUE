@@ -24,9 +24,11 @@ public:
 	virtual void Init();
 	virtual void Fini();
 
-	virtual void* GetGoal();
-	virtual void* GetResult();
-	virtual void* GetFeedback();
+	virtual void* GetGoalRequest();
+	virtual void* GetGoalResponse();
+	virtual void* GetResultRequest();
+	virtual void* GetResultResponse();
+	virtual void* GetFeedbackMessage();
 
 	virtual void PrintGoalToLog(rcl_ret_t rc, FString NodeName) const;
 	virtual void PrintResultToLog(rcl_ret_t rc, FString NodeName) const;

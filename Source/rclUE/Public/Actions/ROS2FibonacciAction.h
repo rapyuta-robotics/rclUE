@@ -43,25 +43,19 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void GetPartialSequence(TArray<int>& partial_sequence);
+	
 
-	// is there even a point to these?
-	const ue4_interfaces__action__Fibonacci_Goal* GetGoal() const;
-	const ue4_interfaces__action__Fibonacci_Result* GetResult() const;
-	const ue4_interfaces__action__Fibonacci_Feedback* GetFeedback() const;
-
-	virtual void* GetGoal() override;
-	virtual void* GetResult() override;
-	virtual void* GetFeedback() override;
+	virtual void* GetGoalRequest() override;
+	virtual void* GetGoalResponse() override;
+	virtual void* GetResultRequest() override;
+	virtual void* GetResultResponse() override;
+	virtual void* GetFeedbackMessage() override;
 
 
 private:
 	virtual FString ActionGoalToString() const override;
 	virtual FString ActionResultToString() const override;
 	virtual FString ActionFeedbackToString() const override;
-
-	ue4_interfaces__action__Fibonacci_Goal ue4_goal;
-	ue4_interfaces__action__Fibonacci_Result ue4_result;
-	ue4_interfaces__action__Fibonacci_Feedback ue4_feedback;
 
 	ue4_interfaces__action__Fibonacci_SendGoal_Request ue4_goal_request;
 	ue4_interfaces__action__Fibonacci_SendGoal_Response ue4_goal_response;

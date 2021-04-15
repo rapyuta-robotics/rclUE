@@ -21,19 +21,31 @@ void UROS2GenericAction::Fini()
 	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
 }
 
-void* UROS2GenericAction::GetGoal()
+void* UROS2GenericAction::GetGoalRequest()
 {
 	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
 	return nullptr;
 }
 
-void* UROS2GenericAction::GetResult()
+void* UROS2GenericAction::GetGoalResponse()
 {
 	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
 	return nullptr;
 }
 
-void* UROS2GenericAction::GetFeedback()
+void* UROS2GenericAction::GetResultRequest()
+{
+	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	return nullptr;
+}
+
+void* UROS2GenericAction::GetResultResponse()
+{
+	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	return nullptr;
+}
+
+void* UROS2GenericAction::GetFeedbackMessage()
 {
 	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
 	return nullptr;
