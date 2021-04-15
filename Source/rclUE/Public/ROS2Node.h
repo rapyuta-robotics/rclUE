@@ -162,20 +162,20 @@ protected:
 	rcl_node_t node;
 
 
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FSubscription> Subscriptions;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FService> Services;
 
-
-
 	UPROPERTY(BlueprintReadOnly)
 	TArray<UROS2Publisher *> Publishers;
 
-	// used for wait_set
 	UPROPERTY()
 	TArray<UROS2ServiceClient *> Clients;
+
+
 
 	UPROPERTY()
 	FTimerHandle timerHandle;
