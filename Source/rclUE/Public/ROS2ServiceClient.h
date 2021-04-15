@@ -66,6 +66,8 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UROS2GenericSrv *Service;
 
+	bool Ready;
+
 protected:
 	UFUNCTION()
 	void SendRequest();
