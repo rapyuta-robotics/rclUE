@@ -77,6 +77,8 @@ void UROS2ServiceClient::Init()
 	{
 		UE_LOG(LogTemp, Error, TEXT("Client Init - this shouldn't happen!"));
 	}
+
+	Ready = false;
 }
 
 void UROS2ServiceClient::InitializeService()

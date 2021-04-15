@@ -42,6 +42,30 @@ public:
 	bool Ready;
 };
 
+USTRUCT(Blueprintable)
+struct RCLUE_API FService
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ServiceName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UROS2GenericSrv> ServiceType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UROS2GenericSrv * Service;
+
+	rcl_service_t RCLService;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FServiceCallback Callback;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool Ready;
+};
+
 
 
 /**
@@ -98,12 +122,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback);
 
-	
-
-	// create comms - why are these separate?!
-	UFUNCTION(BlueprintCallable)
-	void CreateServices();
-
 
 
 	// Queries/Diagnostics
@@ -126,12 +144,6 @@ public:
 	int NTimers = 0;
 
 	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
-	int NClients = 0;
-
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
-	int NServices = 0;
-
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NEvents = 0;
 
 protected:
@@ -149,34 +161,22 @@ protected:
 
 	rcl_node_t node;
 
-	// does it even need to be a map?
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FSubscription> Subscriptions;
 
-
-	// can be merged with services by using a struct?
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FString, TSubclassOf<UROS2GenericSrv>> ServicesToProvide;
-	
-	// can be merged with srvCallbacks by using a struct?
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FString, FServiceCallback> ServicesToCallback;
+	TArray<FService> Services;
 
 
 
 	UPROPERTY(BlueprintReadOnly)
-	TArray<UROS2Publisher *> pubs;
+	TArray<UROS2Publisher *> Publishers;
 
 	// used for wait_set
 	UPROPERTY()
-	TArray<UROS2ServiceClient *> srvClients;
+	TArray<UROS2ServiceClient *> Clients;
 
-	// used for wait_set
-	TMap<UROS2GenericSrv *, rcl_service_t> services; // map services to servers
-	
-	UPROPERTY()
-	TMap<UROS2GenericSrv *, FServiceCallback> srvCallbacks; // could be combined with above
-	
 	UPROPERTY()
 	FTimerHandle timerHandle;
 

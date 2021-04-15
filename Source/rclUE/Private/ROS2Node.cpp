@@ -44,6 +44,11 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		RCSOFTCHECK(rcl_subscription_fini(&s.RCLSubscription, &node));
 	}
 
+	for (auto& s : Services)
+	{
+		RCSOFTCHECK(rcl_service_fini(&s.RCLService, &node));
+	}
+
 	// this is better done with the component registering itself to the owner at creation
 	TArray<UActorComponent*> pubComponents;
 	GetComponents(UROS2Publisher::StaticClass(), pubComponents, true);
@@ -70,7 +75,7 @@ void AROS2Node::Tick(float DeltaTime)
 
 	Super::Tick(DeltaTime);
 
-	if (Subscriptions.Num() > 0 || NClients > 0 || NServices > 0)
+	if (Subscriptions.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0)
 	{
 		SpinSome();
 	}
@@ -109,6 +114,8 @@ rcl_node_t* AROS2Node::GetNode()
 
 void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
 {
+	check(State == UROS2State::Initialized);
+
 	UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
 	TopicMessage->Init();
 
@@ -133,48 +140,50 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
     }
 }
 
-void AROS2Node::CreateServices()
+void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback)
 {
 	check(State == UROS2State::Initialized);
-			
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-	for (auto& e : ServicesToProvide)
-	{
-		UROS2GenericSrv *Service = NewObject<UROS2GenericSrv>(this, e.Value);
 
-		if (ensure(IsValid(Service)))
-		{
-			Service->Init();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Service (%s) is nullptr!"), *e.Key);
-		}
+	UROS2GenericSrv *Service = NewObject<UROS2GenericSrv>(this, SrvClass);
+	Service->Init();
 
-		if (!services.Contains(Service))
-		{
-			services.Add(Service, rcl_get_zero_initialized_service());
-			FServiceCallback *cb = ServicesToCallback.Find(e.Key);
+	FService NewSrv;
+	NewSrv.ServiceName = ServiceName;
+	NewSrv.ServiceType = SrvClass;
+	NewSrv.Service = Service;
+	NewSrv.Callback = Callback;
+	NewSrv.Ready = false;
 
-			if (ensure(cb))
-			{
-				srvCallbacks.Add(Service, *cb);
-			}
-
-			const rosidl_service_type_support_t * type_support = Service->GetTypeSupport();
-			rcl_service_options_t srv_opt = rcl_service_get_default_options();
-			RCSOFTCHECK(rcl_service_init(&services[Service], &node, type_support, TCHAR_TO_ANSI(*e.Key), &srv_opt));
-			NServices++;
-		}
-	}
+	NewSrv.RCLService = rcl_get_zero_initialized_service();
+	const rosidl_service_type_support_t * type_support = Service->GetTypeSupport();
+	rcl_service_options_t srv_opt = rcl_service_get_default_options();
+	RCSOFTCHECK(rcl_service_init(&NewSrv.RCLService, &node, type_support, TCHAR_TO_ANSI(*ServiceName), &srv_opt));
+	
+	Services.Add(NewSrv);
 
 	// invalidate wait_set
 	if (rcl_wait_set_is_valid(&wait_set))
 	{
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
+}
 
-	UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
+void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
+{
+	check(IsValid(Publisher));
+
+	Publisher->RegisterComponent();
+	Publisher->ownerNode = this;
+	Publishers.Add(Publisher);
+}
+
+void AROS2Node::AddClient(UROS2ServiceClient* Client)
+{
+	check(IsValid(Client));
+
+	Client->RegisterComponent();
+	Client->ownerNode = this;
+	Clients.Add(Client);
 }
 
 void AROS2Node::SpinSome()
@@ -185,7 +194,7 @@ void AROS2Node::SpinSome()
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 		wait_set = rcl_get_zero_initialized_wait_set();
 		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-									Subscriptions.Num(), NGuardConditions, NTimers, NClients, NServices, NEvents, 
+									Subscriptions.Num(), NGuardConditions, NTimers, Clients.Num(), Services.Num(), NEvents, 
 									&context->Get().context, rcl_get_default_allocator()));
 	}
 	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subs, %d clients, %d services"), wait_set.size_of_subscriptions, wait_set.size_of_clients, wait_set.size_of_services);
@@ -197,14 +206,14 @@ void AROS2Node::SpinSome()
 		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.RCLSubscription, nullptr));
 	}
 
-	for (auto& c : srvClients)
+	for (auto& c : Clients)
 	{
 		RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
 	}
 
-	for (auto& pair : services)
+	for (auto& s : Services)
 	{
-		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &pair.Value, nullptr));
+		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.RCLService, nullptr));
 	}
 
 	// rcl_action_wait_set_add_action_client
@@ -248,105 +257,86 @@ void AROS2Node::SpinSome()
 		}
 	}
 
-	TMap<UROS2GenericSrv *, rcl_service_t> readyServices;
 	for (int i=0; i<wait_set.size_of_services; i++)
 	{
 		if (wait_set.services[i])
 		{
 			const rcl_service_t* currentService = wait_set.services[i];
-			for (auto& pair : services)
+			for (auto& s : Services)
 			{
-				if (&pair.Value == currentService)
+				if (&s.RCLService == currentService)
 				{
-					readyServices.Add(pair);
+					s.Ready = true;
 				}
 			}
 		}
 	}
 
-	for (auto& pair : readyServices)
+	for (auto& s : Services)
 	{	
-		// this should all go in the callback?
-		// can't go in the callback unless the rcl functions are wrapped
-		rmw_service_info_t req_info;
-		void * data = pair.Key->GetRequest();
-		rc = rcl_take_request_with_info(&pair.Value, &req_info, data);
-		
-    	UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
-		pair.Key->PrintRequestToLog(rc, Name);
-
-		// there's a variant with req_id in the callback and one with context
-		FServiceCallback *cb = srvCallbacks.Find(pair.Key);
-
-		if (cb)
+		if (s.Ready == true)
 		{
-			cb->ExecuteIfBound(pair.Key);
-		}
+			// this should all go in the callback?
+			// can't go in the callback unless the rcl functions are wrapped
+			rmw_service_info_t req_info;
+			void * data = s.Service->GetRequest();
+			rc = rcl_take_request_with_info(&s.RCLService, &req_info, data);
+			
+			UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
+			s.Service->PrintRequestToLog(rc, Name);
 
-		rc = rcl_send_response(&pair.Value, &req_info.request_id, pair.Key->GetResponse());
+			// there's a variant with req_id in the callback and one with context
+			FServiceCallback *cb = &s.Callback;
+
+			if (cb)
+			{
+				cb->ExecuteIfBound(s.Service);
+			}
+
+			rc = rcl_send_response(&s.RCLService, &req_info.request_id, s.Service->GetResponse());
+
+			s.Ready = false;
+		}
 	}
 
-	TArray<UROS2ServiceClient *> readyClients;
 	for (int i=0; i<wait_set.size_of_clients; i++)
 	{
 		if (wait_set.clients[i])
 		{
 			const rcl_client_t* currentClient = wait_set.clients[i];
-			for (auto& c : srvClients)
+			for (auto& c : Clients)
 			{
 				if (&c->client == currentClient)
 				{
-					readyClients.Add(c);
+					c->Ready = true;
 				}
 			}
 		}
 	}
 
-	for (auto& c : readyClients)
+	for (auto& c : Clients)
 	{	
-		// this should all go in the callback?
-		// can't go in the callback unless the rcl functions are wrapped
-		rmw_service_info_t req_info;
-		void * data = c->Service->GetResponse();
-		rc = rcl_take_response_with_info(&c->client, &req_info, data);
-		
-    	UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
-
-		// there's a variant with req_id in the callback
-		FServiceClientCallback *cb = &c->AnswerDelegate;
-
-		if (cb)
+		if (c->Ready == true)
 		{
-			cb->ExecuteIfBound(c->Service);
+			// this should all go in the callback?
+			// can't go in the callback unless the rcl functions are wrapped
+			rmw_service_info_t req_info;
+			void * data = c->Service->GetResponse();
+			rc = rcl_take_response_with_info(&c->client, &req_info, data);
+			
+			UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
+
+			// there's a variant with req_id in the callback
+			FServiceClientCallback *cb = &c->AnswerDelegate;
+
+			if (cb)
+			{
+				cb->ExecuteIfBound(c->Service);
+			}
+
+			c->Ready = false;
 		}
 	}	
-	
-	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
-}
-
-void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
-{
-	check(IsValid(Publisher));
-
-	Publisher->RegisterComponent();
-	Publisher->ownerNode = this;
-	pubs.Add(Publisher);
-}
-
-void AROS2Node::AddClient(UROS2ServiceClient* Client)
-{
-	check(IsValid(Client));
-
-	Client->RegisterComponent();
-	Client->ownerNode = this;
-	srvClients.Add(Client);
-	NClients++;
-}
-
-void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback)
-{
-	ServicesToProvide.Add(ServiceName, SrvClass);
-	ServicesToCallback.Add(ServiceName, Callback);
 }
 
 
