@@ -128,7 +128,7 @@ public:
 	void AddActionClient(UROS2ActionClient* ActionClient);
 
 	UFUNCTION(BlueprintCallable)
-	void AddActionServer();
+	void AddActionServer(UROS2ActionServer* ActionServer);
 
 
 

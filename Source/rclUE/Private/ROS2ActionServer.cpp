@@ -49,7 +49,15 @@ void UROS2ActionServer::Init()
 		rcl_allocator_t allocator = rcl_get_default_allocator();
 		rcl_ret_t rc = rcl_ros_clock_init(&ros_clock, &allocator);
 		rc = rcl_action_server_init(&server, ownerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);
-	
+		
+		if (rc != RCL_RET_OK)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2ActionClient). Terminating."),__LINE__,(int)rc);
+			UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
+		}
+
+		ensure(rcl_action_server_is_valid(&server));
+		
 		State = UROS2State::Initialized;
 	}
 	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)
@@ -102,5 +110,28 @@ void UROS2ActionServer::Destroy()
 		RCSOFTCHECK(rcl_action_server_fini(&server, ownerNode->GetNode()));
 	}
 	UE_LOG(LogTemp, Warning, TEXT("Server Destroy - Done"));	
+}
+
+void UROS2ActionServer::UpdateAndSendFeedback()
+{
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+	check(State == UROS2State::Initialized);
+	check(IsValid(ownerNode));
+
+	UpdateFeedbackDelegate.ExecuteIfBound(Action);
+
+	rcl_ret_t rc = rcl_action_publish_feedback(&server, Action->GetFeedbackMessage());
+}
+
+void UROS2ActionServer::UpdateAndSendResult()
+{
+    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+	check(State == UROS2State::Initialized);
+	check(IsValid(ownerNode));
+
+	UpdateResultDelegate.ExecuteIfBound(Action);
+
+	rmw_request_id_t req_id;
+	rcl_ret_t rc = rcl_action_send_goal_response(&server, &req_id, Action->GetResultResponse());
 }
 

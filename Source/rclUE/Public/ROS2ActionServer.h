@@ -36,6 +36,12 @@ public:
 	
 	UFUNCTION()
 	void Destroy();
+	
+	UFUNCTION(BlueprintCallable)
+	void UpdateAndSendFeedback();
+	
+	UFUNCTION(BlueprintCallable)
+	void UpdateAndSendResult();
 
 
 	rcl_clock_t ros_clock;
@@ -50,6 +56,13 @@ public:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	UROS2GenericAction *Action;
+
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FActionServerCallback UpdateFeedbackDelegate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FActionServerCallback UpdateResultDelegate;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

@@ -181,8 +181,9 @@ void AROS2Node::AddClient(UROS2ServiceClient* Client)
 {
 	check(IsValid(Client));
 
-	Client->RegisterComponent();
+	//Client->RegisterComponent();
 	Client->ownerNode = this;
+	Client->Init();
 	Clients.Add(Client);
 }
 
@@ -190,13 +191,20 @@ void AROS2Node::AddActionClient(UROS2ActionClient* ActionClient)
 {
 	check(IsValid(ActionClient));
 
-	ActionClient->RegisterComponent();
+	//ActionClient->RegisterComponent();
 	ActionClient->ownerNode = this;
+	ActionClient->Init();
 	ActionClients.Add(ActionClient);
 }
 
-void AROS2Node::AddActionServer()
+void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
 {
+	check(IsValid(ActionServer));
+
+	//ActionServer->RegisterComponent();
+	ActionServer->ownerNode = this;
+	ActionServer->Init();
+	ActionServers.Add(ActionServer);
 }
 
 void AROS2Node::HandleSubscriptions()
@@ -226,11 +234,7 @@ void AROS2Node::HandleSubscriptions()
 			rcl_ret_t rc = rcl_take(&s.RCLSubscription, data, &messageInfo, NULL);
 
 			FSubscriptionCallback *cb = &s.Callback;
-
-			if (cb)
-			{
-				cb->ExecuteIfBound(s.TopicMsg);
-			}
+			cb->ExecuteIfBound(s.TopicMsg);
 
 			s.Ready = false;
 		}
@@ -271,11 +275,7 @@ void AROS2Node::HandleServices()
 
 			// there's a variant with req_id in the callback and one with context
 			FServiceCallback *cb = &s.Callback;
-
-			if (cb)
-			{
-				cb->ExecuteIfBound(s.Service);
-			}
+			cb->ExecuteIfBound(s.Service);
 
 			rc = rcl_send_response(&s.RCLService, &req_info.request_id, s.Service->GetResponse());
 
@@ -315,11 +315,7 @@ void AROS2Node::HandleClients()
 
 			// there's a variant with req_id in the callback
 			FServiceClientCallback *cb = &c->AnswerDelegate;
-
-			if (cb)
-			{
-				cb->ExecuteIfBound(c->Service);
-			}
+			cb->ExecuteIfBound(c->Service);
 
 			c->Ready = false;
 		}
@@ -338,26 +334,36 @@ void AROS2Node::HandleActionServers()
 
 		if (a->GoalRequestReady)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("ActionServer - Received goal request"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetGoalRequest();
 			rc = rcl_action_take_goal_request(&a->server, &req_id, data);
+			a->HandleGoalDelegate.ExecuteIfBound(a->Action);
+			a->GoalRequestReady = false;
 		}
 
 		if (a->CancelRequestReady)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Action Server cancel request not implemented yet"));
+			//rcl_action_take_cancel_request();
+			a->HandleCancelDelegate.ExecuteIfBound(a->Action);
+			a->CancelRequestReady = false;
 		}
 
 		if (a->ResultRequestReady)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("ActionServer - Received result request"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetResultRequest();
 			rc = rcl_action_take_result_request(&a->server, &req_id, data);
+
+			a->ResultRequestReady = false;
 		}
 
 		if (a->GoalExpired)
 		{
 			UE_LOG(LogTemp, Error, TEXT("Action Server goal expired not implemented yet"));
+			a->GoalExpired = false;
 		}
 	}
 }
@@ -375,35 +381,48 @@ void AROS2Node::HandleActionClients()
 
 		if (a->FeedbackReady)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received feedback"));
 			void* data = a->Action->GetFeedbackMessage();
 			rc = rcl_action_take_feedback(&a->client, data);
+			a->FeedbackDelegate.ExecuteIfBound(a->Action);
+			a->FeedbackReady = false;
 		}
 
 		if (a->StatusReady)
 		{
 			//rc = rcl_action_take_status(&a->client, );
 			UE_LOG(LogTemp, Error, TEXT("Action Client take status not implemented yet"));
+			a->StatusReady = false;
 		}
 
 		if (a->GoalResponseReady)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received goal response"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetGoalResponse();
 			rc = rcl_action_take_goal_response(&a->client, &req_id, data);
+			a->GoalResponseDelegate.ExecuteIfBound(a->Action);
+			a->GoalResponseReady = false;
 		}
 
 		if (a->CancelResponseReady)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received cancel response"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetGoalResponse();
 			rc = rcl_action_take_cancel_response(&a->client, &req_id, data);
+			
+			a->CancelResponseReady = false;
 		}
 
 		if (a->ResultResponseReady)
 		{
+			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received result response"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetResultResponse();
 			rc = rcl_action_take_result_response(&a->client, &req_id, data);
+			a->ResultDelegate.ExecuteIfBound(a->Action);
+			a->ResultResponseReady = false;
 		}
 	}
 }
@@ -415,8 +434,15 @@ void AROS2Node::SpinSome()
     	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 		wait_set = rcl_get_zero_initialized_wait_set();
 		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-									Subscriptions.Num(), NGuardConditions, NTimers, Clients.Num(), Services.Num(), NEvents, 
+									Subscriptions.Num()+ActionClients.Num()*2,
+									NGuardConditions,
+									NTimers+ActionServers.Num(),
+									Clients.Num()+ActionClients.Num()*3,
+									Services.Num()+ActionServers.Num()*3,
+									NEvents, 
 									&context->Get().context, rcl_get_default_allocator()));
+		// rcl_action_server_wait_set_get_num_entities
+		// rcl_action_client_wait_set_get_num_entities
 	}
 	
 	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
@@ -452,6 +478,8 @@ void AROS2Node::SpinSome()
 	HandleSubscriptions();
 	HandleServices();
 	HandleClients();
+	HandleActionServers();
+	HandleActionClients();
 }
 
 

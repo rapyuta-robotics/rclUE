@@ -47,7 +47,43 @@ void UROS2ActionClient::Init()
 		client = rcl_action_get_zero_initialized_client();
 		rcl_action_client_options_t client_opt = rcl_action_client_get_default_options();
 		rcl_ret_t rc = rcl_action_client_init(&client, ownerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
-	
+		if (rc == RCL_RET_INVALID_ARGUMENT)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action client - Invalid Argument"));
+		}
+		else if (rc == RCL_RET_NODE_INVALID)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action client - Invalid Node"));
+		}
+		else if (rc == RCL_RET_ALREADY_INIT)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action client - Already Initialized"));
+		}
+		else if (rc == RCL_RET_BAD_ALLOC)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action client - Bad Alloc"));
+		}
+		else if (rc == RCL_RET_ACTION_NAME_INVALID)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action client - Action Name Invalid"));
+		}
+		else if (rc == RCL_RET_ERROR)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action client - Unknown Error"));
+		}
+		else
+		{
+			RCSOFTCHECK(rc);
+		}
+		
+		ensure(rcl_action_client_is_valid(&client));
+
+		if (rc != RCL_RET_OK)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2ActionClient). Terminating."),__LINE__,(int)rc);
+			UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
+		}
+
 		State = UROS2State::Initialized;
 	}
 	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)

@@ -15,7 +15,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
  * Need to have a common class
  * Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
  */
-UCLASS()
+UCLASS(Blueprintable)
 class RCLUE_API UROS2GenericAction : public UObject
 {
 	GENERATED_BODY()
