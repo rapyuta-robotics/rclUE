@@ -334,11 +334,10 @@ void AROS2Node::HandleActionServers()
 
 		if (a->GoalRequestReady)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("ActionServer - Received goal request"));
-			rmw_request_id_t req_id;
+			UE_LOG(LogROS2Action, Warning, TEXT("2. Action Server (Node) - Received goal request"));
 			void* data = a->Action->GetGoalRequest();
-			rc = rcl_action_take_goal_request(&a->server, &req_id, data);
-			a->HandleGoalDelegate.ExecuteIfBound(a->Action);
+			rc = rcl_action_take_goal_request(&a->server, &a->goal_req_id, data);
+			a->HandleAcceptedDelegate.ExecuteIfBound(a->Action);
 			a->GoalRequestReady = false;
 		}
 
@@ -352,11 +351,10 @@ void AROS2Node::HandleActionServers()
 
 		if (a->ResultRequestReady)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("ActionServer - Received result request"));
-			rmw_request_id_t req_id;
+			UE_LOG(LogROS2Action, Warning, TEXT("6. Action Server (Node) - Received result request"));
 			void* data = a->Action->GetResultRequest();
-			rc = rcl_action_take_result_request(&a->server, &req_id, data);
-
+			rc = rcl_action_take_result_request(&a->server, &a->result_req_id, data);
+			a->HandleGoalDelegate.ExecuteIfBound(a->Action);
 			a->ResultRequestReady = false;
 		}
 
@@ -372,18 +370,18 @@ void AROS2Node::HandleActionClients()
 {
 	for (auto& a : ActionClients)
 	{
-		rcl_ret_t rc = rcl_action_client_wait_set_get_entities_ready(&wait_set, &a->client,
+		RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(&wait_set, &a->client,
 			&a->FeedbackReady,
 			&a->StatusReady,
 			&a->GoalResponseReady,
 			&a->CancelResponseReady,
-			&a->ResultResponseReady);
+			&a->ResultResponseReady));
 
 		if (a->FeedbackReady)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received feedback"));
+			UE_LOG(LogROS2Action, Warning, TEXT("8. Action Client (Node) - Received feedback"));
 			void* data = a->Action->GetFeedbackMessage();
-			rc = rcl_action_take_feedback(&a->client, data);
+			rcl_ret_t rc = rcl_action_take_feedback(&a->client, data);
 			a->FeedbackDelegate.ExecuteIfBound(a->Action);
 			a->FeedbackReady = false;
 		}
@@ -397,10 +395,10 @@ void AROS2Node::HandleActionClients()
 
 		if (a->GoalResponseReady)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received goal response"));
+			UE_LOG(LogROS2Action, Warning, TEXT("4. Action Client (Node) - Received goal response"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetGoalResponse();
-			rc = rcl_action_take_goal_response(&a->client, &req_id, data);
+			rcl_ret_t rc = rcl_action_take_goal_response(&a->client, &req_id, data);
 			a->GoalResponseDelegate.ExecuteIfBound(a->Action);
 			a->GoalResponseReady = false;
 		}
@@ -410,17 +408,17 @@ void AROS2Node::HandleActionClients()
 			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received cancel response"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetGoalResponse();
-			rc = rcl_action_take_cancel_response(&a->client, &req_id, data);
+			rcl_ret_t rc = rcl_action_take_cancel_response(&a->client, &req_id, data);
 			
 			a->CancelResponseReady = false;
 		}
 
 		if (a->ResultResponseReady)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received result response"));
+			UE_LOG(LogROS2Action, Warning, TEXT("10. Action Client (Node) - Received result response"));
 			rmw_request_id_t req_id;
 			void* data = a->Action->GetResultResponse();
-			rc = rcl_action_take_result_response(&a->client, &req_id, data);
+			rcl_ret_t rc = rcl_action_take_result_response(&a->client, &req_id, data);
 			a->ResultDelegate.ExecuteIfBound(a->Action);
 			a->ResultResponseReady = false;
 		}

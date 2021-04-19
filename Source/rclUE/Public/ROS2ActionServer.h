@@ -36,6 +36,9 @@ public:
 	
 	UFUNCTION()
 	void Destroy();
+
+	UFUNCTION(BlueprintCallable)
+	void SendGoalResponse();
 	
 	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendFeedback();
@@ -46,6 +49,8 @@ public:
 
 	rcl_clock_t ros_clock;
 	rcl_action_server_t server;	
+	rmw_request_id_t goal_req_id;
+	rmw_request_id_t result_req_id;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

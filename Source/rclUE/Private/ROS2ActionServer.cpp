@@ -112,9 +112,25 @@ void UROS2ActionServer::Destroy()
 	UE_LOG(LogTemp, Warning, TEXT("Server Destroy - Done"));	
 }
 
+void UROS2ActionServer::SendGoalResponse()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("3. Action Server - Send goal response"));
+	check(State == UROS2State::Initialized);
+	check(IsValid(ownerNode));
+	
+	ue4_interfaces__action__Fibonacci_SendGoal_Response* GoalResponse = (ue4_interfaces__action__Fibonacci_SendGoal_Response*) Action->GetGoalResponse();
+	GoalResponse->accepted = true;
+	float TimeOfResponse = UGameplayStatics::GetTimeSeconds(GWorld);
+	GoalResponse->stamp.sec = (int32_t)TimeOfResponse;
+	unsigned long long ns = (unsigned long long)(TimeOfResponse * 1000000000.0f);
+	GoalResponse->stamp.nanosec = (uint32_t)(ns - (GoalResponse->stamp.sec * 1000000000ul));
+
+	RCSOFTCHECK(rcl_action_send_goal_response(&server, &goal_req_id, Action->GetGoalResponse()));
+}
+
 void UROS2ActionServer::UpdateAndSendFeedback()
 {
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+	UE_LOG(LogROS2Action, Warning, TEXT("7. Action Server - Publish feedback"));
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 
@@ -125,13 +141,12 @@ void UROS2ActionServer::UpdateAndSendFeedback()
 
 void UROS2ActionServer::UpdateAndSendResult()
 {
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+	UE_LOG(LogROS2Action, Warning, TEXT("9. Action Server - Send result response"));
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 
 	UpdateResultDelegate.ExecuteIfBound(Action);
 
-	rmw_request_id_t req_id;
-	rcl_ret_t rc = rcl_action_send_goal_response(&server, &req_id, Action->GetResultResponse());
+	rcl_ret_t rc = rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse());
 }
 

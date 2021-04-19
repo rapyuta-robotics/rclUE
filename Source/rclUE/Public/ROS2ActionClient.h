@@ -41,6 +41,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendGoal();
 
+	UFUNCTION(BlueprintCallable)
+	void GetResultRequest();
+
 
 	rcl_action_client_t client;
 

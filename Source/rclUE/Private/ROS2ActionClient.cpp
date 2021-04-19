@@ -159,8 +159,18 @@ void UROS2ActionClient::UpdateAndSendGoal()
 
 void UROS2ActionClient::SendGoal()
 {
+    UE_LOG(LogROS2Action, Warning, TEXT("1. Action Client - Send goal"));
 	goal = Action->GetGoalRequest();
 
 	int64_t seq;
 	rcl_ret_t rc = rcl_action_send_goal_request(&client, goal, &seq);
+}
+
+void UROS2ActionClient::GetResultRequest()
+{	
+    UE_LOG(LogROS2Action, Warning, TEXT("5. Action Client - Send result request"));
+	result = Action->GetResultRequest();
+
+	int64_t seq;
+	rcl_ret_t rc = rcl_action_send_result_request(&client, result, &seq);
 }

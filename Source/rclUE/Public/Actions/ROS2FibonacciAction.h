@@ -26,6 +26,7 @@ public:
 
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const override;
 	
+	// is the uuid set automatically?
 	UFUNCTION(BlueprintCallable)
 	void SetOrder(int order);
 	

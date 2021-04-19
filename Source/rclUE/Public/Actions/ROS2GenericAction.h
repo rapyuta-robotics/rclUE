@@ -8,8 +8,6 @@
 
 #include "ROS2GenericAction.generated.h"
 
-DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
-
 /**
  * This should be refactored with other generic ROS2 types (Msgs, Sensors, Actions)
  * Need to have a common class
