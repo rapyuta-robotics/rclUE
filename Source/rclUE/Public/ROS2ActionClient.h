@@ -47,6 +47,25 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CancelActionRequest();
 
+	UFUNCTION()
+	void HandleResponseReady();
+
+	UFUNCTION()
+	void HandleFeedbackReady();
+
+	UFUNCTION()
+	void HandleResultResponseReady();
+
+	UFUNCTION()
+	void HandleCancelResponseReady();
+
+	UFUNCTION(BlueprintCallable)
+	void SetDelegates(FActionClientCallback SetGoal, 
+					  FActionClientCallback Feedback, 
+					  FActionClientCallback Result, 
+					  FSimpleCallback GoalResponse, 
+					  FSimpleCallback Cancel);
+
 
 	rcl_action_client_t client;
 	rmw_request_id_t cancel_req_id;
@@ -64,18 +83,18 @@ public:
 	// used to pass data for the request
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FActionClientCallback SetGoalDelegate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback GoalResponseDelegate;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FActionClientCallback FeedbackDelegate;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FActionClientCallback ResultDelegate;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FSimpleCallback GoalResponseDelegate;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback CancelDelegate;
+	FSimpleCallback CancelDelegate;
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

@@ -334,29 +334,17 @@ void AROS2Node::HandleActionServers()
 
 		if (a->GoalRequestReady)
 		{
-			UE_LOG(LogROS2Action, Warning, TEXT("2. Action Server (Node) - Received goal request"));
-			void* data = a->Action->GetGoalRequest();
-			rc = rcl_action_take_goal_request(&a->server, &a->goal_req_id, data);
-			a->HandleAcceptedDelegate.ExecuteIfBound(a->Action);
-			a->GoalRequestReady = false;
-		}
-
-		if (a->CancelRequestReady)
-		{
-    		UE_LOG(LogROS2Action, Warning, TEXT("B. Action Server (Node) - Received cancel action request"));
-			void* data = a->Action->GetCancelRequest();
-			rc = rcl_action_take_cancel_request(&a->server, &a->cancel_req_id, data);
-			a->HandleCancelDelegate.ExecuteIfBound(a->Action);
-			a->CancelRequestReady = false;
+			a->HandleGoalRequestReady();
 		}
 
 		if (a->ResultRequestReady)
 		{
-			UE_LOG(LogROS2Action, Warning, TEXT("6. Action Server (Node) - Received result request"));
-			void* data = a->Action->GetResultRequest();
-			rc = rcl_action_take_result_request(&a->server, &a->result_req_id, data);
-			a->HandleGoalDelegate.ExecuteIfBound(a->Action);
-			a->ResultRequestReady = false;
+			a->HandleResultRequestReady();
+		}
+
+		if (a->CancelRequestReady)
+		{
+			a->HandleCancelRequestReady();
 		}
 
 		if (a->GoalExpired)
@@ -378,49 +366,30 @@ void AROS2Node::HandleActionClients()
 			&a->CancelResponseReady,
 			&a->ResultResponseReady));
 
-		if (a->FeedbackReady)
-		{
-			UE_LOG(LogROS2Action, Warning, TEXT("8. Action Client (Node) - Received feedback"));
-			void* data = a->Action->GetFeedbackMessage();
-			rcl_ret_t rc = rcl_action_take_feedback(&a->client, data);
-			a->FeedbackDelegate.ExecuteIfBound(a->Action);
-			a->FeedbackReady = false;
-		}
-
-		if (a->StatusReady)
-		{
-			//rc = rcl_action_take_status(&a->client, );
-			UE_LOG(LogTemp, Error, TEXT("Action Client take status not implemented yet"));
-			a->StatusReady = false;
-		}
-
 		if (a->GoalResponseReady)
 		{
-			UE_LOG(LogROS2Action, Warning, TEXT("4. Action Client (Node) - Received goal response"));
-			rmw_request_id_t req_id;
-			void* data = a->Action->GetGoalResponse();
-			rcl_ret_t rc = rcl_action_take_goal_response(&a->client, &req_id, data);
-			a->GoalResponseDelegate.ExecuteIfBound(a->Action);
-			a->GoalResponseReady = false;
+			a->HandleResponseReady();
 		}
 
-		if (a->CancelResponseReady)
+		if (a->FeedbackReady)
 		{
-			UE_LOG(LogROS2Action, Warning, TEXT("D. Action Client (Node) - Received cancel response"));
-			void* data = a->Action->GetCancelResponse();
-			RCSOFTCHECK(rcl_action_take_cancel_response(&a->client, &a->cancel_req_id, data));
-			a->CancelDelegate.ExecuteIfBound(a->Action);
-			a->CancelResponseReady = false;
+			a->HandleFeedbackReady();
 		}
 
 		if (a->ResultResponseReady)
 		{
-			UE_LOG(LogROS2Action, Warning, TEXT("10. Action Client (Node) - Received result response"));
-			rmw_request_id_t req_id;
-			void* data = a->Action->GetResultResponse();
-			rcl_ret_t rc = rcl_action_take_result_response(&a->client, &req_id, data);
-			a->ResultDelegate.ExecuteIfBound(a->Action);
-			a->ResultResponseReady = false;
+			a->HandleResultResponseReady();
+		}
+
+		if (a->CancelResponseReady)
+		{
+			a->HandleCancelResponseReady();
+		}
+
+		if (a->StatusReady)
+		{
+			UE_LOG(LogTemp, Error, TEXT("Action Client take status not implemented yet"));
+			a->StatusReady = false;
 		}
 	}
 }

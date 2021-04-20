@@ -49,6 +49,23 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendResult();
 
+	UFUNCTION()
+	void HandleGoalRequestReady();
+
+	UFUNCTION()
+	void HandleResultRequestReady();
+
+	UFUNCTION()
+	void HandleCancelRequestReady();
+
+
+	UFUNCTION(BlueprintCallable)
+	void SetDelegates(FActionServerCallback UpdateFeedbackDelegate,
+	                  FActionServerCallback UpdateResultDelegate, 
+					  FActionServerCallback HandleGoalDelegate, 
+					  FSimpleCallback HandleCancelDelegate, 
+					  FSimpleCallback HandleAcceptedDelegate);
+
 
 	rcl_clock_t ros_clock;
 	rcl_action_server_t server;	
@@ -78,10 +95,10 @@ public:
 	FActionServerCallback HandleGoalDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionServerCallback HandleCancelDelegate;
+	FSimpleCallback HandleCancelDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionServerCallback HandleAcceptedDelegate;
+	FSimpleCallback HandleAcceptedDelegate;
 	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

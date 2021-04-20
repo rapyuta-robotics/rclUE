@@ -169,3 +169,43 @@ void UROS2ActionServer::UpdateAndSendResult()
 	rcl_ret_t rc = rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse());
 }
 
+void UROS2ActionServer::HandleGoalRequestReady()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("2. Action Server - Received goal request"));
+	void* data = Action->GetGoalRequest();
+	rcl_ret_t rc = rcl_action_take_goal_request(&server, &goal_req_id, data);
+	HandleAcceptedDelegate.ExecuteIfBound();
+	GoalRequestReady = false;
+}
+
+void UROS2ActionServer::HandleResultRequestReady()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("6. Action Server (Node) - Received result request"));
+	void* data = Action->GetResultRequest();
+	rcl_ret_t rc = rcl_action_take_result_request(&server, &result_req_id, data);
+	HandleGoalDelegate.ExecuteIfBound(Action);
+	ResultRequestReady = false;
+}
+
+void UROS2ActionServer::HandleCancelRequestReady()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("B. Action Server (Node) - Received cancel action request"));
+	void* data = Action->GetCancelRequest();
+	rcl_ret_t rc = rcl_action_take_cancel_request(&server, &cancel_req_id, data);
+	HandleCancelDelegate.ExecuteIfBound();
+	CancelRequestReady = false;
+}
+
+
+void UROS2ActionServer::SetDelegates(FActionServerCallback UpdateFeedback,
+									 FActionServerCallback UpdateResult, 
+									 FActionServerCallback HandleGoal, 
+									 FSimpleCallback HandleCancel, 
+									 FSimpleCallback HandleAccepted)
+{
+	UpdateFeedbackDelegate = UpdateFeedback;
+	UpdateResultDelegate = UpdateResult;
+	HandleGoalDelegate = HandleGoal;
+	HandleCancelDelegate = HandleCancel;
+	HandleAcceptedDelegate = HandleAccepted;
+}

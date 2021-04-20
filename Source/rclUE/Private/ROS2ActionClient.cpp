@@ -187,3 +187,54 @@ void UROS2ActionClient::CancelActionRequest()
 	int64_t seq;
 	rcl_ret_t rc = rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &seq);
 }
+
+void UROS2ActionClient::HandleResponseReady()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("4. Action Client - Received goal response"));
+	rmw_request_id_t req_id;
+	void* data = Action->GetGoalResponse();
+	rcl_ret_t rc = rcl_action_take_goal_response(&client, &req_id, data);
+	GoalResponseDelegate.ExecuteIfBound();
+	GoalResponseReady = false;
+}
+
+void UROS2ActionClient::HandleFeedbackReady()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("8. Action Client - Received feedback"));
+	void* data = Action->GetFeedbackMessage();
+	rcl_ret_t rc = rcl_action_take_feedback(&client, data);
+	FeedbackDelegate.ExecuteIfBound(Action);
+	FeedbackReady = false;
+}
+
+void UROS2ActionClient::HandleResultResponseReady()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("10. Action Client - Received result response"));
+	rmw_request_id_t req_id;
+	void* data = Action->GetResultResponse();
+	rcl_ret_t rc = rcl_action_take_result_response(&client, &req_id, data);
+	ResultDelegate.ExecuteIfBound(Action);
+	ResultResponseReady = false;
+}
+
+void UROS2ActionClient::HandleCancelResponseReady()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("D. Action Client - Received cancel response"));
+	void* data = Action->GetCancelResponse();
+	RCSOFTCHECK(rcl_action_take_cancel_response(&client, &cancel_req_id, data));
+	CancelDelegate.ExecuteIfBound();
+	CancelResponseReady = false;
+}
+
+void UROS2ActionClient::SetDelegates(FActionClientCallback SetGoal, 
+									 FActionClientCallback Feedback, 
+									 FActionClientCallback Result, 
+									 FSimpleCallback GoalResponse, 
+									 FSimpleCallback Cancel)
+{
+	SetGoalDelegate = SetGoal;
+	GoalResponseDelegate = GoalResponse;
+	FeedbackDelegate = Feedback;
+	ResultDelegate = Result;
+	CancelDelegate = Cancel;
+}

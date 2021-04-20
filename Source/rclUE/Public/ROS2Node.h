@@ -17,6 +17,7 @@ class UROS2ActionClient;
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, const UROS2GenericSrv *, Service);
+DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 
 // these structs assume that the MAP containing them is short enough
 // that iterating through them is not a performance bottleneck
