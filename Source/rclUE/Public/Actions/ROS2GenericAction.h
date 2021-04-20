@@ -28,6 +28,9 @@ public:
 	virtual void* GetResultResponse();
 	virtual void* GetFeedbackMessage();
 
+	void* GetCancelRequest();
+	void* GetCancelResponse();
+
 	virtual void PrintGoalToLog(rcl_ret_t rc, FString NodeName) const;
 	virtual void PrintResultToLog(rcl_ret_t rc, FString NodeName) const;
 	virtual void PrintFeedbackToLog(rcl_ret_t rc, FString NodeName) const;
@@ -43,4 +46,8 @@ private:
 
 	UFUNCTION(BlueprintCallable)
 	virtual FString ActionFeedbackToString() const;
+
+
+	action_msgs__srv__CancelGoal_Request cancel_request;
+	action_msgs__srv__CancelGoal_Response cancel_response;
 };

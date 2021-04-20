@@ -128,6 +128,25 @@ void UROS2ActionServer::SendGoalResponse()
 	RCSOFTCHECK(rcl_action_send_goal_response(&server, &goal_req_id, Action->GetGoalResponse()));
 }
 
+void UROS2ActionServer::ProcessAndSendCancelResponse()
+{
+	UE_LOG(LogROS2Action, Warning, TEXT("C. Action Server - Send cancel response"));
+	check(State == UROS2State::Initialized);
+	check(IsValid(ownerNode));
+
+	rcl_action_cancel_request_t cancel_request = rcl_action_get_zero_initialized_cancel_request();
+	float TimeOfCancelProcess = UGameplayStatics::GetTimeSeconds(GWorld);
+	cancel_request.goal_info.stamp.sec = (int32_t)TimeOfCancelProcess;
+	unsigned long long ns = (unsigned long long)(TimeOfCancelProcess * 1000000000.0f);
+	cancel_request.goal_info.stamp.nanosec = (uint32_t)(ns - (cancel_request.goal_info.stamp.sec * 1000000000ul));
+	rcl_action_cancel_response_t cancel_response = rcl_action_get_zero_initialized_cancel_response();
+	RCSOFTCHECK(rcl_action_process_cancel_request(&server, &cancel_request, &cancel_response));
+	
+	action_msgs__srv__CancelGoal_Response* CancelResponse = (action_msgs__srv__CancelGoal_Response*) Action->GetCancelResponse();
+	CancelResponse = &cancel_response.msg;
+	RCSOFTCHECK(rcl_action_send_cancel_response(&server, &cancel_req_id, Action->GetCancelResponse()));
+}
+
 void UROS2ActionServer::UpdateAndSendFeedback()
 {
 	UE_LOG(LogROS2Action, Warning, TEXT("7. Action Server - Publish feedback"));

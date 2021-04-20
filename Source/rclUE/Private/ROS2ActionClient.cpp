@@ -174,3 +174,16 @@ void UROS2ActionClient::GetResultRequest()
 	int64_t seq;
 	rcl_ret_t rc = rcl_action_send_result_request(&client, result, &seq);
 }
+
+void UROS2ActionClient::CancelActionRequest()
+{
+    UE_LOG(LogROS2Action, Warning, TEXT("A. Action Client - Send cancel action request"));
+	action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*) Action->GetCancelRequest();
+	float CancelTime = UGameplayStatics::GetTimeSeconds(GWorld);
+	cancel_request->goal_info.stamp.sec = (int32_t)CancelTime;
+	unsigned long long ns = (unsigned long long)(CancelTime * 1000000000.0f);
+	cancel_request->goal_info.stamp.nanosec = (uint32_t)(ns - (cancel_request->goal_info.stamp.sec * 1000000000ul));
+
+	int64_t seq;
+	rcl_ret_t rc = rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &seq);
+}

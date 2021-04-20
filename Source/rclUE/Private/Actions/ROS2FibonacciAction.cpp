@@ -102,6 +102,7 @@ void* UROS2FibonacciAction::GetFeedbackMessage()
 	return &ue4_feedback_message;
 }
 
+
 FString UROS2FibonacciAction::ActionGoalToString() const
 {
 	return FString::Printf(TEXT("order: %d"), ue4_goal_request.goal.order);

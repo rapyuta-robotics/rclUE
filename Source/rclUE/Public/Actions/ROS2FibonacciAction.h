@@ -6,6 +6,7 @@
 #include "Actions/ROS2GenericAction.h"
 #include "rclcUtilities.h"
 #include <ue4_interfaces/action/fibonacci.h>
+#include <action_msgs/srv/cancel_goal.h>
 
 #include "ROS2FibonacciAction.generated.h"
 
@@ -51,7 +52,6 @@ public:
 	virtual void* GetResultRequest() override;
 	virtual void* GetResultResponse() override;
 	virtual void* GetFeedbackMessage() override;
-
 
 private:
 	virtual FString ActionGoalToString() const override;

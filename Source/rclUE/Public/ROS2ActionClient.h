@@ -44,8 +44,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void GetResultRequest();
 
+	UFUNCTION(BlueprintCallable)
+	void CancelActionRequest();
+
 
 	rcl_action_client_t client;
+	rmw_request_id_t cancel_req_id;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -69,6 +73,9 @@ public:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FActionClientCallback ResultDelegate;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FActionClientCallback CancelDelegate;
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

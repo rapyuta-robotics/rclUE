@@ -343,8 +343,9 @@ void AROS2Node::HandleActionServers()
 
 		if (a->CancelRequestReady)
 		{
-			UE_LOG(LogTemp, Error, TEXT("Action Server cancel request not implemented yet"));
-			//rcl_action_take_cancel_request();
+    		UE_LOG(LogROS2Action, Warning, TEXT("B. Action Server (Node) - Received cancel action request"));
+			void* data = a->Action->GetCancelRequest();
+			rc = rcl_action_take_cancel_request(&a->server, &a->cancel_req_id, data);
 			a->HandleCancelDelegate.ExecuteIfBound(a->Action);
 			a->CancelRequestReady = false;
 		}
@@ -405,11 +406,10 @@ void AROS2Node::HandleActionClients()
 
 		if (a->CancelResponseReady)
 		{
-			UE_LOG(LogTemp, Warning, TEXT("ActionClient - Received cancel response"));
-			rmw_request_id_t req_id;
-			void* data = a->Action->GetGoalResponse();
-			rcl_ret_t rc = rcl_action_take_cancel_response(&a->client, &req_id, data);
-			
+			UE_LOG(LogROS2Action, Warning, TEXT("D. Action Client (Node) - Received cancel response"));
+			void* data = a->Action->GetCancelResponse();
+			RCSOFTCHECK(rcl_action_take_cancel_response(&a->client, &a->cancel_req_id, data));
+			a->CancelDelegate.ExecuteIfBound(a->Action);
 			a->CancelResponseReady = false;
 		}
 

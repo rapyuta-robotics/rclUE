@@ -39,6 +39,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void SendGoalResponse();
+
+	UFUNCTION(BlueprintCallable)
+	void ProcessAndSendCancelResponse();
 	
 	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendFeedback();
@@ -51,6 +54,7 @@ public:
 	rcl_action_server_t server;	
 	rmw_request_id_t goal_req_id;
 	rmw_request_id_t result_req_id;
+	rmw_request_id_t cancel_req_id;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

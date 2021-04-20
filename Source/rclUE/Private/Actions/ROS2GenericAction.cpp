@@ -51,6 +51,16 @@ void* UROS2GenericAction::GetFeedbackMessage()
 	return nullptr;
 }
 
+void* UROS2GenericAction::GetCancelRequest()
+{
+	return &cancel_request;
+}
+
+void* UROS2GenericAction::GetCancelResponse()
+{
+	return &cancel_response;
+}
+
 void UROS2GenericAction::PrintGoalToLog(rcl_ret_t rc, FString NodeName) const
 {
 	if (rc == RCL_RET_OK)
