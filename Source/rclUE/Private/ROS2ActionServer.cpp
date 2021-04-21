@@ -21,7 +21,7 @@ void UROS2ActionServer::InitializeActionComponent()
 	
 	if (rc != RCL_RET_OK)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2ActionServer). Terminating."),__LINE__,(int)rc);
+		UE_LOG(LogROS2Action, Error, TEXT("Failed status on line %d: %d (ROS2ActionServer). Terminating."),__LINE__,(int)rc);
 		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
 
@@ -50,7 +50,7 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[0])
 	{
-		UE_LOG(LogROS2Action, Warning, TEXT("2. Action Server - Received goal request"));
+		UE_LOG(LogROS2Action, Log, TEXT("2. Action Server - Received goal request"));
 		void* data = Action->GetGoalRequest();
 		RCSOFTCHECK(rcl_action_take_goal_request(&server, &goal_req_id, data));
 		HandleAcceptedDelegate.ExecuteIfBound();
@@ -58,7 +58,7 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[1])
 	{
-		UE_LOG(LogROS2Action, Warning, TEXT("B. Action Server (Node) - Received cancel action request"));
+		UE_LOG(LogROS2Action, Log, TEXT("B. Action Server - Received cancel action request"));
 		void* data = Action->GetCancelRequest();
 		RCSOFTCHECK(rcl_action_take_cancel_request(&server, &cancel_req_id, data));
 		HandleCancelDelegate.ExecuteIfBound();
@@ -66,7 +66,7 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[2])
 	{
-		UE_LOG(LogROS2Action, Warning, TEXT("6. Action Server (Node) - Received result request"));
+		UE_LOG(LogROS2Action, Log, TEXT("6. Action Server - Received result request"));
 		void* data = Action->GetResultRequest();
 		RCSOFTCHECK(rcl_action_take_result_request(&server, &result_req_id, data));
 		HandleGoalDelegate.ExecuteIfBound(Action);
@@ -74,14 +74,14 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[3])
 	{
-		UE_LOG(LogTemp, Error, TEXT("Action Server goal expired not implemented yet"));
+		ensureMsgf(false, TEXT("Action Server goal expired not implemented yet"));
 	}
 }
 
 
 void UROS2ActionServer::SendGoalResponse()
 {
-	UE_LOG(LogROS2Action, Warning, TEXT("3. Action Server - Send goal response"));
+	UE_LOG(LogROS2Action, Log, TEXT("3. Action Server - Send goal response"));
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 	
@@ -97,7 +97,7 @@ void UROS2ActionServer::SendGoalResponse()
 
 void UROS2ActionServer::ProcessAndSendCancelResponse()
 {
-	UE_LOG(LogROS2Action, Warning, TEXT("C. Action Server - Send cancel response"));
+	UE_LOG(LogROS2Action, Log, TEXT("C. Action Server - Send cancel response"));
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 
@@ -116,7 +116,7 @@ void UROS2ActionServer::ProcessAndSendCancelResponse()
 
 void UROS2ActionServer::UpdateAndSendFeedback()
 {
-	UE_LOG(LogROS2Action, Warning, TEXT("7. Action Server - Publish feedback"));
+	UE_LOG(LogROS2Action, Log, TEXT("7. Action Server - Publish feedback"));
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 
@@ -127,7 +127,7 @@ void UROS2ActionServer::UpdateAndSendFeedback()
 
 void UROS2ActionServer::UpdateAndSendResult()
 {
-	UE_LOG(LogROS2Action, Warning, TEXT("9. Action Server - Send result response"));
+	UE_LOG(LogROS2Action, Log, TEXT("9. Action Server - Send result response"));
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 

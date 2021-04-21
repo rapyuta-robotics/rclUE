@@ -100,7 +100,6 @@ void ASensorLidar::Run()
 
 void ASensorLidar::Scan()
 {
-	//UE_LOG(LogTemp, Error, TEXT("scan at time %f"), UGameplayStatics::GetTimeSeconds(GWorld));
 	DHAngle = FOVHorizontal / (float)nSamplesPerScan;
 	
 	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this); // complex collisions: true

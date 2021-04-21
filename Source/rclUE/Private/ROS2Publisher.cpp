@@ -3,6 +3,8 @@
 
 #include "ROS2Publisher.h"
 
+DEFINE_LOG_CATEGORY(LogROS2Publisher);
+
 // Sets default values for this component's properties
 UROS2Publisher::UROS2Publisher()
 {
@@ -14,7 +16,7 @@ UROS2Publisher::UROS2Publisher()
 // Called when the game starts
 void UROS2Publisher::BeginPlay()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay"));
+	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher BeginPlay"));
 
 	if (ownerNode == nullptr)
 	{
@@ -29,10 +31,10 @@ void UROS2Publisher::BeginPlay()
 	}
 	else
 	{
-	UE_LOG(LogTemp, Error, TEXT("Publisher BeginPlay - Owner not set"));
+		ensureMsgf(false, TEXT("Publisher BeginPlay - Owner not set"));
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("Publisher BeginPlay - Done"));
+	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher BeginPlay - Done"));
 }
 
 void UROS2Publisher::Init(bool IsTransientLocal)
@@ -46,9 +48,8 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 		
 		const rosidl_message_type_support_t * msg_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
-		//UE_LOG(LogTemp, Warning, TEXT("Calling Owner Init from Pub"));
 		ownerNode->Init();
-		UE_LOG(LogTemp, Warning, TEXT("Publisher Init - rclc_publisher_init_default"));
+		UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Init - rclc_publisher_init_default"));
 
 		if (IsTransientLocal) // required for tf_static
 		{
@@ -65,7 +66,7 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 				
 			if (rc != RCL_RET_OK)
 			{
-				UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
+				ensureMsgf(false, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
 				UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 			}
 		}
@@ -74,11 +75,10 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 			rcl_ret_t rc = rclc_publisher_init_default(&pub, ownerNode->GetNode(), msg_type_support, TCHAR_TO_ANSI(*TopicName));
 			if (rc != RCL_RET_OK)
 			{
-				UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
+				ensureMsgf(false, TEXT("Failed status on line %d: %d (ROS2Publisher). Terminating."),__LINE__,(int)rc);
 				UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 			}
 		}
-		//UE_LOG(LogTemp, Warning, TEXT("Publisher Init Done"));
 
 		GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
 
@@ -86,25 +86,25 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 	}
 	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Publisher Init - already initialized!"));
+		ensureMsgf(false, TEXT("Publisher Init - already initialized!"));
 	}
 	else if (ownerNode->State == UROS2State::Created)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Publisher Init (%s) - Node needs to be initialized before publisher!"), *TopicName);
+		ensureMsgf(false, TEXT("Publisher Init (%s) - Node needs to be initialized before publisher!"), *TopicName);
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Publisher Init - this shouldn't happen!"));
+		ensureMsgf(false, TEXT("Publisher Init - this shouldn't happen!"));
 	}
 }
 
 void UROS2Publisher::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Publisher EndPlay"));
+	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher EndPlay"));
 
 	Super::EndPlay(EndPlayReason);
 	
-	UE_LOG(LogTemp, Warning, TEXT("Publisher EndPlay - Done"));
+	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher EndPlay - Done"));
 }
 
 // Called every frame
@@ -115,7 +115,7 @@ void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorC
 
 void UROS2Publisher::Destroy()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy"));
+	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Destroy"));
 	if (TopicMessage != nullptr)
 	{
 		TopicMessage->Fini();
@@ -123,10 +123,10 @@ void UROS2Publisher::Destroy()
 
 	if (ownerNode != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
+		UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Destroy - rcl_publisher_fini"));
 		RCSOFTCHECK(rcl_publisher_fini(&pub, ownerNode->GetNode()));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Publisher Destroy - Done"));
+	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Destroy - Done"));
 }
 
 void UROS2Publisher::InitializeMessage()
@@ -141,12 +141,12 @@ void UROS2Publisher::InitializeMessage()
 		}
 		else
 		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *TopicName);
+			ensureMsgf(false, TEXT("Topic (%s) is nullptr!"), *TopicName);
 		}
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("TopicName or MsgClass uninitialized!"));
+		ensureMsgf(false, TEXT("TopicName or MsgClass uninitialized!"));
 	}
 }
 

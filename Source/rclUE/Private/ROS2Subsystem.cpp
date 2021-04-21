@@ -15,20 +15,16 @@ bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
 
 void UROS2Subsystem::Initialize(FSubsystemCollectionBase &Collection)
 {
-    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	Super::Initialize(Collection);
 
 	context = NewObject<UROS2Context>();
 	context->Init();
-    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void UROS2Subsystem::Deinitialize()
 {
-    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	context->Deinit();
 	Super::Deinitialize();
-    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void UROS2Subsystem::Tick(float DeltaTime)
@@ -64,7 +60,7 @@ UROS2Context* UROS2Subsystem::GetContext() const
         context->Get().allocator->zero_allocate == nullptr ||
         context->Get().allocator->reallocate == nullptr)
     {
-        UE_LOG(LogTemp, Error, TEXT("Allocator problems in ROS2Subsystem!"));
+        ensureMsgf(false, TEXT("Allocator problems in ROS2Subsystem!"));
     }
     return context;
 }

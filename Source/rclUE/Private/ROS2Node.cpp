@@ -10,6 +10,8 @@
 
 #include "Kismet/GameplayStatics.h"
 
+DEFINE_LOG_CATEGORY(LogROS2Node);
+
 
 // Sets default values
 AROS2Node::AROS2Node()
@@ -22,23 +24,16 @@ AROS2Node::AROS2Node()
 
 AROS2Node::~AROS2Node()
 {
-	UE_LOG(LogTemp, Error, TEXT("UROS2LaserScanMsg::~UROS2LaserScanMsg"));
 }
 
 // Called when the game starts or when spawned
 void AROS2Node::BeginPlay()
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
 	Super::BeginPlay();
-
-	//UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
 }
 
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	// this is called before the components
-    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-
 	for (auto& s : Subscriptions)
 	{
 		RCSOFTCHECK(rcl_subscription_fini(&s.RCLSubscription, &node));
@@ -61,11 +56,10 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		}
 	}
 	
-	UE_LOG(LogTemp, Warning, TEXT("Node EndPlay - rcl_node_fini"));
+	UE_LOG(LogROS2Node, Warning, TEXT("Node EndPlay - rcl_node_fini"));
 	RCSOFTCHECK(rcl_node_fini(&node));
 
 	Super::EndPlay(EndPlayReason);
-    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 // Called every frame
@@ -84,7 +78,7 @@ void AROS2Node::Tick(float DeltaTime)
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
 void AROS2Node::Init()
 {
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Node, Warning, TEXT("%s"), *FString(__FUNCTION__));
 
 	if (State == UROS2State::Created)
 	{
@@ -92,14 +86,14 @@ void AROS2Node::Init()
 		{
 			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 			
-			UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
+			UE_LOG(LogROS2Node, Warning, TEXT("Node Init - rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &context->Get()));
 		}
 
 		State = UROS2State::Initialized;
 	}
 
-    UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Node, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 UROS2Context* AROS2Node::GetContext()
@@ -269,7 +263,7 @@ void AROS2Node::HandleServices()
 			void * data = s.Service->GetRequest();
 			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
 			
-			UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
+			UE_LOG(LogROS2Node, Warning, TEXT("Executing Service"));
 			//s.Service->PrintRequestToLog(rc, Name);
 
 			// there's a variant with req_id in the callback and one with context
@@ -314,7 +308,7 @@ void AROS2Node::HandleClients()
 			void * data = c->Service->GetResponse();
 			RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
 			
-			UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
+			UE_LOG(LogROS2Node, Warning, TEXT("Executing Answer Delegate"));
 
 			// there's a variant with req_id in the callback
 			FServiceClientCallback *cb = &c->AnswerDelegate;
@@ -411,7 +405,7 @@ TMap<FString, FString> AROS2Node::GetListOfNodes()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Node: %s - Namespace: %s"), *pair.Key, *pair.Value);
+		UE_LOG(LogROS2Node, Warning, TEXT("Node: %s - Namespace: %s"), *pair.Key, *pair.Value);
 	}
 
 	RCSOFTCHECK(rcutils_string_array_fini(&NodeNames));
@@ -443,7 +437,7 @@ TMap<FString, FString> AROS2Node::GetListOfTopics()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Topic: %s - MsgTypes: %s"), *pair.Key, *pair.Value);
+		UE_LOG(LogROS2Node, Warning, TEXT("Topic: %s - MsgTypes: %s"), *pair.Key, *pair.Value);
 	}
 
 	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));
