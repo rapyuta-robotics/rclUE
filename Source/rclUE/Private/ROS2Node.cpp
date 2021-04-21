@@ -181,7 +181,6 @@ void AROS2Node::AddClient(UROS2ServiceClient* Client)
 {
 	check(IsValid(Client));
 
-	//Client->RegisterComponent();
 	Client->ownerNode = this;
 	Client->Init();
 	Clients.Add(Client);
@@ -191,7 +190,6 @@ void AROS2Node::AddActionClient(UROS2ActionClient* ActionClient)
 {
 	check(IsValid(ActionClient));
 
-	//ActionClient->RegisterComponent();
 	ActionClient->ownerNode = this;
 	ActionClient->Init();
 	ActionClients.Add(ActionClient);
@@ -201,7 +199,6 @@ void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
 {
 	check(IsValid(ActionServer));
 
-	//ActionServer->RegisterComponent();
 	ActionServer->ownerNode = this;
 	ActionServer->Init();
 	ActionServers.Add(ActionServer);
@@ -231,7 +228,7 @@ void AROS2Node::HandleSubscriptions()
 		{
 			void * data = s.TopicMsg->Get();
 			rmw_message_info_t messageInfo;
-			rcl_ret_t rc = rcl_take(&s.RCLSubscription, data, &messageInfo, NULL);
+			RCSOFTCHECK(rcl_take(&s.RCLSubscription, data, &messageInfo, NULL));
 
 			FSubscriptionCallback *cb = &s.Callback;
 			cb->ExecuteIfBound(s.TopicMsg);
@@ -239,12 +236,14 @@ void AROS2Node::HandleSubscriptions()
 			s.Ready = false;
 		}
 	}
-
-	// handle action related subscriptions
 }
 
 void AROS2Node::HandleServices()
 {
+	// is there a reason for handling it this way?
+	// 1st find all ready elements and then process them
+	// instead of just processing ready elements
+	// current implementation is based on rclc executor
 	for (int i=0; i<wait_set.size_of_services; i++)
 	{
 		if (wait_set.services[i])
@@ -268,7 +267,7 @@ void AROS2Node::HandleServices()
 			// can't go in the callback unless the rcl functions are wrapped
 			rmw_service_info_t req_info;
 			void * data = s.Service->GetRequest();
-			rcl_ret_t rc = rcl_take_request_with_info(&s.RCLService, &req_info, data);
+			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
 			
 			UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
 			s.Service->PrintRequestToLog(rc, Name);
@@ -277,7 +276,7 @@ void AROS2Node::HandleServices()
 			FServiceCallback *cb = &s.Callback;
 			cb->ExecuteIfBound(s.Service);
 
-			rc = rcl_send_response(&s.RCLService, &req_info.request_id, s.Service->GetResponse());
+			RCSOFTCHECK(rcl_send_response(&s.RCLService, &req_info.request_id, s.Service->GetResponse()));
 
 			s.Ready = false;
 		}
@@ -286,6 +285,10 @@ void AROS2Node::HandleServices()
 
 void AROS2Node::HandleClients()
 {
+	// is there a reason for handling it this way?
+	// 1st find all ready elements and then process them
+	// instead of just processing ready elements
+	// current implementation is based on rclc executor
 	for (int i=0; i<wait_set.size_of_clients; i++)
 	{
 		if (wait_set.clients[i])
@@ -309,7 +312,7 @@ void AROS2Node::HandleClients()
 			// can't go in the callback unless the rcl functions are wrapped
 			rmw_service_info_t req_info;
 			void * data = c->Service->GetResponse();
-			rcl_ret_t rc = rcl_take_response_with_info(&c->client, &req_info, data);
+			RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
 			
 			UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
 
@@ -322,6 +325,7 @@ void AROS2Node::HandleClients()
 	}
 }
 
+// modeled after executor + actions
 void AROS2Node::SpinSome()
 {
 	if (!rcl_wait_set_is_valid(&wait_set))

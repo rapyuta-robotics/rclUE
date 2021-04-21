@@ -61,7 +61,7 @@ void UROS2ServiceClient::Init()
 
 		client = rcl_get_zero_initialized_client();
   		rcl_client_options_t client_opt = rcl_client_get_default_options();
-		rcl_ret_t rc = rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt);
+		RCSOFTCHECK(rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
 			
 		State = UROS2State::Initialized;
 	}
@@ -138,5 +138,5 @@ void UROS2ServiceClient::SendRequest()
 	req = Service->GetRequest();
 
 	int64_t seq;
-	rcl_ret_t rc = rcl_send_request(&client, req, &seq);
+	RCSOFTCHECK(rcl_send_request(&client, req, &seq));
 }

@@ -31,18 +31,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CancelActionRequest();
 
-	UFUNCTION()
-	void HandleResponseReady();
-
-	UFUNCTION()
-	void HandleFeedbackReady();
-
-	UFUNCTION()
-	void HandleResultResponseReady();
-
-	UFUNCTION()
-	void HandleCancelResponseReady();
-
 	UFUNCTION(BlueprintCallable)
 	void SetDelegates(FActionCallback SetGoal, 
 					  FActionCallback Feedback, 
@@ -54,7 +42,9 @@ public:
 	rcl_action_client_t client;
 
 private:
-	rmw_request_id_t cancel_req_id;
+	rmw_request_id_t goal_res_id;
+	rmw_request_id_t result_res_id;
+	rmw_request_id_t cancel_res_id;
 
 	UPROPERTY()
 	FActionCallback SetGoalDelegate;
@@ -70,25 +60,7 @@ private:
 	
 	UPROPERTY()
 	FSimpleCallback CancelDelegate;
-	
-	UPROPERTY()
-	bool FeedbackReady;
-	
-	UPROPERTY()
-	bool StatusReady;
-	
-	UPROPERTY()
-	bool GoalResponseReady;
-	
-	UPROPERTY()
-	bool CancelResponseReady;
-	
-	UPROPERTY()
-	bool ResultResponseReady;
 
-
-	UFUNCTION(BlueprintCallable)
-	void SendGoal();
 
 	virtual void InitializeActionComponent() override;
 };

@@ -33,16 +33,6 @@ public:
 	void UpdateAndSendResult();
 
 
-	UFUNCTION()
-	void HandleGoalRequestReady();
-
-	UFUNCTION()
-	void HandleResultRequestReady();
-
-	UFUNCTION()
-	void HandleCancelRequestReady();
-
-
 	UFUNCTION(BlueprintCallable)
 	void SetDelegates(FActionCallback UpdateFeedback,
 	                  FActionCallback UpdateResult, 
@@ -74,18 +64,6 @@ private:
 
 	UPROPERTY()
 	FSimpleCallback HandleAcceptedDelegate;
-
-	UPROPERTY()
-	bool GoalRequestReady;
-	
-	UPROPERTY()
-	bool CancelRequestReady;
-	
-	UPROPERTY()
-	bool ResultRequestReady;
-	
-	UPROPERTY()
-	bool GoalExpired;
 
 	virtual void InitializeActionComponent() override;
 };

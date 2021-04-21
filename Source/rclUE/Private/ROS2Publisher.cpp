@@ -166,7 +166,7 @@ void UROS2Publisher::Publish()
 
 	pub_msg = TopicMessage->Get();
 	
-    rcl_ret_t rc = rcl_publish(&pub, pub_msg, NULL);
+    RCSOFTCHECK(rcl_publish(&pub, pub_msg, NULL));
 
 	//Topic->Msg->PrintPubToLog(rc, ownerNode->Name);
 }

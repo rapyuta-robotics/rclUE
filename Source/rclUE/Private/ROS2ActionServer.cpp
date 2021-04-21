@@ -41,31 +41,40 @@ void UROS2ActionServer::Destroy()
 
 void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 {
-	rcl_ret_t rc = rcl_action_server_wait_set_get_entities_ready(wait_set, &server,
-		&GoalRequestReady,
-		&CancelRequestReady,
-		&ResultRequestReady,
-		&GoalExpired);
+	TArray<bool, TFixedAllocator<4>> IsReady = {false, false, false, false};
+	RCSOFTCHECK(rcl_action_server_wait_set_get_entities_ready(wait_set, &server,
+		&IsReady[0],
+		&IsReady[1],
+		&IsReady[2],
+		&IsReady[3]));
 
-	if (GoalRequestReady)
+	if (IsReady[0])
 	{
-		HandleGoalRequestReady();
+		UE_LOG(LogROS2Action, Warning, TEXT("2. Action Server - Received goal request"));
+		void* data = Action->GetGoalRequest();
+		RCSOFTCHECK(rcl_action_take_goal_request(&server, &goal_req_id, data));
+		HandleAcceptedDelegate.ExecuteIfBound();
 	}
 
-	if (ResultRequestReady)
+	if (IsReady[1])
 	{
-		HandleResultRequestReady();
+		UE_LOG(LogROS2Action, Warning, TEXT("B. Action Server (Node) - Received cancel action request"));
+		void* data = Action->GetCancelRequest();
+		RCSOFTCHECK(rcl_action_take_cancel_request(&server, &cancel_req_id, data));
+		HandleCancelDelegate.ExecuteIfBound();
 	}
 
-	if (CancelRequestReady)
+	if (IsReady[2])
 	{
-		HandleCancelRequestReady();
+		UE_LOG(LogROS2Action, Warning, TEXT("6. Action Server (Node) - Received result request"));
+		void* data = Action->GetResultRequest();
+		RCSOFTCHECK(rcl_action_take_result_request(&server, &result_req_id, data));
+		HandleGoalDelegate.ExecuteIfBound(Action);
 	}
 
-	if (GoalExpired)
+	if (IsReady[3])
 	{
 		UE_LOG(LogTemp, Error, TEXT("Action Server goal expired not implemented yet"));
-		GoalExpired = false;
 	}
 }
 
@@ -113,7 +122,7 @@ void UROS2ActionServer::UpdateAndSendFeedback()
 
 	UpdateFeedbackDelegate.ExecuteIfBound(Action);
 
-	rcl_ret_t rc = rcl_action_publish_feedback(&server, Action->GetFeedbackMessage());
+	RCSOFTCHECK(rcl_action_publish_feedback(&server, Action->GetFeedbackMessage()));
 }
 
 void UROS2ActionServer::UpdateAndSendResult()
@@ -124,34 +133,7 @@ void UROS2ActionServer::UpdateAndSendResult()
 
 	UpdateResultDelegate.ExecuteIfBound(Action);
 
-	rcl_ret_t rc = rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse());
-}
-
-void UROS2ActionServer::HandleGoalRequestReady()
-{
-	UE_LOG(LogROS2Action, Warning, TEXT("2. Action Server - Received goal request"));
-	void* data = Action->GetGoalRequest();
-	rcl_ret_t rc = rcl_action_take_goal_request(&server, &goal_req_id, data);
-	HandleAcceptedDelegate.ExecuteIfBound();
-	GoalRequestReady = false;
-}
-
-void UROS2ActionServer::HandleResultRequestReady()
-{
-	UE_LOG(LogROS2Action, Warning, TEXT("6. Action Server (Node) - Received result request"));
-	void* data = Action->GetResultRequest();
-	rcl_ret_t rc = rcl_action_take_result_request(&server, &result_req_id, data);
-	HandleGoalDelegate.ExecuteIfBound(Action);
-	ResultRequestReady = false;
-}
-
-void UROS2ActionServer::HandleCancelRequestReady()
-{
-	UE_LOG(LogROS2Action, Warning, TEXT("B. Action Server (Node) - Received cancel action request"));
-	void* data = Action->GetCancelRequest();
-	rcl_ret_t rc = rcl_action_take_cancel_request(&server, &cancel_req_id, data);
-	HandleCancelDelegate.ExecuteIfBound();
-	CancelRequestReady = false;
+	RCSOFTCHECK(rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse()));
 }
 
 
