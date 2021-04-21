@@ -169,6 +169,37 @@ void UROS2ActionServer::UpdateAndSendResult()
 	rcl_ret_t rc = rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse());
 }
 
+
+void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
+{
+	rcl_ret_t rc = rcl_action_server_wait_set_get_entities_ready(wait_set, &server,
+		&GoalRequestReady,
+		&CancelRequestReady,
+		&ResultRequestReady,
+		&GoalExpired);
+
+	if (GoalRequestReady)
+	{
+		HandleGoalRequestReady();
+	}
+
+	if (ResultRequestReady)
+	{
+		HandleResultRequestReady();
+	}
+
+	if (CancelRequestReady)
+	{
+		HandleCancelRequestReady();
+	}
+
+	if (GoalExpired)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Action Server goal expired not implemented yet"));
+		GoalExpired = false;
+	}
+}
+
 void UROS2ActionServer::HandleGoalRequestReady()
 {
 	UE_LOG(LogROS2Action, Warning, TEXT("2. Action Server - Received goal request"));
@@ -197,9 +228,9 @@ void UROS2ActionServer::HandleCancelRequestReady()
 }
 
 
-void UROS2ActionServer::SetDelegates(FActionServerCallback UpdateFeedback,
-									 FActionServerCallback UpdateResult, 
-									 FActionServerCallback HandleGoal, 
+void UROS2ActionServer::SetDelegates(FActionCallback UpdateFeedback,
+									 FActionCallback UpdateResult, 
+									 FActionCallback HandleGoal, 
 									 FSimpleCallback HandleCancel, 
 									 FSimpleCallback HandleAccepted)
 {

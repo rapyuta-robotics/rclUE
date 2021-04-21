@@ -9,8 +9,6 @@
 #include <rcl_action/action_server.h>
 #include "ROS2ActionServer.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FActionServerCallback, UROS2GenericAction *, Action);
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RCLUE_API UROS2ActionServer : public UActorComponent
 {
@@ -49,6 +47,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendResult();
 
+	void ProcessReady(rcl_wait_set_t* wait_set);
+
 	UFUNCTION()
 	void HandleGoalRequestReady();
 
@@ -60,11 +60,11 @@ public:
 
 
 	UFUNCTION(BlueprintCallable)
-	void SetDelegates(FActionServerCallback UpdateFeedbackDelegate,
-	                  FActionServerCallback UpdateResultDelegate, 
-					  FActionServerCallback HandleGoalDelegate, 
-					  FSimpleCallback HandleCancelDelegate, 
-					  FSimpleCallback HandleAcceptedDelegate);
+	void SetDelegates(FActionCallback UpdateFeedback,
+	                  FActionCallback UpdateResult, 
+					  FActionCallback HandleGoal, 
+					  FSimpleCallback HandleCancel, 
+					  FSimpleCallback HandleAccepted);
 
 
 	rcl_clock_t ros_clock;
@@ -85,14 +85,13 @@ public:
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionServerCallback UpdateFeedbackDelegate;
+	FActionCallback UpdateFeedbackDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionServerCallback UpdateResultDelegate;
-
+	FActionCallback UpdateResultDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionServerCallback HandleGoalDelegate;
+	FActionCallback HandleGoalDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FSimpleCallback HandleCancelDelegate;

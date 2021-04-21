@@ -17,6 +17,7 @@ class UROS2ActionClient;
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, const UROS2GenericSrv *, Service);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction *, Action);
 DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 
 // these structs assume that the MAP containing them is short enough
@@ -204,10 +205,4 @@ private:
 	
 	UFUNCTION()
 	void HandleClients();
-	
-	UFUNCTION()
-	void HandleActionServers();
-	
-	UFUNCTION()
-	void HandleActionClients();
 };

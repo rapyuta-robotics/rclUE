@@ -9,9 +9,7 @@
 #include <rcl_action/action_client.h>
 #include "ROS2ActionClient.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FActionClientCallback, UROS2GenericAction *, Action);
 
-// should be refactored with Service and Pub
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RCLUE_API UROS2ActionClient : public UActorComponent
 {
@@ -47,6 +45,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void CancelActionRequest();
 
+	void ProcessReady(rcl_wait_set_t* wait_set);
+
 	UFUNCTION()
 	void HandleResponseReady();
 
@@ -60,9 +60,9 @@ public:
 	void HandleCancelResponseReady();
 
 	UFUNCTION(BlueprintCallable)
-	void SetDelegates(FActionClientCallback SetGoal, 
-					  FActionClientCallback Feedback, 
-					  FActionClientCallback Result, 
+	void SetDelegates(FActionCallback SetGoal, 
+					  FActionCallback Feedback, 
+					  FActionCallback Result, 
 					  FSimpleCallback GoalResponse, 
 					  FSimpleCallback Cancel);
 
@@ -82,13 +82,13 @@ public:
 
 	// used to pass data for the request
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback SetGoalDelegate;
+	FActionCallback SetGoalDelegate;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback FeedbackDelegate;
+	FActionCallback FeedbackDelegate;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionClientCallback ResultDelegate;
+	FActionCallback ResultDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FSimpleCallback GoalResponseDelegate;
@@ -111,11 +111,6 @@ public:
 	bool ResultResponseReady;
 
 private:
-
-	const void* goal;
-	const void* result;
-	const void* feedback;
-
 	UFUNCTION(BlueprintCallable)
 	void SendGoal();
 };

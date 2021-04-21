@@ -322,78 +322,6 @@ void AROS2Node::HandleClients()
 	}
 }
 
-void AROS2Node::HandleActionServers()
-{
-	for (auto& a : ActionServers)
-	{
-		rcl_ret_t rc = rcl_action_server_wait_set_get_entities_ready(&wait_set, &a->server,
-			&a->GoalRequestReady,
-			&a->CancelRequestReady,
-			&a->ResultRequestReady,
-			&a->GoalExpired);
-
-		if (a->GoalRequestReady)
-		{
-			a->HandleGoalRequestReady();
-		}
-
-		if (a->ResultRequestReady)
-		{
-			a->HandleResultRequestReady();
-		}
-
-		if (a->CancelRequestReady)
-		{
-			a->HandleCancelRequestReady();
-		}
-
-		if (a->GoalExpired)
-		{
-			UE_LOG(LogTemp, Error, TEXT("Action Server goal expired not implemented yet"));
-			a->GoalExpired = false;
-		}
-	}
-}
-
-void AROS2Node::HandleActionClients()
-{
-	for (auto& a : ActionClients)
-	{
-		RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(&wait_set, &a->client,
-			&a->FeedbackReady,
-			&a->StatusReady,
-			&a->GoalResponseReady,
-			&a->CancelResponseReady,
-			&a->ResultResponseReady));
-
-		if (a->GoalResponseReady)
-		{
-			a->HandleResponseReady();
-		}
-
-		if (a->FeedbackReady)
-		{
-			a->HandleFeedbackReady();
-		}
-
-		if (a->ResultResponseReady)
-		{
-			a->HandleResultResponseReady();
-		}
-
-		if (a->CancelResponseReady)
-		{
-			a->HandleCancelResponseReady();
-		}
-
-		if (a->StatusReady)
-		{
-			UE_LOG(LogTemp, Error, TEXT("Action Client take status not implemented yet"));
-			a->StatusReady = false;
-		}
-	}
-}
-
 void AROS2Node::SpinSome()
 {
 	if (!rcl_wait_set_is_valid(&wait_set))
@@ -408,8 +336,6 @@ void AROS2Node::SpinSome()
 									Services.Num()+ActionServers.Num()*3,
 									NEvents, 
 									&context->Get().context, rcl_get_default_allocator()));
-		// rcl_action_server_wait_set_get_num_entities
-		// rcl_action_client_wait_set_get_num_entities
 	}
 	
 	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
@@ -439,14 +365,24 @@ void AROS2Node::SpinSome()
 		RCSOFTCHECK(rcl_action_wait_set_add_action_server(&wait_set, &a->server, nullptr));
 	}
 
+
 	rcl_ret_t rc = rcl_wait(&wait_set, 0);
   	RCLC_UNUSED(rc);
+
 
 	HandleSubscriptions();
 	HandleServices();
 	HandleClients();
-	HandleActionServers();
-	HandleActionClients();
+
+	for (auto& a : ActionServers)
+	{
+		a->ProcessReady(&wait_set);
+	}
+
+	for (auto& a : ActionClients)
+	{
+		a->ProcessReady(&wait_set);
+	}
 }
 
 
