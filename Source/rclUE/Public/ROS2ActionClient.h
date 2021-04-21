@@ -2,39 +2,25 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Components/ActorComponent.h"
-#include "ROS2Node.h"
-#include "Actions/ROS2GenericAction.h"
+#include "ROS2Action.h"
 #include <rcl_action/action_client.h>
 #include "ROS2ActionClient.generated.h"
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class RCLUE_API UROS2ActionClient : public UActorComponent
+class RCLUE_API UROS2ActionClient : public UROS2Action
 {
 	GENERATED_BODY()
 
 public:	
 	// Sets default values for this component's properties
 	UROS2ActionClient();
-
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	UFUNCTION(BlueprintCallable)
-	void Init();
 	
-	UFUNCTION(BlueprintCallable)
-	void InitializeAction();
 	
-	UFUNCTION()
-	void Destroy();
+	virtual void Destroy() override;
+
+	virtual void ProcessReady(rcl_wait_set_t* wait_set) override;
+
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendGoal();
@@ -44,8 +30,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void CancelActionRequest();
-
-	void ProcessReady(rcl_wait_set_t* wait_set);
 
 	UFUNCTION()
 	void HandleResponseReady();
@@ -66,51 +50,45 @@ public:
 					  FSimpleCallback GoalResponse, 
 					  FSimpleCallback Cancel);
 
-
+					  
 	rcl_action_client_t client;
-	rmw_request_id_t cancel_req_id;
-
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString ActionName;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TSubclassOf<UROS2GenericAction> ActionClass;
-	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UROS2GenericAction *Action;
-
-	// used to pass data for the request
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionCallback SetGoalDelegate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionCallback FeedbackDelegate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FActionCallback ResultDelegate;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FSimpleCallback GoalResponseDelegate;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FSimpleCallback CancelDelegate;
-
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	AROS2Node* ownerNode;
-
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TEnumAsByte<UROS2State> State = UROS2State::Created;
-
-	bool FeedbackReady;
-	bool StatusReady;
-	bool GoalResponseReady;
-	bool CancelResponseReady;
-	bool ResultResponseReady;
 
 private:
+	rmw_request_id_t cancel_req_id;
+
+	UPROPERTY()
+	FActionCallback SetGoalDelegate;
+	
+	UPROPERTY()
+	FActionCallback FeedbackDelegate;
+	
+	UPROPERTY()
+	FActionCallback ResultDelegate;
+
+	UPROPERTY()
+	FSimpleCallback GoalResponseDelegate;
+	
+	UPROPERTY()
+	FSimpleCallback CancelDelegate;
+	
+	UPROPERTY()
+	bool FeedbackReady;
+	
+	UPROPERTY()
+	bool StatusReady;
+	
+	UPROPERTY()
+	bool GoalResponseReady;
+	
+	UPROPERTY()
+	bool CancelResponseReady;
+	
+	UPROPERTY()
+	bool ResultResponseReady;
+
+
 	UFUNCTION(BlueprintCallable)
 	void SendGoal();
+
+	virtual void InitializeActionComponent() override;
 };

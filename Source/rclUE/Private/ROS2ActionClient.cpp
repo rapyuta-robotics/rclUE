@@ -5,110 +5,74 @@
 
 
 // Sets default values for this component's properties
-UROS2ActionClient::UROS2ActionClient()
+UROS2ActionClient::UROS2ActionClient() : Super()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
-
-// Called when the game starts
-void UROS2ActionClient::BeginPlay()
+void UROS2ActionClient::InitializeActionComponent()
 {
-	Super::BeginPlay();
+	const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();
 
-	// ...
+	client = rcl_action_get_zero_initialized_client();
+	rcl_action_client_options_t client_opt = rcl_action_client_get_default_options();
+	rcl_ret_t rc = rcl_action_client_init(&client, ownerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
 	
-}
-
-
-// Called every frame
-void UROS2ActionClient::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
-void UROS2ActionClient::Init()
-{
-	check(ownerNode != nullptr);
-	if (State == UROS2State::Created && ownerNode->State == UROS2State::Initialized)
+	if (rc != RCL_RET_OK)
 	{
-		InitializeAction();
-
-		check(IsValid(Action));
-
-		const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();
-
-		client = rcl_action_get_zero_initialized_client();
-		rcl_action_client_options_t client_opt = rcl_action_client_get_default_options();
-		rcl_ret_t rc = rcl_action_client_init(&client, ownerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
-		
-		if (rc != RCL_RET_OK)
-		{
-			UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2ActionClient). Terminating."),__LINE__,(int)rc);
-			UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
-		}
-
-		ensure(rcl_action_client_is_valid(&client));
-
-		State = UROS2State::Initialized;
+		UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2ActionClient). Terminating."),__LINE__,(int)rc);
+		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
-	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Client Init - already initialized!"));
-	}
-	else if (ownerNode->State == UROS2State::Created)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Client Init (%s) - Node needs to be initialized before client!"), *ActionName);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Client Init - this shouldn't happen!"));
-	}
-}
 
-void UROS2ActionClient::InitializeAction()
-{
-	UE_LOG(LogTemp, Log, TEXT("Initializing Action"));
-	if (ActionName != FString() && ActionClass)
-	{
-		Action = NewObject<UROS2GenericAction>(this, ActionClass);
-
-		if (ensure(IsValid(Action)))
-		{
-			Action->Init();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *ActionName);
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("ActionName or ActionClass uninitialized!"));
-	}
+	ensure(rcl_action_client_is_valid(&client));
 }
 
 void UROS2ActionClient::Destroy()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Client Destroy"));
-	if (Action != nullptr)
-	{
-		Action->Fini();
-	}
-
+	Super::Destroy();
+	
 	if (ownerNode != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Client Destroy - rcl_action_client_fini"));
 		RCSOFTCHECK(rcl_action_client_fini(&client, ownerNode->GetNode()));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Client Destroy - Done"));	
 }
+
+
+void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
+{
+	RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(wait_set, &client,
+		&FeedbackReady,
+		&StatusReady,
+		&GoalResponseReady,
+		&CancelResponseReady,
+		&ResultResponseReady));
+
+	if (GoalResponseReady)
+	{
+		HandleResponseReady();
+	}
+
+	if (FeedbackReady)
+	{
+		HandleFeedbackReady();
+	}
+
+	if (ResultResponseReady)
+	{
+		HandleResultResponseReady();
+	}
+
+	if (CancelResponseReady)
+	{
+		HandleCancelResponseReady();
+	}
+
+	if (StatusReady)
+	{
+		UE_LOG(LogTemp, Error, TEXT("Action Client take status not implemented yet"));
+		StatusReady = false;
+	}
+}
+
 
 void UROS2ActionClient::UpdateAndSendGoal()
 {
@@ -158,43 +122,6 @@ void UROS2ActionClient::CancelActionRequest()
 
 	int64_t seq;
 	rcl_ret_t rc = rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &seq);
-}
-
-
-void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
-{
-	RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(wait_set, &client,
-		&FeedbackReady,
-		&StatusReady,
-		&GoalResponseReady,
-		&CancelResponseReady,
-		&ResultResponseReady));
-
-	if (GoalResponseReady)
-	{
-		HandleResponseReady();
-	}
-
-	if (FeedbackReady)
-	{
-		HandleFeedbackReady();
-	}
-
-	if (ResultResponseReady)
-	{
-		HandleResultResponseReady();
-	}
-
-	if (CancelResponseReady)
-	{
-		HandleCancelResponseReady();
-	}
-
-	if (StatusReady)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Action Client take status not implemented yet"));
-		StatusReady = false;
-	}
 }
 
 void UROS2ActionClient::HandleResponseReady()
