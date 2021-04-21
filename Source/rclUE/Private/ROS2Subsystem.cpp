@@ -15,20 +15,20 @@ bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
 
 void UROS2Subsystem::Initialize(FSubsystemCollectionBase &Collection)
 {
-	UE_LOG(LogTemp, Warning, TEXT("Init Subsystem"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	Super::Initialize(Collection);
 
 	context = NewObject<UROS2Context>();
 	context->Init();
-	UE_LOG(LogTemp, Warning, TEXT("Init Subsystem - Done"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void UROS2Subsystem::Deinitialize()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Deinit Subsystem"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	context->Deinit();
 	Super::Deinitialize();
-	UE_LOG(LogTemp, Warning, TEXT("Deinit Subsystem - Done"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void UROS2Subsystem::Tick(float DeltaTime)

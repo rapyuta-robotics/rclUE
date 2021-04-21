@@ -6,19 +6,19 @@
 
 UROS2Context::UROS2Context()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Construct Context"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
     // rcl_allocator_t allocator = rcl_get_default_allocator();
 
     // // create init_options
     // RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
-    UE_LOG(LogTemp, Warning, TEXT("Construct Context - Done"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 UROS2Context::~UROS2Context()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Destroy Context"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	//RCSOFTCHECK(rclc_support_fini(&support));
-    UE_LOG(LogTemp, Warning, TEXT("Destroy Context - Done"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 rclc_support_t& UROS2Context::Get()
@@ -28,7 +28,7 @@ rclc_support_t& UROS2Context::Get()
 
 void UROS2Context::Init()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Init Context"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
     allocator = rcl_get_default_allocator();
 
     if (allocator.allocate == nullptr ||
@@ -41,12 +41,12 @@ void UROS2Context::Init()
 
     // create init_options
     RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
-    UE_LOG(LogTemp, Warning, TEXT("Init Context - Done"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void UROS2Context::Deinit()
 {
-    UE_LOG(LogTemp, Warning, TEXT("Deinit Context"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	RCSOFTCHECK(rclc_support_fini(&support));
-    UE_LOG(LogTemp, Warning, TEXT("Deinit Context - Done"));
+    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
