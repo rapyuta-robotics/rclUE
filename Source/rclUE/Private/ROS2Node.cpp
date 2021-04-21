@@ -270,7 +270,7 @@ void AROS2Node::HandleServices()
 			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
 			
 			UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
-			s.Service->PrintRequestToLog(rc, Name);
+			//s.Service->PrintRequestToLog(rc, Name);
 
 			// there's a variant with req_id in the callback and one with context
 			FServiceCallback *cb = &s.Callback;
