@@ -102,6 +102,14 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
 {
 	check(State == UROS2State::Initialized);
 
+	bool SubExists = false;
+	for (auto& s : Subscriptions)
+	{
+		SubExists |= (s.TopicName == TopicName);
+	}
+	
+	check(!SubExists);
+
 	UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
 	TopicMessage->Init();
 
