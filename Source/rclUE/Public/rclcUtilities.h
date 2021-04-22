@@ -20,7 +20,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Publisher, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Service, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
-#define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){ UE_LOG(LogTemp, Error, TEXT("Failed status on line %d (function %s): %d. Continuing."),__LINE__, *FString(__FUNCTION__),(int)temp_rc);}}
+#define RCSOFTCHECK(fn) { rcl_ret_t temp_rc = fn; if((temp_rc != RCL_RET_OK)){ UE_LOG(LogTemp, Error, TEXT("Failed status on line %d (function %s): %d. Continuing."),__LINE__, *FString(__FUNCTION__),(int)temp_rc); check(temp_rc == 0)}}
 
 UENUM()
 enum UROS2State

@@ -7,13 +7,11 @@
 
 void UROS2ClockMsg::Init()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2ClockMsg::Init"));
 	rosgraph_msgs__msg__Clock__init(&clock_pub_msg);
 }
 
 void UROS2ClockMsg::Fini()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2ClockMsg::Fini"));
 	rosgraph_msgs__msg__Clock__fini(&clock_pub_msg);
 }
 

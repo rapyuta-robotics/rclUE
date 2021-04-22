@@ -20,7 +20,8 @@ UROS2ServiceClient::UROS2ServiceClient()
 void UROS2ServiceClient::Init()
 {
 	check(ownerNode != nullptr);
-	if (State == UROS2State::Created && ownerNode->State == UROS2State::Initialized)
+	check(ownerNode->State == UROS2State::Initialized);
+	if (State == UROS2State::Created)
 	{
 		InitializeService();
 
@@ -34,47 +35,24 @@ void UROS2ServiceClient::Init()
 			
 		State = UROS2State::Initialized;
 	}
-	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)
-	{
-		UE_LOG(LogROS2Service, Error, TEXT("Client Init - already initialized! (%s)"), *__LOG_INFO__);
-	}
-	else if (ownerNode->State == UROS2State::Created)
-	{
-		UE_LOG(LogROS2Service, Error, TEXT("Client Init (%s) - Node needs to be initialized before client! (%s)"), *ServiceName, *__LOG_INFO__);
-	}
-	else
-	{
-		UE_LOG(LogROS2Service, Error, TEXT("Client Init - this shouldn't happen! (%s)"), *__LOG_INFO__);
-	}
 
 	Ready = false;
 }
 
 void UROS2ServiceClient::InitializeService()
 {
-	UE_LOG(LogROS2Service, Log, TEXT("Initializing Service (%s)"), *__LOG_INFO__);
-	if (ServiceName != FString() && SrvClass)
-	{
-		Service = NewObject<UROS2GenericSrv>(this, SrvClass);
+	check(ServiceName != FString());
+	check(SrvClass);
+	
+	Service = NewObject<UROS2GenericSrv>(this, SrvClass);
 
-		if (ensure(IsValid(Service)))
-		{
-			Service->Init();
-		}
-		else
-		{
-			ensureMsgf(false, TEXT("Topic (%s) is nullptr! (%s)"), *ServiceName, *__LOG_INFO__);
-		}
-	}
-	else
-	{
-		ensureMsgf(false, TEXT("ServiceName or SrvClass uninitialized! (%s)"), *__LOG_INFO__);
-	}
+	check(IsValid(Service));
+	
+	Service->Init();
 }
 
 void UROS2ServiceClient::Destroy()
 {
-	UE_LOG(LogROS2Service, Warning, TEXT("Client Destroy (%s)"), *__LOG_INFO__);
 	if (Service != nullptr)
 	{
 		Service->Fini();
@@ -82,15 +60,14 @@ void UROS2ServiceClient::Destroy()
 
 	if (ownerNode != nullptr)
 	{
-		UE_LOG(LogROS2Service, Warning, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
+		UE_LOG(LogROS2Service, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
 		RCSOFTCHECK(rcl_client_fini(&client, ownerNode->GetNode()));
 	}
-	UE_LOG(LogROS2Service, Warning, TEXT("Client Destroy - Done (%s)"), *__LOG_INFO__);
 }
 
 void UROS2ServiceClient::UpdateAndSendRequest()
 {
-    UE_LOG(LogROS2Service, Warning, TEXT("%s"), *__LOG_INFO__);
+    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 	
@@ -100,7 +77,7 @@ void UROS2ServiceClient::UpdateAndSendRequest()
 
 void UROS2ServiceClient::SendRequest()
 {
-    UE_LOG(LogROS2Service, Warning, TEXT("%s"), *__LOG_INFO__);
+    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
 	check(ownerNode != nullptr);
 

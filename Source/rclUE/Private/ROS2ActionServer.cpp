@@ -14,13 +14,7 @@ void UROS2ActionServer::InitializeActionComponent()
 	RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));
 	rcl_ret_t rc = rcl_action_server_init(&server, ownerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);
 	
-	if (rc != RCL_RET_OK)
-	{
-		UE_LOG(LogROS2Action, Error, TEXT("Failed status : %d (%s). Terminating."),(int)rc, *__LOG_INFO__);
-		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
-	}
-
-	ensure(rcl_action_server_is_valid(&server));
+	check(rc == RCL_RET_OK);
 }
 
 void UROS2ActionServer::Destroy()

@@ -10,28 +10,28 @@ DEFINE_LOG_CATEGORY(LogROS2Msg);
 
 const rosidl_message_type_support_t* UROS2GenericMsg::GetTypeSupport() const
 {
-	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
+	checkNoEntry();
     return nullptr;
 }
 
 void UROS2GenericMsg::Init()
 {
-	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
+	checkNoEntry();
 }
 
 void UROS2GenericMsg::Fini()
 {
-	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
+	checkNoEntry();
 }
 
 void* UROS2GenericMsg::Get()
 {
-	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
+	checkNoEntry();
 	return nullptr;
 }
 
 FString UROS2GenericMsg::MsgToString() const
 {
-	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
+	checkNoEntry();
 	return FString();
 }

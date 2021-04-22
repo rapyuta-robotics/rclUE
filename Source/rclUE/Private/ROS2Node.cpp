@@ -48,7 +48,7 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 	
-	UE_LOG(LogROS2Node, Warning, TEXT("Node EndPlay - rcl_node_fini (%s)"), *__LOG_INFO__);
+	UE_LOG(LogROS2Node, Log, TEXT("Node EndPlay - rcl_node_fini (%s)"), *__LOG_INFO__);
 	RCSOFTCHECK(rcl_node_fini(&node));
 
 	Super::EndPlay(EndPlayReason);
@@ -70,7 +70,7 @@ void AROS2Node::Tick(float DeltaTime)
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
 void AROS2Node::Init()
 {
-    UE_LOG(LogROS2Node, Warning, TEXT("%s"), *__LOG_INFO__);
+    UE_LOG(LogROS2Node, Log, TEXT("%s"), *__LOG_INFO__);
 
 	if (State == UROS2State::Created)
 	{
@@ -78,14 +78,14 @@ void AROS2Node::Init()
 		{
 			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 			
-			UE_LOG(LogROS2Node, Warning, TEXT("Node Init - rclc_node_init_default"));
+			UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &context->Get()));
 		}
 
 		State = UROS2State::Initialized;
 	}
 
-    UE_LOG(LogROS2Node, Warning, TEXT("%s - Done"), *__LOG_INFO__);
+    UE_LOG(LogROS2Node, Log, TEXT("%s - Done"), *__LOG_INFO__);
 }
 
 UROS2Context* AROS2Node::GetContext()
@@ -255,7 +255,7 @@ void AROS2Node::HandleServices()
 			void * data = s.Service->GetRequest();
 			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
 			
-			UE_LOG(LogROS2Node, Warning, TEXT("Executing Service (%s)"), *__LOG_INFO__);
+			UE_LOG(LogROS2Node, Log, TEXT("Executing Service (%s)"), *__LOG_INFO__);
 			
 			// there's a variant with req_id in the callback and one with context
 			FServiceCallback *cb = &s.Callback;
@@ -299,7 +299,7 @@ void AROS2Node::HandleClients()
 			void * data = c->Service->GetResponse();
 			RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
 			
-			UE_LOG(LogROS2Node, Warning, TEXT("Executing Answer Delegate (%s)"), *__LOG_INFO__);
+			UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate (%s)"), *__LOG_INFO__);
 
 			// there's a variant with req_id in the callback
 			FServiceClientCallback *cb = &c->AnswerDelegate;
@@ -396,7 +396,7 @@ TMap<FString, FString> AROS2Node::GetListOfNodes()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogROS2Node, Warning, TEXT("Node: %s - Namespace: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
+		UE_LOG(LogROS2Node, Log, TEXT("Node: %s - Namespace: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
 	}
 
 	RCSOFTCHECK(rcutils_string_array_fini(&NodeNames));
@@ -428,7 +428,7 @@ TMap<FString, FString> AROS2Node::GetListOfTopics()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogROS2Node, Warning, TEXT("Topic: %s - MsgTypes: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
+		UE_LOG(LogROS2Node, Log, TEXT("Topic: %s - MsgTypes: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
 	}
 
 	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));

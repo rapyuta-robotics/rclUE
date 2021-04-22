@@ -16,7 +16,9 @@ UROS2Publisher::UROS2Publisher()
 void UROS2Publisher::Init(bool IsTransientLocal)
 {
 	check(ownerNode != nullptr);
-	if (State == UROS2State::Created && ownerNode->State == UROS2State::Initialized)
+	check(ownerNode->State == UROS2State::Initialized);
+	
+	if (State == UROS2State::Created)
 	{
 		InitializeMessage(); // needed to get type support
 		
@@ -25,7 +27,7 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 		const rosidl_message_type_support_t * msg_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
 		ownerNode->Init();
-		UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);
+		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);
 
 		if (IsTransientLocal) // required for tf_static
 		{
@@ -60,23 +62,11 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 
 		State = UROS2State::Initialized;
 	}
-	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)
-	{
-		ensureMsgf(false, TEXT("Publisher Init - already initialized! (%s)"), *__LOG_INFO__);
-	}
-	else if (ownerNode->State == UROS2State::Created)
-	{
-		ensureMsgf(false, TEXT("Publisher Init (%s) - Node needs to be initialized before publisher! (%s)"), *TopicName, *__LOG_INFO__);
-	}
-	else
-	{
-		ensureMsgf(false, TEXT("Publisher Init - this shouldn't happen! (%s)"), *__LOG_INFO__);
-	}
 }
 
 void UROS2Publisher::Destroy()
 {
-	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Destroy (%s)"), *__LOG_INFO__);
+	UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy (%s)"), *__LOG_INFO__);
 	if (TopicMessage != nullptr)
 	{
 		TopicMessage->Fini();
@@ -84,31 +74,22 @@ void UROS2Publisher::Destroy()
 
 	if (ownerNode != nullptr)
 	{
-		UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
+		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
 		RCSOFTCHECK(rcl_publisher_fini(&pub, ownerNode->GetNode()));
 	}
-	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher Destroy - Done (%s)"), *__LOG_INFO__);
+	UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - Done (%s)"), *__LOG_INFO__);
 }
 
 void UROS2Publisher::InitializeMessage()
 {
-	if (TopicName != FString() && MsgClass)
-	{
-		TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+	check(TopicName != FString());
+	check(MsgClass)
 
-		if (ensure(IsValid(TopicMessage)))
-		{
-			TopicMessage->Init();
-		}
-		else
-		{
-			ensureMsgf(false, TEXT("Topic (%s) is nullptr! (%s)"), *TopicName, *__LOG_INFO__);
-		}
-	}
-	else
-	{
-		ensureMsgf(false, TEXT("TopicName or MsgClass uninitialized! (%s)"), *__LOG_INFO__);
-	}
+	TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+
+	check(IsValid(TopicMessage));
+	
+	TopicMessage->Init();
 }
 
 void UROS2Publisher::UpdateAndPublishMessage_Implementation()

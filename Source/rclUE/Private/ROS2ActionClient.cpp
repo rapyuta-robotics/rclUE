@@ -17,8 +17,6 @@ void UROS2ActionClient::InitializeActionComponent()
 		UE_LOG(LogROS2Action, Error, TEXT("Failed status : %d (%s). Terminating."),(int)rc, *__LOG_INFO__);
 		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
-
-	ensure(rcl_action_client_is_valid(&client));
 }
 
 void UROS2ActionClient::Destroy()

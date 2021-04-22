@@ -17,7 +17,8 @@ UROS2Action::UROS2Action()
 void UROS2Action::Init()
 {
 	check(ownerNode != nullptr);
-	if (State == UROS2State::Created && ownerNode->State == UROS2State::Initialized)
+	check(ownerNode->State == UROS2State::Initialized);
+	if (State == UROS2State::Created)
 	{
 		InitializeAction();
 
@@ -27,40 +28,18 @@ void UROS2Action::Init()
 		
 		State = UROS2State::Initialized;
 	}
-	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)
-	{
-		UE_LOG(LogROS2Action, Error, TEXT("Already initialized! (%s)"), *__LOG_INFO__);
-	}
-	else if (ownerNode->State == UROS2State::Created)
-	{
-		UE_LOG(LogROS2Action, Error, TEXT("Node needs to be initialized before server! (%s)"), *__LOG_INFO__);
-	}
-	else
-	{
-		UE_LOG(LogROS2Action, Error, TEXT("This shouldn't happen! (%s)"), *__LOG_INFO__);
-	}
 }
 
 void UROS2Action::InitializeAction()
 {
-	UE_LOG(LogROS2Action, Log, TEXT("Initializing Action (%s)"), *__LOG_INFO__);
-	if (ActionName != FString() && ActionClass)
-	{
-		Action = NewObject<UROS2GenericAction>(this, ActionClass);
+	check(ActionName != FString());
+	check(ActionClass);
+	
+	Action = NewObject<UROS2GenericAction>(this, ActionClass);
 
-		if (ensure(IsValid(Action)))
-		{
-			Action->Init();
-		}
-		else
-		{
-			UE_LOG(LogROS2Action, Error, TEXT("Action (%s) is nullptr! (%s)"), *ActionName, *__LOG_INFO__);
-		}
-	}
-	else
-	{
-		UE_LOG(LogROS2Action, Error, TEXT("ActionName or ActionClass uninitialized! (%s)"), *__LOG_INFO__);
-	}
+	check(IsValid(Action));
+	
+	Action->Init();
 }
 
 void UROS2Action::Destroy()
@@ -73,10 +52,10 @@ void UROS2Action::Destroy()
 
 void UROS2Action::ProcessReady(rcl_wait_set_t* wait_set)
 {
-	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
+	checkNoEntry();
 }
 
 void UROS2Action::InitializeActionComponent()
 {
-	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
+	checkNoEntry();
 }
