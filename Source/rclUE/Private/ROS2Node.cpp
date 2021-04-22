@@ -110,6 +110,11 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
 	
 	check(!SubExists);
 
+	if (!Callback.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
 	UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
 	TopicMessage->Init();
 
@@ -137,6 +142,11 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
 void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback)
 {
 	check(State == UROS2State::Initialized);
+
+	if (!Callback.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
 
 	UROS2GenericSrv *Service = NewObject<UROS2GenericSrv>(this, SrvClass);
 	Service->Init();
@@ -166,6 +176,11 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 {
 	check(IsValid(Publisher));
 
+	if (!Publisher->UpdateDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
 	Publisher->RegisterComponent();
 	Publisher->ownerNode = this;
 	Publishers.Add(Publisher);
@@ -174,6 +189,16 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 void AROS2Node::AddClient(UROS2ServiceClient* Client)
 {
 	check(IsValid(Client));
+
+	if (!Client->RequestDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("RequestDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!Client->AnswerDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("AnswerDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
 
 	Client->ownerNode = this;
 	Client->Init();

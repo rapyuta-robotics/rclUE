@@ -129,6 +129,32 @@ void UROS2ActionClient::SetDelegates(FActionCallback SetGoal,
 									 FSimpleCallback GoalResponse, 
 									 FSimpleCallback Cancel)
 {
+
+	if (!SetGoalDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("SetGoalDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!FeedbackDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("FeedbackDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!ResultDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("ResultDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!GoalResponseDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("GoalResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!CancelDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("CancelDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
 	SetGoalDelegate = SetGoal;
 	GoalResponseDelegate = GoalResponse;
 	FeedbackDelegate = Feedback;

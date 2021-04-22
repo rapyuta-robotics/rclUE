@@ -133,6 +133,31 @@ void UROS2ActionServer::SetDelegates(FActionCallback UpdateFeedback,
 									 FSimpleCallback HandleCancel, 
 									 FSimpleCallback HandleAccepted)
 {
+	if (!UpdateFeedbackDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("UpdateFeedbackDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!UpdateResultDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("UpdateResultDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!HandleGoalDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("HandleGoalDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!HandleCancelDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("HandleCancelDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!HandleAcceptedDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Action, Warning, TEXT("HandleAcceptedDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
 	UpdateFeedbackDelegate = UpdateFeedback;
 	UpdateResultDelegate = UpdateResult;
 	HandleGoalDelegate = HandleGoal;
