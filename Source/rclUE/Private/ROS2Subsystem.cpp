@@ -4,10 +4,6 @@
 #include "ROS2Subsystem.h"
 
 
-UROS2Subsystem::UROS2Subsystem()
-{
-}
-
 bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
 {
 	return true;		// TODO: If client/server, this should only be created on the server.
@@ -15,20 +11,16 @@ bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
 
 void UROS2Subsystem::Initialize(FSubsystemCollectionBase &Collection)
 {
-    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
 	Super::Initialize(Collection);
 
 	context = NewObject<UROS2Context>();
 	context->Init();
-    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void UROS2Subsystem::Deinitialize()
 {
-    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-	context->Deinit();
+	context->Fini();
 	Super::Deinitialize();
-    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 void UROS2Subsystem::Tick(float DeltaTime)
@@ -59,23 +51,5 @@ TStatId UROS2Subsystem::GetStatId() const
 
 UROS2Context* UROS2Subsystem::GetContext() const
 {
-    if (context->Get().allocator->allocate == nullptr ||
-        context->Get().allocator->deallocate == nullptr || 
-        context->Get().allocator->zero_allocate == nullptr ||
-        context->Get().allocator->reallocate == nullptr)
-    {
-        UE_LOG(LogTemp, Error, TEXT("Allocator problems in ROS2Subsystem!"));
-    }
     return context;
-}
-
-void UROS2Subsystem::ListRosNodes() const
-{
-	// this method requires a valid node
-}
-
-void UROS2Subsystem::ListRosTopics() const
-{
-	// this method requires a valid node
-	// rcl_get_topic_names_and_types();
 }

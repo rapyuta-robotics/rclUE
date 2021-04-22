@@ -16,17 +16,6 @@ ASensorLidar::ASensorLidar()
  	
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 
-    // LidarMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LidarMesh"));
-    // LidarMesh->SetupAttachment(RootComponent);
-    // static ConstructorHelpers::FObjectFinder<UStaticMesh> LidarCylinderMesh(TEXT("'/Engine/BasicShapes/Cylinder.Cylinder'"));
-
-    // // check if path is valid
-    // if (LidarCylinderMesh.Succeeded())
-    // {
-    //     // mesh = valid path
-    //     LidarMesh->SetStaticMesh(LidarCylinderMesh.Object);
-    // }
-
 	LidarPublisher = CreateDefaultSubobject<UROS2Publisher>(TEXT("LidarPublisher"));
 	LidarPublisher->TopicName = FString("scan");
 	LidarPublisher->PublicationFrequencyHz = ScanFrequency;
@@ -100,7 +89,6 @@ void ASensorLidar::Run()
 
 void ASensorLidar::Scan()
 {
-	//UE_LOG(LogTemp, Error, TEXT("scan at time %f"), UGameplayStatics::GetTimeSeconds(GWorld));
 	DHAngle = FOVHorizontal / (float)nSamplesPerScan;
 	
 	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this); // complex collisions: true
@@ -213,8 +201,6 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	retValue.scan_time = dt;
 	retValue.range_min = MinRange*.01;
 	retValue.range_max = MaxRange*.01;
-
-	//UE_LOG(LogROS2Sensor, Error, TEXT("Recorded hits distance (%d entries): %f %f %f %f %f"), RecordedHits.Num(), RecordedHits.Last(0).Distance*.01, RecordedHits.Last(1).Distance*.01, RecordedHits.Last(2).Distance*.01, RecordedHits.Last(3).Distance*.01, RecordedHits.Last(4).Distance*.01);
 
 	retValue.ranges.Empty();
 	// note that angles are reversed compared to rviz

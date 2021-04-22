@@ -5,23 +5,13 @@
 #include "Kismet/GameplayStatics.h"
 
 
-UROS2OdometryMsg::UROS2OdometryMsg()
-{
-}
-
-UROS2OdometryMsg::~UROS2OdometryMsg()
-{
-}
-
 void UROS2OdometryMsg::Init()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2OdometryMsg::Init"));
 	nav_msgs__msg__Odometry__init(&odometry_pub_msg);
 }
 
 void UROS2OdometryMsg::Fini()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2OdometryMsg::Fini"));
 	nav_msgs__msg__Odometry__fini(&odometry_pub_msg);
 }
 
@@ -68,11 +58,6 @@ void UROS2OdometryMsg::Update(const FOdometryData data)
 		odometry_pub_msg.pose.covariance[i] = data.pose_covariance[i];
 		odometry_pub_msg.twist.covariance[i] = data.twist_covariance[i];
 	}
-}
-
-const nav_msgs__msg__Odometry* UROS2OdometryMsg::Get() const
-{
-	return &odometry_pub_msg;
 }
 
 void* UROS2OdometryMsg::Get()

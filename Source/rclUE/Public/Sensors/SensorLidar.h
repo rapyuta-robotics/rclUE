@@ -59,9 +59,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	float GetMaxAngleRadians() const;
-	
-	// UPROPERTY(EditAnywhere)
-    // UStaticMeshComponent* LidarMesh;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UROS2Publisher *LidarPublisher;

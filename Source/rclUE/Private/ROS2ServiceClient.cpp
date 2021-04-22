@@ -4,6 +4,9 @@
 #include "ROS2ServiceClient.h"
 
 
+DEFINE_LOG_CATEGORY(LogROS2Service);
+
+
 // Sets default values for this component's properties
 UROS2ServiceClient::UROS2ServiceClient()
 {
@@ -14,53 +17,11 @@ UROS2ServiceClient::UROS2ServiceClient()
 	// ...
 }
 
-
-// Called when the game starts
-void UROS2ServiceClient::BeginPlay()
-{
-	UE_LOG(LogTemp, Warning, TEXT("Client BeginPlay"));
-
-	if (ownerNode == nullptr)
-	{
-		ownerNode = Cast<AROS2Node>(GetOwner());
-	}
-
-	Super::BeginPlay();
-
-	if (ownerNode != nullptr)
-	{
-		Init();
-	}
-	else
-	{
-	UE_LOG(LogTemp, Error, TEXT("Client BeginPlay - Owner not set"));
-	}
-	
-	UE_LOG(LogTemp, Warning, TEXT("Client BeginPlay - Done"));	
-}
-
-void UROS2ServiceClient::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	UE_LOG(LogTemp, Warning, TEXT("Client EndPlay"));
-
-	Super::EndPlay(EndPlayReason);
-	
-	UE_LOG(LogTemp, Warning, TEXT("Client EndPlay - Done"));
-}
-
-
-// Called every frame
-void UROS2ServiceClient::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
 void UROS2ServiceClient::Init()
 {
 	check(ownerNode != nullptr);
-	if (State == UROS2State::Created && ownerNode->State == UROS2State::Initialized)
+	check(ownerNode->State == UROS2State::Initialized);
+	if (State == UROS2State::Created)
 	{
 		InitializeService();
 
@@ -70,50 +31,28 @@ void UROS2ServiceClient::Init()
 
 		client = rcl_get_zero_initialized_client();
   		rcl_client_options_t client_opt = rcl_client_get_default_options();
-		rcl_ret_t rc = rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt);
-		
-	
+		RCSOFTCHECK(rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
+			
 		State = UROS2State::Initialized;
 	}
-	else if (State == UROS2State::Initialized && ownerNode->State == UROS2State::Initialized)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Client Init - already initialized!"));
-	}
-	else if (ownerNode->State == UROS2State::Created)
-	{
-		UE_LOG(LogTemp, Error, TEXT("Client Init (%s) - Node needs to be initialized before client!"), *ServiceName);
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("Client Init - this shouldn't happen!"));
-	}
+
+	Ready = false;
 }
 
 void UROS2ServiceClient::InitializeService()
 {
-	UE_LOG(LogTemp, Log, TEXT("Initializing Service"));
-	if (ServiceName != FString() && SrvClass)
-	{
-		Service = NewObject<UROS2GenericSrv>(this, SrvClass);
+	check(ServiceName != FString());
+	check(SrvClass);
+	
+	Service = NewObject<UROS2GenericSrv>(this, SrvClass);
 
-		if (ensure(IsValid(Service)))
-		{
-			Service->Init();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *ServiceName);
-		}
-	}
-	else
-	{
-		UE_LOG(LogTemp, Error, TEXT("ServiceName or SrvClass uninitialized!"));
-	}
+	check(IsValid(Service));
+	
+	Service->Init();
 }
 
 void UROS2ServiceClient::Destroy()
 {
-	UE_LOG(LogTemp, Warning, TEXT("Client Destroy"));
 	if (Service != nullptr)
 	{
 		Service->Fini();
@@ -121,15 +60,14 @@ void UROS2ServiceClient::Destroy()
 
 	if (ownerNode != nullptr)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Client Destroy - rcl_client_fini"));
+		UE_LOG(LogROS2Service, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
 		RCSOFTCHECK(rcl_client_fini(&client, ownerNode->GetNode()));
 	}
-	UE_LOG(LogTemp, Warning, TEXT("Client Destroy - Done"));
 }
 
 void UROS2ServiceClient::UpdateAndSendRequest()
 {
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
 	check(IsValid(ownerNode));
 	
@@ -139,12 +77,12 @@ void UROS2ServiceClient::UpdateAndSendRequest()
 
 void UROS2ServiceClient::SendRequest()
 {
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
 	check(ownerNode != nullptr);
 
 	req = Service->GetRequest();
 
 	int64_t seq;
-	rcl_ret_t rc = rcl_send_request(&client, req, &seq);
+	RCSOFTCHECK(rcl_send_request(&client, req, &seq));
 }

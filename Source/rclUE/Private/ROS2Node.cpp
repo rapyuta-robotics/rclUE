@@ -5,10 +5,12 @@
 #include "ROS2Subsystem.h"
 #include "ROS2Publisher.h"
 #include "ROS2ServiceClient.h"
-
-#include <rcl/graph.h>
+#include "ROS2ActionServer.h"
+#include "ROS2ActionClient.h"
 
 #include "Kismet/GameplayStatics.h"
+
+DEFINE_LOG_CATEGORY(LogROS2Node);
 
 
 // Sets default values
@@ -20,28 +22,16 @@ AROS2Node::AROS2Node()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
 
-AROS2Node::~AROS2Node()
-{
-	UE_LOG(LogTemp, Error, TEXT("UROS2LaserScanMsg::~UROS2LaserScanMsg"));
-}
-
-// Called when the game starts or when spawned
-void AROS2Node::BeginPlay()
-{
-	//UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay"));
-	Super::BeginPlay();
-
-	//UE_LOG(LogTemp, Warning, TEXT("Node BeginPlay - Done"));
-}
-
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-	// this is called before the components
-    //UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-
-	for (auto& s : subs)
+	for (auto& s : Subscriptions)
 	{
-		RCSOFTCHECK(rcl_subscription_fini(&s.Value, &node));
+		RCSOFTCHECK(rcl_subscription_fini(&s.RCLSubscription, &node));
+	}
+
+	for (auto& s : Services)
+	{
+		RCSOFTCHECK(rcl_service_fini(&s.RCLService, &node));
 	}
 
 	// this is better done with the component registering itself to the owner at creation
@@ -55,12 +45,13 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 			pub->Destroy();
 		}
 	}
+
+	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 	
-	UE_LOG(LogTemp, Warning, TEXT("Node EndPlay - rcl_node_fini"));
+	UE_LOG(LogROS2Node, Log, TEXT("Node EndPlay - rcl_node_fini (%s)"), *__LOG_INFO__);
 	RCSOFTCHECK(rcl_node_fini(&node));
 
 	Super::EndPlay(EndPlayReason);
-    //UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
 }
 
 // Called every frame
@@ -70,7 +61,7 @@ void AROS2Node::Tick(float DeltaTime)
 
 	Super::Tick(DeltaTime);
 
-	if (NSubscriptions > 0 || NClients > 0 || NServices > 0)
+	if (Subscriptions.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0)
 	{
 		SpinSome();
 	}
@@ -79,7 +70,7 @@ void AROS2Node::Tick(float DeltaTime)
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
 void AROS2Node::Init()
 {
-    UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Node, Log, TEXT("%s"), *__LOG_INFO__);
 
 	if (State == UROS2State::Created)
 	{
@@ -87,14 +78,14 @@ void AROS2Node::Init()
 		{
 			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 			
-			UE_LOG(LogTemp, Warning, TEXT("Node Init - rclc_node_init_default"));
+			UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &context->Get()));
 		}
 
 		State = UROS2State::Initialized;
 	}
 
-    UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Node, Log, TEXT("%s - Done"), *__LOG_INFO__);
 }
 
 UROS2Context* AROS2Node::GetContext()
@@ -107,266 +98,317 @@ rcl_node_t* AROS2Node::GetNode()
 	return &node;
 }
 
-void AROS2Node::Subscribe()
-{
-	check(State == UROS2State::Initialized);
-			
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-	for (auto& e : TopicsToSubscribe)
-	{
-		UROS2GenericMsg *TopicMessage = NewObject<UROS2GenericMsg>(this, e.Value);
-
-		if (ensure(IsValid(TopicMessage)))
-		{
-			TopicMessage->Init();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Topic (%s) is nullptr!"), *e.Key);
-		}
-
-		if (!subs.Contains(TopicMessage))
-		{
-			subs.Add(TopicMessage, rcl_get_zero_initialized_subscription());
-			FSubscriptionCallback *cb = TopicsToCallback.Find(e.Key);
-
-			if (ensure(cb))
-			{
-				subCallbacks.Add(TopicMessage, *cb);
-			}
-
-			const rosidl_message_type_support_t * type_support = TopicMessage->GetTypeSupport();
-			rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-			RCSOFTCHECK(rcl_subscription_init(&subs[TopicMessage], &node, type_support, TCHAR_TO_ANSI(*e.Key), &sub_opt));
-			NSubscriptions++;
-		}
-	}
-
-	// invalidate wait_set
-	if (rcl_wait_set_is_valid(&wait_set))
-	{
-    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-    }
-
-	UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
-}
-
-void AROS2Node::CreateServices()
-{
-	check(State == UROS2State::Initialized);
-			
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *FString(__FUNCTION__));
-	for (auto& e : ServicesToProvide)
-	{
-		UROS2GenericSrv *Service = NewObject<UROS2GenericSrv>(this, e.Value);
-
-		if (ensure(IsValid(Service)))
-		{
-			Service->Init();
-		}
-		else
-		{
-			UE_LOG(LogTemp, Error, TEXT("Service (%s) is nullptr!"), *e.Key);
-		}
-
-		if (!services.Contains(Service))
-		{
-			services.Add(Service, rcl_get_zero_initialized_service());
-			FServiceCallback *cb = ServicesToCallback.Find(e.Key);
-
-			if (ensure(cb))
-			{
-				srvCallbacks.Add(Service, *cb);
-			}
-
-			const rosidl_service_type_support_t * type_support = Service->GetTypeSupport();
-			rcl_service_options_t srv_opt = rcl_service_get_default_options();
-			RCSOFTCHECK(rcl_service_init(&services[Service], &node, type_support, TCHAR_TO_ANSI(*e.Key), &srv_opt));
-			NServices++;
-		}
-	}
-
-	// invalidate wait_set
-	if (rcl_wait_set_is_valid(&wait_set))
-	{
-    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-    }
-
-	UE_LOG(LogTemp, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
-}
-
-void AROS2Node::SpinSome()
-{
-	//NSpinCalls++;
-	if (!rcl_wait_set_is_valid(&wait_set))
-	{
-    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-		wait_set = rcl_get_zero_initialized_wait_set();
-		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-									NSubscriptions, NGuardConditions, NTimers, NClients, NServices, NEvents, 
-									&context->Get().context, rcl_get_default_allocator()));
-	}
-	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - %d subs, %d clients, %d services"), wait_set.size_of_subscriptions, wait_set.size_of_clients, wait_set.size_of_services);
-	
-	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
-
-	for (auto& pair : subs)
-	{
-		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &pair.Value, nullptr));
-	}
-
-	for (auto& c : srvClients)
-	{
-		RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
-	}
-
-	for (auto& pair : services)
-	{
-		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &pair.Value, nullptr));
-	}
-
-	rcl_ret_t rc = rcl_wait(&wait_set, 0);
-  	RCLC_UNUSED(rc);
-
-	// based on _rclc_default_scheduling
-	TMap<UROS2GenericMsg *, rcl_subscription_t> readySubs;
-	for (int i=0; i<wait_set.size_of_subscriptions; i++)
-	{
-		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
-		{
-			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
-			for (auto& pair : subs)
-			{
-				if (&pair.Value == currentSub)
-				{
-					readySubs.Add(pair);
-				}
-			}
-		}
-	}
-
-	for (auto& pair : readySubs)
-	{	
-		// NSubMsgGets++;
-		// UE_LOG(LogTemp, Warning, TEXT("Values - #spins: %d\t\t#gets: %d"), NSpinCalls, NSubMsgGets);
-		void * data = pair.Key->Get();
-		rmw_message_info_t messageInfo;
-		rc = rcl_take(&pair.Value, data, &messageInfo, NULL);
-
-		// callback here
-		//pair.Key->PrintSubToLog(rc, Name);
-		FSubscriptionCallback *cb = subCallbacks.Find(pair.Key);
-
-		if (cb)
-		{
-			cb->ExecuteIfBound(pair.Key);
-		}
-	}
-
-	TMap<UROS2GenericSrv *, rcl_service_t> readyServices;
-	for (int i=0; i<wait_set.size_of_services; i++)
-	{
-		if (wait_set.services[i])
-		{
-			const rcl_service_t* currentService = wait_set.services[i];
-			for (auto& pair : services)
-			{
-				if (&pair.Value == currentService)
-				{
-					readyServices.Add(pair);
-				}
-			}
-		}
-	}
-
-	for (auto& pair : readyServices)
-	{	
-		rmw_service_info_t req_info;
-		void * data = pair.Key->GetRequest();
-		rc = rcl_take_request_with_info(&pair.Value, &req_info, data);
-		
-    	UE_LOG(LogTemp, Warning, TEXT("Executing Service"));
-		pair.Key->PrintRequestToLog(rc, Name);
-
-		// there's a variant with req_id in the callback and one with context
-		FServiceCallback *cb = srvCallbacks.Find(pair.Key);
-
-		if (cb)
-		{
-			cb->ExecuteIfBound(pair.Key);
-		}
-
-		rc = rcl_send_response(&pair.Value, &req_info.request_id, pair.Key->GetResponse());
-	}
-
-	TArray<UROS2ServiceClient *> readyClients;
-	for (int i=0; i<wait_set.size_of_clients; i++)
-	{
-		if (wait_set.clients[i])
-		{
-			const rcl_client_t* currentClient = wait_set.clients[i];
-			for (auto& c : srvClients)
-			{
-				if (&c->client == currentClient)
-				{
-					readyClients.Add(c);
-				}
-			}
-		}
-	}
-
-	for (auto& c : readyClients)
-	{	
-		rmw_service_info_t req_info;
-		void * data = c->Service->GetResponse();
-		rc = rcl_take_response_with_info(&c->client, &req_info, data);
-		
-    	UE_LOG(LogTemp, Warning, TEXT("Executing Answer Delegate"));
-
-		// there's a variant with req_id in the callback
-		FServiceClientCallback *cb = &c->AnswerDelegate;
-
-		if (cb)
-		{
-			cb->ExecuteIfBound(c->Service);
-		}
-	}	
-	
-	//UE_LOG(LogTemp, Warning, TEXT("Spin Some - Done"));
-}
-
 void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
 {
-	TopicsToSubscribe.Add(TopicName, MsgClass);
-	TopicsToCallback.Add(TopicName, Callback);
+	check(State == UROS2State::Initialized);
+
+	bool SubExists = false;
+	for (auto& s : Subscriptions)
+	{
+		SubExists |= (s.TopicName == TopicName);
+	}
+	
+	check(!SubExists);
+
+	if (!Callback.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+	TopicMessage->Init();
+
+	FSubscription NewSub;
+	NewSub.TopicName = TopicName;
+	NewSub.TopicType = MsgClass;
+	NewSub.TopicMsg = TopicMessage;
+	NewSub.Callback = Callback;
+	NewSub.Ready = false;
+
+	NewSub.RCLSubscription = rcl_get_zero_initialized_subscription();
+	const rosidl_message_type_support_t * type_support = TopicMessage->GetTypeSupport();
+	rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
+	RCSOFTCHECK(rcl_subscription_init(&NewSub.RCLSubscription, &node, type_support, TCHAR_TO_ANSI(*TopicName), &sub_opt));
+	
+	Subscriptions.Add(NewSub);
+
+	// invalidate wait_set
+	if (rcl_wait_set_is_valid(&wait_set))
+	{
+    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+    }
+}
+
+void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback)
+{
+	check(State == UROS2State::Initialized);
+
+	if (!Callback.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	UROS2GenericSrv *Service = NewObject<UROS2GenericSrv>(this, SrvClass);
+	Service->Init();
+
+	FService NewSrv;
+	NewSrv.ServiceName = ServiceName;
+	NewSrv.ServiceType = SrvClass;
+	NewSrv.Service = Service;
+	NewSrv.Callback = Callback;
+	NewSrv.Ready = false;
+
+	NewSrv.RCLService = rcl_get_zero_initialized_service();
+	const rosidl_service_type_support_t * type_support = Service->GetTypeSupport();
+	rcl_service_options_t srv_opt = rcl_service_get_default_options();
+	RCSOFTCHECK(rcl_service_init(&NewSrv.RCLService, &node, type_support, TCHAR_TO_ANSI(*ServiceName), &srv_opt));
+	
+	Services.Add(NewSrv);
+
+	// invalidate wait_set
+	if (rcl_wait_set_is_valid(&wait_set))
+	{
+    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+    }
 }
 
 void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 {
 	check(IsValid(Publisher));
 
+	if (!Publisher->UpdateDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
 	Publisher->RegisterComponent();
 	Publisher->ownerNode = this;
-	pubs.Add(Publisher);
+	Publishers.Add(Publisher);
 }
 
 void AROS2Node::AddClient(UROS2ServiceClient* Client)
 {
 	check(IsValid(Client));
 
-	Client->RegisterComponent();
+	if (!Client->RequestDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("RequestDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
+	if (!Client->AnswerDelegate.IsBound())
+	{
+		UE_LOG(LogROS2Node, Warning, TEXT("AnswerDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+	}
+
 	Client->ownerNode = this;
-	srvClients.Add(Client);
-	NClients++;
+	Client->Init();
+	Clients.Add(Client);
 }
 
-void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback)
+void AROS2Node::AddActionClient(UROS2ActionClient* ActionClient)
 {
-	ServicesToProvide.Add(ServiceName, SrvClass);
-	ServicesToCallback.Add(ServiceName, Callback);
+	check(IsValid(ActionClient));
+
+	ActionClient->ownerNode = this;
+	ActionClient->Init();
+	ActionClients.Add(ActionClient);
+}
+
+void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
+{
+	check(IsValid(ActionServer));
+
+	ActionServer->ownerNode = this;
+	ActionServer->Init();
+	ActionServers.Add(ActionServer);
+}
+
+void AROS2Node::HandleSubscriptions()
+{
+	// based on _rclc_default_scheduling
+	for (int i=0; i<wait_set.size_of_subscriptions; i++)
+	{
+		if (wait_set.subscriptions[i]) // need to iterate on all subscriptions instead? since there's no index
+		{
+			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
+			for (auto& s : Subscriptions)
+			{
+				if (&s.RCLSubscription == currentSub)
+				{
+					s.Ready = true;
+				}
+			}
+		}
+	}
+
+	for (auto& s : Subscriptions)
+	{	
+		if (s.Ready == true)
+		{
+			void * data = s.TopicMsg->Get();
+			rmw_message_info_t messageInfo;
+			RCSOFTCHECK(rcl_take(&s.RCLSubscription, data, &messageInfo, NULL));
+
+			FSubscriptionCallback *cb = &s.Callback;
+			cb->ExecuteIfBound(s.TopicMsg);
+
+			s.Ready = false;
+		}
+	}
+}
+
+void AROS2Node::HandleServices()
+{
+	// is there a reason for handling it this way?
+	// 1st find all ready elements and then process them
+	// instead of just processing ready elements
+	// current implementation is based on rclc executor
+	for (int i=0; i<wait_set.size_of_services; i++)
+	{
+		if (wait_set.services[i])
+		{
+			const rcl_service_t* currentService = wait_set.services[i];
+			for (auto& s : Services)
+			{
+				if (&s.RCLService == currentService)
+				{
+					s.Ready = true;
+				}
+			}
+		}
+	}
+
+	for (auto& s : Services)
+	{	
+		if (s.Ready == true)
+		{
+			// this should all go in the callback?
+			// can't go in the callback unless the rcl functions are wrapped
+			rmw_service_info_t req_info;
+			void * data = s.Service->GetRequest();
+			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
+			
+			UE_LOG(LogROS2Node, Log, TEXT("Executing Service (%s)"), *__LOG_INFO__);
+			
+			// there's a variant with req_id in the callback and one with context
+			FServiceCallback *cb = &s.Callback;
+			cb->ExecuteIfBound(s.Service);
+
+			RCSOFTCHECK(rcl_send_response(&s.RCLService, &req_info.request_id, s.Service->GetResponse()));
+
+			s.Ready = false;
+		}
+	}
+}
+
+void AROS2Node::HandleClients()
+{
+	// is there a reason for handling it this way?
+	// 1st find all ready elements and then process them
+	// instead of just processing ready elements
+	// current implementation is based on rclc executor
+	for (int i=0; i<wait_set.size_of_clients; i++)
+	{
+		if (wait_set.clients[i])
+		{
+			const rcl_client_t* currentClient = wait_set.clients[i];
+			for (auto& c : Clients)
+			{
+				if (&c->client == currentClient)
+				{
+					c->Ready = true;
+				}
+			}
+		}
+	}
+
+	for (auto& c : Clients)
+	{	
+		if (c->Ready == true)
+		{
+			// this should all go in the callback?
+			// can't go in the callback unless the rcl functions are wrapped
+			rmw_service_info_t req_info;
+			void * data = c->Service->GetResponse();
+			RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
+			
+			UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate (%s)"), *__LOG_INFO__);
+
+			// there's a variant with req_id in the callback
+			FServiceClientCallback *cb = &c->AnswerDelegate;
+			cb->ExecuteIfBound(c->Service);
+
+			c->Ready = false;
+		}
+	}
+}
+
+// modeled after executor + actions
+void AROS2Node::SpinSome()
+{
+	if (!rcl_wait_set_is_valid(&wait_set))
+	{
+    	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+		wait_set = rcl_get_zero_initialized_wait_set();
+		RCSOFTCHECK(rcl_wait_set_init(&wait_set,
+									Subscriptions.Num()+ActionClients.Num()*2,
+									NGuardConditions,
+									NTimers+ActionServers.Num(),
+									Clients.Num()+ActionClients.Num()*3,
+									Services.Num()+ActionServers.Num()*3,
+									NEvents, 
+									&context->Get().context, rcl_get_default_allocator()));
+	}
+	
+	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
+
+	for (auto& s : Subscriptions)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.RCLSubscription, nullptr));
+	}
+
+	for (auto& c : Clients)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
+	}
+
+	for (auto& s : Services)
+	{
+		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.RCLService, nullptr));
+	}
+
+	for (auto& a : ActionClients)
+	{
+		RCSOFTCHECK(rcl_action_wait_set_add_action_client(&wait_set, &a->client, nullptr, nullptr));
+	}
+
+	for (auto& a : ActionServers)
+	{
+		RCSOFTCHECK(rcl_action_wait_set_add_action_server(&wait_set, &a->server, nullptr));
+	}
+
+
+	rcl_ret_t rc = rcl_wait(&wait_set, 0);
+  	RCLC_UNUSED(rc);
+
+
+	HandleSubscriptions();
+	HandleServices();
+	HandleClients();
+
+	for (auto& a : ActionServers)
+	{
+		a->ProcessReady(&wait_set);
+	}
+
+	for (auto& a : ActionClients)
+	{
+		a->ProcessReady(&wait_set);
+	}
 }
 
 
+// Queries/Diagnostics
 TMap<FString, FString> AROS2Node::GetListOfNodes()
 {
 	TMap<FString, FString> Result;
@@ -387,7 +429,7 @@ TMap<FString, FString> AROS2Node::GetListOfNodes()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Node: %s - Namespace: %s"), *pair.Key, *pair.Value);
+		UE_LOG(LogROS2Node, Log, TEXT("Node: %s - Namespace: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
 	}
 
 	RCSOFTCHECK(rcutils_string_array_fini(&NodeNames));
@@ -419,7 +461,7 @@ TMap<FString, FString> AROS2Node::GetListOfTopics()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Topic: %s - MsgTypes: %s"), *pair.Key, *pair.Value);
+		UE_LOG(LogROS2Node, Log, TEXT("Topic: %s - MsgTypes: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
 	}
 
 	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));

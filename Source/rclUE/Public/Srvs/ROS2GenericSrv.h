@@ -10,7 +10,9 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
 
 /**
- * 
+ * This should be refactored with other generic ROS2 types (Msgs, Sensors, Actions)
+ * Need to have a common class
+ * Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
  */
 UCLASS(Blueprintable)
 class RCLUE_API UROS2GenericSrv : public UObject
@@ -21,10 +23,10 @@ class RCLUE_API UROS2GenericSrv : public UObject
 public:
 	virtual void Init();
 	virtual void Fini();
+
 	virtual void* GetRequest();
 	virtual void* GetResponse();
-	virtual void PrintRequestToLog(rcl_ret_t rc, FString NodeName) const;
-	virtual void PrintResponseToLog(rcl_ret_t rc, FString NodeName) const;
+	
 	virtual const rosidl_service_type_support_t* GetTypeSupport() const;
 
 private:

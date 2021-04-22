@@ -10,51 +10,28 @@ DEFINE_LOG_CATEGORY(LogROS2Msg);
 
 const rosidl_message_type_support_t* UROS2GenericMsg::GetTypeSupport() const
 {
+	checkNoEntry();
     return nullptr;
 }
 
 void UROS2GenericMsg::Init()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	checkNoEntry();
 }
 
 void UROS2GenericMsg::Fini()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	checkNoEntry();
 }
 
 void* UROS2GenericMsg::Get()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	checkNoEntry();
 	return nullptr;
-}
-
-void UROS2GenericMsg::PrintPubToLog(rcl_ret_t rc, FString NodeName) const
-{
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogROS2Msg, Log, TEXT("Published  (node %s) message %s"), *NodeName, *MsgToString());
-	} 
-	else 
-	{
-		UE_LOG(LogROS2Msg, Log, TEXT("timer_callback: Error publishing message (node %s) %s"), *NodeName, *MsgToString());
-	}
-}
-
-void UROS2GenericMsg::PrintSubToLog(rcl_ret_t rc, FString NodeName) const
-{
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogROS2Msg, Log, TEXT("Subscriber (node %s) message %s"), *NodeName, *MsgToString());
-	} 
-	else 
-	{
-		UE_LOG(LogROS2Msg, Log, TEXT("timer_callback: Error receiving message (node %s) %s"), *NodeName, *MsgToString());
-	}
 }
 
 FString UROS2GenericMsg::MsgToString() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	checkNoEntry();
 	return FString();
 }

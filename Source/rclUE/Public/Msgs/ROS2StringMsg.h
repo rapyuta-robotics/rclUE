@@ -18,21 +18,13 @@ class RCLUE_API UROS2StringMsg : public UROS2GenericMsg
 	GENERATED_BODY()
 
 public:
-	UROS2StringMsg();
-	~UROS2StringMsg();
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Fini() override;
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
 	void Update(const FString &stringData);
-	
-	const std_msgs__msg__String* Get() const;
 	
 	virtual void* Get() override;
 

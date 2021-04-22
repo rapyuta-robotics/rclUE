@@ -47,7 +47,7 @@ APubSubExample::APubSubExample()
 // Called when the game starts or when spawned
 void APubSubExample::BeginPlay()
 {
-	UE_LOG(LogTemp, Warning, TEXT("BeginPlay start"));
+	UE_LOG(LogTemp, Log, TEXT("BeginPlay start"));
 
 	Super::BeginPlay();
 
@@ -117,13 +117,8 @@ void APubSubExample::BeginPlay()
 	RCSOFTCHECK(rclc_executor_add_subscription(&executor, &my_sub, &sub_msg, &APubSubExample::my_subscriber_callback, ON_NEW_DATA));
 
 	RCSOFTCHECK(rclc_executor_add_timer(&executor, &my_timer));
-
-	// for (unsigned int i = 0; i < 10; i++)
-	// {
-	// 	// timeout specified in nanoseconds (here 1s)
-	// }
 	
-	UE_LOG(LogTemp, Warning, TEXT("BeginPlay end"));
+	UE_LOG(LogTemp, Log, TEXT("BeginPlay end"));
 }
 
 void APubSubExample::EndPlay(const EEndPlayReason::Type EndPlayReason)

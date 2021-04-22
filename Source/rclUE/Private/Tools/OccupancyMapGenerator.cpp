@@ -55,12 +55,6 @@ void AOccupancyMapGenerator::BeginPlay()
 		}
 	}
 
-	UE_LOG(LogTemp, Warning, TEXT("center %s"), *Center.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("extent %s"), *Extent.ToString());
-	UE_LOG(LogTemp, Warning, TEXT("origin %s"), *Origin.ToString());
-	
-	UE_LOG(LogTemp, Warning, TEXT("cells: %d %d (%d)"), NCellsX, NCellsY, OccupancyGrid.Num());
-
 	// write to file
 	check(WriteToFile(NCellsX, NCellsY, Origin.X/100.f, -(Center.Y+Extent.Y)/100.f));
 }

@@ -12,9 +12,65 @@
 
 class UROS2Publisher;
 class UROS2ServiceClient;
+class UROS2ActionServer;
+class UROS2ActionClient;
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, const UROS2GenericSrv *, Service);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction *, Action);
+DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
+
+// these structs assume that the MAP containing them is short enough
+// that iterating through them is not a performance bottleneck
+USTRUCT(Blueprintable)
+struct RCLUE_API FSubscription
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString TopicName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UROS2GenericMsg> TopicType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UROS2GenericMsg * TopicMsg;
+
+	rcl_subscription_t RCLSubscription;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FSubscriptionCallback Callback;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool Ready;
+};
+
+USTRUCT(Blueprintable)
+struct RCLUE_API FService
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ServiceName;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TSubclassOf<UROS2GenericSrv> ServiceType;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UROS2GenericSrv * Service;
+
+	rcl_service_t RCLService;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FServiceCallback Callback;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool Ready;
+};
+
+
 
 /**
  * ROS2 Node that additionally acts as a factory for Publishers, Subscribers, Clients, Services
@@ -27,12 +83,8 @@ class RCLUE_API AROS2Node : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AROS2Node();
-	~AROS2Node();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
+protected:	
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:	
@@ -44,19 +96,23 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void Init();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name = TEXT("node");
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Namespace = TEXT("ros_global");
+
 	rcl_node_t* GetNode();
 
-	UFUNCTION(BlueprintCallable)
-	void Subscribe();
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
-	UFUNCTION(BlueprintCallable)
-	void CreateServices();
 
-	// this is meant as a helper for BP
+
+	// It is up to the user to ensure that subscriptions are only added once
 	UFUNCTION(BlueprintCallable)
 	void AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
 
-	// The update callback replaces UpdateAndPublishMessage
 	UFUNCTION(BlueprintCallable)
 	void AddPublisher(UROS2Publisher* Publisher);
 
@@ -67,6 +123,15 @@ public:
 	void AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback);
 
 	UFUNCTION(BlueprintCallable)
+	void AddActionClient(UROS2ActionClient* ActionClient);
+
+	UFUNCTION(BlueprintCallable)
+	void AddActionServer(UROS2ActionServer* ActionServer);
+
+
+
+	// Queries/Diagnostics
+	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfNodes();
 
 	UFUNCTION(BlueprintCallable)
@@ -75,15 +140,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfServices();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Name = TEXT("node");
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Namespace = TEXT("ros_global");
 
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
-	int NSubscriptions = 0;
 
+	// wait_set quantities
 	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NGuardConditions = 0;
 
@@ -91,65 +150,55 @@ public:
 	int NTimers = 0;
 
 	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
-	int NClients = 0;
-
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
-	int NServices = 0;
-
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
 	int NEvents = 0;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
 protected:
 	UFUNCTION()
 	UROS2Context* GetContext();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FString, TSubclassOf<UROS2GenericMsg>> TopicsToSubscribe;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FString, FSubscriptionCallback> TopicsToCallback;		// Are these maps necessary?
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FString, TSubclassOf<UROS2GenericSrv>> ServicesToProvide;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TMap<FString, FServiceCallback> ServicesToCallback;
-
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
 	void SpinSome();
+	
+	rcl_wait_set_t wait_set;
 
 	UPROPERTY()
 	UROS2Context* context;
 
 	rcl_node_t node;
 
-	UPROPERTY(BlueprintReadOnly)
-	TArray<UROS2Publisher *> pubs;
 
-	UPROPERTY()
-	TArray<UROS2ServiceClient *> srvClients;
 
-	TMap<UROS2GenericMsg *, rcl_subscription_t> subs; // map topic to sub to avoid double subs
-	
-	UPROPERTY()
-	TMap<UROS2GenericMsg *, FSubscriptionCallback> subCallbacks; // could be combined with above
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FSubscription> Subscriptions;
 
-	TMap<UROS2GenericSrv *, rcl_service_t> services; // map services to servers
-	
-	UPROPERTY()
-	TMap<UROS2GenericSrv *, FServiceCallback> srvCallbacks; // could be combined with above
-	
-	rcl_wait_set_t wait_set;
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FService> Services;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UROS2Publisher *> Publishers;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UROS2ServiceClient *> Clients;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UROS2ActionClient *> ActionClients;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<UROS2ActionServer *> ActionServers;
+
+
+
 	UPROPERTY()
 	FTimerHandle timerHandle;
 
-	// int NSpinCalls = 0;
-	// int NSubMsgGets = 0;
-
 private:
+	UFUNCTION()
+	void HandleSubscriptions();
+	
+	UFUNCTION()
+	void HandleServices();
+	
+	UFUNCTION()
+	void HandleClients();
 };

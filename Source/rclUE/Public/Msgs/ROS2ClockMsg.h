@@ -18,13 +18,7 @@ class RCLUE_API UROS2ClockMsg : public UROS2GenericMsg
 	GENERATED_BODY()
 
 public:
-	UROS2ClockMsg();
-	~UROS2ClockMsg();
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Fini() override;
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
@@ -34,8 +28,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void PrintSubToLog() const;
-	
-	const rosgraph_msgs__msg__Clock* Get() const;
 	
 	virtual void* Get() override;
 
