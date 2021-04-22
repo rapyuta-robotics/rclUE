@@ -7,8 +7,12 @@
 #include <rcl_action/wait.h>
 #include <rcl/graph.h>
 #include <cstdlib>
+#include <cstring>
 #include "Kismet/KismetSystemLibrary.h"
 
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+
+#define __LOG_INFO__ FString(__FILENAME__).Append(FString("::")).Append(__PRETTY_FUNCTION__).Append(FString("::")).Append(FString::FromInt(__LINE__))
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);

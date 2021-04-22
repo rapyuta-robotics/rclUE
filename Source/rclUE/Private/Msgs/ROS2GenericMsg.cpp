@@ -15,17 +15,17 @@ const rosidl_message_type_support_t* UROS2GenericMsg::GetTypeSupport() const
 
 void UROS2GenericMsg::Init()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 }
 
 void UROS2GenericMsg::Fini()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 }
 
 void* UROS2GenericMsg::Get()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
@@ -55,6 +55,6 @@ void UROS2GenericMsg::PrintSubToLog(rcl_ret_t rc, FString NodeName) const
 
 FString UROS2GenericMsg::MsgToString() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return FString();
 }

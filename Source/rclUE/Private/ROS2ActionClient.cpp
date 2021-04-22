@@ -19,7 +19,7 @@ void UROS2ActionClient::InitializeActionComponent()
 	
 	if (rc != RCL_RET_OK)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Failed status on line %d: %d (ROS2ActionClient). Terminating."),__LINE__,(int)rc);
+		UE_LOG(LogROS2Action, Error, TEXT("Failed status : %d (%s). Terminating."),(int)rc, *__LOG_INFO__);
 		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
 
@@ -49,7 +49,7 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[0])
 	{
-		UE_LOG(LogROS2Action, Log, TEXT("8. Action Client - Received feedback"));
+		UE_LOG(LogROS2Action, Log, TEXT("8. Action Client - Received feedback (%s)"), *__LOG_INFO__);
 		void* data = Action->GetFeedbackMessage();
 		RCSOFTCHECK(rcl_action_take_feedback(&client, data));
 		FeedbackDelegate.ExecuteIfBound(Action);
@@ -57,12 +57,12 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[1])
 	{
-		ensureMsgf(false, TEXT("Action Client take status not implemented yet"));
+		ensureMsgf(false, TEXT("Action Client take status not implemented yet (%s)"), *__LOG_INFO__);
 	}
 
 	if (IsReady[2])
 	{
-		UE_LOG(LogROS2Action, Log, TEXT("4. Action Client - Received goal response"));
+		UE_LOG(LogROS2Action, Log, TEXT("4. Action Client - Received goal response (%s)"), *__LOG_INFO__);
 		void* data = Action->GetGoalResponse();
 		RCSOFTCHECK(rcl_action_take_goal_response(&client, &goal_res_id, data));
 		GoalResponseDelegate.ExecuteIfBound();
@@ -70,7 +70,7 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[3])
 	{
-		UE_LOG(LogROS2Action, Log, TEXT("D. Action Client - Received cancel response"));
+		UE_LOG(LogROS2Action, Log, TEXT("D. Action Client - Received cancel response (%s)"), *__LOG_INFO__);
 		void* data = Action->GetCancelResponse();
 		RCSOFTCHECK(rcl_action_take_cancel_response(&client, &cancel_res_id, data));
 		CancelDelegate.ExecuteIfBound();
@@ -78,7 +78,7 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
 	if (IsReady[4])
 	{
-		UE_LOG(LogROS2Action, Log, TEXT("10. Action Client - Received result response"));
+		UE_LOG(LogROS2Action, Log, TEXT("10. Action Client - Received result response (%s)"), *__LOG_INFO__);
 		void* data = Action->GetResultResponse();
 		RCSOFTCHECK(rcl_action_take_result_response(&client, &result_res_id, data));
 		ResultDelegate.ExecuteIfBound(Action);
@@ -95,7 +95,7 @@ void UROS2ActionClient::UpdateAndSendGoal()
 	RCSOFTCHECK(rcl_action_server_is_available(ownerNode->GetNode(), &client, &ActionServerIsAvailable));
 	if (ActionServerIsAvailable)
 	{
-		UE_LOG(LogROS2Action, Log, TEXT("1. Action Client - Send goal"));
+		UE_LOG(LogROS2Action, Log, TEXT("1. Action Client - Send goal (%s)"), *__LOG_INFO__);
 		SetGoalDelegate.ExecuteIfBound(Action);
 		const void* goal = Action->GetGoalRequest();
 
@@ -104,13 +104,13 @@ void UROS2ActionClient::UpdateAndSendGoal()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Action Server Unavailable"));
+		UE_LOG(LogTemp, Error, TEXT("Action Server Unavailable (%s)"), *__LOG_INFO__);
 	}
 }
 
 void UROS2ActionClient::GetResultRequest()
 {	
-    UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request"));
+    UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request (%s)"), *__LOG_INFO__);
 	const void* result = Action->GetResultRequest();
 
 	int64_t seq;
@@ -119,7 +119,7 @@ void UROS2ActionClient::GetResultRequest()
 
 void UROS2ActionClient::CancelActionRequest()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request"));
+    UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
 	action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*) Action->GetCancelRequest();
 	float CancelTime = UGameplayStatics::GetTimeSeconds(GWorld);
 	cancel_request->goal_info.stamp.sec = (int32_t)CancelTime;

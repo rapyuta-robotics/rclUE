@@ -7,29 +7,29 @@ DEFINE_LOG_CATEGORY(LogROS2Srv);
 
 const rosidl_service_type_support_t* UROS2GenericSrv::GetTypeSupport() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
 void UROS2GenericSrv::Init()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 }
 
 void UROS2GenericSrv::Fini()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 }
 
 void* UROS2GenericSrv::GetRequest()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
 void* UROS2GenericSrv::GetResponse()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
@@ -59,12 +59,12 @@ void UROS2GenericSrv::PrintResponseToLog(rcl_ret_t rc, FString NodeName) const
 
 FString UROS2GenericSrv::SrvRequestToString() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return FString();
 }
 
 FString UROS2GenericSrv::SrvResponseToString() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return FString();
 }

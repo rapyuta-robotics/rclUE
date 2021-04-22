@@ -23,13 +23,14 @@ class RCLUE_API UROS2GenericSrv : public UObject
 public:
 	virtual void Init();
 	virtual void Fini();
+
 	virtual void* GetRequest();
 	virtual void* GetResponse();
+	
+	virtual const rosidl_service_type_support_t* GetTypeSupport() const;
 
 	virtual void PrintRequestToLog(rcl_ret_t rc, FString NodeName) const;
 	virtual void PrintResponseToLog(rcl_ret_t rc, FString NodeName) const;
-	
-	virtual const rosidl_service_type_support_t* GetTypeSupport() const;
 
 private:
 	UFUNCTION(BlueprintCallable)

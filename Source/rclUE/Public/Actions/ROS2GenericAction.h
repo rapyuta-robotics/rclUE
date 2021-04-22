@@ -30,12 +30,12 @@ public:
 
 	void* GetCancelRequest();
 	void* GetCancelResponse();
+	
+	virtual const rosidl_action_type_support_t* GetTypeSupport() const;
 
 	virtual void PrintGoalToLog(rcl_ret_t rc, FString NodeName) const;
 	virtual void PrintResultToLog(rcl_ret_t rc, FString NodeName) const;
 	virtual void PrintFeedbackToLog(rcl_ret_t rc, FString NodeName) const;
-	
-	virtual const rosidl_action_type_support_t* GetTypeSupport() const;
 
 private:
 	UFUNCTION(BlueprintCallable)

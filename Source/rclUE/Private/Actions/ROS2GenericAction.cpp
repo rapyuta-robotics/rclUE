@@ -7,47 +7,47 @@ DEFINE_LOG_CATEGORY(LogROS2Action);
 
 const rosidl_action_type_support_t* UROS2GenericAction::GetTypeSupport() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
 void UROS2GenericAction::Init()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 }
 
 void UROS2GenericAction::Fini()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 }
 
 void* UROS2GenericAction::GetGoalRequest()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
 void* UROS2GenericAction::GetGoalResponse()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
 void* UROS2GenericAction::GetResultRequest()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
 void* UROS2GenericAction::GetResultResponse()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
 void* UROS2GenericAction::GetFeedbackMessage()
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return nullptr;
 }
 
@@ -99,18 +99,18 @@ void UROS2GenericAction::PrintFeedbackToLog(rcl_ret_t rc, FString NodeName) cons
 
 FString UROS2GenericAction::ActionGoalToString() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return FString();
 }
 
 FString UROS2GenericAction::ActionResultToString() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return FString();
 }
 
 FString UROS2GenericAction::ActionFeedbackToString() const
 {
-	ensureMsgf(false, TEXT("%s should not be called"), *FString(__FUNCTION__));
+	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);
 	return FString();
 }

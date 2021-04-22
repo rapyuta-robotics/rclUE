@@ -56,7 +56,7 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		}
 	}
 	
-	UE_LOG(LogROS2Node, Warning, TEXT("Node EndPlay - rcl_node_fini"));
+	UE_LOG(LogROS2Node, Warning, TEXT("Node EndPlay - rcl_node_fini (%s)"), *__LOG_INFO__);
 	RCSOFTCHECK(rcl_node_fini(&node));
 
 	Super::EndPlay(EndPlayReason);
@@ -78,7 +78,7 @@ void AROS2Node::Tick(float DeltaTime)
 // this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
 void AROS2Node::Init()
 {
-    UE_LOG(LogROS2Node, Warning, TEXT("%s"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Node, Warning, TEXT("%s"), *__LOG_INFO__);
 
 	if (State == UROS2State::Created)
 	{
@@ -93,7 +93,7 @@ void AROS2Node::Init()
 		State = UROS2State::Initialized;
 	}
 
-    UE_LOG(LogROS2Node, Warning, TEXT("%s - Done"), *FString(__FUNCTION__));
+    UE_LOG(LogROS2Node, Warning, TEXT("%s - Done"), *__LOG_INFO__);
 }
 
 UROS2Context* AROS2Node::GetContext()
@@ -263,7 +263,7 @@ void AROS2Node::HandleServices()
 			void * data = s.Service->GetRequest();
 			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
 			
-			UE_LOG(LogROS2Node, Warning, TEXT("Executing Service"));
+			UE_LOG(LogROS2Node, Warning, TEXT("Executing Service (%s)"), *__LOG_INFO__);
 			//s.Service->PrintRequestToLog(rc, Name);
 
 			// there's a variant with req_id in the callback and one with context
@@ -308,7 +308,7 @@ void AROS2Node::HandleClients()
 			void * data = c->Service->GetResponse();
 			RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
 			
-			UE_LOG(LogROS2Node, Warning, TEXT("Executing Answer Delegate"));
+			UE_LOG(LogROS2Node, Warning, TEXT("Executing Answer Delegate (%s)"), *__LOG_INFO__);
 
 			// there's a variant with req_id in the callback
 			FServiceClientCallback *cb = &c->AnswerDelegate;
@@ -405,7 +405,7 @@ TMap<FString, FString> AROS2Node::GetListOfNodes()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogROS2Node, Warning, TEXT("Node: %s - Namespace: %s"), *pair.Key, *pair.Value);
+		UE_LOG(LogROS2Node, Warning, TEXT("Node: %s - Namespace: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
 	}
 
 	RCSOFTCHECK(rcutils_string_array_fini(&NodeNames));
@@ -437,7 +437,7 @@ TMap<FString, FString> AROS2Node::GetListOfTopics()
 
 	for (auto& pair : Result)
 	{
-		UE_LOG(LogROS2Node, Warning, TEXT("Topic: %s - MsgTypes: %s"), *pair.Key, *pair.Value);
+		UE_LOG(LogROS2Node, Warning, TEXT("Topic: %s - MsgTypes: %s (%s)"), *pair.Key, *pair.Value, *__LOG_INFO__);
 	}
 
 	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));
