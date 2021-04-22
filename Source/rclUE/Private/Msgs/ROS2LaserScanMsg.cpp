@@ -5,28 +5,14 @@
 #include "Kismet/GameplayStatics.h"
 
 
-UROS2LaserScanMsg::UROS2LaserScanMsg()
-{
-}
-
-UROS2LaserScanMsg::~UROS2LaserScanMsg()
-{
-	UE_LOG(LogROS2Msg, Error, TEXT("UROS2LaserScanMsg::~UROS2LaserScanMsg"));
-}
-
 void UROS2LaserScanMsg::Init()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2LaserScanMsg::Init"));
-	ensureMsgf(sensor_msgs__msg__LaserScan__init(&laserscan_pub_msg), TEXT("%s failed for LaserScan"), *FString(__FUNCTION__));
+	sensor_msgs__msg__LaserScan__init(&laserscan_pub_msg);
 }
 
 void UROS2LaserScanMsg::Fini()
 {
-    // somehow this crashes UE4 - double free error? why? 
-    // and why not the others? is it somehow because this contains other msgs?
-    // seems to crash on rosidl_runtime_c__float__Sequence__fini
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2LaserScanMsg::Fini"));
-	//sensor_msgs__msg__LaserScan__fini(&laserscan_pub_msg);
+    sensor_msgs__msg__LaserScan__fini(&laserscan_pub_msg);
 }
 
 const rosidl_message_type_support_t* UROS2LaserScanMsg::GetTypeSupport() const
@@ -80,11 +66,6 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     }
     laserscan_pub_msg.intensities.size = data.intensities.Num();
     laserscan_pub_msg.intensities.capacity = data.intensities.Num();
-}
-
-const sensor_msgs__msg__LaserScan* UROS2LaserScanMsg::Get() const
-{
-	return &laserscan_pub_msg;
 }
 
 void* UROS2LaserScanMsg::Get()

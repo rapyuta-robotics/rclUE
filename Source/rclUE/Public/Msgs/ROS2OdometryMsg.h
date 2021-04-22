@@ -45,21 +45,13 @@ class RCLUE_API UROS2OdometryMsg : public UROS2GenericMsg
 	GENERATED_BODY()
 
 public:
-	UROS2OdometryMsg();
-	~UROS2OdometryMsg();
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Fini() override;
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
 	void Update(const FOdometryData data);
-	
-	const nav_msgs__msg__Odometry* Get() const;
 	
 	virtual void* Get() override;
 

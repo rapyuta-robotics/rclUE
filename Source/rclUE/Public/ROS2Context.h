@@ -26,14 +26,11 @@ class RCLUE_API UROS2Context : public UObject
 	GENERATED_BODY()
 	
 public:	
-	UROS2Context();
-  ~UROS2Context();
-
-  UFUNCTION(BlueprintCallable)
+	UFUNCTION(BlueprintCallable)
   void Init();
 
   UFUNCTION(BlueprintCallable)
-  void Deinit();
+  void Fini();
 
 	rclc_support_t& Get();
 	

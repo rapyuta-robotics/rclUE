@@ -16,17 +16,6 @@ ASensorLidar::ASensorLidar()
  	
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 
-    // LidarMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LidarMesh"));
-    // LidarMesh->SetupAttachment(RootComponent);
-    // static ConstructorHelpers::FObjectFinder<UStaticMesh> LidarCylinderMesh(TEXT("'/Engine/BasicShapes/Cylinder.Cylinder'"));
-
-    // // check if path is valid
-    // if (LidarCylinderMesh.Succeeded())
-    // {
-    //     // mesh = valid path
-    //     LidarMesh->SetStaticMesh(LidarCylinderMesh.Object);
-    // }
-
 	LidarPublisher = CreateDefaultSubobject<UROS2Publisher>(TEXT("LidarPublisher"));
 	LidarPublisher->TopicName = FString("scan");
 	LidarPublisher->PublicationFrequencyHz = ScanFrequency;

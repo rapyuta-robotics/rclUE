@@ -18,13 +18,7 @@ class RCLUE_API UROS2TwistMsg : public UROS2GenericMsg
 	GENERATED_BODY()
 
 public:
-	UROS2TwistMsg();
-	~UROS2TwistMsg();
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Fini() override;
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
@@ -37,8 +31,6 @@ public:
 
   	UFUNCTION(BlueprintCallable)
 	FVector GetAngularVelocity() const;
-	
-	const geometry_msgs__msg__Twist* Get() const;
 	
 	virtual void* Get() override;
 

@@ -21,15 +21,15 @@ class UROS2GenericMsg : public UObject
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+  	UFUNCTION(BlueprintCallable)
 	virtual void Init();
+	
+  	UFUNCTION(BlueprintCallable)
 	virtual void Fini();
 
 	virtual void* Get();
 	
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const;
-
-	virtual void PrintPubToLog(rcl_ret_t rc, FString NodeName) const;
-	void PrintSubToLog(rcl_ret_t rc, FString NodeName) const;
 
 private:
 	UFUNCTION(BlueprintCallable)

@@ -13,10 +13,6 @@ class RCLUE_API UROS2ActionClient : public UROS2Action
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
-	UROS2ActionClient();
-	
-	
 	virtual void Destroy() override;
 
 	virtual void ProcessReady(rcl_wait_set_t* wait_set) override;

@@ -42,9 +42,6 @@ public:
   	UFUNCTION(BlueprintCallable)
 	void GetOutput(int64& res);
 	
-	const ue4_interfaces__srv__AddInts_Request* GetRequest() const;
-	const ue4_interfaces__srv__AddInts_Response* GetResponse() const;
-	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;
 

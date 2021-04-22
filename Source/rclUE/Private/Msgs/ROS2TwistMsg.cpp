@@ -5,23 +5,13 @@
 #include "Kismet/GameplayStatics.h"
 
 
-UROS2TwistMsg::UROS2TwistMsg()
-{
-}
-
-UROS2TwistMsg::~UROS2TwistMsg()
-{
-}
-
 void UROS2TwistMsg::Init()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TwistMsg::Init"));
 	geometry_msgs__msg__Twist__init(&twist_pub_msg);
 }
 
 void UROS2TwistMsg::Fini()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2TwistMsg::Fini"));
 	geometry_msgs__msg__Twist__fini(&twist_pub_msg);
 }
 
@@ -48,11 +38,6 @@ FVector UROS2TwistMsg::GetLinearVelocity() const
 FVector UROS2TwistMsg::GetAngularVelocity() const
 {
 	return FVector(twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
-}
-
-const geometry_msgs__msg__Twist* UROS2TwistMsg::Get() const
-{
-	return &twist_pub_msg;
 }
 
 void* UROS2TwistMsg::Get()

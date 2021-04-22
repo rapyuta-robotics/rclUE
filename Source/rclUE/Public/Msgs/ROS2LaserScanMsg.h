@@ -45,21 +45,13 @@ class RCLUE_API UROS2LaserScanMsg : public UROS2GenericMsg
 	GENERATED_BODY()
 
 public:
-	UROS2LaserScanMsg();
-	~UROS2LaserScanMsg();
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
-
-  	UFUNCTION(BlueprintCallable)
 	virtual void Fini() override;
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
 	void Update(FLaserScanData data);
-	
-	const sensor_msgs__msg__LaserScan* Get() const;
 	
 	virtual void* Get() override;
 

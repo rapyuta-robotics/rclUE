@@ -33,30 +33,6 @@ void* UROS2GenericSrv::GetResponse()
 	return nullptr;
 }
 
-void UROS2GenericSrv::PrintRequestToLog(rcl_ret_t rc, FString NodeName) const
-{
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogROS2Srv, Log, TEXT("Request (node %s) message %s"), *NodeName, *SrvRequestToString());
-	} 
-	else 
-	{
-		UE_LOG(LogROS2Srv, Log, TEXT("timer_callback: Error with request (node %s) %s"), *NodeName, *SrvRequestToString());
-	}
-}
-
-void UROS2GenericSrv::PrintResponseToLog(rcl_ret_t rc, FString NodeName) const
-{
-	if (rc == RCL_RET_OK)
-	{
-		UE_LOG(LogROS2Srv, Log, TEXT("Response (node %s) message %s"), *NodeName, *SrvResponseToString());
-	} 
-	else 
-	{
-		UE_LOG(LogROS2Srv, Log, TEXT("timer_callback: Error with request (node %s) %s"), *NodeName, *SrvResponseToString());
-	}
-}
-
 FString UROS2GenericSrv::SrvRequestToString() const
 {
 	ensureMsgf(false, TEXT("This should not be called (%s)"), *__LOG_INFO__);

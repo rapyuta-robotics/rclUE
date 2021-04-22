@@ -4,24 +4,13 @@
 #include "Msgs/ROS2StringMsg.h"
 #include "Kismet/GameplayStatics.h"
 
-
-UROS2StringMsg::UROS2StringMsg()
-{
-}
-
-UROS2StringMsg::~UROS2StringMsg()
-{
-}
-
 void UROS2StringMsg::Init()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2StringMsg::Init"));
 	std_msgs__msg__String__init(&string_pub_msg);
 }
 
 void UROS2StringMsg::Fini()
 {
-	UE_LOG(LogROS2Msg, Warning, TEXT("UROS2StringMsg::Fini"));
 	std_msgs__msg__String__fini(&string_pub_msg);
 }
 
@@ -37,11 +26,6 @@ void UROS2StringMsg::Update(const FString &stringData)
 	string_pub_msg.data.capacity = PUB_MSG_CAPACITY;
 	snprintf(string_pub_msg.data.data, string_pub_msg.data.capacity, "%s", TCHAR_TO_ANSI(*stringData));
 	string_pub_msg.data.size = strlen(string_pub_msg.data.data);
-}
-
-const std_msgs__msg__String* UROS2StringMsg::Get() const
-{
-	return &string_pub_msg;
 }
 
 void* UROS2StringMsg::Get()

@@ -14,9 +14,6 @@ void UROS2TestSrv::Init()
 	UE_LOG(LogROS2Srv, Warning, TEXT("UROS2TestSrv::Init"));
     ue4_interfaces__srv__AddInts_Request__init(&ue4test_req);
     ue4_interfaces__srv__AddInts_Response__init(&ue4test_res);
-    ue4test_req.a = 0;
-    ue4test_req.b = 0;
-    ue4test_res.sum = 0;
 }
 
 void UROS2TestSrv::Fini()
@@ -46,16 +43,6 @@ void UROS2TestSrv::SetOutput(int64 sum)
 void UROS2TestSrv::GetOutput(int64& sum)
 {
     sum = ue4test_res.sum;
-}
-
-const ue4_interfaces__srv__AddInts_Request* UROS2TestSrv::GetRequest() const
-{
-    return &ue4test_req;
-}
-
-const ue4_interfaces__srv__AddInts_Response* UROS2TestSrv::GetResponse() const
-{
-    return &ue4test_res;
 }
 
 void* UROS2TestSrv::GetRequest()

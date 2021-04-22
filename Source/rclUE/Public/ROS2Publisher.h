@@ -19,16 +19,7 @@ public:
 	// Sets default values for this component's properties
 	UROS2Publisher();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
-
-	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
 public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
 	UFUNCTION(BlueprintCallable)
 	void Init(bool IsTransientLocal = false);
 	

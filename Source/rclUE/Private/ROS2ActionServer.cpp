@@ -4,11 +4,6 @@
 #include "ROS2ActionServer.h"
 
 
-// Sets default values for this component's properties
-UROS2ActionServer::UROS2ActionServer() : Super()
-{
-}
-
 void UROS2ActionServer::InitializeActionComponent()
 {
 	const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();
@@ -16,8 +11,8 @@ void UROS2ActionServer::InitializeActionComponent()
 	server = rcl_action_get_zero_initialized_server();
 	rcl_action_server_options_t server_opt = rcl_action_server_get_default_options();
 	rcl_allocator_t allocator = rcl_get_default_allocator();
-	rcl_ret_t rc = rcl_ros_clock_init(&ros_clock, &allocator);
-	rc = rcl_action_server_init(&server, ownerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);
+	RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));
+	rcl_ret_t rc = rcl_action_server_init(&server, ownerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);
 	
 	if (rc != RCL_RET_OK)
 	{
@@ -35,6 +30,7 @@ void UROS2ActionServer::Destroy()
 	if (ownerNode != nullptr)
 	{
 		RCSOFTCHECK(rcl_action_server_fini(&server, ownerNode->GetNode()));
+		RCSOFTCHECK(rcl_ros_clock_fini(&ros_clock));
 	}
 }
 

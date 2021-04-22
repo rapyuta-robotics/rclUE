@@ -19,7 +19,10 @@ class RCLUE_API UROS2GenericAction : public UObject
 	GENERATED_BODY()
 	
 public:
+	UFUNCTION(BlueprintCallable)
 	virtual void Init();
+	
+	UFUNCTION(BlueprintCallable)
 	virtual void Fini();
 
 	virtual void* GetGoalRequest();
@@ -32,10 +35,6 @@ public:
 	void* GetCancelResponse();
 	
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const;
-
-	virtual void PrintGoalToLog(rcl_ret_t rc, FString NodeName) const;
-	virtual void PrintResultToLog(rcl_ret_t rc, FString NodeName) const;
-	virtual void PrintFeedbackToLog(rcl_ret_t rc, FString NodeName) const;
 
 private:
 	UFUNCTION(BlueprintCallable)

@@ -29,9 +29,6 @@ public:
 	
 	virtual const rosidl_service_type_support_t* GetTypeSupport() const;
 
-	virtual void PrintRequestToLog(rcl_ret_t rc, FString NodeName) const;
-	virtual void PrintResponseToLog(rcl_ret_t rc, FString NodeName) const;
-
 private:
 	UFUNCTION(BlueprintCallable)
 	virtual FString SrvRequestToString() const;

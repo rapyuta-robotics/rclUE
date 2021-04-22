@@ -23,16 +23,8 @@ class RCLUE_API UROS2Subsystem : public UGameInstanceSubsystem, public FTickable
 	GENERATED_BODY()
 	
 public:	
-	UROS2Subsystem();
-
-    UFUNCTION(BlueprintCallable, Category="ROS2")
+	UFUNCTION(BlueprintCallable, Category="ROS2")
     UROS2Context* GetContext() const;
-
-    UFUNCTION(BlueprintCallable, Category="ROS2")
-    void ListRosNodes() const;
-
-    UFUNCTION(BlueprintCallable, Category="ROS2")
-    void ListRosTopics() const;
 
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 

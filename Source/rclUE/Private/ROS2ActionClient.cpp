@@ -4,11 +4,6 @@
 #include "ROS2ActionClient.h"
 
 
-// Sets default values for this component's properties
-UROS2ActionClient::UROS2ActionClient() : Super()
-{
-}
-
 void UROS2ActionClient::InitializeActionComponent()
 {
 	const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();

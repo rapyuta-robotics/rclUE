@@ -22,16 +22,6 @@ AROS2Node::AROS2Node()
 	RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
 
-AROS2Node::~AROS2Node()
-{
-}
-
-// Called when the game starts or when spawned
-void AROS2Node::BeginPlay()
-{
-	Super::BeginPlay();
-}
-
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	for (auto& s : Subscriptions)
@@ -55,6 +45,8 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 			pub->Destroy();
 		}
 	}
+
+	RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 	
 	UE_LOG(LogROS2Node, Warning, TEXT("Node EndPlay - rcl_node_fini (%s)"), *__LOG_INFO__);
 	RCSOFTCHECK(rcl_node_fini(&node));
@@ -264,8 +256,7 @@ void AROS2Node::HandleServices()
 			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
 			
 			UE_LOG(LogROS2Node, Warning, TEXT("Executing Service (%s)"), *__LOG_INFO__);
-			//s.Service->PrintRequestToLog(rc, Name);
-
+			
 			// there's a variant with req_id in the callback and one with context
 			FServiceCallback *cb = &s.Callback;
 			cb->ExecuteIfBound(s.Service);

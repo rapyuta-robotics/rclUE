@@ -13,30 +13,6 @@ UROS2Publisher::UROS2Publisher()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-// Called when the game starts
-void UROS2Publisher::BeginPlay()
-{
-	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher BeginPlay (%s)"), *__LOG_INFO__);
-
-	if (ownerNode == nullptr)
-	{
-		ownerNode = Cast<AROS2Node>(GetOwner());
-	}
-
-	Super::BeginPlay();
-
-	if (ownerNode != nullptr)
-	{
-		Init();
-	}
-	else
-	{
-		ensureMsgf(false, TEXT("Publisher BeginPlay - Owner not set (%s)"), *__LOG_INFO__);
-	}
-	
-	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher BeginPlay - Done (%s)"), *__LOG_INFO__);
-}
-
 void UROS2Publisher::Init(bool IsTransientLocal)
 {
 	check(ownerNode != nullptr);
@@ -96,21 +72,6 @@ void UROS2Publisher::Init(bool IsTransientLocal)
 	{
 		ensureMsgf(false, TEXT("Publisher Init - this shouldn't happen! (%s)"), *__LOG_INFO__);
 	}
-}
-
-void UROS2Publisher::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
-	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher EndPlay (%s)"), *__LOG_INFO__);
-
-	Super::EndPlay(EndPlayReason);
-	
-	UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher EndPlay - Done (%s)"), *__LOG_INFO__);
-}
-
-// Called every frame
-void UROS2Publisher::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
 void UROS2Publisher::Destroy()

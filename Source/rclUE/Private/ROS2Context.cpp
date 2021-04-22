@@ -3,15 +3,6 @@
 
 #include "ROS2Context.h"
 
-
-UROS2Context::UROS2Context()
-{
-}
-
-UROS2Context::~UROS2Context()
-{
-}
-
 rclc_support_t& UROS2Context::Get()
 {
     return support;
@@ -33,7 +24,7 @@ void UROS2Context::Init()
     RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
 }
 
-void UROS2Context::Deinit()
+void UROS2Context::Fini()
 {
 	RCSOFTCHECK(rclc_support_fini(&support));
 }

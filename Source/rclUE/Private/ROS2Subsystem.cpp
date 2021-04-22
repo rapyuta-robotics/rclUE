@@ -4,10 +4,6 @@
 #include "ROS2Subsystem.h"
 
 
-UROS2Subsystem::UROS2Subsystem()
-{
-}
-
 bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
 {
 	return true;		// TODO: If client/server, this should only be created on the server.
@@ -23,7 +19,7 @@ void UROS2Subsystem::Initialize(FSubsystemCollectionBase &Collection)
 
 void UROS2Subsystem::Deinitialize()
 {
-	context->Deinit();
+	context->Fini();
 	Super::Deinitialize();
 }
 
@@ -63,15 +59,4 @@ UROS2Context* UROS2Subsystem::GetContext() const
         ensureMsgf(false, TEXT("Allocator problems in ROS2Subsystem!"));
     }
     return context;
-}
-
-void UROS2Subsystem::ListRosNodes() const
-{
-	// this method requires a valid node
-}
-
-void UROS2Subsystem::ListRosTopics() const
-{
-	// this method requires a valid node
-	// rcl_get_topic_names_and_types();
 }

@@ -17,40 +17,6 @@ UROS2ServiceClient::UROS2ServiceClient()
 	// ...
 }
 
-
-// Called when the game starts
-void UROS2ServiceClient::BeginPlay()
-{
-	UE_LOG(LogROS2Service, Warning, TEXT("Client BeginPlay (%s)"), *__LOG_INFO__);
-
-	if (ownerNode == nullptr)
-	{
-		ownerNode = Cast<AROS2Node>(GetOwner());
-	}
-
-	Super::BeginPlay();
-
-	if (ownerNode != nullptr)
-	{
-		Init();
-	}
-	else
-	{
-	UE_LOG(LogROS2Service, Error, TEXT("Client BeginPlay - Owner not set (%s)"), *__LOG_INFO__);
-	}
-	
-	UE_LOG(LogROS2Service, Warning, TEXT("Client BeginPlay - Done (%s)"), *__LOG_INFO__);
-}
-
-
-// Called every frame
-void UROS2ServiceClient::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
 void UROS2ServiceClient::Init()
 {
 	check(ownerNode != nullptr);

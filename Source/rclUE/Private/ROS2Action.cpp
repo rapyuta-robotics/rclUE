@@ -14,25 +14,6 @@ UROS2Action::UROS2Action()
 	// ...
 }
 
-
-// Called when the game starts
-void UROS2Action::BeginPlay()
-{
-	Super::BeginPlay();
-
-	// ...
-	
-}
-
-
-// Called every frame
-void UROS2Action::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-	// ...
-}
-
 void UROS2Action::Init()
 {
 	check(ownerNode != nullptr);

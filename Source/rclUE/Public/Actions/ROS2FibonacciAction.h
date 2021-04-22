@@ -19,10 +19,8 @@ class RCLUE_API UROS2FibonacciAction : public UROS2GenericAction
 	GENERATED_BODY()
 	
 public:
-	UFUNCTION(BlueprintCallable)
 	virtual void Init() override;
 
-	UFUNCTION(BlueprintCallable)
 	virtual void Fini() override;
 
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const override;
@@ -54,10 +52,6 @@ public:
 	virtual void* GetFeedbackMessage() override;
 
 private:
-	virtual FString ActionGoalToString() const override;
-	virtual FString ActionResultToString() const override;
-	virtual FString ActionFeedbackToString() const override;
-
 	ue4_interfaces__action__Fibonacci_SendGoal_Request ue4_goal_request;
 	ue4_interfaces__action__Fibonacci_SendGoal_Response ue4_goal_response;
 	ue4_interfaces__action__Fibonacci_GetResult_Request ue4_result_request;

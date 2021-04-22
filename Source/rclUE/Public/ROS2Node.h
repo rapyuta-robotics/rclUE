@@ -83,12 +83,8 @@ class RCLUE_API AROS2Node : public AActor
 public:	
 	// Sets default values for this actor's properties
 	AROS2Node();
-	~AROS2Node();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-	
+protected:	
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:	

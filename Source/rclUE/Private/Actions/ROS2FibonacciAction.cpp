@@ -11,6 +11,7 @@ const rosidl_action_type_support_t* UROS2FibonacciAction::GetTypeSupport() const
 
 void UROS2FibonacciAction::Init()
 {
+    Super::Init();
     ue4_interfaces__action__Fibonacci_SendGoal_Request__init(&ue4_goal_request);
     ue4_interfaces__action__Fibonacci_SendGoal_Response__init(&ue4_goal_response);
     ue4_interfaces__action__Fibonacci_GetResult_Request__init(&ue4_result_request);
@@ -25,6 +26,7 @@ void UROS2FibonacciAction::Fini()
     ue4_interfaces__action__Fibonacci_GetResult_Request__fini(&ue4_result_request);
     ue4_interfaces__action__Fibonacci_GetResult_Response__fini(&ue4_result_response);
     ue4_interfaces__action__Fibonacci_FeedbackMessage__fini(&ue4_feedback_message);
+    Super::Fini();
 }
 
 void UROS2FibonacciAction::SetOrder(int order)
@@ -100,20 +102,4 @@ void* UROS2FibonacciAction::GetResultResponse()
 void* UROS2FibonacciAction::GetFeedbackMessage()
 {
 	return &ue4_feedback_message;
-}
-
-
-FString UROS2FibonacciAction::ActionGoalToString() const
-{
-	return FString::Printf(TEXT("order: %d"), ue4_goal_request.goal.order);
-}
-
-FString UROS2FibonacciAction::ActionResultToString() const
-{
-	return FString();
-}
-
-FString UROS2FibonacciAction::ActionFeedbackToString() const
-{
-	return FString();
 }
