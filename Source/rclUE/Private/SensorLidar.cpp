@@ -208,7 +208,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	// UE4 is left handed
 	for (int i=0; i<RecordedHits.Num(); i++)
 	{
-		retValue.ranges.Add(RecordedHits.Last(i).Distance*.01); // convert to [m]
+		retValue.ranges.Add(MinRange*.01+RecordedHits.Last(i).Distance*.01); // convert to [m]
 	}
 
 	return retValue;
