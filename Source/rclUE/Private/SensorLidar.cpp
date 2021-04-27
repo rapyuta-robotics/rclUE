@@ -162,7 +162,7 @@ void ASensorLidar::InitToNode(AROS2Node *Node)
 
 		LidarPublisher->UpdateDelegate.BindDynamic(this, &ASensorLidar::LidarMessageUpdate);
 		Node->AddPublisher(LidarPublisher);
-		LidarPublisher->Init();
+		LidarPublisher->Init(UROS2QoS::SensorData);
 	}
 }
 

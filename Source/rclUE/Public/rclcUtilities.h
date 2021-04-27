@@ -28,3 +28,16 @@ enum UROS2State
     Created         UMETA(DisplayName="Created"),
     Initialized     UMETA(DisplayName="Initialized"),
 };
+
+UENUM()
+enum UROS2QoS
+{
+    Default         UMETA(DisplayName="Default"),
+    SensorData      UMETA(DisplayName="SensorData"),
+    TFStatic        UMETA(DisplayName="TFStatic"),
+    Parameters      UMETA(DisplayName="Parameters"),
+    Services        UMETA(DisplayName="Services"),
+    ParameterEvents UMETA(DisplayName="ParameterEvents"),
+    System          UMETA(DisplayName="System"),
+    Unknown         UMETA(DisplayName="Unknown"),
+};

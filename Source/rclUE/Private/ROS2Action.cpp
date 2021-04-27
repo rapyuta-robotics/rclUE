@@ -14,7 +14,7 @@ UROS2Action::UROS2Action()
 	// ...
 }
 
-void UROS2Action::Init()
+void UROS2Action::Init(TEnumAsByte<UROS2QoS> QoS)
 {
 	check(ownerNode != nullptr);
 	check(ownerNode->State == UROS2State::Initialized);
@@ -24,7 +24,7 @@ void UROS2Action::Init()
 
 		check(IsValid(Action));
 
-		InitializeActionComponent();
+		InitializeActionComponent(QoS);
 		
 		State = UROS2State::Initialized;
 	}
@@ -55,7 +55,44 @@ void UROS2Action::ProcessReady(rcl_wait_set_t* wait_set)
 	checkNoEntry();
 }
 
-void UROS2Action::InitializeActionComponent()
+void UROS2Action::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 {
 	checkNoEntry();
+}
+
+void UROS2Action::SetQoS(rmw_qos_profile_t &profile, TEnumAsByte<UROS2QoS> QoS)
+{
+	if (QoS == UROS2QoS::Default)
+	{
+		profile = rmw_qos_profile_default;
+	}
+	else if (QoS == UROS2QoS::SensorData)
+	{
+		profile = rmw_qos_profile_sensor_data;
+	}
+	else if (QoS == UROS2QoS::TFStatic)
+	{
+		profile = rmw_qos_profile_default;
+		profile.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+	}
+	else if (QoS == UROS2QoS::Parameters)
+	{
+		profile = rmw_qos_profile_parameters;
+	}
+	else if (QoS == UROS2QoS::Services)
+	{
+		profile = rmw_qos_profile_services_default;
+	}
+	else if (QoS == UROS2QoS::ParameterEvents)
+	{
+		profile = rmw_qos_profile_parameter_events;
+	}
+	else if (QoS == UROS2QoS::System)
+	{
+		profile = rmw_qos_profile_system_default;
+	}
+	else if (QoS == UROS2QoS::Unknown)
+	{
+		profile = rmw_qos_profile_unknown;
+	}
 }

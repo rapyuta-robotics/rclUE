@@ -4,12 +4,19 @@
 #include "ROS2ActionServer.h"
 
 
-void UROS2ActionServer::InitializeActionComponent()
+void UROS2ActionServer::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 {
 	const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();
 
 	server = rcl_action_get_zero_initialized_server();
 	rcl_action_server_options_t server_opt = rcl_action_server_get_default_options();
+
+	SetQoS(server_opt.goal_service_qos, QoS);
+	SetQoS(server_opt.result_service_qos, QoS);
+	SetQoS(server_opt.cancel_service_qos, QoS);
+	SetQoS(server_opt.feedback_topic_qos, QoS);
+	SetQoS(server_opt.status_topic_qos, QoS);
+
 	rcl_allocator_t allocator = rcl_get_default_allocator();
 	RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));
 	rcl_ret_t rc = rcl_action_server_init(&server, ownerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);

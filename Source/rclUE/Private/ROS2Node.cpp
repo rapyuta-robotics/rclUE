@@ -201,7 +201,7 @@ void AROS2Node::AddClient(UROS2ServiceClient* Client)
 	}
 
 	Client->ownerNode = this;
-	Client->Init();
+	Client->Init(UROS2QoS::Services);
 	Clients.Add(Client);
 }
 
@@ -210,7 +210,7 @@ void AROS2Node::AddActionClient(UROS2ActionClient* ActionClient)
 	check(IsValid(ActionClient));
 
 	ActionClient->ownerNode = this;
-	ActionClient->Init();
+	ActionClient->Init(UROS2QoS::Default);
 	ActionClients.Add(ActionClient);
 }
 
@@ -219,7 +219,7 @@ void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
 	check(IsValid(ActionServer));
 
 	ActionServer->ownerNode = this;
-	ActionServer->Init();
+	ActionServer->Init(UROS2QoS::Default);
 	ActionServers.Add(ActionServer);
 }
 

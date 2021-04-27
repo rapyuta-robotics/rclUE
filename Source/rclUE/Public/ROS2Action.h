@@ -20,7 +20,7 @@ public:
 
 public:	
 	UFUNCTION(BlueprintCallable)
-	void Init();
+	void Init(TEnumAsByte<UROS2QoS> QoS);
 	
 	UFUNCTION(BlueprintCallable)
 	void InitializeAction();
@@ -48,8 +48,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
 
-private:
+protected:
 	UFUNCTION()
-	virtual void InitializeActionComponent();
-	
+	virtual void InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS);
+
+	void SetQoS(rmw_qos_profile_t &profile, TEnumAsByte<UROS2QoS> QoS);
 };

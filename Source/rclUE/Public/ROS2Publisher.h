@@ -21,7 +21,7 @@ public:
 
 public:	
 	UFUNCTION(BlueprintCallable)
-	void Init(bool IsTransientLocal = false);
+	void Init(TEnumAsByte<UROS2QoS> QoS);
 	
 	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();
