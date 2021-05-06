@@ -36,14 +36,37 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 		{
 			pub_opt.qos = rmw_qos_profile_default;
 		}
+		else if (QoS == UROS2QoS::KeepLast)
+		{
+			pub_opt.qos = rmw_qos_profile_default;
+			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
+			pub_opt.qos.depth = 1;
+			//pub_opt.qos.reliability = RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT;
+		}
+		else if (QoS == UROS2QoS::DynamicBroadcaster)
+		{
+			pub_opt.qos = rmw_qos_profile_default;
+			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
+			pub_opt.qos.depth = 100;
+		}
+		else if (QoS == UROS2QoS::StaticBroadcaster || QoS == UROS2QoS::TFStatic)
+		{
+			pub_opt.qos = rmw_qos_profile_default;
+			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
+			pub_opt.qos.depth = 1;
+			pub_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+		}
+		else if (QoS == UROS2QoS::ClockPub)
+		{
+			pub_opt.qos = rmw_qos_profile_default;
+			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
+			pub_opt.qos.depth = 10;
+			pub_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+		}
 		else if (QoS == UROS2QoS::SensorData)
 		{
 			pub_opt.qos = rmw_qos_profile_sensor_data;
-		}
-		else if (QoS == UROS2QoS::TFStatic)
-		{
-			pub_opt.qos = rmw_qos_profile_default;
-			pub_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+			pub_opt.qos.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
 		}
 		else if (QoS == UROS2QoS::Parameters)
 		{
