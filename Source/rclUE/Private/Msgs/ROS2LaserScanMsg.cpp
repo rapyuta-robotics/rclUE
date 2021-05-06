@@ -55,7 +55,7 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     laserscan_pub_msg.ranges.size = data.ranges.Num();
     laserscan_pub_msg.ranges.capacity = data.ranges.Num();
 
-    if (laserscan_pub_msg.intensities.data)
+    if (laserscan_pub_msg.intensities.data != nullptr)
     {
         free(laserscan_pub_msg.intensities.data);
     }

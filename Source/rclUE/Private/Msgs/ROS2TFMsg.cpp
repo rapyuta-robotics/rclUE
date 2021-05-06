@@ -56,6 +56,22 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 		tf_pub_msg.transforms.data[i].transform.rotation.y = data[i].rotation.Y;
 		tf_pub_msg.transforms.data[i].transform.rotation.z = data[i].rotation.Z;
 		tf_pub_msg.transforms.data[i].transform.rotation.w = data[i].rotation.W;
+
+		// FString frame_id, child_frame_id;
+		// frame_id.AppendChars(tf_pub_msg.transforms.data[i].header.frame_id.data, tf_pub_msg.transforms.data[i].header.frame_id.size);
+		// child_frame_id.AppendChars(tf_pub_msg.transforms.data[i].child_frame_id.data, tf_pub_msg.transforms.data[i].child_frame_id.size);
+		// UE_LOG(LogTemp, Warning, TEXT("TF - %ds %dns: %s, %s - (%f %f %f) (%f %f %f %f)"),
+		// 	tf_pub_msg.transforms.data[i].header.stamp.sec,
+		// 	tf_pub_msg.transforms.data[i].header.stamp.nanosec,
+		// 	*frame_id,
+		// 	*child_frame_id,
+		// 	tf_pub_msg.transforms.data[i].transform.translation.x,
+		// 	tf_pub_msg.transforms.data[i].transform.translation.y,
+		// 	tf_pub_msg.transforms.data[i].transform.translation.z,
+		// 	tf_pub_msg.transforms.data[i].transform.rotation.x,
+		// 	tf_pub_msg.transforms.data[i].transform.rotation.y,
+		// 	tf_pub_msg.transforms.data[i].transform.rotation.z,
+		// 	tf_pub_msg.transforms.data[i].transform.rotation.w);
 	}
 
 	
