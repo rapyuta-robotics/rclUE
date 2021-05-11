@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Msgs/ROS2GenericMsg.h"
 #include "rclcUtilities.h"
+#include <ue_msgs/msg/entity_state.h>
 
 #include "ROS2EntityStateMsg.generated.h"
 
@@ -24,7 +25,7 @@ public:
 	FVector linear;
 	FVector angular;
 
-	FString refFrame;
+	FString reference_frame;
 };
 
 /**
@@ -49,5 +50,5 @@ public:
 private:
 	virtual FString MsgToString() const override;
 	
-	
+	ue_msgs__msg__EntityState entity_state_msg;
 };
