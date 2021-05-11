@@ -15,7 +15,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Msg, Log, All);
  * Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
  */
 UCLASS(Blueprintable)
-class UROS2GenericMsg : public UObject
+class RCLUE_API UROS2GenericMsg : public UObject
 {
 	GENERATED_BODY()
 

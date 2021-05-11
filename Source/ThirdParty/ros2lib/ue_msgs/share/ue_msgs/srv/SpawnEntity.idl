@@ -1,0 +1,32 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from ue_msgs/srv/SpawnEntity.srv
+// generated code does not contain a copyright notice
+
+#include "ue_msgs/msg/EntityState.idl"
+
+module ue_msgs {
+  module srv {
+    struct SpawnEntity_Request {
+      @verbatim (language="comment", text=
+        " Entity XML description as a string, either URDF or SDF.")
+      string xml;
+
+      @verbatim (language="comment", text=
+        " Spawn robot and all ROS interfaces under this namespace")
+      string robot_namespace;
+
+      @verbatim (language="comment", text=
+        " Initial entity pose.")
+      ue_msgs::msg::EntityState state;
+    };
+    struct SpawnEntity_Response {
+      @verbatim (language="comment", text=
+        " Return true if spawned successfully.")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        " Comments if available.")
+      string status_message;
+    };
+  };
+};

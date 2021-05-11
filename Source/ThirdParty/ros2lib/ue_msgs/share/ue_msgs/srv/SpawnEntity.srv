@@ -1,0 +1,6 @@
+string xml                        # Entity XML description as a string, either URDF or SDF.
+string robot_namespace            # Spawn robot and all ROS interfaces under this namespace
+ue_msgs/EntityState state         # Initial entity pose.
+---
+bool success                      # Return true if spawned successfully.
+string status_message             # Comments if available.
