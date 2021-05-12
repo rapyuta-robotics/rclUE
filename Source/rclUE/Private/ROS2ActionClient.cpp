@@ -17,13 +17,7 @@ void UROS2ActionClient::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 	SetQoS(client_opt.feedback_topic_qos, QoS);
 	SetQoS(client_opt.status_topic_qos, QoS);
 
-	rcl_ret_t rc = rcl_action_client_init(&client, ownerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
-	
-	if (rc != RCL_RET_OK)
-	{
-		UE_LOG(LogROS2Action, Error, TEXT("Failed status : %d (%s). Terminating."),(int)rc, *__LOG_INFO__);
-		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
-	}
+	RCSOFTCHECK(rcl_action_client_init(&client, ownerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt));
 }
 
 void UROS2ActionClient::Destroy()

@@ -89,18 +89,7 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 			pub_opt.qos = rmw_qos_profile_unknown;
 		}
 
-		rcl_ret_t rc = rcl_publisher_init(
-			&pub,
-			ownerNode->GetNode(),
-			msg_type_support,
-			TCHAR_TO_ANSI(*TopicName),
-			&pub_opt);
-	
-		if (rc != RCL_RET_OK)
-		{
-			UE_LOG(LogROS2Publisher, Error, TEXT("Failed status : %d (%s). Terminating."),(int)rc, *__LOG_INFO__);
-			UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
-		}
+		RCSOFTCHECK(rcl_publisher_init(&pub, ownerNode->GetNode(), msg_type_support, TCHAR_TO_ANSI(*TopicName), &pub_opt));
 
 		GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f/(float)PublicationFrequencyHz, true);
 
