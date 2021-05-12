@@ -22,7 +22,7 @@ const rosidl_message_type_support_t* UROS2TFMsg::GetTypeSupport() const
 
 void UROS2TFMsg::Update(const TArray<FTFData> &data)
 {
-	tf_pub_msg.transforms.data = (geometry_msgs__msg__TransformStamped*)malloc(sizeof(geometry_msgs__msg__TransformStamped)*data.Num());
+	tf_pub_msg.transforms.data = (geometry_msgs__msg__TransformStamped*)FMemory::Malloc(sizeof(geometry_msgs__msg__TransformStamped)*data.Num());
 	tf_pub_msg.transforms.size = data.Num();
 	tf_pub_msg.transforms.capacity = data.Num();
 
@@ -33,19 +33,19 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 
 		// if (tf_pub_msg.transforms.data[i].header.frame_id.data != nullptr)
 		// {
-		// 	free(tf_pub_msg.transforms.data[i].header.frame_id.data);
+		// 	FMemory::Free(tf_pub_msg.transforms.data[i].header.frame_id.data);
 		// }
-		tf_pub_msg.transforms.data[i].header.frame_id.data = (char*)malloc((data[i].frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-		strcpy(tf_pub_msg.transforms.data[i].header.frame_id.data, TCHAR_TO_ANSI(*data[i].frame_id));
+		tf_pub_msg.transforms.data[i].header.frame_id.data = (char*)FMemory::Malloc((data[i].frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+		FMemory::Memcpy(tf_pub_msg.transforms.data[i].header.frame_id.data, TCHAR_TO_ANSI(*data[i].frame_id), (data[i].frame_id.Len()+1)*sizeof(char));
 		tf_pub_msg.transforms.data[i].header.frame_id.size = data[i].frame_id.Len(); // GetStringLength excludes nullterm char
 		tf_pub_msg.transforms.data[i].header.frame_id.capacity = data[i].frame_id.Len()+1;
 
 		// if (tf_pub_msg.transforms.data[i].child_frame_id.data != nullptr)
 		// {
-		// 	free(tf_pub_msg.transforms.data[i].child_frame_id.data);
+		// 	FMemory::Free(tf_pub_msg.transforms.data[i].child_frame_id.data);
 		// }
-		tf_pub_msg.transforms.data[i].child_frame_id.data = (char*)malloc((data[i].child_frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-		strcpy(tf_pub_msg.transforms.data[i].child_frame_id.data, TCHAR_TO_ANSI(*data[i].child_frame_id));
+		tf_pub_msg.transforms.data[i].child_frame_id.data = (char*)FMemory::Malloc((data[i].child_frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+		FMemory::Memcpy(tf_pub_msg.transforms.data[i].child_frame_id.data, TCHAR_TO_ANSI(*data[i].child_frame_id), (data[i].child_frame_id.Len()+1)*sizeof(char));
 		tf_pub_msg.transforms.data[i].child_frame_id.size = data[i].child_frame_id.Len(); // Len excludes nullterm char
 		tf_pub_msg.transforms.data[i].child_frame_id.capacity = data[i].child_frame_id.Len()+1;
 

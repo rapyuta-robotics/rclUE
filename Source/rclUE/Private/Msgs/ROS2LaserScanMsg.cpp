@@ -28,9 +28,9 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     // reason for this:
     //  TCHAR_TO_ANSI(*data.frame_id) returns a temp object
     //  stringCast<ANSICHAR>(*data.frame_id).Get() does not seem to work here
-    free(laserscan_pub_msg.header.frame_id.data);
-    laserscan_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-    strcpy(laserscan_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id));
+    FMemory::Free(laserscan_pub_msg.header.frame_id.data);
+    laserscan_pub_msg.header.frame_id.data = (char*)FMemory::Malloc((data.frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    FMemory::Memcpy(laserscan_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id), (data.frame_id.Len()+1)*sizeof(char));
     laserscan_pub_msg.header.frame_id.size = data.frame_id.Len(); // Len excludes nullterm char
     laserscan_pub_msg.header.frame_id.capacity = data.frame_id.Len()+1;
 
@@ -45,9 +45,9 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     // should free every time as the length of the array can vary
     if (laserscan_pub_msg.ranges.data != nullptr)
     {
-        free(laserscan_pub_msg.ranges.data);
+        FMemory::Free(laserscan_pub_msg.ranges.data);
     }
-    laserscan_pub_msg.ranges.data = (float*)malloc(data.ranges.Num()*sizeof(float));
+    laserscan_pub_msg.ranges.data = (float*)FMemory::Malloc(data.ranges.Num()*sizeof(float));
     for (int i=0; i<data.ranges.Num(); i++)
     {
         laserscan_pub_msg.ranges.data[i] = data.ranges[i];
@@ -57,9 +57,9 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
 
     if (laserscan_pub_msg.intensities.data != nullptr)
     {
-        free(laserscan_pub_msg.intensities.data);
+        FMemory::Free(laserscan_pub_msg.intensities.data);
     }
-    laserscan_pub_msg.intensities.data = (float*)malloc(data.intensities.Num()*sizeof(float));
+    laserscan_pub_msg.intensities.data = (float*)FMemory::Malloc(data.intensities.Num()*sizeof(float));
     for (int i=0; i<data.intensities.Num(); i++)
     {
         laserscan_pub_msg.intensities.data[i] = data.intensities[i];

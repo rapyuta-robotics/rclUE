@@ -23,13 +23,13 @@ void UROS2SpawnEntitySrv::Fini()
 
 void UROS2SpawnEntitySrv::SetInputs(FString xml, FString RobotNamespace, FEntityStateData data)
 {
-    free(spawn_entity_req.xml.data);
-    spawn_entity_req.xml.data = (char*)malloc((xml.Len()+1)*sizeof(char));
-    strcpy(spawn_entity_req.xml.data, TCHAR_TO_ANSI(*xml));
+    FMemory::Free(spawn_entity_req.xml.data);
+    spawn_entity_req.xml.data = (char*)FMemory::Malloc((xml.Len()+1)*sizeof(char));
+    FMemory::Memcpy(spawn_entity_req.xml.data, TCHAR_TO_ANSI(*xml), (xml.Len()+1)*sizeof(char));
 
-    free(spawn_entity_req.robot_namespace.data);
-    spawn_entity_req.robot_namespace.data = (char*)malloc((RobotNamespace.Len()+1)*sizeof(char));
-    strcpy(spawn_entity_req.robot_namespace.data, TCHAR_TO_ANSI(*RobotNamespace));
+    FMemory::Free(spawn_entity_req.robot_namespace.data);
+    spawn_entity_req.robot_namespace.data = (char*)FMemory::Malloc((RobotNamespace.Len()+1)*sizeof(char));
+    FMemory::Memcpy(spawn_entity_req.robot_namespace.data, TCHAR_TO_ANSI(*RobotNamespace), (RobotNamespace.Len()+1)*sizeof(char));
 
     data.SetROS2(spawn_entity_req.state);
 }
@@ -46,9 +46,9 @@ void UROS2SpawnEntitySrv::SetOutput(bool Success, FString status_message)
 {
     spawn_entity_res.success = Success;
 
-    free(spawn_entity_res.status_message.data);
-    spawn_entity_res.status_message.data = (char*)malloc((status_message.Len()+1)*sizeof(char));
-    strcpy(spawn_entity_res.status_message.data, TCHAR_TO_ANSI(*status_message));
+    FMemory::Free(spawn_entity_res.status_message.data);
+    spawn_entity_res.status_message.data = (char*)FMemory::Malloc((status_message.Len()+1)*sizeof(char));
+    FMemory::Memcpy(spawn_entity_res.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
 }
 
 void UROS2SpawnEntitySrv::GetOutput(bool& Success, FString& status_message)

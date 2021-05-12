@@ -8,6 +8,7 @@
 #include <rcl/graph.h>
 #include <cstdlib>
 #include <cstring>
+#include "HAL/UnrealMemory.h"
 #include "Kismet/KismetSystemLibrary.h"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
