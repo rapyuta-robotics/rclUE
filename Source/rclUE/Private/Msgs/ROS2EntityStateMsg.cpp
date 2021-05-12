@@ -20,33 +20,7 @@ const rosidl_message_type_support_t* UROS2EntityStateMsg::GetTypeSupport() const
 
 void UROS2EntityStateMsg::Update(FEntityStateData data)
 {
-    free(entity_state_msg.name.data);
-    entity_state_msg.name.data = (char*)malloc((data.name.Len()+1)*sizeof(char));
-    strcpy(entity_state_msg.name.data, TCHAR_TO_ANSI(*data.name));
-    entity_state_msg.name.size = data.name.Len();
-    entity_state_msg.name.capacity = data.name.Len()+1;
-
-	entity_state_msg.pose.position.x = data.position.X;
-	entity_state_msg.pose.position.y = data.position.Y;
-	entity_state_msg.pose.position.z = data.position.Z;
-	entity_state_msg.pose.orientation.x = data.orientation.X;
-	entity_state_msg.pose.orientation.y = data.orientation.Y;
-	entity_state_msg.pose.orientation.z = data.orientation.Z;
-	entity_state_msg.pose.orientation.w = data.orientation.W;
-
-	
-	entity_state_msg.twist.linear.x = data.linear.X;
-	entity_state_msg.twist.linear.y = data.linear.Y;
-	entity_state_msg.twist.linear.z = data.linear.Z;
-	entity_state_msg.twist.angular.x = data.angular.X;
-	entity_state_msg.twist.angular.y = data.angular.Y;
-	entity_state_msg.twist.angular.z = data.angular.Z;
-
-    free(entity_state_msg.reference_frame.data);
-    entity_state_msg.reference_frame.data = (char*)malloc((data.reference_frame.Len()+1)*sizeof(char));
-    strcpy(entity_state_msg.reference_frame.data, TCHAR_TO_ANSI(*data.reference_frame));
-    entity_state_msg.reference_frame.size = data.reference_frame.Len();
-    entity_state_msg.reference_frame.capacity = data.reference_frame.Len()+1;
+    data.SetROS2(entity_state_msg);
 }
 
 void* UROS2EntityStateMsg::Get()

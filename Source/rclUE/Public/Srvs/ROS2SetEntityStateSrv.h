@@ -6,15 +6,15 @@
 #include "Srvs/ROS2GenericSrv.h"
 #include "Msgs/ROS2EntityStateMsg.h"
 #include "rclcUtilities.h"
-#include <ue_msgs/srv/get_entity_state.h>
+#include <ue_msgs/srv/set_entity_state.h>
 
-#include "ROS2GetEntityStateSrv.generated.h"
+#include "ROS2SetEntityStateSrv.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class RCLUE_API UROS2GetEntityStateSrv : public UROS2GenericSrv
+class RCLUE_API UROS2SetEntityStateSrv : public UROS2GenericSrv
 {
 	GENERATED_BODY()
 
@@ -29,19 +29,19 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetInputs(FString Name, FString ReferenceFrame);
+	void SetInputs(FEntityStateData data);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void GetInputs(FString& Name, FString& ReferenceFrame);
+	void GetInputs(FEntityStateData& data);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetOutput(FEntityStateData data, bool Success);
+	void SetOutput(bool Success);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void GetOutput(FEntityStateData& data, bool& Success);
+	void GetOutput(bool& Success);
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;
@@ -50,6 +50,6 @@ private:
 	virtual FString SrvRequestToString() const override;
 	virtual FString SrvResponseToString() const override;
 
-	ue_msgs__srv__GetEntityState_Request entity_state_req;
-	ue_msgs__srv__GetEntityState_Response entity_state_res;
+	ue_msgs__srv__SetEntityState_Request entity_state_req;
+	ue_msgs__srv__SetEntityState_Response entity_state_res;
 };

@@ -26,6 +26,59 @@ public:
 	FVector angular;
 
 	FString reference_frame;
+
+	void SetFromROS2(ue_msgs__msg__EntityState data)
+	{
+		name.AppendChars(data.name.data, data.name.size);
+
+		position.X = data.pose.position.x;
+		position.Y = data.pose.position.y;
+		position.Z = data.pose.position.z;
+		orientation.X = data.pose.orientation.x;
+		orientation.Y = data.pose.orientation.y;
+		orientation.Z = data.pose.orientation.z;
+		orientation.W = data.pose.orientation.w;
+		
+		linear.X = data.twist.linear.x;
+		linear.Y = data.twist.linear.y;
+		linear.Z = data.twist.linear.z;
+		angular.X = data.twist.angular.x;
+		angular.Y = data.twist.angular.y;
+		angular.Z = data.twist.angular.z;
+
+		reference_frame.AppendChars(data.reference_frame.data, data.reference_frame.size);
+	}
+
+	void SetROS2(ue_msgs__msg__EntityState& data) const
+	{
+		free(data.name.data);
+		data.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
+		strcpy(data.name.data, TCHAR_TO_ANSI(*name));
+		data.name.size = name.Len();
+		data.name.capacity = name.Len()+1;
+
+		data.pose.position.x = position.X;
+		data.pose.position.y = position.Y;
+		data.pose.position.z = position.Z;
+		data.pose.orientation.x = orientation.X;
+		data.pose.orientation.y = orientation.Y;
+		data.pose.orientation.z = orientation.Z;
+		data.pose.orientation.w = orientation.W;
+
+		
+		data.twist.linear.x = linear.X;
+		data.twist.linear.y = linear.Y;
+		data.twist.linear.z = linear.Z;
+		data.twist.angular.x = angular.X;
+		data.twist.angular.y = angular.Y;
+		data.twist.angular.z = angular.Z;
+
+		free(data.reference_frame.data);
+		data.reference_frame.data = (char*)malloc((reference_frame.Len()+1)*sizeof(char));
+		strcpy(data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame));
+		data.reference_frame.size = reference_frame.Len();
+		data.reference_frame.capacity = reference_frame.Len()+1;
+	}
 };
 
 /**
