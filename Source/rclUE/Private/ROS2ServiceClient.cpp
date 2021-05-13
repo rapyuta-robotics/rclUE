@@ -17,7 +17,7 @@ UROS2ServiceClient::UROS2ServiceClient()
 	// ...
 }
 
-void UROS2ServiceClient::Init()
+void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
 {
 	check(ownerNode != nullptr);
 	check(ownerNode->State == UROS2State::Initialized);
@@ -31,6 +31,41 @@ void UROS2ServiceClient::Init()
 
 		client = rcl_get_zero_initialized_client();
   		rcl_client_options_t client_opt = rcl_client_get_default_options();
+
+		if (QoS == UROS2QoS::Default)
+		{
+			client_opt.qos = rmw_qos_profile_default;
+		}
+		else if (QoS == UROS2QoS::SensorData)
+		{
+			client_opt.qos = rmw_qos_profile_sensor_data;
+		}
+		else if (QoS == UROS2QoS::TFStatic)
+		{
+			client_opt.qos = rmw_qos_profile_default;
+			client_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+		}
+		else if (QoS == UROS2QoS::Parameters)
+		{
+			client_opt.qos = rmw_qos_profile_parameters;
+		}
+		else if (QoS == UROS2QoS::Services)
+		{
+			client_opt.qos = rmw_qos_profile_services_default;
+		}
+		else if (QoS == UROS2QoS::ParameterEvents)
+		{
+			client_opt.qos = rmw_qos_profile_parameter_events;
+		}
+		else if (QoS == UROS2QoS::System)
+		{
+			client_opt.qos = rmw_qos_profile_system_default;
+		}
+		else if (QoS == UROS2QoS::Unknown)
+		{
+			client_opt.qos = rmw_qos_profile_unknown;
+		}
+
 		RCSOFTCHECK(rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
 			
 		State = UROS2State::Initialized;

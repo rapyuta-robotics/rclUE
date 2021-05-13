@@ -4,12 +4,19 @@
 #include "ROS2ActionClient.h"
 
 
-void UROS2ActionClient::InitializeActionComponent()
+void UROS2ActionClient::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 {
 	const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();
 
 	client = rcl_action_get_zero_initialized_client();
 	rcl_action_client_options_t client_opt = rcl_action_client_get_default_options();
+
+	SetQoS(client_opt.goal_service_qos, QoS);
+	SetQoS(client_opt.result_service_qos, QoS);
+	SetQoS(client_opt.cancel_service_qos, QoS);
+	SetQoS(client_opt.feedback_topic_qos, QoS);
+	SetQoS(client_opt.status_topic_qos, QoS);
+
 	rcl_ret_t rc = rcl_action_client_init(&client, ownerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
 	
 	if (rc != RCL_RET_OK)

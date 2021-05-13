@@ -162,7 +162,7 @@ void ASensorLidar::InitToNode(AROS2Node *Node)
 
 		LidarPublisher->UpdateDelegate.BindDynamic(this, &ASensorLidar::LidarMessageUpdate);
 		Node->AddPublisher(LidarPublisher);
-		LidarPublisher->Init();
+		LidarPublisher->Init(UROS2QoS::SensorData);
 	}
 }
 
@@ -203,12 +203,14 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	retValue.range_max = MaxRange*.01;
 
 	retValue.ranges.Empty();
+	retValue.intensities.Empty();
 	// note that angles are reversed compared to rviz
 	// ROS is right handed
 	// UE4 is left handed
 	for (int i=0; i<RecordedHits.Num(); i++)
 	{
 		retValue.ranges.Add((MinRange*(RecordedHits.Last(i).Distance>0)+RecordedHits.Last(i).Distance)*.01); // convert to [m]
+		retValue.intensities.Add(0);
 	}
 
 	return retValue;

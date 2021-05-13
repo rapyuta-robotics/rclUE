@@ -58,5 +58,5 @@ private:
 	FSimpleCallback CancelDelegate;
 
 
-	virtual void InitializeActionComponent() override;
+	virtual void InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS) override;
 };
