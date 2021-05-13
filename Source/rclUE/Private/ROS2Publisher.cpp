@@ -32,62 +32,7 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 		pub = rcl_get_zero_initialized_publisher();
 		rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
-		if (QoS == UROS2QoS::Default)
-		{
-			pub_opt.qos = rmw_qos_profile_default;
-		}
-		else if (QoS == UROS2QoS::KeepLast)
-		{
-			pub_opt.qos = rmw_qos_profile_default;
-			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
-			pub_opt.qos.depth = 1;
-			//pub_opt.qos.reliability = RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT;
-		}
-		else if (QoS == UROS2QoS::DynamicBroadcaster)
-		{
-			pub_opt.qos = rmw_qos_profile_default;
-			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
-			pub_opt.qos.depth = 100;
-		}
-		else if (QoS == UROS2QoS::StaticBroadcaster || QoS == UROS2QoS::TFStatic)
-		{
-			pub_opt.qos = rmw_qos_profile_default;
-			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
-			pub_opt.qos.depth = 1;
-			pub_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
-		}
-		else if (QoS == UROS2QoS::ClockPub)
-		{
-			pub_opt.qos = rmw_qos_profile_default;
-			pub_opt.qos.history = RMW_QOS_POLICY_HISTORY_KEEP_LAST;
-			pub_opt.qos.depth = 10;
-			pub_opt.qos.durability = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
-		}
-		else if (QoS == UROS2QoS::SensorData)
-		{
-			pub_opt.qos = rmw_qos_profile_sensor_data;
-			pub_opt.qos.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
-		}
-		else if (QoS == UROS2QoS::Parameters)
-		{
-			pub_opt.qos = rmw_qos_profile_parameters;
-		}
-		else if (QoS == UROS2QoS::Services)
-		{
-			pub_opt.qos = rmw_qos_profile_services_default;
-		}
-		else if (QoS == UROS2QoS::ParameterEvents)
-		{
-			pub_opt.qos = rmw_qos_profile_parameter_events;
-		}
-		else if (QoS == UROS2QoS::System)
-		{
-			pub_opt.qos = rmw_qos_profile_system_default;
-		}
-		else if (QoS == UROS2QoS::Unknown)
-		{
-			pub_opt.qos = rmw_qos_profile_unknown;
-		}
+		pub_opt.qos = QoS_LUT[QoS];
 
 		RCSOFTCHECK(rcl_publisher_init(&pub, ownerNode->GetNode(), msg_type_support, TCHAR_TO_ANSI(*TopicName), &pub_opt));
 

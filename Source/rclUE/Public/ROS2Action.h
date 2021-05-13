@@ -51,6 +51,4 @@ public:
 protected:
 	UFUNCTION()
 	virtual void InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS);
-
-	void SetQoS(rmw_qos_profile_t &profile, TEnumAsByte<UROS2QoS> QoS);
 };
