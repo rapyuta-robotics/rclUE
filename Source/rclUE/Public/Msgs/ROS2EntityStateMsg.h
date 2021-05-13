@@ -99,9 +99,9 @@ public:
 	void Update(FEntityStateData data);
 	
 	virtual void* Get() override;
-
-private:
-	virtual FString MsgToString() const override;
 	
+	virtual FString MsgToString() const override;
+
+private:	
 	ue_msgs__msg__EntityState entity_state_msg;
 };

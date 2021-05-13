@@ -34,8 +34,8 @@ public:
 	
 	virtual void* Get() override;
 
-private:
 	virtual FString MsgToString() const override;
-	
+
+private:	
 	geometry_msgs__msg__Twist twist_pub_msg;
 };

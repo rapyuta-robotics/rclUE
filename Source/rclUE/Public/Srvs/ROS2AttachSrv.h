@@ -44,11 +44,11 @@ public:
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;
-
-private:
+	
 	virtual FString SrvRequestToString() const override;
 	virtual FString SrvResponseToString() const override;
 
+private:
 	ue_msgs__srv__Attach_Request attach_req;
 	ue_msgs__srv__Attach_Response attach_res;
 };

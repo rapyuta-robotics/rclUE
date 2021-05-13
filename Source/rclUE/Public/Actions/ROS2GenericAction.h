@@ -35,8 +35,7 @@ public:
 	void* GetCancelResponse();
 	
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const;
-
-private:
+	
 	UFUNCTION(BlueprintCallable)
 	virtual FString ActionGoalToString() const;
 
@@ -46,7 +45,7 @@ private:
 	UFUNCTION(BlueprintCallable)
 	virtual FString ActionFeedbackToString() const;
 
-
+private:
 	action_msgs__srv__CancelGoal_Request cancel_request;
 	action_msgs__srv__CancelGoal_Response cancel_response;
 };
