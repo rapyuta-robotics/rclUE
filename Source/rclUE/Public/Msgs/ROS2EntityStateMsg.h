@@ -51,7 +51,10 @@ public:
 
 	void SetROS2(ue_msgs__msg__EntityState& data) const
 	{
-		FMemory::Free(data.name.data);
+		if (data.name.data)
+		{
+			FMemory::Free(data.name.data);
+		}
 		data.name.data = (char*)FMemory::Malloc((name.Len()+1)*sizeof(char));
 		FMemory::Memcpy(data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
 		data.name.size = name.Len();
@@ -73,7 +76,10 @@ public:
 		data.twist.angular.y = angular.Y;
 		data.twist.angular.z = angular.Z;
 
-		FMemory::Free(data.reference_frame.data);
+		if (data.reference_frame.data)
+		{
+			FMemory::Free(data.reference_frame.data);
+		}
 		data.reference_frame.data = (char*)FMemory::Malloc((reference_frame.Len()+1)*sizeof(char));
 		FMemory::Memcpy(data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
 		data.reference_frame.size = reference_frame.Len();

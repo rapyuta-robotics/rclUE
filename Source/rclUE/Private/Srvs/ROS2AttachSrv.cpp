@@ -23,11 +23,17 @@ void UROS2AttachSrv::Fini()
 
 void UROS2AttachSrv::SetInputs(FString Name1, FString Name2)
 {
-    FMemory::Free(attach_req.name1.data);
+    if (attach_req.name1.data != nullptr)
+    {
+        FMemory::Free(attach_req.name1.data);
+    }
     attach_req.name1.data = (char*)FMemory::Malloc((Name1.Len()+1)*sizeof(char));
     FMemory::Memcpy(attach_req.name1.data, TCHAR_TO_ANSI(*Name1), (Name1.Len()+1)*sizeof(char));
 
-    FMemory::Free(attach_req.name2.data);
+    if (attach_req.name2.data != nullptr)
+    {
+        FMemory::Free(attach_req.name2.data);
+    }
     attach_req.name2.data = (char*)FMemory::Malloc((Name2.Len()+1)*sizeof(char));
     FMemory::Memcpy(attach_req.name2.data, TCHAR_TO_ANSI(*Name2), (Name2.Len()+1)*sizeof(char));
 }

@@ -23,11 +23,17 @@ void UROS2SpawnEntitySrv::Fini()
 
 void UROS2SpawnEntitySrv::SetInputs(FString xml, FString RobotNamespace, FEntityStateData data)
 {
-    FMemory::Free(spawn_entity_req.xml.data);
+    if (spawn_entity_req.xml.data != nullptr)
+    {
+        FMemory::Free(spawn_entity_req.xml.data);
+    }
     spawn_entity_req.xml.data = (char*)FMemory::Malloc((xml.Len()+1)*sizeof(char));
     FMemory::Memcpy(spawn_entity_req.xml.data, TCHAR_TO_ANSI(*xml), (xml.Len()+1)*sizeof(char));
 
-    FMemory::Free(spawn_entity_req.robot_namespace.data);
+    if (spawn_entity_req.robot_namespace.data != nullptr)
+    {
+        FMemory::Free(spawn_entity_req.robot_namespace.data);
+    }
     spawn_entity_req.robot_namespace.data = (char*)FMemory::Malloc((RobotNamespace.Len()+1)*sizeof(char));
     FMemory::Memcpy(spawn_entity_req.robot_namespace.data, TCHAR_TO_ANSI(*RobotNamespace), (RobotNamespace.Len()+1)*sizeof(char));
 
@@ -46,7 +52,10 @@ void UROS2SpawnEntitySrv::SetOutput(bool Success, FString status_message)
 {
     spawn_entity_res.success = Success;
 
-    FMemory::Free(spawn_entity_res.status_message.data);
+    if (spawn_entity_res.status_message.data != nullptr)
+    {
+        FMemory::Free(spawn_entity_res.status_message.data);
+    }
     spawn_entity_res.status_message.data = (char*)FMemory::Malloc((status_message.Len()+1)*sizeof(char));
     FMemory::Memcpy(spawn_entity_res.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
 }

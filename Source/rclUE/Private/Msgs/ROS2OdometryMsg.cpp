@@ -25,13 +25,19 @@ void UROS2OdometryMsg::Update(const FOdometryData data)
     odometry_pub_msg.header.stamp.sec = data.sec;
     odometry_pub_msg.header.stamp.nanosec = data.nanosec;
 
-    FMemory::Free(odometry_pub_msg.header.frame_id.data);
+	if (odometry_pub_msg.header.frame_id.data != nullptr)
+	{
+    	FMemory::Free(odometry_pub_msg.header.frame_id.data);
+	}
     odometry_pub_msg.header.frame_id.data = (char*)FMemory::Malloc((data.frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
     FMemory::Memcpy(odometry_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id), (data.frame_id.Len()+1)*sizeof(char));
     odometry_pub_msg.header.frame_id.size = data.frame_id.Len(); // Len excludes nullterm char
     odometry_pub_msg.header.frame_id.capacity = data.frame_id.Len()+1;
 
-    FMemory::Free(odometry_pub_msg.child_frame_id.data);
+	if (odometry_pub_msg.child_frame_id.data != nullptr)
+	{
+    	FMemory::Free(odometry_pub_msg.child_frame_id.data);
+	}
     odometry_pub_msg.child_frame_id.data = (char*)FMemory::Malloc((data.child_frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
     FMemory::Memcpy(odometry_pub_msg.child_frame_id.data, TCHAR_TO_ANSI(*data.child_frame_id), (data.child_frame_id.Len()+1)*sizeof(char));
     odometry_pub_msg.child_frame_id.size = data.child_frame_id.Len(); // Len excludes nullterm char
