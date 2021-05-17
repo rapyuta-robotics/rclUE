@@ -51,7 +51,7 @@ public:
 
 	void SetROS2(ue_msgs__msg__EntityState& data) const
 	{
-		if (data.name.data)
+		if (data.name.data != nullptr)
 		{
 			FMemory::Free(data.name.data);
 		}
@@ -76,7 +76,7 @@ public:
 		data.twist.angular.y = angular.Y;
 		data.twist.angular.z = angular.Z;
 
-		if (data.reference_frame.data)
+		if (data.reference_frame.data != nullptr)
 		{
 			FMemory::Free(data.reference_frame.data);
 		}
