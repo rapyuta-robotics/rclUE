@@ -55,8 +55,8 @@ public:
 	
 	virtual void* Get() override;
 
-private:
 	virtual FString MsgToString() const override;
-	
+
+private:	
 	sensor_msgs__msg__LaserScan laserscan_pub_msg;
 };

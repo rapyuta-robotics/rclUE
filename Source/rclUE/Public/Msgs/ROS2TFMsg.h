@@ -46,9 +46,9 @@ public:
 	void Update(const TArray<FTFData> &data);
 	
 	virtual void* Get() override;
+	
+	virtual FString MsgToString() const override;
 
 private:
-	virtual FString MsgToString() const override;
-	
 	tf2_msgs__msg__TFMessage tf_pub_msg;
 };

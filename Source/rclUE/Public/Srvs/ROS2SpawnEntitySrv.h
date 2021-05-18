@@ -45,11 +45,11 @@ public:
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;
-
-private:
+	
 	virtual FString SrvRequestToString() const override;
 	virtual FString SrvResponseToString() const override;
 
+private:
 	ue_msgs__srv__SpawnEntity_Request spawn_entity_req;
 	ue_msgs__srv__SpawnEntity_Response spawn_entity_res;
 };

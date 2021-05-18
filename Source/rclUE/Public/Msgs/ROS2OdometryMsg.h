@@ -54,9 +54,9 @@ public:
 	void Update(const FOdometryData data);
 	
 	virtual void* Get() override;
+	
+	virtual FString MsgToString() const override;
 
 private:
-	virtual FString MsgToString() const override;
-	
 	nav_msgs__msg__Odometry odometry_pub_msg;
 };

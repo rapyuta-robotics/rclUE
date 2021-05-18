@@ -30,9 +30,9 @@ public:
 	void PrintSubToLog() const;
 	
 	virtual void* Get() override;
-
-private:
+	
 	virtual FString MsgToString() const override;
 
+private:
 	rosgraph_msgs__msg__Clock clock_pub_msg;
 };

@@ -31,7 +31,6 @@ public:
 	
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const;
 
-private:
 	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const;
 };

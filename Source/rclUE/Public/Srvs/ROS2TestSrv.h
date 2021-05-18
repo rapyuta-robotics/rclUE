@@ -44,11 +44,11 @@ public:
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;
-
-private:
+	
 	virtual FString SrvRequestToString() const override;
 	virtual FString SrvResponseToString() const override;
 
+private:
 	ue4_interfaces__srv__AddInts_Request ue4test_req;
 	ue4_interfaces__srv__AddInts_Response ue4test_res;
 };

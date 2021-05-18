@@ -28,8 +28,7 @@ public:
 	virtual void* GetResponse();
 	
 	virtual const rosidl_service_type_support_t* GetTypeSupport() const;
-
-private:
+	
 	UFUNCTION(BlueprintCallable)
 	virtual FString SrvRequestToString() const;
 	

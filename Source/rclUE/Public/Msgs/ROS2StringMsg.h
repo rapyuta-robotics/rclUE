@@ -25,11 +25,11 @@ public:
 	
   	UFUNCTION(BlueprintCallable)
 	void Update(const FString &stringData);
-	
+
 	virtual void* Get() override;
 
-private:
 	virtual FString MsgToString() const override;
 	
+private:
 	std_msgs__msg__String string_pub_msg;
 };
