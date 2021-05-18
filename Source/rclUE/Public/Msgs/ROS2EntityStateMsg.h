@@ -53,10 +53,10 @@ public:
 	{
 		if (data.name.data != nullptr)
 		{
-			FMemory::Free(data.name.data);
+			free(data.name.data);
 		}
-		data.name.data = (char*)FMemory::Malloc((name.Len()+1)*sizeof(char));
-		FMemory::Memcpy(data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
+		data.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
+		memcpy(data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
 		data.name.size = name.Len();
 		data.name.capacity = name.Len()+1;
 
@@ -78,10 +78,10 @@ public:
 
 		if (data.reference_frame.data != nullptr)
 		{
-			FMemory::Free(data.reference_frame.data);
+			free(data.reference_frame.data);
 		}
-		data.reference_frame.data = (char*)FMemory::Malloc((reference_frame.Len()+1)*sizeof(char));
-		FMemory::Memcpy(data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
+		data.reference_frame.data = (char*)malloc((reference_frame.Len()+1)*sizeof(char));
+		memcpy(data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
 		data.reference_frame.size = reference_frame.Len();
 		data.reference_frame.capacity = reference_frame.Len()+1;
 	}
