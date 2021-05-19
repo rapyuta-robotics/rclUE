@@ -25,17 +25,17 @@ void UROS2GetEntityStateSrv::SetInputs(FString Name, FString ReferenceFrame)
 {
     if (entity_state_req.name.data != nullptr)
     {
-        FMemory::Free(entity_state_req.name.data);
+        free(entity_state_req.name.data);
     }
-    entity_state_req.name.data = (char*)FMemory::Malloc((Name.Len()+1)*sizeof(char));
-    FMemory::Memcpy(entity_state_req.name.data, TCHAR_TO_ANSI(*Name), (Name.Len()+1)*sizeof(char));
+    entity_state_req.name.data = (char*)malloc((Name.Len()+1)*sizeof(char));
+    memcpy(entity_state_req.name.data, TCHAR_TO_ANSI(*Name), (Name.Len()+1)*sizeof(char));
 
     if (entity_state_req.reference_frame.data != nullptr)
     {
-        FMemory::Free(entity_state_req.reference_frame.data);
+        free(entity_state_req.reference_frame.data);
     }
-    entity_state_req.reference_frame.data = (char*)FMemory::Malloc((ReferenceFrame.Len()+1)*sizeof(char));
-    FMemory::Memcpy(entity_state_req.reference_frame.data, TCHAR_TO_ANSI(*ReferenceFrame), (ReferenceFrame.Len()+1)*sizeof(char));
+    entity_state_req.reference_frame.data = (char*)malloc((ReferenceFrame.Len()+1)*sizeof(char));
+    memcpy(entity_state_req.reference_frame.data, TCHAR_TO_ANSI(*ReferenceFrame), (ReferenceFrame.Len()+1)*sizeof(char));
 }
 
 void UROS2GetEntityStateSrv::GetInputs(FString& Name, FString& ReferenceFrame)
