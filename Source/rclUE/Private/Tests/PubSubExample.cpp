@@ -92,7 +92,7 @@ void APubSubExample::BeginPlay()
 	// assign message to publisher
 	std_msgs__msg__String__init(&pub_msg);
 	const unsigned int PUB_MSG_CAPACITY = 20;
-	pub_msg.data.data = (char*)FMemory::Malloc(PUB_MSG_CAPACITY);
+	pub_msg.data.data = (char*)malloc(PUB_MSG_CAPACITY);
 	pub_msg.data.capacity = PUB_MSG_CAPACITY;
 	snprintf(pub_msg.data.data, pub_msg.data.capacity, "Hello World!");
 	pub_msg.data.size = strlen(pub_msg.data.data);

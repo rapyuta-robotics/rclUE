@@ -22,7 +22,7 @@ const rosidl_message_type_support_t* UROS2StringMsg::GetTypeSupport() const
 void UROS2StringMsg::Update(const FString &stringData)
 {
 	const unsigned int PUB_MSG_CAPACITY = stringData.Len()+1;
-	string_pub_msg.data.data = (char*)FMemory::Malloc(PUB_MSG_CAPACITY);
+	string_pub_msg.data.data = (char*)malloc(PUB_MSG_CAPACITY);
 	string_pub_msg.data.capacity = PUB_MSG_CAPACITY;
 	snprintf(string_pub_msg.data.data, string_pub_msg.data.capacity, "%s", TCHAR_TO_ANSI(*stringData));
 	string_pub_msg.data.size = strlen(string_pub_msg.data.data);
