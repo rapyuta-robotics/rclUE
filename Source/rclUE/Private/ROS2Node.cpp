@@ -181,7 +181,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 		UE_LOG(LogROS2Node, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
 	}
 
-	Publisher->RegisterComponent();
+	//Publisher->RegisterComponent();
 	Publisher->ownerNode = this;
 	Publishers.Add(Publisher);
 }

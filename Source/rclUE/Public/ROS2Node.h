@@ -15,6 +15,7 @@ class UROS2ServiceClient;
 class UROS2ActionServer;
 class UROS2ActionClient;
 
+// Reminder: functions bound to delegates must be UFUNCTION
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv *, Service);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction *, Action);
