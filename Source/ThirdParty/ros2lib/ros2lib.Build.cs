@@ -41,24 +41,29 @@ public class ros2lib : ModuleRules
 
 		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
 		var folders = new string[] { "rcutils", "rmw", "tracetools",
-									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "ue_msgs", "ue4_interfaces", "unique_identifier_msgs", "action_msgs",
-									 "rosidl_generator_c", "rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
-									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
-									 "rclc", "rclc_lifecycle" };
+						"builtin_interfaces", "std_msgs", "rosgraph_msgs", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "ue_msgs", "ue4_interfaces", "unique_identifier_msgs", "action_msgs",
+						"rosidl_generator_c", "rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
+						"rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
+						"rclc", "rclc_lifecycle" };
 
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
 			//BuildPlugin(Target);
 
 			PublicRuntimeLibraryPaths.Add(ModulePath);
-			var libs = Directory.EnumerateFiles(ModulePath, "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".so", StringComparison.OrdinalIgnoreCase));
+			var libs = Directory.EnumerateFiles(ModulePath, "*.so", SearchOption.TopDirectoryOnly);
 			foreach (var libName in libs)
 			{
 				PublicAdditionalLibraries.Add(libName);
 				RuntimeDependencies.Add(libName);
-				//Console.WriteLine("Found library: " + libName);
 			}
 					
+			var extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
+			foreach (var libName in extended_libs)
+			{
+				PublicAdditionalLibraries.Add(libName);
+				RuntimeDependencies.Add(libName);
+			}
 
 			foreach (var folder in folders)
 			{
@@ -67,14 +72,20 @@ public class ros2lib : ModuleRules
 				if (Directory.Exists(LibrariesPath))
 				{
 					PublicRuntimeLibraryPaths.Add(LibrariesPath);
-					libs = Directory.EnumerateFiles(LibrariesPath, "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".so", StringComparison.OrdinalIgnoreCase));
+					libs = Directory.EnumerateFiles(LibrariesPath, "*.so", SearchOption.TopDirectoryOnly);
 
 					foreach (var libName in libs)
 					{
 						PublicAdditionalLibraries.Add(libName);
-						RuntimeDependencies.Add(libName); // needed for .so?
+						RuntimeDependencies.Add(libName);
 					}
 
+					extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
+					foreach (var libName in extended_libs)
+					{
+						PublicAdditionalLibraries.Add(libName);
+						RuntimeDependencies.Add(libName);
+					}
 				}
 			}
 		}
