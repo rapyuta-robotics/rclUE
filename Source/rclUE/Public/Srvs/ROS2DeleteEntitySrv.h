@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Srvs/ROS2GenericSrv.h"
+#include "Msgs/ROS2EntityStateMsg.h"
 #include "rclcUtilities.h"
 #include <ue_msgs/srv/delete_entity.h>
 

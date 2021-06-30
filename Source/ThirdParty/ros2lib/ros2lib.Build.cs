@@ -61,7 +61,6 @@ public class ros2lib : ModuleRules
 			var extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
 			foreach (var libName in extended_libs)
 			{
-				PublicAdditionalLibraries.Add(libName);
 				RuntimeDependencies.Add(libName);
 			}
 
@@ -83,7 +82,6 @@ public class ros2lib : ModuleRules
 					extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
 					foreach (var libName in extended_libs)
 					{
-						PublicAdditionalLibraries.Add(libName);
 						RuntimeDependencies.Add(libName);
 					}
 				}
