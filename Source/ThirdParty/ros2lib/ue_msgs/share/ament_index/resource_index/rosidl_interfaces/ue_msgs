@@ -4,6 +4,10 @@ srv/Attach.idl
 srv/Attach.srv
 srv/Attach_Request.msg
 srv/Attach_Response.msg
+srv/DeleteEntity.idl
+srv/DeleteEntity.srv
+srv/DeleteEntity_Request.msg
+srv/DeleteEntity_Response.msg
 srv/GetEntityState.idl
 srv/GetEntityState.srv
 srv/GetEntityState_Request.msg

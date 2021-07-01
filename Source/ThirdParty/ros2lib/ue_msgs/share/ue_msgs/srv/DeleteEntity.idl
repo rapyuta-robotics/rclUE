@@ -1,0 +1,23 @@
+// generated from rosidl_adapter/resource/srv.idl.em
+// with input from ue_msgs/srv/DeleteEntity.srv
+// generated code does not contain a copyright notice
+
+
+module ue_msgs {
+  module srv {
+    struct DeleteEntity_Request {
+      @verbatim (language="comment", text=
+        " Entity name.")
+      string name;
+    };
+    struct DeleteEntity_Response {
+      @verbatim (language="comment", text=
+        " Return true if spawned successfully.")
+      boolean success;
+
+      @verbatim (language="comment", text=
+        " Comments if available.")
+      string status_message;
+    };
+  };
+};
