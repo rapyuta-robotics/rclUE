@@ -9,7 +9,7 @@ _package_local_setup_AMENT_CURRENT_PREFIX=$AMENT_CURRENT_PREFIX
 
 # trace output
 if [ -n "$AMENT_TRACE_SETUP_FILES" ]; then
-  echo ". \"$_this_path/local_setup.sh\""
+  echo "# . \"$_this_path/local_setup.sh\""
 fi
 . "$_this_path/local_setup.sh"
 unset _this_path

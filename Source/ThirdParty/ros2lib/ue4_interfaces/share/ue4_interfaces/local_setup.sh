@@ -2,7 +2,7 @@
 
 # since this file is sourced use either the provided AMENT_CURRENT_PREFIX
 # or fall back to the destination set at configure time
-: ${AMENT_CURRENT_PREFIX:="/home/cconti/dev_ws/install/ue4_interfaces"}
+: ${AMENT_CURRENT_PREFIX:="/home/cconti/Rapyuta/turtlebot3_ws/install/ue4_interfaces"}
 if [ ! -d "$AMENT_CURRENT_PREFIX" ]; then
   if [ -z "$COLCON_CURRENT_PREFIX" ]; then
     echo "The compile time prefix path '$AMENT_CURRENT_PREFIX' doesn't " \
@@ -119,7 +119,7 @@ if [ -z "$AMENT_RETURN_ENVIRONMENT_HOOKS" ]; then
       IFS=$_package_local_setup_IFS
       # trace output
       if [ -n "$AMENT_TRACE_SETUP_FILES" ]; then
-        echo ". \"$_hook\""
+        echo "# . \"$_hook\""
       fi
       . "$_hook"
     fi

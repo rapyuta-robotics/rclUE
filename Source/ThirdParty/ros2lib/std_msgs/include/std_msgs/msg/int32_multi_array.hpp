@@ -4,7 +4,8 @@
 #ifndef STD_MSGS__MSG__INT32_MULTI_ARRAY_HPP_
 #define STD_MSGS__MSG__INT32_MULTI_ARRAY_HPP_
 
-#include "std_msgs/msg/int32_multi_array__struct.hpp"
-#include "std_msgs/msg/int32_multi_array__traits.hpp"
+#include "std_msgs/msg/detail/int32_multi_array__struct.hpp"
+#include "std_msgs/msg/detail/int32_multi_array__builder.hpp"
+#include "std_msgs/msg/detail/int32_multi_array__traits.hpp"
 
 #endif  // STD_MSGS__MSG__INT32_MULTI_ARRAY_HPP_

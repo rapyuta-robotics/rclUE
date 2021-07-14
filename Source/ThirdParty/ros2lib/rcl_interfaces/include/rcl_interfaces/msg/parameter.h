@@ -1,12 +1,1 @@
-// generated from rosidl_generator_c/resource/idl.h.em
-// with input from rcl_interfaces:msg/Parameter.idl
-// generated code does not contain a copyright notice
-
-#ifndef RCL_INTERFACES__MSG__PARAMETER_H_
-#define RCL_INTERFACES__MSG__PARAMETER_H_
-
-#include "rcl_interfaces/msg/parameter__struct.h"
-#include "rcl_interfaces/msg/parameter__functions.h"
-#include "rcl_interfaces/msg/parameter__type_support.h"
-
-#endif  // RCL_INTERFACES__MSG__PARAMETER_H_
+/home/cconti/Rapyuta/ROS2/build/rcl_interfaces/rosidl_generator_c/rcl_interfaces/msg/parameter.h

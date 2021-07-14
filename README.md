@@ -5,14 +5,31 @@ This build of the plugin is based on ROS2 Eloquent and has been tested on Ubuntu
 ### focal-foxy-devel - default branch
 This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20
 
+# Software Requirements
+- Unreal Engine
+  - Windows: https://docs.unrealengine.com/4.26/en-US/Basics/InstallingUnrealEngine/
+  - Linux: https://docs.unrealengine.com/4.26/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/
+- ROS2 (foxy)
+
 # Installation
-## How to install this plugin (Ubuntu 18):
+
+## How to install this plugin (Ubuntu 20):
 1. clone this repository in your Unreal Engine 4 Plugin folder
 2. create and use the following shell script to run the UE4 editor (substituting `PROJECT_PATH`, `PROJECT_NAME` and `UNREAL_ENGINE_REPO` for the appropriate strings):
 ```
 #!/bin/sh
 
-export LD_LIBRARY_PATH="PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib":"PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib/std_msgs/lib"
+export LD_LIBRARY_PATH=\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/std_msgs/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/geometry_msgs/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/sensor_msgs/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/rosgraph_msgs/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/nav_msgs/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/tf2_msgs/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/builtin_interfaces/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/ue4_interfaces/lib":\
+"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/ue_msgs/lib"
 
 EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 
@@ -21,6 +38,7 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
 4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
 5. add a PubSubExample actor to the scene and test
+6. change the world settings to use meters as units instead of the default centimeters
 
 ## How to install this plugin (Ubuntu 20):
 1. clone this repository in your Unreal Engine 4 Plugin folder
@@ -39,7 +57,7 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 5. add a PubSubExample actor to the scene and test
 
 ## How to install this plugin (Windows 10)
-1. clone this repository in your Unreal Engine 4 Plugin folder (branch?)
+untested
 
 # Dependencies
 ## Compile time (includes+libs)

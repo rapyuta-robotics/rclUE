@@ -6,7 +6,7 @@
 #ifndef STD_MSGS__MSG__MULTI_ARRAY_DIMENSION__ROSIDL_TYPESUPPORT_CONNEXT_C_H_
 #define STD_MSGS__MSG__MULTI_ARRAY_DIMENSION__ROSIDL_TYPESUPPORT_CONNEXT_C_H_
 
-#include "rosidl_generator_c/message_type_support_struct.h"
+#include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "std_msgs/msg/rosidl_typesupport_connext_c__visibility_control.h"
 
@@ -17,7 +17,7 @@ extern "C"
 
 ROSIDL_TYPESUPPORT_CONNEXT_C_PUBLIC_std_msgs
 const rosidl_message_type_support_t *
-  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
   rosidl_typesupport_connext_c,
   std_msgs, msg,
   MultiArrayDimension)();

@@ -4,7 +4,8 @@
 #ifndef STD_MSGS__MSG__U_INT16_HPP_
 #define STD_MSGS__MSG__U_INT16_HPP_
 
-#include "std_msgs/msg/u_int16__struct.hpp"
-#include "std_msgs/msg/u_int16__traits.hpp"
+#include "std_msgs/msg/detail/u_int16__struct.hpp"
+#include "std_msgs/msg/detail/u_int16__builder.hpp"
+#include "std_msgs/msg/detail/u_int16__traits.hpp"
 
 #endif  // STD_MSGS__MSG__U_INT16_HPP_

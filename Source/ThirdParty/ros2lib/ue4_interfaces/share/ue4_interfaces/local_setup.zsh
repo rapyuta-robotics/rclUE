@@ -21,7 +21,7 @@ ament_zsh_to_array() {
 
 # trace output
 if [ -n "$AMENT_TRACE_SETUP_FILES" ]; then
-  echo ". \"$_this_path/local_setup.sh\""
+  echo "# . \"$_this_path/local_setup.sh\""
 fi
 # the package-level local_setup file unsets AMENT_CURRENT_PREFIX
 . "$_this_path/local_setup.sh"

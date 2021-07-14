@@ -4,7 +4,8 @@
 #ifndef STD_MSGS__MSG__FLOAT64_HPP_
 #define STD_MSGS__MSG__FLOAT64_HPP_
 
-#include "std_msgs/msg/float64__struct.hpp"
-#include "std_msgs/msg/float64__traits.hpp"
+#include "std_msgs/msg/detail/float64__struct.hpp"
+#include "std_msgs/msg/detail/float64__builder.hpp"
+#include "std_msgs/msg/detail/float64__traits.hpp"
 
 #endif  // STD_MSGS__MSG__FLOAT64_HPP_

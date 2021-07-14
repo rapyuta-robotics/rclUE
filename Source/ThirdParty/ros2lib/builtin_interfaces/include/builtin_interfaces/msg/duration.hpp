@@ -1,10 +1,1 @@
-// generated from rosidl_generator_cpp/resource/idl.hpp.em
-// generated code does not contain a copyright notice
-
-#ifndef BUILTIN_INTERFACES__MSG__DURATION_HPP_
-#define BUILTIN_INTERFACES__MSG__DURATION_HPP_
-
-#include "builtin_interfaces/msg/duration__struct.hpp"
-#include "builtin_interfaces/msg/duration__traits.hpp"
-
-#endif  // BUILTIN_INTERFACES__MSG__DURATION_HPP_
+/home/cconti/Rapyuta/ROS2/build/builtin_interfaces/rosidl_generator_cpp/builtin_interfaces/msg/duration.hpp

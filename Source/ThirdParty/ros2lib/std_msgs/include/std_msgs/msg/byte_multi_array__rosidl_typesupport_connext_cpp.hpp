@@ -6,10 +6,10 @@
 #ifndef STD_MSGS__MSG__BYTE_MULTI_ARRAY__ROSIDL_TYPESUPPORT_CONNEXT_CPP_HPP_
 #define STD_MSGS__MSG__BYTE_MULTI_ARRAY__ROSIDL_TYPESUPPORT_CONNEXT_CPP_HPP_
 
-#include "rosidl_generator_c/message_type_support_struct.h"
+#include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "std_msgs/msg/rosidl_typesupport_connext_cpp__visibility_control.h"
-#include "std_msgs/msg/byte_multi_array__struct.hpp"
+#include "std_msgs/msg/detail/byte_multi_array__struct.hpp"
 
 #ifndef _WIN32
 # pragma GCC diagnostic push

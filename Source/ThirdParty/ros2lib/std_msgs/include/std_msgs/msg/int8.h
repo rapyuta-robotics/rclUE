@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__INT8_H_
 #define STD_MSGS__MSG__INT8_H_
 
-#include "std_msgs/msg/int8__struct.h"
-#include "std_msgs/msg/int8__functions.h"
-#include "std_msgs/msg/int8__type_support.h"
+#include "std_msgs/msg/detail/int8__struct.h"
+#include "std_msgs/msg/detail/int8__functions.h"
+#include "std_msgs/msg/detail/int8__type_support.h"
 
 #endif  // STD_MSGS__MSG__INT8_H_
