@@ -1,4 +1,5 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
+// based on ROS2 examples
 
 
 #include "Tests/ClientNodeExample.h"

@@ -1,17 +1,14 @@
-// Copyright (C) Rapyuta Robotics
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 
 #include "Tools/TimeLogger.h"
 
 
-// Sets default values
 ATimeLogger::ATimeLogger()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 }
 
-// Called when the game starts or when spawned
 void ATimeLogger::BeginPlay()
 {
 	Super::BeginPlay();
@@ -21,7 +18,6 @@ void ATimeLogger::BeginPlay()
 	SimTimeHistory.Reserve(1000);
 }
 
-// Called every frame
 void ATimeLogger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

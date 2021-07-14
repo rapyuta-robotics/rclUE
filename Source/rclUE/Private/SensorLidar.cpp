@@ -1,17 +1,14 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 
 #include "Sensors/SensorLidar.h"
 #include "Kismet/KismetMathLibrary.h"
-//#include "DrawDebugHelpers.h"
 #include "Components/LineBatchComponent.h"
 
 DEFINE_LOG_CATEGORY(LogROS2Sensor);
 
-// Sets default values
 ASensorLidar::ASensorLidar()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
  	
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
@@ -22,7 +19,6 @@ ASensorLidar::ASensorLidar()
 	LidarPublisher->MsgClass = UROS2LaserScanMsg::StaticClass();
 }
 
-// Called when the game starts or when spawned
 void ASensorLidar::BeginPlay()
 {
 	Super::BeginPlay();
@@ -39,7 +35,6 @@ void ASensorLidar::LidarMessageUpdate(UROS2GenericMsg *TopicMessage)
 	ScanMessage->Update(GetROS2Data());
 }
 
-// Called every frame
 void ASensorLidar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);

@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
@@ -16,7 +16,6 @@ class RCLUE_API UROS2Publisher : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UROS2Publisher();
 
 public:	

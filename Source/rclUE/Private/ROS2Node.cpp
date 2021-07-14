@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 
 #include "ROS2Node.h"
@@ -54,7 +54,6 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-// Called every frame
 void AROS2Node::Tick(float DeltaTime)
 {
 	check(State == UROS2State::Initialized);

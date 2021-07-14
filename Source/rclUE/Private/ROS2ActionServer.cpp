@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 
 #include "ROS2ActionServer.h"

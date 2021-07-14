@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 
 #include "Msgs/ROS2TFMsg.h"
@@ -31,19 +31,11 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 		tf_pub_msg.transforms.data[i].header.stamp.sec = data[i].sec;
 		tf_pub_msg.transforms.data[i].header.stamp.nanosec = data[i].nanosec;
 
-		// if (tf_pub_msg.transforms.data[i].header.frame_id.data != nullptr)
-		// {
-		// 	free(tf_pub_msg.transforms.data[i].header.frame_id.data);
-		// }
 		tf_pub_msg.transforms.data[i].header.frame_id.data = (char*)malloc((data[i].frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
 		strcpy(tf_pub_msg.transforms.data[i].header.frame_id.data, TCHAR_TO_ANSI(*data[i].frame_id));
 		tf_pub_msg.transforms.data[i].header.frame_id.size = data[i].frame_id.Len(); // GetStringLength excludes nullterm char
 		tf_pub_msg.transforms.data[i].header.frame_id.capacity = data[i].frame_id.Len()+1;
 
-		// if (tf_pub_msg.transforms.data[i].child_frame_id.data != nullptr)
-		// {
-		// 	free(tf_pub_msg.transforms.data[i].child_frame_id.data);
-		// }
 		tf_pub_msg.transforms.data[i].child_frame_id.data = (char*)malloc((data[i].child_frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
 		strcpy(tf_pub_msg.transforms.data[i].child_frame_id.data, TCHAR_TO_ANSI(*data[i].child_frame_id));
 		tf_pub_msg.transforms.data[i].child_frame_id.size = data[i].child_frame_id.Len(); // Len excludes nullterm char
@@ -56,25 +48,7 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 		tf_pub_msg.transforms.data[i].transform.rotation.y = data[i].rotation.Y;
 		tf_pub_msg.transforms.data[i].transform.rotation.z = data[i].rotation.Z;
 		tf_pub_msg.transforms.data[i].transform.rotation.w = data[i].rotation.W;
-
-		// FString frame_id, child_frame_id;
-		// frame_id.AppendChars(tf_pub_msg.transforms.data[i].header.frame_id.data, tf_pub_msg.transforms.data[i].header.frame_id.size);
-		// child_frame_id.AppendChars(tf_pub_msg.transforms.data[i].child_frame_id.data, tf_pub_msg.transforms.data[i].child_frame_id.size);
-		// UE_LOG(LogTemp, Warning, TEXT("TF - %ds %dns: %s, %s - (%f %f %f) (%f %f %f %f)"),
-		// 	tf_pub_msg.transforms.data[i].header.stamp.sec,
-		// 	tf_pub_msg.transforms.data[i].header.stamp.nanosec,
-		// 	*frame_id,
-		// 	*child_frame_id,
-		// 	tf_pub_msg.transforms.data[i].transform.translation.x,
-		// 	tf_pub_msg.transforms.data[i].transform.translation.y,
-		// 	tf_pub_msg.transforms.data[i].transform.translation.z,
-		// 	tf_pub_msg.transforms.data[i].transform.rotation.x,
-		// 	tf_pub_msg.transforms.data[i].transform.rotation.y,
-		// 	tf_pub_msg.transforms.data[i].transform.rotation.z,
-		// 	tf_pub_msg.transforms.data[i].transform.rotation.w);
 	}
-
-	
 }
 
 void* UROS2TFMsg::Get()

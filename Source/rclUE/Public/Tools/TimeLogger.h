@@ -1,4 +1,4 @@
-// Copyright (C) Rapyuta Robotics
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
@@ -13,15 +13,12 @@ class RCLUE_API ATimeLogger : public AActor
 	GENERATED_BODY()
 	
 public:	
-	// Sets default values for this actor's properties
 	ATimeLogger();
 
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:	
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable)
