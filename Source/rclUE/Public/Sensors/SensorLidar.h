@@ -84,6 +84,13 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float MaxRange;
 
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FColor ColorMiss = FColor(255, 127, 0, 255);
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FColor ColorHit = FColor(255, 0, 0, 255);
+
+
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
 	float TimeOfLastScan = 0.f;
 

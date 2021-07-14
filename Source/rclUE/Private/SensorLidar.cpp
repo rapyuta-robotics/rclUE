@@ -144,11 +144,11 @@ void ASensorLidar::Scan()
 		{
 			if (h.Actor != nullptr)
 			{
-				LineBatcher->DrawLine(h.TraceStart, h.Location, FColor(255, 0, 0, 255), 10, .5, dt);
+				LineBatcher->DrawLine(h.TraceStart, h.Location, ColorHit, 10, .5, dt);
 			}
 			else
 			{
-				LineBatcher->DrawLine(h.TraceStart, h.TraceEnd, FColor(255, 127, 0, 255), 10, .25, dt);
+				LineBatcher->DrawLine(h.TraceStart, h.TraceEnd, ColorMiss, 10, .25, dt);
 			}
 		}
 	}
