@@ -4,6 +4,7 @@
 #include "Sensors/SensorLidar.h"
 #include "Kismet/KismetMathLibrary.h"
 //#include "DrawDebugHelpers.h"
+#include "PhysicalMaterials/PhysicalMaterial.h"
 #include "Components/LineBatchComponent.h"
 
 DEFINE_LOG_CATEGORY(LogROS2Sensor);
@@ -92,8 +93,10 @@ void ASensorLidar::Scan()
 	DHAngle = FOVHorizontal / (float)nSamplesPerScan;
 	
 	FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("Laser_Trace")), true, this); // complex collisions: true
-	TraceParams.bReturnPhysicalMaterial = false;
-	TraceParams.bIgnoreTouches = true;
+	TraceParams.bReturnPhysicalMaterial = true;
+	//TraceParams.bIgnoreTouches = true;
+	TraceParams.bTraceComplex = true;
+	TraceParams.bReturnFaceIndex = true;
 
 	FVector lidarPos = GetActorLocation();
 	FRotator lidarRot = GetActorRotation();
@@ -142,9 +145,52 @@ void ASensorLidar::Scan()
 	{
 		for (auto& h : RecordedHits)
 		{
+
+			// UStaticMeshComponent* ComponentHit = Cast<UStaticMeshComponent>(h.GetComponent());
+			// if (ComponentHit != nullptr)
+			// {
+			// 	UMaterialInterface* MaterialInterfaceHit = ComponentHit->GetMaterial(0);
+			// 	UPhysicalMaterial* PhysMatHit = MaterialInterfaceHit->GetPhysicalMaterial();
+			// 	if (PhysMatHit != nullptr)
+			// 	{
+			// 		if (PhysMatHit->SurfaceType == EPhysicalSurface::SurfaceType1)
+			// 		{
+			// 			//UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
+			// 			//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorReflected, 10, .5, dt);
+			// 			LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
+			// 		}
+			// 		else if (PhysMatHit->SurfaceType == EPhysicalSurface::SurfaceType_Default)
+			// 		{
+			// 			//UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
+			// 			//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorHit, 10, .5, dt);
+			// 			LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+			// 		}
+			// 	}
+			// }
+
+
 			if (h.Actor != nullptr)
 			{
-				LineBatcher->DrawLine(h.TraceStart, h.Location, ColorHit, 10, .5, dt);
+				if (h.PhysMaterial != nullptr)
+				{
+					if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1)
+					{
+						UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
+						//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorReflected, 10, .5, dt);
+						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
+					}
+					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
+					{
+						UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
+						//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorHit, 10, .5, dt);
+						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+					}
+				}
+				else
+				{
+					//UE_LOG(LogTemp, Warning, TEXT("no physics material"));
+					LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+				}
 			}
 			else
 			{
@@ -210,7 +256,24 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	for (int i=0; i<RecordedHits.Num(); i++)
 	{
 		retValue.ranges.Add((MinRange*(RecordedHits.Last(i).Distance>0)+RecordedHits.Last(i).Distance)*.01); // convert to [m]
-		retValue.intensities.Add(0);
+		//retValue.intensities.Add(0);
+
+		UStaticMeshComponent* ComponentHit = Cast<UStaticMeshComponent>(RecordedHits.Last(i).GetComponent());
+		if (RecordedHits.Last(i).PhysMaterial != nullptr)
+		{
+			if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1)
+			{
+				retValue.intensities.Add(3000);
+			}
+			else if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
+			{
+				retValue.intensities.Add(500);
+			}
+		}
+		else
+		{
+				retValue.intensities.Add(10);
+		}
 	}
 
 	return retValue;
