@@ -1,7 +1,6 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 // based on ROS2 examples
 
-
 #include "Tests/PubSubExample.h"
 #include "rclcUtilities.h"
 

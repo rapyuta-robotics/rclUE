@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "Actions/ROS2GenericAction.h"
 
 DEFINE_LOG_CATEGORY(LogROS2Action);

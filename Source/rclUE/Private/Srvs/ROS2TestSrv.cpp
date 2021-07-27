@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "Srvs/ROS2TestSrv.h"
 
 

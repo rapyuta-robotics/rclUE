@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "Sensors/SensorLidar.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Components/LineBatchComponent.h"

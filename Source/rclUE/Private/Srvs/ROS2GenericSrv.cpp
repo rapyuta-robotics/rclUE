@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "Srvs/ROS2GenericSrv.h"
 
 DEFINE_LOG_CATEGORY(LogROS2Srv);

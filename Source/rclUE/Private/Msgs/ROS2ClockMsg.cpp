@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "Msgs/ROS2ClockMsg.h"
 #include "Kismet/GameplayStatics.h"
 

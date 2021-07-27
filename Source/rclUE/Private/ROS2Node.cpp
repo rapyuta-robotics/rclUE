@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "ROS2Node.h"
 #include "ROS2Subsystem.h"
 #include "ROS2Publisher.h"

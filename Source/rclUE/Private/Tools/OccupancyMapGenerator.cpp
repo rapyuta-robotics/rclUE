@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "Tools/OccupancyMapGenerator.h"
 #include <Runtime/Core/Public/Misc/Paths.h>
 #include <Runtime/Core/Public/HAL/PlatformFilemanager.h>

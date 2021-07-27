@@ -1,6 +1,5 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
-
 #include "ROS2Publisher.h"
 
 DEFINE_LOG_CATEGORY(LogROS2Publisher);
