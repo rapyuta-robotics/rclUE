@@ -85,10 +85,10 @@ public:
 	float MaxRange;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FColor ColorMiss = FColor(255, 127, 0, 255);
+	FLinearColor ColorMiss = FColor(255, 127, 0, 255);
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FColor ColorHit = FColor(255, 0, 0, 255);
+	FLinearColor ColorHit = FColor(255, 0, 0, 255);
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	FColor ColorReflected = FColor(255, 255, 255, 255);
@@ -113,6 +113,12 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool ShowLidarRays = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float IntensityNonReflective = 1000;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float IntensityReflective = 4000;
 
 private:
 	float dt;

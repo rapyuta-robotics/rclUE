@@ -173,17 +173,34 @@ void ASensorLidar::Scan()
 			{
 				if (h.PhysMaterial != nullptr)
 				{
+					// retroreflective material
 					if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1)
 					{
-						UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
+						//UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
 						//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorReflected, 10, .5, dt);
 						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
 					}
+					// non reflective material
 					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
 					{
-						UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
+						//UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
 						//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorHit, 10, .5, dt);
 						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+					}
+					// reflective material
+					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType2)
+					{
+						FVector HitSurfaceNormal = h.Normal;
+						FVector RayDirection = h.TraceEnd -h.TraceStart;
+						RayDirection.Normalize();
+
+						float NormalAlignment = FVector::DotProduct(HitSurfaceNormal, -RayDirection);
+						NormalAlignment *= NormalAlignment;
+						NormalAlignment *= NormalAlignment;
+						NormalAlignment *= NormalAlignment;
+						NormalAlignment *= NormalAlignment;
+						NormalAlignment *= NormalAlignment; // pow 32
+						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, FLinearColor::LerpUsingHSV(ColorHit, ColorReflected, NormalAlignment), 10, .5, dt);
 					}
 				}
 				else
@@ -261,13 +278,28 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 		UStaticMeshComponent* ComponentHit = Cast<UStaticMeshComponent>(RecordedHits.Last(i).GetComponent());
 		if (RecordedHits.Last(i).PhysMaterial != nullptr)
 		{
+			// retroreflective material
 			if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1)
 			{
-				retValue.intensities.Add(3000);
+				retValue.intensities.Add(IntensityReflective);
 			}
+			// non-reflective material
 			else if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
 			{
-				retValue.intensities.Add(500);
+				retValue.intensities.Add(IntensityNonReflective);
+			}
+			// reflective material
+			else if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType2)
+			{
+				FVector HitSurfaceNormal = RecordedHits.Last(i).Normal;
+				FVector RayDirection = RecordedHits.Last(i).TraceEnd - RecordedHits.Last(i).TraceStart;
+				RayDirection.Normalize();
+
+				// the dot product for this should always be between 0 and 1
+				float Intensity = IntensityNonReflective + (IntensityReflective-IntensityNonReflective) * FVector::DotProduct(HitSurfaceNormal, -RayDirection);
+				check(Intensity >= IntensityNonReflective);
+				check(Intensity <= IntensityReflective);
+				retValue.intensities.Add(Intensity);
 			}
 		}
 		else
