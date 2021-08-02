@@ -43,6 +43,9 @@ public:
 	void Scan();
 
 	UFUNCTION(BlueprintCallable)
+	void InitLidar(AROS2Node* Node, FString TopicName);
+
+	UFUNCTION(BlueprintCallable)
 	void InitToNode(AROS2Node *Node);
 
 	// adding the rest of the necessary information might be tedious

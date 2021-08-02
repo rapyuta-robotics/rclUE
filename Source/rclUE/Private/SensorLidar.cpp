@@ -217,7 +217,18 @@ void ASensorLidar::Scan()
 	}
 }
 
-void ASensorLidar::InitToNode(AROS2Node *Node)
+void ASensorLidar::InitLidar(AROS2Node* Node, FString TopicName)
+{
+	LidarPublisher->TopicName = TopicName;
+	LidarPublisher->PublicationFrequencyHz = ScanFrequency;
+	LidarPublisher->ownerNode = Node;
+	
+	InitToNode(Node);
+
+	Run();
+}
+
+void ASensorLidar::InitToNode(AROS2Node* Node)
 {
 	if (IsValid(Node))
 	{
