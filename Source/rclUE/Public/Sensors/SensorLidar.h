@@ -43,6 +43,9 @@ public:
 	void Scan();
 
 	UFUNCTION(BlueprintCallable)
+	void InitLidar(AROS2Node* Node, FString TopicName);
+
+	UFUNCTION(BlueprintCallable)
 	void InitToNode(AROS2Node *Node);
 
 	// adding the rest of the necessary information might be tedious
@@ -62,6 +65,9 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UROS2Publisher *LidarPublisher;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FString FrameId = FString("scan_base");
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int nSamplesPerScan;
@@ -85,10 +91,13 @@ public:
 	float MaxRange;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FColor ColorMiss = FColor(255, 127, 0, 255);
+	FLinearColor ColorMiss = FColor(255, 127, 0, 255);
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FColor ColorHit = FColor(255, 0, 0, 255);
+	FLinearColor ColorHit = FColor(255, 0, 0, 255);
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FColor ColorReflected = FColor(255, 255, 255, 255);
 
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
@@ -110,6 +119,12 @@ public:
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool ShowLidarRays = true;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float IntensityNonReflective = 1000;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float IntensityReflective = 4000;
 
 private:
 	float dt;
