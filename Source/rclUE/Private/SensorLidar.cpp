@@ -266,7 +266,7 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	unsigned long long ns = (unsigned long long)(TimeOfLastScan * 1000000000.0f);
 	retValue.nanosec = (uint32_t)(ns - (retValue.sec * 1000000000ul));
 	
-	retValue.frame_id = FString("base_scan");
+	retValue.frame_id = FrameId;
 
 	retValue.angle_min = GetMinAngleRadians();
 	retValue.angle_max = GetMaxAngleRadians();

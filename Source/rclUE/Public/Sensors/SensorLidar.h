@@ -67,6 +67,9 @@ public:
 	UROS2Publisher *LidarPublisher;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	FString FrameId = FString("scan_base");
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int nSamplesPerScan;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
