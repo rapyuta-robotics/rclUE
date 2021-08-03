@@ -4,7 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+
 #include "ROS2Node.h"
+
 #include "ROS2Publisher.generated.h"
 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg*, TopicMessage);

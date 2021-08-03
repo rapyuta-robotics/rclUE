@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "std_msgs/msg/string.h"
+
 #include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
-#include <std_msgs/msg/string.h>
 
 #include "ROS2StringMsg.generated.h"
 

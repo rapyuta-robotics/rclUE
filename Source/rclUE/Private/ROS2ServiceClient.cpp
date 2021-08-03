@@ -2,9 +2,7 @@
 
 #include "ROS2ServiceClient.h"
 
-
 DEFINE_LOG_CATEGORY(LogROS2Service);
-
 
 // Sets default values for this component's properties
 UROS2ServiceClient::UROS2ServiceClient()

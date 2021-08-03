@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "sensor_msgs/msg/laser_scan.h"
+
 #include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
-#include <sensor_msgs/msg/laser_scan.h>
 
 #include "ROS2LaserScanMsg.generated.h"
 

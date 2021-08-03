@@ -1,6 +1,7 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 #include "Msgs/ROS2OdometryMsg.h"
+
 #include "Kismet/GameplayStatics.h"
 
 void UROS2OdometryMsg::Init()

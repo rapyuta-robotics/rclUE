@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Misc/DateTime.h"
 #include "GameFramework/Actor.h"
+
 #include "TimeLogger.generated.h"
 
 UCLASS()

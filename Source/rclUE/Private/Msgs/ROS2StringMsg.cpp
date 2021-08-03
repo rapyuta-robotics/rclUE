@@ -1,6 +1,7 @@
 // Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 #include "Msgs/ROS2StringMsg.h"
+
 #include "Kismet/GameplayStatics.h"
 
 void UROS2StringMsg::Init()

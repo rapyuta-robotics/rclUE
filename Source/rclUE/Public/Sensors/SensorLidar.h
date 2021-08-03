@@ -4,13 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+
 #include "Msgs/ROS2LaserScanMsg.h"
+
 #include "SensorLidar.generated.h"
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Sensor, Log, All);
-
-class AROS2Node;
-class UROS2Publisher;
 
 #define TRACE_ASYNC 1
 

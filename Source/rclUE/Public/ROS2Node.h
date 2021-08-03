@@ -10,6 +10,7 @@
 
 #include "ROS2Node.generated.h"
 
+// needed to avoid circular dependencies
 class UROS2Publisher;
 class UROS2ServiceClient;
 class UROS2ActionServer;

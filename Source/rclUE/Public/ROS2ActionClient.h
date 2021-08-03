@@ -6,7 +6,6 @@
 #include <rcl_action/action_client.h>
 #include "ROS2ActionClient.generated.h"
 
-
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RCLUE_API UROS2ActionClient : public UROS2Action
 {

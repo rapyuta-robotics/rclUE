@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "nav_msgs/msg/odometry.h"
+
 #include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
-#include <nav_msgs/msg/odometry.h>
 
 #include "ROS2OdometryMsg.generated.h"
 
