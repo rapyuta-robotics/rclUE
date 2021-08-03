@@ -3,7 +3,7 @@
 #include "ROS2Subsystem.h"
 
 
-bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
+bool UROS2Subsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
 	return true;		// TODO: If client/server, this should only be created on the server.
 }

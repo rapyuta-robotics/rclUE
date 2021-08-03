@@ -2,7 +2,6 @@
 
 #include "ROS2Action.h"
 
-
 UROS2Action::UROS2Action()
 {
 	PrimaryComponentTick.bCanEverTick = true;
@@ -19,7 +18,7 @@ void UROS2Action::Init(TEnumAsByte<UROS2QoS> QoS)
 		check(IsValid(Action));
 
 		InitializeActionComponent(QoS);
-		
+
 		State = UROS2State::Initialized;
 	}
 }
@@ -28,11 +27,11 @@ void UROS2Action::InitializeAction()
 {
 	check(ActionName != FString());
 	check(ActionClass);
-	
+
 	Action = NewObject<UROS2GenericAction>(this, ActionClass);
 
 	check(IsValid(Action));
-	
+
 	Action->Init();
 }
 
@@ -54,7 +53,7 @@ void UROS2Action::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 	checkNoEntry();
 }
 
-void UROS2Action::SetQoS(rmw_qos_profile_t &profile, TEnumAsByte<UROS2QoS> QoS)
+void UROS2Action::SetQoS(rmw_qos_profile_t& profile, TEnumAsByte<UROS2QoS> QoS)
 {
 	if (QoS == UROS2QoS::Default)
 	{

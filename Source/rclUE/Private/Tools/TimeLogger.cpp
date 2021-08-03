@@ -2,7 +2,6 @@
 
 #include "Tools/TimeLogger.h"
 
-
 ATimeLogger::ATimeLogger()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -22,12 +21,12 @@ void ATimeLogger::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	FDateTime CurrentRealTime = FDateTime::Now();
-	float CurrentRealTime_s = CurrentRealTime.GetMinute()*60 + CurrentRealTime.GetSecond() + CurrentRealTime.GetMillisecond()*.001f;
-	float CurrentSimTime  = UGameplayStatics::GetRealTimeSeconds(GWorld); // clock
+	float CurrentRealTime_s = CurrentRealTime.GetMinute() * 60 + CurrentRealTime.GetSecond() + CurrentRealTime.GetMillisecond() * .001f;
+	float CurrentSimTime = UGameplayStatics::GetRealTimeSeconds(GWorld); // clock
 	RealTimeHistory.Add(FString::SanitizeFloat(CurrentRealTime_s));
 	SimTimeHistory.Add(FString::SanitizeFloat(CurrentSimTime));
 
-	if (CurrentSimTime-StartSimTime >= MaxTime)
+	if (CurrentSimTime - StartSimTime >= MaxTime)
 	{
 		DumpData();
 		UKismetSystemLibrary::QuitGame(GetWorld(), nullptr, EQuitPreference::Quit, true);
@@ -42,7 +41,7 @@ void ATimeLogger::StartTimer()
 
 void ATimeLogger::DumpData()
 {
-    FString Directory = FPaths::ProjectContentDir();
+	FString Directory = FPaths::ProjectContentDir();
 	FString TargetFile_RealTime = Directory + "/RealTime_UE4";
 	FString TargetFile_SimTime = Directory + "/SimTime_UE4";
 

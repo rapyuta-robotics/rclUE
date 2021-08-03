@@ -3,10 +3,9 @@
 #include "Msgs/ROS2LaserScanMsg.h"
 #include "Kismet/GameplayStatics.h"
 
-
 void UROS2LaserScanMsg::Init()
 {
-	sensor_msgs__msg__LaserScan__init(&laserscan_pub_msg);
+    sensor_msgs__msg__LaserScan__init(&laserscan_pub_msg);
 }
 
 void UROS2LaserScanMsg::Fini()
@@ -28,10 +27,10 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     //  TCHAR_TO_ANSI(*data.frame_id) returns a temp object
     //  stringCast<ANSICHAR>(*data.frame_id).Get() does not seem to work here
     free(laserscan_pub_msg.header.frame_id.data);
-    laserscan_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
+    laserscan_pub_msg.header.frame_id.data = (char*)malloc((data.frame_id.Len() + 1) * sizeof(char)); // sizeof(char) is just to clarify the type
     strcpy(laserscan_pub_msg.header.frame_id.data, TCHAR_TO_ANSI(*data.frame_id));
     laserscan_pub_msg.header.frame_id.size = data.frame_id.Len(); // Len excludes nullterm char
-    laserscan_pub_msg.header.frame_id.capacity = data.frame_id.Len()+1;
+    laserscan_pub_msg.header.frame_id.capacity = data.frame_id.Len() + 1;
 
     laserscan_pub_msg.angle_min = data.angle_min;
     laserscan_pub_msg.angle_max = data.angle_max;
@@ -46,8 +45,8 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     {
         free(laserscan_pub_msg.ranges.data);
     }
-    laserscan_pub_msg.ranges.data = (float*)malloc(data.ranges.Num()*sizeof(float));
-    for (int i=0; i<data.ranges.Num(); i++)
+    laserscan_pub_msg.ranges.data = (float*)malloc(data.ranges.Num() * sizeof(float));
+    for (int i = 0; i < data.ranges.Num(); i++)
     {
         laserscan_pub_msg.ranges.data[i] = data.ranges[i];
     }
@@ -58,8 +57,8 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
     {
         free(laserscan_pub_msg.intensities.data);
     }
-    laserscan_pub_msg.intensities.data = (float*)malloc(data.intensities.Num()*sizeof(float));
-    for (int i=0; i<data.intensities.Num(); i++)
+    laserscan_pub_msg.intensities.data = (float*)malloc(data.intensities.Num() * sizeof(float));
+    for (int i = 0; i < data.intensities.Num(); i++)
     {
         laserscan_pub_msg.intensities.data[i] = data.intensities[i];
     }
@@ -69,7 +68,7 @@ void UROS2LaserScanMsg::Update(FLaserScanData data)
 
 void* UROS2LaserScanMsg::Get()
 {
-	return &laserscan_pub_msg;
+    return &laserscan_pub_msg;
 }
 
 FString UROS2LaserScanMsg::MsgToString() const
@@ -77,13 +76,13 @@ FString UROS2LaserScanMsg::MsgToString() const
     FString frame_id;
     frame_id.AppendChars(laserscan_pub_msg.header.frame_id.data, laserscan_pub_msg.header.frame_id.size);
     FString data;
-    for (int i=0; i<FGenericPlatformMath::Min(5,(int)laserscan_pub_msg.ranges.size); i++)
+    for (int i = 0; i < FGenericPlatformMath::Min(5, (int)laserscan_pub_msg.ranges.size); i++)
     {
         data.Append(FString::SanitizeFloat(laserscan_pub_msg.ranges.data[i]));
         data.Append("\t");
     }
-	return FString::Printf(TEXT("Lidar (%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d - data (up to 5 values): %s"),
-                            laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, *frame_id, 
-                            laserscan_pub_msg.angle_min, laserscan_pub_msg.angle_max, laserscan_pub_msg.angle_increment, laserscan_pub_msg.time_increment, laserscan_pub_msg.scan_time, laserscan_pub_msg.range_min, laserscan_pub_msg.range_max,
-                            laserscan_pub_msg.ranges.size, laserscan_pub_msg.intensities.size, *data);
+    return FString::Printf(TEXT("Lidar (%ds %dns %s), (%f %f %f, %f %f, %f %f) %d, %d - data (up to 5 values): %s"),
+                           laserscan_pub_msg.header.stamp.sec, laserscan_pub_msg.header.stamp.nanosec, *frame_id,
+                           laserscan_pub_msg.angle_min, laserscan_pub_msg.angle_max, laserscan_pub_msg.angle_increment, laserscan_pub_msg.time_increment, laserscan_pub_msg.scan_time, laserscan_pub_msg.range_min, laserscan_pub_msg.range_max,
+                           laserscan_pub_msg.ranges.size, laserscan_pub_msg.intensities.size, *data);
 }

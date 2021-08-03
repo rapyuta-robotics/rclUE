@@ -37,7 +37,7 @@ public:
 	TSubclassOf<UROS2GenericAction> ActionClass;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UROS2GenericAction *Action;
+	UROS2GenericAction* Action;
 	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -51,5 +51,5 @@ protected:
 	UFUNCTION()
 	virtual void InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS);
 
-	void SetQoS(rmw_qos_profile_t &profile, TEnumAsByte<UROS2QoS> QoS);
+	void SetQoS(rmw_qos_profile_t& profile, TEnumAsByte<UROS2QoS> QoS);
 };

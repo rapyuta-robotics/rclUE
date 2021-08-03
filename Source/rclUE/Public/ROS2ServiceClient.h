@@ -8,7 +8,7 @@
 #include "Srvs/ROS2GenericSrv.h"
 #include "ROS2ServiceClient.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv *, Service);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv*, Service);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RCLUE_API UROS2ServiceClient : public UActorComponent
@@ -57,7 +57,7 @@ public:
 	rcl_client_t client;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UROS2GenericSrv *Service;
+	UROS2GenericSrv* Service;
 
 	bool Ready;
 

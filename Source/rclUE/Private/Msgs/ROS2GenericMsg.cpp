@@ -7,7 +7,7 @@ DEFINE_LOG_CATEGORY(LogROS2Msg);
 const rosidl_message_type_support_t* UROS2GenericMsg::GetTypeSupport() const
 {
 	checkNoEntry();
-    return nullptr;
+	return nullptr;
 }
 
 void UROS2GenericMsg::Init()

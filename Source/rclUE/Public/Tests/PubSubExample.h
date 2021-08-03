@@ -46,6 +46,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	int frameMS = 100;
 
-	static void my_subscriber_callback(const void * msgin);
-	static void my_timer_callback(rcl_timer_t * timer, int64_t last_call_time);
+	static void my_subscriber_callback(const void* msgin);
+	static void my_timer_callback(rcl_timer_t* timer, int64_t last_call_time);
 };

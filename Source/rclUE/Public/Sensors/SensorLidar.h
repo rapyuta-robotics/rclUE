@@ -30,7 +30,7 @@ protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 	UFUNCTION()
-	void LidarMessageUpdate(UROS2GenericMsg *TopicMessage);
+	void LidarMessageUpdate(UROS2GenericMsg* TopicMessage);
 
 public:	
 	// Called every frame
@@ -43,7 +43,7 @@ public:
 	void Scan();
 
 	UFUNCTION(BlueprintCallable)
-	void InitToNode(AROS2Node *Node);
+	void InitToNode(AROS2Node* Node);
 
 	// adding the rest of the necessary information might be tedious
 	// eventually split into multiple getters
@@ -61,7 +61,7 @@ public:
 	float GetMaxAngleRadians() const;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	UROS2Publisher *LidarPublisher;
+	UROS2Publisher* LidarPublisher;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int nSamplesPerScan;

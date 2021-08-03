@@ -28,7 +28,7 @@ void ASensorLidar::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-void ASensorLidar::LidarMessageUpdate(UROS2GenericMsg *TopicMessage)
+void ASensorLidar::LidarMessageUpdate(UROS2GenericMsg* TopicMessage)
 {
 	UROS2LaserScanMsg* ScanMessage = Cast<UROS2LaserScanMsg>(TopicMessage);
 	ScanMessage->Update(GetROS2Data());
@@ -148,7 +148,7 @@ void ASensorLidar::Scan()
 	}
 }
 
-void ASensorLidar::InitToNode(AROS2Node *Node)
+void ASensorLidar::InitToNode(AROS2Node* Node)
 {
 	if (IsValid(Node))
 	{

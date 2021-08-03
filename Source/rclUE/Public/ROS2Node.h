@@ -15,9 +15,9 @@ class UROS2ServiceClient;
 class UROS2ActionServer;
 class UROS2ActionClient;
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg *, Message);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, const UROS2GenericSrv *, Service);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction *, Action);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, Message);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, const UROS2GenericSrv*, Service);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, Action);
 DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 
 // these structs assume that the MAP containing them is short enough
@@ -30,18 +30,18 @@ struct RCLUE_API FSubscription
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString TopicName;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> TopicType;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UROS2GenericMsg * TopicMsg;
+	UROS2GenericMsg* TopicMsg;
 
 	rcl_subscription_t RCLSubscription;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FSubscriptionCallback Callback;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool Ready;
 };
@@ -54,23 +54,21 @@ struct RCLUE_API FService
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString ServiceName;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UROS2GenericSrv> ServiceType;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	UROS2GenericSrv * Service;
+	UROS2GenericSrv* Service;
 
 	rcl_service_t RCLService;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FServiceCallback Callback;
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	bool Ready;
 };
-
-
 
 /**
  * ROS2 Node that additionally acts as a factory for Publishers, Subscribers, Clients, Services
@@ -79,26 +77,25 @@ UCLASS(Blueprintable)
 class RCLUE_API AROS2Node : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AROS2Node();
 
-protected:	
+protected:
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	
 public:
 	UFUNCTION(BlueprintCallable)
 	void Init();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Name = TEXT("node");
-	
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString Namespace = TEXT("ros_global");
 
@@ -106,8 +103,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
-
-
 
 	// It is up to the user to ensure that subscriptions are only added once
 	UFUNCTION(BlueprintCallable)
@@ -128,8 +123,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddActionServer(UROS2ActionServer* ActionServer);
 
-
-
 	// Queries/Diagnostics
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfNodes();
@@ -140,16 +133,14 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TMap<FString, FString> GetListOfServices();
 
-
-
 	// wait_set quantities
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
+	UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
 	int NGuardConditions = 0;
 
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
+	UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
 	int NTimers = 0;
 
-	UPROPERTY(VisibleAnywhere,Category="Diagnostics")
+	UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
 	int NEvents = 0;
 
 protected:
@@ -159,15 +150,13 @@ protected:
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION() // uint64 is apparently not supported by BP - might need some changes here
 	void SpinSome();
-	
+
 	rcl_wait_set_t wait_set;
 
 	UPROPERTY()
 	UROS2Context* context;
 
 	rcl_node_t node;
-
-
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FSubscription> Subscriptions;
@@ -176,18 +165,16 @@ protected:
 	TArray<FService> Services;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UROS2Publisher *> Publishers;
+	TArray<UROS2Publisher*> Publishers;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UROS2ServiceClient *> Clients;
+	TArray<UROS2ServiceClient*> Clients;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UROS2ActionClient *> ActionClients;
+	TArray<UROS2ActionClient*> ActionClients;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<UROS2ActionServer *> ActionServers;
-
-
+	TArray<UROS2ActionServer*> ActionServers;
 
 	UPROPERTY()
 	FTimerHandle timerHandle;
@@ -195,10 +182,10 @@ protected:
 private:
 	UFUNCTION()
 	void HandleSubscriptions();
-	
+
 	UFUNCTION()
 	void HandleServices();
-	
+
 	UFUNCTION()
 	void HandleClients();
 };

@@ -2,10 +2,9 @@
 
 #include "ROS2ActionClient.h"
 
-
 void UROS2ActionClient::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 {
-	const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();
+	const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();
 
 	client = rcl_action_get_zero_initialized_client();
 	rcl_action_client_options_t client_opt = rcl_action_client_get_default_options();
@@ -17,10 +16,10 @@ void UROS2ActionClient::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 	SetQoS(client_opt.status_topic_qos, QoS);
 
 	rcl_ret_t rc = rcl_action_client_init(&client, ownerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
-	
+
 	if (rc != RCL_RET_OK)
 	{
-		UE_LOG(LogROS2Action, Error, TEXT("Failed status : %d (%s). Terminating."),(int)rc, *__LOG_INFO__);
+		UE_LOG(LogROS2Action, Error, TEXT("Failed status : %d (%s). Terminating."), (int)rc, *__LOG_INFO__);
 		UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 	}
 }
@@ -28,23 +27,22 @@ void UROS2ActionClient::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 void UROS2ActionClient::Destroy()
 {
 	Super::Destroy();
-	
+
 	if (ownerNode != nullptr)
 	{
 		RCSOFTCHECK(rcl_action_client_fini(&client, ownerNode->GetNode()));
 	}
 }
 
-
 void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 {
 	TArray<bool, TFixedAllocator<5>> IsReady = {false, false, false, false, false};
 	RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(wait_set, &client,
-		&IsReady[0],
-		&IsReady[1],
-		&IsReady[2],
-		&IsReady[3],
-		&IsReady[4]));
+															  &IsReady[0],
+															  &IsReady[1],
+															  &IsReady[2],
+															  &IsReady[3],
+															  &IsReady[4]));
 
 	if (IsReady[0])
 	{
@@ -84,7 +82,6 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 	}
 }
 
-
 void UROS2ActionClient::UpdateAndSendGoal()
 {
 	check(State == UROS2State::Initialized);
@@ -108,8 +105,8 @@ void UROS2ActionClient::UpdateAndSendGoal()
 }
 
 void UROS2ActionClient::GetResultRequest()
-{	
-    UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request (%s)"), *__LOG_INFO__);
+{
+	UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request (%s)"), *__LOG_INFO__);
 	const void* result = Action->GetResultRequest();
 
 	int64_t seq;
@@ -118,8 +115,8 @@ void UROS2ActionClient::GetResultRequest()
 
 void UROS2ActionClient::CancelActionRequest()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
-	action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*) Action->GetCancelRequest();
+	UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
+	action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*)Action->GetCancelRequest();
 	float CancelTime = UGameplayStatics::GetTimeSeconds(GWorld);
 	cancel_request->goal_info.stamp.sec = (int32_t)CancelTime;
 	unsigned long long ns = (unsigned long long)(CancelTime * 1000000000.0f);
@@ -129,10 +126,10 @@ void UROS2ActionClient::CancelActionRequest()
 	RCSOFTCHECK(rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &seq));
 }
 
-void UROS2ActionClient::SetDelegates(FActionCallback SetGoal, 
-									 FActionCallback Feedback, 
-									 FActionCallback Result, 
-									 FSimpleCallback GoalResponse, 
+void UROS2ActionClient::SetDelegates(FActionCallback SetGoal,
+									 FActionCallback Feedback,
+									 FActionCallback Result,
+									 FSimpleCallback GoalResponse,
 									 FSimpleCallback Cancel)
 {
 
