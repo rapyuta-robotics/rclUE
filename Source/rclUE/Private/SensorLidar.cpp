@@ -145,30 +145,6 @@ void ASensorLidar::Scan()
 	{
 		for (auto& h : RecordedHits)
 		{
-
-			// UStaticMeshComponent* ComponentHit = Cast<UStaticMeshComponent>(h.GetComponent());
-			// if (ComponentHit != nullptr)
-			// {
-			// 	UMaterialInterface* MaterialInterfaceHit = ComponentHit->GetMaterial(0);
-			// 	UPhysicalMaterial* PhysMatHit = MaterialInterfaceHit->GetPhysicalMaterial();
-			// 	if (PhysMatHit != nullptr)
-			// 	{
-			// 		if (PhysMatHit->SurfaceType == EPhysicalSurface::SurfaceType1)
-			// 		{
-			// 			//UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
-			// 			//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorReflected, 10, .5, dt);
-			// 			LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
-			// 		}
-			// 		else if (PhysMatHit->SurfaceType == EPhysicalSurface::SurfaceType_Default)
-			// 		{
-			// 			//UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
-			// 			//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorHit, 10, .5, dt);
-			// 			LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
-			// 		}
-			// 	}
-			// }
-
-
 			if (h.Actor != nullptr)
 			{
 				if (h.PhysMaterial != nullptr)
@@ -177,14 +153,12 @@ void ASensorLidar::Scan()
 					if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1)
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
-						//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorReflected, 10, .5, dt);
 						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
 					}
 					// non reflective material
 					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
-						//LineBatcher->DrawLine(h.TraceStart, h.Location, ColorHit, 10, .5, dt);
 						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
 					}
 					// reflective material
