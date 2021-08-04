@@ -33,14 +33,14 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	}
 
 	// this is better done with the component registering itself to the owner at creation
-	TArray<UActorComponent*> pubComponents;
-	GetComponents(UROS2Publisher::StaticClass(), pubComponents, true);
-	for (auto& c : pubComponents)
+	TArray<UActorComponent*> PubComponents;
+	GetComponents(UROS2Publisher::StaticClass(), PubComponents, true);
+	for (auto& c : PubComponents)
 	{
-		UROS2Publisher* pub = Cast<UROS2Publisher>(c);
-		if (pub != nullptr)
+		UROS2Publisher* Pub = Cast<UROS2Publisher>(c);
+		if (Pub != nullptr)
 		{
-			pub->Destroy();
+			Pub->Destroy();
 		}
 	}
 
@@ -246,8 +246,8 @@ void AROS2Node::HandleSubscriptions()
 			rmw_message_info_t messageInfo;
 			RCSOFTCHECK(rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr));
 
-			FSubscriptionCallback* cb = &s.Callback;
-			cb->ExecuteIfBound(s.TopicMsg);
+			FSubscriptionCallback* SubCallback = &s.Callback;
+			SubCallback->ExecuteIfBound(s.TopicMsg);
 
 			s.Ready = false;
 		}
@@ -288,8 +288,8 @@ void AROS2Node::HandleServices()
 			UE_LOG(LogROS2Node, Log, TEXT("Executing Service (%s)"), *__LOG_INFO__);
 
 			// there's a variant with req_id in the callback and one with context
-			FServiceCallback* cb = &s.Callback;
-			cb->ExecuteIfBound(s.Service);
+			FServiceCallback* SrvCallback = &s.Callback;
+			SrvCallback->ExecuteIfBound(s.Service);
 
 			RCSOFTCHECK(rcl_send_response(&s.rcl_service, &req_info.request_id, s.Service->GetResponse()));
 
@@ -308,10 +308,10 @@ void AROS2Node::HandleClients()
 	{
 		if (wait_set.clients[i])
 		{
-			const rcl_client_t* currentClient = wait_set.clients[i];
+			const rcl_client_t* current_client = wait_set.clients[i];
 			for (auto& c : Clients)
 			{
-				if (&c->client == currentClient)
+				if (&c->client == current_client)
 				{
 					c->Ready = true;
 				}
@@ -332,8 +332,8 @@ void AROS2Node::HandleClients()
 			UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate (%s)"), *__LOG_INFO__);
 
 			// there's a variant with req_id in the callback
-			FServiceClientCallback* cb = &c->AnswerDelegate;
-			cb->ExecuteIfBound(c->Service);
+			FServiceClientCallback* SrvClientCallback = &c->AnswerDelegate;
+			SrvClientCallback->ExecuteIfBound(c->Service);
 
 			c->Ready = false;
 		}

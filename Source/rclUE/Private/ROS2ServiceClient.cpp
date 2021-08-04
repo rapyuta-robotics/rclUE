@@ -7,11 +7,7 @@ DEFINE_LOG_CATEGORY(LogROS2Service);
 // Sets default values for this component's properties
 UROS2ServiceClient::UROS2ServiceClient()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
@@ -115,6 +111,6 @@ void UROS2ServiceClient::SendRequest()
 
 	req = Service->GetRequest();
 
-	int64_t seq;
-	RCSOFTCHECK(rcl_send_request(&client, req, &seq));
+	int64_t Seq;
+	RCSOFTCHECK(rcl_send_request(&client, req, &Seq));
 }

@@ -95,8 +95,8 @@ void UROS2ActionClient::UpdateAndSendGoal()
 		SetGoalDelegate.ExecuteIfBound(Action);
 		const void* goal = Action->GetGoalRequest();
 
-		int64_t seq;
-		RCSOFTCHECK(rcl_action_send_goal_request(&client, goal, &seq));
+		int64_t Seq;
+		RCSOFTCHECK(rcl_action_send_goal_request(&client, goal, &Seq));
 	}
 	else
 	{
@@ -109,8 +109,8 @@ void UROS2ActionClient::GetResultRequest()
 	UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request (%s)"), *__LOG_INFO__);
 	const void* result = Action->GetResultRequest();
 
-	int64_t seq;
-	RCSOFTCHECK(rcl_action_send_result_request(&client, result, &seq));
+	int64_t Seq;
+	RCSOFTCHECK(rcl_action_send_result_request(&client, result, &Seq));
 }
 
 void UROS2ActionClient::CancelActionRequest()
@@ -122,8 +122,8 @@ void UROS2ActionClient::CancelActionRequest()
 	unsigned long long ns = (unsigned long long)(CancelTime * 1000000000.0f);
 	cancel_request->goal_info.stamp.nanosec = (uint32_t)(ns - (cancel_request->goal_info.stamp.sec * 1000000000ul));
 
-	int64_t seq;
-	RCSOFTCHECK(rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &seq));
+	int64_t Seq;
+	RCSOFTCHECK(rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &Seq));
 }
 
 void UROS2ActionClient::SetDelegates(FActionCallback SetGoal,

@@ -42,9 +42,9 @@ void ATimeLogger::StartTimer()
 void ATimeLogger::DumpData()
 {
 	FString Directory = FPaths::ProjectContentDir();
-	FString TargetFile_RealTime = Directory + "/RealTime_UE4";
-	FString TargetFile_SimTime = Directory + "/SimTime_UE4";
+	FString TargetFileRealTime = Directory + "/RealTime_UE4";
+	FString TargetFileSimTime = Directory + "/SimTime_UE4";
 
-	FFileHelper::SaveStringArrayToFile(RealTimeHistory, *TargetFile_RealTime);
-	FFileHelper::SaveStringArrayToFile(SimTimeHistory, *TargetFile_SimTime);
+	FFileHelper::SaveStringArrayToFile(RealTimeHistory, *TargetFileRealTime);
+	FFileHelper::SaveStringArrayToFile(SimTimeHistory, *TargetFileSimTime);
 }

@@ -63,7 +63,7 @@ public:
 	UROS2Publisher* LidarPublisher;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	int nSamplesPerScan;
+	int NSamplesPerScan;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	int ScanFrequency;
