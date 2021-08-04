@@ -12,13 +12,13 @@ void UROS2Subsystem::Initialize(FSubsystemCollectionBase &Collection)
 {
 	Super::Initialize(Collection);
 
-	context = NewObject<UROS2Context>();
-	context->Init();
+	Context = NewObject<UROS2Context>();
+	Context->Init();
 }
 
 void UROS2Subsystem::Deinitialize()
 {
-	context->Fini();
+	Context->Fini();
 	Super::Deinitialize();
 }
 
@@ -50,5 +50,5 @@ TStatId UROS2Subsystem::GetStatId() const
 
 UROS2Context* UROS2Subsystem::GetContext() const
 {
-    return context;
+    return Context;
 }

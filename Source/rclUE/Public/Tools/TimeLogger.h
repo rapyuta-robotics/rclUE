@@ -35,13 +35,13 @@ public:
 	TArray<FString> SimTimeHistory;
 	
 	UPROPERTY()
-	FTimerHandle timerHandle;
+	FTimerHandle TimerHandle;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float MaxTime=10.f;
+	float MaxTime = 10.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float StartSimTime=0.f;
+	float StartSimTime = 0.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FDateTime StartRealTime;

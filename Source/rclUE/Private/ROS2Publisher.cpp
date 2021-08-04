@@ -11,8 +11,8 @@ UROS2Publisher::UROS2Publisher()
 
 void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 {
-	check(ownerNode != nullptr);
-	check(ownerNode->State == UROS2State::Initialized);
+	check(OwnerNode != nullptr);
+	check(OwnerNode->State == UROS2State::Initialized);
 
 	if (State == UROS2State::Created)
 	{
@@ -22,7 +22,7 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
 
-		ownerNode->Init();
+		OwnerNode->Init();
 		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);
 
 		pub = rcl_get_zero_initialized_publisher();
@@ -87,7 +87,7 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		rcl_ret_t rc = rcl_publisher_init(
 			&pub,
-			ownerNode->GetNode(),
+			OwnerNode->GetNode(),
 			msg_type_support,
 			TCHAR_TO_ANSI(*TopicName),
 			&pub_opt);
@@ -98,7 +98,7 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 			UKismetSystemLibrary::QuitGame(GetOwner()->GetWorld(), nullptr, EQuitPreference::Quit, true);
 		}
 
-		GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
+		GWorld->GetGameInstance()->GetTimerManager().SetTimer(TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
 
 		State = UROS2State::Initialized;
 	}
@@ -112,10 +112,10 @@ void UROS2Publisher::Destroy()
 		TopicMessage->Fini();
 	}
 
-	if (ownerNode != nullptr)
+	if (OwnerNode != nullptr)
 	{
 		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
-		RCSOFTCHECK(rcl_publisher_fini(&pub, ownerNode->GetNode()));
+		RCSOFTCHECK(rcl_publisher_fini(&pub, OwnerNode->GetNode()));
 	}
 	UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - Done (%s)"), *__LOG_INFO__);
 }
@@ -135,7 +135,7 @@ void UROS2Publisher::InitializeMessage()
 void UROS2Publisher::UpdateAndPublishMessage_Implementation()
 {
 	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
+	check(IsValid(OwnerNode));
 
 	UpdateDelegate.ExecuteIfBound(TopicMessage);
 	Publish();
@@ -144,7 +144,7 @@ void UROS2Publisher::UpdateAndPublishMessage_Implementation()
 void UROS2Publisher::Publish()
 {
 	check(State == UROS2State::Initialized);
-	check(ownerNode != nullptr);
+	check(OwnerNode != nullptr);
 
 	pub_msg = TopicMessage->Get();
 

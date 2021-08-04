@@ -79,7 +79,7 @@ void ASensorLidar::Run()
 	TraceHandles.Init(FTraceHandle{}, nSamplesPerScan);
 #endif
 
-	GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &ASensorLidar::Scan, 1.f/(float)ScanFrequency, true);
+	GWorld->GetGameInstance()->GetTimerManager().SetTimer(TimerHandle, this, &ASensorLidar::Scan, 1.f/(float)ScanFrequency, true);
 }
 
 void ASensorLidar::Scan()

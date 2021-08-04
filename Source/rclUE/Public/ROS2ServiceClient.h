@@ -51,7 +51,7 @@ public:
 	FServiceClientCallback AnswerDelegate;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	AROS2Node* ownerNode;
+	AROS2Node* OwnerNode;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;

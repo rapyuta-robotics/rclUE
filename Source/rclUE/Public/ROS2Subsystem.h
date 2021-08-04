@@ -14,7 +14,7 @@
 
 /**
  * ROS2 Subsystem managing clock, execution model (executor), memory management and debugging support
- * - owner of context (contained in the rclc_support_t structure in rclc and wrapped in the UROS2Context in UE4)
+ * - owner of Context (contained in the rclc_support_t structure in rclc and wrapped in the UROS2Context in UE4)
  * 		should this be a TUniquePtr? the subsystem should be the first ROS2 component created and the last to be destroyed
  */
 UCLASS(Blueprintable)
@@ -44,5 +44,5 @@ public:
 	
 private:
 	UPROPERTY()
-    UROS2Context* context;
+    UROS2Context* Context;
 };

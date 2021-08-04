@@ -38,7 +38,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UROS2GenericMsg* TopicMsg;
 
-	rcl_subscription_t RCLSubscription;
+	rcl_subscription_t rcl_subscription;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FSubscriptionCallback Callback;
@@ -62,7 +62,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UROS2GenericSrv* Service;
 
-	rcl_service_t RCLService;
+	rcl_service_t rcl_service;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FServiceCallback Callback;
@@ -155,7 +155,7 @@ protected:
 	rcl_wait_set_t wait_set;
 
 	UPROPERTY()
-	UROS2Context* context;
+	UROS2Context* Context;
 
 	rcl_node_t node;
 
@@ -178,7 +178,7 @@ protected:
 	TArray<UROS2ActionServer*> ActionServers;
 
 	UPROPERTY()
-	FTimerHandle timerHandle;
+	FTimerHandle TimerHandle;
 
 private:
 	UFUNCTION()

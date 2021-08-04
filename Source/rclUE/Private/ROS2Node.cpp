@@ -24,12 +24,12 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	for (auto& s : Subscriptions)
 	{
-		RCSOFTCHECK(rcl_subscription_fini(&s.RCLSubscription, &node));
+		RCSOFTCHECK(rcl_subscription_fini(&s.rcl_subscription, &node));
 	}
 
 	for (auto& s : Services)
 	{
-		RCSOFTCHECK(rcl_service_fini(&s.RCLService, &node));
+		RCSOFTCHECK(rcl_service_fini(&s.rcl_service, &node));
 	}
 
 	// this is better done with the component registering itself to the owner at creation
@@ -73,10 +73,10 @@ void AROS2Node::Init()
 	{
 		if (!rcl_node_is_valid(&node)) // ensures that it stays safe when called multiple times
 		{
-			context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
+			Context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 
 			UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
-			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &context->Get()));
+			RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &Context->Get()));
 		}
 
 		State = UROS2State::Initialized;
@@ -87,7 +87,7 @@ void AROS2Node::Init()
 
 UROS2Context* AROS2Node::GetContext()
 {
-	return context;
+	return Context;
 }
 
 rcl_node_t* AROS2Node::GetNode()
@@ -122,10 +122,10 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
 	NewSub.Callback = Callback;
 	NewSub.Ready = false;
 
-	NewSub.RCLSubscription = rcl_get_zero_initialized_subscription();
+	NewSub.rcl_subscription = rcl_get_zero_initialized_subscription();
 	const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
 	rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-	RCSOFTCHECK(rcl_subscription_init(&NewSub.RCLSubscription, &node, type_support, TCHAR_TO_ANSI(*TopicName), &sub_opt));
+	RCSOFTCHECK(rcl_subscription_init(&NewSub.rcl_subscription, &node, type_support, TCHAR_TO_ANSI(*TopicName), &sub_opt));
 
 	Subscriptions.Add(NewSub);
 
@@ -155,10 +155,10 @@ void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> Srv
 	NewSrv.Callback = Callback;
 	NewSrv.Ready = false;
 
-	NewSrv.RCLService = rcl_get_zero_initialized_service();
+	NewSrv.rcl_service = rcl_get_zero_initialized_service();
 	const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();
 	rcl_service_options_t srv_opt = rcl_service_get_default_options();
-	RCSOFTCHECK(rcl_service_init(&NewSrv.RCLService, &node, type_support, TCHAR_TO_ANSI(*ServiceName), &srv_opt));
+	RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, &node, type_support, TCHAR_TO_ANSI(*ServiceName), &srv_opt));
 
 	Services.Add(NewSrv);
 
@@ -179,7 +179,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
 	}
 
 	Publisher->RegisterComponent();
-	Publisher->ownerNode = this;
+	Publisher->OwnerNode = this;
 	Publishers.Add(Publisher);
 }
 
@@ -197,7 +197,7 @@ void AROS2Node::AddClient(UROS2ServiceClient* Client)
 		UE_LOG(LogROS2Node, Warning, TEXT("AnswerDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
 	}
 
-	Client->ownerNode = this;
+	Client->OwnerNode = this;
 	Client->Init(UROS2QoS::Services);
 	Clients.Add(Client);
 }
@@ -206,7 +206,7 @@ void AROS2Node::AddActionClient(UROS2ActionClient* ActionClient)
 {
 	check(IsValid(ActionClient));
 
-	ActionClient->ownerNode = this;
+	ActionClient->OwnerNode = this;
 	ActionClient->Init(UROS2QoS::Default);
 	ActionClients.Add(ActionClient);
 }
@@ -215,7 +215,7 @@ void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
 {
 	check(IsValid(ActionServer));
 
-	ActionServer->ownerNode = this;
+	ActionServer->OwnerNode = this;
 	ActionServer->Init(UROS2QoS::Default);
 	ActionServers.Add(ActionServer);
 }
@@ -230,7 +230,7 @@ void AROS2Node::HandleSubscriptions()
 			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
 			for (auto& s : Subscriptions)
 			{
-				if (&s.RCLSubscription == currentSub)
+				if (&s.rcl_subscription == currentSub)
 				{
 					s.Ready = true;
 				}
@@ -244,7 +244,7 @@ void AROS2Node::HandleSubscriptions()
 		{
 			void* data = s.TopicMsg->Get();
 			rmw_message_info_t messageInfo;
-			RCSOFTCHECK(rcl_take(&s.RCLSubscription, data, &messageInfo, nullptr));
+			RCSOFTCHECK(rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr));
 
 			FSubscriptionCallback* cb = &s.Callback;
 			cb->ExecuteIfBound(s.TopicMsg);
@@ -267,7 +267,7 @@ void AROS2Node::HandleServices()
 			const rcl_service_t* currentService = wait_set.services[i];
 			for (auto& s : Services)
 			{
-				if (&s.RCLService == currentService)
+				if (&s.rcl_service == currentService)
 				{
 					s.Ready = true;
 				}
@@ -283,7 +283,7 @@ void AROS2Node::HandleServices()
 			// can't go in the callback unless the rcl functions are wrapped
 			rmw_service_info_t req_info;
 			void* data = s.Service->GetRequest();
-			RCSOFTCHECK(rcl_take_request_with_info(&s.RCLService, &req_info, data));
+			RCSOFTCHECK(rcl_take_request_with_info(&s.rcl_service, &req_info, data));
 
 			UE_LOG(LogROS2Node, Log, TEXT("Executing Service (%s)"), *__LOG_INFO__);
 
@@ -291,7 +291,7 @@ void AROS2Node::HandleServices()
 			FServiceCallback* cb = &s.Callback;
 			cb->ExecuteIfBound(s.Service);
 
-			RCSOFTCHECK(rcl_send_response(&s.RCLService, &req_info.request_id, s.Service->GetResponse()));
+			RCSOFTCHECK(rcl_send_response(&s.rcl_service, &req_info.request_id, s.Service->GetResponse()));
 
 			s.Ready = false;
 		}
@@ -354,14 +354,14 @@ void AROS2Node::SpinSome()
 									  Clients.Num() + ActionClients.Num() * 3,
 									  Services.Num() + ActionServers.Num() * 3,
 									  NEvents,
-									  &context->Get().context, rcl_get_default_allocator()));
+									  &Context->Get().context, rcl_get_default_allocator()));
 	}
 
 	RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
 
 	for (auto& s : Subscriptions)
 	{
-		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.RCLSubscription, nullptr));
+		RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.rcl_subscription, nullptr));
 	}
 
 	for (auto& c : Clients)
@@ -371,7 +371,7 @@ void AROS2Node::SpinSome()
 
 	for (auto& s : Services)
 	{
-		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.RCLService, nullptr));
+		RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.rcl_service, nullptr));
 	}
 
 	for (auto& a : ActionClients)

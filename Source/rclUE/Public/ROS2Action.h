@@ -43,7 +43,7 @@ public:
 	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	AROS2Node* ownerNode;
+	AROS2Node* OwnerNode;
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

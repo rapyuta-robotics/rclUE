@@ -17,7 +17,7 @@ void UROS2ActionServer::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
 
 	rcl_allocator_t allocator = rcl_get_default_allocator();
 	RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));
-	rcl_ret_t rc = rcl_action_server_init(&server, ownerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);
+	rcl_ret_t rc = rcl_action_server_init(&server, OwnerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);
 
 	check(rc == RCL_RET_OK);
 }
@@ -26,9 +26,9 @@ void UROS2ActionServer::Destroy()
 {
 	Super::Destroy();
 
-	if (ownerNode != nullptr)
+	if (OwnerNode != nullptr)
 	{
-		RCSOFTCHECK(rcl_action_server_fini(&server, ownerNode->GetNode()));
+		RCSOFTCHECK(rcl_action_server_fini(&server, OwnerNode->GetNode()));
 		RCSOFTCHECK(rcl_ros_clock_fini(&ros_clock));
 	}
 }
@@ -76,7 +76,7 @@ void UROS2ActionServer::SendGoalResponse()
 {
 	UE_LOG(LogROS2Action, Log, TEXT("3. Action Server - Send goal response (%s)"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
+	check(IsValid(OwnerNode));
 
 	ue4_interfaces__action__Fibonacci_SendGoal_Response* GoalResponse = (ue4_interfaces__action__Fibonacci_SendGoal_Response*)Action->GetGoalResponse();
 	GoalResponse->accepted = true;
@@ -92,7 +92,7 @@ void UROS2ActionServer::ProcessAndSendCancelResponse()
 {
 	UE_LOG(LogROS2Action, Log, TEXT("C. Action Server - Send cancel response (%s)"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
+	check(IsValid(OwnerNode));
 
 	rcl_action_cancel_request_t cancel_request = rcl_action_get_zero_initialized_cancel_request();
 	float TimeOfCancelProcess = UGameplayStatics::GetTimeSeconds(GWorld);
@@ -111,7 +111,7 @@ void UROS2ActionServer::UpdateAndSendFeedback()
 {
 	UE_LOG(LogROS2Action, Log, TEXT("7. Action Server - Publish feedback (%s)"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
+	check(IsValid(OwnerNode));
 
 	UpdateFeedbackDelegate.ExecuteIfBound(Action);
 
@@ -122,7 +122,7 @@ void UROS2ActionServer::UpdateAndSendResult()
 {
 	UE_LOG(LogROS2Action, Log, TEXT("9. Action Server - Send result response (%s)"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
+	check(IsValid(OwnerNode));
 
 	UpdateResultDelegate.ExecuteIfBound(Action);
 

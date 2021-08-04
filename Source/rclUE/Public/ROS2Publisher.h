@@ -48,7 +48,7 @@ public:
 	FPublisherUpdateCallback UpdateDelegate;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	AROS2Node* ownerNode;
+	AROS2Node* OwnerNode;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<UROS2State> State = UROS2State::Created;
@@ -61,7 +61,7 @@ protected:
 	UROS2GenericMsg* TopicMessage;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	FTimerHandle timerHandle;
+	FTimerHandle TimerHandle;
 
 	const void* pub_msg;
 
