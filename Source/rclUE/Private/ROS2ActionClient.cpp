@@ -2,7 +2,7 @@
 
 #include "ROS2ActionClient.h"
 
-void UROS2ActionClient::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
+void UROS2ActionClient::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
 {
 	const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();
 
@@ -126,11 +126,11 @@ void UROS2ActionClient::CancelActionRequest()
 	RCSOFTCHECK(rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &Seq));
 }
 
-void UROS2ActionClient::SetDelegates(FActionCallback SetGoal,
-									 FActionCallback Feedback,
-									 FActionCallback Result,
-									 FSimpleCallback GoalResponse,
-									 FSimpleCallback Cancel)
+void UROS2ActionClient::SetDelegates(const FActionCallback SetGoal,
+									 const FActionCallback Feedback,
+									 const FActionCallback Result,
+									 const FSimpleCallback GoalResponse,
+									 const FSimpleCallback Cancel)
 {
 
 	if (!SetGoalDelegate.IsBound())

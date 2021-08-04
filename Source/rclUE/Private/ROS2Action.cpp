@@ -7,7 +7,7 @@ UROS2Action::UROS2Action()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2Action::Init(TEnumAsByte<UROS2QoS> QoS)
+void UROS2Action::Init(const TEnumAsByte<UROS2QoS> QoS)
 {
 	check(OwnerNode != nullptr);
 	check(OwnerNode->State == UROS2State::Initialized);
@@ -48,12 +48,12 @@ void UROS2Action::ProcessReady(rcl_wait_set_t* wait_set)
 	checkNoEntry();
 }
 
-void UROS2Action::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
+void UROS2Action::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
 {
 	checkNoEntry();
 }
 
-void UROS2Action::SetQoS(rmw_qos_profile_t& profile, TEnumAsByte<UROS2QoS> QoS)
+void UROS2Action::SetQoS(rmw_qos_profile_t& profile, const TEnumAsByte<UROS2QoS> QoS)
 {
 	if (QoS == UROS2QoS::Default)
 	{

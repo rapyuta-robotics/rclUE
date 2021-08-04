@@ -2,7 +2,7 @@
 
 #include "ROS2ActionServer.h"
 
-void UROS2ActionServer::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
+void UROS2ActionServer::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
 {
 	const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();
 
@@ -129,11 +129,11 @@ void UROS2ActionServer::UpdateAndSendResult()
 	RCSOFTCHECK(rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse()));
 }
 
-void UROS2ActionServer::SetDelegates(FActionCallback UpdateFeedback,
-									 FActionCallback UpdateResult,
-									 FActionCallback HandleGoal,
-									 FSimpleCallback HandleCancel,
-									 FSimpleCallback HandleAccepted)
+void UROS2ActionServer::SetDelegates(const FActionCallback UpdateFeedback,
+									 const FActionCallback UpdateResult,
+									 const FActionCallback HandleGoal,
+									 const FSimpleCallback HandleCancel,
+									 const FSimpleCallback HandleAccepted)
 {
 	if (!UpdateFeedbackDelegate.IsBound())
 	{

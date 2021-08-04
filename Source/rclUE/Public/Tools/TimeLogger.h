@@ -26,7 +26,7 @@ public:
 	void StartTimer();
 
 	UFUNCTION(BlueprintCallable)
-	void DumpData();
+	void DumpData() const;
 
 	UPROPERTY()
 	TArray<FString> RealTimeHistory;

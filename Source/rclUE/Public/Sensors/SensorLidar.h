@@ -47,17 +47,17 @@ public:
 	// adding the rest of the necessary information might be tedious
 	// eventually split into multiple getters
 	UFUNCTION(BlueprintCallable)
-	void GetData(TArray<FHitResult>& hits, float& time);
+	void GetData(TArray<FHitResult>& hits, float& time) const;
 
 	// this should probably be removed so that the sensor can be decoupled from the message types
 	UFUNCTION(BlueprintCallable)
-	FLaserScanData GetROS2Data() const;
+	const FLaserScanData GetROS2Data() const;
 
 	UFUNCTION(BlueprintCallable)
-	float GetMinAngleRadians() const;
+	const float GetMinAngleRadians() const;
 
 	UFUNCTION(BlueprintCallable)
-	float GetMaxAngleRadians() const;
+	const float GetMaxAngleRadians() const;
 
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	UROS2Publisher* LidarPublisher;

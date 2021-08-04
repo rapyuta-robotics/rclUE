@@ -161,26 +161,26 @@ void ASensorLidar::InitToNode(AROS2Node* Node)
 	}
 }
 
-void ASensorLidar::GetData(TArray<FHitResult>& Hits, float& Time)
+void ASensorLidar::GetData(TArray<FHitResult>& Hits, float& Time) const
 {
 	// what about the rest of the information?
 	Hits = RecordedHits;
 	Time = TimeOfLastScan;
 }
 
-float ASensorLidar::GetMinAngleRadians() const
+const float ASensorLidar::GetMinAngleRadians() const
 {
 	return FMath::DegreesToRadians(-StartAngle-FOVHorizontal);
 	//return FMath::DegreesToRadians(StartAngle+FOVHorizontal+180);
 }
 
-float ASensorLidar::GetMaxAngleRadians() const
+const float ASensorLidar::GetMaxAngleRadians() const
 {
 	return FMath::DegreesToRadians(-StartAngle);
 	//return FMath::DegreesToRadians(StartAngle+180);
 }
 
-FLaserScanData ASensorLidar::GetROS2Data() const
+const FLaserScanData ASensorLidar::GetROS2Data() const
 {
 	FLaserScanData RetValue;
 	RetValue.sec = (int32_t)TimeOfLastScan;

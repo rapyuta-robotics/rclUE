@@ -37,5 +37,5 @@ public:
 	TArray<uint8> OccupancyGrid;
 
 	UFUNCTION()
-	bool WriteToFile(int width, int height, float originx, float originy);
+	const bool WriteToFile(const int Width, const int Height, const float OriginX, const float OriginY);
 };

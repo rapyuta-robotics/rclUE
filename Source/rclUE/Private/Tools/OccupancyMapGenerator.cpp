@@ -22,16 +22,16 @@ void AOccupancyMapGenerator::BeginPlay()
 	FVector Extent;
 	Map->GetActorBounds(false, Center, Extent, true);
 
-	FVector Origin = Center - Extent;
+	const FVector Origin = Center - Extent;
 
-	float GridRes_cm = GridRes * 100;
+	const float GridRes_cm = GridRes * 100;
 
 	// cell-centered sampling
-	float XPos = Origin.X + GridRes_cm * .5;
-	float YPos = Origin.Y + GridRes_cm * .5;
+	const float XPos = Origin.X + GridRes_cm * .5;
+	const float YPos = Origin.Y + GridRes_cm * .5;
 
-	int NCellsX = 2 * Extent.X / GridRes_cm;
-	int NCellsY = 2 * Extent.Y / GridRes_cm;
+	const int NCellsX = 2 * Extent.X / GridRes_cm;
+	const int NCellsY = 2 * Extent.Y / GridRes_cm;
 
 	OccupancyGrid.Reserve(NCellsX * NCellsY);
 
@@ -43,8 +43,8 @@ void AOccupancyMapGenerator::BeginPlay()
 	{
 		for (int i = 0; i < NCellsX; i++)
 		{
-			FVector OccupancyRayStart(Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), GridRes_cm);
-			FVector OccupancyRayEnd(Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), MaxVerticalHeight * 100);
+			const FVector OccupancyRayStart(Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), GridRes_cm);
+			const FVector OccupancyRayEnd(Origin.X + GridRes_cm * (.5 + i), Origin.Y + GridRes_cm * (.5 + j), MaxVerticalHeight * 100);
 
 			FHitResult Hit;
 			GWorld->LineTraceSingleByChannel(Hit, OccupancyRayStart, OccupancyRayEnd, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
@@ -57,16 +57,16 @@ void AOccupancyMapGenerator::BeginPlay()
 	check(WriteToFile(NCellsX, NCellsY, Origin.X / 100.f, -(Center.Y + Extent.Y) / 100.f));
 }
 
-bool AOccupancyMapGenerator::WriteToFile(int Width, int Height, float OriginX, float OriginY)
+const bool AOccupancyMapGenerator::WriteToFile(const int Width, int const Height, const float OriginX, const float OriginY)
 {
-	FString Directory = FPaths::ProjectContentDir();
+	const FString Directory = FPaths::ProjectContentDir();
 
-	FString TargetFile = Directory + "/" + Filename + ".pgm";
-	FString TargetInfoFile = Directory + "/" + Filename + ".yaml";
+	const FString TargetFile = Directory + "/" + Filename + ".pgm";
+	const FString TargetInfoFile = Directory + "/" + Filename + ".yaml";
 
-	FString YamlContent = "image: " + Filename + ".pgm\n" + "resolution: " + FString::SanitizeFloat(GridRes) + "\n" + "origin: [" + FString::SanitizeFloat(OriginX) + ", " + FString::SanitizeFloat(OriginY) + ", 0.0]\n" + "negate: 0\n" + "occupied_thresh: 0.65\n" + "free_thresh: 0.196\n";
+	const FString YamlContent = "image: " + Filename + ".pgm\n" + "resolution: " + FString::SanitizeFloat(GridRes) + "\n" + "origin: [" + FString::SanitizeFloat(OriginX) + ", " + FString::SanitizeFloat(OriginY) + ", 0.0]\n" + "negate: 0\n" + "occupied_thresh: 0.65\n" + "free_thresh: 0.196\n";
 
-	FString PgmHeader = "P5\n" + FString::FromInt(Width) + " " + FString::FromInt(Height) + "\n" + FString::FromInt(255) + "\n";
+	const FString PgmHeader = "P5\n" + FString::FromInt(Width) + " " + FString::FromInt(Height) + "\n" + FString::FromInt(255) + "\n";
 
 	TArrayView<uint8> Data = OccupancyGrid;
 

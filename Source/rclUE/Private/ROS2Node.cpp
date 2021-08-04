@@ -95,7 +95,7 @@ rcl_node_t* AROS2Node::GetNode()
 	return &node;
 }
 
-void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback)
+void AROS2Node::AddSubscription(const FString TopicName, const TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback Callback)
 {
 	check(State == UROS2State::Initialized);
 
@@ -136,7 +136,7 @@ void AROS2Node::AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> 
 	}
 }
 
-void AROS2Node::AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback)
+void AROS2Node::AddService(const FString ServiceName, const TSubclassOf<UROS2GenericSrv> SrvClass, const FServiceCallback Callback)
 {
 	check(State == UROS2State::Initialized);
 
@@ -246,7 +246,7 @@ void AROS2Node::HandleSubscriptions()
 			rmw_message_info_t messageInfo;
 			RCSOFTCHECK(rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr));
 
-			FSubscriptionCallback* SubCallback = &s.Callback;
+			const FSubscriptionCallback* SubCallback = &s.Callback;
 			SubCallback->ExecuteIfBound(s.TopicMsg);
 
 			s.Ready = false;
@@ -288,7 +288,7 @@ void AROS2Node::HandleServices()
 			UE_LOG(LogROS2Node, Log, TEXT("Executing Service (%s)"), *__LOG_INFO__);
 
 			// there's a variant with req_id in the callback and one with context
-			FServiceCallback* SrvCallback = &s.Callback;
+			const FServiceCallback* SrvCallback = &s.Callback;
 			SrvCallback->ExecuteIfBound(s.Service);
 
 			RCSOFTCHECK(rcl_send_response(&s.rcl_service, &req_info.request_id, s.Service->GetResponse()));
@@ -332,7 +332,7 @@ void AROS2Node::HandleClients()
 			UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate (%s)"), *__LOG_INFO__);
 
 			// there's a variant with req_id in the callback
-			FServiceClientCallback* SrvClientCallback = &c->AnswerDelegate;
+			const FServiceClientCallback* SrvClientCallback = &c->AnswerDelegate;
 			SrvClientCallback->ExecuteIfBound(c->Service);
 
 			c->Ready = false;
@@ -403,7 +403,7 @@ void AROS2Node::SpinSome()
 }
 
 // Queries/Diagnostics
-TMap<FString, FString> AROS2Node::GetListOfNodes()
+const TMap<FString, FString> AROS2Node::GetListOfNodes()
 {
 	TMap<FString, FString> Result;
 
@@ -433,7 +433,7 @@ TMap<FString, FString> AROS2Node::GetListOfNodes()
 }
 
 // need a way to convert the message type as well
-TMap<FString, FString> AROS2Node::GetListOfTopics()
+const TMap<FString, FString> AROS2Node::GetListOfTopics()
 {
 	TMap<FString, FString> Result;
 
@@ -463,7 +463,7 @@ TMap<FString, FString> AROS2Node::GetListOfTopics()
 	return Result;
 }
 
-TMap<FString, FString> AROS2Node::GetListOfServices()
+const TMap<FString, FString> AROS2Node::GetListOfServices()
 {
 	TMap<FString, FString> Result;
 

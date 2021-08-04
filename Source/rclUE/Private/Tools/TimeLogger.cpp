@@ -20,9 +20,9 @@ void ATimeLogger::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	FDateTime CurrentRealTime = FDateTime::Now();
-	float CurrentRealTime_s = CurrentRealTime.GetMinute() * 60 + CurrentRealTime.GetSecond() + CurrentRealTime.GetMillisecond() * .001f;
-	float CurrentSimTime = UGameplayStatics::GetRealTimeSeconds(GWorld); // clock
+	const FDateTime CurrentRealTime = FDateTime::Now();
+	const float CurrentRealTime_s = CurrentRealTime.GetMinute() * 60 + CurrentRealTime.GetSecond() + CurrentRealTime.GetMillisecond() * .001f;
+	const float CurrentSimTime = UGameplayStatics::GetRealTimeSeconds(GWorld); // clock
 	RealTimeHistory.Add(FString::SanitizeFloat(CurrentRealTime_s));
 	SimTimeHistory.Add(FString::SanitizeFloat(CurrentSimTime));
 
@@ -39,11 +39,11 @@ void ATimeLogger::StartTimer()
 	StartRealTime = FDateTime::Now();
 }
 
-void ATimeLogger::DumpData()
+void ATimeLogger::DumpData() const
 {
-	FString Directory = FPaths::ProjectContentDir();
-	FString TargetFileRealTime = Directory + "/RealTime_UE4";
-	FString TargetFileSimTime = Directory + "/SimTime_UE4";
+	const FString Directory = FPaths::ProjectContentDir();
+	const FString TargetFileRealTime = Directory + "/RealTime_UE4";
+	const FString TargetFileSimTime = Directory + "/SimTime_UE4";
 
 	FFileHelper::SaveStringArrayToFile(RealTimeHistory, *TargetFileRealTime);
 	FFileHelper::SaveStringArrayToFile(SimTimeHistory, *TargetFileSimTime);

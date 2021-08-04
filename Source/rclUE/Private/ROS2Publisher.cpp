@@ -125,7 +125,7 @@ void UROS2Publisher::InitializeMessage()
 	check(TopicName != FString());
 	check(MsgClass)
 
-		TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+	TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
 
 	check(IsValid(TopicMessage));
 
