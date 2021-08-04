@@ -32,13 +32,13 @@ void* UROS2GenericSrv::GetResponse()
 	return nullptr;
 }
 
-FString UROS2GenericSrv::SrvRequestToString() const
+const FString UROS2GenericSrv::SrvRequestToString() const
 {
 	checkNoEntry();
 	return FString();
 }
 
-FString UROS2GenericSrv::SrvResponseToString() const
+const FString UROS2GenericSrv::SrvResponseToString() const
 {
 	checkNoEntry();
 	return FString();
