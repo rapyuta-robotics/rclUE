@@ -62,19 +62,19 @@ void* UROS2GenericAction::GetCancelResponse()
 	return &cancel_response;
 }
 
-FString UROS2GenericAction::ActionGoalToString() const
+const FString UROS2GenericAction::ActionGoalToString() const
 {
 	checkNoEntry();
 	return FString();
 }
 
-FString UROS2GenericAction::ActionResultToString() const
+const FString UROS2GenericAction::ActionResultToString() const
 {
 	checkNoEntry();
 	return FString();
 }
 
-FString UROS2GenericAction::ActionFeedbackToString() const
+const FString UROS2GenericAction::ActionFeedbackToString() const
 {
 	checkNoEntry();
 	return FString();

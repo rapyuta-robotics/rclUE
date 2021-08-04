@@ -27,17 +27,17 @@ void UROS2FibonacciAction::Fini()
     Super::Fini();
 }
 
-void UROS2FibonacciAction::SetOrder(int order)
+void UROS2FibonacciAction::SetOrder(const int order)
 {
     ue4_goal_request.goal.order = order;
 }
 
-void UROS2FibonacciAction::GetOrder(int& order)
+void UROS2FibonacciAction::GetOrder(int& order) const
 {
     order = ue4_goal_request.goal.order;
 }
 
-void UROS2FibonacciAction::SetSequence(TArray<int> sequence)
+void UROS2FibonacciAction::SetSequence(const TArray<int> sequence)
 {
     ue4_result_response.result.sequence.size = sequence.Num();
     ue4_result_response.result.sequence.capacity = sequence.Num();
@@ -48,7 +48,7 @@ void UROS2FibonacciAction::SetSequence(TArray<int> sequence)
     }
 }
 
-void UROS2FibonacciAction::GetSequence(TArray<int>& sequence)
+void UROS2FibonacciAction::GetSequence(TArray<int>& sequence) const
 {
     sequence.SetNum(ue4_result_response.result.sequence.size);
     for (int i = 0; i < ue4_result_response.result.sequence.size; i++)
@@ -57,7 +57,7 @@ void UROS2FibonacciAction::GetSequence(TArray<int>& sequence)
     }
 }
 
-void UROS2FibonacciAction::SetPartialSequence(TArray<int> partial_sequence)
+void UROS2FibonacciAction::SetPartialSequence(const TArray<int> partial_sequence)
 {
     ue4_feedback_message.feedback.partial_sequence.size = partial_sequence.Num();
     ue4_feedback_message.feedback.partial_sequence.capacity = partial_sequence.Num();
@@ -68,7 +68,7 @@ void UROS2FibonacciAction::SetPartialSequence(TArray<int> partial_sequence)
     }
 }
 
-void UROS2FibonacciAction::GetPartialSequence(TArray<int>& partial_sequence)
+void UROS2FibonacciAction::GetPartialSequence(TArray<int>& partial_sequence) const
 {
     partial_sequence.SetNum(ue4_feedback_message.feedback.partial_sequence.size);
     for (int i = 0; i < ue4_feedback_message.feedback.partial_sequence.size; i++)

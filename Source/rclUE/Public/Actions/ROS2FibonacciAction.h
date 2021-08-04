@@ -29,22 +29,22 @@ public:
 	
 	// is the uuid set automatically?
 	UFUNCTION(BlueprintCallable)
-	void SetOrder(int order);
+	void SetOrder(const int order);
 	
 	UFUNCTION(BlueprintCallable)
-	void GetOrder(int& order);
+	void GetOrder(int& order) const;
 
 	UFUNCTION(BlueprintCallable)
-	void SetSequence(TArray<int> sequence);
+	void SetSequence(const TArray<int> sequence);
 
 	UFUNCTION(BlueprintCallable)
-	void GetSequence(TArray<int>& sequence);
+	void GetSequence(TArray<int>& sequence) const;
 
 	UFUNCTION(BlueprintCallable)
-	void SetPartialSequence(TArray<int> partial_sequence);
+	void SetPartialSequence(const TArray<int> partial_sequence);
 
 	UFUNCTION(BlueprintCallable)
-	void GetPartialSequence(TArray<int>& partial_sequence);
+	void GetPartialSequence(TArray<int>& partial_sequence) const;
 	
 
 	virtual void* GetGoalRequest() override;
