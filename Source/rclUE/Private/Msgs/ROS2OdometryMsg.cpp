@@ -63,7 +63,7 @@ void* UROS2OdometryMsg::Get()
 	return &odometry_pub_msg;
 }
 
-FString UROS2OdometryMsg::MsgToString() const
+const FString UROS2OdometryMsg::MsgToString() const
 {
 	FString frame_id, child_frame_id;
 	frame_id.AppendChars(odometry_pub_msg.header.frame_id.data, odometry_pub_msg.header.frame_id.size);

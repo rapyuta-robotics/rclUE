@@ -53,12 +53,12 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void Update(FLaserScanData data);
+	void Update(const FLaserScanData data);
 	
 	virtual void* Get() override;
 
 private:
-	virtual FString MsgToString() const override;
+	virtual const FString MsgToString() const override;
 	
 	sensor_msgs__msg__LaserScan laserscan_pub_msg;
 };

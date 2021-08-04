@@ -29,12 +29,12 @@ void UROS2TwistMsg::Update(const FVector Linear, const FVector Angular)
 	twist_pub_msg.angular.z = Angular.Z;
 }
 
-FVector UROS2TwistMsg::GetLinearVelocity() const
+const FVector UROS2TwistMsg::GetLinearVelocity() const
 {
 	return FVector(twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z);
 }
 
-FVector UROS2TwistMsg::GetAngularVelocity() const
+const FVector UROS2TwistMsg::GetAngularVelocity() const
 {
 	return FVector(twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
 }
@@ -44,7 +44,7 @@ void* UROS2TwistMsg::Get()
 	return &twist_pub_msg;
 }
 
-FString UROS2TwistMsg::MsgToString() const
+const FString UROS2TwistMsg::MsgToString() const
 {
 	return FString::Printf(TEXT("(%f %f %f), (%f %f %f)"), twist_pub_msg.linear.x, twist_pub_msg.linear.y, twist_pub_msg.linear.z, twist_pub_msg.angular.x, twist_pub_msg.angular.y, twist_pub_msg.angular.z);
 }

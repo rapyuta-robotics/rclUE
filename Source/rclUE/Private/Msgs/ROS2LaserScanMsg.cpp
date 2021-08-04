@@ -19,7 +19,7 @@ const rosidl_message_type_support_t* UROS2LaserScanMsg::GetTypeSupport() const
     return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, LaserScan);
 }
 
-void UROS2LaserScanMsg::Update(FLaserScanData data)
+void UROS2LaserScanMsg::Update(const FLaserScanData data)
 {
     laserscan_pub_msg.header.stamp.sec = data.sec;
     laserscan_pub_msg.header.stamp.nanosec = data.nanosec;
@@ -72,7 +72,7 @@ void* UROS2LaserScanMsg::Get()
     return &laserscan_pub_msg;
 }
 
-FString UROS2LaserScanMsg::MsgToString() const
+const FString UROS2LaserScanMsg::MsgToString() const
 {
     FString frame_id;
     frame_id.AppendChars(laserscan_pub_msg.header.frame_id.data, laserscan_pub_msg.header.frame_id.size);

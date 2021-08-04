@@ -55,7 +55,7 @@ void* UROS2TFMsg::Get()
 	return &tf_pub_msg;
 }
 
-FString UROS2TFMsg::MsgToString() const
+const FString UROS2TFMsg::MsgToString() const
 {
 	FString frame_id, child_frame_id;
 	frame_id.AppendChars(tf_pub_msg.transforms.data[0].header.frame_id.data, tf_pub_msg.transforms.data[0].header.frame_id.size);

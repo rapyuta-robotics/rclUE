@@ -29,15 +29,15 @@ public:
 	void Update(const FVector Linear, const FVector Angular);
 
   	UFUNCTION(BlueprintCallable)
-	FVector GetLinearVelocity() const;
+	const FVector GetLinearVelocity() const;
 
   	UFUNCTION(BlueprintCallable)
-	FVector GetAngularVelocity() const;
+	const FVector GetAngularVelocity() const;
 	
 	virtual void* Get() override;
 
 private:
-	virtual FString MsgToString() const override;
+	virtual const FString MsgToString() const override;
 	
 	geometry_msgs__msg__Twist twist_pub_msg;
 };
