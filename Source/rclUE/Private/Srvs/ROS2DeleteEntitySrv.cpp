@@ -1,8 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 #include "Srvs/ROS2DeleteEntitySrv.h"
-
 
 const rosidl_service_type_support_t* UROS2DeleteEntitySrv::GetTypeSupport() const
 {
@@ -11,70 +9,76 @@ const rosidl_service_type_support_t* UROS2DeleteEntitySrv::GetTypeSupport() cons
 
 void UROS2DeleteEntitySrv::Init()
 {
-    ue_msgs__srv__DeleteEntity_Request__init(&delete_entity_req);
-    ue_msgs__srv__DeleteEntity_Response__init(&delete_entity_res);
+    ue_msgs__srv__DeleteEntity_Request__init(&DeleteEntity_req);
+    ue_msgs__srv__DeleteEntity_Response__init(&DeleteEntity_res);
 }
 
 void UROS2DeleteEntitySrv::Fini()
 {
-    ue_msgs__srv__DeleteEntity_Request__fini(&delete_entity_req);
-    ue_msgs__srv__DeleteEntity_Response__fini(&delete_entity_res);
+    ue_msgs__srv__DeleteEntity_Request__fini(&DeleteEntity_req);
+    ue_msgs__srv__DeleteEntity_Response__fini(&DeleteEntity_res);
 }
 
-void UROS2DeleteEntitySrv::SetInputs(FString Name)
+void UROS2DeleteEntitySrv::SetInputs(const FDeleteEntity_Request Input)
 {
-    if (delete_entity_req.name.data != nullptr)
-    {
-        free(delete_entity_req.name.data);
-    }
-    delete_entity_req.name.data = (char*)malloc((Name.Len()+1)*sizeof(char));
-    memcpy(delete_entity_req.name.data, TCHAR_TO_ANSI(*Name), (Name.Len()+1)*sizeof(char));
+    Input.SetROS2(DeleteEntity_req);
 }
 
-void UROS2DeleteEntitySrv::GetInputs(FString& Name)
+void UROS2DeleteEntitySrv::GetInputs(FDeleteEntity_Request& Input) const
 {
-    Name.AppendChars(delete_entity_req.name.data, delete_entity_req.name.size);
+    Input.SetFromROS2(DeleteEntity_req);
 }
 
-void UROS2DeleteEntitySrv::SetOutput(bool Success, FString status_message)
+void UROS2DeleteEntitySrv::SetOutput(const FDeleteEntity_Response Output)
 {
-    delete_entity_res.success = Success;
-
-    if (delete_entity_res.status_message.data != nullptr)
-    {
-        free(delete_entity_res.status_message.data);
-    }
-    delete_entity_res.status_message.data = (char*)malloc((status_message.Len()+1)*sizeof(char));
-    memcpy(delete_entity_res.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
+    Output.SetROS2(DeleteEntity_res);
 }
-void UROS2DeleteEntitySrv::GetOutput(bool& Success, FString& status_message)
+
+void UROS2DeleteEntitySrv::GetOutput(FDeleteEntity_Response& Output) const
 {
-    Success = delete_entity_res.success;
-    
-    status_message.AppendChars(delete_entity_res.status_message.data, delete_entity_res.status_message.size);
+    Output.SetFromROS2(DeleteEntity_res);
+}
+
+void UROS2DeleteEntitySrv::SetRequest(const FDeleteEntity_Request Request)
+{
+    Request.SetROS2(DeleteEntity_req);
+}
+
+void UROS2DeleteEntitySrv::GetRequest(FDeleteEntity_Request& Request) const
+{
+    Request.SetFromROS2(DeleteEntity_req);
+}
+
+void UROS2DeleteEntitySrv::SetResponse(const FDeleteEntity_Response Response)
+{
+    Response.SetROS2(DeleteEntity_res);
+}
+
+void UROS2DeleteEntitySrv::GetResponse(FDeleteEntity_Response& Response) const
+{
+    Response.SetFromROS2(DeleteEntity_res);
 }
 
 void* UROS2DeleteEntitySrv::GetRequest()
 {
-    return &delete_entity_req;
+    return &DeleteEntity_req;
 }
 
 void* UROS2DeleteEntitySrv::GetResponse()
 {
-    return &delete_entity_res;
+    return &DeleteEntity_res;
 }
 
 FString UROS2DeleteEntitySrv::SrvRequestToString() const
 {
-    FString Name;
-    Name.AppendChars(delete_entity_req.name.data, delete_entity_req.name.size);
-	
-    return FString::Printf(TEXT("Delete %s"), *Name);
+    /* TODO: Fill here */
+	checkNoEntry();
+    return FString();
 }
 
 FString UROS2DeleteEntitySrv::SrvResponseToString() const
 {
-    FString status;
-    status.AppendChars(delete_entity_res.status_message.data, delete_entity_res.status_message.size);
-    return FString::Printf(TEXT("DeleteEntity: %s %s"), *status, delete_entity_res.success ? "true" : "false");
+    /* TODO: Fill here */
+	checkNoEntry();
+    return FString();
 }

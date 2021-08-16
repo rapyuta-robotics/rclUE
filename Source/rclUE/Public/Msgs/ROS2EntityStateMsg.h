@@ -1,80 +1,83 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2021 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "ue_msgs/msg/entity_state.h"
+
 #include "Msgs/ROS2GenericMsg.h"
 #include "rclcUtilities.h"
-#include <ue_msgs/msg/entity_state.h>
 
 #include "ROS2EntityStateMsg.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FEntityStateData
+struct RCLUE_API FEntityState
 {
 	GENERATED_BODY()
 
 public:
 	FString name;
-	
-	// Pose
-	FVector position;
-	FQuat orientation;
-
-	// Twist
-	FVector linear;
-	FVector angular;
-
+	FVector pose_position;
+	FQuat pose_orientation;
+	FVector twist_linear;
+	FVector twist_angular;
 	FString reference_frame;
+	
 
 	void SetFromROS2(ue_msgs__msg__EntityState data)
 	{
-		name.AppendChars(data.name.data, data.name.size);
+    	name.AppendChars(data.name.data, data.name.size);
 
-		position.X = data.pose.position.x;
-		position.Y = data.pose.position.y;
-		position.Z = data.pose.position.z;
-		orientation.X = data.pose.orientation.x;
-		orientation.Y = data.pose.orientation.y;
-		orientation.Z = data.pose.orientation.z;
-		orientation.W = data.pose.orientation.w;
-		
-		linear.X = data.twist.linear.x;
-		linear.Y = data.twist.linear.y;
-		linear.Z = data.twist.linear.z;
-		angular.X = data.twist.angular.x;
-		angular.Y = data.twist.angular.y;
-		angular.Z = data.twist.angular.z;
+		pose_position.X = data.pose.position.x;
+		pose_position.Y = data.pose.position.y;
+		pose_position.Z = data.pose.position.z;
+
+		pose_orientation.X = data.pose.orientation.x;
+		pose_orientation.Y = data.pose.orientation.y;
+		pose_orientation.Z = data.pose.orientation.z;
+		pose_orientation.W = data.pose.orientation.w;
+
+		twist_linear.X = data.twist.linear.x;
+		twist_linear.Y = data.twist.linear.y;
+		twist_linear.Z = data.twist.linear.z;
+
+		twist_angular.X = data.twist.angular.x;
+		twist_angular.Y = data.twist.angular.y;
+		twist_angular.Z = data.twist.angular.z;
 
 		reference_frame.AppendChars(data.reference_frame.data, data.reference_frame.size);
+
+		
 	}
 
 	void SetROS2(ue_msgs__msg__EntityState& data) const
 	{
-		if (data.name.data != nullptr)
+    	if (data.name.data != nullptr)
 		{
 			free(data.name.data);
 		}
 		data.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
 		memcpy(data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
 		data.name.size = name.Len();
-		data.name.capacity = name.Len()+1;
+		data.name.capacity = name.Len() + 1;
 
-		data.pose.position.x = position.X;
-		data.pose.position.y = position.Y;
-		data.pose.position.z = position.Z;
-		data.pose.orientation.x = orientation.X;
-		data.pose.orientation.y = orientation.Y;
-		data.pose.orientation.z = orientation.Z;
-		data.pose.orientation.w = orientation.W;
+		data.pose.position.x = pose_position.X;
+		data.pose.position.y = pose_position.Y;
+		data.pose.position.z = pose_position.Z;
 
-		
-		data.twist.linear.x = linear.X;
-		data.twist.linear.y = linear.Y;
-		data.twist.linear.z = linear.Z;
-		data.twist.angular.x = angular.X;
-		data.twist.angular.y = angular.Y;
-		data.twist.angular.z = angular.Z;
+		data.pose.orientation.x = pose_orientation.X;
+		data.pose.orientation.y = pose_orientation.Y;
+		data.pose.orientation.z = pose_orientation.Z;
+		data.pose.orientation.w = pose_orientation.W;
+
+		data.twist.linear.x = twist_linear.X;
+		data.twist.linear.y = twist_linear.Y;
+		data.twist.linear.z = twist_linear.Z;
+
+		data.twist.angular.x = twist_angular.X;
+		data.twist.angular.y = twist_angular.Y;
+		data.twist.angular.z = twist_angular.Z;
 
 		if (data.reference_frame.data != nullptr)
 		{
@@ -83,14 +86,13 @@ public:
 		data.reference_frame.data = (char*)malloc((reference_frame.Len()+1)*sizeof(char));
 		memcpy(data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
 		data.reference_frame.size = reference_frame.Len();
-		data.reference_frame.capacity = reference_frame.Len()+1;
+		data.reference_frame.capacity = reference_frame.Len() + 1;
+
+		
 	}
 };
 
-/**
- * 
- */
-UCLASS(Blueprintable)
+UCLASS()
 class RCLUE_API UROS2EntityStateMsg : public UROS2GenericMsg
 {
 	GENERATED_BODY()
@@ -102,12 +104,19 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void Update(FEntityStateData data);
+	void Update(const FEntityState Input);
+	
+	// TODO these are for a future refactoring, as it requires to adapt the rest of the codes
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FEntityState Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FEntityState& Output);
 	
 	virtual void* Get() override;
-	
+
+private:
 	virtual FString MsgToString() const override;
 
-private:	
 	ue_msgs__msg__EntityState entity_state_msg;
 };
