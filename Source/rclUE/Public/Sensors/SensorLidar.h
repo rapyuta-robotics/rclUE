@@ -128,4 +128,5 @@ public:
 
 private:
 	float dt;
+	bool IsInitialized = false;
 };

@@ -44,7 +44,9 @@ void ASensorLidar::LidarMessageUpdate(UROS2GenericMsg *TopicMessage)
 void ASensorLidar::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	if(!IsInitialized){
+		return;
+	}
 #if TRACE_ASYNC
 	for (int i = 0; i < nSamplesPerScan; ++i)
 	{
@@ -86,6 +88,7 @@ void ASensorLidar::Run()
 #endif
 
 	GWorld->GetGameInstance()->GetTimerManager().SetTimer(timerHandle, this, &ASensorLidar::Scan, 1.f/(float)ScanFrequency, true);
+	IsInitialized = true;
 }
 
 void ASensorLidar::Scan()
