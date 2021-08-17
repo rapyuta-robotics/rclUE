@@ -94,23 +94,6 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetInputs(const FDeleteEntity_Request Input);
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void GetInputs(FDeleteEntity_Request& Input) const;
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void SetOutput(const FDeleteEntity_Response Output);
-	
-	// used by client
-  	UFUNCTION(BlueprintCallable)
-	void GetOutput(FDeleteEntity_Response& Output) const;
-	
-	// TODO these are for a future refactoring, as it requires to adapt the rest of the codes
-	// used by client
-  	UFUNCTION(BlueprintCallable)
 	void SetRequest(const FDeleteEntity_Request Request);
 	
 	// used by service

@@ -184,20 +184,7 @@ public:
 	virtual void Fini() override;
 
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const override;
-	
-  	UFUNCTION(BlueprintCallable)
-	void SetGoal(const FFibonacci_SendGoal_Request Goal);
 
-  	UFUNCTION(BlueprintCallable)
-	void GetGoal(FFibonacci_SendGoal_Request& Goal) const;
-
-  	UFUNCTION(BlueprintCallable)
-	void SetResult(const FFibonacci_GetResult_Request Result);
-
-  	UFUNCTION(BlueprintCallable)
-	void GetResult(FFibonacci_GetResult_Request& Result) const;
-
-	// TODO these are for a future refactoring, as it requires to adapt the rest of the codes	
   	UFUNCTION(BlueprintCallable)
 	void SetGoalRequest(const FFibonacci_SendGoal_Request Goal);
 

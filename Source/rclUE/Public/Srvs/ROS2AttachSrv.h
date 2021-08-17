@@ -94,23 +94,6 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetInputs(const FAttach_Request Input);
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void GetInputs(FAttach_Request& Input) const;
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void SetOutput(const FAttach_Response Output);
-	
-	// used by client
-  	UFUNCTION(BlueprintCallable)
-	void GetOutput(FAttach_Response& Output) const;
-	
-	// TODO these are for a future refactoring, as it requires to adapt the rest of the codes
-	// used by client
-  	UFUNCTION(BlueprintCallable)
 	void SetRequest(const FAttach_Request Request);
 	
 	// used by service

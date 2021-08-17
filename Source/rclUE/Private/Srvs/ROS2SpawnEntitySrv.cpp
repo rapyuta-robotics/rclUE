@@ -19,26 +19,6 @@ void UROS2SpawnEntitySrv::Fini()
     ue_msgs__srv__SpawnEntity_Response__fini(&SpawnEntity_res);
 }
 
-void UROS2SpawnEntitySrv::SetInputs(const FSpawnEntity_Request Input)
-{
-    Input.SetROS2(SpawnEntity_req);
-}
-
-void UROS2SpawnEntitySrv::GetInputs(FSpawnEntity_Request& Input) const
-{
-    Input.SetFromROS2(SpawnEntity_req);
-}
-
-void UROS2SpawnEntitySrv::SetOutput(const FSpawnEntity_Response Output)
-{
-    Output.SetROS2(SpawnEntity_res);
-}
-
-void UROS2SpawnEntitySrv::GetOutput(FSpawnEntity_Response& Output) const
-{
-    Output.SetFromROS2(SpawnEntity_res);
-}
-
 void UROS2SpawnEntitySrv::SetRequest(const FSpawnEntity_Request Request)
 {
     Request.SetROS2(SpawnEntity_req);

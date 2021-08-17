@@ -27,28 +27,6 @@ void UROS2FibonacciAction::Fini()
     Super::Fini();
 }
 
-void UROS2FibonacciAction::SetGoal(const FFibonacci_SendGoal_Request Goal)
-{
-    Goal.SetROS2(Fibonacci_goal_request);
-}
-
-void UROS2FibonacciAction::GetGoal(FFibonacci_SendGoal_Request& Goal) const
-{
-    Goal.SetFromROS2(Fibonacci_goal_request);
-}
-
-void UROS2FibonacciAction::SetResult(const FFibonacci_GetResult_Request Result)
-{
-    Result.SetROS2(Fibonacci_result_request);
-}
-
-void UROS2FibonacciAction::GetResult(FFibonacci_GetResult_Request& Result) const
-{
-    Result.SetFromROS2(Fibonacci_result_request);
-}
-
-
-
 void UROS2FibonacciAction::SetGoalRequest(const FFibonacci_SendGoal_Request Goal)
 {
     Goal.SetROS2(Fibonacci_goal_request);

@@ -19,26 +19,6 @@ void UROS2AttachSrv::Fini()
     ue_msgs__srv__Attach_Response__fini(&Attach_res);
 }
 
-void UROS2AttachSrv::SetInputs(const FAttach_Request Input)
-{
-    Input.SetROS2(Attach_req);
-}
-
-void UROS2AttachSrv::GetInputs(FAttach_Request& Input) const
-{
-    Input.SetFromROS2(Attach_req);
-}
-
-void UROS2AttachSrv::SetOutput(const FAttach_Response Output)
-{
-    Output.SetROS2(Attach_res);
-}
-
-void UROS2AttachSrv::GetOutput(FAttach_Response& Output) const
-{
-    Output.SetFromROS2(Attach_res);
-}
-
 void UROS2AttachSrv::SetRequest(const FAttach_Request Request)
 {
     Request.SetROS2(Attach_req);

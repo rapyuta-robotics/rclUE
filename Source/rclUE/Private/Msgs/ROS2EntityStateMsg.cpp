@@ -19,11 +19,6 @@ const rosidl_message_type_support_t* UROS2EntityStateMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(ue_msgs, msg, EntityState);
 }
 
-void UROS2EntityStateMsg::Update(const FEntityState Inputs)
-{
-    Inputs.SetROS2(entity_state_msg);
-}
-
 void UROS2EntityStateMsg::SetMsg(const FEntityState Inputs)
 {
     Inputs.SetROS2(entity_state_msg);

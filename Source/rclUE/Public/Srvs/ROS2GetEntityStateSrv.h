@@ -156,23 +156,6 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetInputs(const FGetEntityState_Request Input);
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void GetInputs(FGetEntityState_Request& Input) const;
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void SetOutput(const FGetEntityState_Response Output);
-	
-	// used by client
-  	UFUNCTION(BlueprintCallable)
-	void GetOutput(FGetEntityState_Response& Output) const;
-	
-	// TODO these are for a future refactoring, as it requires to adapt the rest of the codes
-	// used by client
-  	UFUNCTION(BlueprintCallable)
 	void SetRequest(const FGetEntityState_Request Request);
 	
 	// used by service

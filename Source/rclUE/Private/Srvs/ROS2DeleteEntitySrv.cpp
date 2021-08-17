@@ -19,26 +19,6 @@ void UROS2DeleteEntitySrv::Fini()
     ue_msgs__srv__DeleteEntity_Response__fini(&DeleteEntity_res);
 }
 
-void UROS2DeleteEntitySrv::SetInputs(const FDeleteEntity_Request Input)
-{
-    Input.SetROS2(DeleteEntity_req);
-}
-
-void UROS2DeleteEntitySrv::GetInputs(FDeleteEntity_Request& Input) const
-{
-    Input.SetFromROS2(DeleteEntity_req);
-}
-
-void UROS2DeleteEntitySrv::SetOutput(const FDeleteEntity_Response Output)
-{
-    Output.SetROS2(DeleteEntity_res);
-}
-
-void UROS2DeleteEntitySrv::GetOutput(FDeleteEntity_Response& Output) const
-{
-    Output.SetFromROS2(DeleteEntity_res);
-}
-
 void UROS2DeleteEntitySrv::SetRequest(const FDeleteEntity_Request Request)
 {
     Request.SetROS2(DeleteEntity_req);

@@ -168,23 +168,6 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetInputs(const FSpawnEntity_Request Input);
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void GetInputs(FSpawnEntity_Request& Input) const;
-	
-	// used by service
-  	UFUNCTION(BlueprintCallable)
-	void SetOutput(const FSpawnEntity_Response Output);
-	
-	// used by client
-  	UFUNCTION(BlueprintCallable)
-	void GetOutput(FSpawnEntity_Response& Output) const;
-	
-	// TODO these are for a future refactoring, as it requires to adapt the rest of the codes
-	// used by client
-  	UFUNCTION(BlueprintCallable)
 	void SetRequest(const FSpawnEntity_Request Request);
 	
 	// used by service

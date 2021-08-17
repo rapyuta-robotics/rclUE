@@ -104,10 +104,6 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void Update(const FEntityState Input);
-	
-	// TODO these are for a future refactoring, as it requires to adapt the rest of the codes
-  	UFUNCTION(BlueprintCallable)
 	void SetMsg(const FEntityState Input);
 	
   	UFUNCTION(BlueprintCallable)
