@@ -2,6 +2,8 @@
 
 #pragma once
 
+#include <random>
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Msgs/ROS2LaserScanMsg.h"
@@ -90,14 +92,17 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	float MaxRange;
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
 	FLinearColor ColorMiss = FColor(255, 127, 0, 255);
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FLinearColor ColorHit = FColor(255, 0, 0, 255);
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
+	FLinearColor ColorMin = FColor(255, 0, 0, 255);
 
-	UPROPERTY(EditAnywhere,BlueprintReadWrite)
-	FColor ColorReflected = FColor(255, 255, 255, 255);
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
+	FLinearColor ColorMid = FColor(255, 0, 0, 255);
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
+	FColor ColorMax = FColor(255, 255, 255, 255);
 
 
 	UPROPERTY(VisibleAnywhere,BlueprintReadOnly)
@@ -120,12 +125,40 @@ public:
 	UPROPERTY(EditAnywhere,BlueprintReadWrite)
 	bool ShowLidarRays = true;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
 	float IntensityNonReflective = 1000;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float IntensityReflective = 4000;
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
+	float IntensityReflective = 6000;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
+	float IntensityMin = 0;
+
+	UPROPERTY(EditAnywhere,BlueprintReadWrite, Category = "Intensity")
+	float IntensityMax = 10000;
+
+	FLinearColor GetColorFromIntensity(const float Intensity);
 
 private:
 	float dt;
+
+	// C++11 RNG for noise
+	std::random_device Rng;
+	std::mt19937 Gen;
+	std::normal_distribution<> GaussianRNGPosition;
+	std::normal_distribution<> GaussianRNGIntensity;
+
+	UPROPERTY(EditAnywhere)
+	float PositionalNoiseMean = 0;
+	
+	UPROPERTY(EditAnywhere)
+	float PositionalNoiseVariance = 1;
+
+	UPROPERTY(EditAnywhere)
+	float IntensityNoiseMean = 0;
+	
+	UPROPERTY(EditAnywhere)
+	float IntensityNoiseVariance = .1;
+
+	FLinearColor InterpolateColor(float x);
 };

@@ -12,6 +12,10 @@ DEFINE_LOG_CATEGORY(LogROS2Sensor);
 // Sets default values
 ASensorLidar::ASensorLidar()
 {
+	Gen = std::mt19937{Rng()};
+	GaussianRNGPosition = std::normal_distribution<>{PositionalNoiseMean,PositionalNoiseVariance};
+	GaussianRNGIntensity = std::normal_distribution<>{IntensityNoiseMean,IntensityNoiseVariance};
+
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
  	
@@ -114,7 +118,7 @@ void ASensorLidar::Scan()
 			FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
 
 			FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
-			FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);
+			FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);// += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
 
 			TraceHandles[i] = GWorld->AsyncLineTraceByChannel(EAsyncTraceType::Single, startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam, nullptr);
 		}
@@ -128,11 +132,21 @@ void ASensorLidar::Scan()
 		FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
 
 		FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
-		FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);
+		FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);// += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
 
 		GWorld->LineTraceSingleByChannel(RecordedHits[Index], startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
+
 	}, false);
 #endif
+
+	// this approach to noise is different from the above:
+	// 	noise on the linetrace input means that the further the hit, the larger the error, while here the error is independent from distance
+	ParallelFor(nSamplesPerScan, [this, &TraceParams, &lidarPos, &lidarRot](int32 Index)
+	{
+		RecordedHits[Index].ImpactPoint += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
+		RecordedHits[Index].TraceEnd += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
+
+	}, false);
 
 	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GWorld);
 	dt = 1.f/(float)ScanFrequency;
@@ -153,13 +167,15 @@ void ASensorLidar::Scan()
 					if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1)
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
-						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
+						//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
+						LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityReflective), 5, 10, dt);
 					}
 					// non reflective material
 					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
-						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+						//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+						LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityNonReflective), 5, 10, dt);
 					}
 					// reflective material
 					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType2)
@@ -174,18 +190,22 @@ void ASensorLidar::Scan()
 						NormalAlignment *= NormalAlignment;
 						NormalAlignment *= NormalAlignment;
 						NormalAlignment *= NormalAlignment; // pow 32
-						LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, FLinearColor::LerpUsingHSV(ColorHit, ColorReflected, NormalAlignment), 10, .5, dt);
+						NormalAlignment = (NormalAlignment*(IntensityReflective-IntensityNonReflective) + IntensityNonReflective)/IntensityMax;
+						//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, FLinearColor::LerpUsingHSV(ColorHit, ColorReflected, NormalAlignment), 10, .5, dt);
+						LineBatcher->DrawPoint(h.ImpactPoint, InterpolateColor(NormalAlignment), 5, 10, dt);
 					}
 				}
 				else
 				{
 					//UE_LOG(LogTemp, Warning, TEXT("no physics material"));
-					LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+					//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
+					LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityNonReflective), 5, 10, dt);
 				}
 			}
 			else
 			{
-				LineBatcher->DrawLine(h.TraceStart, h.TraceEnd, ColorMiss, 10, .25, dt);
+				//LineBatcher->DrawLine(h.TraceStart, h.TraceEnd, ColorMiss, 10, .25, dt);
+				LineBatcher->DrawPoint(h.TraceEnd, ColorMiss, 2.5, 10, dt);
 			}
 		}
 	}
@@ -294,4 +314,16 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 	}
 
 	return retValue;
+}
+
+FLinearColor ASensorLidar::GetColorFromIntensity(const float Intensity)
+{
+	float NormalizedIntensity = (Intensity-IntensityMin) / (IntensityMax-IntensityMin);
+	return InterpolateColor(NormalizedIntensity);
+}
+
+FLinearColor ASensorLidar::InterpolateColor(float x)
+{
+	x = x + GaussianRNGIntensity(Gen); // this means that viz and data sent won't correspond, which should be ok
+	return x > .5 ? FLinearColor::LerpUsingHSV(ColorMid, ColorMax, 2*x-1) : FLinearColor::LerpUsingHSV(ColorMin, ColorMid, 2*x);
 }
