@@ -161,6 +161,7 @@ void ASensorLidar::Scan()
 		{
 			if (h.Actor != nullptr)
 			{
+				float Distance = (MinRange*(h.Distance>0)+h.Distance)*.01;
 				if (h.PhysMaterial != nullptr)
 				{
 					// retroreflective material
@@ -168,14 +169,14 @@ void ASensorLidar::Scan()
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("retroreflective surface type hit"));
 						//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorReflected, 10, .5, dt);
-						LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityReflective), 5, 10, dt);
+						LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityFromDist(IntensityReflective, Distance)), 5, 10, dt);
 					}
 					// non reflective material
 					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
 					{
 						//UE_LOG(LogTemp, Warning, TEXT("default surface type hit"));
 						//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
-						LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityNonReflective), 5, 10, dt);
+						LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityFromDist(IntensityNonReflective, Distance)), 5, 10, dt);
 					}
 					// reflective material
 					else if (h.PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType2)
@@ -190,16 +191,17 @@ void ASensorLidar::Scan()
 						NormalAlignment *= NormalAlignment;
 						NormalAlignment *= NormalAlignment;
 						NormalAlignment *= NormalAlignment; // pow 32
-						NormalAlignment = (NormalAlignment*(IntensityReflective-IntensityNonReflective) + IntensityNonReflective)/IntensityMax;
 						//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, FLinearColor::LerpUsingHSV(ColorHit, ColorReflected, NormalAlignment), 10, .5, dt);
-						LineBatcher->DrawPoint(h.ImpactPoint, InterpolateColor(NormalAlignment), 5, 10, dt);
+						//NormalAlignment = (NormalAlignment*(IntensityReflective-IntensityNonReflective) + IntensityNonReflective)/IntensityMax;
+						//LineBatcher->DrawPoint(h.ImpactPoint, InterpolateColor(NormalAlignment), 5, 10, dt);
+						LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityFromDist(NormalAlignment*(IntensityReflective-IntensityNonReflective) + IntensityNonReflective, Distance)), 5, 10, dt);
 					}
 				}
 				else
 				{
 					//UE_LOG(LogTemp, Warning, TEXT("no physics material"));
 					//LineBatcher->DrawLine(h.TraceStart, h.ImpactPoint, ColorHit, 10, .5, dt);
-					LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityNonReflective), 5, 10, dt);
+					LineBatcher->DrawPoint(h.ImpactPoint, GetColorFromIntensity(IntensityFromDist(IntensityNonReflective, Distance)), 5, 10, dt);
 				}
 			}
 			else
@@ -253,7 +255,7 @@ float ASensorLidar::GetMaxAngleRadians() const
 	//return FMath::DegreesToRadians(StartAngle+180);
 }
 
-FLaserScanData ASensorLidar::GetROS2Data() const
+FLaserScanData ASensorLidar::GetROS2Data()
 {
 	FLaserScanData retValue;
 	retValue.sec = (int32_t)TimeOfLastScan;
@@ -280,18 +282,20 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 		retValue.ranges.Add((MinRange*(RecordedHits.Last(i).Distance>0)+RecordedHits.Last(i).Distance)*.01); // convert to [m]
 		//retValue.intensities.Add(0);
 
+		float IntensityScale = 1 + GaussianRNGIntensity(Gen);
+
 		UStaticMeshComponent* ComponentHit = Cast<UStaticMeshComponent>(RecordedHits.Last(i).GetComponent());
 		if (RecordedHits.Last(i).PhysMaterial != nullptr)
 		{
 			// retroreflective material
 			if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType1)
 			{
-				retValue.intensities.Add(IntensityReflective);
+				retValue.intensities.Add(IntensityScale*IntensityReflective);
 			}
 			// non-reflective material
 			else if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType_Default)
 			{
-				retValue.intensities.Add(IntensityNonReflective);
+				retValue.intensities.Add(IntensityScale*IntensityNonReflective);
 			}
 			// reflective material
 			else if (RecordedHits.Last(i).PhysMaterial->SurfaceType == EPhysicalSurface::SurfaceType2)
@@ -301,10 +305,10 @@ FLaserScanData ASensorLidar::GetROS2Data() const
 				RayDirection.Normalize();
 
 				// the dot product for this should always be between 0 and 1
-				float Intensity = IntensityNonReflective + (IntensityReflective-IntensityNonReflective) * FVector::DotProduct(HitSurfaceNormal, -RayDirection);
+				float Intensity = FMath::Clamp(IntensityNonReflective + (IntensityReflective-IntensityNonReflective) * FVector::DotProduct(HitSurfaceNormal, -RayDirection), IntensityNonReflective, IntensityReflective);
 				check(Intensity >= IntensityNonReflective);
 				check(Intensity <= IntensityReflective);
-				retValue.intensities.Add(Intensity);
+				retValue.intensities.Add(IntensityScale*Intensity);
 			}
 		}
 		else
@@ -326,4 +330,9 @@ FLinearColor ASensorLidar::InterpolateColor(float x)
 {
 	x = x + GaussianRNGIntensity(Gen); // this means that viz and data sent won't correspond, which should be ok
 	return x > .5 ? FLinearColor::LerpUsingHSV(ColorMid, ColorMax, 2*x-1) : FLinearColor::LerpUsingHSV(ColorMin, ColorMid, 2*x);
+}
+
+float ASensorLidar::IntensityFromDist(float BaseIntensity, float Distance)
+{
+	return BaseIntensity*1.3*exp(-.1*(pow(3.5*Distance,.6)))/(1+exp(-((3.5*Distance))));
 }

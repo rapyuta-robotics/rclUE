@@ -57,7 +57,7 @@ public:
 
 	// this should probably be removed so that the sensor can be decoupled from the message types
 	UFUNCTION(BlueprintCallable)
-	FLaserScanData GetROS2Data() const;
+	FLaserScanData GetROS2Data();
 
 	UFUNCTION(BlueprintCallable)
 	float GetMinAngleRadians() const;
@@ -161,4 +161,6 @@ private:
 	float IntensityNoiseVariance = .1;
 
 	FLinearColor InterpolateColor(float x);
+
+	float IntensityFromDist(float BaseIntensity, float Distance);
 };
