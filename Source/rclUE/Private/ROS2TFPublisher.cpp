@@ -28,7 +28,8 @@ void UROS2TFPublisher::SetTransform(FVector Translation, FQuat Rotation)
     TF.SetRotation(Rotation);
 }
 
-void UROS2TFPublisher::UpdateTFMsg(UROS2GenericMsg *Message){
+void UROS2TFPublisher::UpdateTFMsg(UROS2GenericMsg *Message)
+{
     TArray<FTFData> tfarray;
 
     FTFData tfdata;
