@@ -42,7 +42,8 @@ namespace ConversionUtils
         return Output;
     }
 
-    inline static FTransform TransformUEToROS(const FTransform &Input){
+    inline static FTransform TransformUEToROS(const FTransform &Input)
+    {
         FTransform Output = Input;
 
         Output.SetTranslation(VectorUEToROS(Input.GetTranslation()));
@@ -51,7 +52,8 @@ namespace ConversionUtils
         return Output;
     }
 
-    inline static FOdometryData OdomUEToROS(const FOdometryData &Input){
+    inline static FOdometryData OdomUEToROS(const FOdometryData &Input)
+    {
         FOdometryData Output = Input;
 
         Output.position = VectorUEToROS(Output.position);
@@ -98,7 +100,8 @@ namespace ConversionUtils
         return Output;
     }
 
-    inline static FTransform TransformROSToUE(const FTransform &Input){
+    inline static FTransform TransformROSToUE(const FTransform &Input)
+    {
         FTransform Output = Input;
 
         Output.SetTranslation(VectorROSToUE(Input.GetTranslation()));
@@ -107,7 +110,8 @@ namespace ConversionUtils
         return Output;
     }
 
-    inline static FOdometryData OdomROSToUE(const FOdometryData &Input){
+    inline static FOdometryData OdomROSToUE(const FOdometryData &Input)
+    {
         FOdometryData Output = Input;
 
         Output.position = VectorROSToUE(Output.position);
