@@ -3,13 +3,16 @@
 
 #include "ROS2TFPublisher.h"
 
-void UROS2TFPublisher::InitTFPublisher(AROS2Node *Node){
+void UROS2TFPublisher::InitTFPublisher(AROS2Node *Node)
+{
     TEnumAsByte<UROS2QoS> QoS;
-    if(IsStatic){
+    if(IsStatic)
+    {
         TopicName = FString("/tf_static");
         QoS = UROS2QoS::StaticBroadcaster;
     }
-    else{
+    else
+    {
         TopicName = FString("/tf");
         QoS = UROS2QoS::DynamicBroadcaster;
     }
@@ -19,7 +22,8 @@ void UROS2TFPublisher::InitTFPublisher(AROS2Node *Node){
     Init(QoS);
 }
 
-void UROS2TFPublisher::SetTransform(FVector Translation, FQuat Rotation){
+void UROS2TFPublisher::SetTransform(FVector Translation, FQuat Rotation)
+{
     TF.SetTranslation(Translation);
     TF.SetRotation(Rotation);
 }
@@ -36,7 +40,9 @@ void UROS2TFPublisher::UpdateTFMsg(UROS2GenericMsg *Message){
 	tfdata.frame_id = FrameId;
 	tfdata.child_frame_id = ChildFrameId;
 
-    FTransform TransROS = UROS2Utility::TransformUEToROS(TF);
+    FTransform TransROS = TF;
+	TransROS.SetTranslation(ConversionUtils::VectorUEToROS(TF.GetTranslation()));
+	TransROS.SetRotation(ConversionUtils::QuatUEToROS(TF.GetRotation()));
 
 	tfdata.translation = TransROS.GetTranslation();
 	tfdata.rotation = TransROS.GetRotation();
