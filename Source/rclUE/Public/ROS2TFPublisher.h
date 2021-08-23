@@ -6,16 +6,17 @@
 #include "CoreMinimal.h"
 #include "ROS2Publisher.h"
 #include <Msgs/ROS2GenericMsg.h>
+#include <Tools/ROS2Utility.h>
 #include "Kismet/GameplayStatics.h"
 #include "Math/TransformNonVectorized.h"
 
-#include "TFPublisher.generated.h"
+#include "ROS2TFPublisher.generated.h"
 
 /**
  * 
  */
 UCLASS( ClassGroup=(Custom), Blueprintable, meta=(BlueprintSpawnableComponent) )
-class RCLUE_API UTFPublisher : public UROS2Publisher
+class RCLUE_API UROS2TFPublisher : public UROS2Publisher
 {
 	GENERATED_BODY()
 
@@ -30,14 +31,14 @@ public:
 	FString ChildFrameId = TEXT("");
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FTransform Tf;
+	FTransform TF;
 
 	UFUNCTION(BlueprintCallable)
-	void InitTfPublisher(AROS2Node *Node);
+	void InitTFPublisher(AROS2Node *Node);
 
 	UFUNCTION(BlueprintCallable)
 	void SetTransform(FVector Translation, FQuat Rotation);
 
 	UFUNCTION(BlueprintCallable)
-	void UpdateTfMsg(UROS2GenericMsg *Message);
+	void UpdateTFMsg(UROS2GenericMsg *Message);
 };
