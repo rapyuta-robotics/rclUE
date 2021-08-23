@@ -37,7 +37,7 @@ public:
 	void InitTFPublisher(AROS2Node *Node);
 
 	UFUNCTION(BlueprintCallable)
-	void SetTransform(FVector Translation, FQuat Rotation);
+	void SetTransform(const FVector &Translation, const FQuat &Rotation);
 
 	UFUNCTION(BlueprintCallable)
 	void UpdateTFMsg(UROS2GenericMsg *Message);

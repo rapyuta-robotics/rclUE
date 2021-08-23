@@ -18,7 +18,7 @@ ASensorLidar::ASensorLidar()
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 
 	LidarPublisher = CreateDefaultSubobject<UROS2Publisher>(TEXT("LidarPublisher"));
-	LidarPublisher->TopicName = FString("scan");
+	LidarPublisher->TopicName = TEXT("scan");
 	LidarPublisher->PublicationFrequencyHz = ScanFrequency;
 	LidarPublisher->MsgClass = UROS2LaserScanMsg::StaticClass();
 }

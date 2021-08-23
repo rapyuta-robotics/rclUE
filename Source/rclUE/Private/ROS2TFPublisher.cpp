@@ -8,12 +8,12 @@ void UROS2TFPublisher::InitTFPublisher(AROS2Node *Node)
     TEnumAsByte<UROS2QoS> QoS;
     if(IsStatic)
     {
-        TopicName = FString("/tf_static");
+        TopicName = TEXT("/tf_static");
         QoS = UROS2QoS::StaticBroadcaster;
     }
     else
     {
-        TopicName = FString("/tf");
+        TopicName = TEXT("/tf");
         QoS = UROS2QoS::DynamicBroadcaster;
     }
     MsgClass = UROS2TFMsg::StaticClass();
@@ -22,7 +22,7 @@ void UROS2TFPublisher::InitTFPublisher(AROS2Node *Node)
     Init(QoS);
 }
 
-void UROS2TFPublisher::SetTransform(FVector Translation, FQuat Rotation)
+void UROS2TFPublisher::SetTransform(const FVector &Translation, const FQuat &Rotation)
 {
     TF.SetTranslation(Translation);
     TF.SetRotation(Rotation);
