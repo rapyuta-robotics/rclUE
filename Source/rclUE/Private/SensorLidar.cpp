@@ -118,7 +118,7 @@ void ASensorLidar::Scan()
 			FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
 
 			FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
-			FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);// += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
+			FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);// += WithNoise * FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
 
 			TraceHandles[i] = GWorld->AsyncLineTraceByChannel(EAsyncTraceType::Single, startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam, nullptr);
 		}
@@ -132,21 +132,24 @@ void ASensorLidar::Scan()
 		FRotator rot = UKismetMathLibrary::ComposeRotators(laserRot, lidarRot);
 
 		FVector startPos = lidarPos + MinRange * UKismetMathLibrary::GetForwardVector(rot);
-		FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);// += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
+		FVector endPos   = lidarPos + MaxRange * UKismetMathLibrary::GetForwardVector(rot);// += WithNoise * FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
 
 		GWorld->LineTraceSingleByChannel(RecordedHits[Index], startPos, endPos, ECC_Visibility, TraceParams, FCollisionResponseParams::DefaultResponseParam);
 
 	}, false);
 #endif
 
-	// this approach to noise is different from the above:
-	// 	noise on the linetrace input means that the further the hit, the larger the error, while here the error is independent from distance
-	ParallelFor(nSamplesPerScan, [this, &TraceParams, &lidarPos, &lidarRot](int32 Index)
+	if (WithNoise)
 	{
-		RecordedHits[Index].ImpactPoint += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
-		RecordedHits[Index].TraceEnd += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
+		// this approach to noise is different from the above:
+		// 	noise on the linetrace input means that the further the hit, the larger the error, while here the error is independent from distance
+		ParallelFor(nSamplesPerScan, [this, &TraceParams, &lidarPos, &lidarRot](int32 Index)
+		{
+			RecordedHits[Index].ImpactPoint += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
+			RecordedHits[Index].TraceEnd += FVector(GaussianRNGPosition(Gen),GaussianRNGPosition(Gen),GaussianRNGPosition(Gen));
 
-	}, false);
+		}, false);
+	}
 
 	TimeOfLastScan = UGameplayStatics::GetTimeSeconds(GWorld);
 	dt = 1.f/(float)ScanFrequency;
@@ -282,7 +285,7 @@ FLaserScanData ASensorLidar::GetROS2Data()
 		retValue.ranges.Add((MinRange*(RecordedHits.Last(i).Distance>0)+RecordedHits.Last(i).Distance)*.01); // convert to [m]
 		//retValue.intensities.Add(0);
 
-		float IntensityScale = 1 + GaussianRNGIntensity(Gen);
+		float IntensityScale = 1 + WithNoise * GaussianRNGIntensity(Gen);
 
 		UStaticMeshComponent* ComponentHit = Cast<UStaticMeshComponent>(RecordedHits.Last(i).GetComponent());
 		if (RecordedHits.Last(i).PhysMaterial != nullptr)
@@ -328,7 +331,7 @@ FLinearColor ASensorLidar::GetColorFromIntensity(const float Intensity)
 
 FLinearColor ASensorLidar::InterpolateColor(float x)
 {
-	x = x + GaussianRNGIntensity(Gen); // this means that viz and data sent won't correspond, which should be ok
+	x = x + WithNoise * GaussianRNGIntensity(Gen); // this means that viz and data sent won't correspond, which should be ok
 	return x > .5 ? FLinearColor::LerpUsingHSV(ColorMid, ColorMax, 2*x-1) : FLinearColor::LerpUsingHSV(ColorMin, ColorMid, 2*x);
 }
 

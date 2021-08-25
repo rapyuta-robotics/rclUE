@@ -3,7 +3,6 @@
 #pragma once
 
 #include <random>
-
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 #include "Msgs/ROS2LaserScanMsg.h"
@@ -148,17 +147,20 @@ private:
 	std::normal_distribution<> GaussianRNGPosition;
 	std::normal_distribution<> GaussianRNGIntensity;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Noise")
 	float PositionalNoiseMean = 0;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Noise")
 	float PositionalNoiseVariance = 1;
 
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Noise")
 	float IntensityNoiseMean = 0;
 	
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category = "Noise")
 	float IntensityNoiseVariance = .1;
+
+	UPROPERTY(EditAnywhere, Category = "Noise")
+	bool WithNoise = true;
 
 	FLinearColor InterpolateColor(float x);
 
