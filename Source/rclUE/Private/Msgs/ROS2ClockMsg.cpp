@@ -1,8 +1,9 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
+
 
 #include "Msgs/ROS2ClockMsg.h"
-
 #include "Kismet/GameplayStatics.h"
+
 
 void UROS2ClockMsg::Init()
 {
@@ -16,7 +17,7 @@ void UROS2ClockMsg::Fini()
 
 const rosidl_message_type_support_t* UROS2ClockMsg::GetTypeSupport() const
 {
-	return ROSIDL_GET_MSG_TYPE_SUPPORT(rosgraph_msgs, msg, Clock);
+    return ROSIDL_GET_MSG_TYPE_SUPPORT(rosgraph_msgs, msg, Clock);
 }
 
 void UROS2ClockMsg::Update(const float elapsedTime)

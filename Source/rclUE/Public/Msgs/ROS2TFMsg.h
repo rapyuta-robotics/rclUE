@@ -1,13 +1,11 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "tf2_msgs/msg/tf_message.h"
-
 #include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
+#include <tf2_msgs/msg/tf_message.h>
 
 #include "ROS2TFMsg.generated.h"
 
@@ -45,12 +43,12 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void Update(const TArray<FTFData>& data);
+	void Update(const TArray<FTFData> &data);
 	
 	virtual void* Get() override;
+	
+	virtual FString MsgToString() const override;
 
 private:
-	virtual FString MsgToString() const override;
-	
 	tf2_msgs__msg__TFMessage tf_pub_msg;
 };

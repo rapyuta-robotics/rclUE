@@ -1,4 +1,5 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
+
 
 #include "ROS2Context.h"
 
@@ -16,5 +17,5 @@ void UROS2Context::Init()
 
 void UROS2Context::Fini()
 {
-    RCSOFTCHECK(rclc_support_fini(&support));
+	RCSOFTCHECK(rclc_support_fini(&support));
 }

@@ -1,9 +1,8 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "rclcUtilities.h"
 
 #include "ROS2GenericSrv.generated.h"
@@ -29,8 +28,7 @@ public:
 	virtual void* GetResponse();
 	
 	virtual const rosidl_service_type_support_t* GetTypeSupport() const;
-
-private:
+	
 	UFUNCTION(BlueprintCallable)
 	virtual FString SrvRequestToString() const;
 	

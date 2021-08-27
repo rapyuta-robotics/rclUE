@@ -1,12 +1,11 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "Srvs/ROS2GenericSrv.h"
 #include "rclcUtilities.h"
-#include "ue4_interfaces/srv/add_ints.h"
+#include <ue4_interfaces/srv/add_ints.h>
 
 #include "ROS2TestSrv.generated.h"
 
@@ -45,11 +44,11 @@ public:
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;
-
-private:
+	
 	virtual FString SrvRequestToString() const override;
 	virtual FString SrvResponseToString() const override;
 
+private:
 	ue4_interfaces__srv__AddInts_Request ue4test_req;
 	ue4_interfaces__srv__AddInts_Response ue4test_res;
 };

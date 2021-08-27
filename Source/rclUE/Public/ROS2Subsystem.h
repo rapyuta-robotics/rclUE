@@ -1,4 +1,4 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 

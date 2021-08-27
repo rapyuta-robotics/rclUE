@@ -1,16 +1,18 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
+
 // code based on the rclc examples
 // the purpose of this example is to just give a quick way to test if rcl/ros2 is setup correctly
+// for actual implementation, please look at turtlebot3-UE repo
 
 #pragma once
 
+#include <rclc/rclc.h>
+#include <rclc/executor.h>
+
+#include <std_msgs/msg/string.h>
+
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-
-#include "rclc/rclc.h"
-#include "rclc/executor.h"
-#include "std_msgs/msg/string.h"
-
 #include "PubSubExample.generated.h"
 
 UCLASS()
@@ -46,6 +48,6 @@ public:
 	UPROPERTY(EditAnywhere)
 	int frameMS = 100;
 
-	static void my_subscriber_callback(const void* msgin);
-	static void my_timer_callback(rcl_timer_t* timer, int64_t last_call_time);
+	static void my_subscriber_callback(const void * msgin);
+	static void my_timer_callback(rcl_timer_t * timer, int64_t last_call_time);
 };

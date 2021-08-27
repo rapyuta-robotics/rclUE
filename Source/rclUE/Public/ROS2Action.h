@@ -1,13 +1,11 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
-
 #include "ROS2Node.h"
 #include "Actions/ROS2GenericAction.h"
-
 #include "ROS2Action.generated.h"
 
 // this is meant to be an abstract class for ActionServer and Action
@@ -17,6 +15,7 @@ class RCLUE_API UROS2Action : public UActorComponent
 	GENERATED_BODY()
 
 public:	
+	// Sets default values for this component's properties
 	UROS2Action();
 
 public:	
@@ -39,7 +38,7 @@ public:
 	TSubclassOf<UROS2GenericAction> ActionClass;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UROS2GenericAction* Action;
+	UROS2GenericAction *Action;
 	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -52,6 +51,4 @@ public:
 protected:
 	UFUNCTION()
 	virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS);
-
-	void SetQoS(rmw_qos_profile_t& profile, const TEnumAsByte<UROS2QoS> QoS);
 };

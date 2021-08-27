@@ -1,16 +1,15 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
+#include <rclc/rclc.h>
+#include <rcl/wait.h>
+#include <rcl_action/wait.h>
+#include <rcl/graph.h>
 #include <cstdlib>
 #include <cstring>
-
+#include "HAL/UnrealMemory.h"
 #include "Kismet/KismetSystemLibrary.h"
-
-#include "rclc/rclc.h"
-#include "rcl/wait.h"
-#include "rcl_action/wait.h"
-#include "rcl/graph.h"
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
@@ -39,11 +38,91 @@ enum UROS2QoS
     DynamicBroadcaster  UMETA(DisplayName="DynamicBroadcaster"),
     StaticBroadcaster   UMETA(DisplayName="StaticBroadcaster"),
     ClockPub            UMETA(DisplayName="ClockPub"),
-    TFStatic            UMETA(DisplayName="TFStatic"),
     KeepLast            UMETA(DisplayName="KeepLast"),
     Parameters          UMETA(DisplayName="Parameters"),
     Services            UMETA(DisplayName="Services"),
     ParameterEvents     UMETA(DisplayName="ParameterEvents"),
     System              UMETA(DisplayName="System"),
     Unknown             UMETA(DisplayName="Unknown"),
+};
+
+
+static const rmw_qos_profile_t rclUE_qos_profile_keep_last = 
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  1,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
+
+static const rmw_qos_profile_t rclUE_qos_profile_sensor_data = 
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  5,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
+
+static const rmw_qos_profile_t rclUE_qos_profile_clock_pub = 
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  10,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
+
+static const rmw_qos_profile_t rclUE_qos_profile_dynamic_broadcaster = 
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  100,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
+
+static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = 
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  1,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
+
+static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = 
+{
+  {UROS2QoS::Default,            rmw_qos_profile_default},
+  {UROS2QoS::SensorData,         rclUE_qos_profile_sensor_data},
+  {UROS2QoS::DynamicBroadcaster, rclUE_qos_profile_dynamic_broadcaster},
+  {UROS2QoS::StaticBroadcaster,  rclUE_qos_profile_static_broadcaster},
+  {UROS2QoS::ClockPub,           rclUE_qos_profile_clock_pub},
+  {UROS2QoS::KeepLast,           rclUE_qos_profile_keep_last},
+  {UROS2QoS::Parameters,         rmw_qos_profile_parameters},
+  {UROS2QoS::Services,           rmw_qos_profile_services_default},
+  {UROS2QoS::ParameterEvents,    rmw_qos_profile_parameter_events},
+  {UROS2QoS::System,             rmw_qos_profile_system_default},
+  {UROS2QoS::Unknown,            rmw_qos_profile_unknown}
 };

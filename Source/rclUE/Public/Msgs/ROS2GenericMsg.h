@@ -1,9 +1,8 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "rclcUtilities.h"
 
 #include "ROS2GenericMsg.generated.h"
@@ -16,7 +15,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Msg, Log, All);
  * Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
  */
 UCLASS(Blueprintable)
-class UROS2GenericMsg : public UObject
+class RCLUE_API UROS2GenericMsg : public UObject
 {
 	GENERATED_BODY()
 
@@ -32,7 +31,6 @@ public:
 	
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const;
 
-private:
 	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const;
 };

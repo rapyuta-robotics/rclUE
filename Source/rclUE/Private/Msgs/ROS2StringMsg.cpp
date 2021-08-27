@@ -1,7 +1,7 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
+
 
 #include "Msgs/ROS2StringMsg.h"
-
 #include "Kismet/GameplayStatics.h"
 
 void UROS2StringMsg::Init()
@@ -16,10 +16,10 @@ void UROS2StringMsg::Fini()
 
 const rosidl_message_type_support_t* UROS2StringMsg::GetTypeSupport() const
 {
-	return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
+    return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
 }
 
-void UROS2StringMsg::Update(const FString& stringData)
+void UROS2StringMsg::Update(const FString &stringData)
 {
 	const unsigned int StringMsgCapacity = stringData.Len() + 1;
 	string_pub_msg.data.data = (char*)malloc(StringMsgCapacity);

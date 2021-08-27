@@ -1,10 +1,11 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
 #include "ROS2Action.h"
 #include <rcl_action/action_client.h>
 #include "ROS2ActionClient.generated.h"
+
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class RCLUE_API UROS2ActionClient : public UROS2Action

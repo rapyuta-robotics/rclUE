@@ -51,14 +51,18 @@ public class ros2lib : ModuleRules
 			//BuildPlugin(Target);
 
 			PublicRuntimeLibraryPaths.Add(ModulePath);
-			var libs = Directory.EnumerateFiles(ModulePath, "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".so", StringComparison.OrdinalIgnoreCase));
+			var libs = Directory.EnumerateFiles(ModulePath, "*.so", SearchOption.TopDirectoryOnly);
 			foreach (var libName in libs)
 			{
 				PublicAdditionalLibraries.Add(libName);
 				RuntimeDependencies.Add(libName);
-				//Console.WriteLine("Found library: " + libName);
 			}
 					
+			var extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
+			foreach (var libName in extended_libs)
+			{
+				RuntimeDependencies.Add(libName);
+			}
 
 			foreach (var folder in folders)
 			{
@@ -67,7 +71,7 @@ public class ros2lib : ModuleRules
 				if (Directory.Exists(LibrariesPath))
 				{
 					PublicRuntimeLibraryPaths.Add(LibrariesPath);
-					libs = Directory.EnumerateFiles(LibrariesPath, "*.*", SearchOption.TopDirectoryOnly).Where(s => s.EndsWith(".so", StringComparison.OrdinalIgnoreCase));
+					libs = Directory.EnumerateFiles(LibrariesPath, "*.so", SearchOption.TopDirectoryOnly);
 
 					foreach (var libName in libs)
 					{
@@ -75,6 +79,11 @@ public class ros2lib : ModuleRules
 						RuntimeDependencies.Add(libName); // needed for .so?
 					}
 
+					extended_libs = Directory.EnumerateFiles(LibrariesPath, "*.so.*", SearchOption.TopDirectoryOnly);
+					foreach (var libName in extended_libs)
+					{
+						RuntimeDependencies.Add(libName);
+					}
 				}
 			}
 		}

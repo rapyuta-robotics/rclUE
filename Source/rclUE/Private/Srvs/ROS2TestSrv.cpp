@@ -1,6 +1,8 @@
-// Copyright 2021 Rapyuta Robotics Co., Ltd.
+// Fill out your copyright notice in the Description page of Project Settings.
+
 
 #include "Srvs/ROS2TestSrv.h"
+
 
 const rosidl_service_type_support_t* UROS2TestSrv::GetTypeSupport() const
 {
@@ -53,10 +55,10 @@ void* UROS2TestSrv::GetResponse()
 
 FString UROS2TestSrv::SrvRequestToString() const
 {
-    return FString::Printf(TEXT("a: %d, b: %d"), ue4test_req.a, ue4test_req.b);
+	return FString::Printf(TEXT("a: %d, b: %d"), ue4test_req.a, ue4test_req.b);
 }
 
 FString UROS2TestSrv::SrvResponseToString() const
 {
-    return FString::Printf(TEXT("%d"), ue4test_res.sum);
+	return FString::Printf(TEXT("%d"), ue4test_res.sum);
 }
