@@ -25,7 +25,7 @@ void UROS2PointStampedMsg::SetMsg(const FROSPointStamped Inputs)
     Inputs.SetROS2(point_stamped_msg);
 }
 
-void UROS2PointStampedMsg::GetMsg(FROSPointStamped& Outputs)
+void UROS2PointStampedMsg::GetMsg(FROSPointStamped& Outputs) const
 {
     Outputs.SetFromROS2(point_stamped_msg);
 }

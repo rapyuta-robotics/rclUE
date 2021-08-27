@@ -148,7 +148,7 @@ public:
 	void SetMsg(const FROSOccupancyGrid Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSOccupancyGrid& Output);
+	void GetMsg(FROSOccupancyGrid& Output) const;
 	
 	virtual void* Get() override;
 

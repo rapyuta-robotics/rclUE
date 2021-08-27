@@ -25,7 +25,7 @@ void UROS2JoyMsg::SetMsg(const FROSJoy Inputs)
     Inputs.SetROS2(joy_msg);
 }
 
-void UROS2JoyMsg::GetMsg(FROSJoy& Outputs)
+void UROS2JoyMsg::GetMsg(FROSJoy& Outputs) const
 {
     Outputs.SetFromROS2(joy_msg);
 }

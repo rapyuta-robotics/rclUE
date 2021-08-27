@@ -25,7 +25,7 @@ void UROS2TwistWithCovarianceStampedMsg::SetMsg(const FROSTwistWithCovarianceSta
     Inputs.SetROS2(twist_with_covariance_stamped_msg);
 }
 
-void UROS2TwistWithCovarianceStampedMsg::GetMsg(FROSTwistWithCovarianceStamped& Outputs)
+void UROS2TwistWithCovarianceStampedMsg::GetMsg(FROSTwistWithCovarianceStamped& Outputs) const
 {
     Outputs.SetFromROS2(twist_with_covariance_stamped_msg);
 }

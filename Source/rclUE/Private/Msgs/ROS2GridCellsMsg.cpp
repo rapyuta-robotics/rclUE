@@ -25,7 +25,7 @@ void UROS2GridCellsMsg::SetMsg(const FROSGridCells Inputs)
     Inputs.SetROS2(grid_cells_msg);
 }
 
-void UROS2GridCellsMsg::GetMsg(FROSGridCells& Outputs)
+void UROS2GridCellsMsg::GetMsg(FROSGridCells& Outputs) const
 {
     Outputs.SetFromROS2(grid_cells_msg);
 }

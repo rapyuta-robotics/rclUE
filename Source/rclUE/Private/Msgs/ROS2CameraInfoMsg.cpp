@@ -25,7 +25,7 @@ void UROS2CameraInfoMsg::SetMsg(const FROSCameraInfo Inputs)
     Inputs.SetROS2(camera_info_msg);
 }
 
-void UROS2CameraInfoMsg::GetMsg(FROSCameraInfo& Outputs)
+void UROS2CameraInfoMsg::GetMsg(FROSCameraInfo& Outputs) const
 {
     Outputs.SetFromROS2(camera_info_msg);
 }

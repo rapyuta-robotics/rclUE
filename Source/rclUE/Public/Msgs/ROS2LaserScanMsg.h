@@ -148,7 +148,7 @@ public:
 	void SetMsg(const FROSLaserScan Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSLaserScan& Output);
+	void GetMsg(FROSLaserScan& Output) const;
 	
 	virtual void* Get() override;
 

@@ -173,7 +173,7 @@ public:
 	void SetMsg(const FROSPath Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPath& Output);
+	void GetMsg(FROSPath& Output) const;
 	
 	virtual void* Get() override;
 

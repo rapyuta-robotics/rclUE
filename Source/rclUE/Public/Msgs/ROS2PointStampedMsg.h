@@ -91,7 +91,7 @@ public:
 	void SetMsg(const FROSPointStamped Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPointStamped& Output);
+	void GetMsg(FROSPointStamped& Output) const;
 	
 	virtual void* Get() override;
 

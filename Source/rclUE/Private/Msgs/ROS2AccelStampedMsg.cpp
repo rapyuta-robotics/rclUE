@@ -25,7 +25,7 @@ void UROS2AccelStampedMsg::SetMsg(const FROSAccelStamped Inputs)
     Inputs.SetROS2(accel_stamped_msg);
 }
 
-void UROS2AccelStampedMsg::GetMsg(FROSAccelStamped& Outputs)
+void UROS2AccelStampedMsg::GetMsg(FROSAccelStamped& Outputs) const
 {
     Outputs.SetFromROS2(accel_stamped_msg);
 }

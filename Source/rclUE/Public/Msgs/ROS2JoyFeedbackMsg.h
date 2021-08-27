@@ -65,7 +65,7 @@ public:
 	void SetMsg(const FROSJoyFeedback Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSJoyFeedback& Output);
+	void GetMsg(FROSJoyFeedback& Output) const;
 	
 	virtual void* Get() override;
 

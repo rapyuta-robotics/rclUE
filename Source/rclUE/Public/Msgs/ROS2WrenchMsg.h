@@ -68,7 +68,7 @@ public:
 	void SetMsg(const FROSWrench Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSWrench& Output);
+	void GetMsg(FROSWrench& Output) const;
 	
 	virtual void* Get() override;
 

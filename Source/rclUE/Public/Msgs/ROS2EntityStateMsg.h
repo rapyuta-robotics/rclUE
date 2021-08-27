@@ -127,7 +127,7 @@ public:
 	void SetMsg(const FROSEntityState Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSEntityState& Output);
+	void GetMsg(FROSEntityState& Output) const;
 	
 	virtual void* Get() override;
 

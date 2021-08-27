@@ -164,7 +164,7 @@ public:
 	void SetMsg(const FROSOdometry Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSOdometry& Output);
+	void GetMsg(FROSOdometry& Output) const;
 	
 	virtual void* Get() override;
 

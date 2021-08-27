@@ -85,7 +85,7 @@ public:
 	void SetMsg(const FROSFluidPressure Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSFluidPressure& Output);
+	void GetMsg(FROSFluidPressure& Output) const;
 	
 	virtual void* Get() override;
 

@@ -59,7 +59,7 @@ public:
 	void SetMsg(const FROSLaserEcho Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSLaserEcho& Output);
+	void GetMsg(FROSLaserEcho& Output) const;
 	
 	virtual void* Get() override;
 

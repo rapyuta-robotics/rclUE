@@ -25,7 +25,7 @@ void UROS2WrenchMsg::SetMsg(const FROSWrench Inputs)
     Inputs.SetROS2(wrench_msg);
 }
 
-void UROS2WrenchMsg::GetMsg(FROSWrench& Outputs)
+void UROS2WrenchMsg::GetMsg(FROSWrench& Outputs) const
 {
     Outputs.SetFromROS2(wrench_msg);
 }

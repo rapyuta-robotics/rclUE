@@ -89,7 +89,7 @@ public:
 	void SetMsg(const FROSPoseWithCovariance Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPoseWithCovariance& Output);
+	void GetMsg(FROSPoseWithCovariance& Output) const;
 	
 	virtual void* Get() override;
 

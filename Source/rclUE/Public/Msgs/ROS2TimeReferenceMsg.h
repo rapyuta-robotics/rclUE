@@ -100,7 +100,7 @@ public:
 	void SetMsg(const FROSTimeReference Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSTimeReference& Output);
+	void GetMsg(FROSTimeReference& Output) const;
 	
 	virtual void* Get() override;
 

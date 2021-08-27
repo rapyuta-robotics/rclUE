@@ -63,7 +63,7 @@ public:
 	void SetMsg(const FROSPolygon Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPolygon& Output);
+	void GetMsg(FROSPolygon& Output) const;
 	
 	virtual void* Get() override;
 

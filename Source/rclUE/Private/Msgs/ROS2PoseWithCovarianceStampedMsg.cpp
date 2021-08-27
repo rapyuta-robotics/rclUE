@@ -25,7 +25,7 @@ void UROS2PoseWithCovarianceStampedMsg::SetMsg(const FROSPoseWithCovarianceStamp
     Inputs.SetROS2(pose_with_covariance_stamped_msg);
 }
 
-void UROS2PoseWithCovarianceStampedMsg::GetMsg(FROSPoseWithCovarianceStamped& Outputs)
+void UROS2PoseWithCovarianceStampedMsg::GetMsg(FROSPoseWithCovarianceStamped& Outputs) const
 {
     Outputs.SetFromROS2(pose_with_covariance_stamped_msg);
 }

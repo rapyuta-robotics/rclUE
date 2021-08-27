@@ -121,7 +121,7 @@ public:
 	void SetMsg(const FROSNavSatFix Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSNavSatFix& Output);
+	void GetMsg(FROSNavSatFix& Output) const;
 	
 	virtual void* Get() override;
 

@@ -85,7 +85,7 @@ public:
 	void SetMsg(const FROSTemperature Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSTemperature& Output);
+	void GetMsg(FROSTemperature& Output) const;
 	
 	virtual void* Get() override;
 

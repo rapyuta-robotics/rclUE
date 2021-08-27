@@ -25,7 +25,7 @@ void UROS2InertiaStampedMsg::SetMsg(const FROSInertiaStamped Inputs)
     Inputs.SetROS2(inertia_stamped_msg);
 }
 
-void UROS2InertiaStampedMsg::GetMsg(FROSInertiaStamped& Outputs)
+void UROS2InertiaStampedMsg::GetMsg(FROSInertiaStamped& Outputs) const
 {
     Outputs.SetFromROS2(inertia_stamped_msg);
 }

@@ -179,7 +179,7 @@ public:
 	void SetMsg(const FROSPointCloud2 Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPointCloud2& Output);
+	void GetMsg(FROSPointCloud2& Output) const;
 	
 	virtual void* Get() override;
 

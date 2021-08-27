@@ -25,7 +25,7 @@ void UROS2MagneticFieldMsg::SetMsg(const FROSMagneticField Inputs)
     Inputs.SetROS2(magnetic_field_msg);
 }
 
-void UROS2MagneticFieldMsg::GetMsg(FROSMagneticField& Outputs)
+void UROS2MagneticFieldMsg::GetMsg(FROSMagneticField& Outputs) const
 {
     Outputs.SetFromROS2(magnetic_field_msg);
 }

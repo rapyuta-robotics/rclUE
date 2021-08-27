@@ -25,7 +25,7 @@ void UROS2BatteryStateMsg::SetMsg(const FROSBatteryState Inputs)
     Inputs.SetROS2(battery_state_msg);
 }
 
-void UROS2BatteryStateMsg::GetMsg(FROSBatteryState& Outputs)
+void UROS2BatteryStateMsg::GetMsg(FROSBatteryState& Outputs) const
 {
     Outputs.SetFromROS2(battery_state_msg);
 }

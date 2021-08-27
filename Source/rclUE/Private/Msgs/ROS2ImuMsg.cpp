@@ -25,7 +25,7 @@ void UROS2ImuMsg::SetMsg(const FROSImu Inputs)
     Inputs.SetROS2(imu_msg);
 }
 
-void UROS2ImuMsg::GetMsg(FROSImu& Outputs)
+void UROS2ImuMsg::GetMsg(FROSImu& Outputs) const
 {
     Outputs.SetFromROS2(imu_msg);
 }

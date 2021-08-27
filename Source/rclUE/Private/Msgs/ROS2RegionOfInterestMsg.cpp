@@ -25,7 +25,7 @@ void UROS2RegionOfInterestMsg::SetMsg(const FROSRegionOfInterest Inputs)
     Inputs.SetROS2(region_of_interest_msg);
 }
 
-void UROS2RegionOfInterestMsg::GetMsg(FROSRegionOfInterest& Outputs)
+void UROS2RegionOfInterestMsg::GetMsg(FROSRegionOfInterest& Outputs) const
 {
     Outputs.SetFromROS2(region_of_interest_msg);
 }

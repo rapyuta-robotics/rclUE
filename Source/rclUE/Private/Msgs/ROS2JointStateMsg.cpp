@@ -25,7 +25,7 @@ void UROS2JointStateMsg::SetMsg(const FROSJointState Inputs)
     Inputs.SetROS2(joint_state_msg);
 }
 
-void UROS2JointStateMsg::GetMsg(FROSJointState& Outputs)
+void UROS2JointStateMsg::GetMsg(FROSJointState& Outputs) const
 {
     Outputs.SetFromROS2(joint_state_msg);
 }

@@ -90,7 +90,7 @@ public:
 	void SetMsg(const FROSPolygonStamped Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPolygonStamped& Output);
+	void GetMsg(FROSPolygonStamped& Output) const;
 	
 	virtual void* Get() override;
 

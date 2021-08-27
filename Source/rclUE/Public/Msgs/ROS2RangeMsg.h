@@ -107,7 +107,7 @@ public:
 	void SetMsg(const FROSRange Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSRange& Output);
+	void GetMsg(FROSRange& Output) const;
 	
 	virtual void* Get() override;
 

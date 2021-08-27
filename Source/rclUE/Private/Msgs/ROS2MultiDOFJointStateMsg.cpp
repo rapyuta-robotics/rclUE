@@ -25,7 +25,7 @@ void UROS2MultiDOFJointStateMsg::SetMsg(const FROSMultiDOFJointState Inputs)
     Inputs.SetROS2(multi_dof_joint_state_msg);
 }
 
-void UROS2MultiDOFJointStateMsg::GetMsg(FROSMultiDOFJointState& Outputs)
+void UROS2MultiDOFJointStateMsg::GetMsg(FROSMultiDOFJointState& Outputs) const
 {
     Outputs.SetFromROS2(multi_dof_joint_state_msg);
 }

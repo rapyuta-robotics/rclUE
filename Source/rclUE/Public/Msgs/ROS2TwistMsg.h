@@ -68,7 +68,7 @@ public:
 	void SetMsg(const FROSTwist Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSTwist& Output);
+	void GetMsg(FROSTwist& Output) const;
 	
 	virtual void* Get() override;
 

@@ -25,7 +25,7 @@ void UROS2PathMsg::SetMsg(const FROSPath Inputs)
     Inputs.SetROS2(path_msg);
 }
 
-void UROS2PathMsg::GetMsg(FROSPath& Outputs)
+void UROS2PathMsg::GetMsg(FROSPath& Outputs) const
 {
     Outputs.SetFromROS2(path_msg);
 }

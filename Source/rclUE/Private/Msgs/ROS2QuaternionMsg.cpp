@@ -25,7 +25,7 @@ void UROS2QuaternionMsg::SetMsg(const FROSQuaternion Inputs)
     Inputs.SetROS2(quaternion_msg);
 }
 
-void UROS2QuaternionMsg::GetMsg(FROSQuaternion& Outputs)
+void UROS2QuaternionMsg::GetMsg(FROSQuaternion& Outputs) const
 {
     Outputs.SetFromROS2(quaternion_msg);
 }

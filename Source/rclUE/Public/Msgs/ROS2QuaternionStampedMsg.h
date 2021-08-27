@@ -86,7 +86,7 @@ public:
 	void SetMsg(const FROSQuaternionStamped Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSQuaternionStamped& Output);
+	void GetMsg(FROSQuaternionStamped& Output) const;
 	
 	virtual void* Get() override;
 

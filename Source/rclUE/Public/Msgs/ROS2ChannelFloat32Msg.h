@@ -73,7 +73,7 @@ public:
 	void SetMsg(const FROSChannelFloat32 Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSChannelFloat32& Output);
+	void GetMsg(FROSChannelFloat32& Output) const;
 	
 	virtual void* Get() override;
 

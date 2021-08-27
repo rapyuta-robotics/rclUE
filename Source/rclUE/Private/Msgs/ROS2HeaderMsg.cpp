@@ -25,7 +25,7 @@ void UROS2HeaderMsg::SetMsg(const FROSHeader Inputs)
     Inputs.SetROS2(header_msg);
 }
 
-void UROS2HeaderMsg::GetMsg(FROSHeader& Outputs)
+void UROS2HeaderMsg::GetMsg(FROSHeader& Outputs) const
 {
     Outputs.SetFromROS2(header_msg);
 }

@@ -25,7 +25,7 @@ void UROS2Point32Msg::SetMsg(const FROSPoint32 Inputs)
     Inputs.SetROS2(point32_msg);
 }
 
-void UROS2Point32Msg::GetMsg(FROSPoint32& Outputs)
+void UROS2Point32Msg::GetMsg(FROSPoint32& Outputs) const
 {
     Outputs.SetFromROS2(point32_msg);
 }

@@ -25,7 +25,7 @@ void UROS2EmptyMsg::SetMsg(const FROSEmpty Inputs)
     Inputs.SetROS2(empty_msg);
 }
 
-void UROS2EmptyMsg::GetMsg(FROSEmpty& Outputs)
+void UROS2EmptyMsg::GetMsg(FROSEmpty& Outputs) const
 {
     Outputs.SetFromROS2(empty_msg);
 }

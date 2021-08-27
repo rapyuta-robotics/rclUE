@@ -25,7 +25,7 @@ void UROS2ColorRGBAMsg::SetMsg(const FROSColorRGBA Inputs)
     Inputs.SetROS2(color_rgba_msg);
 }
 
-void UROS2ColorRGBAMsg::GetMsg(FROSColorRGBA& Outputs)
+void UROS2ColorRGBAMsg::GetMsg(FROSColorRGBA& Outputs) const
 {
     Outputs.SetFromROS2(color_rgba_msg);
 }

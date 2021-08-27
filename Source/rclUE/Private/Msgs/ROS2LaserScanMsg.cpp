@@ -25,7 +25,7 @@ void UROS2LaserScanMsg::SetMsg(const FROSLaserScan Inputs)
     Inputs.SetROS2(laser_scan_msg);
 }
 
-void UROS2LaserScanMsg::GetMsg(FROSLaserScan& Outputs)
+void UROS2LaserScanMsg::GetMsg(FROSLaserScan& Outputs) const
 {
     Outputs.SetFromROS2(laser_scan_msg);
 }

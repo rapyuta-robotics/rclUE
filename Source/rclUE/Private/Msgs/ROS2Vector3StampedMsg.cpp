@@ -25,7 +25,7 @@ void UROS2Vector3StampedMsg::SetMsg(const FROSVector3Stamped Inputs)
     Inputs.SetROS2(vector3_stamped_msg);
 }
 
-void UROS2Vector3StampedMsg::GetMsg(FROSVector3Stamped& Outputs)
+void UROS2Vector3StampedMsg::GetMsg(FROSVector3Stamped& Outputs) const
 {
     Outputs.SetFromROS2(vector3_stamped_msg);
 }

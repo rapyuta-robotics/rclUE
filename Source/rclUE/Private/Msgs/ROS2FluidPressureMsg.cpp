@@ -25,7 +25,7 @@ void UROS2FluidPressureMsg::SetMsg(const FROSFluidPressure Inputs)
     Inputs.SetROS2(fluid_pressure_msg);
 }
 
-void UROS2FluidPressureMsg::GetMsg(FROSFluidPressure& Outputs)
+void UROS2FluidPressureMsg::GetMsg(FROSFluidPressure& Outputs) const
 {
     Outputs.SetFromROS2(fluid_pressure_msg);
 }

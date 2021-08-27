@@ -25,7 +25,7 @@ void UROS2NavSatFixMsg::SetMsg(const FROSNavSatFix Inputs)
     Inputs.SetROS2(nav_sat_fix_msg);
 }
 
-void UROS2NavSatFixMsg::GetMsg(FROSNavSatFix& Outputs)
+void UROS2NavSatFixMsg::GetMsg(FROSNavSatFix& Outputs) const
 {
     Outputs.SetFromROS2(nav_sat_fix_msg);
 }

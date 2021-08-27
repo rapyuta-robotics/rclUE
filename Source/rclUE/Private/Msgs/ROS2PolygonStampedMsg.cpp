@@ -25,7 +25,7 @@ void UROS2PolygonStampedMsg::SetMsg(const FROSPolygonStamped Inputs)
     Inputs.SetROS2(polygon_stamped_msg);
 }
 
-void UROS2PolygonStampedMsg::GetMsg(FROSPolygonStamped& Outputs)
+void UROS2PolygonStampedMsg::GetMsg(FROSPolygonStamped& Outputs) const
 {
     Outputs.SetFromROS2(polygon_stamped_msg);
 }

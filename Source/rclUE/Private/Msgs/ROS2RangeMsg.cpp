@@ -25,7 +25,7 @@ void UROS2RangeMsg::SetMsg(const FROSRange Inputs)
     Inputs.SetROS2(range_msg);
 }
 
-void UROS2RangeMsg::GetMsg(FROSRange& Outputs)
+void UROS2RangeMsg::GetMsg(FROSRange& Outputs) const
 {
     Outputs.SetFromROS2(range_msg);
 }

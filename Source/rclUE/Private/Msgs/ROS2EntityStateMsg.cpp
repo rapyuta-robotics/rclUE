@@ -25,7 +25,7 @@ void UROS2EntityStateMsg::SetMsg(const FROSEntityState Inputs)
     Inputs.SetROS2(entity_state_msg);
 }
 
-void UROS2EntityStateMsg::GetMsg(FROSEntityState& Outputs)
+void UROS2EntityStateMsg::GetMsg(FROSEntityState& Outputs) const
 {
     Outputs.SetFromROS2(entity_state_msg);
 }

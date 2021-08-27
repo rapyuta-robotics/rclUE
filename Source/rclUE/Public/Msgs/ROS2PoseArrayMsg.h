@@ -128,7 +128,7 @@ public:
 	void SetMsg(const FROSPoseArray Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPoseArray& Output);
+	void GetMsg(FROSPoseArray& Output) const;
 	
 	virtual void* Get() override;
 

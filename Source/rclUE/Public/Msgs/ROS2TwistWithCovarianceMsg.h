@@ -80,7 +80,7 @@ public:
 	void SetMsg(const FROSTwistWithCovariance Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSTwistWithCovariance& Output);
+	void GetMsg(FROSTwistWithCovariance& Output) const;
 	
 	virtual void* Get() override;
 

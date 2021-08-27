@@ -74,7 +74,7 @@ public:
 	void SetMsg(const FROSColorRGBA Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSColorRGBA& Output);
+	void GetMsg(FROSColorRGBA& Output) const;
 	
 	virtual void* Get() override;
 

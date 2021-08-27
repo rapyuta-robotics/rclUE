@@ -25,7 +25,7 @@ void UROS2AccelWithCovarianceStampedMsg::SetMsg(const FROSAccelWithCovarianceSta
     Inputs.SetROS2(accel_with_covariance_stamped_msg);
 }
 
-void UROS2AccelWithCovarianceStampedMsg::GetMsg(FROSAccelWithCovarianceStamped& Outputs)
+void UROS2AccelWithCovarianceStampedMsg::GetMsg(FROSAccelWithCovarianceStamped& Outputs) const
 {
     Outputs.SetFromROS2(accel_with_covariance_stamped_msg);
 }

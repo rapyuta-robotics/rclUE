@@ -25,7 +25,7 @@ void UROS2PoseArrayMsg::SetMsg(const FROSPoseArray Inputs)
     Inputs.SetROS2(pose_array_msg);
 }
 
-void UROS2PoseArrayMsg::GetMsg(FROSPoseArray& Outputs)
+void UROS2PoseArrayMsg::GetMsg(FROSPoseArray& Outputs) const
 {
     Outputs.SetFromROS2(pose_array_msg);
 }

@@ -58,7 +58,7 @@ public:
 	void SetMsg(const FROSNavSatStatus Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSNavSatStatus& Output);
+	void GetMsg(FROSNavSatStatus& Output) const;
 	
 	virtual void* Get() override;
 

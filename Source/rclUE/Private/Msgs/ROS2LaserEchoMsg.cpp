@@ -25,7 +25,7 @@ void UROS2LaserEchoMsg::SetMsg(const FROSLaserEcho Inputs)
     Inputs.SetROS2(laser_echo_msg);
 }
 
-void UROS2LaserEchoMsg::GetMsg(FROSLaserEcho& Outputs)
+void UROS2LaserEchoMsg::GetMsg(FROSLaserEcho& Outputs) const
 {
     Outputs.SetFromROS2(laser_echo_msg);
 }

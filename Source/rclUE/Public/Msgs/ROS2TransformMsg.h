@@ -70,7 +70,7 @@ public:
 	void SetMsg(const FROSTransform Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSTransform& Output);
+	void GetMsg(FROSTransform& Output) const;
 	
 	virtual void* Get() override;
 

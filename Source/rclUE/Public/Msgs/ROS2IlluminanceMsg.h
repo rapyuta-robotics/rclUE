@@ -85,7 +85,7 @@ public:
 	void SetMsg(const FROSIlluminance Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSIlluminance& Output);
+	void GetMsg(FROSIlluminance& Output) const;
 	
 	virtual void* Get() override;
 

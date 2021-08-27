@@ -123,7 +123,7 @@ public:
 	void SetMsg(const FROSImage Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSImage& Output);
+	void GetMsg(FROSImage& Output) const;
 	
 	virtual void* Get() override;
 

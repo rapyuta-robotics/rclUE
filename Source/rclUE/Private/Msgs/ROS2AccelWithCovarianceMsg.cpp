@@ -25,7 +25,7 @@ void UROS2AccelWithCovarianceMsg::SetMsg(const FROSAccelWithCovariance Inputs)
     Inputs.SetROS2(accel_with_covariance_msg);
 }
 
-void UROS2AccelWithCovarianceMsg::GetMsg(FROSAccelWithCovariance& Outputs)
+void UROS2AccelWithCovarianceMsg::GetMsg(FROSAccelWithCovariance& Outputs) const
 {
     Outputs.SetFromROS2(accel_with_covariance_msg);
 }

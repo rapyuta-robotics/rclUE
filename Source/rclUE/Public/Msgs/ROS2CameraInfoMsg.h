@@ -190,7 +190,7 @@ public:
 	void SetMsg(const FROSCameraInfo Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSCameraInfo& Output);
+	void GetMsg(FROSCameraInfo& Output) const;
 	
 	virtual void* Get() override;
 

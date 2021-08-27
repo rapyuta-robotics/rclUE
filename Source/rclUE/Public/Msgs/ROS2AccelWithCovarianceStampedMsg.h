@@ -107,7 +107,7 @@ public:
 	void SetMsg(const FROSAccelWithCovarianceStamped Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSAccelWithCovarianceStamped& Output);
+	void GetMsg(FROSAccelWithCovarianceStamped& Output) const;
 	
 	virtual void* Get() override;
 

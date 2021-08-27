@@ -25,7 +25,7 @@ void UROS2CompressedImageMsg::SetMsg(const FROSCompressedImage Inputs)
     Inputs.SetROS2(compressed_image_msg);
 }
 
-void UROS2CompressedImageMsg::GetMsg(FROSCompressedImage& Outputs)
+void UROS2CompressedImageMsg::GetMsg(FROSCompressedImage& Outputs) const
 {
     Outputs.SetFromROS2(compressed_image_msg);
 }

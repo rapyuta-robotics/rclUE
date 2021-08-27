@@ -99,7 +99,7 @@ public:
 	void SetMsg(const FROSCompressedImage Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSCompressedImage& Output);
+	void GetMsg(FROSCompressedImage& Output) const;
 	
 	virtual void* Get() override;
 

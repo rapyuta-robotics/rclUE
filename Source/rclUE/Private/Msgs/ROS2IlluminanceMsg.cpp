@@ -25,7 +25,7 @@ void UROS2IlluminanceMsg::SetMsg(const FROSIlluminance Inputs)
     Inputs.SetROS2(illuminance_msg);
 }
 
-void UROS2IlluminanceMsg::GetMsg(FROSIlluminance& Outputs)
+void UROS2IlluminanceMsg::GetMsg(FROSIlluminance& Outputs) const
 {
     Outputs.SetFromROS2(illuminance_msg);
 }

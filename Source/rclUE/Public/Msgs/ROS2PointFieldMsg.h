@@ -78,7 +78,7 @@ public:
 	void SetMsg(const FROSPointField Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPointField& Output);
+	void GetMsg(FROSPointField& Output) const;
 	
 	virtual void* Get() override;
 

@@ -109,7 +109,7 @@ public:
 	void SetMsg(const FROSMapMetaData Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSMapMetaData& Output);
+	void GetMsg(FROSMapMetaData& Output) const;
 	
 	virtual void* Get() override;
 

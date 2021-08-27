@@ -25,7 +25,7 @@ void UROS2PolygonMsg::SetMsg(const FROSPolygon Inputs)
     Inputs.SetROS2(polygon_msg);
 }
 
-void UROS2PolygonMsg::GetMsg(FROSPolygon& Outputs)
+void UROS2PolygonMsg::GetMsg(FROSPolygon& Outputs) const
 {
     Outputs.SetFromROS2(polygon_msg);
 }

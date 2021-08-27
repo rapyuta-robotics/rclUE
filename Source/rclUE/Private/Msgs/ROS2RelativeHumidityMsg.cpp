@@ -25,7 +25,7 @@ void UROS2RelativeHumidityMsg::SetMsg(const FROSRelativeHumidity Inputs)
     Inputs.SetROS2(relative_humidity_msg);
 }
 
-void UROS2RelativeHumidityMsg::GetMsg(FROSRelativeHumidity& Outputs)
+void UROS2RelativeHumidityMsg::GetMsg(FROSRelativeHumidity& Outputs) const
 {
     Outputs.SetFromROS2(relative_humidity_msg);
 }

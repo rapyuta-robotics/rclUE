@@ -145,7 +145,7 @@ public:
 	void SetMsg(const FROSPointCloud Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPointCloud& Output);
+	void GetMsg(FROSPointCloud& Output) const;
 	
 	virtual void* Get() override;
 

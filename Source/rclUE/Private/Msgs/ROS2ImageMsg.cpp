@@ -25,7 +25,7 @@ void UROS2ImageMsg::SetMsg(const FROSImage Inputs)
     Inputs.SetROS2(image_msg);
 }
 
-void UROS2ImageMsg::GetMsg(FROSImage& Outputs)
+void UROS2ImageMsg::GetMsg(FROSImage& Outputs) const
 {
     Outputs.SetFromROS2(image_msg);
 }

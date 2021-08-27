@@ -25,7 +25,7 @@ void UROS2TransformMsg::SetMsg(const FROSTransform Inputs)
     Inputs.SetROS2(transform_msg);
 }
 
-void UROS2TransformMsg::GetMsg(FROSTransform& Outputs)
+void UROS2TransformMsg::GetMsg(FROSTransform& Outputs) const
 {
     Outputs.SetFromROS2(transform_msg);
 }

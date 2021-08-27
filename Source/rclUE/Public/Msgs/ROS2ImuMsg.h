@@ -169,7 +169,7 @@ public:
 	void SetMsg(const FROSImu Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSImu& Output);
+	void GetMsg(FROSImu& Output) const;
 	
 	virtual void* Get() override;
 

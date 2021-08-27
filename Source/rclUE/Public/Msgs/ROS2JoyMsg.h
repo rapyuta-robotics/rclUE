@@ -99,7 +99,7 @@ public:
 	void SetMsg(const FROSJoy Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSJoy& Output);
+	void GetMsg(FROSJoy& Output) const;
 	
 	virtual void* Get() override;
 

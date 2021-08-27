@@ -95,7 +95,7 @@ public:
 	void SetMsg(const FROSWrenchStamped Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSWrenchStamped& Output);
+	void GetMsg(FROSWrenchStamped& Output) const;
 	
 	virtual void* Get() override;
 

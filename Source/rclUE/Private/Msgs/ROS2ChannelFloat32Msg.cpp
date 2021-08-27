@@ -25,7 +25,7 @@ void UROS2ChannelFloat32Msg::SetMsg(const FROSChannelFloat32 Inputs)
     Inputs.SetROS2(channel_float32_msg);
 }
 
-void UROS2ChannelFloat32Msg::GetMsg(FROSChannelFloat32& Outputs)
+void UROS2ChannelFloat32Msg::GetMsg(FROSChannelFloat32& Outputs) const
 {
     Outputs.SetFromROS2(channel_float32_msg);
 }

@@ -25,7 +25,7 @@ void UROS2TwistMsg::SetMsg(const FROSTwist Inputs)
     Inputs.SetROS2(twist_msg);
 }
 
-void UROS2TwistMsg::GetMsg(FROSTwist& Outputs)
+void UROS2TwistMsg::GetMsg(FROSTwist& Outputs) const
 {
     Outputs.SetFromROS2(twist_msg);
 }

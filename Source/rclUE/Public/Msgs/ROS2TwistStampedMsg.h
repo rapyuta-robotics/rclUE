@@ -95,7 +95,7 @@ public:
 	void SetMsg(const FROSTwistStamped Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSTwistStamped& Output);
+	void GetMsg(FROSTwistStamped& Output) const;
 	
 	virtual void* Get() override;
 

@@ -133,7 +133,7 @@ public:
 	void SetMsg(const FROSInertiaStamped Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSInertiaStamped& Output);
+	void GetMsg(FROSInertiaStamped& Output) const;
 	
 	virtual void* Get() override;
 

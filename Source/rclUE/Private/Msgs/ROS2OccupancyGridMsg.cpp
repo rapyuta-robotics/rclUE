@@ -25,7 +25,7 @@ void UROS2OccupancyGridMsg::SetMsg(const FROSOccupancyGrid Inputs)
     Inputs.SetROS2(occupancy_grid_msg);
 }
 
-void UROS2OccupancyGridMsg::GetMsg(FROSOccupancyGrid& Outputs)
+void UROS2OccupancyGridMsg::GetMsg(FROSOccupancyGrid& Outputs) const
 {
     Outputs.SetFromROS2(occupancy_grid_msg);
 }

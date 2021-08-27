@@ -25,7 +25,7 @@ void UROS2PointCloud2Msg::SetMsg(const FROSPointCloud2 Inputs)
     Inputs.SetROS2(point_cloud2_msg);
 }
 
-void UROS2PointCloud2Msg::GetMsg(FROSPointCloud2& Outputs)
+void UROS2PointCloud2Msg::GetMsg(FROSPointCloud2& Outputs) const
 {
     Outputs.SetFromROS2(point_cloud2_msg);
 }

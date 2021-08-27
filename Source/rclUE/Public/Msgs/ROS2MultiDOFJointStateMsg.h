@@ -197,7 +197,7 @@ public:
 	void SetMsg(const FROSMultiDOFJointState Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSMultiDOFJointState& Output);
+	void GetMsg(FROSMultiDOFJointState& Output) const;
 	
 	virtual void* Get() override;
 

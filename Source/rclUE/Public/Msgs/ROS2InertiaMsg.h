@@ -106,7 +106,7 @@ public:
 	void SetMsg(const FROSInertia Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSInertia& Output);
+	void GetMsg(FROSInertia& Output) const;
 	
 	virtual void* Get() override;
 

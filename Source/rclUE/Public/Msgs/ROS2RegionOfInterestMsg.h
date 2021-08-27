@@ -77,7 +77,7 @@ public:
 	void SetMsg(const FROSRegionOfInterest Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSRegionOfInterest& Output);
+	void GetMsg(FROSRegionOfInterest& Output) const;
 	
 	virtual void* Get() override;
 

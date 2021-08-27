@@ -201,7 +201,7 @@ public:
 	void SetMsg(const FROSBatteryState Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSBatteryState& Output);
+	void GetMsg(FROSBatteryState& Output) const;
 	
 	virtual void* Get() override;
 

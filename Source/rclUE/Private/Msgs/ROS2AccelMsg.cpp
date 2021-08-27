@@ -25,7 +25,7 @@ void UROS2AccelMsg::SetMsg(const FROSAccel Inputs)
     Inputs.SetROS2(accel_msg);
 }
 
-void UROS2AccelMsg::GetMsg(FROSAccel& Outputs)
+void UROS2AccelMsg::GetMsg(FROSAccel& Outputs) const
 {
     Outputs.SetFromROS2(accel_msg);
 }

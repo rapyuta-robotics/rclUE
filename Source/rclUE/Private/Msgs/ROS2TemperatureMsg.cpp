@@ -25,7 +25,7 @@ void UROS2TemperatureMsg::SetMsg(const FROSTemperature Inputs)
     Inputs.SetROS2(temperature_msg);
 }
 
-void UROS2TemperatureMsg::GetMsg(FROSTemperature& Outputs)
+void UROS2TemperatureMsg::GetMsg(FROSTemperature& Outputs) const
 {
     Outputs.SetFromROS2(temperature_msg);
 }

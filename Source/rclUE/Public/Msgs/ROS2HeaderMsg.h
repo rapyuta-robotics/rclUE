@@ -73,7 +73,7 @@ public:
 	void SetMsg(const FROSHeader Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSHeader& Output);
+	void GetMsg(FROSHeader& Output) const;
 	
 	virtual void* Get() override;
 

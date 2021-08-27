@@ -123,7 +123,7 @@ public:
 	void SetMsg(const FROSGridCells Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSGridCells& Output);
+	void GetMsg(FROSGridCells& Output) const;
 	
 	virtual void* Get() override;
 

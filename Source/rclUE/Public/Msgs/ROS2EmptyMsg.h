@@ -46,7 +46,7 @@ public:
 	void SetMsg(const FROSEmpty Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSEmpty& Output);
+	void GetMsg(FROSEmpty& Output) const;
 	
 	virtual void* Get() override;
 

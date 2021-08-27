@@ -25,7 +25,7 @@ void UROS2TimeReferenceMsg::SetMsg(const FROSTimeReference Inputs)
     Inputs.SetROS2(time_reference_msg);
 }
 
-void UROS2TimeReferenceMsg::GetMsg(FROSTimeReference& Outputs)
+void UROS2TimeReferenceMsg::GetMsg(FROSTimeReference& Outputs) const
 {
     Outputs.SetFromROS2(time_reference_msg);
 }

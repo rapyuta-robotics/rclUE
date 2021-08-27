@@ -25,7 +25,7 @@ void UROS2OdometryMsg::SetMsg(const FROSOdometry Inputs)
     Inputs.SetROS2(odometry_msg);
 }
 
-void UROS2OdometryMsg::GetMsg(FROSOdometry& Outputs)
+void UROS2OdometryMsg::GetMsg(FROSOdometry& Outputs) const
 {
     Outputs.SetFromROS2(odometry_msg);
 }

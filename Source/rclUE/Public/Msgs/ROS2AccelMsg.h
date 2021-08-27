@@ -68,7 +68,7 @@ public:
 	void SetMsg(const FROSAccel Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSAccel& Output);
+	void GetMsg(FROSAccel& Output) const;
 	
 	virtual void* Get() override;
 

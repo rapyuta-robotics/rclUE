@@ -129,7 +129,7 @@ public:
 	void SetMsg(const FROSJointState Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSJointState& Output);
+	void GetMsg(FROSJointState& Output) const;
 	
 	virtual void* Get() override;
 

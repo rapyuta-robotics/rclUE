@@ -103,7 +103,7 @@ public:
 	void SetMsg(const FROSMagneticField Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSMagneticField& Output);
+	void GetMsg(FROSMagneticField& Output) const;
 	
 	virtual void* Get() override;
 

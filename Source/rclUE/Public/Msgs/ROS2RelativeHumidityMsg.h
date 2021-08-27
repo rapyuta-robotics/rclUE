@@ -85,7 +85,7 @@ public:
 	void SetMsg(const FROSRelativeHumidity Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSRelativeHumidity& Output);
+	void GetMsg(FROSRelativeHumidity& Output) const;
 	
 	virtual void* Get() override;
 

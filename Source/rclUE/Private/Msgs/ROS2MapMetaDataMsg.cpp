@@ -25,7 +25,7 @@ void UROS2MapMetaDataMsg::SetMsg(const FROSMapMetaData Inputs)
     Inputs.SetROS2(map_meta_data_msg);
 }
 
-void UROS2MapMetaDataMsg::GetMsg(FROSMapMetaData& Outputs)
+void UROS2MapMetaDataMsg::GetMsg(FROSMapMetaData& Outputs) const
 {
     Outputs.SetFromROS2(map_meta_data_msg);
 }
