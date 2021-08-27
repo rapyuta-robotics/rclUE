@@ -102,7 +102,7 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
@@ -111,7 +111,7 @@ public:
 		{
 			free(rosdata.child_frame_id.data);
 		}
-		rosdata.child_frame_id.data = (char*)malloc((child_frame_id.Len()+1)*sizeof(char));
+		rosdata.child_frame_id.data = (decltype(rosdata.child_frame_id.data))malloc((child_frame_id.Len() + 1)*sizeof(decltype(*rosdata.child_frame_id.data)));
 		memcpy(rosdata.child_frame_id.data, TCHAR_TO_ANSI(*child_frame_id), (child_frame_id.Len()+1)*sizeof(char));
 		rosdata.child_frame_id.size = child_frame_id.Len();
 		rosdata.child_frame_id.capacity = child_frame_id.Len() + 1;

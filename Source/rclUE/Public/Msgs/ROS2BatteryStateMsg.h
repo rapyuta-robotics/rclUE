@@ -127,7 +127,7 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
@@ -154,21 +154,39 @@ public:
 
 		rosdata.present = present;
 
+		if (rosdata.cell_voltage.data != nullptr)
+		{
+			free(rosdata.cell_voltage.data);
+		}
+		rosdata.cell_voltage.data = (decltype(rosdata.cell_voltage.data))malloc((cell_voltage.Num())*sizeof(decltype(*rosdata.cell_voltage.data)));
+		
 		for (int i = 0; i < cell_voltage.Num(); i++)
 		{
 			rosdata.cell_voltage.data[i] = cell_voltage[i];
 		}
 
+		rosdata.cell_voltage.size = cell_voltage.Num();
+		rosdata.cell_voltage.capacity = cell_voltage.Num();
+
+		if (rosdata.cell_temperature.data != nullptr)
+		{
+			free(rosdata.cell_temperature.data);
+		}
+		rosdata.cell_temperature.data = (decltype(rosdata.cell_temperature.data))malloc((cell_temperature.Num())*sizeof(decltype(*rosdata.cell_temperature.data)));
+		
 		for (int i = 0; i < cell_temperature.Num(); i++)
 		{
 			rosdata.cell_temperature.data[i] = cell_temperature[i];
 		}
 
+		rosdata.cell_temperature.size = cell_temperature.Num();
+		rosdata.cell_temperature.capacity = cell_temperature.Num();
+
 		if (rosdata.location.data != nullptr)
 		{
 			free(rosdata.location.data);
 		}
-		rosdata.location.data = (char*)malloc((location.Len()+1)*sizeof(char));
+		rosdata.location.data = (decltype(rosdata.location.data))malloc((location.Len() + 1)*sizeof(decltype(*rosdata.location.data)));
 		memcpy(rosdata.location.data, TCHAR_TO_ANSI(*location), (location.Len()+1)*sizeof(char));
 		rosdata.location.size = location.Len();
 		rosdata.location.capacity = location.Len() + 1;
@@ -177,7 +195,7 @@ public:
 		{
 			free(rosdata.serial_number.data);
 		}
-		rosdata.serial_number.data = (char*)malloc((serial_number.Len()+1)*sizeof(char));
+		rosdata.serial_number.data = (decltype(rosdata.serial_number.data))malloc((serial_number.Len() + 1)*sizeof(decltype(*rosdata.serial_number.data)));
 		memcpy(rosdata.serial_number.data, TCHAR_TO_ANSI(*serial_number), (serial_number.Len()+1)*sizeof(char));
 		rosdata.serial_number.size = serial_number.Len();
 		rosdata.serial_number.capacity = serial_number.Len() + 1;

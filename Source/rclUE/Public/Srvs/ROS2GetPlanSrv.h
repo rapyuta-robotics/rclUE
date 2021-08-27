@@ -108,7 +108,7 @@ public:
 		{
 			free(rosdata.start.header.frame_id.data);
 		}
-		rosdata.start.header.frame_id.data = (char*)malloc((start_header_frame_id.Len()+1)*sizeof(char));
+		rosdata.start.header.frame_id.data = (decltype(rosdata.start.header.frame_id.data))malloc((start_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.start.header.frame_id.data)));
 		memcpy(rosdata.start.header.frame_id.data, TCHAR_TO_ANSI(*start_header_frame_id), (start_header_frame_id.Len()+1)*sizeof(char));
 		rosdata.start.header.frame_id.size = start_header_frame_id.Len();
 		rosdata.start.header.frame_id.capacity = start_header_frame_id.Len() + 1;
@@ -132,7 +132,7 @@ public:
 		{
 			free(rosdata.goal.header.frame_id.data);
 		}
-		rosdata.goal.header.frame_id.data = (char*)malloc((goal_header_frame_id.Len()+1)*sizeof(char));
+		rosdata.goal.header.frame_id.data = (decltype(rosdata.goal.header.frame_id.data))malloc((goal_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.goal.header.frame_id.data)));
 		memcpy(rosdata.goal.header.frame_id.data, TCHAR_TO_ANSI(*goal_header_frame_id), (goal_header_frame_id.Len()+1)*sizeof(char));
 		rosdata.goal.header.frame_id.size = goal_header_frame_id.Len();
 		rosdata.goal.header.frame_id.capacity = goal_header_frame_id.Len() + 1;
@@ -246,48 +246,99 @@ public:
 		{
 			free(rosdata.plan.header.frame_id.data);
 		}
-		rosdata.plan.header.frame_id.data = (char*)malloc((plan_header_frame_id.Len()+1)*sizeof(char));
+		rosdata.plan.header.frame_id.data = (decltype(rosdata.plan.header.frame_id.data))malloc((plan_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.plan.header.frame_id.data)));
 		memcpy(rosdata.plan.header.frame_id.data, TCHAR_TO_ANSI(*plan_header_frame_id), (plan_header_frame_id.Len()+1)*sizeof(char));
 		rosdata.plan.header.frame_id.size = plan_header_frame_id.Len();
 		rosdata.plan.header.frame_id.capacity = plan_header_frame_id.Len() + 1;
 
+		if (rosdata.plan.poses.data != nullptr)
+		{
+			free(rosdata.plan.poses.data);
+		}
+		rosdata.plan.poses.data = (decltype(rosdata.plan.poses.data))malloc((plan_poses_header_stamp_sec.Num())*sizeof(decltype(*rosdata.plan.poses.data)));
+		
 		for (int i = 0; i < plan_poses_header_stamp_sec.Num(); i++)
 		{
 			rosdata.plan.poses.data[i].header.stamp.sec = plan_poses_header_stamp_sec[i];
 		}
 
+		rosdata.plan.poses.size = plan_poses_header_stamp_sec.Num();
+		rosdata.plan.poses.capacity = plan_poses_header_stamp_sec.Num();
+
+		if (rosdata.plan.poses.data != nullptr)
+		{
+			free(rosdata.plan.poses.data);
+		}
+		rosdata.plan.poses.data = (decltype(rosdata.plan.poses.data))malloc((plan_poses_header_stamp_nanosec.Num())*sizeof(decltype(*rosdata.plan.poses.data)));
+		
 		for (int i = 0; i < plan_poses_header_stamp_nanosec.Num(); i++)
 		{
 			rosdata.plan.poses.data[i].header.stamp.nanosec = plan_poses_header_stamp_nanosec[i];
 		}
 
+		rosdata.plan.poses.size = plan_poses_header_stamp_nanosec.Num();
+		rosdata.plan.poses.capacity = plan_poses_header_stamp_nanosec.Num();
+
 		for (int i = 0; i < plan_poses_header_frame_id.Num(); i++)
 		{
-			if (rosdata.plan.poses.data[i].header.frame_id.data != nullptr)
+			if (rosdata.plan.poses.data != nullptr)
 			{
-				free(rosdata.plan.poses.data[i].header.frame_id.data);
+				free(rosdata.plan.poses.data);
 			}
 			rosdata.plan.poses.data[i].header.frame_id.data = (char*)malloc((plan_poses_header_frame_id[i].Len()+1)*sizeof(char));
 			memcpy(rosdata.plan.poses.data[i].header.frame_id.data, TCHAR_TO_ANSI(*plan_poses_header_frame_id[i]), (plan_poses_header_frame_id[i].Len()+1)*sizeof(char));
-			rosdata.plan.poses.data[i].header.frame_id.size = plan_poses_header_frame_id[i].Len();
-			rosdata.plan.poses.data[i].header.frame_id.capacity = plan_poses_header_frame_id[i].Len() + 1;
+			rosdata.plan.poses.size = plan_poses_header_frame_id[i].Len();
+			rosdata.plan.poses.capacity = plan_poses_header_frame_id[i].Len() + 1;
 		}
 
+		if (rosdata.plan.poses.data != nullptr)
+		{
+			free(rosdata.plan.poses.data);
+		}
+		rosdata.plan.poses.data = (decltype(rosdata.plan.poses.data))malloc((plan_poses_pose_position_x.Num())*sizeof(decltype(*rosdata.plan.poses.data)));
+		
 		for (int i = 0; i < plan_poses_pose_position_x.Num(); i++)
 		{
 			rosdata.plan.poses.data[i].pose.position.x = plan_poses_pose_position_x[i];
 		}
 
+		rosdata.plan.poses.size = plan_poses_pose_position_x.Num();
+		rosdata.plan.poses.capacity = plan_poses_pose_position_x.Num();
+
+		if (rosdata.plan.poses.data != nullptr)
+		{
+			free(rosdata.plan.poses.data);
+		}
+		rosdata.plan.poses.data = (decltype(rosdata.plan.poses.data))malloc((plan_poses_pose_position_y.Num())*sizeof(decltype(*rosdata.plan.poses.data)));
+		
 		for (int i = 0; i < plan_poses_pose_position_y.Num(); i++)
 		{
 			rosdata.plan.poses.data[i].pose.position.y = plan_poses_pose_position_y[i];
 		}
 
+		rosdata.plan.poses.size = plan_poses_pose_position_y.Num();
+		rosdata.plan.poses.capacity = plan_poses_pose_position_y.Num();
+
+		if (rosdata.plan.poses.data != nullptr)
+		{
+			free(rosdata.plan.poses.data);
+		}
+		rosdata.plan.poses.data = (decltype(rosdata.plan.poses.data))malloc((plan_poses_pose_position_z.Num())*sizeof(decltype(*rosdata.plan.poses.data)));
+		
 		for (int i = 0; i < plan_poses_pose_position_z.Num(); i++)
 		{
 			rosdata.plan.poses.data[i].pose.position.z = plan_poses_pose_position_z[i];
 		}
 
+		rosdata.plan.poses.size = plan_poses_pose_position_z.Num();
+		rosdata.plan.poses.capacity = plan_poses_pose_position_z.Num();
+
+		if (rosdata.plan.poses.data != nullptr)
+		{
+			free(rosdata.plan.poses.data);
+		}
+		rosdata.plan.poses.data = (decltype(rosdata.plan.poses.data))malloc((plan_poses_pose_orientation.Num() * 4)*sizeof(decltype(*rosdata.plan.poses.data)));
+		
 		for (int i = 0; i < plan_poses_pose_orientation.Num(); i++)
 		{
 			rosdata.plan.poses.data[i].pose.orientation.x = plan_poses_pose_orientation[i].X;
@@ -295,6 +346,9 @@ public:
 			rosdata.plan.poses.data[i].pose.orientation.z = plan_poses_pose_orientation[i].Z;
 			rosdata.plan.poses.data[i].pose.orientation.w = plan_poses_pose_orientation[i].W;
 		}
+
+		rosdata.plan.poses.size = plan_poses_pose_orientation.Num();
+		rosdata.plan.poses.capacity = plan_poses_pose_orientation.Num();
 
 		
 	}

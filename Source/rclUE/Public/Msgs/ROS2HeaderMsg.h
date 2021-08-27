@@ -49,7 +49,7 @@ public:
 		{
 			free(rosdata.frame_id.data);
 		}
-		rosdata.frame_id.data = (char*)malloc((frame_id.Len()+1)*sizeof(char));
+		rosdata.frame_id.data = (decltype(rosdata.frame_id.data))malloc((frame_id.Len() + 1)*sizeof(decltype(*rosdata.frame_id.data)));
 		memcpy(rosdata.frame_id.data, TCHAR_TO_ANSI(*frame_id), (frame_id.Len()+1)*sizeof(char));
 		rosdata.frame_id.size = frame_id.Len();
 		rosdata.frame_id.capacity = frame_id.Len() + 1;

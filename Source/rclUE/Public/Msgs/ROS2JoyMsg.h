@@ -65,20 +65,38 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
 
+		if (rosdata.axes.data != nullptr)
+		{
+			free(rosdata.axes.data);
+		}
+		rosdata.axes.data = (decltype(rosdata.axes.data))malloc((axes.Num())*sizeof(decltype(*rosdata.axes.data)));
+		
 		for (int i = 0; i < axes.Num(); i++)
 		{
 			rosdata.axes.data[i] = axes[i];
 		}
 
+		rosdata.axes.size = axes.Num();
+		rosdata.axes.capacity = axes.Num();
+
+		if (rosdata.buttons.data != nullptr)
+		{
+			free(rosdata.buttons.data);
+		}
+		rosdata.buttons.data = (decltype(rosdata.buttons.data))malloc((buttons.Num())*sizeof(decltype(*rosdata.buttons.data)));
+		
 		for (int i = 0; i < buttons.Num(); i++)
 		{
 			rosdata.buttons.data[i] = buttons[i];
 		}
+
+		rosdata.buttons.size = buttons.Num();
+		rosdata.buttons.capacity = buttons.Num();
 
 		
 	}

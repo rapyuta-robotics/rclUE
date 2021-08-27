@@ -59,17 +59,26 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
 
+		if (rosdata.polygon.points.data != nullptr)
+		{
+			free(rosdata.polygon.points.data);
+		}
+		rosdata.polygon.points.data = (decltype(rosdata.polygon.points.data))malloc((polygon_points.Num() * 3)*sizeof(decltype(*rosdata.polygon.points.data)));
+		
 		for (int i = 0; i < polygon_points.Num(); i++)
 		{
 			rosdata.polygon.points.data[i].x = polygon_points[i].X;
 			rosdata.polygon.points.data[i].y = polygon_points[i].Y;
 			rosdata.polygon.points.data[i].z = polygon_points[i].Z;
 		}
+
+		rosdata.polygon.points.size = polygon_points.Num();
+		rosdata.polygon.points.capacity = polygon_points.Num();
 
 		
 	}

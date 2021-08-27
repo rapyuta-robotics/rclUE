@@ -49,20 +49,47 @@ public:
 
 	void SetROS2(sensor_msgs__msg__JoyFeedbackArray& rosdata) const
 	{
-    	for (int i = 0; i < array_type.Num(); i++)
+    	if (rosdata.array.data != nullptr)
+		{
+			free(rosdata.array.data);
+		}
+		rosdata.array.data = (decltype(rosdata.array.data))malloc((array_type.Num())*sizeof(decltype(*rosdata.array.data)));
+		
+		for (int i = 0; i < array_type.Num(); i++)
 		{
 			rosdata.array.data[i].type = array_type[i];
 		}
 
+		rosdata.array.size = array_type.Num();
+		rosdata.array.capacity = array_type.Num();
+
+		if (rosdata.array.data != nullptr)
+		{
+			free(rosdata.array.data);
+		}
+		rosdata.array.data = (decltype(rosdata.array.data))malloc((array_id.Num())*sizeof(decltype(*rosdata.array.data)));
+		
 		for (int i = 0; i < array_id.Num(); i++)
 		{
 			rosdata.array.data[i].id = array_id[i];
 		}
 
+		rosdata.array.size = array_id.Num();
+		rosdata.array.capacity = array_id.Num();
+
+		if (rosdata.array.data != nullptr)
+		{
+			free(rosdata.array.data);
+		}
+		rosdata.array.data = (decltype(rosdata.array.data))malloc((array_intensity.Num())*sizeof(decltype(*rosdata.array.data)));
+		
 		for (int i = 0; i < array_intensity.Num(); i++)
 		{
 			rosdata.array.data[i].intensity = array_intensity[i];
 		}
+
+		rosdata.array.size = array_intensity.Num();
+		rosdata.array.capacity = array_intensity.Num();
 
 		
 	}

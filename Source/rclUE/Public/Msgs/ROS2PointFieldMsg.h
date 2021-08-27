@@ -48,7 +48,7 @@ public:
 		{
 			free(rosdata.name.data);
 		}
-		rosdata.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
+		rosdata.name.data = (decltype(rosdata.name.data))malloc((name.Len() + 1)*sizeof(decltype(*rosdata.name.data)));
 		memcpy(rosdata.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
 		rosdata.name.size = name.Len();
 		rosdata.name.capacity = name.Len() + 1;

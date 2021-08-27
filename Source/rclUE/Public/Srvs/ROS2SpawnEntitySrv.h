@@ -85,7 +85,7 @@ public:
 		{
 			free(rosdata.xml.data);
 		}
-		rosdata.xml.data = (char*)malloc((xml.Len()+1)*sizeof(char));
+		rosdata.xml.data = (decltype(rosdata.xml.data))malloc((xml.Len() + 1)*sizeof(decltype(*rosdata.xml.data)));
 		memcpy(rosdata.xml.data, TCHAR_TO_ANSI(*xml), (xml.Len()+1)*sizeof(char));
 		rosdata.xml.size = xml.Len();
 		rosdata.xml.capacity = xml.Len() + 1;
@@ -94,7 +94,7 @@ public:
 		{
 			free(rosdata.robot_namespace.data);
 		}
-		rosdata.robot_namespace.data = (char*)malloc((robot_namespace.Len()+1)*sizeof(char));
+		rosdata.robot_namespace.data = (decltype(rosdata.robot_namespace.data))malloc((robot_namespace.Len() + 1)*sizeof(decltype(*rosdata.robot_namespace.data)));
 		memcpy(rosdata.robot_namespace.data, TCHAR_TO_ANSI(*robot_namespace), (robot_namespace.Len()+1)*sizeof(char));
 		rosdata.robot_namespace.size = robot_namespace.Len();
 		rosdata.robot_namespace.capacity = robot_namespace.Len() + 1;
@@ -103,7 +103,7 @@ public:
 		{
 			free(rosdata.state.name.data);
 		}
-		rosdata.state.name.data = (char*)malloc((state_name.Len()+1)*sizeof(char));
+		rosdata.state.name.data = (decltype(rosdata.state.name.data))malloc((state_name.Len() + 1)*sizeof(decltype(*rosdata.state.name.data)));
 		memcpy(rosdata.state.name.data, TCHAR_TO_ANSI(*state_name), (state_name.Len()+1)*sizeof(char));
 		rosdata.state.name.size = state_name.Len();
 		rosdata.state.name.capacity = state_name.Len() + 1;
@@ -131,7 +131,7 @@ public:
 		{
 			free(rosdata.state.reference_frame.data);
 		}
-		rosdata.state.reference_frame.data = (char*)malloc((state_reference_frame.Len()+1)*sizeof(char));
+		rosdata.state.reference_frame.data = (decltype(rosdata.state.reference_frame.data))malloc((state_reference_frame.Len() + 1)*sizeof(decltype(*rosdata.state.reference_frame.data)));
 		memcpy(rosdata.state.reference_frame.data, TCHAR_TO_ANSI(*state_reference_frame), (state_reference_frame.Len()+1)*sizeof(char));
 		rosdata.state.reference_frame.size = state_reference_frame.Len();
 		rosdata.state.reference_frame.capacity = state_reference_frame.Len() + 1;
@@ -171,7 +171,7 @@ public:
 		{
 			free(rosdata.status_message.data);
 		}
-		rosdata.status_message.data = (char*)malloc((status_message.Len()+1)*sizeof(char));
+		rosdata.status_message.data = (decltype(rosdata.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*rosdata.status_message.data)));
 		memcpy(rosdata.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
 		rosdata.status_message.size = status_message.Len();
 		rosdata.status_message.capacity = status_message.Len() + 1;

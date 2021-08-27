@@ -41,7 +41,7 @@ public:
 		{
 			free(rosdata.name.data);
 		}
-		rosdata.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
+		rosdata.name.data = (decltype(rosdata.name.data))malloc((name.Len() + 1)*sizeof(decltype(*rosdata.name.data)));
 		memcpy(rosdata.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
 		rosdata.name.size = name.Len();
 		rosdata.name.capacity = name.Len() + 1;
@@ -50,7 +50,7 @@ public:
 		{
 			free(rosdata.reference_frame.data);
 		}
-		rosdata.reference_frame.data = (char*)malloc((reference_frame.Len()+1)*sizeof(char));
+		rosdata.reference_frame.data = (decltype(rosdata.reference_frame.data))malloc((reference_frame.Len() + 1)*sizeof(decltype(*rosdata.reference_frame.data)));
 		memcpy(rosdata.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
 		rosdata.reference_frame.size = reference_frame.Len();
 		rosdata.reference_frame.capacity = reference_frame.Len() + 1;
@@ -127,7 +127,7 @@ public:
 		{
 			free(rosdata.state.name.data);
 		}
-		rosdata.state.name.data = (char*)malloc((state_name.Len()+1)*sizeof(char));
+		rosdata.state.name.data = (decltype(rosdata.state.name.data))malloc((state_name.Len() + 1)*sizeof(decltype(*rosdata.state.name.data)));
 		memcpy(rosdata.state.name.data, TCHAR_TO_ANSI(*state_name), (state_name.Len()+1)*sizeof(char));
 		rosdata.state.name.size = state_name.Len();
 		rosdata.state.name.capacity = state_name.Len() + 1;
@@ -155,7 +155,7 @@ public:
 		{
 			free(rosdata.state.reference_frame.data);
 		}
-		rosdata.state.reference_frame.data = (char*)malloc((state_reference_frame.Len()+1)*sizeof(char));
+		rosdata.state.reference_frame.data = (decltype(rosdata.state.reference_frame.data))malloc((state_reference_frame.Len() + 1)*sizeof(decltype(*rosdata.state.reference_frame.data)));
 		memcpy(rosdata.state.reference_frame.data, TCHAR_TO_ANSI(*state_reference_frame), (state_reference_frame.Len()+1)*sizeof(char));
 		rosdata.state.reference_frame.size = state_reference_frame.Len();
 		rosdata.state.reference_frame.capacity = state_reference_frame.Len() + 1;

@@ -118,23 +118,29 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
 
 		for (int i = 0; i < joint_names.Num(); i++)
 		{
-			if (rosdata.joint_names.data[i].data != nullptr)
+			if (rosdata.joint_names.data != nullptr)
 			{
-				free(rosdata.joint_names.data[i].data);
+				free(rosdata.joint_names.data);
 			}
 			rosdata.joint_names.data[i].data = (char*)malloc((joint_names[i].Len()+1)*sizeof(char));
 			memcpy(rosdata.joint_names.data[i].data, TCHAR_TO_ANSI(*joint_names[i]), (joint_names[i].Len()+1)*sizeof(char));
-			rosdata.joint_names.data[i].size = joint_names[i].Len();
-			rosdata.joint_names.data[i].capacity = joint_names[i].Len() + 1;
+			rosdata.joint_names.size = joint_names[i].Len();
+			rosdata.joint_names.capacity = joint_names[i].Len() + 1;
 		}
 
+		if (rosdata.transforms.data != nullptr)
+		{
+			free(rosdata.transforms.data);
+		}
+		rosdata.transforms.data = (decltype(rosdata.transforms.data))malloc((transforms_translation.Num() * 3)*sizeof(decltype(*rosdata.transforms.data)));
+		
 		for (int i = 0; i < transforms_translation.Num(); i++)
 		{
 			rosdata.transforms.data[i].translation.x = transforms_translation[i].X;
@@ -142,6 +148,15 @@ public:
 			rosdata.transforms.data[i].translation.z = transforms_translation[i].Z;
 		}
 
+		rosdata.transforms.size = transforms_translation.Num();
+		rosdata.transforms.capacity = transforms_translation.Num();
+
+		if (rosdata.transforms.data != nullptr)
+		{
+			free(rosdata.transforms.data);
+		}
+		rosdata.transforms.data = (decltype(rosdata.transforms.data))malloc((transforms_rotation.Num() * 4)*sizeof(decltype(*rosdata.transforms.data)));
+		
 		for (int i = 0; i < transforms_rotation.Num(); i++)
 		{
 			rosdata.transforms.data[i].rotation.x = transforms_rotation[i].X;
@@ -150,6 +165,15 @@ public:
 			rosdata.transforms.data[i].rotation.w = transforms_rotation[i].W;
 		}
 
+		rosdata.transforms.size = transforms_rotation.Num();
+		rosdata.transforms.capacity = transforms_rotation.Num();
+
+		if (rosdata.twist.data != nullptr)
+		{
+			free(rosdata.twist.data);
+		}
+		rosdata.twist.data = (decltype(rosdata.twist.data))malloc((twist_linear.Num() * 3)*sizeof(decltype(*rosdata.twist.data)));
+		
 		for (int i = 0; i < twist_linear.Num(); i++)
 		{
 			rosdata.twist.data[i].linear.x = twist_linear[i].X;
@@ -157,6 +181,15 @@ public:
 			rosdata.twist.data[i].linear.z = twist_linear[i].Z;
 		}
 
+		rosdata.twist.size = twist_linear.Num();
+		rosdata.twist.capacity = twist_linear.Num();
+
+		if (rosdata.twist.data != nullptr)
+		{
+			free(rosdata.twist.data);
+		}
+		rosdata.twist.data = (decltype(rosdata.twist.data))malloc((twist_angular.Num() * 3)*sizeof(decltype(*rosdata.twist.data)));
+		
 		for (int i = 0; i < twist_angular.Num(); i++)
 		{
 			rosdata.twist.data[i].angular.x = twist_angular[i].X;
@@ -164,6 +197,15 @@ public:
 			rosdata.twist.data[i].angular.z = twist_angular[i].Z;
 		}
 
+		rosdata.twist.size = twist_angular.Num();
+		rosdata.twist.capacity = twist_angular.Num();
+
+		if (rosdata.wrench.data != nullptr)
+		{
+			free(rosdata.wrench.data);
+		}
+		rosdata.wrench.data = (decltype(rosdata.wrench.data))malloc((wrench_force.Num() * 3)*sizeof(decltype(*rosdata.wrench.data)));
+		
 		for (int i = 0; i < wrench_force.Num(); i++)
 		{
 			rosdata.wrench.data[i].force.x = wrench_force[i].X;
@@ -171,12 +213,24 @@ public:
 			rosdata.wrench.data[i].force.z = wrench_force[i].Z;
 		}
 
+		rosdata.wrench.size = wrench_force.Num();
+		rosdata.wrench.capacity = wrench_force.Num();
+
+		if (rosdata.wrench.data != nullptr)
+		{
+			free(rosdata.wrench.data);
+		}
+		rosdata.wrench.data = (decltype(rosdata.wrench.data))malloc((wrench_torque.Num() * 3)*sizeof(decltype(*rosdata.wrench.data)));
+		
 		for (int i = 0; i < wrench_torque.Num(); i++)
 		{
 			rosdata.wrench.data[i].torque.x = wrench_torque[i].X;
 			rosdata.wrench.data[i].torque.y = wrench_torque[i].Y;
 			rosdata.wrench.data[i].torque.z = wrench_torque[i].Z;
 		}
+
+		rosdata.wrench.size = wrench_torque.Num();
+		rosdata.wrench.capacity = wrench_torque.Num();
 
 		
 	}

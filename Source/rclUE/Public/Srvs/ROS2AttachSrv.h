@@ -41,7 +41,7 @@ public:
 		{
 			free(rosdata.name1.data);
 		}
-		rosdata.name1.data = (char*)malloc((name1.Len()+1)*sizeof(char));
+		rosdata.name1.data = (decltype(rosdata.name1.data))malloc((name1.Len() + 1)*sizeof(decltype(*rosdata.name1.data)));
 		memcpy(rosdata.name1.data, TCHAR_TO_ANSI(*name1), (name1.Len()+1)*sizeof(char));
 		rosdata.name1.size = name1.Len();
 		rosdata.name1.capacity = name1.Len() + 1;
@@ -50,7 +50,7 @@ public:
 		{
 			free(rosdata.name2.data);
 		}
-		rosdata.name2.data = (char*)malloc((name2.Len()+1)*sizeof(char));
+		rosdata.name2.data = (decltype(rosdata.name2.data))malloc((name2.Len() + 1)*sizeof(decltype(*rosdata.name2.data)));
 		memcpy(rosdata.name2.data, TCHAR_TO_ANSI(*name2), (name2.Len()+1)*sizeof(char));
 		rosdata.name2.size = name2.Len();
 		rosdata.name2.capacity = name2.Len() + 1;

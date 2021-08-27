@@ -100,7 +100,7 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
@@ -119,15 +119,33 @@ public:
 
 		rosdata.range_max = range_max;
 
+		if (rosdata.ranges.data != nullptr)
+		{
+			free(rosdata.ranges.data);
+		}
+		rosdata.ranges.data = (decltype(rosdata.ranges.data))malloc((ranges.Num())*sizeof(decltype(*rosdata.ranges.data)));
+		
 		for (int i = 0; i < ranges.Num(); i++)
 		{
 			rosdata.ranges.data[i] = ranges[i];
 		}
 
+		rosdata.ranges.size = ranges.Num();
+		rosdata.ranges.capacity = ranges.Num();
+
+		if (rosdata.intensities.data != nullptr)
+		{
+			free(rosdata.intensities.data);
+		}
+		rosdata.intensities.data = (decltype(rosdata.intensities.data))malloc((intensities.Num())*sizeof(decltype(*rosdata.intensities.data)));
+		
 		for (int i = 0; i < intensities.Num(); i++)
 		{
 			rosdata.intensities.data[i] = intensities[i];
 		}
+
+		rosdata.intensities.size = intensities.Num();
+		rosdata.intensities.capacity = intensities.Num();
 
 		
 	}

@@ -36,7 +36,7 @@ public:
 		{
 			free(rosdata.name.data);
 		}
-		rosdata.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
+		rosdata.name.data = (decltype(rosdata.name.data))malloc((name.Len() + 1)*sizeof(decltype(*rosdata.name.data)));
 		memcpy(rosdata.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
 		rosdata.name.size = name.Len();
 		rosdata.name.capacity = name.Len() + 1;
@@ -76,7 +76,7 @@ public:
 		{
 			free(rosdata.status_message.data);
 		}
-		rosdata.status_message.data = (char*)malloc((status_message.Len()+1)*sizeof(char));
+		rosdata.status_message.data = (decltype(rosdata.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*rosdata.status_message.data)));
 		memcpy(rosdata.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
 		rosdata.status_message.size = status_message.Len();
 		rosdata.status_message.capacity = status_message.Len() + 1;

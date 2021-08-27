@@ -128,10 +128,19 @@ public:
 	void SetROS2(ue4_interfaces__action__Fibonacci_GetResult_Response& rosdata) const
 	{
 		rosdata.status = status;
-    	for (int i = 0; i < sequence.Num(); i++)
+    	if (rosdata.result.sequence.data != nullptr)
+		{
+			free(rosdata.result.sequence.data);
+		}
+		rosdata.result.sequence.data = (decltype(rosdata.result.sequence.data))malloc((sequence.Num())*sizeof(decltype(*rosdata.result.sequence.data)));
+		
+		for (int i = 0; i < sequence.Num(); i++)
 		{
 			rosdata.result.sequence.data[i] = sequence[i];
 		}
+
+		rosdata.result.sequence.size = sequence.Num();
+		rosdata.result.sequence.capacity = sequence.Num();
 
 		
 	}
@@ -171,10 +180,19 @@ public:
 			rosdata.goal_id.uuid[i] = goal_id[i];
 		}
 		
-    	for (int i = 0; i < partial_sequence.Num(); i++)
+    	if (rosdata.feedback.partial_sequence.data != nullptr)
+		{
+			free(rosdata.feedback.partial_sequence.data);
+		}
+		rosdata.feedback.partial_sequence.data = (decltype(rosdata.feedback.partial_sequence.data))malloc((partial_sequence.Num())*sizeof(decltype(*rosdata.feedback.partial_sequence.data)));
+		
+		for (int i = 0; i < partial_sequence.Num(); i++)
 		{
 			rosdata.feedback.partial_sequence.data[i] = partial_sequence[i];
 		}
+
+		rosdata.feedback.partial_sequence.size = partial_sequence.Num();
+		rosdata.feedback.partial_sequence.capacity = partial_sequence.Num();
 
 		
 	}

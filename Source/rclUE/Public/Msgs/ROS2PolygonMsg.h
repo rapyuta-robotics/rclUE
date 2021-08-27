@@ -37,12 +37,21 @@ public:
 
 	void SetROS2(geometry_msgs__msg__Polygon& rosdata) const
 	{
-    	for (int i = 0; i < points.Num(); i++)
+    	if (rosdata.points.data != nullptr)
+		{
+			free(rosdata.points.data);
+		}
+		rosdata.points.data = (decltype(rosdata.points.data))malloc((points.Num() * 3)*sizeof(decltype(*rosdata.points.data)));
+		
+		for (int i = 0; i < points.Num(); i++)
 		{
 			rosdata.points.data[i].x = points[i].X;
 			rosdata.points.data[i].y = points[i].Y;
 			rosdata.points.data[i].z = points[i].Z;
 		}
+
+		rosdata.points.size = points.Num();
+		rosdata.points.capacity = points.Num();
 
 		
 	}

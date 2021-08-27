@@ -119,7 +119,7 @@ public:
 		{
 			free(rosdata.camera_info.header.frame_id.data);
 		}
-		rosdata.camera_info.header.frame_id.data = (char*)malloc((camera_info_header_frame_id.Len()+1)*sizeof(char));
+		rosdata.camera_info.header.frame_id.data = (decltype(rosdata.camera_info.header.frame_id.data))malloc((camera_info_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.camera_info.header.frame_id.data)));
 		memcpy(rosdata.camera_info.header.frame_id.data, TCHAR_TO_ANSI(*camera_info_header_frame_id), (camera_info_header_frame_id.Len()+1)*sizeof(char));
 		rosdata.camera_info.header.frame_id.size = camera_info_header_frame_id.Len();
 		rosdata.camera_info.header.frame_id.capacity = camera_info_header_frame_id.Len() + 1;
@@ -132,15 +132,24 @@ public:
 		{
 			free(rosdata.camera_info.distortion_model.data);
 		}
-		rosdata.camera_info.distortion_model.data = (char*)malloc((camera_info_distortion_model.Len()+1)*sizeof(char));
+		rosdata.camera_info.distortion_model.data = (decltype(rosdata.camera_info.distortion_model.data))malloc((camera_info_distortion_model.Len() + 1)*sizeof(decltype(*rosdata.camera_info.distortion_model.data)));
 		memcpy(rosdata.camera_info.distortion_model.data, TCHAR_TO_ANSI(*camera_info_distortion_model), (camera_info_distortion_model.Len()+1)*sizeof(char));
 		rosdata.camera_info.distortion_model.size = camera_info_distortion_model.Len();
 		rosdata.camera_info.distortion_model.capacity = camera_info_distortion_model.Len() + 1;
 
+		if (rosdata.camera_info.d.data != nullptr)
+		{
+			free(rosdata.camera_info.d.data);
+		}
+		rosdata.camera_info.d.data = (decltype(rosdata.camera_info.d.data))malloc((camera_info_d.Num())*sizeof(decltype(*rosdata.camera_info.d.data)));
+		
 		for (int i = 0; i < camera_info_d.Num(); i++)
 		{
 			rosdata.camera_info.d.data[i] = camera_info_d[i];
 		}
+
+		rosdata.camera_info.d.size = camera_info_d.Num();
+		rosdata.camera_info.d.capacity = camera_info_d.Num();
 
 		for (int i = 0; i < 9; i++)
 		{
@@ -206,7 +215,7 @@ public:
 		{
 			free(rosdata.status_message.data);
 		}
-		rosdata.status_message.data = (char*)malloc((status_message.Len()+1)*sizeof(char));
+		rosdata.status_message.data = (decltype(rosdata.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*rosdata.status_message.data)));
 		memcpy(rosdata.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
 		rosdata.status_message.size = status_message.Len();
 		rosdata.status_message.capacity = status_message.Len() + 1;

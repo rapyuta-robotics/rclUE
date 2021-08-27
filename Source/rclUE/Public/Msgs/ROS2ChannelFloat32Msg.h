@@ -44,15 +44,24 @@ public:
 		{
 			free(rosdata.name.data);
 		}
-		rosdata.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
+		rosdata.name.data = (decltype(rosdata.name.data))malloc((name.Len() + 1)*sizeof(decltype(*rosdata.name.data)));
 		memcpy(rosdata.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
 		rosdata.name.size = name.Len();
 		rosdata.name.capacity = name.Len() + 1;
 
+		if (rosdata.values.data != nullptr)
+		{
+			free(rosdata.values.data);
+		}
+		rosdata.values.data = (decltype(rosdata.values.data))malloc((values.Num())*sizeof(decltype(*rosdata.values.data)));
+		
 		for (int i = 0; i < values.Num(); i++)
 		{
 			rosdata.values.data[i] = values[i];
 		}
+
+		rosdata.values.size = values.Num();
+		rosdata.values.capacity = values.Num();
 
 		
 	}

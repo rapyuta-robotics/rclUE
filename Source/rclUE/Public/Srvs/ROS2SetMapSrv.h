@@ -139,7 +139,7 @@ public:
 		{
 			free(rosdata.map.header.frame_id.data);
 		}
-		rosdata.map.header.frame_id.data = (char*)malloc((map_header_frame_id.Len()+1)*sizeof(char));
+		rosdata.map.header.frame_id.data = (decltype(rosdata.map.header.frame_id.data))malloc((map_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.map.header.frame_id.data)));
 		memcpy(rosdata.map.header.frame_id.data, TCHAR_TO_ANSI(*map_header_frame_id), (map_header_frame_id.Len()+1)*sizeof(char));
 		rosdata.map.header.frame_id.size = map_header_frame_id.Len();
 		rosdata.map.header.frame_id.capacity = map_header_frame_id.Len() + 1;
@@ -165,10 +165,19 @@ public:
 		rosdata.map.info.origin.orientation.z = map_info_origin_orientation.Z;
 		rosdata.map.info.origin.orientation.w = map_info_origin_orientation.W;
 
+		if (rosdata.map.data.data != nullptr)
+		{
+			free(rosdata.map.data.data);
+		}
+		rosdata.map.data.data = (decltype(rosdata.map.data.data))malloc((map_data.Num())*sizeof(decltype(*rosdata.map.data.data)));
+		
 		for (int i = 0; i < map_data.Num(); i++)
 		{
 			rosdata.map.data.data[i] = map_data[i];
 		}
+
+		rosdata.map.data.size = map_data.Num();
+		rosdata.map.data.capacity = map_data.Num();
 
 		rosdata.initial_pose.header.stamp.sec = initial_pose_header_stamp_sec;
 
@@ -178,7 +187,7 @@ public:
 		{
 			free(rosdata.initial_pose.header.frame_id.data);
 		}
-		rosdata.initial_pose.header.frame_id.data = (char*)malloc((initial_pose_header_frame_id.Len()+1)*sizeof(char));
+		rosdata.initial_pose.header.frame_id.data = (decltype(rosdata.initial_pose.header.frame_id.data))malloc((initial_pose_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.initial_pose.header.frame_id.data)));
 		memcpy(rosdata.initial_pose.header.frame_id.data, TCHAR_TO_ANSI(*initial_pose_header_frame_id), (initial_pose_header_frame_id.Len()+1)*sizeof(char));
 		rosdata.initial_pose.header.frame_id.size = initial_pose_header_frame_id.Len();
 		rosdata.initial_pose.header.frame_id.capacity = initial_pose_header_frame_id.Len() + 1;

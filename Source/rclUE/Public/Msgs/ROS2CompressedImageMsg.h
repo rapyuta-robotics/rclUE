@@ -61,7 +61,7 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
@@ -70,15 +70,24 @@ public:
 		{
 			free(rosdata.format.data);
 		}
-		rosdata.format.data = (char*)malloc((format.Len()+1)*sizeof(char));
+		rosdata.format.data = (decltype(rosdata.format.data))malloc((format.Len() + 1)*sizeof(decltype(*rosdata.format.data)));
 		memcpy(rosdata.format.data, TCHAR_TO_ANSI(*format), (format.Len()+1)*sizeof(char));
 		rosdata.format.size = format.Len();
 		rosdata.format.capacity = format.Len() + 1;
 
+		if (rosdata.data.data != nullptr)
+		{
+			free(rosdata.data.data);
+		}
+		rosdata.data.data = (decltype(rosdata.data.data))malloc((data.Num())*sizeof(decltype(*rosdata.data.data)));
+		
 		for (int i = 0; i < data.Num(); i++)
 		{
 			rosdata.data.data[i] = data[i];
 		}
+
+		rosdata.data.size = data.Num();
+		rosdata.data.capacity = data.Num();
 
 		
 	}

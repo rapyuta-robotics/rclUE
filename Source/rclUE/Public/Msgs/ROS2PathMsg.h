@@ -104,48 +104,99 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
 
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_header_stamp_sec.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_header_stamp_sec.Num(); i++)
 		{
 			rosdata.poses.data[i].header.stamp.sec = poses_header_stamp_sec[i];
 		}
 
+		rosdata.poses.size = poses_header_stamp_sec.Num();
+		rosdata.poses.capacity = poses_header_stamp_sec.Num();
+
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_header_stamp_nanosec.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_header_stamp_nanosec.Num(); i++)
 		{
 			rosdata.poses.data[i].header.stamp.nanosec = poses_header_stamp_nanosec[i];
 		}
 
+		rosdata.poses.size = poses_header_stamp_nanosec.Num();
+		rosdata.poses.capacity = poses_header_stamp_nanosec.Num();
+
 		for (int i = 0; i < poses_header_frame_id.Num(); i++)
 		{
-			if (rosdata.poses.data[i].header.frame_id.data != nullptr)
+			if (rosdata.poses.data != nullptr)
 			{
-				free(rosdata.poses.data[i].header.frame_id.data);
+				free(rosdata.poses.data);
 			}
 			rosdata.poses.data[i].header.frame_id.data = (char*)malloc((poses_header_frame_id[i].Len()+1)*sizeof(char));
 			memcpy(rosdata.poses.data[i].header.frame_id.data, TCHAR_TO_ANSI(*poses_header_frame_id[i]), (poses_header_frame_id[i].Len()+1)*sizeof(char));
-			rosdata.poses.data[i].header.frame_id.size = poses_header_frame_id[i].Len();
-			rosdata.poses.data[i].header.frame_id.capacity = poses_header_frame_id[i].Len() + 1;
+			rosdata.poses.size = poses_header_frame_id[i].Len();
+			rosdata.poses.capacity = poses_header_frame_id[i].Len() + 1;
 		}
 
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_pose_position_x.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_pose_position_x.Num(); i++)
 		{
 			rosdata.poses.data[i].pose.position.x = poses_pose_position_x[i];
 		}
 
+		rosdata.poses.size = poses_pose_position_x.Num();
+		rosdata.poses.capacity = poses_pose_position_x.Num();
+
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_pose_position_y.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_pose_position_y.Num(); i++)
 		{
 			rosdata.poses.data[i].pose.position.y = poses_pose_position_y[i];
 		}
 
+		rosdata.poses.size = poses_pose_position_y.Num();
+		rosdata.poses.capacity = poses_pose_position_y.Num();
+
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_pose_position_z.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_pose_position_z.Num(); i++)
 		{
 			rosdata.poses.data[i].pose.position.z = poses_pose_position_z[i];
 		}
 
+		rosdata.poses.size = poses_pose_position_z.Num();
+		rosdata.poses.capacity = poses_pose_position_z.Num();
+
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_pose_orientation.Num() * 4)*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_pose_orientation.Num(); i++)
 		{
 			rosdata.poses.data[i].pose.orientation.x = poses_pose_orientation[i].X;
@@ -153,6 +204,9 @@ public:
 			rosdata.poses.data[i].pose.orientation.z = poses_pose_orientation[i].Z;
 			rosdata.poses.data[i].pose.orientation.w = poses_pose_orientation[i].W;
 		}
+
+		rosdata.poses.size = poses_pose_orientation.Num();
+		rosdata.poses.capacity = poses_pose_orientation.Num();
 
 		
 	}

@@ -35,10 +35,19 @@ public:
 
 	void SetROS2(sensor_msgs__msg__LaserEcho& rosdata) const
 	{
-    	for (int i = 0; i < echoes.Num(); i++)
+    	if (rosdata.echoes.data != nullptr)
+		{
+			free(rosdata.echoes.data);
+		}
+		rosdata.echoes.data = (decltype(rosdata.echoes.data))malloc((echoes.Num())*sizeof(decltype(*rosdata.echoes.data)));
+		
+		for (int i = 0; i < echoes.Num(); i++)
 		{
 			rosdata.echoes.data[i] = echoes[i];
 		}
+
+		rosdata.echoes.size = echoes.Num();
+		rosdata.echoes.capacity = echoes.Num();
 
 		
 	}

@@ -80,7 +80,7 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
@@ -89,20 +89,47 @@ public:
 
 		rosdata.cell_height = cell_height;
 
+		if (rosdata.cells.data != nullptr)
+		{
+			free(rosdata.cells.data);
+		}
+		rosdata.cells.data = (decltype(rosdata.cells.data))malloc((cells_x.Num())*sizeof(decltype(*rosdata.cells.data)));
+		
 		for (int i = 0; i < cells_x.Num(); i++)
 		{
 			rosdata.cells.data[i].x = cells_x[i];
 		}
 
+		rosdata.cells.size = cells_x.Num();
+		rosdata.cells.capacity = cells_x.Num();
+
+		if (rosdata.cells.data != nullptr)
+		{
+			free(rosdata.cells.data);
+		}
+		rosdata.cells.data = (decltype(rosdata.cells.data))malloc((cells_y.Num())*sizeof(decltype(*rosdata.cells.data)));
+		
 		for (int i = 0; i < cells_y.Num(); i++)
 		{
 			rosdata.cells.data[i].y = cells_y[i];
 		}
 
+		rosdata.cells.size = cells_y.Num();
+		rosdata.cells.capacity = cells_y.Num();
+
+		if (rosdata.cells.data != nullptr)
+		{
+			free(rosdata.cells.data);
+		}
+		rosdata.cells.data = (decltype(rosdata.cells.data))malloc((cells_z.Num())*sizeof(decltype(*rosdata.cells.data)));
+		
 		for (int i = 0; i < cells_z.Num(); i++)
 		{
 			rosdata.cells.data[i].z = cells_z[i];
 		}
+
+		rosdata.cells.size = cells_z.Num();
+		rosdata.cells.capacity = cells_z.Num();
 
 		
 	}

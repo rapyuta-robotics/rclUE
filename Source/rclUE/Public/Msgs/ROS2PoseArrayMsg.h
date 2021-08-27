@@ -81,26 +81,59 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
 
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_position_x.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_position_x.Num(); i++)
 		{
 			rosdata.poses.data[i].position.x = poses_position_x[i];
 		}
 
+		rosdata.poses.size = poses_position_x.Num();
+		rosdata.poses.capacity = poses_position_x.Num();
+
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_position_y.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_position_y.Num(); i++)
 		{
 			rosdata.poses.data[i].position.y = poses_position_y[i];
 		}
 
+		rosdata.poses.size = poses_position_y.Num();
+		rosdata.poses.capacity = poses_position_y.Num();
+
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_position_z.Num())*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_position_z.Num(); i++)
 		{
 			rosdata.poses.data[i].position.z = poses_position_z[i];
 		}
 
+		rosdata.poses.size = poses_position_z.Num();
+		rosdata.poses.capacity = poses_position_z.Num();
+
+		if (rosdata.poses.data != nullptr)
+		{
+			free(rosdata.poses.data);
+		}
+		rosdata.poses.data = (decltype(rosdata.poses.data))malloc((poses_orientation.Num() * 4)*sizeof(decltype(*rosdata.poses.data)));
+		
 		for (int i = 0; i < poses_orientation.Num(); i++)
 		{
 			rosdata.poses.data[i].orientation.x = poses_orientation[i].X;
@@ -108,6 +141,9 @@ public:
 			rosdata.poses.data[i].orientation.z = poses_orientation[i].Z;
 			rosdata.poses.data[i].orientation.w = poses_orientation[i].W;
 		}
+
+		rosdata.poses.size = poses_orientation.Num();
+		rosdata.poses.capacity = poses_orientation.Num();
 
 		
 	}

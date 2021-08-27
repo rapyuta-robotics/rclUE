@@ -111,7 +111,7 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
@@ -122,30 +122,57 @@ public:
 
 		for (int i = 0; i < fields_name.Num(); i++)
 		{
-			if (rosdata.fields.data[i].name.data != nullptr)
+			if (rosdata.fields.data != nullptr)
 			{
-				free(rosdata.fields.data[i].name.data);
+				free(rosdata.fields.data);
 			}
 			rosdata.fields.data[i].name.data = (char*)malloc((fields_name[i].Len()+1)*sizeof(char));
 			memcpy(rosdata.fields.data[i].name.data, TCHAR_TO_ANSI(*fields_name[i]), (fields_name[i].Len()+1)*sizeof(char));
-			rosdata.fields.data[i].name.size = fields_name[i].Len();
-			rosdata.fields.data[i].name.capacity = fields_name[i].Len() + 1;
+			rosdata.fields.size = fields_name[i].Len();
+			rosdata.fields.capacity = fields_name[i].Len() + 1;
 		}
 
+		if (rosdata.fields.data != nullptr)
+		{
+			free(rosdata.fields.data);
+		}
+		rosdata.fields.data = (decltype(rosdata.fields.data))malloc((fields_offset.Num())*sizeof(decltype(*rosdata.fields.data)));
+		
 		for (int i = 0; i < fields_offset.Num(); i++)
 		{
 			rosdata.fields.data[i].offset = fields_offset[i];
 		}
 
+		rosdata.fields.size = fields_offset.Num();
+		rosdata.fields.capacity = fields_offset.Num();
+
+		if (rosdata.fields.data != nullptr)
+		{
+			free(rosdata.fields.data);
+		}
+		rosdata.fields.data = (decltype(rosdata.fields.data))malloc((fields_datatype.Num())*sizeof(decltype(*rosdata.fields.data)));
+		
 		for (int i = 0; i < fields_datatype.Num(); i++)
 		{
 			rosdata.fields.data[i].datatype = fields_datatype[i];
 		}
 
+		rosdata.fields.size = fields_datatype.Num();
+		rosdata.fields.capacity = fields_datatype.Num();
+
+		if (rosdata.fields.data != nullptr)
+		{
+			free(rosdata.fields.data);
+		}
+		rosdata.fields.data = (decltype(rosdata.fields.data))malloc((fields_count.Num())*sizeof(decltype(*rosdata.fields.data)));
+		
 		for (int i = 0; i < fields_count.Num(); i++)
 		{
 			rosdata.fields.data[i].count = fields_count[i];
 		}
+
+		rosdata.fields.size = fields_count.Num();
+		rosdata.fields.capacity = fields_count.Num();
 
 		rosdata.is_bigendian = is_bigendian;
 
@@ -153,10 +180,19 @@ public:
 
 		rosdata.row_step = row_step;
 
+		if (rosdata.data.data != nullptr)
+		{
+			free(rosdata.data.data);
+		}
+		rosdata.data.data = (decltype(rosdata.data.data))malloc((data.Num())*sizeof(decltype(*rosdata.data.data)));
+		
 		for (int i = 0; i < data.Num(); i++)
 		{
 			rosdata.data.data[i] = data[i];
 		}
+
+		rosdata.data.size = data.Num();
+		rosdata.data.capacity = data.Num();
 
 		rosdata.is_dense = is_dense;
 

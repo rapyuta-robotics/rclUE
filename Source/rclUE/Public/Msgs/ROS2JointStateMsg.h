@@ -78,37 +78,64 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
 
 		for (int i = 0; i < name.Num(); i++)
 		{
-			if (rosdata.name.data[i].data != nullptr)
+			if (rosdata.name.data != nullptr)
 			{
-				free(rosdata.name.data[i].data);
+				free(rosdata.name.data);
 			}
 			rosdata.name.data[i].data = (char*)malloc((name[i].Len()+1)*sizeof(char));
 			memcpy(rosdata.name.data[i].data, TCHAR_TO_ANSI(*name[i]), (name[i].Len()+1)*sizeof(char));
-			rosdata.name.data[i].size = name[i].Len();
-			rosdata.name.data[i].capacity = name[i].Len() + 1;
+			rosdata.name.size = name[i].Len();
+			rosdata.name.capacity = name[i].Len() + 1;
 		}
 
+		if (rosdata.position.data != nullptr)
+		{
+			free(rosdata.position.data);
+		}
+		rosdata.position.data = (decltype(rosdata.position.data))malloc((position.Num())*sizeof(decltype(*rosdata.position.data)));
+		
 		for (int i = 0; i < position.Num(); i++)
 		{
 			rosdata.position.data[i] = position[i];
 		}
 
+		rosdata.position.size = position.Num();
+		rosdata.position.capacity = position.Num();
+
+		if (rosdata.velocity.data != nullptr)
+		{
+			free(rosdata.velocity.data);
+		}
+		rosdata.velocity.data = (decltype(rosdata.velocity.data))malloc((velocity.Num())*sizeof(decltype(*rosdata.velocity.data)));
+		
 		for (int i = 0; i < velocity.Num(); i++)
 		{
 			rosdata.velocity.data[i] = velocity[i];
 		}
 
+		rosdata.velocity.size = velocity.Num();
+		rosdata.velocity.capacity = velocity.Num();
+
+		if (rosdata.effort.data != nullptr)
+		{
+			free(rosdata.effort.data);
+		}
+		rosdata.effort.data = (decltype(rosdata.effort.data))malloc((effort.Num())*sizeof(decltype(*rosdata.effort.data)));
+		
 		for (int i = 0; i < effort.Num(); i++)
 		{
 			rosdata.effort.data[i] = effort[i];
 		}
+
+		rosdata.effort.size = effort.Num();
+		rosdata.effort.capacity = effort.Num();
 
 		
 	}

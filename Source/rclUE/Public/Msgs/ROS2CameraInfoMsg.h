@@ -119,7 +119,7 @@ public:
 		{
 			free(rosdata.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (char*)malloc((header_frame_id.Len()+1)*sizeof(char));
+		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
 		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		rosdata.header.frame_id.size = header_frame_id.Len();
 		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
@@ -132,15 +132,24 @@ public:
 		{
 			free(rosdata.distortion_model.data);
 		}
-		rosdata.distortion_model.data = (char*)malloc((distortion_model.Len()+1)*sizeof(char));
+		rosdata.distortion_model.data = (decltype(rosdata.distortion_model.data))malloc((distortion_model.Len() + 1)*sizeof(decltype(*rosdata.distortion_model.data)));
 		memcpy(rosdata.distortion_model.data, TCHAR_TO_ANSI(*distortion_model), (distortion_model.Len()+1)*sizeof(char));
 		rosdata.distortion_model.size = distortion_model.Len();
 		rosdata.distortion_model.capacity = distortion_model.Len() + 1;
 
+		if (rosdata.d.data != nullptr)
+		{
+			free(rosdata.d.data);
+		}
+		rosdata.d.data = (decltype(rosdata.d.data))malloc((d.Num())*sizeof(decltype(*rosdata.d.data)));
+		
 		for (int i = 0; i < d.Num(); i++)
 		{
 			rosdata.d.data[i] = d[i];
 		}
+
+		rosdata.d.size = d.Num();
+		rosdata.d.capacity = d.Num();
 
 		for (int i = 0; i < 9; i++)
 		{
