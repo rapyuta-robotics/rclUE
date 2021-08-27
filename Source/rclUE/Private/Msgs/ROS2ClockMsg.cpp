@@ -31,7 +31,7 @@ void* UROS2ClockMsg::Get()
 	return &clock_pub_msg;
 }
 
-const FString UROS2ClockMsg::MsgToString() const
+FString UROS2ClockMsg::MsgToString() const
 {
 	return FString::Printf(TEXT("%ds %dns"), clock_pub_msg.clock.sec, clock_pub_msg.clock.nanosec);
 }

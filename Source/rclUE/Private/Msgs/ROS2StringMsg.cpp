@@ -33,7 +33,7 @@ void* UROS2StringMsg::Get()
 	return &string_pub_msg;
 }
 
-const FString UROS2StringMsg::MsgToString() const
+FString UROS2StringMsg::MsgToString() const
 {
 	return FString(string_pub_msg.data.data);
 }

@@ -47,8 +47,8 @@ public:
 	virtual void* GetResponse() override;
 
 private:
-	virtual const FString SrvRequestToString() const override;
-	virtual const FString SrvResponseToString() const override;
+	virtual FString SrvRequestToString() const override;
+	virtual FString SrvResponseToString() const override;
 
 	ue4_interfaces__srv__AddInts_Request ue4test_req;
 	ue4_interfaces__srv__AddInts_Response ue4test_res;

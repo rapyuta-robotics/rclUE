@@ -31,7 +31,7 @@ public:
 	virtual void* Get() override;
 
 private:
-	virtual const FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 	
 	std_msgs__msg__String string_pub_msg;
 };

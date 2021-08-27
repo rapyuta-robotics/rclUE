@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
 
+#include "ROS2Publisher.h"
 #include "Msgs/ROS2LaserScanMsg.h"
 
 #include "SensorLidar.generated.h"
@@ -51,7 +52,7 @@ public:
 
 	// this should probably be removed so that the sensor can be decoupled from the message types
 	UFUNCTION(BlueprintCallable)
-	const FLaserScanData GetROS2Data() const;
+	const FROSLaserScan GetROS2Data() const;
 
 	UFUNCTION(BlueprintCallable)
 	const float GetMinAngleRadians() const;

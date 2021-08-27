@@ -32,8 +32,8 @@ public:
 
 private:
 	UFUNCTION(BlueprintCallable)
-	virtual const FString SrvRequestToString() const;
+	virtual FString SrvRequestToString() const;
 	
 	UFUNCTION(BlueprintCallable)
-	virtual const FString SrvResponseToString() const;
+	virtual FString SrvResponseToString() const;
 };

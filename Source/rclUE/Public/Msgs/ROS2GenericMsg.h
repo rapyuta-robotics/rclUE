@@ -34,5 +34,5 @@ public:
 
 private:
 	UFUNCTION(BlueprintCallable)
-	virtual const FString MsgToString() const;
+	virtual FString MsgToString() const;
 };

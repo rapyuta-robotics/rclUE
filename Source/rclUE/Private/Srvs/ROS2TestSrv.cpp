@@ -51,12 +51,12 @@ void* UROS2TestSrv::GetResponse()
     return &ue4test_res;
 }
 
-const FString UROS2TestSrv::SrvRequestToString() const
+FString UROS2TestSrv::SrvRequestToString() const
 {
     return FString::Printf(TEXT("a: %d, b: %d"), ue4test_req.a, ue4test_req.b);
 }
 
-const FString UROS2TestSrv::SrvResponseToString() const
+FString UROS2TestSrv::SrvResponseToString() const
 {
     return FString::Printf(TEXT("%d"), ue4test_res.sum);
 }

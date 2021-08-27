@@ -26,7 +26,7 @@ void* UROS2GenericMsg::Get()
 	return nullptr;
 }
 
-const FString UROS2GenericMsg::MsgToString() const
+FString UROS2GenericMsg::MsgToString() const
 {
 	checkNoEntry();
 	return FString();
