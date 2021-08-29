@@ -20,12 +20,12 @@ struct RCLUE_API FROSGetMap_Request
 public:
 	
 
-	void SetFromROS2(nav_msgs__srv__GetMap_Request rosdata)
+	void SetFromROS2(nav_msgs__srv__GetMap_Request in_ros_data)
 	{
     	
 	}
 
-	void SetROS2(nav_msgs__srv__GetMap_Request& rosdata) const
+	void SetROS2(nav_msgs__srv__GetMap_Request& out_ros_data) const
 	{
     	
 	}
@@ -70,92 +70,92 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__GetMap_Response rosdata)
+	void SetFromROS2(nav_msgs__srv__GetMap_Response in_ros_data)
 	{
-    	map_header_stamp_sec = rosdata.map.header.stamp.sec;
+    	map_header_stamp_sec = in_ros_data.map.header.stamp.sec;
 
-		map_header_stamp_nanosec = rosdata.map.header.stamp.nanosec;
+		map_header_stamp_nanosec = in_ros_data.map.header.stamp.nanosec;
 
-		map_header_frame_id.AppendChars(rosdata.map.header.frame_id.data, rosdata.map.header.frame_id.size);
+		map_header_frame_id.AppendChars(in_ros_data.map.header.frame_id.data, in_ros_data.map.header.frame_id.size);
 
-		map_info_map_load_time_sec = rosdata.map.info.map_load_time.sec;
+		map_info_map_load_time_sec = in_ros_data.map.info.map_load_time.sec;
 
-		map_info_map_load_time_nanosec = rosdata.map.info.map_load_time.nanosec;
+		map_info_map_load_time_nanosec = in_ros_data.map.info.map_load_time.nanosec;
 
-		map_info_resolution = rosdata.map.info.resolution;
+		map_info_resolution = in_ros_data.map.info.resolution;
 
-		map_info_width = rosdata.map.info.width;
+		map_info_width = in_ros_data.map.info.width;
 
-		map_info_height = rosdata.map.info.height;
+		map_info_height = in_ros_data.map.info.height;
 
-		map_info_origin_position_x = rosdata.map.info.origin.position.x;
+		map_info_origin_position_x = in_ros_data.map.info.origin.position.x;
 
-		map_info_origin_position_y = rosdata.map.info.origin.position.y;
+		map_info_origin_position_y = in_ros_data.map.info.origin.position.y;
 
-		map_info_origin_position_z = rosdata.map.info.origin.position.z;
+		map_info_origin_position_z = in_ros_data.map.info.origin.position.z;
 
-		map_info_origin_orientation.X = rosdata.map.info.origin.orientation.x;
-		map_info_origin_orientation.Y = rosdata.map.info.origin.orientation.y;
-		map_info_origin_orientation.Z = rosdata.map.info.origin.orientation.z;
-		map_info_origin_orientation.W = rosdata.map.info.origin.orientation.w;
+		map_info_origin_orientation.X = in_ros_data.map.info.origin.orientation.x;
+		map_info_origin_orientation.Y = in_ros_data.map.info.origin.orientation.y;
+		map_info_origin_orientation.Z = in_ros_data.map.info.origin.orientation.z;
+		map_info_origin_orientation.W = in_ros_data.map.info.origin.orientation.w;
 
-		for (int i = 0; i < rosdata.map.data.size; i++)
+		for (int i = 0; i < in_ros_data.map.data.size; i++)
 		{
-			map_data[i] = rosdata.map.data.data[i];
+			map_data[i] = in_ros_data.map.data.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(nav_msgs__srv__GetMap_Response& rosdata) const
+	void SetROS2(nav_msgs__srv__GetMap_Response& out_ros_data) const
 	{
-    	rosdata.map.header.stamp.sec = map_header_stamp_sec;
+    	out_ros_data.map.header.stamp.sec = map_header_stamp_sec;
 
-		rosdata.map.header.stamp.nanosec = map_header_stamp_nanosec;
+		out_ros_data.map.header.stamp.nanosec = map_header_stamp_nanosec;
 
-		if (rosdata.map.header.frame_id.data != nullptr)
+		if (out_ros_data.map.header.frame_id.data != nullptr)
 		{
-			free(rosdata.map.header.frame_id.data);
+			free(out_ros_data.map.header.frame_id.data);
 		}
-		rosdata.map.header.frame_id.data = (decltype(rosdata.map.header.frame_id.data))malloc((map_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.map.header.frame_id.data)));
-		memcpy(rosdata.map.header.frame_id.data, TCHAR_TO_ANSI(*map_header_frame_id), (map_header_frame_id.Len()+1)*sizeof(char));
-		rosdata.map.header.frame_id.size = map_header_frame_id.Len();
-		rosdata.map.header.frame_id.capacity = map_header_frame_id.Len() + 1;
+		out_ros_data.map.header.frame_id.data = (decltype(out_ros_data.map.header.frame_id.data))malloc((map_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.map.header.frame_id.data)));
+		memcpy(out_ros_data.map.header.frame_id.data, TCHAR_TO_ANSI(*map_header_frame_id), (map_header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.map.header.frame_id.size = map_header_frame_id.Len();
+		out_ros_data.map.header.frame_id.capacity = map_header_frame_id.Len() + 1;
 
-		rosdata.map.info.map_load_time.sec = map_info_map_load_time_sec;
+		out_ros_data.map.info.map_load_time.sec = map_info_map_load_time_sec;
 
-		rosdata.map.info.map_load_time.nanosec = map_info_map_load_time_nanosec;
+		out_ros_data.map.info.map_load_time.nanosec = map_info_map_load_time_nanosec;
 
-		rosdata.map.info.resolution = map_info_resolution;
+		out_ros_data.map.info.resolution = map_info_resolution;
 
-		rosdata.map.info.width = map_info_width;
+		out_ros_data.map.info.width = map_info_width;
 
-		rosdata.map.info.height = map_info_height;
+		out_ros_data.map.info.height = map_info_height;
 
-		rosdata.map.info.origin.position.x = map_info_origin_position_x;
+		out_ros_data.map.info.origin.position.x = map_info_origin_position_x;
 
-		rosdata.map.info.origin.position.y = map_info_origin_position_y;
+		out_ros_data.map.info.origin.position.y = map_info_origin_position_y;
 
-		rosdata.map.info.origin.position.z = map_info_origin_position_z;
+		out_ros_data.map.info.origin.position.z = map_info_origin_position_z;
 
-		rosdata.map.info.origin.orientation.x = map_info_origin_orientation.X;
-		rosdata.map.info.origin.orientation.y = map_info_origin_orientation.Y;
-		rosdata.map.info.origin.orientation.z = map_info_origin_orientation.Z;
-		rosdata.map.info.origin.orientation.w = map_info_origin_orientation.W;
+		out_ros_data.map.info.origin.orientation.x = map_info_origin_orientation.X;
+		out_ros_data.map.info.origin.orientation.y = map_info_origin_orientation.Y;
+		out_ros_data.map.info.origin.orientation.z = map_info_origin_orientation.Z;
+		out_ros_data.map.info.origin.orientation.w = map_info_origin_orientation.W;
 
-		if (rosdata.map.data.data != nullptr)
+		if (out_ros_data.map.data.data != nullptr)
 		{
-			free(rosdata.map.data.data);
+			free(out_ros_data.map.data.data);
 		}
-		rosdata.map.data.data = (decltype(rosdata.map.data.data))malloc((map_data.Num())*sizeof(decltype(*rosdata.map.data.data)));
+		out_ros_data.map.data.data = (decltype(out_ros_data.map.data.data))malloc((map_data.Num())*sizeof(decltype(*out_ros_data.map.data.data)));
 		
 		for (int i = 0; i < map_data.Num(); i++)
 		{
-			rosdata.map.data.data[i] = map_data[i];
+			out_ros_data.map.data.data[i] = map_data[i];
 		}
 
-		rosdata.map.data.size = map_data.Num();
-		rosdata.map.data.capacity = map_data.Num();
+		out_ros_data.map.data.size = map_data.Num();
+		out_ros_data.map.data.capacity = map_data.Num();
 
 		
 	}

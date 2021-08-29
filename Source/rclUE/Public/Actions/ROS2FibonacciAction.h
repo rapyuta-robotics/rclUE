@@ -26,26 +26,26 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_SendGoal_Request rosdata)
+	void SetFromROS2(ue4_interfaces__action__Fibonacci_SendGoal_Request in_ros_data)
 	{
 		for (int i=0; i<16; i++)
 		{
-			goal_id[i] = rosdata.goal_id.uuid[i];
+			goal_id[i] = in_ros_data.goal_id.uuid[i];
 		}
 
-    	order = rosdata.goal.order;
+    	order = in_ros_data.goal.order;
 
 		
 	}
 
-	void SetROS2(ue4_interfaces__action__Fibonacci_SendGoal_Request& rosdata) const
+	void SetROS2(ue4_interfaces__action__Fibonacci_SendGoal_Request& out_ros_data) const
 	{
 		for (int i=0; i<16; i++)
 		{
-			rosdata.goal_id.uuid[i] = goal_id[i];
+			out_ros_data.goal_id.uuid[i] = goal_id[i];
 		}
 
-    	rosdata.goal.order = order;
+    	out_ros_data.goal.order = order;
 
 		
 	}
@@ -61,18 +61,18 @@ public:
 	int stamp_sec;
 	uint stamp_nanosec;
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_SendGoal_Response rosdata)
+	void SetFromROS2(ue4_interfaces__action__Fibonacci_SendGoal_Response in_ros_data)
 	{
-    	accepted = rosdata.accepted;
-		stamp_sec = rosdata.stamp.sec;
-		stamp_nanosec = rosdata.stamp.nanosec;
+    	accepted = in_ros_data.accepted;
+		stamp_sec = in_ros_data.stamp.sec;
+		stamp_nanosec = in_ros_data.stamp.nanosec;
 	}
 
-	void SetROS2(ue4_interfaces__action__Fibonacci_SendGoal_Response& rosdata) const
+	void SetROS2(ue4_interfaces__action__Fibonacci_SendGoal_Response& out_ros_data) const
 	{
-    	rosdata.accepted = accepted;
-		rosdata.stamp.sec = stamp_sec;
-		rosdata.stamp.nanosec = stamp_nanosec;
+    	out_ros_data.accepted = accepted;
+		out_ros_data.stamp.sec = stamp_sec;
+		out_ros_data.stamp.nanosec = stamp_nanosec;
 	}
 };
 
@@ -84,20 +84,20 @@ struct RCLUE_API FROSFibonacci_GetResult_Request
 public:
   	TArray<uint, TFixedAllocator<16>> goal_id;
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_GetResult_Request rosdata)
+	void SetFromROS2(ue4_interfaces__action__Fibonacci_GetResult_Request in_ros_data)
 	{
 		for (int i=0; i<16; i++)
 		{
-			goal_id[i] = rosdata.goal_id.uuid[i];
+			goal_id[i] = in_ros_data.goal_id.uuid[i];
 		}
 
 	}
 
-	void SetROS2(ue4_interfaces__action__Fibonacci_GetResult_Request& rosdata) const
+	void SetROS2(ue4_interfaces__action__Fibonacci_GetResult_Request& out_ros_data) const
 	{
 		for (int i=0; i<16; i++)
 		{
-			rosdata.goal_id.uuid[i] = goal_id[i];
+			out_ros_data.goal_id.uuid[i] = goal_id[i];
 		}
 	}
 };
@@ -114,33 +114,33 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_GetResult_Response rosdata)
+	void SetFromROS2(ue4_interfaces__action__Fibonacci_GetResult_Response in_ros_data)
 	{
-		status = rosdata.status;
-    	for (int i = 0; i < rosdata.result.sequence.size; i++)
+		status = in_ros_data.status;
+    	for (int i = 0; i < in_ros_data.result.sequence.size; i++)
 		{
-			sequence[i] = rosdata.result.sequence.data[i];
+			sequence[i] = in_ros_data.result.sequence.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(ue4_interfaces__action__Fibonacci_GetResult_Response& rosdata) const
+	void SetROS2(ue4_interfaces__action__Fibonacci_GetResult_Response& out_ros_data) const
 	{
-		rosdata.status = status;
-    	if (rosdata.result.sequence.data != nullptr)
+		out_ros_data.status = status;
+    	if (out_ros_data.result.sequence.data != nullptr)
 		{
-			free(rosdata.result.sequence.data);
+			free(out_ros_data.result.sequence.data);
 		}
-		rosdata.result.sequence.data = (decltype(rosdata.result.sequence.data))malloc((sequence.Num())*sizeof(decltype(*rosdata.result.sequence.data)));
+		out_ros_data.result.sequence.data = (decltype(out_ros_data.result.sequence.data))malloc((sequence.Num())*sizeof(decltype(*out_ros_data.result.sequence.data)));
 		
 		for (int i = 0; i < sequence.Num(); i++)
 		{
-			rosdata.result.sequence.data[i] = sequence[i];
+			out_ros_data.result.sequence.data[i] = sequence[i];
 		}
 
-		rosdata.result.sequence.size = sequence.Num();
-		rosdata.result.sequence.capacity = sequence.Num();
+		out_ros_data.result.sequence.size = sequence.Num();
+		out_ros_data.result.sequence.capacity = sequence.Num();
 
 		
 	}
@@ -158,41 +158,41 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_FeedbackMessage rosdata)
+	void SetFromROS2(ue4_interfaces__action__Fibonacci_FeedbackMessage in_ros_data)
 	{
 		for (int i=0; i<16; i++)
 		{
-			goal_id[i] = rosdata.goal_id.uuid[i];
+			goal_id[i] = in_ros_data.goal_id.uuid[i];
 		}
 
-    	for (int i = 0; i < rosdata.feedback.partial_sequence.size; i++)
+    	for (int i = 0; i < in_ros_data.feedback.partial_sequence.size; i++)
 		{
-			partial_sequence[i] = rosdata.feedback.partial_sequence.data[i];
+			partial_sequence[i] = in_ros_data.feedback.partial_sequence.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(ue4_interfaces__action__Fibonacci_FeedbackMessage& rosdata) const
+	void SetROS2(ue4_interfaces__action__Fibonacci_FeedbackMessage& out_ros_data) const
 	{
 		for (int i=0; i<16; i++)
 		{
-			rosdata.goal_id.uuid[i] = goal_id[i];
+			out_ros_data.goal_id.uuid[i] = goal_id[i];
 		}
 		
-    	if (rosdata.feedback.partial_sequence.data != nullptr)
+    	if (out_ros_data.feedback.partial_sequence.data != nullptr)
 		{
-			free(rosdata.feedback.partial_sequence.data);
+			free(out_ros_data.feedback.partial_sequence.data);
 		}
-		rosdata.feedback.partial_sequence.data = (decltype(rosdata.feedback.partial_sequence.data))malloc((partial_sequence.Num())*sizeof(decltype(*rosdata.feedback.partial_sequence.data)));
+		out_ros_data.feedback.partial_sequence.data = (decltype(out_ros_data.feedback.partial_sequence.data))malloc((partial_sequence.Num())*sizeof(decltype(*out_ros_data.feedback.partial_sequence.data)));
 		
 		for (int i = 0; i < partial_sequence.Num(); i++)
 		{
-			rosdata.feedback.partial_sequence.data[i] = partial_sequence[i];
+			out_ros_data.feedback.partial_sequence.data[i] = partial_sequence[i];
 		}
 
-		rosdata.feedback.partial_sequence.size = partial_sequence.Num();
-		rosdata.feedback.partial_sequence.capacity = partial_sequence.Num();
+		out_ros_data.feedback.partial_sequence.size = partial_sequence.Num();
+		out_ros_data.feedback.partial_sequence.capacity = partial_sequence.Num();
 
 		
 	}

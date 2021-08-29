@@ -28,37 +28,37 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__AccelWithCovariance rosdata)
+	void SetFromROS2(geometry_msgs__msg__AccelWithCovariance in_ros_data)
 	{
-    	accel_linear.X = rosdata.accel.linear.x;
-		accel_linear.Y = rosdata.accel.linear.y;
-		accel_linear.Z = rosdata.accel.linear.z;
+    	accel_linear.X = in_ros_data.accel.linear.x;
+		accel_linear.Y = in_ros_data.accel.linear.y;
+		accel_linear.Z = in_ros_data.accel.linear.z;
 
-		accel_angular.X = rosdata.accel.angular.x;
-		accel_angular.Y = rosdata.accel.angular.y;
-		accel_angular.Z = rosdata.accel.angular.z;
+		accel_angular.X = in_ros_data.accel.angular.x;
+		accel_angular.Y = in_ros_data.accel.angular.y;
+		accel_angular.Z = in_ros_data.accel.angular.z;
 
 		for (int i = 0; i < 36; i++)
 		{
-			covariance[i] = rosdata.covariance[i];
+			covariance[i] = in_ros_data.covariance[i];
 		}
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__AccelWithCovariance& rosdata) const
+	void SetROS2(geometry_msgs__msg__AccelWithCovariance& out_ros_data) const
 	{
-    	rosdata.accel.linear.x = accel_linear.X;
-		rosdata.accel.linear.y = accel_linear.Y;
-		rosdata.accel.linear.z = accel_linear.Z;
+    	out_ros_data.accel.linear.x = accel_linear.X;
+		out_ros_data.accel.linear.y = accel_linear.Y;
+		out_ros_data.accel.linear.z = accel_linear.Z;
 
-		rosdata.accel.angular.x = accel_angular.X;
-		rosdata.accel.angular.y = accel_angular.Y;
-		rosdata.accel.angular.z = accel_angular.Z;
+		out_ros_data.accel.angular.x = accel_angular.X;
+		out_ros_data.accel.angular.y = accel_angular.Y;
+		out_ros_data.accel.angular.z = accel_angular.Z;
 
 		for (int i = 0; i < 36; i++)
 		{
-			rosdata.covariance[i] = covariance[i];
+			out_ros_data.covariance[i] = covariance[i];
 		}
 
 		

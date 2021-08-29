@@ -40,52 +40,52 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Inertia rosdata)
+	void SetFromROS2(geometry_msgs__msg__Inertia in_ros_data)
 	{
-    	m = rosdata.m;
+    	m = in_ros_data.m;
 
-		com_x = rosdata.com.x;
+		com_x = in_ros_data.com.x;
 
-		com_y = rosdata.com.y;
+		com_y = in_ros_data.com.y;
 
-		com_z = rosdata.com.z;
+		com_z = in_ros_data.com.z;
 
-		ixx = rosdata.ixx;
+		ixx = in_ros_data.ixx;
 
-		ixy = rosdata.ixy;
+		ixy = in_ros_data.ixy;
 
-		ixz = rosdata.ixz;
+		ixz = in_ros_data.ixz;
 
-		iyy = rosdata.iyy;
+		iyy = in_ros_data.iyy;
 
-		iyz = rosdata.iyz;
+		iyz = in_ros_data.iyz;
 
-		izz = rosdata.izz;
+		izz = in_ros_data.izz;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Inertia& rosdata) const
+	void SetROS2(geometry_msgs__msg__Inertia& out_ros_data) const
 	{
-    	rosdata.m = m;
+    	out_ros_data.m = m;
 
-		rosdata.com.x = com_x;
+		out_ros_data.com.x = com_x;
 
-		rosdata.com.y = com_y;
+		out_ros_data.com.y = com_y;
 
-		rosdata.com.z = com_z;
+		out_ros_data.com.z = com_z;
 
-		rosdata.ixx = ixx;
+		out_ros_data.ixx = ixx;
 
-		rosdata.ixy = ixy;
+		out_ros_data.ixy = ixy;
 
-		rosdata.ixz = ixz;
+		out_ros_data.ixz = ixz;
 
-		rosdata.iyy = iyy;
+		out_ros_data.iyy = iyy;
 
-		rosdata.iyz = iyz;
+		out_ros_data.iyz = iyz;
 
-		rosdata.izz = izz;
+		out_ros_data.izz = izz;
 
 		
 	}

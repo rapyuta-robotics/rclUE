@@ -28,37 +28,37 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__TwistWithCovariance rosdata)
+	void SetFromROS2(geometry_msgs__msg__TwistWithCovariance in_ros_data)
 	{
-    	twist_linear.X = rosdata.twist.linear.x;
-		twist_linear.Y = rosdata.twist.linear.y;
-		twist_linear.Z = rosdata.twist.linear.z;
+    	twist_linear.X = in_ros_data.twist.linear.x;
+		twist_linear.Y = in_ros_data.twist.linear.y;
+		twist_linear.Z = in_ros_data.twist.linear.z;
 
-		twist_angular.X = rosdata.twist.angular.x;
-		twist_angular.Y = rosdata.twist.angular.y;
-		twist_angular.Z = rosdata.twist.angular.z;
+		twist_angular.X = in_ros_data.twist.angular.x;
+		twist_angular.Y = in_ros_data.twist.angular.y;
+		twist_angular.Z = in_ros_data.twist.angular.z;
 
 		for (int i = 0; i < 36; i++)
 		{
-			covariance[i] = rosdata.covariance[i];
+			covariance[i] = in_ros_data.covariance[i];
 		}
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__TwistWithCovariance& rosdata) const
+	void SetROS2(geometry_msgs__msg__TwistWithCovariance& out_ros_data) const
 	{
-    	rosdata.twist.linear.x = twist_linear.X;
-		rosdata.twist.linear.y = twist_linear.Y;
-		rosdata.twist.linear.z = twist_linear.Z;
+    	out_ros_data.twist.linear.x = twist_linear.X;
+		out_ros_data.twist.linear.y = twist_linear.Y;
+		out_ros_data.twist.linear.z = twist_linear.Z;
 
-		rosdata.twist.angular.x = twist_angular.X;
-		rosdata.twist.angular.y = twist_angular.Y;
-		rosdata.twist.angular.z = twist_angular.Z;
+		out_ros_data.twist.angular.x = twist_angular.X;
+		out_ros_data.twist.angular.y = twist_angular.Y;
+		out_ros_data.twist.angular.z = twist_angular.Z;
 
 		for (int i = 0; i < 36; i++)
 		{
-			rosdata.covariance[i] = covariance[i];
+			out_ros_data.covariance[i] = covariance[i];
 		}
 
 		

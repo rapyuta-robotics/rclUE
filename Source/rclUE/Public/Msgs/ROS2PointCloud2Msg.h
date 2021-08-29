@@ -53,148 +53,148 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__PointCloud2 rosdata)
+	void SetFromROS2(sensor_msgs__msg__PointCloud2 in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		height = rosdata.height;
+		height = in_ros_data.height;
 
-		width = rosdata.width;
+		width = in_ros_data.width;
 
-		for (int i = 0; i < rosdata.fields.size; i++)
+		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
-			fields_name[i].AppendChars(rosdata.fields.data[i].name.data,rosdata.fields.data[i].name.size);
+			fields_name[i].AppendChars(in_ros_data.fields.data[i].name.data,in_ros_data.fields.data[i].name.size);
 		}
 
-		for (int i = 0; i < rosdata.fields.size; i++)
+		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
-			fields_offset[i] = rosdata.fields.data[i].offset;
+			fields_offset[i] = in_ros_data.fields.data[i].offset;
 		}
 
-		for (int i = 0; i < rosdata.fields.size; i++)
+		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
-			fields_datatype[i] = rosdata.fields.data[i].datatype;
+			fields_datatype[i] = in_ros_data.fields.data[i].datatype;
 		}
 
-		for (int i = 0; i < rosdata.fields.size; i++)
+		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
-			fields_count[i] = rosdata.fields.data[i].count;
+			fields_count[i] = in_ros_data.fields.data[i].count;
 		}
 
-		is_bigendian = rosdata.is_bigendian;
+		is_bigendian = in_ros_data.is_bigendian;
 
-		point_step = rosdata.point_step;
+		point_step = in_ros_data.point_step;
 
-		row_step = rosdata.row_step;
+		row_step = in_ros_data.row_step;
 
-		for (int i = 0; i < rosdata.data.size; i++)
+		for (int i = 0; i < in_ros_data.data.size; i++)
 		{
-			data[i] = rosdata.data.data[i];
+			data[i] = in_ros_data.data.data[i];
 		}
 
-		is_dense = rosdata.is_dense;
+		is_dense = in_ros_data.is_dense;
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__PointCloud2& rosdata) const
+	void SetROS2(sensor_msgs__msg__PointCloud2& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.height = height;
+		out_ros_data.height = height;
 
-		rosdata.width = width;
+		out_ros_data.width = width;
 
 		for (int i = 0; i < fields_name.Num(); i++)
 		{
-			if (rosdata.fields.data != nullptr)
+			if (out_ros_data.fields.data != nullptr)
 			{
-				free(rosdata.fields.data);
+				free(out_ros_data.fields.data);
 			}
-			rosdata.fields.data[i].name.data = (char*)malloc((fields_name[i].Len()+1)*sizeof(char));
-			memcpy(rosdata.fields.data[i].name.data, TCHAR_TO_ANSI(*fields_name[i]), (fields_name[i].Len()+1)*sizeof(char));
-			rosdata.fields.size = fields_name[i].Len();
-			rosdata.fields.capacity = fields_name[i].Len() + 1;
+			out_ros_data.fields.data[i].name.data = (char*)malloc((fields_name[i].Len()+1)*sizeof(char));
+			memcpy(out_ros_data.fields.data[i].name.data, TCHAR_TO_ANSI(*fields_name[i]), (fields_name[i].Len()+1)*sizeof(char));
+			out_ros_data.fields.size = fields_name[i].Len();
+			out_ros_data.fields.capacity = fields_name[i].Len() + 1;
 		}
 
-		if (rosdata.fields.data != nullptr)
+		if (out_ros_data.fields.data != nullptr)
 		{
-			free(rosdata.fields.data);
+			free(out_ros_data.fields.data);
 		}
-		rosdata.fields.data = (decltype(rosdata.fields.data))malloc((fields_offset.Num())*sizeof(decltype(*rosdata.fields.data)));
+		out_ros_data.fields.data = (decltype(out_ros_data.fields.data))malloc((fields_offset.Num())*sizeof(decltype(*out_ros_data.fields.data)));
 		
 		for (int i = 0; i < fields_offset.Num(); i++)
 		{
-			rosdata.fields.data[i].offset = fields_offset[i];
+			out_ros_data.fields.data[i].offset = fields_offset[i];
 		}
 
-		rosdata.fields.size = fields_offset.Num();
-		rosdata.fields.capacity = fields_offset.Num();
+		out_ros_data.fields.size = fields_offset.Num();
+		out_ros_data.fields.capacity = fields_offset.Num();
 
-		if (rosdata.fields.data != nullptr)
+		if (out_ros_data.fields.data != nullptr)
 		{
-			free(rosdata.fields.data);
+			free(out_ros_data.fields.data);
 		}
-		rosdata.fields.data = (decltype(rosdata.fields.data))malloc((fields_datatype.Num())*sizeof(decltype(*rosdata.fields.data)));
+		out_ros_data.fields.data = (decltype(out_ros_data.fields.data))malloc((fields_datatype.Num())*sizeof(decltype(*out_ros_data.fields.data)));
 		
 		for (int i = 0; i < fields_datatype.Num(); i++)
 		{
-			rosdata.fields.data[i].datatype = fields_datatype[i];
+			out_ros_data.fields.data[i].datatype = fields_datatype[i];
 		}
 
-		rosdata.fields.size = fields_datatype.Num();
-		rosdata.fields.capacity = fields_datatype.Num();
+		out_ros_data.fields.size = fields_datatype.Num();
+		out_ros_data.fields.capacity = fields_datatype.Num();
 
-		if (rosdata.fields.data != nullptr)
+		if (out_ros_data.fields.data != nullptr)
 		{
-			free(rosdata.fields.data);
+			free(out_ros_data.fields.data);
 		}
-		rosdata.fields.data = (decltype(rosdata.fields.data))malloc((fields_count.Num())*sizeof(decltype(*rosdata.fields.data)));
+		out_ros_data.fields.data = (decltype(out_ros_data.fields.data))malloc((fields_count.Num())*sizeof(decltype(*out_ros_data.fields.data)));
 		
 		for (int i = 0; i < fields_count.Num(); i++)
 		{
-			rosdata.fields.data[i].count = fields_count[i];
+			out_ros_data.fields.data[i].count = fields_count[i];
 		}
 
-		rosdata.fields.size = fields_count.Num();
-		rosdata.fields.capacity = fields_count.Num();
+		out_ros_data.fields.size = fields_count.Num();
+		out_ros_data.fields.capacity = fields_count.Num();
 
-		rosdata.is_bigendian = is_bigendian;
+		out_ros_data.is_bigendian = is_bigendian;
 
-		rosdata.point_step = point_step;
+		out_ros_data.point_step = point_step;
 
-		rosdata.row_step = row_step;
+		out_ros_data.row_step = row_step;
 
-		if (rosdata.data.data != nullptr)
+		if (out_ros_data.data.data != nullptr)
 		{
-			free(rosdata.data.data);
+			free(out_ros_data.data.data);
 		}
-		rosdata.data.data = (decltype(rosdata.data.data))malloc((data.Num())*sizeof(decltype(*rosdata.data.data)));
+		out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc((data.Num())*sizeof(decltype(*out_ros_data.data.data)));
 		
 		for (int i = 0; i < data.Num(); i++)
 		{
-			rosdata.data.data[i] = data[i];
+			out_ros_data.data.data[i] = data[i];
 		}
 
-		rosdata.data.size = data.Num();
-		rosdata.data.capacity = data.Num();
+		out_ros_data.data.size = data.Num();
+		out_ros_data.data.capacity = data.Num();
 
-		rosdata.is_dense = is_dense;
+		out_ros_data.is_dense = is_dense;
 
 		
 	}

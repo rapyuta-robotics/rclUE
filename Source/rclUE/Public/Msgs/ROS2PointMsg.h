@@ -26,24 +26,24 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Point rosdata)
+	void SetFromROS2(geometry_msgs__msg__Point in_ros_data)
 	{
-    	x = rosdata.x;
+    	x = in_ros_data.x;
 
-		y = rosdata.y;
+		y = in_ros_data.y;
 
-		z = rosdata.z;
+		z = in_ros_data.z;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Point& rosdata) const
+	void SetROS2(geometry_msgs__msg__Point& out_ros_data) const
 	{
-    	rosdata.x = x;
+    	out_ros_data.x = x;
 
-		rosdata.y = y;
+		out_ros_data.y = y;
 
-		rosdata.z = z;
+		out_ros_data.z = z;
 
 		
 	}

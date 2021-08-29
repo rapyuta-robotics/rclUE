@@ -26,28 +26,28 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Wrench rosdata)
+	void SetFromROS2(geometry_msgs__msg__Wrench in_ros_data)
 	{
-    	force.X = rosdata.force.x;
-		force.Y = rosdata.force.y;
-		force.Z = rosdata.force.z;
+    	force.X = in_ros_data.force.x;
+		force.Y = in_ros_data.force.y;
+		force.Z = in_ros_data.force.z;
 
-		torque.X = rosdata.torque.x;
-		torque.Y = rosdata.torque.y;
-		torque.Z = rosdata.torque.z;
+		torque.X = in_ros_data.torque.x;
+		torque.Y = in_ros_data.torque.y;
+		torque.Z = in_ros_data.torque.z;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Wrench& rosdata) const
+	void SetROS2(geometry_msgs__msg__Wrench& out_ros_data) const
 	{
-    	rosdata.force.x = force.X;
-		rosdata.force.y = force.Y;
-		rosdata.force.z = force.Z;
+    	out_ros_data.force.x = force.X;
+		out_ros_data.force.y = force.Y;
+		out_ros_data.force.z = force.Z;
 
-		rosdata.torque.x = torque.X;
-		rosdata.torque.y = torque.Y;
-		rosdata.torque.z = torque.Z;
+		out_ros_data.torque.x = torque.X;
+		out_ros_data.torque.y = torque.Y;
+		out_ros_data.torque.z = torque.Z;
 
 		
 	}

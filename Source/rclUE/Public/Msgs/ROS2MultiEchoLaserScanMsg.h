@@ -55,97 +55,97 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__MultiEchoLaserScan rosdata)
+	void SetFromROS2(sensor_msgs__msg__MultiEchoLaserScan in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		angle_min = rosdata.angle_min;
+		angle_min = in_ros_data.angle_min;
 
-		angle_max = rosdata.angle_max;
+		angle_max = in_ros_data.angle_max;
 
-		angle_increment = rosdata.angle_increment;
+		angle_increment = in_ros_data.angle_increment;
 
-		time_increment = rosdata.time_increment;
+		time_increment = in_ros_data.time_increment;
 
-		scan_time = rosdata.scan_time;
+		scan_time = in_ros_data.scan_time;
 
-		range_min = rosdata.range_min;
+		range_min = in_ros_data.range_min;
 
-		range_max = rosdata.range_max;
+		range_max = in_ros_data.range_max;
 
-		for (int i = 0; i < rosdata.ranges.size; i++)
+		for (int i = 0; i < in_ros_data.ranges.size; i++)
 		{
-			ranges_echoes[i] = rosdata.ranges.data[i].echoes.data[i];
+			ranges_echoes[i] = in_ros_data.ranges.data[i].echoes.data[i];
 		}
 
-		for (int i = 0; i < rosdata.intensities.size; i++)
+		for (int i = 0; i < in_ros_data.intensities.size; i++)
 		{
-			intensities_echoes[i] = rosdata.intensities.data[i].echoes.data[i];
+			intensities_echoes[i] = in_ros_data.intensities.data[i].echoes.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__MultiEchoLaserScan& rosdata) const
+	void SetROS2(sensor_msgs__msg__MultiEchoLaserScan& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.angle_min = angle_min;
+		out_ros_data.angle_min = angle_min;
 
-		rosdata.angle_max = angle_max;
+		out_ros_data.angle_max = angle_max;
 
-		rosdata.angle_increment = angle_increment;
+		out_ros_data.angle_increment = angle_increment;
 
-		rosdata.time_increment = time_increment;
+		out_ros_data.time_increment = time_increment;
 
-		rosdata.scan_time = scan_time;
+		out_ros_data.scan_time = scan_time;
 
-		rosdata.range_min = range_min;
+		out_ros_data.range_min = range_min;
 
-		rosdata.range_max = range_max;
+		out_ros_data.range_max = range_max;
 
-		if (rosdata.ranges.data != nullptr)
+		if (out_ros_data.ranges.data != nullptr)
 		{
-			free(rosdata.ranges.data);
+			free(out_ros_data.ranges.data);
 		}
-		rosdata.ranges.data = (decltype(rosdata.ranges.data))malloc((ranges_echoes.Num())*sizeof(decltype(*rosdata.ranges.data)));
+		out_ros_data.ranges.data = (decltype(out_ros_data.ranges.data))malloc((ranges_echoes.Num())*sizeof(decltype(*out_ros_data.ranges.data)));
 		
 		for (int i = 0; i < ranges_echoes.Num(); i++)
 		{
-			rosdata.ranges.data[i].echoes.data[i] = ranges_echoes[i];
+			out_ros_data.ranges.data[i].echoes.data[i] = ranges_echoes[i];
 		}
 
-		rosdata.ranges.size = ranges_echoes.Num();
-		rosdata.ranges.capacity = ranges_echoes.Num();
+		out_ros_data.ranges.size = ranges_echoes.Num();
+		out_ros_data.ranges.capacity = ranges_echoes.Num();
 
-		if (rosdata.intensities.data != nullptr)
+		if (out_ros_data.intensities.data != nullptr)
 		{
-			free(rosdata.intensities.data);
+			free(out_ros_data.intensities.data);
 		}
-		rosdata.intensities.data = (decltype(rosdata.intensities.data))malloc((intensities_echoes.Num())*sizeof(decltype(*rosdata.intensities.data)));
+		out_ros_data.intensities.data = (decltype(out_ros_data.intensities.data))malloc((intensities_echoes.Num())*sizeof(decltype(*out_ros_data.intensities.data)));
 		
 		for (int i = 0; i < intensities_echoes.Num(); i++)
 		{
-			rosdata.intensities.data[i].echoes.data[i] = intensities_echoes[i];
+			out_ros_data.intensities.data[i].echoes.data[i] = intensities_echoes[i];
 		}
 
-		rosdata.intensities.size = intensities_echoes.Num();
-		rosdata.intensities.capacity = intensities_echoes.Num();
+		out_ros_data.intensities.size = intensities_echoes.Num();
+		out_ros_data.intensities.capacity = intensities_echoes.Num();
 
 		
 	}

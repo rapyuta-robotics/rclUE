@@ -34,69 +34,69 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__Joy rosdata)
+	void SetFromROS2(sensor_msgs__msg__Joy in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		for (int i = 0; i < rosdata.axes.size; i++)
+		for (int i = 0; i < in_ros_data.axes.size; i++)
 		{
-			axes[i] = rosdata.axes.data[i];
+			axes[i] = in_ros_data.axes.data[i];
 		}
 
-		for (int i = 0; i < rosdata.buttons.size; i++)
+		for (int i = 0; i < in_ros_data.buttons.size; i++)
 		{
-			buttons[i] = rosdata.buttons.data[i];
+			buttons[i] = in_ros_data.buttons.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__Joy& rosdata) const
+	void SetROS2(sensor_msgs__msg__Joy& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		if (rosdata.axes.data != nullptr)
+		if (out_ros_data.axes.data != nullptr)
 		{
-			free(rosdata.axes.data);
+			free(out_ros_data.axes.data);
 		}
-		rosdata.axes.data = (decltype(rosdata.axes.data))malloc((axes.Num())*sizeof(decltype(*rosdata.axes.data)));
+		out_ros_data.axes.data = (decltype(out_ros_data.axes.data))malloc((axes.Num())*sizeof(decltype(*out_ros_data.axes.data)));
 		
 		for (int i = 0; i < axes.Num(); i++)
 		{
-			rosdata.axes.data[i] = axes[i];
+			out_ros_data.axes.data[i] = axes[i];
 		}
 
-		rosdata.axes.size = axes.Num();
-		rosdata.axes.capacity = axes.Num();
+		out_ros_data.axes.size = axes.Num();
+		out_ros_data.axes.capacity = axes.Num();
 
-		if (rosdata.buttons.data != nullptr)
+		if (out_ros_data.buttons.data != nullptr)
 		{
-			free(rosdata.buttons.data);
+			free(out_ros_data.buttons.data);
 		}
-		rosdata.buttons.data = (decltype(rosdata.buttons.data))malloc((buttons.Num())*sizeof(decltype(*rosdata.buttons.data)));
+		out_ros_data.buttons.data = (decltype(out_ros_data.buttons.data))malloc((buttons.Num())*sizeof(decltype(*out_ros_data.buttons.data)));
 		
 		for (int i = 0; i < buttons.Num(); i++)
 		{
-			rosdata.buttons.data[i] = buttons[i];
+			out_ros_data.buttons.data[i] = buttons[i];
 		}
 
-		rosdata.buttons.size = buttons.Num();
-		rosdata.buttons.capacity = buttons.Num();
+		out_ros_data.buttons.size = buttons.Num();
+		out_ros_data.buttons.capacity = buttons.Num();
 
 		
 	}

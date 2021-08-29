@@ -41,54 +41,54 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__msg__MapMetaData rosdata)
+	void SetFromROS2(nav_msgs__msg__MapMetaData in_ros_data)
 	{
-    	map_load_time_sec = rosdata.map_load_time.sec;
+    	map_load_time_sec = in_ros_data.map_load_time.sec;
 
-		map_load_time_nanosec = rosdata.map_load_time.nanosec;
+		map_load_time_nanosec = in_ros_data.map_load_time.nanosec;
 
-		resolution = rosdata.resolution;
+		resolution = in_ros_data.resolution;
 
-		width = rosdata.width;
+		width = in_ros_data.width;
 
-		height = rosdata.height;
+		height = in_ros_data.height;
 
-		origin_position_x = rosdata.origin.position.x;
+		origin_position_x = in_ros_data.origin.position.x;
 
-		origin_position_y = rosdata.origin.position.y;
+		origin_position_y = in_ros_data.origin.position.y;
 
-		origin_position_z = rosdata.origin.position.z;
+		origin_position_z = in_ros_data.origin.position.z;
 
-		origin_orientation.X = rosdata.origin.orientation.x;
-		origin_orientation.Y = rosdata.origin.orientation.y;
-		origin_orientation.Z = rosdata.origin.orientation.z;
-		origin_orientation.W = rosdata.origin.orientation.w;
+		origin_orientation.X = in_ros_data.origin.orientation.x;
+		origin_orientation.Y = in_ros_data.origin.orientation.y;
+		origin_orientation.Z = in_ros_data.origin.orientation.z;
+		origin_orientation.W = in_ros_data.origin.orientation.w;
 
 		
 	}
 
-	void SetROS2(nav_msgs__msg__MapMetaData& rosdata) const
+	void SetROS2(nav_msgs__msg__MapMetaData& out_ros_data) const
 	{
-    	rosdata.map_load_time.sec = map_load_time_sec;
+    	out_ros_data.map_load_time.sec = map_load_time_sec;
 
-		rosdata.map_load_time.nanosec = map_load_time_nanosec;
+		out_ros_data.map_load_time.nanosec = map_load_time_nanosec;
 
-		rosdata.resolution = resolution;
+		out_ros_data.resolution = resolution;
 
-		rosdata.width = width;
+		out_ros_data.width = width;
 
-		rosdata.height = height;
+		out_ros_data.height = height;
 
-		rosdata.origin.position.x = origin_position_x;
+		out_ros_data.origin.position.x = origin_position_x;
 
-		rosdata.origin.position.y = origin_position_y;
+		out_ros_data.origin.position.y = origin_position_y;
 
-		rosdata.origin.position.z = origin_position_z;
+		out_ros_data.origin.position.z = origin_position_z;
 
-		rosdata.origin.orientation.x = origin_orientation.X;
-		rosdata.origin.orientation.y = origin_orientation.Y;
-		rosdata.origin.orientation.z = origin_orientation.Z;
-		rosdata.origin.orientation.w = origin_orientation.W;
+		out_ros_data.origin.orientation.x = origin_orientation.X;
+		out_ros_data.origin.orientation.y = origin_orientation.Y;
+		out_ros_data.origin.orientation.z = origin_orientation.Z;
+		out_ros_data.origin.orientation.w = origin_orientation.W;
 
 		
 	}

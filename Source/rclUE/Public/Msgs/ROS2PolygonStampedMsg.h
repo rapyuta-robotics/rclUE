@@ -31,54 +31,54 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__PolygonStamped rosdata)
+	void SetFromROS2(geometry_msgs__msg__PolygonStamped in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		for (int i = 0; i < rosdata.polygon.points.size; i++)
+		for (int i = 0; i < in_ros_data.polygon.points.size; i++)
 		{
-			polygon_points[i].X = rosdata.polygon.points.data[i].x;
-			polygon_points[i].Y = rosdata.polygon.points.data[i].y;
-			polygon_points[i].Z = rosdata.polygon.points.data[i].z;
+			polygon_points[i].X = in_ros_data.polygon.points.data[i].x;
+			polygon_points[i].Y = in_ros_data.polygon.points.data[i].y;
+			polygon_points[i].Z = in_ros_data.polygon.points.data[i].z;
 		}
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__PolygonStamped& rosdata) const
+	void SetROS2(geometry_msgs__msg__PolygonStamped& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		if (rosdata.polygon.points.data != nullptr)
+		if (out_ros_data.polygon.points.data != nullptr)
 		{
-			free(rosdata.polygon.points.data);
+			free(out_ros_data.polygon.points.data);
 		}
-		rosdata.polygon.points.data = (decltype(rosdata.polygon.points.data))malloc((polygon_points.Num() * 3)*sizeof(decltype(*rosdata.polygon.points.data)));
+		out_ros_data.polygon.points.data = (decltype(out_ros_data.polygon.points.data))malloc((polygon_points.Num() * 3)*sizeof(decltype(*out_ros_data.polygon.points.data)));
 		
 		for (int i = 0; i < polygon_points.Num(); i++)
 		{
-			rosdata.polygon.points.data[i].x = polygon_points[i].X;
-			rosdata.polygon.points.data[i].y = polygon_points[i].Y;
-			rosdata.polygon.points.data[i].z = polygon_points[i].Z;
+			out_ros_data.polygon.points.data[i].x = polygon_points[i].X;
+			out_ros_data.polygon.points.data[i].y = polygon_points[i].Y;
+			out_ros_data.polygon.points.data[i].z = polygon_points[i].Z;
 		}
 
-		rosdata.polygon.points.size = polygon_points.Num();
-		rosdata.polygon.points.capacity = polygon_points.Num();
+		out_ros_data.polygon.points.size = polygon_points.Num();
+		out_ros_data.polygon.points.capacity = polygon_points.Num();
 
 		
 	}

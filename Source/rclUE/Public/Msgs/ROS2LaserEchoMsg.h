@@ -23,31 +23,31 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__LaserEcho rosdata)
+	void SetFromROS2(sensor_msgs__msg__LaserEcho in_ros_data)
 	{
-    	for (int i = 0; i < rosdata.echoes.size; i++)
+    	for (int i = 0; i < in_ros_data.echoes.size; i++)
 		{
-			echoes[i] = rosdata.echoes.data[i];
+			echoes[i] = in_ros_data.echoes.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__LaserEcho& rosdata) const
+	void SetROS2(sensor_msgs__msg__LaserEcho& out_ros_data) const
 	{
-    	if (rosdata.echoes.data != nullptr)
+    	if (out_ros_data.echoes.data != nullptr)
 		{
-			free(rosdata.echoes.data);
+			free(out_ros_data.echoes.data);
 		}
-		rosdata.echoes.data = (decltype(rosdata.echoes.data))malloc((echoes.Num())*sizeof(decltype(*rosdata.echoes.data)));
+		out_ros_data.echoes.data = (decltype(out_ros_data.echoes.data))malloc((echoes.Num())*sizeof(decltype(*out_ros_data.echoes.data)));
 		
 		for (int i = 0; i < echoes.Num(); i++)
 		{
-			rosdata.echoes.data[i] = echoes[i];
+			out_ros_data.echoes.data[i] = echoes[i];
 		}
 
-		rosdata.echoes.size = echoes.Num();
-		rosdata.echoes.capacity = echoes.Num();
+		out_ros_data.echoes.size = echoes.Num();
+		out_ros_data.echoes.capacity = echoes.Num();
 
 		
 	}

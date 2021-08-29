@@ -70,135 +70,135 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__BatteryState rosdata)
+	void SetFromROS2(sensor_msgs__msg__BatteryState in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		voltage = rosdata.voltage;
+		voltage = in_ros_data.voltage;
 
-		temperature = rosdata.temperature;
+		temperature = in_ros_data.temperature;
 
-		current = rosdata.current;
+		current = in_ros_data.current;
 
-		charge = rosdata.charge;
+		charge = in_ros_data.charge;
 
-		capacity = rosdata.capacity;
+		capacity = in_ros_data.capacity;
 
-		design_capacity = rosdata.design_capacity;
+		design_capacity = in_ros_data.design_capacity;
 
-		percentage = rosdata.percentage;
+		percentage = in_ros_data.percentage;
 
-		power_supply_status = rosdata.power_supply_status;
+		power_supply_status = in_ros_data.power_supply_status;
 
-		power_supply_health = rosdata.power_supply_health;
+		power_supply_health = in_ros_data.power_supply_health;
 
-		power_supply_technology = rosdata.power_supply_technology;
+		power_supply_technology = in_ros_data.power_supply_technology;
 
-		present = rosdata.present;
+		present = in_ros_data.present;
 
-		for (int i = 0; i < rosdata.cell_voltage.size; i++)
+		for (int i = 0; i < in_ros_data.cell_voltage.size; i++)
 		{
-			cell_voltage[i] = rosdata.cell_voltage.data[i];
+			cell_voltage[i] = in_ros_data.cell_voltage.data[i];
 		}
 
-		for (int i = 0; i < rosdata.cell_temperature.size; i++)
+		for (int i = 0; i < in_ros_data.cell_temperature.size; i++)
 		{
-			cell_temperature[i] = rosdata.cell_temperature.data[i];
+			cell_temperature[i] = in_ros_data.cell_temperature.data[i];
 		}
 
-		location.AppendChars(rosdata.location.data, rosdata.location.size);
+		location.AppendChars(in_ros_data.location.data, in_ros_data.location.size);
 
-		serial_number.AppendChars(rosdata.serial_number.data, rosdata.serial_number.size);
+		serial_number.AppendChars(in_ros_data.serial_number.data, in_ros_data.serial_number.size);
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__BatteryState& rosdata) const
+	void SetROS2(sensor_msgs__msg__BatteryState& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.voltage = voltage;
+		out_ros_data.voltage = voltage;
 
-		rosdata.temperature = temperature;
+		out_ros_data.temperature = temperature;
 
-		rosdata.current = current;
+		out_ros_data.current = current;
 
-		rosdata.charge = charge;
+		out_ros_data.charge = charge;
 
-		rosdata.capacity = capacity;
+		out_ros_data.capacity = capacity;
 
-		rosdata.design_capacity = design_capacity;
+		out_ros_data.design_capacity = design_capacity;
 
-		rosdata.percentage = percentage;
+		out_ros_data.percentage = percentage;
 
-		rosdata.power_supply_status = power_supply_status;
+		out_ros_data.power_supply_status = power_supply_status;
 
-		rosdata.power_supply_health = power_supply_health;
+		out_ros_data.power_supply_health = power_supply_health;
 
-		rosdata.power_supply_technology = power_supply_technology;
+		out_ros_data.power_supply_technology = power_supply_technology;
 
-		rosdata.present = present;
+		out_ros_data.present = present;
 
-		if (rosdata.cell_voltage.data != nullptr)
+		if (out_ros_data.cell_voltage.data != nullptr)
 		{
-			free(rosdata.cell_voltage.data);
+			free(out_ros_data.cell_voltage.data);
 		}
-		rosdata.cell_voltage.data = (decltype(rosdata.cell_voltage.data))malloc((cell_voltage.Num())*sizeof(decltype(*rosdata.cell_voltage.data)));
+		out_ros_data.cell_voltage.data = (decltype(out_ros_data.cell_voltage.data))malloc((cell_voltage.Num())*sizeof(decltype(*out_ros_data.cell_voltage.data)));
 		
 		for (int i = 0; i < cell_voltage.Num(); i++)
 		{
-			rosdata.cell_voltage.data[i] = cell_voltage[i];
+			out_ros_data.cell_voltage.data[i] = cell_voltage[i];
 		}
 
-		rosdata.cell_voltage.size = cell_voltage.Num();
-		rosdata.cell_voltage.capacity = cell_voltage.Num();
+		out_ros_data.cell_voltage.size = cell_voltage.Num();
+		out_ros_data.cell_voltage.capacity = cell_voltage.Num();
 
-		if (rosdata.cell_temperature.data != nullptr)
+		if (out_ros_data.cell_temperature.data != nullptr)
 		{
-			free(rosdata.cell_temperature.data);
+			free(out_ros_data.cell_temperature.data);
 		}
-		rosdata.cell_temperature.data = (decltype(rosdata.cell_temperature.data))malloc((cell_temperature.Num())*sizeof(decltype(*rosdata.cell_temperature.data)));
+		out_ros_data.cell_temperature.data = (decltype(out_ros_data.cell_temperature.data))malloc((cell_temperature.Num())*sizeof(decltype(*out_ros_data.cell_temperature.data)));
 		
 		for (int i = 0; i < cell_temperature.Num(); i++)
 		{
-			rosdata.cell_temperature.data[i] = cell_temperature[i];
+			out_ros_data.cell_temperature.data[i] = cell_temperature[i];
 		}
 
-		rosdata.cell_temperature.size = cell_temperature.Num();
-		rosdata.cell_temperature.capacity = cell_temperature.Num();
+		out_ros_data.cell_temperature.size = cell_temperature.Num();
+		out_ros_data.cell_temperature.capacity = cell_temperature.Num();
 
-		if (rosdata.location.data != nullptr)
+		if (out_ros_data.location.data != nullptr)
 		{
-			free(rosdata.location.data);
+			free(out_ros_data.location.data);
 		}
-		rosdata.location.data = (decltype(rosdata.location.data))malloc((location.Len() + 1)*sizeof(decltype(*rosdata.location.data)));
-		memcpy(rosdata.location.data, TCHAR_TO_ANSI(*location), (location.Len()+1)*sizeof(char));
-		rosdata.location.size = location.Len();
-		rosdata.location.capacity = location.Len() + 1;
+		out_ros_data.location.data = (decltype(out_ros_data.location.data))malloc((location.Len() + 1)*sizeof(decltype(*out_ros_data.location.data)));
+		memcpy(out_ros_data.location.data, TCHAR_TO_ANSI(*location), (location.Len()+1)*sizeof(char));
+		out_ros_data.location.size = location.Len();
+		out_ros_data.location.capacity = location.Len() + 1;
 
-		if (rosdata.serial_number.data != nullptr)
+		if (out_ros_data.serial_number.data != nullptr)
 		{
-			free(rosdata.serial_number.data);
+			free(out_ros_data.serial_number.data);
 		}
-		rosdata.serial_number.data = (decltype(rosdata.serial_number.data))malloc((serial_number.Len() + 1)*sizeof(decltype(*rosdata.serial_number.data)));
-		memcpy(rosdata.serial_number.data, TCHAR_TO_ANSI(*serial_number), (serial_number.Len()+1)*sizeof(char));
-		rosdata.serial_number.size = serial_number.Len();
-		rosdata.serial_number.capacity = serial_number.Len() + 1;
+		out_ros_data.serial_number.data = (decltype(out_ros_data.serial_number.data))malloc((serial_number.Len() + 1)*sizeof(decltype(*out_ros_data.serial_number.data)));
+		memcpy(out_ros_data.serial_number.data, TCHAR_TO_ANSI(*serial_number), (serial_number.Len()+1)*sizeof(char));
+		out_ros_data.serial_number.size = serial_number.Len();
+		out_ros_data.serial_number.capacity = serial_number.Len() + 1;
 
 		
 	}

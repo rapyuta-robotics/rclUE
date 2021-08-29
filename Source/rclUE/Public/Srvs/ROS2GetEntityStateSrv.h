@@ -26,34 +26,34 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__GetEntityState_Request rosdata)
+	void SetFromROS2(ue_msgs__srv__GetEntityState_Request in_ros_data)
 	{
-    	name.AppendChars(rosdata.name.data, rosdata.name.size);
+    	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
-		reference_frame.AppendChars(rosdata.reference_frame.data, rosdata.reference_frame.size);
+		reference_frame.AppendChars(in_ros_data.reference_frame.data, in_ros_data.reference_frame.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__GetEntityState_Request& rosdata) const
+	void SetROS2(ue_msgs__srv__GetEntityState_Request& out_ros_data) const
 	{
-    	if (rosdata.name.data != nullptr)
+    	if (out_ros_data.name.data != nullptr)
 		{
-			free(rosdata.name.data);
+			free(out_ros_data.name.data);
 		}
-		rosdata.name.data = (decltype(rosdata.name.data))malloc((name.Len() + 1)*sizeof(decltype(*rosdata.name.data)));
-		memcpy(rosdata.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
-		rosdata.name.size = name.Len();
-		rosdata.name.capacity = name.Len() + 1;
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
+		memcpy(out_ros_data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
+		out_ros_data.name.size = name.Len();
+		out_ros_data.name.capacity = name.Len() + 1;
 
-		if (rosdata.reference_frame.data != nullptr)
+		if (out_ros_data.reference_frame.data != nullptr)
 		{
-			free(rosdata.reference_frame.data);
+			free(out_ros_data.reference_frame.data);
 		}
-		rosdata.reference_frame.data = (decltype(rosdata.reference_frame.data))malloc((reference_frame.Len() + 1)*sizeof(decltype(*rosdata.reference_frame.data)));
-		memcpy(rosdata.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
-		rosdata.reference_frame.size = reference_frame.Len();
-		rosdata.reference_frame.capacity = reference_frame.Len() + 1;
+		out_ros_data.reference_frame.data = (decltype(out_ros_data.reference_frame.data))malloc((reference_frame.Len() + 1)*sizeof(decltype(*out_ros_data.reference_frame.data)));
+		memcpy(out_ros_data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
+		out_ros_data.reference_frame.size = reference_frame.Len();
+		out_ros_data.reference_frame.capacity = reference_frame.Len() + 1;
 
 		
 	}
@@ -91,76 +91,76 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__GetEntityState_Response rosdata)
+	void SetFromROS2(ue_msgs__srv__GetEntityState_Response in_ros_data)
 	{
-    	state_name.AppendChars(rosdata.state.name.data, rosdata.state.name.size);
+    	state_name.AppendChars(in_ros_data.state.name.data, in_ros_data.state.name.size);
 
-		state_pose_position_x = rosdata.state.pose.position.x;
+		state_pose_position_x = in_ros_data.state.pose.position.x;
 
-		state_pose_position_y = rosdata.state.pose.position.y;
+		state_pose_position_y = in_ros_data.state.pose.position.y;
 
-		state_pose_position_z = rosdata.state.pose.position.z;
+		state_pose_position_z = in_ros_data.state.pose.position.z;
 
-		state_pose_orientation.X = rosdata.state.pose.orientation.x;
-		state_pose_orientation.Y = rosdata.state.pose.orientation.y;
-		state_pose_orientation.Z = rosdata.state.pose.orientation.z;
-		state_pose_orientation.W = rosdata.state.pose.orientation.w;
+		state_pose_orientation.X = in_ros_data.state.pose.orientation.x;
+		state_pose_orientation.Y = in_ros_data.state.pose.orientation.y;
+		state_pose_orientation.Z = in_ros_data.state.pose.orientation.z;
+		state_pose_orientation.W = in_ros_data.state.pose.orientation.w;
 
-		state_twist_linear.X = rosdata.state.twist.linear.x;
-		state_twist_linear.Y = rosdata.state.twist.linear.y;
-		state_twist_linear.Z = rosdata.state.twist.linear.z;
+		state_twist_linear.X = in_ros_data.state.twist.linear.x;
+		state_twist_linear.Y = in_ros_data.state.twist.linear.y;
+		state_twist_linear.Z = in_ros_data.state.twist.linear.z;
 
-		state_twist_angular.X = rosdata.state.twist.angular.x;
-		state_twist_angular.Y = rosdata.state.twist.angular.y;
-		state_twist_angular.Z = rosdata.state.twist.angular.z;
+		state_twist_angular.X = in_ros_data.state.twist.angular.x;
+		state_twist_angular.Y = in_ros_data.state.twist.angular.y;
+		state_twist_angular.Z = in_ros_data.state.twist.angular.z;
 
-		state_reference_frame.AppendChars(rosdata.state.reference_frame.data, rosdata.state.reference_frame.size);
+		state_reference_frame.AppendChars(in_ros_data.state.reference_frame.data, in_ros_data.state.reference_frame.size);
 
-		success = rosdata.success;
+		success = in_ros_data.success;
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__GetEntityState_Response& rosdata) const
+	void SetROS2(ue_msgs__srv__GetEntityState_Response& out_ros_data) const
 	{
-    	if (rosdata.state.name.data != nullptr)
+    	if (out_ros_data.state.name.data != nullptr)
 		{
-			free(rosdata.state.name.data);
+			free(out_ros_data.state.name.data);
 		}
-		rosdata.state.name.data = (decltype(rosdata.state.name.data))malloc((state_name.Len() + 1)*sizeof(decltype(*rosdata.state.name.data)));
-		memcpy(rosdata.state.name.data, TCHAR_TO_ANSI(*state_name), (state_name.Len()+1)*sizeof(char));
-		rosdata.state.name.size = state_name.Len();
-		rosdata.state.name.capacity = state_name.Len() + 1;
+		out_ros_data.state.name.data = (decltype(out_ros_data.state.name.data))malloc((state_name.Len() + 1)*sizeof(decltype(*out_ros_data.state.name.data)));
+		memcpy(out_ros_data.state.name.data, TCHAR_TO_ANSI(*state_name), (state_name.Len()+1)*sizeof(char));
+		out_ros_data.state.name.size = state_name.Len();
+		out_ros_data.state.name.capacity = state_name.Len() + 1;
 
-		rosdata.state.pose.position.x = state_pose_position_x;
+		out_ros_data.state.pose.position.x = state_pose_position_x;
 
-		rosdata.state.pose.position.y = state_pose_position_y;
+		out_ros_data.state.pose.position.y = state_pose_position_y;
 
-		rosdata.state.pose.position.z = state_pose_position_z;
+		out_ros_data.state.pose.position.z = state_pose_position_z;
 
-		rosdata.state.pose.orientation.x = state_pose_orientation.X;
-		rosdata.state.pose.orientation.y = state_pose_orientation.Y;
-		rosdata.state.pose.orientation.z = state_pose_orientation.Z;
-		rosdata.state.pose.orientation.w = state_pose_orientation.W;
+		out_ros_data.state.pose.orientation.x = state_pose_orientation.X;
+		out_ros_data.state.pose.orientation.y = state_pose_orientation.Y;
+		out_ros_data.state.pose.orientation.z = state_pose_orientation.Z;
+		out_ros_data.state.pose.orientation.w = state_pose_orientation.W;
 
-		rosdata.state.twist.linear.x = state_twist_linear.X;
-		rosdata.state.twist.linear.y = state_twist_linear.Y;
-		rosdata.state.twist.linear.z = state_twist_linear.Z;
+		out_ros_data.state.twist.linear.x = state_twist_linear.X;
+		out_ros_data.state.twist.linear.y = state_twist_linear.Y;
+		out_ros_data.state.twist.linear.z = state_twist_linear.Z;
 
-		rosdata.state.twist.angular.x = state_twist_angular.X;
-		rosdata.state.twist.angular.y = state_twist_angular.Y;
-		rosdata.state.twist.angular.z = state_twist_angular.Z;
+		out_ros_data.state.twist.angular.x = state_twist_angular.X;
+		out_ros_data.state.twist.angular.y = state_twist_angular.Y;
+		out_ros_data.state.twist.angular.z = state_twist_angular.Z;
 
-		if (rosdata.state.reference_frame.data != nullptr)
+		if (out_ros_data.state.reference_frame.data != nullptr)
 		{
-			free(rosdata.state.reference_frame.data);
+			free(out_ros_data.state.reference_frame.data);
 		}
-		rosdata.state.reference_frame.data = (decltype(rosdata.state.reference_frame.data))malloc((state_reference_frame.Len() + 1)*sizeof(decltype(*rosdata.state.reference_frame.data)));
-		memcpy(rosdata.state.reference_frame.data, TCHAR_TO_ANSI(*state_reference_frame), (state_reference_frame.Len()+1)*sizeof(char));
-		rosdata.state.reference_frame.size = state_reference_frame.Len();
-		rosdata.state.reference_frame.capacity = state_reference_frame.Len() + 1;
+		out_ros_data.state.reference_frame.data = (decltype(out_ros_data.state.reference_frame.data))malloc((state_reference_frame.Len() + 1)*sizeof(decltype(*out_ros_data.state.reference_frame.data)));
+		memcpy(out_ros_data.state.reference_frame.data, TCHAR_TO_ANSI(*state_reference_frame), (state_reference_frame.Len()+1)*sizeof(char));
+		out_ros_data.state.reference_frame.size = state_reference_frame.Len();
+		out_ros_data.state.reference_frame.capacity = state_reference_frame.Len() + 1;
 
-		rosdata.success = success;
+		out_ros_data.success = success;
 
 		
 	}

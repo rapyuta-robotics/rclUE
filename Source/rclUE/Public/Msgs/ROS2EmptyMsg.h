@@ -20,12 +20,12 @@ struct RCLUE_API FROSEmpty
 public:
 	
 
-	void SetFromROS2(std_msgs__msg__Empty rosdata)
+	void SetFromROS2(std_msgs__msg__Empty in_ros_data)
 	{
     	
 	}
 
-	void SetROS2(std_msgs__msg__Empty& rosdata) const
+	void SetROS2(std_msgs__msg__Empty& out_ros_data) const
 	{
     	
 	}

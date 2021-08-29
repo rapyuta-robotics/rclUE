@@ -42,65 +42,65 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__NavSatFix rosdata)
+	void SetFromROS2(sensor_msgs__msg__NavSatFix in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		status_status = rosdata.status.status;
+		status_status = in_ros_data.status.status;
 
-		status_service = rosdata.status.service;
+		status_service = in_ros_data.status.service;
 
-		latitude = rosdata.latitude;
+		latitude = in_ros_data.latitude;
 
-		longitude = rosdata.longitude;
+		longitude = in_ros_data.longitude;
 
-		altitude = rosdata.altitude;
+		altitude = in_ros_data.altitude;
 
 		for (int i = 0; i < 9; i++)
 		{
-			position_covariance[i] = rosdata.position_covariance[i];
+			position_covariance[i] = in_ros_data.position_covariance[i];
 		}
 
-		position_covariance_type = rosdata.position_covariance_type;
+		position_covariance_type = in_ros_data.position_covariance_type;
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__NavSatFix& rosdata) const
+	void SetROS2(sensor_msgs__msg__NavSatFix& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.status.status = status_status;
+		out_ros_data.status.status = status_status;
 
-		rosdata.status.service = status_service;
+		out_ros_data.status.service = status_service;
 
-		rosdata.latitude = latitude;
+		out_ros_data.latitude = latitude;
 
-		rosdata.longitude = longitude;
+		out_ros_data.longitude = longitude;
 
-		rosdata.altitude = altitude;
+		out_ros_data.altitude = altitude;
 
 		for (int i = 0; i < 9; i++)
 		{
-			rosdata.position_covariance[i] = position_covariance[i];
+			out_ros_data.position_covariance[i] = position_covariance[i];
 		}
 
-		rosdata.position_covariance_type = position_covariance_type;
+		out_ros_data.position_covariance_type = position_covariance_type;
 
 		
 	}

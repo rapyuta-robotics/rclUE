@@ -27,24 +27,24 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__JoyFeedback rosdata)
+	void SetFromROS2(sensor_msgs__msg__JoyFeedback in_ros_data)
 	{
-    	type = rosdata.type;
+    	type = in_ros_data.type;
 
-		id = rosdata.id;
+		id = in_ros_data.id;
 
-		intensity = rosdata.intensity;
+		intensity = in_ros_data.intensity;
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__JoyFeedback& rosdata) const
+	void SetROS2(sensor_msgs__msg__JoyFeedback& out_ros_data) const
 	{
-    	rosdata.type = type;
+    	out_ros_data.type = type;
 
-		rosdata.id = id;
+		out_ros_data.id = id;
 
-		rosdata.intensity = intensity;
+		out_ros_data.intensity = intensity;
 
 		
 	}

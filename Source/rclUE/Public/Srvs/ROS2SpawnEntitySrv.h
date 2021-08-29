@@ -47,94 +47,94 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__SpawnEntity_Request rosdata)
+	void SetFromROS2(ue_msgs__srv__SpawnEntity_Request in_ros_data)
 	{
-    	xml.AppendChars(rosdata.xml.data, rosdata.xml.size);
+    	xml.AppendChars(in_ros_data.xml.data, in_ros_data.xml.size);
 
-		robot_namespace.AppendChars(rosdata.robot_namespace.data, rosdata.robot_namespace.size);
+		robot_namespace.AppendChars(in_ros_data.robot_namespace.data, in_ros_data.robot_namespace.size);
 
-		state_name.AppendChars(rosdata.state.name.data, rosdata.state.name.size);
+		state_name.AppendChars(in_ros_data.state.name.data, in_ros_data.state.name.size);
 
-		state_pose_position_x = rosdata.state.pose.position.x;
+		state_pose_position_x = in_ros_data.state.pose.position.x;
 
-		state_pose_position_y = rosdata.state.pose.position.y;
+		state_pose_position_y = in_ros_data.state.pose.position.y;
 
-		state_pose_position_z = rosdata.state.pose.position.z;
+		state_pose_position_z = in_ros_data.state.pose.position.z;
 
-		state_pose_orientation.X = rosdata.state.pose.orientation.x;
-		state_pose_orientation.Y = rosdata.state.pose.orientation.y;
-		state_pose_orientation.Z = rosdata.state.pose.orientation.z;
-		state_pose_orientation.W = rosdata.state.pose.orientation.w;
+		state_pose_orientation.X = in_ros_data.state.pose.orientation.x;
+		state_pose_orientation.Y = in_ros_data.state.pose.orientation.y;
+		state_pose_orientation.Z = in_ros_data.state.pose.orientation.z;
+		state_pose_orientation.W = in_ros_data.state.pose.orientation.w;
 
-		state_twist_linear.X = rosdata.state.twist.linear.x;
-		state_twist_linear.Y = rosdata.state.twist.linear.y;
-		state_twist_linear.Z = rosdata.state.twist.linear.z;
+		state_twist_linear.X = in_ros_data.state.twist.linear.x;
+		state_twist_linear.Y = in_ros_data.state.twist.linear.y;
+		state_twist_linear.Z = in_ros_data.state.twist.linear.z;
 
-		state_twist_angular.X = rosdata.state.twist.angular.x;
-		state_twist_angular.Y = rosdata.state.twist.angular.y;
-		state_twist_angular.Z = rosdata.state.twist.angular.z;
+		state_twist_angular.X = in_ros_data.state.twist.angular.x;
+		state_twist_angular.Y = in_ros_data.state.twist.angular.y;
+		state_twist_angular.Z = in_ros_data.state.twist.angular.z;
 
-		state_reference_frame.AppendChars(rosdata.state.reference_frame.data, rosdata.state.reference_frame.size);
+		state_reference_frame.AppendChars(in_ros_data.state.reference_frame.data, in_ros_data.state.reference_frame.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__SpawnEntity_Request& rosdata) const
+	void SetROS2(ue_msgs__srv__SpawnEntity_Request& out_ros_data) const
 	{
-    	if (rosdata.xml.data != nullptr)
+    	if (out_ros_data.xml.data != nullptr)
 		{
-			free(rosdata.xml.data);
+			free(out_ros_data.xml.data);
 		}
-		rosdata.xml.data = (decltype(rosdata.xml.data))malloc((xml.Len() + 1)*sizeof(decltype(*rosdata.xml.data)));
-		memcpy(rosdata.xml.data, TCHAR_TO_ANSI(*xml), (xml.Len()+1)*sizeof(char));
-		rosdata.xml.size = xml.Len();
-		rosdata.xml.capacity = xml.Len() + 1;
+		out_ros_data.xml.data = (decltype(out_ros_data.xml.data))malloc((xml.Len() + 1)*sizeof(decltype(*out_ros_data.xml.data)));
+		memcpy(out_ros_data.xml.data, TCHAR_TO_ANSI(*xml), (xml.Len()+1)*sizeof(char));
+		out_ros_data.xml.size = xml.Len();
+		out_ros_data.xml.capacity = xml.Len() + 1;
 
-		if (rosdata.robot_namespace.data != nullptr)
+		if (out_ros_data.robot_namespace.data != nullptr)
 		{
-			free(rosdata.robot_namespace.data);
+			free(out_ros_data.robot_namespace.data);
 		}
-		rosdata.robot_namespace.data = (decltype(rosdata.robot_namespace.data))malloc((robot_namespace.Len() + 1)*sizeof(decltype(*rosdata.robot_namespace.data)));
-		memcpy(rosdata.robot_namespace.data, TCHAR_TO_ANSI(*robot_namespace), (robot_namespace.Len()+1)*sizeof(char));
-		rosdata.robot_namespace.size = robot_namespace.Len();
-		rosdata.robot_namespace.capacity = robot_namespace.Len() + 1;
+		out_ros_data.robot_namespace.data = (decltype(out_ros_data.robot_namespace.data))malloc((robot_namespace.Len() + 1)*sizeof(decltype(*out_ros_data.robot_namespace.data)));
+		memcpy(out_ros_data.robot_namespace.data, TCHAR_TO_ANSI(*robot_namespace), (robot_namespace.Len()+1)*sizeof(char));
+		out_ros_data.robot_namespace.size = robot_namespace.Len();
+		out_ros_data.robot_namespace.capacity = robot_namespace.Len() + 1;
 
-		if (rosdata.state.name.data != nullptr)
+		if (out_ros_data.state.name.data != nullptr)
 		{
-			free(rosdata.state.name.data);
+			free(out_ros_data.state.name.data);
 		}
-		rosdata.state.name.data = (decltype(rosdata.state.name.data))malloc((state_name.Len() + 1)*sizeof(decltype(*rosdata.state.name.data)));
-		memcpy(rosdata.state.name.data, TCHAR_TO_ANSI(*state_name), (state_name.Len()+1)*sizeof(char));
-		rosdata.state.name.size = state_name.Len();
-		rosdata.state.name.capacity = state_name.Len() + 1;
+		out_ros_data.state.name.data = (decltype(out_ros_data.state.name.data))malloc((state_name.Len() + 1)*sizeof(decltype(*out_ros_data.state.name.data)));
+		memcpy(out_ros_data.state.name.data, TCHAR_TO_ANSI(*state_name), (state_name.Len()+1)*sizeof(char));
+		out_ros_data.state.name.size = state_name.Len();
+		out_ros_data.state.name.capacity = state_name.Len() + 1;
 
-		rosdata.state.pose.position.x = state_pose_position_x;
+		out_ros_data.state.pose.position.x = state_pose_position_x;
 
-		rosdata.state.pose.position.y = state_pose_position_y;
+		out_ros_data.state.pose.position.y = state_pose_position_y;
 
-		rosdata.state.pose.position.z = state_pose_position_z;
+		out_ros_data.state.pose.position.z = state_pose_position_z;
 
-		rosdata.state.pose.orientation.x = state_pose_orientation.X;
-		rosdata.state.pose.orientation.y = state_pose_orientation.Y;
-		rosdata.state.pose.orientation.z = state_pose_orientation.Z;
-		rosdata.state.pose.orientation.w = state_pose_orientation.W;
+		out_ros_data.state.pose.orientation.x = state_pose_orientation.X;
+		out_ros_data.state.pose.orientation.y = state_pose_orientation.Y;
+		out_ros_data.state.pose.orientation.z = state_pose_orientation.Z;
+		out_ros_data.state.pose.orientation.w = state_pose_orientation.W;
 
-		rosdata.state.twist.linear.x = state_twist_linear.X;
-		rosdata.state.twist.linear.y = state_twist_linear.Y;
-		rosdata.state.twist.linear.z = state_twist_linear.Z;
+		out_ros_data.state.twist.linear.x = state_twist_linear.X;
+		out_ros_data.state.twist.linear.y = state_twist_linear.Y;
+		out_ros_data.state.twist.linear.z = state_twist_linear.Z;
 
-		rosdata.state.twist.angular.x = state_twist_angular.X;
-		rosdata.state.twist.angular.y = state_twist_angular.Y;
-		rosdata.state.twist.angular.z = state_twist_angular.Z;
+		out_ros_data.state.twist.angular.x = state_twist_angular.X;
+		out_ros_data.state.twist.angular.y = state_twist_angular.Y;
+		out_ros_data.state.twist.angular.z = state_twist_angular.Z;
 
-		if (rosdata.state.reference_frame.data != nullptr)
+		if (out_ros_data.state.reference_frame.data != nullptr)
 		{
-			free(rosdata.state.reference_frame.data);
+			free(out_ros_data.state.reference_frame.data);
 		}
-		rosdata.state.reference_frame.data = (decltype(rosdata.state.reference_frame.data))malloc((state_reference_frame.Len() + 1)*sizeof(decltype(*rosdata.state.reference_frame.data)));
-		memcpy(rosdata.state.reference_frame.data, TCHAR_TO_ANSI(*state_reference_frame), (state_reference_frame.Len()+1)*sizeof(char));
-		rosdata.state.reference_frame.size = state_reference_frame.Len();
-		rosdata.state.reference_frame.capacity = state_reference_frame.Len() + 1;
+		out_ros_data.state.reference_frame.data = (decltype(out_ros_data.state.reference_frame.data))malloc((state_reference_frame.Len() + 1)*sizeof(decltype(*out_ros_data.state.reference_frame.data)));
+		memcpy(out_ros_data.state.reference_frame.data, TCHAR_TO_ANSI(*state_reference_frame), (state_reference_frame.Len()+1)*sizeof(char));
+		out_ros_data.state.reference_frame.size = state_reference_frame.Len();
+		out_ros_data.state.reference_frame.capacity = state_reference_frame.Len() + 1;
 
 		
 	}
@@ -154,27 +154,27 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__SpawnEntity_Response rosdata)
+	void SetFromROS2(ue_msgs__srv__SpawnEntity_Response in_ros_data)
 	{
-    	success = rosdata.success;
+    	success = in_ros_data.success;
 
-		status_message.AppendChars(rosdata.status_message.data, rosdata.status_message.size);
+		status_message.AppendChars(in_ros_data.status_message.data, in_ros_data.status_message.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__SpawnEntity_Response& rosdata) const
+	void SetROS2(ue_msgs__srv__SpawnEntity_Response& out_ros_data) const
 	{
-    	rosdata.success = success;
+    	out_ros_data.success = success;
 
-		if (rosdata.status_message.data != nullptr)
+		if (out_ros_data.status_message.data != nullptr)
 		{
-			free(rosdata.status_message.data);
+			free(out_ros_data.status_message.data);
 		}
-		rosdata.status_message.data = (decltype(rosdata.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*rosdata.status_message.data)));
-		memcpy(rosdata.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
-		rosdata.status_message.size = status_message.Len();
-		rosdata.status_message.capacity = status_message.Len() + 1;
+		out_ros_data.status_message.data = (decltype(out_ros_data.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*out_ros_data.status_message.data)));
+		memcpy(out_ros_data.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
+		out_ros_data.status_message.size = status_message.Len();
+		out_ros_data.status_message.capacity = status_message.Len() + 1;
 
 		
 	}

@@ -26,42 +26,42 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__ChannelFloat32 rosdata)
+	void SetFromROS2(sensor_msgs__msg__ChannelFloat32 in_ros_data)
 	{
-    	name.AppendChars(rosdata.name.data, rosdata.name.size);
+    	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
-		for (int i = 0; i < rosdata.values.size; i++)
+		for (int i = 0; i < in_ros_data.values.size; i++)
 		{
-			values[i] = rosdata.values.data[i];
+			values[i] = in_ros_data.values.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__ChannelFloat32& rosdata) const
+	void SetROS2(sensor_msgs__msg__ChannelFloat32& out_ros_data) const
 	{
-    	if (rosdata.name.data != nullptr)
+    	if (out_ros_data.name.data != nullptr)
 		{
-			free(rosdata.name.data);
+			free(out_ros_data.name.data);
 		}
-		rosdata.name.data = (decltype(rosdata.name.data))malloc((name.Len() + 1)*sizeof(decltype(*rosdata.name.data)));
-		memcpy(rosdata.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
-		rosdata.name.size = name.Len();
-		rosdata.name.capacity = name.Len() + 1;
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
+		memcpy(out_ros_data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
+		out_ros_data.name.size = name.Len();
+		out_ros_data.name.capacity = name.Len() + 1;
 
-		if (rosdata.values.data != nullptr)
+		if (out_ros_data.values.data != nullptr)
 		{
-			free(rosdata.values.data);
+			free(out_ros_data.values.data);
 		}
-		rosdata.values.data = (decltype(rosdata.values.data))malloc((values.Num())*sizeof(decltype(*rosdata.values.data)));
+		out_ros_data.values.data = (decltype(out_ros_data.values.data))malloc((values.Num())*sizeof(decltype(*out_ros_data.values.data)));
 		
 		for (int i = 0; i < values.Num(); i++)
 		{
-			rosdata.values.data[i] = values[i];
+			out_ros_data.values.data[i] = values[i];
 		}
 
-		rosdata.values.size = values.Num();
-		rosdata.values.capacity = values.Num();
+		out_ros_data.values.size = values.Num();
+		out_ros_data.values.capacity = values.Num();
 
 		
 	}

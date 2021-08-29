@@ -43,124 +43,124 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__PointCloud rosdata)
+	void SetFromROS2(sensor_msgs__msg__PointCloud in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		for (int i = 0; i < rosdata.points.size; i++)
+		for (int i = 0; i < in_ros_data.points.size; i++)
 		{
-			points_x[i] = rosdata.points.data[i].x;
+			points_x[i] = in_ros_data.points.data[i].x;
 		}
 
-		for (int i = 0; i < rosdata.points.size; i++)
+		for (int i = 0; i < in_ros_data.points.size; i++)
 		{
-			points_y[i] = rosdata.points.data[i].y;
+			points_y[i] = in_ros_data.points.data[i].y;
 		}
 
-		for (int i = 0; i < rosdata.points.size; i++)
+		for (int i = 0; i < in_ros_data.points.size; i++)
 		{
-			points_z[i] = rosdata.points.data[i].z;
+			points_z[i] = in_ros_data.points.data[i].z;
 		}
 
-		for (int i = 0; i < rosdata.channels.size; i++)
+		for (int i = 0; i < in_ros_data.channels.size; i++)
 		{
-			channels_name[i].AppendChars(rosdata.channels.data[i].name.data,rosdata.channels.data[i].name.size);
+			channels_name[i].AppendChars(in_ros_data.channels.data[i].name.data,in_ros_data.channels.data[i].name.size);
 		}
 
-		for (int i = 0; i < rosdata.channels.size; i++)
+		for (int i = 0; i < in_ros_data.channels.size; i++)
 		{
-			channels_values[i] = rosdata.channels.data[i].values.data[i];
+			channels_values[i] = in_ros_data.channels.data[i].values.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__PointCloud& rosdata) const
+	void SetROS2(sensor_msgs__msg__PointCloud& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		if (rosdata.points.data != nullptr)
+		if (out_ros_data.points.data != nullptr)
 		{
-			free(rosdata.points.data);
+			free(out_ros_data.points.data);
 		}
-		rosdata.points.data = (decltype(rosdata.points.data))malloc((points_x.Num())*sizeof(decltype(*rosdata.points.data)));
+		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc((points_x.Num())*sizeof(decltype(*out_ros_data.points.data)));
 		
 		for (int i = 0; i < points_x.Num(); i++)
 		{
-			rosdata.points.data[i].x = points_x[i];
+			out_ros_data.points.data[i].x = points_x[i];
 		}
 
-		rosdata.points.size = points_x.Num();
-		rosdata.points.capacity = points_x.Num();
+		out_ros_data.points.size = points_x.Num();
+		out_ros_data.points.capacity = points_x.Num();
 
-		if (rosdata.points.data != nullptr)
+		if (out_ros_data.points.data != nullptr)
 		{
-			free(rosdata.points.data);
+			free(out_ros_data.points.data);
 		}
-		rosdata.points.data = (decltype(rosdata.points.data))malloc((points_y.Num())*sizeof(decltype(*rosdata.points.data)));
+		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc((points_y.Num())*sizeof(decltype(*out_ros_data.points.data)));
 		
 		for (int i = 0; i < points_y.Num(); i++)
 		{
-			rosdata.points.data[i].y = points_y[i];
+			out_ros_data.points.data[i].y = points_y[i];
 		}
 
-		rosdata.points.size = points_y.Num();
-		rosdata.points.capacity = points_y.Num();
+		out_ros_data.points.size = points_y.Num();
+		out_ros_data.points.capacity = points_y.Num();
 
-		if (rosdata.points.data != nullptr)
+		if (out_ros_data.points.data != nullptr)
 		{
-			free(rosdata.points.data);
+			free(out_ros_data.points.data);
 		}
-		rosdata.points.data = (decltype(rosdata.points.data))malloc((points_z.Num())*sizeof(decltype(*rosdata.points.data)));
+		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc((points_z.Num())*sizeof(decltype(*out_ros_data.points.data)));
 		
 		for (int i = 0; i < points_z.Num(); i++)
 		{
-			rosdata.points.data[i].z = points_z[i];
+			out_ros_data.points.data[i].z = points_z[i];
 		}
 
-		rosdata.points.size = points_z.Num();
-		rosdata.points.capacity = points_z.Num();
+		out_ros_data.points.size = points_z.Num();
+		out_ros_data.points.capacity = points_z.Num();
 
 		for (int i = 0; i < channels_name.Num(); i++)
 		{
-			if (rosdata.channels.data != nullptr)
+			if (out_ros_data.channels.data != nullptr)
 			{
-				free(rosdata.channels.data);
+				free(out_ros_data.channels.data);
 			}
-			rosdata.channels.data[i].name.data = (char*)malloc((channels_name[i].Len()+1)*sizeof(char));
-			memcpy(rosdata.channels.data[i].name.data, TCHAR_TO_ANSI(*channels_name[i]), (channels_name[i].Len()+1)*sizeof(char));
-			rosdata.channels.size = channels_name[i].Len();
-			rosdata.channels.capacity = channels_name[i].Len() + 1;
+			out_ros_data.channels.data[i].name.data = (char*)malloc((channels_name[i].Len()+1)*sizeof(char));
+			memcpy(out_ros_data.channels.data[i].name.data, TCHAR_TO_ANSI(*channels_name[i]), (channels_name[i].Len()+1)*sizeof(char));
+			out_ros_data.channels.size = channels_name[i].Len();
+			out_ros_data.channels.capacity = channels_name[i].Len() + 1;
 		}
 
-		if (rosdata.channels.data != nullptr)
+		if (out_ros_data.channels.data != nullptr)
 		{
-			free(rosdata.channels.data);
+			free(out_ros_data.channels.data);
 		}
-		rosdata.channels.data = (decltype(rosdata.channels.data))malloc((channels_values.Num())*sizeof(decltype(*rosdata.channels.data)));
+		out_ros_data.channels.data = (decltype(out_ros_data.channels.data))malloc((channels_values.Num())*sizeof(decltype(*out_ros_data.channels.data)));
 		
 		for (int i = 0; i < channels_values.Num(); i++)
 		{
-			rosdata.channels.data[i].values.data[i] = channels_values[i];
+			out_ros_data.channels.data[i].values.data[i] = channels_values[i];
 		}
 
-		rosdata.channels.size = channels_values.Num();
-		rosdata.channels.capacity = channels_values.Num();
+		out_ros_data.channels.size = channels_values.Num();
+		out_ros_data.channels.capacity = channels_values.Num();
 
 		
 	}

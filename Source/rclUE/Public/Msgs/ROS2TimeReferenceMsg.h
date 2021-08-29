@@ -36,50 +36,50 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__TimeReference rosdata)
+	void SetFromROS2(sensor_msgs__msg__TimeReference in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		time_ref_sec = rosdata.time_ref.sec;
+		time_ref_sec = in_ros_data.time_ref.sec;
 
-		time_ref_nanosec = rosdata.time_ref.nanosec;
+		time_ref_nanosec = in_ros_data.time_ref.nanosec;
 
-		source.AppendChars(rosdata.source.data, rosdata.source.size);
+		source.AppendChars(in_ros_data.source.data, in_ros_data.source.size);
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__TimeReference& rosdata) const
+	void SetROS2(sensor_msgs__msg__TimeReference& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.time_ref.sec = time_ref_sec;
+		out_ros_data.time_ref.sec = time_ref_sec;
 
-		rosdata.time_ref.nanosec = time_ref_nanosec;
+		out_ros_data.time_ref.nanosec = time_ref_nanosec;
 
-		if (rosdata.source.data != nullptr)
+		if (out_ros_data.source.data != nullptr)
 		{
-			free(rosdata.source.data);
+			free(out_ros_data.source.data);
 		}
-		rosdata.source.data = (decltype(rosdata.source.data))malloc((source.Len() + 1)*sizeof(decltype(*rosdata.source.data)));
-		memcpy(rosdata.source.data, TCHAR_TO_ANSI(*source), (source.Len()+1)*sizeof(char));
-		rosdata.source.size = source.Len();
-		rosdata.source.capacity = source.Len() + 1;
+		out_ros_data.source.data = (decltype(out_ros_data.source.data))malloc((source.Len() + 1)*sizeof(decltype(*out_ros_data.source.data)));
+		memcpy(out_ros_data.source.data, TCHAR_TO_ANSI(*source), (source.Len()+1)*sizeof(char));
+		out_ros_data.source.size = source.Len();
+		out_ros_data.source.capacity = source.Len() + 1;
 
 		
 	}

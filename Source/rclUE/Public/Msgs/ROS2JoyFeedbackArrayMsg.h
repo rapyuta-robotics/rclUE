@@ -27,69 +27,69 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__JoyFeedbackArray rosdata)
+	void SetFromROS2(sensor_msgs__msg__JoyFeedbackArray in_ros_data)
 	{
-    	for (int i = 0; i < rosdata.array.size; i++)
+    	for (int i = 0; i < in_ros_data.array.size; i++)
 		{
-			array_type[i] = rosdata.array.data[i].type;
+			array_type[i] = in_ros_data.array.data[i].type;
 		}
 
-		for (int i = 0; i < rosdata.array.size; i++)
+		for (int i = 0; i < in_ros_data.array.size; i++)
 		{
-			array_id[i] = rosdata.array.data[i].id;
+			array_id[i] = in_ros_data.array.data[i].id;
 		}
 
-		for (int i = 0; i < rosdata.array.size; i++)
+		for (int i = 0; i < in_ros_data.array.size; i++)
 		{
-			array_intensity[i] = rosdata.array.data[i].intensity;
+			array_intensity[i] = in_ros_data.array.data[i].intensity;
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__JoyFeedbackArray& rosdata) const
+	void SetROS2(sensor_msgs__msg__JoyFeedbackArray& out_ros_data) const
 	{
-    	if (rosdata.array.data != nullptr)
+    	if (out_ros_data.array.data != nullptr)
 		{
-			free(rosdata.array.data);
+			free(out_ros_data.array.data);
 		}
-		rosdata.array.data = (decltype(rosdata.array.data))malloc((array_type.Num())*sizeof(decltype(*rosdata.array.data)));
+		out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc((array_type.Num())*sizeof(decltype(*out_ros_data.array.data)));
 		
 		for (int i = 0; i < array_type.Num(); i++)
 		{
-			rosdata.array.data[i].type = array_type[i];
+			out_ros_data.array.data[i].type = array_type[i];
 		}
 
-		rosdata.array.size = array_type.Num();
-		rosdata.array.capacity = array_type.Num();
+		out_ros_data.array.size = array_type.Num();
+		out_ros_data.array.capacity = array_type.Num();
 
-		if (rosdata.array.data != nullptr)
+		if (out_ros_data.array.data != nullptr)
 		{
-			free(rosdata.array.data);
+			free(out_ros_data.array.data);
 		}
-		rosdata.array.data = (decltype(rosdata.array.data))malloc((array_id.Num())*sizeof(decltype(*rosdata.array.data)));
+		out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc((array_id.Num())*sizeof(decltype(*out_ros_data.array.data)));
 		
 		for (int i = 0; i < array_id.Num(); i++)
 		{
-			rosdata.array.data[i].id = array_id[i];
+			out_ros_data.array.data[i].id = array_id[i];
 		}
 
-		rosdata.array.size = array_id.Num();
-		rosdata.array.capacity = array_id.Num();
+		out_ros_data.array.size = array_id.Num();
+		out_ros_data.array.capacity = array_id.Num();
 
-		if (rosdata.array.data != nullptr)
+		if (out_ros_data.array.data != nullptr)
 		{
-			free(rosdata.array.data);
+			free(out_ros_data.array.data);
 		}
-		rosdata.array.data = (decltype(rosdata.array.data))malloc((array_intensity.Num())*sizeof(decltype(*rosdata.array.data)));
+		out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc((array_intensity.Num())*sizeof(decltype(*out_ros_data.array.data)));
 		
 		for (int i = 0; i < array_intensity.Num(); i++)
 		{
-			rosdata.array.data[i].intensity = array_intensity[i];
+			out_ros_data.array.data[i].intensity = array_intensity[i];
 		}
 
-		rosdata.array.size = array_intensity.Num();
-		rosdata.array.capacity = array_intensity.Num();
+		out_ros_data.array.size = array_intensity.Num();
+		out_ros_data.array.capacity = array_intensity.Num();
 
 		
 	}

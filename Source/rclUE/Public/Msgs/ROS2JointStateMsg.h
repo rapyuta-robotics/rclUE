@@ -37,105 +37,105 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__JointState rosdata)
+	void SetFromROS2(sensor_msgs__msg__JointState in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		for (int i = 0; i < rosdata.name.size; i++)
+		for (int i = 0; i < in_ros_data.name.size; i++)
 		{
-			name[i].AppendChars(rosdata.name.data[i].data,rosdata.name.data[i].size);
+			name[i].AppendChars(in_ros_data.name.data[i].data,in_ros_data.name.data[i].size);
 		}
 
-		for (int i = 0; i < rosdata.position.size; i++)
+		for (int i = 0; i < in_ros_data.position.size; i++)
 		{
-			position[i] = rosdata.position.data[i];
+			position[i] = in_ros_data.position.data[i];
 		}
 
-		for (int i = 0; i < rosdata.velocity.size; i++)
+		for (int i = 0; i < in_ros_data.velocity.size; i++)
 		{
-			velocity[i] = rosdata.velocity.data[i];
+			velocity[i] = in_ros_data.velocity.data[i];
 		}
 
-		for (int i = 0; i < rosdata.effort.size; i++)
+		for (int i = 0; i < in_ros_data.effort.size; i++)
 		{
-			effort[i] = rosdata.effort.data[i];
+			effort[i] = in_ros_data.effort.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__JointState& rosdata) const
+	void SetROS2(sensor_msgs__msg__JointState& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
 		for (int i = 0; i < name.Num(); i++)
 		{
-			if (rosdata.name.data != nullptr)
+			if (out_ros_data.name.data != nullptr)
 			{
-				free(rosdata.name.data);
+				free(out_ros_data.name.data);
 			}
-			rosdata.name.data[i].data = (char*)malloc((name[i].Len()+1)*sizeof(char));
-			memcpy(rosdata.name.data[i].data, TCHAR_TO_ANSI(*name[i]), (name[i].Len()+1)*sizeof(char));
-			rosdata.name.size = name[i].Len();
-			rosdata.name.capacity = name[i].Len() + 1;
+			out_ros_data.name.data[i].data = (char*)malloc((name[i].Len()+1)*sizeof(char));
+			memcpy(out_ros_data.name.data[i].data, TCHAR_TO_ANSI(*name[i]), (name[i].Len()+1)*sizeof(char));
+			out_ros_data.name.size = name[i].Len();
+			out_ros_data.name.capacity = name[i].Len() + 1;
 		}
 
-		if (rosdata.position.data != nullptr)
+		if (out_ros_data.position.data != nullptr)
 		{
-			free(rosdata.position.data);
+			free(out_ros_data.position.data);
 		}
-		rosdata.position.data = (decltype(rosdata.position.data))malloc((position.Num())*sizeof(decltype(*rosdata.position.data)));
+		out_ros_data.position.data = (decltype(out_ros_data.position.data))malloc((position.Num())*sizeof(decltype(*out_ros_data.position.data)));
 		
 		for (int i = 0; i < position.Num(); i++)
 		{
-			rosdata.position.data[i] = position[i];
+			out_ros_data.position.data[i] = position[i];
 		}
 
-		rosdata.position.size = position.Num();
-		rosdata.position.capacity = position.Num();
+		out_ros_data.position.size = position.Num();
+		out_ros_data.position.capacity = position.Num();
 
-		if (rosdata.velocity.data != nullptr)
+		if (out_ros_data.velocity.data != nullptr)
 		{
-			free(rosdata.velocity.data);
+			free(out_ros_data.velocity.data);
 		}
-		rosdata.velocity.data = (decltype(rosdata.velocity.data))malloc((velocity.Num())*sizeof(decltype(*rosdata.velocity.data)));
+		out_ros_data.velocity.data = (decltype(out_ros_data.velocity.data))malloc((velocity.Num())*sizeof(decltype(*out_ros_data.velocity.data)));
 		
 		for (int i = 0; i < velocity.Num(); i++)
 		{
-			rosdata.velocity.data[i] = velocity[i];
+			out_ros_data.velocity.data[i] = velocity[i];
 		}
 
-		rosdata.velocity.size = velocity.Num();
-		rosdata.velocity.capacity = velocity.Num();
+		out_ros_data.velocity.size = velocity.Num();
+		out_ros_data.velocity.capacity = velocity.Num();
 
-		if (rosdata.effort.data != nullptr)
+		if (out_ros_data.effort.data != nullptr)
 		{
-			free(rosdata.effort.data);
+			free(out_ros_data.effort.data);
 		}
-		rosdata.effort.data = (decltype(rosdata.effort.data))malloc((effort.Num())*sizeof(decltype(*rosdata.effort.data)));
+		out_ros_data.effort.data = (decltype(out_ros_data.effort.data))malloc((effort.Num())*sizeof(decltype(*out_ros_data.effort.data)));
 		
 		for (int i = 0; i < effort.Num(); i++)
 		{
-			rosdata.effort.data[i] = effort[i];
+			out_ros_data.effort.data[i] = effort[i];
 		}
 
-		rosdata.effort.size = effort.Num();
-		rosdata.effort.capacity = effort.Num();
+		out_ros_data.effort.size = effort.Num();
+		out_ros_data.effort.capacity = effort.Num();
 
 		
 	}

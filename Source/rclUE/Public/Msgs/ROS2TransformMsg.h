@@ -26,30 +26,30 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Transform rosdata)
+	void SetFromROS2(geometry_msgs__msg__Transform in_ros_data)
 	{
-    	translation.X = rosdata.translation.x;
-		translation.Y = rosdata.translation.y;
-		translation.Z = rosdata.translation.z;
+    	translation.X = in_ros_data.translation.x;
+		translation.Y = in_ros_data.translation.y;
+		translation.Z = in_ros_data.translation.z;
 
-		rotation.X = rosdata.rotation.x;
-		rotation.Y = rosdata.rotation.y;
-		rotation.Z = rosdata.rotation.z;
-		rotation.W = rosdata.rotation.w;
+		rotation.X = in_ros_data.rotation.x;
+		rotation.Y = in_ros_data.rotation.y;
+		rotation.Z = in_ros_data.rotation.z;
+		rotation.W = in_ros_data.rotation.w;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Transform& rosdata) const
+	void SetROS2(geometry_msgs__msg__Transform& out_ros_data) const
 	{
-    	rosdata.translation.x = translation.X;
-		rosdata.translation.y = translation.Y;
-		rosdata.translation.z = translation.Z;
+    	out_ros_data.translation.x = translation.X;
+		out_ros_data.translation.y = translation.Y;
+		out_ros_data.translation.z = translation.Z;
 
-		rosdata.rotation.x = rotation.X;
-		rosdata.rotation.y = rotation.Y;
-		rosdata.rotation.z = rotation.Z;
-		rosdata.rotation.w = rotation.W;
+		out_ros_data.rotation.x = rotation.X;
+		out_ros_data.rotation.y = rotation.Y;
+		out_ros_data.rotation.z = rotation.Z;
+		out_ros_data.rotation.w = rotation.W;
 
 		
 	}

@@ -23,35 +23,35 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Polygon rosdata)
+	void SetFromROS2(geometry_msgs__msg__Polygon in_ros_data)
 	{
-    	for (int i = 0; i < rosdata.points.size; i++)
+    	for (int i = 0; i < in_ros_data.points.size; i++)
 		{
-			points[i].X = rosdata.points.data[i].x;
-			points[i].Y = rosdata.points.data[i].y;
-			points[i].Z = rosdata.points.data[i].z;
+			points[i].X = in_ros_data.points.data[i].x;
+			points[i].Y = in_ros_data.points.data[i].y;
+			points[i].Z = in_ros_data.points.data[i].z;
 		}
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Polygon& rosdata) const
+	void SetROS2(geometry_msgs__msg__Polygon& out_ros_data) const
 	{
-    	if (rosdata.points.data != nullptr)
+    	if (out_ros_data.points.data != nullptr)
 		{
-			free(rosdata.points.data);
+			free(out_ros_data.points.data);
 		}
-		rosdata.points.data = (decltype(rosdata.points.data))malloc((points.Num() * 3)*sizeof(decltype(*rosdata.points.data)));
+		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc((points.Num() * 3)*sizeof(decltype(*out_ros_data.points.data)));
 		
 		for (int i = 0; i < points.Num(); i++)
 		{
-			rosdata.points.data[i].x = points[i].X;
-			rosdata.points.data[i].y = points[i].Y;
-			rosdata.points.data[i].z = points[i].Z;
+			out_ros_data.points.data[i].x = points[i].X;
+			out_ros_data.points.data[i].y = points[i].Y;
+			out_ros_data.points.data[i].z = points[i].Z;
 		}
 
-		rosdata.points.size = points.Num();
-		rosdata.points.capacity = points.Num();
+		out_ros_data.points.size = points.Num();
+		out_ros_data.points.capacity = points.Num();
 
 		
 	}

@@ -54,100 +54,100 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__Imu rosdata)
+	void SetFromROS2(sensor_msgs__msg__Imu in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		orientation_x = rosdata.orientation.x;
+		orientation_x = in_ros_data.orientation.x;
 
-		orientation_y = rosdata.orientation.y;
+		orientation_y = in_ros_data.orientation.y;
 
-		orientation_z = rosdata.orientation.z;
+		orientation_z = in_ros_data.orientation.z;
 
-		orientation_w = rosdata.orientation.w;
+		orientation_w = in_ros_data.orientation.w;
 
 		for (int i = 0; i < 9; i++)
 		{
-			orientation_covariance[i] = rosdata.orientation_covariance[i];
+			orientation_covariance[i] = in_ros_data.orientation_covariance[i];
 		}
 
-		angular_velocity_x = rosdata.angular_velocity.x;
+		angular_velocity_x = in_ros_data.angular_velocity.x;
 
-		angular_velocity_y = rosdata.angular_velocity.y;
+		angular_velocity_y = in_ros_data.angular_velocity.y;
 
-		angular_velocity_z = rosdata.angular_velocity.z;
+		angular_velocity_z = in_ros_data.angular_velocity.z;
 
 		for (int i = 0; i < 9; i++)
 		{
-			angular_velocity_covariance[i] = rosdata.angular_velocity_covariance[i];
+			angular_velocity_covariance[i] = in_ros_data.angular_velocity_covariance[i];
 		}
 
-		linear_acceleration_x = rosdata.linear_acceleration.x;
+		linear_acceleration_x = in_ros_data.linear_acceleration.x;
 
-		linear_acceleration_y = rosdata.linear_acceleration.y;
+		linear_acceleration_y = in_ros_data.linear_acceleration.y;
 
-		linear_acceleration_z = rosdata.linear_acceleration.z;
+		linear_acceleration_z = in_ros_data.linear_acceleration.z;
 
 		for (int i = 0; i < 9; i++)
 		{
-			linear_acceleration_covariance[i] = rosdata.linear_acceleration_covariance[i];
+			linear_acceleration_covariance[i] = in_ros_data.linear_acceleration_covariance[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__Imu& rosdata) const
+	void SetROS2(sensor_msgs__msg__Imu& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.orientation.x = orientation_x;
+		out_ros_data.orientation.x = orientation_x;
 
-		rosdata.orientation.y = orientation_y;
+		out_ros_data.orientation.y = orientation_y;
 
-		rosdata.orientation.z = orientation_z;
+		out_ros_data.orientation.z = orientation_z;
 
-		rosdata.orientation.w = orientation_w;
+		out_ros_data.orientation.w = orientation_w;
 
 		for (int i = 0; i < 9; i++)
 		{
-			rosdata.orientation_covariance[i] = orientation_covariance[i];
+			out_ros_data.orientation_covariance[i] = orientation_covariance[i];
 		}
 
-		rosdata.angular_velocity.x = angular_velocity_x;
+		out_ros_data.angular_velocity.x = angular_velocity_x;
 
-		rosdata.angular_velocity.y = angular_velocity_y;
+		out_ros_data.angular_velocity.y = angular_velocity_y;
 
-		rosdata.angular_velocity.z = angular_velocity_z;
+		out_ros_data.angular_velocity.z = angular_velocity_z;
 
 		for (int i = 0; i < 9; i++)
 		{
-			rosdata.angular_velocity_covariance[i] = angular_velocity_covariance[i];
+			out_ros_data.angular_velocity_covariance[i] = angular_velocity_covariance[i];
 		}
 
-		rosdata.linear_acceleration.x = linear_acceleration_x;
+		out_ros_data.linear_acceleration.x = linear_acceleration_x;
 
-		rosdata.linear_acceleration.y = linear_acceleration_y;
+		out_ros_data.linear_acceleration.y = linear_acceleration_y;
 
-		rosdata.linear_acceleration.z = linear_acceleration_z;
+		out_ros_data.linear_acceleration.z = linear_acceleration_z;
 
 		for (int i = 0; i < 9; i++)
 		{
-			rosdata.linear_acceleration_covariance[i] = linear_acceleration_covariance[i];
+			out_ros_data.linear_acceleration_covariance[i] = linear_acceleration_covariance[i];
 		}
 
 		

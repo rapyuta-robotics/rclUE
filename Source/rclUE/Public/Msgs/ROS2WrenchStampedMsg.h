@@ -34,47 +34,47 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__WrenchStamped rosdata)
+	void SetFromROS2(geometry_msgs__msg__WrenchStamped in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		wrench_force.X = rosdata.wrench.force.x;
-		wrench_force.Y = rosdata.wrench.force.y;
-		wrench_force.Z = rosdata.wrench.force.z;
+		wrench_force.X = in_ros_data.wrench.force.x;
+		wrench_force.Y = in_ros_data.wrench.force.y;
+		wrench_force.Z = in_ros_data.wrench.force.z;
 
-		wrench_torque.X = rosdata.wrench.torque.x;
-		wrench_torque.Y = rosdata.wrench.torque.y;
-		wrench_torque.Z = rosdata.wrench.torque.z;
+		wrench_torque.X = in_ros_data.wrench.torque.x;
+		wrench_torque.Y = in_ros_data.wrench.torque.y;
+		wrench_torque.Z = in_ros_data.wrench.torque.z;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__WrenchStamped& rosdata) const
+	void SetROS2(geometry_msgs__msg__WrenchStamped& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.wrench.force.x = wrench_force.X;
-		rosdata.wrench.force.y = wrench_force.Y;
-		rosdata.wrench.force.z = wrench_force.Z;
+		out_ros_data.wrench.force.x = wrench_force.X;
+		out_ros_data.wrench.force.y = wrench_force.Y;
+		out_ros_data.wrench.force.z = wrench_force.Z;
 
-		rosdata.wrench.torque.x = wrench_torque.X;
-		rosdata.wrench.torque.y = wrench_torque.Y;
-		rosdata.wrench.torque.z = wrench_torque.Z;
+		out_ros_data.wrench.torque.x = wrench_torque.X;
+		out_ros_data.wrench.torque.y = wrench_torque.Y;
+		out_ros_data.wrench.torque.z = wrench_torque.Z;
 
 		
 	}

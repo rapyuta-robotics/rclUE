@@ -29,34 +29,34 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Pose rosdata)
+	void SetFromROS2(geometry_msgs__msg__Pose in_ros_data)
 	{
-    	position_x = rosdata.position.x;
+    	position_x = in_ros_data.position.x;
 
-		position_y = rosdata.position.y;
+		position_y = in_ros_data.position.y;
 
-		position_z = rosdata.position.z;
+		position_z = in_ros_data.position.z;
 
-		orientation.X = rosdata.orientation.x;
-		orientation.Y = rosdata.orientation.y;
-		orientation.Z = rosdata.orientation.z;
-		orientation.W = rosdata.orientation.w;
+		orientation.X = in_ros_data.orientation.x;
+		orientation.Y = in_ros_data.orientation.y;
+		orientation.Z = in_ros_data.orientation.z;
+		orientation.W = in_ros_data.orientation.w;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Pose& rosdata) const
+	void SetROS2(geometry_msgs__msg__Pose& out_ros_data) const
 	{
-    	rosdata.position.x = position_x;
+    	out_ros_data.position.x = position_x;
 
-		rosdata.position.y = position_y;
+		out_ros_data.position.y = position_y;
 
-		rosdata.position.z = position_z;
+		out_ros_data.position.z = position_z;
 
-		rosdata.orientation.x = orientation.X;
-		rosdata.orientation.y = orientation.Y;
-		rosdata.orientation.z = orientation.Z;
-		rosdata.orientation.w = orientation.W;
+		out_ros_data.orientation.x = orientation.X;
+		out_ros_data.orientation.y = orientation.Y;
+		out_ros_data.orientation.z = orientation.Z;
+		out_ros_data.orientation.w = orientation.W;
 
 		
 	}

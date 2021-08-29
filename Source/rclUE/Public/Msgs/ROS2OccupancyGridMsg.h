@@ -51,92 +51,92 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__msg__OccupancyGrid rosdata)
+	void SetFromROS2(nav_msgs__msg__OccupancyGrid in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		info_map_load_time_sec = rosdata.info.map_load_time.sec;
+		info_map_load_time_sec = in_ros_data.info.map_load_time.sec;
 
-		info_map_load_time_nanosec = rosdata.info.map_load_time.nanosec;
+		info_map_load_time_nanosec = in_ros_data.info.map_load_time.nanosec;
 
-		info_resolution = rosdata.info.resolution;
+		info_resolution = in_ros_data.info.resolution;
 
-		info_width = rosdata.info.width;
+		info_width = in_ros_data.info.width;
 
-		info_height = rosdata.info.height;
+		info_height = in_ros_data.info.height;
 
-		info_origin_position_x = rosdata.info.origin.position.x;
+		info_origin_position_x = in_ros_data.info.origin.position.x;
 
-		info_origin_position_y = rosdata.info.origin.position.y;
+		info_origin_position_y = in_ros_data.info.origin.position.y;
 
-		info_origin_position_z = rosdata.info.origin.position.z;
+		info_origin_position_z = in_ros_data.info.origin.position.z;
 
-		info_origin_orientation.X = rosdata.info.origin.orientation.x;
-		info_origin_orientation.Y = rosdata.info.origin.orientation.y;
-		info_origin_orientation.Z = rosdata.info.origin.orientation.z;
-		info_origin_orientation.W = rosdata.info.origin.orientation.w;
+		info_origin_orientation.X = in_ros_data.info.origin.orientation.x;
+		info_origin_orientation.Y = in_ros_data.info.origin.orientation.y;
+		info_origin_orientation.Z = in_ros_data.info.origin.orientation.z;
+		info_origin_orientation.W = in_ros_data.info.origin.orientation.w;
 
-		for (int i = 0; i < rosdata.data.size; i++)
+		for (int i = 0; i < in_ros_data.data.size; i++)
 		{
-			data[i] = rosdata.data.data[i];
+			data[i] = in_ros_data.data.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(nav_msgs__msg__OccupancyGrid& rosdata) const
+	void SetROS2(nav_msgs__msg__OccupancyGrid& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.info.map_load_time.sec = info_map_load_time_sec;
+		out_ros_data.info.map_load_time.sec = info_map_load_time_sec;
 
-		rosdata.info.map_load_time.nanosec = info_map_load_time_nanosec;
+		out_ros_data.info.map_load_time.nanosec = info_map_load_time_nanosec;
 
-		rosdata.info.resolution = info_resolution;
+		out_ros_data.info.resolution = info_resolution;
 
-		rosdata.info.width = info_width;
+		out_ros_data.info.width = info_width;
 
-		rosdata.info.height = info_height;
+		out_ros_data.info.height = info_height;
 
-		rosdata.info.origin.position.x = info_origin_position_x;
+		out_ros_data.info.origin.position.x = info_origin_position_x;
 
-		rosdata.info.origin.position.y = info_origin_position_y;
+		out_ros_data.info.origin.position.y = info_origin_position_y;
 
-		rosdata.info.origin.position.z = info_origin_position_z;
+		out_ros_data.info.origin.position.z = info_origin_position_z;
 
-		rosdata.info.origin.orientation.x = info_origin_orientation.X;
-		rosdata.info.origin.orientation.y = info_origin_orientation.Y;
-		rosdata.info.origin.orientation.z = info_origin_orientation.Z;
-		rosdata.info.origin.orientation.w = info_origin_orientation.W;
+		out_ros_data.info.origin.orientation.x = info_origin_orientation.X;
+		out_ros_data.info.origin.orientation.y = info_origin_orientation.Y;
+		out_ros_data.info.origin.orientation.z = info_origin_orientation.Z;
+		out_ros_data.info.origin.orientation.w = info_origin_orientation.W;
 
-		if (rosdata.data.data != nullptr)
+		if (out_ros_data.data.data != nullptr)
 		{
-			free(rosdata.data.data);
+			free(out_ros_data.data.data);
 		}
-		rosdata.data.data = (decltype(rosdata.data.data))malloc((data.Num())*sizeof(decltype(*rosdata.data.data)));
+		out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc((data.Num())*sizeof(decltype(*out_ros_data.data.data)));
 		
 		for (int i = 0; i < data.Num(); i++)
 		{
-			rosdata.data.data[i] = data[i];
+			out_ros_data.data.data[i] = data[i];
 		}
 
-		rosdata.data.size = data.Num();
-		rosdata.data.capacity = data.Num();
+		out_ros_data.data.size = data.Num();
+		out_ros_data.data.capacity = data.Num();
 
 		
 	}

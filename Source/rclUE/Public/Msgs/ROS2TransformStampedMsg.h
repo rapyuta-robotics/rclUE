@@ -37,60 +37,60 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__TransformStamped rosdata)
+	void SetFromROS2(geometry_msgs__msg__TransformStamped in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		child_frame_id.AppendChars(rosdata.child_frame_id.data, rosdata.child_frame_id.size);
+		child_frame_id.AppendChars(in_ros_data.child_frame_id.data, in_ros_data.child_frame_id.size);
 
-		transform_translation.X = rosdata.transform.translation.x;
-		transform_translation.Y = rosdata.transform.translation.y;
-		transform_translation.Z = rosdata.transform.translation.z;
+		transform_translation.X = in_ros_data.transform.translation.x;
+		transform_translation.Y = in_ros_data.transform.translation.y;
+		transform_translation.Z = in_ros_data.transform.translation.z;
 
-		transform_rotation.X = rosdata.transform.rotation.x;
-		transform_rotation.Y = rosdata.transform.rotation.y;
-		transform_rotation.Z = rosdata.transform.rotation.z;
-		transform_rotation.W = rosdata.transform.rotation.w;
+		transform_rotation.X = in_ros_data.transform.rotation.x;
+		transform_rotation.Y = in_ros_data.transform.rotation.y;
+		transform_rotation.Z = in_ros_data.transform.rotation.z;
+		transform_rotation.W = in_ros_data.transform.rotation.w;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__TransformStamped& rosdata) const
+	void SetROS2(geometry_msgs__msg__TransformStamped& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		if (rosdata.child_frame_id.data != nullptr)
+		if (out_ros_data.child_frame_id.data != nullptr)
 		{
-			free(rosdata.child_frame_id.data);
+			free(out_ros_data.child_frame_id.data);
 		}
-		rosdata.child_frame_id.data = (decltype(rosdata.child_frame_id.data))malloc((child_frame_id.Len() + 1)*sizeof(decltype(*rosdata.child_frame_id.data)));
-		memcpy(rosdata.child_frame_id.data, TCHAR_TO_ANSI(*child_frame_id), (child_frame_id.Len()+1)*sizeof(char));
-		rosdata.child_frame_id.size = child_frame_id.Len();
-		rosdata.child_frame_id.capacity = child_frame_id.Len() + 1;
+		out_ros_data.child_frame_id.data = (decltype(out_ros_data.child_frame_id.data))malloc((child_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.child_frame_id.data)));
+		memcpy(out_ros_data.child_frame_id.data, TCHAR_TO_ANSI(*child_frame_id), (child_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.child_frame_id.size = child_frame_id.Len();
+		out_ros_data.child_frame_id.capacity = child_frame_id.Len() + 1;
 
-		rosdata.transform.translation.x = transform_translation.X;
-		rosdata.transform.translation.y = transform_translation.Y;
-		rosdata.transform.translation.z = transform_translation.Z;
+		out_ros_data.transform.translation.x = transform_translation.X;
+		out_ros_data.transform.translation.y = transform_translation.Y;
+		out_ros_data.transform.translation.z = transform_translation.Z;
 
-		rosdata.transform.rotation.x = transform_rotation.X;
-		rosdata.transform.rotation.y = transform_rotation.Y;
-		rosdata.transform.rotation.z = transform_rotation.Z;
-		rosdata.transform.rotation.w = transform_rotation.W;
+		out_ros_data.transform.rotation.x = transform_rotation.X;
+		out_ros_data.transform.rotation.y = transform_rotation.Y;
+		out_ros_data.transform.rotation.z = transform_rotation.Z;
+		out_ros_data.transform.rotation.w = transform_rotation.W;
 
 		
 	}

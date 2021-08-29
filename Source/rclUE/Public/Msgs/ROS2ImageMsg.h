@@ -41,77 +41,77 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__Image rosdata)
+	void SetFromROS2(sensor_msgs__msg__Image in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		height = rosdata.height;
+		height = in_ros_data.height;
 
-		width = rosdata.width;
+		width = in_ros_data.width;
 
-		encoding.AppendChars(rosdata.encoding.data, rosdata.encoding.size);
+		encoding.AppendChars(in_ros_data.encoding.data, in_ros_data.encoding.size);
 
-		is_bigendian = rosdata.is_bigendian;
+		is_bigendian = in_ros_data.is_bigendian;
 
-		step = rosdata.step;
+		step = in_ros_data.step;
 
-		for (int i = 0; i < rosdata.data.size; i++)
+		for (int i = 0; i < in_ros_data.data.size; i++)
 		{
-			data[i] = rosdata.data.data[i];
+			data[i] = in_ros_data.data.data[i];
 		}
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__Image& rosdata) const
+	void SetROS2(sensor_msgs__msg__Image& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.height = height;
+		out_ros_data.height = height;
 
-		rosdata.width = width;
+		out_ros_data.width = width;
 
-		if (rosdata.encoding.data != nullptr)
+		if (out_ros_data.encoding.data != nullptr)
 		{
-			free(rosdata.encoding.data);
+			free(out_ros_data.encoding.data);
 		}
-		rosdata.encoding.data = (decltype(rosdata.encoding.data))malloc((encoding.Len() + 1)*sizeof(decltype(*rosdata.encoding.data)));
-		memcpy(rosdata.encoding.data, TCHAR_TO_ANSI(*encoding), (encoding.Len()+1)*sizeof(char));
-		rosdata.encoding.size = encoding.Len();
-		rosdata.encoding.capacity = encoding.Len() + 1;
+		out_ros_data.encoding.data = (decltype(out_ros_data.encoding.data))malloc((encoding.Len() + 1)*sizeof(decltype(*out_ros_data.encoding.data)));
+		memcpy(out_ros_data.encoding.data, TCHAR_TO_ANSI(*encoding), (encoding.Len()+1)*sizeof(char));
+		out_ros_data.encoding.size = encoding.Len();
+		out_ros_data.encoding.capacity = encoding.Len() + 1;
 
-		rosdata.is_bigendian = is_bigendian;
+		out_ros_data.is_bigendian = is_bigendian;
 
-		rosdata.step = step;
+		out_ros_data.step = step;
 
-		if (rosdata.data.data != nullptr)
+		if (out_ros_data.data.data != nullptr)
 		{
-			free(rosdata.data.data);
+			free(out_ros_data.data.data);
 		}
-		rosdata.data.data = (decltype(rosdata.data.data))malloc((data.Num())*sizeof(decltype(*rosdata.data.data)));
+		out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc((data.Num())*sizeof(decltype(*out_ros_data.data.data)));
 		
 		for (int i = 0; i < data.Num(); i++)
 		{
-			rosdata.data.data[i] = data[i];
+			out_ros_data.data.data[i] = data[i];
 		}
 
-		rosdata.data.size = data.Num();
-		rosdata.data.capacity = data.Num();
+		out_ros_data.data.size = data.Num();
+		out_ros_data.data.capacity = data.Num();
 
 		
 	}

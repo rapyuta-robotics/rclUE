@@ -24,20 +24,20 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__NavSatStatus rosdata)
+	void SetFromROS2(sensor_msgs__msg__NavSatStatus in_ros_data)
 	{
-    	status = rosdata.status;
+    	status = in_ros_data.status;
 
-		service = rosdata.service;
+		service = in_ros_data.service;
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__NavSatStatus& rosdata) const
+	void SetROS2(sensor_msgs__msg__NavSatStatus& out_ros_data) const
 	{
-    	rosdata.status = status;
+    	out_ros_data.status = status;
 
-		rosdata.service = service;
+		out_ros_data.service = service;
 
 		
 	}

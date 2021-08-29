@@ -32,28 +32,28 @@ public:
 
 	
 
-	void SetFromROS2(std_msgs__msg__ColorRGBA rosdata)
+	void SetFromROS2(std_msgs__msg__ColorRGBA in_ros_data)
 	{
-    	r = rosdata.r;
+    	r = in_ros_data.r;
 
-		g = rosdata.g;
+		g = in_ros_data.g;
 
-		b = rosdata.b;
+		b = in_ros_data.b;
 
-		a = rosdata.a;
+		a = in_ros_data.a;
 
 		
 	}
 
-	void SetROS2(std_msgs__msg__ColorRGBA& rosdata) const
+	void SetROS2(std_msgs__msg__ColorRGBA& out_ros_data) const
 	{
-    	rosdata.r = r;
+    	out_ros_data.r = r;
 
-		rosdata.g = g;
+		out_ros_data.g = g;
 
-		rosdata.b = b;
+		out_ros_data.b = b;
 
-		rosdata.a = a;
+		out_ros_data.a = a;
 
 		
 	}

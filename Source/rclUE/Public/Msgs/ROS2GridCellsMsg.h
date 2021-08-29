@@ -40,96 +40,96 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__msg__GridCells rosdata)
+	void SetFromROS2(nav_msgs__msg__GridCells in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		cell_width = rosdata.cell_width;
+		cell_width = in_ros_data.cell_width;
 
-		cell_height = rosdata.cell_height;
+		cell_height = in_ros_data.cell_height;
 
-		for (int i = 0; i < rosdata.cells.size; i++)
+		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_x[i] = rosdata.cells.data[i].x;
+			cells_x[i] = in_ros_data.cells.data[i].x;
 		}
 
-		for (int i = 0; i < rosdata.cells.size; i++)
+		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_y[i] = rosdata.cells.data[i].y;
+			cells_y[i] = in_ros_data.cells.data[i].y;
 		}
 
-		for (int i = 0; i < rosdata.cells.size; i++)
+		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_z[i] = rosdata.cells.data[i].z;
+			cells_z[i] = in_ros_data.cells.data[i].z;
 		}
 
 		
 	}
 
-	void SetROS2(nav_msgs__msg__GridCells& rosdata) const
+	void SetROS2(nav_msgs__msg__GridCells& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.cell_width = cell_width;
+		out_ros_data.cell_width = cell_width;
 
-		rosdata.cell_height = cell_height;
+		out_ros_data.cell_height = cell_height;
 
-		if (rosdata.cells.data != nullptr)
+		if (out_ros_data.cells.data != nullptr)
 		{
-			free(rosdata.cells.data);
+			free(out_ros_data.cells.data);
 		}
-		rosdata.cells.data = (decltype(rosdata.cells.data))malloc((cells_x.Num())*sizeof(decltype(*rosdata.cells.data)));
+		out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc((cells_x.Num())*sizeof(decltype(*out_ros_data.cells.data)));
 		
 		for (int i = 0; i < cells_x.Num(); i++)
 		{
-			rosdata.cells.data[i].x = cells_x[i];
+			out_ros_data.cells.data[i].x = cells_x[i];
 		}
 
-		rosdata.cells.size = cells_x.Num();
-		rosdata.cells.capacity = cells_x.Num();
+		out_ros_data.cells.size = cells_x.Num();
+		out_ros_data.cells.capacity = cells_x.Num();
 
-		if (rosdata.cells.data != nullptr)
+		if (out_ros_data.cells.data != nullptr)
 		{
-			free(rosdata.cells.data);
+			free(out_ros_data.cells.data);
 		}
-		rosdata.cells.data = (decltype(rosdata.cells.data))malloc((cells_y.Num())*sizeof(decltype(*rosdata.cells.data)));
+		out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc((cells_y.Num())*sizeof(decltype(*out_ros_data.cells.data)));
 		
 		for (int i = 0; i < cells_y.Num(); i++)
 		{
-			rosdata.cells.data[i].y = cells_y[i];
+			out_ros_data.cells.data[i].y = cells_y[i];
 		}
 
-		rosdata.cells.size = cells_y.Num();
-		rosdata.cells.capacity = cells_y.Num();
+		out_ros_data.cells.size = cells_y.Num();
+		out_ros_data.cells.capacity = cells_y.Num();
 
-		if (rosdata.cells.data != nullptr)
+		if (out_ros_data.cells.data != nullptr)
 		{
-			free(rosdata.cells.data);
+			free(out_ros_data.cells.data);
 		}
-		rosdata.cells.data = (decltype(rosdata.cells.data))malloc((cells_z.Num())*sizeof(decltype(*rosdata.cells.data)));
+		out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc((cells_z.Num())*sizeof(decltype(*out_ros_data.cells.data)));
 		
 		for (int i = 0; i < cells_z.Num(); i++)
 		{
-			rosdata.cells.data[i].z = cells_z[i];
+			out_ros_data.cells.data[i].z = cells_z[i];
 		}
 
-		rosdata.cells.size = cells_z.Num();
-		rosdata.cells.capacity = cells_z.Num();
+		out_ros_data.cells.size = cells_z.Num();
+		out_ros_data.cells.capacity = cells_z.Num();
 
 		
 	}

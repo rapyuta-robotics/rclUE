@@ -26,24 +26,24 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Pose2D rosdata)
+	void SetFromROS2(geometry_msgs__msg__Pose2D in_ros_data)
 	{
-    	x = rosdata.x;
+    	x = in_ros_data.x;
 
-		y = rosdata.y;
+		y = in_ros_data.y;
 
-		theta = rosdata.theta;
+		theta = in_ros_data.theta;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Pose2D& rosdata) const
+	void SetROS2(geometry_msgs__msg__Pose2D& out_ros_data) const
 	{
-    	rosdata.x = x;
+    	out_ros_data.x = x;
 
-		rosdata.y = y;
+		out_ros_data.y = y;
 
-		rosdata.theta = theta;
+		out_ros_data.theta = theta;
 
 		
 	}

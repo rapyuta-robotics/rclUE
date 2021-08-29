@@ -31,32 +31,32 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__RegionOfInterest rosdata)
+	void SetFromROS2(sensor_msgs__msg__RegionOfInterest in_ros_data)
 	{
-    	x_offset = rosdata.x_offset;
+    	x_offset = in_ros_data.x_offset;
 
-		y_offset = rosdata.y_offset;
+		y_offset = in_ros_data.y_offset;
 
-		height = rosdata.height;
+		height = in_ros_data.height;
 
-		width = rosdata.width;
+		width = in_ros_data.width;
 
-		do_rectify = rosdata.do_rectify;
+		do_rectify = in_ros_data.do_rectify;
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__RegionOfInterest& rosdata) const
+	void SetROS2(sensor_msgs__msg__RegionOfInterest& out_ros_data) const
 	{
-    	rosdata.x_offset = x_offset;
+    	out_ros_data.x_offset = x_offset;
 
-		rosdata.y_offset = y_offset;
+		out_ros_data.y_offset = y_offset;
 
-		rosdata.height = height;
+		out_ros_data.height = height;
 
-		rosdata.width = width;
+		out_ros_data.width = width;
 
-		rosdata.do_rectify = do_rectify;
+		out_ros_data.do_rectify = do_rectify;
 
 		
 	}

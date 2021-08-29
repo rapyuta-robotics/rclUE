@@ -26,28 +26,28 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Twist rosdata)
+	void SetFromROS2(geometry_msgs__msg__Twist in_ros_data)
 	{
-    	linear.X = rosdata.linear.x;
-		linear.Y = rosdata.linear.y;
-		linear.Z = rosdata.linear.z;
+    	linear.X = in_ros_data.linear.x;
+		linear.Y = in_ros_data.linear.y;
+		linear.Z = in_ros_data.linear.z;
 
-		angular.X = rosdata.angular.x;
-		angular.Y = rosdata.angular.y;
-		angular.Z = rosdata.angular.z;
+		angular.X = in_ros_data.angular.x;
+		angular.Y = in_ros_data.angular.y;
+		angular.Z = in_ros_data.angular.z;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Twist& rosdata) const
+	void SetROS2(geometry_msgs__msg__Twist& out_ros_data) const
 	{
-    	rosdata.linear.x = linear.X;
-		rosdata.linear.y = linear.Y;
-		rosdata.linear.z = linear.Z;
+    	out_ros_data.linear.x = linear.X;
+		out_ros_data.linear.y = linear.Y;
+		out_ros_data.linear.z = linear.Z;
 
-		rosdata.angular.x = angular.X;
-		rosdata.angular.y = angular.Y;
-		rosdata.angular.z = angular.Z;
+		out_ros_data.angular.x = angular.X;
+		out_ros_data.angular.y = angular.Y;
+		out_ros_data.angular.z = angular.Z;
 
 		
 	}

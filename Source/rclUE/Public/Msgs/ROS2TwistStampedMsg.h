@@ -34,47 +34,47 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__TwistStamped rosdata)
+	void SetFromROS2(geometry_msgs__msg__TwistStamped in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		twist_linear.X = rosdata.twist.linear.x;
-		twist_linear.Y = rosdata.twist.linear.y;
-		twist_linear.Z = rosdata.twist.linear.z;
+		twist_linear.X = in_ros_data.twist.linear.x;
+		twist_linear.Y = in_ros_data.twist.linear.y;
+		twist_linear.Z = in_ros_data.twist.linear.z;
 
-		twist_angular.X = rosdata.twist.angular.x;
-		twist_angular.Y = rosdata.twist.angular.y;
-		twist_angular.Z = rosdata.twist.angular.z;
+		twist_angular.X = in_ros_data.twist.angular.x;
+		twist_angular.Y = in_ros_data.twist.angular.y;
+		twist_angular.Z = in_ros_data.twist.angular.z;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__TwistStamped& rosdata) const
+	void SetROS2(geometry_msgs__msg__TwistStamped& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.twist.linear.x = twist_linear.X;
-		rosdata.twist.linear.y = twist_linear.Y;
-		rosdata.twist.linear.z = twist_linear.Z;
+		out_ros_data.twist.linear.x = twist_linear.X;
+		out_ros_data.twist.linear.y = twist_linear.Y;
+		out_ros_data.twist.linear.z = twist_linear.Z;
 
-		rosdata.twist.angular.x = twist_angular.X;
-		rosdata.twist.angular.y = twist_angular.Y;
-		rosdata.twist.angular.z = twist_angular.Z;
+		out_ros_data.twist.angular.x = twist_angular.X;
+		out_ros_data.twist.angular.y = twist_angular.Y;
+		out_ros_data.twist.angular.z = twist_angular.Z;
 
 		
 	}

@@ -29,35 +29,35 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__PointField rosdata)
+	void SetFromROS2(sensor_msgs__msg__PointField in_ros_data)
 	{
-    	name.AppendChars(rosdata.name.data, rosdata.name.size);
+    	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
-		offset = rosdata.offset;
+		offset = in_ros_data.offset;
 
-		datatype = rosdata.datatype;
+		datatype = in_ros_data.datatype;
 
-		count = rosdata.count;
+		count = in_ros_data.count;
 
 		
 	}
 
-	void SetROS2(sensor_msgs__msg__PointField& rosdata) const
+	void SetROS2(sensor_msgs__msg__PointField& out_ros_data) const
 	{
-    	if (rosdata.name.data != nullptr)
+    	if (out_ros_data.name.data != nullptr)
 		{
-			free(rosdata.name.data);
+			free(out_ros_data.name.data);
 		}
-		rosdata.name.data = (decltype(rosdata.name.data))malloc((name.Len() + 1)*sizeof(decltype(*rosdata.name.data)));
-		memcpy(rosdata.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
-		rosdata.name.size = name.Len();
-		rosdata.name.capacity = name.Len() + 1;
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
+		memcpy(out_ros_data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
+		out_ros_data.name.size = name.Len();
+		out_ros_data.name.capacity = name.Len() + 1;
 
-		rosdata.offset = offset;
+		out_ros_data.offset = offset;
 
-		rosdata.datatype = datatype;
+		out_ros_data.datatype = datatype;
 
-		rosdata.count = count;
+		out_ros_data.count = count;
 
 		
 	}

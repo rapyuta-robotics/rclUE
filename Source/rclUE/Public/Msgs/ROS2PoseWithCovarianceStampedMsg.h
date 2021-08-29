@@ -39,62 +39,62 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__PoseWithCovarianceStamped rosdata)
+	void SetFromROS2(geometry_msgs__msg__PoseWithCovarianceStamped in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		pose_pose_position_x = rosdata.pose.pose.position.x;
+		pose_pose_position_x = in_ros_data.pose.pose.position.x;
 
-		pose_pose_position_y = rosdata.pose.pose.position.y;
+		pose_pose_position_y = in_ros_data.pose.pose.position.y;
 
-		pose_pose_position_z = rosdata.pose.pose.position.z;
+		pose_pose_position_z = in_ros_data.pose.pose.position.z;
 
-		pose_pose_orientation.X = rosdata.pose.pose.orientation.x;
-		pose_pose_orientation.Y = rosdata.pose.pose.orientation.y;
-		pose_pose_orientation.Z = rosdata.pose.pose.orientation.z;
-		pose_pose_orientation.W = rosdata.pose.pose.orientation.w;
+		pose_pose_orientation.X = in_ros_data.pose.pose.orientation.x;
+		pose_pose_orientation.Y = in_ros_data.pose.pose.orientation.y;
+		pose_pose_orientation.Z = in_ros_data.pose.pose.orientation.z;
+		pose_pose_orientation.W = in_ros_data.pose.pose.orientation.w;
 
 		for (int i = 0; i < 36; i++)
 		{
-			pose_covariance[i] = rosdata.pose.covariance[i];
+			pose_covariance[i] = in_ros_data.pose.covariance[i];
 		}
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__PoseWithCovarianceStamped& rosdata) const
+	void SetROS2(geometry_msgs__msg__PoseWithCovarianceStamped& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.pose.pose.position.x = pose_pose_position_x;
+		out_ros_data.pose.pose.position.x = pose_pose_position_x;
 
-		rosdata.pose.pose.position.y = pose_pose_position_y;
+		out_ros_data.pose.pose.position.y = pose_pose_position_y;
 
-		rosdata.pose.pose.position.z = pose_pose_position_z;
+		out_ros_data.pose.pose.position.z = pose_pose_position_z;
 
-		rosdata.pose.pose.orientation.x = pose_pose_orientation.X;
-		rosdata.pose.pose.orientation.y = pose_pose_orientation.Y;
-		rosdata.pose.pose.orientation.z = pose_pose_orientation.Z;
-		rosdata.pose.pose.orientation.w = pose_pose_orientation.W;
+		out_ros_data.pose.pose.orientation.x = pose_pose_orientation.X;
+		out_ros_data.pose.pose.orientation.y = pose_pose_orientation.Y;
+		out_ros_data.pose.pose.orientation.z = pose_pose_orientation.Z;
+		out_ros_data.pose.pose.orientation.w = pose_pose_orientation.W;
 
 		for (int i = 0; i < 36; i++)
 		{
-			rosdata.pose.covariance[i] = pose_covariance[i];
+			out_ros_data.pose.covariance[i] = pose_covariance[i];
 		}
 
 		

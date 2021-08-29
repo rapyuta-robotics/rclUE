@@ -70,142 +70,142 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__SetMap_Request rosdata)
+	void SetFromROS2(nav_msgs__srv__SetMap_Request in_ros_data)
 	{
-    	map_header_stamp_sec = rosdata.map.header.stamp.sec;
+    	map_header_stamp_sec = in_ros_data.map.header.stamp.sec;
 
-		map_header_stamp_nanosec = rosdata.map.header.stamp.nanosec;
+		map_header_stamp_nanosec = in_ros_data.map.header.stamp.nanosec;
 
-		map_header_frame_id.AppendChars(rosdata.map.header.frame_id.data, rosdata.map.header.frame_id.size);
+		map_header_frame_id.AppendChars(in_ros_data.map.header.frame_id.data, in_ros_data.map.header.frame_id.size);
 
-		map_info_map_load_time_sec = rosdata.map.info.map_load_time.sec;
+		map_info_map_load_time_sec = in_ros_data.map.info.map_load_time.sec;
 
-		map_info_map_load_time_nanosec = rosdata.map.info.map_load_time.nanosec;
+		map_info_map_load_time_nanosec = in_ros_data.map.info.map_load_time.nanosec;
 
-		map_info_resolution = rosdata.map.info.resolution;
+		map_info_resolution = in_ros_data.map.info.resolution;
 
-		map_info_width = rosdata.map.info.width;
+		map_info_width = in_ros_data.map.info.width;
 
-		map_info_height = rosdata.map.info.height;
+		map_info_height = in_ros_data.map.info.height;
 
-		map_info_origin_position_x = rosdata.map.info.origin.position.x;
+		map_info_origin_position_x = in_ros_data.map.info.origin.position.x;
 
-		map_info_origin_position_y = rosdata.map.info.origin.position.y;
+		map_info_origin_position_y = in_ros_data.map.info.origin.position.y;
 
-		map_info_origin_position_z = rosdata.map.info.origin.position.z;
+		map_info_origin_position_z = in_ros_data.map.info.origin.position.z;
 
-		map_info_origin_orientation.X = rosdata.map.info.origin.orientation.x;
-		map_info_origin_orientation.Y = rosdata.map.info.origin.orientation.y;
-		map_info_origin_orientation.Z = rosdata.map.info.origin.orientation.z;
-		map_info_origin_orientation.W = rosdata.map.info.origin.orientation.w;
+		map_info_origin_orientation.X = in_ros_data.map.info.origin.orientation.x;
+		map_info_origin_orientation.Y = in_ros_data.map.info.origin.orientation.y;
+		map_info_origin_orientation.Z = in_ros_data.map.info.origin.orientation.z;
+		map_info_origin_orientation.W = in_ros_data.map.info.origin.orientation.w;
 
-		for (int i = 0; i < rosdata.map.data.size; i++)
+		for (int i = 0; i < in_ros_data.map.data.size; i++)
 		{
-			map_data[i] = rosdata.map.data.data[i];
+			map_data[i] = in_ros_data.map.data.data[i];
 		}
 
-		initial_pose_header_stamp_sec = rosdata.initial_pose.header.stamp.sec;
+		initial_pose_header_stamp_sec = in_ros_data.initial_pose.header.stamp.sec;
 
-		initial_pose_header_stamp_nanosec = rosdata.initial_pose.header.stamp.nanosec;
+		initial_pose_header_stamp_nanosec = in_ros_data.initial_pose.header.stamp.nanosec;
 
-		initial_pose_header_frame_id.AppendChars(rosdata.initial_pose.header.frame_id.data, rosdata.initial_pose.header.frame_id.size);
+		initial_pose_header_frame_id.AppendChars(in_ros_data.initial_pose.header.frame_id.data, in_ros_data.initial_pose.header.frame_id.size);
 
-		initial_pose_pose_pose_position_x = rosdata.initial_pose.pose.pose.position.x;
+		initial_pose_pose_pose_position_x = in_ros_data.initial_pose.pose.pose.position.x;
 
-		initial_pose_pose_pose_position_y = rosdata.initial_pose.pose.pose.position.y;
+		initial_pose_pose_pose_position_y = in_ros_data.initial_pose.pose.pose.position.y;
 
-		initial_pose_pose_pose_position_z = rosdata.initial_pose.pose.pose.position.z;
+		initial_pose_pose_pose_position_z = in_ros_data.initial_pose.pose.pose.position.z;
 
-		initial_pose_pose_pose_orientation.X = rosdata.initial_pose.pose.pose.orientation.x;
-		initial_pose_pose_pose_orientation.Y = rosdata.initial_pose.pose.pose.orientation.y;
-		initial_pose_pose_pose_orientation.Z = rosdata.initial_pose.pose.pose.orientation.z;
-		initial_pose_pose_pose_orientation.W = rosdata.initial_pose.pose.pose.orientation.w;
+		initial_pose_pose_pose_orientation.X = in_ros_data.initial_pose.pose.pose.orientation.x;
+		initial_pose_pose_pose_orientation.Y = in_ros_data.initial_pose.pose.pose.orientation.y;
+		initial_pose_pose_pose_orientation.Z = in_ros_data.initial_pose.pose.pose.orientation.z;
+		initial_pose_pose_pose_orientation.W = in_ros_data.initial_pose.pose.pose.orientation.w;
 
 		for (int i = 0; i < 36; i++)
 		{
-			initial_pose_pose_covariance[i] = rosdata.initial_pose.pose.covariance[i];
+			initial_pose_pose_covariance[i] = in_ros_data.initial_pose.pose.covariance[i];
 		}
 
 		
 	}
 
-	void SetROS2(nav_msgs__srv__SetMap_Request& rosdata) const
+	void SetROS2(nav_msgs__srv__SetMap_Request& out_ros_data) const
 	{
-    	rosdata.map.header.stamp.sec = map_header_stamp_sec;
+    	out_ros_data.map.header.stamp.sec = map_header_stamp_sec;
 
-		rosdata.map.header.stamp.nanosec = map_header_stamp_nanosec;
+		out_ros_data.map.header.stamp.nanosec = map_header_stamp_nanosec;
 
-		if (rosdata.map.header.frame_id.data != nullptr)
+		if (out_ros_data.map.header.frame_id.data != nullptr)
 		{
-			free(rosdata.map.header.frame_id.data);
+			free(out_ros_data.map.header.frame_id.data);
 		}
-		rosdata.map.header.frame_id.data = (decltype(rosdata.map.header.frame_id.data))malloc((map_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.map.header.frame_id.data)));
-		memcpy(rosdata.map.header.frame_id.data, TCHAR_TO_ANSI(*map_header_frame_id), (map_header_frame_id.Len()+1)*sizeof(char));
-		rosdata.map.header.frame_id.size = map_header_frame_id.Len();
-		rosdata.map.header.frame_id.capacity = map_header_frame_id.Len() + 1;
+		out_ros_data.map.header.frame_id.data = (decltype(out_ros_data.map.header.frame_id.data))malloc((map_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.map.header.frame_id.data)));
+		memcpy(out_ros_data.map.header.frame_id.data, TCHAR_TO_ANSI(*map_header_frame_id), (map_header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.map.header.frame_id.size = map_header_frame_id.Len();
+		out_ros_data.map.header.frame_id.capacity = map_header_frame_id.Len() + 1;
 
-		rosdata.map.info.map_load_time.sec = map_info_map_load_time_sec;
+		out_ros_data.map.info.map_load_time.sec = map_info_map_load_time_sec;
 
-		rosdata.map.info.map_load_time.nanosec = map_info_map_load_time_nanosec;
+		out_ros_data.map.info.map_load_time.nanosec = map_info_map_load_time_nanosec;
 
-		rosdata.map.info.resolution = map_info_resolution;
+		out_ros_data.map.info.resolution = map_info_resolution;
 
-		rosdata.map.info.width = map_info_width;
+		out_ros_data.map.info.width = map_info_width;
 
-		rosdata.map.info.height = map_info_height;
+		out_ros_data.map.info.height = map_info_height;
 
-		rosdata.map.info.origin.position.x = map_info_origin_position_x;
+		out_ros_data.map.info.origin.position.x = map_info_origin_position_x;
 
-		rosdata.map.info.origin.position.y = map_info_origin_position_y;
+		out_ros_data.map.info.origin.position.y = map_info_origin_position_y;
 
-		rosdata.map.info.origin.position.z = map_info_origin_position_z;
+		out_ros_data.map.info.origin.position.z = map_info_origin_position_z;
 
-		rosdata.map.info.origin.orientation.x = map_info_origin_orientation.X;
-		rosdata.map.info.origin.orientation.y = map_info_origin_orientation.Y;
-		rosdata.map.info.origin.orientation.z = map_info_origin_orientation.Z;
-		rosdata.map.info.origin.orientation.w = map_info_origin_orientation.W;
+		out_ros_data.map.info.origin.orientation.x = map_info_origin_orientation.X;
+		out_ros_data.map.info.origin.orientation.y = map_info_origin_orientation.Y;
+		out_ros_data.map.info.origin.orientation.z = map_info_origin_orientation.Z;
+		out_ros_data.map.info.origin.orientation.w = map_info_origin_orientation.W;
 
-		if (rosdata.map.data.data != nullptr)
+		if (out_ros_data.map.data.data != nullptr)
 		{
-			free(rosdata.map.data.data);
+			free(out_ros_data.map.data.data);
 		}
-		rosdata.map.data.data = (decltype(rosdata.map.data.data))malloc((map_data.Num())*sizeof(decltype(*rosdata.map.data.data)));
+		out_ros_data.map.data.data = (decltype(out_ros_data.map.data.data))malloc((map_data.Num())*sizeof(decltype(*out_ros_data.map.data.data)));
 		
 		for (int i = 0; i < map_data.Num(); i++)
 		{
-			rosdata.map.data.data[i] = map_data[i];
+			out_ros_data.map.data.data[i] = map_data[i];
 		}
 
-		rosdata.map.data.size = map_data.Num();
-		rosdata.map.data.capacity = map_data.Num();
+		out_ros_data.map.data.size = map_data.Num();
+		out_ros_data.map.data.capacity = map_data.Num();
 
-		rosdata.initial_pose.header.stamp.sec = initial_pose_header_stamp_sec;
+		out_ros_data.initial_pose.header.stamp.sec = initial_pose_header_stamp_sec;
 
-		rosdata.initial_pose.header.stamp.nanosec = initial_pose_header_stamp_nanosec;
+		out_ros_data.initial_pose.header.stamp.nanosec = initial_pose_header_stamp_nanosec;
 
-		if (rosdata.initial_pose.header.frame_id.data != nullptr)
+		if (out_ros_data.initial_pose.header.frame_id.data != nullptr)
 		{
-			free(rosdata.initial_pose.header.frame_id.data);
+			free(out_ros_data.initial_pose.header.frame_id.data);
 		}
-		rosdata.initial_pose.header.frame_id.data = (decltype(rosdata.initial_pose.header.frame_id.data))malloc((initial_pose_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.initial_pose.header.frame_id.data)));
-		memcpy(rosdata.initial_pose.header.frame_id.data, TCHAR_TO_ANSI(*initial_pose_header_frame_id), (initial_pose_header_frame_id.Len()+1)*sizeof(char));
-		rosdata.initial_pose.header.frame_id.size = initial_pose_header_frame_id.Len();
-		rosdata.initial_pose.header.frame_id.capacity = initial_pose_header_frame_id.Len() + 1;
+		out_ros_data.initial_pose.header.frame_id.data = (decltype(out_ros_data.initial_pose.header.frame_id.data))malloc((initial_pose_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.initial_pose.header.frame_id.data)));
+		memcpy(out_ros_data.initial_pose.header.frame_id.data, TCHAR_TO_ANSI(*initial_pose_header_frame_id), (initial_pose_header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.initial_pose.header.frame_id.size = initial_pose_header_frame_id.Len();
+		out_ros_data.initial_pose.header.frame_id.capacity = initial_pose_header_frame_id.Len() + 1;
 
-		rosdata.initial_pose.pose.pose.position.x = initial_pose_pose_pose_position_x;
+		out_ros_data.initial_pose.pose.pose.position.x = initial_pose_pose_pose_position_x;
 
-		rosdata.initial_pose.pose.pose.position.y = initial_pose_pose_pose_position_y;
+		out_ros_data.initial_pose.pose.pose.position.y = initial_pose_pose_pose_position_y;
 
-		rosdata.initial_pose.pose.pose.position.z = initial_pose_pose_pose_position_z;
+		out_ros_data.initial_pose.pose.pose.position.z = initial_pose_pose_pose_position_z;
 
-		rosdata.initial_pose.pose.pose.orientation.x = initial_pose_pose_pose_orientation.X;
-		rosdata.initial_pose.pose.pose.orientation.y = initial_pose_pose_pose_orientation.Y;
-		rosdata.initial_pose.pose.pose.orientation.z = initial_pose_pose_pose_orientation.Z;
-		rosdata.initial_pose.pose.pose.orientation.w = initial_pose_pose_pose_orientation.W;
+		out_ros_data.initial_pose.pose.pose.orientation.x = initial_pose_pose_pose_orientation.X;
+		out_ros_data.initial_pose.pose.pose.orientation.y = initial_pose_pose_pose_orientation.Y;
+		out_ros_data.initial_pose.pose.pose.orientation.z = initial_pose_pose_pose_orientation.Z;
+		out_ros_data.initial_pose.pose.pose.orientation.w = initial_pose_pose_pose_orientation.W;
 
 		for (int i = 0; i < 36; i++)
 		{
-			rosdata.initial_pose.pose.covariance[i] = initial_pose_pose_covariance[i];
+			out_ros_data.initial_pose.pose.covariance[i] = initial_pose_pose_covariance[i];
 		}
 
 		
@@ -223,16 +223,16 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__SetMap_Response rosdata)
+	void SetFromROS2(nav_msgs__srv__SetMap_Response in_ros_data)
 	{
-    	success = rosdata.success;
+    	success = in_ros_data.success;
 
 		
 	}
 
-	void SetROS2(nav_msgs__srv__SetMap_Response& rosdata) const
+	void SetROS2(nav_msgs__srv__SetMap_Response& out_ros_data) const
 	{
-    	rosdata.success = success;
+    	out_ros_data.success = success;
 
 		
 	}

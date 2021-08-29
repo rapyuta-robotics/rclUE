@@ -48,71 +48,71 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__InertiaStamped rosdata)
+	void SetFromROS2(geometry_msgs__msg__InertiaStamped in_ros_data)
 	{
-    	header_stamp_sec = rosdata.header.stamp.sec;
+    	header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = rosdata.header.stamp.nanosec;
+		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(rosdata.header.frame_id.data, rosdata.header.frame_id.size);
+		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		inertia_m = rosdata.inertia.m;
+		inertia_m = in_ros_data.inertia.m;
 
-		inertia_com_x = rosdata.inertia.com.x;
+		inertia_com_x = in_ros_data.inertia.com.x;
 
-		inertia_com_y = rosdata.inertia.com.y;
+		inertia_com_y = in_ros_data.inertia.com.y;
 
-		inertia_com_z = rosdata.inertia.com.z;
+		inertia_com_z = in_ros_data.inertia.com.z;
 
-		inertia_ixx = rosdata.inertia.ixx;
+		inertia_ixx = in_ros_data.inertia.ixx;
 
-		inertia_ixy = rosdata.inertia.ixy;
+		inertia_ixy = in_ros_data.inertia.ixy;
 
-		inertia_ixz = rosdata.inertia.ixz;
+		inertia_ixz = in_ros_data.inertia.ixz;
 
-		inertia_iyy = rosdata.inertia.iyy;
+		inertia_iyy = in_ros_data.inertia.iyy;
 
-		inertia_iyz = rosdata.inertia.iyz;
+		inertia_iyz = in_ros_data.inertia.iyz;
 
-		inertia_izz = rosdata.inertia.izz;
+		inertia_izz = in_ros_data.inertia.izz;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__InertiaStamped& rosdata) const
+	void SetROS2(geometry_msgs__msg__InertiaStamped& out_ros_data) const
 	{
-    	rosdata.header.stamp.sec = header_stamp_sec;
+    	out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		rosdata.header.stamp.nanosec = header_stamp_nanosec;
+		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (rosdata.header.frame_id.data != nullptr)
+		if (out_ros_data.header.frame_id.data != nullptr)
 		{
-			free(rosdata.header.frame_id.data);
+			free(out_ros_data.header.frame_id.data);
 		}
-		rosdata.header.frame_id.data = (decltype(rosdata.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.header.frame_id.data)));
-		memcpy(rosdata.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		rosdata.header.frame_id.size = header_frame_id.Len();
-		rosdata.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.header.frame_id.size = header_frame_id.Len();
+		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
-		rosdata.inertia.m = inertia_m;
+		out_ros_data.inertia.m = inertia_m;
 
-		rosdata.inertia.com.x = inertia_com_x;
+		out_ros_data.inertia.com.x = inertia_com_x;
 
-		rosdata.inertia.com.y = inertia_com_y;
+		out_ros_data.inertia.com.y = inertia_com_y;
 
-		rosdata.inertia.com.z = inertia_com_z;
+		out_ros_data.inertia.com.z = inertia_com_z;
 
-		rosdata.inertia.ixx = inertia_ixx;
+		out_ros_data.inertia.ixx = inertia_ixx;
 
-		rosdata.inertia.ixy = inertia_ixy;
+		out_ros_data.inertia.ixy = inertia_ixy;
 
-		rosdata.inertia.ixz = inertia_ixz;
+		out_ros_data.inertia.ixz = inertia_ixz;
 
-		rosdata.inertia.iyy = inertia_iyy;
+		out_ros_data.inertia.iyy = inertia_iyy;
 
-		rosdata.inertia.iyz = inertia_iyz;
+		out_ros_data.inertia.iyz = inertia_iyz;
 
-		rosdata.inertia.izz = inertia_izz;
+		out_ros_data.inertia.izz = inertia_izz;
 
 		
 	}

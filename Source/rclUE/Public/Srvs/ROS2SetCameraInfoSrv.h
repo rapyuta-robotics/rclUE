@@ -58,127 +58,127 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__srv__SetCameraInfo_Request rosdata)
+	void SetFromROS2(sensor_msgs__srv__SetCameraInfo_Request in_ros_data)
 	{
-    	camera_info_header_stamp_sec = rosdata.camera_info.header.stamp.sec;
+    	camera_info_header_stamp_sec = in_ros_data.camera_info.header.stamp.sec;
 
-		camera_info_header_stamp_nanosec = rosdata.camera_info.header.stamp.nanosec;
+		camera_info_header_stamp_nanosec = in_ros_data.camera_info.header.stamp.nanosec;
 
-		camera_info_header_frame_id.AppendChars(rosdata.camera_info.header.frame_id.data, rosdata.camera_info.header.frame_id.size);
+		camera_info_header_frame_id.AppendChars(in_ros_data.camera_info.header.frame_id.data, in_ros_data.camera_info.header.frame_id.size);
 
-		camera_info_height = rosdata.camera_info.height;
+		camera_info_height = in_ros_data.camera_info.height;
 
-		camera_info_width = rosdata.camera_info.width;
+		camera_info_width = in_ros_data.camera_info.width;
 
-		camera_info_distortion_model.AppendChars(rosdata.camera_info.distortion_model.data, rosdata.camera_info.distortion_model.size);
+		camera_info_distortion_model.AppendChars(in_ros_data.camera_info.distortion_model.data, in_ros_data.camera_info.distortion_model.size);
 
-		for (int i = 0; i < rosdata.camera_info.d.size; i++)
+		for (int i = 0; i < in_ros_data.camera_info.d.size; i++)
 		{
-			camera_info_d[i] = rosdata.camera_info.d.data[i];
+			camera_info_d[i] = in_ros_data.camera_info.d.data[i];
 		}
 
 		for (int i = 0; i < 9; i++)
 		{
-			camera_info_k[i] = rosdata.camera_info.k[i];
+			camera_info_k[i] = in_ros_data.camera_info.k[i];
 		}
 
 		for (int i = 0; i < 9; i++)
 		{
-			camera_info_r[i] = rosdata.camera_info.r[i];
+			camera_info_r[i] = in_ros_data.camera_info.r[i];
 		}
 
 		for (int i = 0; i < 12; i++)
 		{
-			camera_info_p[i] = rosdata.camera_info.p[i];
+			camera_info_p[i] = in_ros_data.camera_info.p[i];
 		}
 
-		camera_info_binning_x = rosdata.camera_info.binning_x;
+		camera_info_binning_x = in_ros_data.camera_info.binning_x;
 
-		camera_info_binning_y = rosdata.camera_info.binning_y;
+		camera_info_binning_y = in_ros_data.camera_info.binning_y;
 
-		camera_info_roi_x_offset = rosdata.camera_info.roi.x_offset;
+		camera_info_roi_x_offset = in_ros_data.camera_info.roi.x_offset;
 
-		camera_info_roi_y_offset = rosdata.camera_info.roi.y_offset;
+		camera_info_roi_y_offset = in_ros_data.camera_info.roi.y_offset;
 
-		camera_info_roi_height = rosdata.camera_info.roi.height;
+		camera_info_roi_height = in_ros_data.camera_info.roi.height;
 
-		camera_info_roi_width = rosdata.camera_info.roi.width;
+		camera_info_roi_width = in_ros_data.camera_info.roi.width;
 
-		camera_info_roi_do_rectify = rosdata.camera_info.roi.do_rectify;
+		camera_info_roi_do_rectify = in_ros_data.camera_info.roi.do_rectify;
 
 		
 	}
 
-	void SetROS2(sensor_msgs__srv__SetCameraInfo_Request& rosdata) const
+	void SetROS2(sensor_msgs__srv__SetCameraInfo_Request& out_ros_data) const
 	{
-    	rosdata.camera_info.header.stamp.sec = camera_info_header_stamp_sec;
+    	out_ros_data.camera_info.header.stamp.sec = camera_info_header_stamp_sec;
 
-		rosdata.camera_info.header.stamp.nanosec = camera_info_header_stamp_nanosec;
+		out_ros_data.camera_info.header.stamp.nanosec = camera_info_header_stamp_nanosec;
 
-		if (rosdata.camera_info.header.frame_id.data != nullptr)
+		if (out_ros_data.camera_info.header.frame_id.data != nullptr)
 		{
-			free(rosdata.camera_info.header.frame_id.data);
+			free(out_ros_data.camera_info.header.frame_id.data);
 		}
-		rosdata.camera_info.header.frame_id.data = (decltype(rosdata.camera_info.header.frame_id.data))malloc((camera_info_header_frame_id.Len() + 1)*sizeof(decltype(*rosdata.camera_info.header.frame_id.data)));
-		memcpy(rosdata.camera_info.header.frame_id.data, TCHAR_TO_ANSI(*camera_info_header_frame_id), (camera_info_header_frame_id.Len()+1)*sizeof(char));
-		rosdata.camera_info.header.frame_id.size = camera_info_header_frame_id.Len();
-		rosdata.camera_info.header.frame_id.capacity = camera_info_header_frame_id.Len() + 1;
+		out_ros_data.camera_info.header.frame_id.data = (decltype(out_ros_data.camera_info.header.frame_id.data))malloc((camera_info_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.camera_info.header.frame_id.data)));
+		memcpy(out_ros_data.camera_info.header.frame_id.data, TCHAR_TO_ANSI(*camera_info_header_frame_id), (camera_info_header_frame_id.Len()+1)*sizeof(char));
+		out_ros_data.camera_info.header.frame_id.size = camera_info_header_frame_id.Len();
+		out_ros_data.camera_info.header.frame_id.capacity = camera_info_header_frame_id.Len() + 1;
 
-		rosdata.camera_info.height = camera_info_height;
+		out_ros_data.camera_info.height = camera_info_height;
 
-		rosdata.camera_info.width = camera_info_width;
+		out_ros_data.camera_info.width = camera_info_width;
 
-		if (rosdata.camera_info.distortion_model.data != nullptr)
+		if (out_ros_data.camera_info.distortion_model.data != nullptr)
 		{
-			free(rosdata.camera_info.distortion_model.data);
+			free(out_ros_data.camera_info.distortion_model.data);
 		}
-		rosdata.camera_info.distortion_model.data = (decltype(rosdata.camera_info.distortion_model.data))malloc((camera_info_distortion_model.Len() + 1)*sizeof(decltype(*rosdata.camera_info.distortion_model.data)));
-		memcpy(rosdata.camera_info.distortion_model.data, TCHAR_TO_ANSI(*camera_info_distortion_model), (camera_info_distortion_model.Len()+1)*sizeof(char));
-		rosdata.camera_info.distortion_model.size = camera_info_distortion_model.Len();
-		rosdata.camera_info.distortion_model.capacity = camera_info_distortion_model.Len() + 1;
+		out_ros_data.camera_info.distortion_model.data = (decltype(out_ros_data.camera_info.distortion_model.data))malloc((camera_info_distortion_model.Len() + 1)*sizeof(decltype(*out_ros_data.camera_info.distortion_model.data)));
+		memcpy(out_ros_data.camera_info.distortion_model.data, TCHAR_TO_ANSI(*camera_info_distortion_model), (camera_info_distortion_model.Len()+1)*sizeof(char));
+		out_ros_data.camera_info.distortion_model.size = camera_info_distortion_model.Len();
+		out_ros_data.camera_info.distortion_model.capacity = camera_info_distortion_model.Len() + 1;
 
-		if (rosdata.camera_info.d.data != nullptr)
+		if (out_ros_data.camera_info.d.data != nullptr)
 		{
-			free(rosdata.camera_info.d.data);
+			free(out_ros_data.camera_info.d.data);
 		}
-		rosdata.camera_info.d.data = (decltype(rosdata.camera_info.d.data))malloc((camera_info_d.Num())*sizeof(decltype(*rosdata.camera_info.d.data)));
+		out_ros_data.camera_info.d.data = (decltype(out_ros_data.camera_info.d.data))malloc((camera_info_d.Num())*sizeof(decltype(*out_ros_data.camera_info.d.data)));
 		
 		for (int i = 0; i < camera_info_d.Num(); i++)
 		{
-			rosdata.camera_info.d.data[i] = camera_info_d[i];
+			out_ros_data.camera_info.d.data[i] = camera_info_d[i];
 		}
 
-		rosdata.camera_info.d.size = camera_info_d.Num();
-		rosdata.camera_info.d.capacity = camera_info_d.Num();
+		out_ros_data.camera_info.d.size = camera_info_d.Num();
+		out_ros_data.camera_info.d.capacity = camera_info_d.Num();
 
 		for (int i = 0; i < 9; i++)
 		{
-			rosdata.camera_info.k[i] = camera_info_k[i];
+			out_ros_data.camera_info.k[i] = camera_info_k[i];
 		}
 
 		for (int i = 0; i < 9; i++)
 		{
-			rosdata.camera_info.r[i] = camera_info_r[i];
+			out_ros_data.camera_info.r[i] = camera_info_r[i];
 		}
 
 		for (int i = 0; i < 12; i++)
 		{
-			rosdata.camera_info.p[i] = camera_info_p[i];
+			out_ros_data.camera_info.p[i] = camera_info_p[i];
 		}
 
-		rosdata.camera_info.binning_x = camera_info_binning_x;
+		out_ros_data.camera_info.binning_x = camera_info_binning_x;
 
-		rosdata.camera_info.binning_y = camera_info_binning_y;
+		out_ros_data.camera_info.binning_y = camera_info_binning_y;
 
-		rosdata.camera_info.roi.x_offset = camera_info_roi_x_offset;
+		out_ros_data.camera_info.roi.x_offset = camera_info_roi_x_offset;
 
-		rosdata.camera_info.roi.y_offset = camera_info_roi_y_offset;
+		out_ros_data.camera_info.roi.y_offset = camera_info_roi_y_offset;
 
-		rosdata.camera_info.roi.height = camera_info_roi_height;
+		out_ros_data.camera_info.roi.height = camera_info_roi_height;
 
-		rosdata.camera_info.roi.width = camera_info_roi_width;
+		out_ros_data.camera_info.roi.width = camera_info_roi_width;
 
-		rosdata.camera_info.roi.do_rectify = camera_info_roi_do_rectify;
+		out_ros_data.camera_info.roi.do_rectify = camera_info_roi_do_rectify;
 
 		
 	}
@@ -198,27 +198,27 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__srv__SetCameraInfo_Response rosdata)
+	void SetFromROS2(sensor_msgs__srv__SetCameraInfo_Response in_ros_data)
 	{
-    	success = rosdata.success;
+    	success = in_ros_data.success;
 
-		status_message.AppendChars(rosdata.status_message.data, rosdata.status_message.size);
+		status_message.AppendChars(in_ros_data.status_message.data, in_ros_data.status_message.size);
 
 		
 	}
 
-	void SetROS2(sensor_msgs__srv__SetCameraInfo_Response& rosdata) const
+	void SetROS2(sensor_msgs__srv__SetCameraInfo_Response& out_ros_data) const
 	{
-    	rosdata.success = success;
+    	out_ros_data.success = success;
 
-		if (rosdata.status_message.data != nullptr)
+		if (out_ros_data.status_message.data != nullptr)
 		{
-			free(rosdata.status_message.data);
+			free(out_ros_data.status_message.data);
 		}
-		rosdata.status_message.data = (decltype(rosdata.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*rosdata.status_message.data)));
-		memcpy(rosdata.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
-		rosdata.status_message.size = status_message.Len();
-		rosdata.status_message.capacity = status_message.Len() + 1;
+		out_ros_data.status_message.data = (decltype(out_ros_data.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*out_ros_data.status_message.data)));
+		memcpy(out_ros_data.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
+		out_ros_data.status_message.size = status_message.Len();
+		out_ros_data.status_message.capacity = status_message.Len() + 1;
 
 		
 	}

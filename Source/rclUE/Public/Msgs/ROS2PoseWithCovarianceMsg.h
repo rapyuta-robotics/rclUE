@@ -31,43 +31,43 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__PoseWithCovariance rosdata)
+	void SetFromROS2(geometry_msgs__msg__PoseWithCovariance in_ros_data)
 	{
-    	pose_position_x = rosdata.pose.position.x;
+    	pose_position_x = in_ros_data.pose.position.x;
 
-		pose_position_y = rosdata.pose.position.y;
+		pose_position_y = in_ros_data.pose.position.y;
 
-		pose_position_z = rosdata.pose.position.z;
+		pose_position_z = in_ros_data.pose.position.z;
 
-		pose_orientation.X = rosdata.pose.orientation.x;
-		pose_orientation.Y = rosdata.pose.orientation.y;
-		pose_orientation.Z = rosdata.pose.orientation.z;
-		pose_orientation.W = rosdata.pose.orientation.w;
+		pose_orientation.X = in_ros_data.pose.orientation.x;
+		pose_orientation.Y = in_ros_data.pose.orientation.y;
+		pose_orientation.Z = in_ros_data.pose.orientation.z;
+		pose_orientation.W = in_ros_data.pose.orientation.w;
 
 		for (int i = 0; i < 36; i++)
 		{
-			covariance[i] = rosdata.covariance[i];
+			covariance[i] = in_ros_data.covariance[i];
 		}
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__PoseWithCovariance& rosdata) const
+	void SetROS2(geometry_msgs__msg__PoseWithCovariance& out_ros_data) const
 	{
-    	rosdata.pose.position.x = pose_position_x;
+    	out_ros_data.pose.position.x = pose_position_x;
 
-		rosdata.pose.position.y = pose_position_y;
+		out_ros_data.pose.position.y = pose_position_y;
 
-		rosdata.pose.position.z = pose_position_z;
+		out_ros_data.pose.position.z = pose_position_z;
 
-		rosdata.pose.orientation.x = pose_orientation.X;
-		rosdata.pose.orientation.y = pose_orientation.Y;
-		rosdata.pose.orientation.z = pose_orientation.Z;
-		rosdata.pose.orientation.w = pose_orientation.W;
+		out_ros_data.pose.orientation.x = pose_orientation.X;
+		out_ros_data.pose.orientation.y = pose_orientation.Y;
+		out_ros_data.pose.orientation.z = pose_orientation.Z;
+		out_ros_data.pose.orientation.w = pose_orientation.W;
 
 		for (int i = 0; i < 36; i++)
 		{
-			rosdata.covariance[i] = covariance[i];
+			out_ros_data.covariance[i] = covariance[i];
 		}
 
 		

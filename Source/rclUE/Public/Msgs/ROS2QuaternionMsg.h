@@ -28,28 +28,28 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Quaternion rosdata)
+	void SetFromROS2(geometry_msgs__msg__Quaternion in_ros_data)
 	{
-    	x = rosdata.x;
+    	x = in_ros_data.x;
 
-		y = rosdata.y;
+		y = in_ros_data.y;
 
-		z = rosdata.z;
+		z = in_ros_data.z;
 
-		w = rosdata.w;
+		w = in_ros_data.w;
 
 		
 	}
 
-	void SetROS2(geometry_msgs__msg__Quaternion& rosdata) const
+	void SetROS2(geometry_msgs__msg__Quaternion& out_ros_data) const
 	{
-    	rosdata.x = x;
+    	out_ros_data.x = x;
 
-		rosdata.y = y;
+		out_ros_data.y = y;
 
-		rosdata.z = z;
+		out_ros_data.z = z;
 
-		rosdata.w = w;
+		out_ros_data.w = w;
 
 		
 	}

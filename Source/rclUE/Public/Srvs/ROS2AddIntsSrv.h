@@ -26,20 +26,20 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__srv__AddInts_Request rosdata)
+	void SetFromROS2(ue4_interfaces__srv__AddInts_Request in_ros_data)
 	{
-    	a = rosdata.a;
+    	a = in_ros_data.a;
 
-		b = rosdata.b;
+		b = in_ros_data.b;
 
 		
 	}
 
-	void SetROS2(ue4_interfaces__srv__AddInts_Request& rosdata) const
+	void SetROS2(ue4_interfaces__srv__AddInts_Request& out_ros_data) const
 	{
-    	rosdata.a = a;
+    	out_ros_data.a = a;
 
-		rosdata.b = b;
+		out_ros_data.b = b;
 
 		
 	}
@@ -56,16 +56,16 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__srv__AddInts_Response rosdata)
+	void SetFromROS2(ue4_interfaces__srv__AddInts_Response in_ros_data)
 	{
-    	sum = rosdata.sum;
+    	sum = in_ros_data.sum;
 
 		
 	}
 
-	void SetROS2(ue4_interfaces__srv__AddInts_Response& rosdata) const
+	void SetROS2(ue4_interfaces__srv__AddInts_Response& out_ros_data) const
 	{
-    	rosdata.sum = sum;
+    	out_ros_data.sum = sum;
 
 		
 	}

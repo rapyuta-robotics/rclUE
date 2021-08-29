@@ -26,34 +26,34 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__Attach_Request rosdata)
+	void SetFromROS2(ue_msgs__srv__Attach_Request in_ros_data)
 	{
-    	name1.AppendChars(rosdata.name1.data, rosdata.name1.size);
+    	name1.AppendChars(in_ros_data.name1.data, in_ros_data.name1.size);
 
-		name2.AppendChars(rosdata.name2.data, rosdata.name2.size);
+		name2.AppendChars(in_ros_data.name2.data, in_ros_data.name2.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__Attach_Request& rosdata) const
+	void SetROS2(ue_msgs__srv__Attach_Request& out_ros_data) const
 	{
-    	if (rosdata.name1.data != nullptr)
+    	if (out_ros_data.name1.data != nullptr)
 		{
-			free(rosdata.name1.data);
+			free(out_ros_data.name1.data);
 		}
-		rosdata.name1.data = (decltype(rosdata.name1.data))malloc((name1.Len() + 1)*sizeof(decltype(*rosdata.name1.data)));
-		memcpy(rosdata.name1.data, TCHAR_TO_ANSI(*name1), (name1.Len()+1)*sizeof(char));
-		rosdata.name1.size = name1.Len();
-		rosdata.name1.capacity = name1.Len() + 1;
+		out_ros_data.name1.data = (decltype(out_ros_data.name1.data))malloc((name1.Len() + 1)*sizeof(decltype(*out_ros_data.name1.data)));
+		memcpy(out_ros_data.name1.data, TCHAR_TO_ANSI(*name1), (name1.Len()+1)*sizeof(char));
+		out_ros_data.name1.size = name1.Len();
+		out_ros_data.name1.capacity = name1.Len() + 1;
 
-		if (rosdata.name2.data != nullptr)
+		if (out_ros_data.name2.data != nullptr)
 		{
-			free(rosdata.name2.data);
+			free(out_ros_data.name2.data);
 		}
-		rosdata.name2.data = (decltype(rosdata.name2.data))malloc((name2.Len() + 1)*sizeof(decltype(*rosdata.name2.data)));
-		memcpy(rosdata.name2.data, TCHAR_TO_ANSI(*name2), (name2.Len()+1)*sizeof(char));
-		rosdata.name2.size = name2.Len();
-		rosdata.name2.capacity = name2.Len() + 1;
+		out_ros_data.name2.data = (decltype(out_ros_data.name2.data))malloc((name2.Len() + 1)*sizeof(decltype(*out_ros_data.name2.data)));
+		memcpy(out_ros_data.name2.data, TCHAR_TO_ANSI(*name2), (name2.Len()+1)*sizeof(char));
+		out_ros_data.name2.size = name2.Len();
+		out_ros_data.name2.capacity = name2.Len() + 1;
 
 		
 	}
@@ -70,16 +70,16 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__Attach_Response rosdata)
+	void SetFromROS2(ue_msgs__srv__Attach_Response in_ros_data)
 	{
-    	success = rosdata.success;
+    	success = in_ros_data.success;
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__Attach_Response& rosdata) const
+	void SetROS2(ue_msgs__srv__Attach_Response& out_ros_data) const
 	{
-    	rosdata.success = success;
+    	out_ros_data.success = success;
 
 		
 	}
