@@ -13,7 +13,7 @@
 
 // potential problem: if this struct is defined multiple times!
 USTRUCT(Blueprintable)
-struct RCLUE_API FDeleteEntity_Request
+struct RCLUE_API FROSDeleteEntity_Request
 {
 	GENERATED_BODY()
 
@@ -23,30 +23,30 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__DeleteEntity_Request data)
+	void SetFromROS2(const ue_msgs__srv__DeleteEntity_Request& in_ros_data)
 	{
-    	name.AppendChars(data.name.data, data.name.size);
+    	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__DeleteEntity_Request& data) const
+	void SetROS2(ue_msgs__srv__DeleteEntity_Request& out_ros_data) const
 	{
-    	if (data.name.data != nullptr)
+    	if (out_ros_data.name.data != nullptr)
 		{
-			free(data.name.data);
+			free(out_ros_data.name.data);
 		}
-		data.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
-		memcpy(data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
-		data.name.size = name.Len();
-		data.name.capacity = name.Len() + 1;
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
+		memcpy(out_ros_data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
+		out_ros_data.name.size = name.Len();
+		out_ros_data.name.capacity = name.Len() + 1;
 
 		
 	}
 };
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FDeleteEntity_Response
+struct RCLUE_API FROSDeleteEntity_Response
 {
 	GENERATED_BODY()
 
@@ -59,27 +59,27 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__DeleteEntity_Response data)
+	void SetFromROS2(const ue_msgs__srv__DeleteEntity_Response& in_ros_data)
 	{
-    	success = data.success;
+    	success = in_ros_data.success;
 
-		status_message.AppendChars(data.status_message.data, data.status_message.size);
+		status_message.AppendChars(in_ros_data.status_message.data, in_ros_data.status_message.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__DeleteEntity_Response& data) const
+	void SetROS2(ue_msgs__srv__DeleteEntity_Response& out_ros_data) const
 	{
-    	data.success = success;
+    	out_ros_data.success = success;
 
-		if (data.status_message.data != nullptr)
+		if (out_ros_data.status_message.data != nullptr)
 		{
-			free(data.status_message.data);
+			free(out_ros_data.status_message.data);
 		}
-		data.status_message.data = (char*)malloc((status_message.Len()+1)*sizeof(char));
-		memcpy(data.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
-		data.status_message.size = status_message.Len();
-		data.status_message.capacity = status_message.Len() + 1;
+		out_ros_data.status_message.data = (decltype(out_ros_data.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*out_ros_data.status_message.data)));
+		memcpy(out_ros_data.status_message.data, TCHAR_TO_ANSI(*status_message), (status_message.Len()+1)*sizeof(char));
+		out_ros_data.status_message.size = status_message.Len();
+		out_ros_data.status_message.capacity = status_message.Len() + 1;
 
 		
 	}
@@ -101,19 +101,19 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetRequest(const FDeleteEntity_Request Request);
+	void SetRequest(const FROSDeleteEntity_Request& Request);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void GetRequest(FDeleteEntity_Request& Request) const;
+	void GetRequest(FROSDeleteEntity_Request& Request) const;
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetResponse(const FDeleteEntity_Response Response);
+	void SetResponse(const FROSDeleteEntity_Response& Response);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void GetResponse(FDeleteEntity_Response& Response) const;
+	void GetResponse(FROSDeleteEntity_Response& Response) const;
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;

@@ -31,11 +31,11 @@ public:
 
 
 	UFUNCTION(BlueprintCallable)
-	void SetDelegates(FActionCallback UpdateFeedback,
-	                  FActionCallback UpdateResult, 
-					  FActionCallback HandleGoal, 
-					  FSimpleCallback HandleCancel, 
-					  FSimpleCallback HandleAccepted);
+	void SetDelegates(const FActionCallback UpdateFeedback,
+	                  const FActionCallback UpdateResult, 
+					  const FActionCallback HandleGoal, 
+					  const FSimpleCallback HandleCancel, 
+					  const FSimpleCallback HandleAccepted);
 
 					  
 	rcl_action_server_t server;	
@@ -62,5 +62,5 @@ private:
 	UPROPERTY()
 	FSimpleCallback HandleAcceptedDelegate;
 
-	virtual void InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS) override;
+	virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS) override;
 };

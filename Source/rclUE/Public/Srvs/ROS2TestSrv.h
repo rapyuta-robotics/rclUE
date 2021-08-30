@@ -28,19 +28,19 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetInputs(int64 a, int64 b);
+	void SetInputs(const int64 a, const int64 b);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void GetInputs(int64& a, int64& b);
+	void GetInputs(int64& a, int64& b) const;
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetOutput(int64 res);
+	void SetOutput(const int64 res);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void GetOutput(int64& res);
+	void GetOutput(int64& res) const;
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;

@@ -20,22 +20,22 @@ void UROS2AttachSrv::Fini()
     ue_msgs__srv__Attach_Response__fini(&Attach_res);
 }
 
-void UROS2AttachSrv::SetRequest(const FAttach_Request Request)
+void UROS2AttachSrv::SetRequest(const FROSAttach_Request& Request)
 {
     Request.SetROS2(Attach_req);
 }
 
-void UROS2AttachSrv::GetRequest(FAttach_Request& Request) const
+void UROS2AttachSrv::GetRequest(FROSAttach_Request& Request) const
 {
     Request.SetFromROS2(Attach_req);
 }
 
-void UROS2AttachSrv::SetResponse(const FAttach_Response Response)
+void UROS2AttachSrv::SetResponse(const FROSAttach_Response& Response)
 {
     Response.SetROS2(Attach_res);
 }
 
-void UROS2AttachSrv::GetResponse(FAttach_Response& Response) const
+void UROS2AttachSrv::GetResponse(FROSAttach_Response& Response) const
 {
     Response.SetFromROS2(Attach_res);
 }

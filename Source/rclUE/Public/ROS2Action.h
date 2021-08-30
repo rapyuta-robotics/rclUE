@@ -20,7 +20,7 @@ public:
 
 public:	
 	UFUNCTION(BlueprintCallable)
-	void Init(TEnumAsByte<UROS2QoS> QoS);
+	void Init(const TEnumAsByte<UROS2QoS> QoS);
 	
 	UFUNCTION(BlueprintCallable)
 	void InitializeAction();
@@ -42,7 +42,7 @@ public:
 	
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	AROS2Node* ownerNode;
+	AROS2Node* OwnerNode;
 
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -50,5 +50,5 @@ public:
 
 protected:
 	UFUNCTION()
-	virtual void InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS);
+	virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS);
 };

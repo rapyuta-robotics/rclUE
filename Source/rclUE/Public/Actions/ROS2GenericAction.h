@@ -37,13 +37,13 @@ public:
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const;
 	
 	UFUNCTION(BlueprintCallable)
-	virtual FString ActionGoalToString() const;
+	virtual const FString ActionGoalToString() const;
 
 	UFUNCTION(BlueprintCallable)
-	virtual FString ActionResultToString() const;
+	virtual const FString ActionResultToString() const;
 
 	UFUNCTION(BlueprintCallable)
-	virtual FString ActionFeedbackToString() const;
+	virtual const FString ActionFeedbackToString() const;
 
 private:
 	action_msgs__srv__CancelGoal_Request cancel_request;

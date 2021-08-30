@@ -14,10 +14,10 @@ UROS2Action::UROS2Action()
 	// ...
 }
 
-void UROS2Action::Init(TEnumAsByte<UROS2QoS> QoS)
+void UROS2Action::Init(const TEnumAsByte<UROS2QoS> QoS)
 {
-	check(ownerNode != nullptr);
-	check(ownerNode->State == UROS2State::Initialized);
+	check(OwnerNode != nullptr);
+	check(OwnerNode->State == UROS2State::Initialized);
 	if (State == UROS2State::Created)
 	{
 		InitializeAction();
@@ -55,7 +55,7 @@ void UROS2Action::ProcessReady(rcl_wait_set_t* wait_set)
 	checkNoEntry();
 }
 
-void UROS2Action::InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS)
+void UROS2Action::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
 {
 	checkNoEntry();
 }
