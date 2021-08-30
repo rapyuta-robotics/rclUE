@@ -24,19 +24,25 @@ void APubSubExample::my_subscriber_callback(const void * msgin)
 
 void APubSubExample::my_timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 {
-  rcl_ret_t rc;
-  RCLC_UNUSED(last_call_time);
-  if (timer != NULL) {
-    UE_LOG(LogTemp, Log, TEXT("Timer: time since last call %d"), (int) last_call_time);
-    rc = rcl_publish(&my_pub, &pub_msg, NULL);
-    if (rc == RCL_RET_OK) {
-      UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
-    } else {
-      UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
-    }
-  } else {
-    UE_LOG(LogTemp, Log, TEXT("timer_callback Error: timer parameter is NULL"));
-  }
+	rcl_ret_t rc;
+	RCLC_UNUSED(last_call_time);
+	if (timer != NULL)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Timer: time since last call %d"), (int) last_call_time);
+		rc = rcl_publish(&my_pub, &pub_msg, NULL);
+		if (rc == RCL_RET_OK)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback Error: timer parameter is NULL"));
+	}
 }
 
 
@@ -88,13 +94,13 @@ void APubSubExample::BeginPlay()
 	RCSOFTCHECK(rclc_publisher_init_default(&my_pub, &my_node, my_type_support, TopicName));
 
 	// create a timer, which will call the publisher with period=`TimerTimeout` ms in the 'my_timer_callback'
-	const unsigned int TimerTimeout = 1000;
+	constexpr unsigned int TimerTimeout = 1000;
 	RCSOFTCHECK(rclc_timer_init_default(&my_timer, &support, RCL_MS_TO_NS(TimerTimeout), APubSubExample::my_timer_callback));
 	UE_LOG(LogTemp, Log, TEXT("Created timer with timeout %d ms."), TimerTimeout);
 
 	// assign message to publisher
 	std_msgs__msg__String__init(&pub_msg);
-	const unsigned int PubMsgCapacity = 20;
+	constexpr unsigned int PubMsgCapacity = 20;
 	pub_msg.data.data = (char*)malloc(PubMsgCapacity);
 	pub_msg.data.capacity = PubMsgCapacity;
 	snprintf(pub_msg.data.data, pub_msg.data.capacity, "Hello World!");
