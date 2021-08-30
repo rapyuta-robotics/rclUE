@@ -58,7 +58,7 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__srv__SetCameraInfo_Request in_ros_data)
+	void SetFromROS2(const sensor_msgs__srv__SetCameraInfo_Request& in_ros_data)
 	{
     	camera_info_header_stamp_sec = in_ros_data.camera_info.header.stamp.sec;
 
@@ -198,7 +198,7 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__srv__SetCameraInfo_Response in_ros_data)
+	void SetFromROS2(const sensor_msgs__srv__SetCameraInfo_Response& in_ros_data)
 	{
     	success = in_ros_data.success;
 

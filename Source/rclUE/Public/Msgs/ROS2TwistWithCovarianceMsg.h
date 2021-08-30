@@ -28,7 +28,7 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__TwistWithCovariance in_ros_data)
+	void SetFromROS2(const geometry_msgs__msg__TwistWithCovariance& in_ros_data)
 	{
     	twist_linear.X = in_ros_data.twist.linear.x;
 		twist_linear.Y = in_ros_data.twist.linear.y;

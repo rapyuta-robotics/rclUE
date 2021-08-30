@@ -23,7 +23,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__DeleteEntity_Request in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__DeleteEntity_Request& in_ros_data)
 	{
     	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
@@ -59,7 +59,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__DeleteEntity_Response in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__DeleteEntity_Response& in_ros_data)
 	{
     	success = in_ros_data.success;
 

@@ -31,7 +31,7 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__QuaternionStamped in_ros_data)
+	void SetFromROS2(const geometry_msgs__msg__QuaternionStamped& in_ros_data)
 	{
     	header_stamp_sec = in_ros_data.header.stamp.sec;
 

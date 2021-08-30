@@ -28,7 +28,7 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__AccelWithCovariance in_ros_data)
+	void SetFromROS2(const geometry_msgs__msg__AccelWithCovariance& in_ros_data)
 	{
     	accel_linear.X = in_ros_data.accel.linear.x;
 		accel_linear.Y = in_ros_data.accel.linear.y;

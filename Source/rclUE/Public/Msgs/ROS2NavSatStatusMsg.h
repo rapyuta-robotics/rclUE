@@ -24,7 +24,7 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__NavSatStatus in_ros_data)
+	void SetFromROS2(const sensor_msgs__msg__NavSatStatus& in_ros_data)
 	{
     	status = in_ros_data.status;
 

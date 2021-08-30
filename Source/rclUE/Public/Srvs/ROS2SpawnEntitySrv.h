@@ -47,7 +47,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__SpawnEntity_Request in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__SpawnEntity_Request& in_ros_data)
 	{
     	xml.AppendChars(in_ros_data.xml.data, in_ros_data.xml.size);
 
@@ -154,7 +154,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__SpawnEntity_Response in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__SpawnEntity_Response& in_ros_data)
 	{
     	success = in_ros_data.success;
 

@@ -23,7 +23,7 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Polygon in_ros_data)
+	void SetFromROS2(const geometry_msgs__msg__Polygon& in_ros_data)
 	{
     	for (int i = 0; i < in_ros_data.points.size; i++)
 		{

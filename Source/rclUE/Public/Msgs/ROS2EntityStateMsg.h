@@ -41,7 +41,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__msg__EntityState in_ros_data)
+	void SetFromROS2(const ue_msgs__msg__EntityState& in_ros_data)
 	{
     	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 

@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_SendGoal_Request in_ros_data)
+	void SetFromROS2(const ue4_interfaces__action__Fibonacci_SendGoal_Request& in_ros_data)
 	{
 		for (int i=0; i<16; i++)
 		{
@@ -61,7 +61,7 @@ public:
 	int stamp_sec;
 	uint stamp_nanosec;
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_SendGoal_Response in_ros_data)
+	void SetFromROS2(const ue4_interfaces__action__Fibonacci_SendGoal_Response& in_ros_data)
 	{
     	accepted = in_ros_data.accepted;
 		stamp_sec = in_ros_data.stamp.sec;
@@ -84,7 +84,7 @@ struct RCLUE_API FROSFibonacci_GetResult_Request
 public:
   	TArray<uint, TFixedAllocator<16>> goal_id;
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_GetResult_Request in_ros_data)
+	void SetFromROS2(const ue4_interfaces__action__Fibonacci_GetResult_Request& in_ros_data)
 	{
 		for (int i=0; i<16; i++)
 		{
@@ -114,7 +114,7 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_GetResult_Response in_ros_data)
+	void SetFromROS2(const ue4_interfaces__action__Fibonacci_GetResult_Response& in_ros_data)
 	{
 		status = in_ros_data.status;
     	for (int i = 0; i < in_ros_data.result.sequence.size; i++)
@@ -158,7 +158,7 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__action__Fibonacci_FeedbackMessage in_ros_data)
+	void SetFromROS2(const ue4_interfaces__action__Fibonacci_FeedbackMessage& in_ros_data)
 	{
 		for (int i=0; i<16; i++)
 		{

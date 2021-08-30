@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Wrench in_ros_data)
+	void SetFromROS2(const geometry_msgs__msg__Wrench& in_ros_data)
 	{
     	force.X = in_ros_data.force.x;
 		force.Y = in_ros_data.force.y;

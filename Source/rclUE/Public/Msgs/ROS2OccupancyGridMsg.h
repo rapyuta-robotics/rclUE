@@ -51,7 +51,7 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__msg__OccupancyGrid in_ros_data)
+	void SetFromROS2(const nav_msgs__msg__OccupancyGrid& in_ros_data)
 	{
     	header_stamp_sec = in_ros_data.header.stamp.sec;
 

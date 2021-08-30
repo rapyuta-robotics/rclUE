@@ -42,7 +42,7 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__NavSatFix in_ros_data)
+	void SetFromROS2(const sensor_msgs__msg__NavSatFix& in_ros_data)
 	{
     	header_stamp_sec = in_ros_data.header.stamp.sec;
 

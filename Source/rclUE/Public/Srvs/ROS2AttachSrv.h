@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__Attach_Request in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__Attach_Request& in_ros_data)
 	{
     	name1.AppendChars(in_ros_data.name1.data, in_ros_data.name1.size);
 
@@ -70,7 +70,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__Attach_Response in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__Attach_Response& in_ros_data)
 	{
     	success = in_ros_data.success;
 

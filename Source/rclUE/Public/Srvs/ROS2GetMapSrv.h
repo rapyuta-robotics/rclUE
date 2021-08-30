@@ -20,7 +20,7 @@ struct RCLUE_API FROSGetMap_Request
 public:
 	
 
-	void SetFromROS2(nav_msgs__srv__GetMap_Request in_ros_data)
+	void SetFromROS2(const nav_msgs__srv__GetMap_Request& in_ros_data)
 	{
     	
 	}
@@ -70,7 +70,7 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__GetMap_Response in_ros_data)
+	void SetFromROS2(const nav_msgs__srv__GetMap_Response& in_ros_data)
 	{
     	map_header_stamp_sec = in_ros_data.map.header.stamp.sec;
 

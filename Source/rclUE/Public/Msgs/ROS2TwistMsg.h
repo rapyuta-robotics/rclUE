@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Twist in_ros_data)
+	void SetFromROS2(const geometry_msgs__msg__Twist& in_ros_data)
 	{
     	linear.X = in_ros_data.linear.x;
 		linear.Y = in_ros_data.linear.y;

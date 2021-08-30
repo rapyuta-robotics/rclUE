@@ -28,7 +28,7 @@ public:
 
 	
 
-	void SetFromROS2(std_msgs__msg__Header in_ros_data)
+	void SetFromROS2(const std_msgs__msg__Header& in_ros_data)
 	{
     	stamp_sec = in_ros_data.stamp.sec;
 

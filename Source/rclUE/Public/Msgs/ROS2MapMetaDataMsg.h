@@ -41,7 +41,7 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__msg__MapMetaData in_ros_data)
+	void SetFromROS2(const nav_msgs__msg__MapMetaData& in_ros_data)
 	{
     	map_load_time_sec = in_ros_data.map_load_time.sec;
 

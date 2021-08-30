@@ -70,7 +70,7 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__SetMap_Request in_ros_data)
+	void SetFromROS2(const nav_msgs__srv__SetMap_Request& in_ros_data)
 	{
     	map_header_stamp_sec = in_ros_data.map.header.stamp.sec;
 
@@ -223,7 +223,7 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__SetMap_Response in_ros_data)
+	void SetFromROS2(const nav_msgs__srv__SetMap_Response& in_ros_data)
 	{
     	success = in_ros_data.success;
 

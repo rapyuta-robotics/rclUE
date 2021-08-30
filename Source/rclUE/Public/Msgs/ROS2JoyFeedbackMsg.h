@@ -27,7 +27,7 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__JoyFeedback in_ros_data)
+	void SetFromROS2(const sensor_msgs__msg__JoyFeedback& in_ros_data)
 	{
     	type = in_ros_data.type;
 

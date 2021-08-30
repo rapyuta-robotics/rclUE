@@ -57,7 +57,7 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__GetPlan_Request in_ros_data)
+	void SetFromROS2(const nav_msgs__srv__GetPlan_Request& in_ros_data)
 	{
     	start_header_stamp_sec = in_ros_data.start.header.stamp.sec;
 
@@ -187,7 +187,7 @@ public:
 
 	
 
-	void SetFromROS2(nav_msgs__srv__GetPlan_Response in_ros_data)
+	void SetFromROS2(const nav_msgs__srv__GetPlan_Response& in_ros_data)
 	{
     	plan_header_stamp_sec = in_ros_data.plan.header.stamp.sec;
 

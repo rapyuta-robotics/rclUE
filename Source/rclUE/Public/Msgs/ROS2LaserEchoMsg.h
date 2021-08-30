@@ -23,7 +23,7 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__LaserEcho in_ros_data)
+	void SetFromROS2(const sensor_msgs__msg__LaserEcho& in_ros_data)
 	{
     	for (int i = 0; i < in_ros_data.echoes.size; i++)
 		{

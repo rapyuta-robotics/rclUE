@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__srv__AddInts_Request in_ros_data)
+	void SetFromROS2(const ue4_interfaces__srv__AddInts_Request& in_ros_data)
 	{
     	a = in_ros_data.a;
 
@@ -56,7 +56,7 @@ public:
 
 	
 
-	void SetFromROS2(ue4_interfaces__srv__AddInts_Response in_ros_data)
+	void SetFromROS2(const ue4_interfaces__srv__AddInts_Response& in_ros_data)
 	{
     	sum = in_ros_data.sum;
 

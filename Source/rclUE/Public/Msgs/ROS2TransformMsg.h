@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(geometry_msgs__msg__Transform in_ros_data)
+	void SetFromROS2(const geometry_msgs__msg__Transform& in_ros_data)
 	{
     	translation.X = in_ros_data.translation.x;
 		translation.Y = in_ros_data.translation.y;

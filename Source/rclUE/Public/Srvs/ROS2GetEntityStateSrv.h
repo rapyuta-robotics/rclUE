@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__GetEntityState_Request in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__GetEntityState_Request& in_ros_data)
 	{
     	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
@@ -91,7 +91,7 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__GetEntityState_Response in_ros_data)
+	void SetFromROS2(const ue_msgs__srv__GetEntityState_Response& in_ros_data)
 	{
     	state_name.AppendChars(in_ros_data.state.name.data, in_ros_data.state.name.size);
 

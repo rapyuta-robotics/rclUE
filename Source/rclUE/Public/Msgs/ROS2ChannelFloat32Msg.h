@@ -26,7 +26,7 @@ public:
 
 	
 
-	void SetFromROS2(sensor_msgs__msg__ChannelFloat32 in_ros_data)
+	void SetFromROS2(const sensor_msgs__msg__ChannelFloat32& in_ros_data)
 	{
     	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
