@@ -28,53 +28,53 @@ void UROS2FibonacciAction::Fini()
     Super::Fini();
 }
 
-void UROS2FibonacciAction::SetGoalRequest(const FFibonacci_SendGoal_Request Goal)
+void UROS2FibonacciAction::SetGoalRequest(const FROSFibonacci_SendGoal_Request& Goal)
 {
     Goal.SetROS2(Fibonacci_goal_request);
 }
 
-void UROS2FibonacciAction::GetGoalRequest(FFibonacci_SendGoal_Request& Goal) const
+void UROS2FibonacciAction::GetGoalRequest(FROSFibonacci_SendGoal_Request& Goal) const
 {
     Goal.SetFromROS2(Fibonacci_goal_request);
 }
 
-void UROS2FibonacciAction::SetGoalResponse(const FFibonacci_SendGoal_Response Goal)
+void UROS2FibonacciAction::SetGoalResponse(const FROSFibonacci_SendGoal_Response& Goal)
 {
     Goal.SetROS2(Fibonacci_goal_response);
 }
 
-void UROS2FibonacciAction::GetGoalResponse(FFibonacci_SendGoal_Response& Goal) const
+void UROS2FibonacciAction::GetGoalResponse(FROSFibonacci_SendGoal_Response& Goal) const
 {
     Goal.SetFromROS2(Fibonacci_goal_response);
 }
 
-void UROS2FibonacciAction::SetResultRequest(const FFibonacci_GetResult_Request Result)
+void UROS2FibonacciAction::SetResultRequest(const FROSFibonacci_GetResult_Request& Result)
 {
     Result.SetROS2(Fibonacci_result_request);
 }
 
-void UROS2FibonacciAction::GetResultRequest(FFibonacci_GetResult_Request& Result) const
+void UROS2FibonacciAction::GetResultRequest(FROSFibonacci_GetResult_Request& Result) const
 {
     Result.SetFromROS2(Fibonacci_result_request);
 }
 
-void UROS2FibonacciAction::SetResultResponse(const FFibonacci_GetResult_Response Result)
+void UROS2FibonacciAction::SetResultResponse(const FROSFibonacci_GetResult_Response& Result)
 {
     Result.SetROS2(Fibonacci_result_response);
 }
 
-void UROS2FibonacciAction::GetResultResponse(FFibonacci_GetResult_Response& Result) const
+void UROS2FibonacciAction::GetResultResponse(FROSFibonacci_GetResult_Response& Result) const
 {
     Result.SetFromROS2(Fibonacci_result_response);
 }
 
 
-void UROS2FibonacciAction::SetFeedback(const FFibonacci_FeedbackMessage Feedback)
+void UROS2FibonacciAction::SetFeedback(const FROSFibonacci_FeedbackMessage& Feedback)
 {
     Feedback.SetROS2(Fibonacci_feedback_message);
 }
 
-void UROS2FibonacciAction::GetFeedback(FFibonacci_FeedbackMessage& Feedback) const
+void UROS2FibonacciAction::GetFeedback(FROSFibonacci_FeedbackMessage& Feedback) const
 {
     Feedback.SetFromROS2(Fibonacci_feedback_message);
 }

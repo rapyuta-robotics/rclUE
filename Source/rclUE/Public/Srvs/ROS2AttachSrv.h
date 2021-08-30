@@ -13,7 +13,7 @@
 
 // potential problem: if this struct is defined multiple times!
 USTRUCT(Blueprintable)
-struct RCLUE_API FAttach_Request
+struct RCLUE_API FROSAttach_Request
 {
 	GENERATED_BODY()
 
@@ -26,41 +26,41 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__Attach_Request data)
+	void SetFromROS2(const ue_msgs__srv__Attach_Request& in_ros_data)
 	{
-    	name1.AppendChars(data.name1.data, data.name1.size);
+    	name1.AppendChars(in_ros_data.name1.data, in_ros_data.name1.size);
 
-		name2.AppendChars(data.name2.data, data.name2.size);
+		name2.AppendChars(in_ros_data.name2.data, in_ros_data.name2.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__Attach_Request& data) const
+	void SetROS2(ue_msgs__srv__Attach_Request& out_ros_data) const
 	{
-    	if (data.name1.data != nullptr)
+    	if (out_ros_data.name1.data != nullptr)
 		{
-			free(data.name1.data);
+			free(out_ros_data.name1.data);
 		}
-		data.name1.data = (char*)malloc((name1.Len()+1)*sizeof(char));
-		memcpy(data.name1.data, TCHAR_TO_ANSI(*name1), (name1.Len()+1)*sizeof(char));
-		data.name1.size = name1.Len();
-		data.name1.capacity = name1.Len() + 1;
+		out_ros_data.name1.data = (decltype(out_ros_data.name1.data))malloc((name1.Len() + 1)*sizeof(decltype(*out_ros_data.name1.data)));
+		memcpy(out_ros_data.name1.data, TCHAR_TO_ANSI(*name1), (name1.Len()+1)*sizeof(char));
+		out_ros_data.name1.size = name1.Len();
+		out_ros_data.name1.capacity = name1.Len() + 1;
 
-		if (data.name2.data != nullptr)
+		if (out_ros_data.name2.data != nullptr)
 		{
-			free(data.name2.data);
+			free(out_ros_data.name2.data);
 		}
-		data.name2.data = (char*)malloc((name2.Len()+1)*sizeof(char));
-		memcpy(data.name2.data, TCHAR_TO_ANSI(*name2), (name2.Len()+1)*sizeof(char));
-		data.name2.size = name2.Len();
-		data.name2.capacity = name2.Len() + 1;
+		out_ros_data.name2.data = (decltype(out_ros_data.name2.data))malloc((name2.Len() + 1)*sizeof(decltype(*out_ros_data.name2.data)));
+		memcpy(out_ros_data.name2.data, TCHAR_TO_ANSI(*name2), (name2.Len()+1)*sizeof(char));
+		out_ros_data.name2.size = name2.Len();
+		out_ros_data.name2.capacity = name2.Len() + 1;
 
 		
 	}
 };
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FAttach_Response
+struct RCLUE_API FROSAttach_Response
 {
 	GENERATED_BODY()
 
@@ -70,16 +70,16 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__srv__Attach_Response data)
+	void SetFromROS2(const ue_msgs__srv__Attach_Response& in_ros_data)
 	{
-    	success = data.success;
+    	success = in_ros_data.success;
 
 		
 	}
 
-	void SetROS2(ue_msgs__srv__Attach_Response& data) const
+	void SetROS2(ue_msgs__srv__Attach_Response& out_ros_data) const
 	{
-    	data.success = success;
+    	out_ros_data.success = success;
 
 		
 	}
@@ -101,19 +101,19 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetRequest(const FAttach_Request Request);
+	void SetRequest(const FROSAttach_Request& Request);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void GetRequest(FAttach_Request& Request) const;
+	void GetRequest(FROSAttach_Request& Request) const;
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetResponse(const FAttach_Response Response);
+	void SetResponse(const FROSAttach_Response& Response);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void GetResponse(FAttach_Response& Response) const;
+	void GetResponse(FROSAttach_Response& Response) const;
 	
 	virtual void* GetRequest() override;
 	virtual void* GetResponse() override;

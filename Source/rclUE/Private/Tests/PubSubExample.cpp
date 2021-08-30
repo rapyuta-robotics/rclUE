@@ -7,33 +7,42 @@
 rcl_publisher_t APubSubExample::my_pub;
 std_msgs__msg__String APubSubExample::pub_msg;
 std_msgs__msg__String APubSubExample::sub_msg;
-static int counter = 0;
+static int Counter = 0;
 
 void APubSubExample::my_subscriber_callback(const void * msgin)
 {
-  const std_msgs__msg__String * msg = (const std_msgs__msg__String *)msgin;
-  if (msg == NULL) {
-    UE_LOG(LogTemp, Log, TEXT("Callback: msg NULL"));
-  } else {
-    UE_LOG(LogTemp, Log, TEXT("Callback (%d): I heard: %s"), counter++, *FString(ANSI_TO_TCHAR(msg->data.data)));
-  }
+	const std_msgs__msg__String* msg = (const std_msgs__msg__String* )msgin;
+	if (msg == nullptr)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Callback: msg nullptr"));
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Callback (%d): I heard: %s"), Counter++, *FString(ANSI_TO_TCHAR(msg->data.data)));
+	}
 }
 
 void APubSubExample::my_timer_callback(rcl_timer_t * timer, int64_t last_call_time)
 {
-  rcl_ret_t rc;
-  RCLC_UNUSED(last_call_time);
-  if (timer != NULL) {
-    UE_LOG(LogTemp, Log, TEXT("Timer: time since last call %d"), (int) last_call_time);
-    rc = rcl_publish(&my_pub, &pub_msg, NULL);
-    if (rc == RCL_RET_OK) {
-      UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
-    } else {
-      UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
-    }
-  } else {
-    UE_LOG(LogTemp, Log, TEXT("timer_callback Error: timer parameter is NULL"));
-  }
+	rcl_ret_t rc;
+	RCLC_UNUSED(last_call_time);
+	if (timer != NULL)
+	{
+		UE_LOG(LogTemp, Log, TEXT("Timer: time since last call %d"), (int) last_call_time);
+		rc = rcl_publish(&my_pub, &pub_msg, NULL);
+		if (rc == RCL_RET_OK)
+		{
+			UE_LOG(LogTemp, Log, TEXT("Published message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
+		}
+		else
+		{
+			UE_LOG(LogTemp, Log, TEXT("timer_callback: Error publishing message %s"), *FString(ANSI_TO_TCHAR(pub_msg.data.data)));
+		}
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("timer_callback Error: timer parameter is NULL"));
+	}
 }
 
 
@@ -80,27 +89,27 @@ void APubSubExample::BeginPlay()
 
 	// create a publisher to publish topic 'topic_0' with type std_msg::msg::String
 	// my_pub is global, so that the timer callback can access this publisher.
-	const char * topic_name = "topic_0";
-  	const rosidl_message_type_support_t * my_type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
-	RCSOFTCHECK(rclc_publisher_init_default(&my_pub, &my_node, my_type_support, topic_name));
-	
-  	// create a timer, which will call the publisher with period=`timer_timeout` ms in the 'my_timer_callback'
-	const unsigned int timer_timeout = 1000;
-	RCSOFTCHECK(rclc_timer_init_default(&my_timer, &support, RCL_MS_TO_NS(timer_timeout), APubSubExample::my_timer_callback));
-	UE_LOG(LogTemp, Log, TEXT("Created timer with timeout %d ms."), timer_timeout);
-	
+	const char* TopicName = "topic_0";
+	const rosidl_message_type_support_t* my_type_support = ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
+	RCSOFTCHECK(rclc_publisher_init_default(&my_pub, &my_node, my_type_support, TopicName));
+
+	// create a timer, which will call the publisher with period=`TimerTimeout` ms in the 'my_timer_callback'
+	constexpr unsigned int TimerTimeout = 1000;
+	RCSOFTCHECK(rclc_timer_init_default(&my_timer, &support, RCL_MS_TO_NS(TimerTimeout), APubSubExample::my_timer_callback));
+	UE_LOG(LogTemp, Log, TEXT("Created timer with timeout %d ms."), TimerTimeout);
+
 	// assign message to publisher
 	std_msgs__msg__String__init(&pub_msg);
-	const unsigned int PUB_MSG_CAPACITY = 20;
-	pub_msg.data.data = (char*)malloc(PUB_MSG_CAPACITY);
-	pub_msg.data.capacity = PUB_MSG_CAPACITY;
+	constexpr unsigned int PubMsgCapacity = 20;
+	pub_msg.data.data = (char*)malloc(PubMsgCapacity);
+	pub_msg.data.capacity = PubMsgCapacity;
 	snprintf(pub_msg.data.data, pub_msg.data.capacity, "Hello World!");
 	pub_msg.data.size = strlen(pub_msg.data.data);
 
 	// create subscription
-  	my_sub = rcl_get_zero_initialized_subscription();
-  	RCSOFTCHECK(rclc_subscription_init_default(&my_sub, &my_node, my_type_support, topic_name));
-	UE_LOG(LogTemp, Log, TEXT("Created subscriber %s:"), *FString(ANSI_TO_TCHAR(topic_name)));
+	my_sub = rcl_get_zero_initialized_subscription();
+	RCSOFTCHECK(rclc_subscription_init_default(&my_sub, &my_node, my_type_support, TopicName));
+	UE_LOG(LogTemp, Log, TEXT("Created subscriber %s:"), *FString(ANSI_TO_TCHAR(TopicName)));
 
 	// one string message for subscriber
 	std_msgs__msg__String__init(&sub_msg);

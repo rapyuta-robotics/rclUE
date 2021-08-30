@@ -10,17 +10,13 @@ DEFINE_LOG_CATEGORY(LogROS2Service);
 // Sets default values for this component's properties
 UROS2ServiceClient::UROS2ServiceClient()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
 {
-	check(ownerNode != nullptr);
-	check(ownerNode->State == UROS2State::Initialized);
+	check(OwnerNode != nullptr);
+	check(OwnerNode->State == UROS2State::Initialized);
 	if (State == UROS2State::Created)
 	{
 		InitializeService();
@@ -34,7 +30,7 @@ void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		client_opt.qos = QoS_LUT[QoS];
 
-		RCSOFTCHECK(rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
+		RCSOFTCHECK(rcl_client_init(&client, OwnerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
 			
 		State = UROS2State::Initialized;
 	}
@@ -61,10 +57,10 @@ void UROS2ServiceClient::Destroy()
 		Service->Fini();
 	}
 
-	if (ownerNode != nullptr)
+	if (OwnerNode != nullptr)
 	{
 		UE_LOG(LogROS2Service, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
-		RCSOFTCHECK(rcl_client_fini(&client, ownerNode->GetNode()));
+		RCSOFTCHECK(rcl_client_fini(&client, OwnerNode->GetNode()));
 	}
 }
 
@@ -72,7 +68,7 @@ void UROS2ServiceClient::UpdateAndSendRequest()
 {
     UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
+	check(IsValid(OwnerNode));
 	
 	RequestDelegate.ExecuteIfBound(Service);
 	SendRequest();
@@ -82,10 +78,10 @@ void UROS2ServiceClient::SendRequest()
 {
     UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
-	check(ownerNode != nullptr);
+	check(OwnerNode != nullptr);
 
 	req = Service->GetRequest();
 
-	int64_t seq;
-	RCSOFTCHECK(rcl_send_request(&client, req, &seq));
+	int64_t Seq;
+	RCSOFTCHECK(rcl_send_request(&client, req, &Seq));
 }

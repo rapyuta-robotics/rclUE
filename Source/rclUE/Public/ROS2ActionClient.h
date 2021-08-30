@@ -28,11 +28,11 @@ public:
 	void CancelActionRequest();
 
 	UFUNCTION(BlueprintCallable)
-	void SetDelegates(FActionCallback SetGoal, 
-					  FActionCallback Feedback, 
-					  FActionCallback Result, 
-					  FSimpleCallback GoalResponse, 
-					  FSimpleCallback Cancel);
+	void SetDelegates(const FActionCallback SetGoal, 
+					  const FActionCallback Feedback, 
+					  const FActionCallback Result, 
+					  const FSimpleCallback GoalResponse, 
+					  const FSimpleCallback Cancel);
 
 					  
 	rcl_action_client_t client;
@@ -58,5 +58,5 @@ private:
 	FSimpleCallback CancelDelegate;
 
 
-	virtual void InitializeActionComponent(TEnumAsByte<UROS2QoS> QoS) override;
+	virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS) override;
 };

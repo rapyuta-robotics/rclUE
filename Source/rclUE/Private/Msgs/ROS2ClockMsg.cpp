@@ -22,9 +22,9 @@ const rosidl_message_type_support_t* UROS2ClockMsg::GetTypeSupport() const
 
 void UROS2ClockMsg::Update(const float elapsedTime)
 {
-	clock_pub_msg.clock.sec = (int32_t)elapsedTime;
-	unsigned long long ns = (unsigned long long)(elapsedTime * 1000000000.0f);
-	clock_pub_msg.clock.nanosec = (uint32_t)(ns - (clock_pub_msg.clock.sec * 1000000000ul));
+	clock_pub_msg.clock.sec = (int32)elapsedTime;
+	uint64 ns = (uint64)(elapsedTime * 1000000000.0f);
+	clock_pub_msg.clock.nanosec = (uint32)(ns - (clock_pub_msg.clock.sec * 1000000000ul));
 }
 
 void* UROS2ClockMsg::Get()

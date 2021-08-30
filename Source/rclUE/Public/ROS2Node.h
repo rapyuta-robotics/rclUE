@@ -38,8 +38,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UROS2GenericMsg * TopicMsg;
 
-	rcl_subscription_t RCLSubscription;
-	
+	rcl_subscription_t rcl_subscription;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FSubscriptionCallback Callback;
 	
@@ -62,8 +62,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UROS2GenericSrv * Service;
 
-	rcl_service_t RCLService;
-	
+	rcl_service_t rcl_service;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FServiceCallback Callback;
 	
@@ -112,7 +112,7 @@ public:
 
 	// It is up to the user to ensure that subscriptions are only added once
 	UFUNCTION(BlueprintCallable)
-	void AddSubscription(FString TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, FSubscriptionCallback Callback);
+	void AddSubscription(const FString TopicName, const TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback Callback);
 
 	UFUNCTION(BlueprintCallable)
 	void AddPublisher(UROS2Publisher* Publisher);
@@ -121,7 +121,7 @@ public:
 	void AddClient(UROS2ServiceClient* Client);
 
 	UFUNCTION(BlueprintCallable)
-	void AddService(FString ServiceName, TSubclassOf<UROS2GenericSrv> SrvClass, FServiceCallback Callback);
+	void AddService(const FString ServiceName, const TSubclassOf<UROS2GenericSrv> SrvClass, const FServiceCallback Callback);
 
 	UFUNCTION(BlueprintCallable)
 	void AddActionClient(UROS2ActionClient* ActionClient);
@@ -133,13 +133,13 @@ public:
 
 	// Queries/Diagnostics
 	UFUNCTION(BlueprintCallable)
-	TMap<FString, FString> GetListOfNodes();
+	const TMap<FString, FString> GetListOfNodes();
 
 	UFUNCTION(BlueprintCallable)
-	TMap<FString, FString> GetListOfTopics();
+	const TMap<FString, FString> GetListOfTopics();
 
 	UFUNCTION(BlueprintCallable)
-	TMap<FString, FString> GetListOfServices();
+	const TMap<FString, FString> GetListOfServices();
 
 
 
@@ -164,7 +164,7 @@ protected:
 	rcl_wait_set_t wait_set;
 
 	UPROPERTY()
-	UROS2Context* context;
+	UROS2Context* Context;
 
 	rcl_node_t node;
 
@@ -191,7 +191,7 @@ protected:
 
 
 	UPROPERTY()
-	FTimerHandle timerHandle;
+	FTimerHandle TimerHandle;
 
 private:
 	UFUNCTION()
