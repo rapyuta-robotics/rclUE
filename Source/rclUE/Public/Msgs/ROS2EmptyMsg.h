@@ -43,7 +43,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSEmpty Input);
+	void SetMsg(const FROSEmpty& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSEmpty& Output) const;

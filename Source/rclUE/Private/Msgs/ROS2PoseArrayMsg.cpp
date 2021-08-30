@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2PoseArrayMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, PoseArray);
 }
 
-void UROS2PoseArrayMsg::SetMsg(const FROSPoseArray Inputs)
+void UROS2PoseArrayMsg::SetMsg(const FROSPoseArray& Inputs)
 {
     Inputs.SetROS2(pose_array_msg);
 }

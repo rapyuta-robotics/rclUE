@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2MapMetaDataMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, MapMetaData);
 }
 
-void UROS2MapMetaDataMsg::SetMsg(const FROSMapMetaData Inputs)
+void UROS2MapMetaDataMsg::SetMsg(const FROSMapMetaData& Inputs)
 {
     Inputs.SetROS2(map_meta_data_msg);
 }

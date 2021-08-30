@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2PointCloudMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, PointCloud);
 }
 
-void UROS2PointCloudMsg::SetMsg(const FROSPointCloud Inputs)
+void UROS2PointCloudMsg::SetMsg(const FROSPointCloud& Inputs)
 {
     Inputs.SetROS2(point_cloud_msg);
 }

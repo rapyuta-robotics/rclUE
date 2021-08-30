@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2MultiDOFJointStateMsg::GetTypeSupport(
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, MultiDOFJointState);
 }
 
-void UROS2MultiDOFJointStateMsg::SetMsg(const FROSMultiDOFJointState Inputs)
+void UROS2MultiDOFJointStateMsg::SetMsg(const FROSMultiDOFJointState& Inputs)
 {
     Inputs.SetROS2(multi_dof_joint_state_msg);
 }

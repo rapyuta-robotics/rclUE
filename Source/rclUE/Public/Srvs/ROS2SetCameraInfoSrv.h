@@ -240,7 +240,7 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetRequest(const FROSSetCameraInfo_Request Request);
+	void SetRequest(const FROSSetCameraInfo_Request& Request);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
@@ -248,7 +248,7 @@ public:
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetResponse(const FROSSetCameraInfo_Response Response);
+	void SetResponse(const FROSSetCameraInfo_Response& Response);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)

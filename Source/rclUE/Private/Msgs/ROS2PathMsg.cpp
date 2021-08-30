@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2PathMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, Path);
 }
 
-void UROS2PathMsg::SetMsg(const FROSPath Inputs)
+void UROS2PathMsg::SetMsg(const FROSPath& Inputs)
 {
     Inputs.SetROS2(path_msg);
 }

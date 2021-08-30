@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2MagneticFieldMsg::GetTypeSupport() con
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, MagneticField);
 }
 
-void UROS2MagneticFieldMsg::SetMsg(const FROSMagneticField Inputs)
+void UROS2MagneticFieldMsg::SetMsg(const FROSMagneticField& Inputs)
 {
     Inputs.SetROS2(magnetic_field_msg);
 }

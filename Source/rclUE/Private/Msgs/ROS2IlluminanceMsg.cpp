@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2IlluminanceMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Illuminance);
 }
 
-void UROS2IlluminanceMsg::SetMsg(const FROSIlluminance Inputs)
+void UROS2IlluminanceMsg::SetMsg(const FROSIlluminance& Inputs)
 {
     Inputs.SetROS2(illuminance_msg);
 }

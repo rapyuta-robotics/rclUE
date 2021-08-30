@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2CameraInfoMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, CameraInfo);
 }
 
-void UROS2CameraInfoMsg::SetMsg(const FROSCameraInfo Inputs)
+void UROS2CameraInfoMsg::SetMsg(const FROSCameraInfo& Inputs)
 {
     Inputs.SetROS2(camera_info_msg);
 }

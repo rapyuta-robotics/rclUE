@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2AccelWithCovarianceMsg::GetTypeSupport
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, AccelWithCovariance);
 }
 
-void UROS2AccelWithCovarianceMsg::SetMsg(const FROSAccelWithCovariance Inputs)
+void UROS2AccelWithCovarianceMsg::SetMsg(const FROSAccelWithCovariance& Inputs)
 {
     Inputs.SetROS2(accel_with_covariance_msg);
 }

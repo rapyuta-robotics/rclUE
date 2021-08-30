@@ -69,7 +69,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSPolygon Input);
+	void SetMsg(const FROSPolygon& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSPolygon& Output) const;

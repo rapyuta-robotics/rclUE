@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2PointFieldMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, PointField);
 }
 
-void UROS2PointFieldMsg::SetMsg(const FROSPointField Inputs)
+void UROS2PointFieldMsg::SetMsg(const FROSPointField& Inputs)
 {
     Inputs.SetROS2(point_field_msg);
 }

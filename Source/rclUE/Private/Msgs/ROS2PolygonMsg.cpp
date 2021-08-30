@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2PolygonMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Polygon);
 }
 
-void UROS2PolygonMsg::SetMsg(const FROSPolygon Inputs)
+void UROS2PolygonMsg::SetMsg(const FROSPolygon& Inputs)
 {
     Inputs.SetROS2(polygon_msg);
 }

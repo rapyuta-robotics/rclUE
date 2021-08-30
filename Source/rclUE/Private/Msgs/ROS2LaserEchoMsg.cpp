@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2LaserEchoMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, LaserEcho);
 }
 
-void UROS2LaserEchoMsg::SetMsg(const FROSLaserEcho Inputs)
+void UROS2LaserEchoMsg::SetMsg(const FROSLaserEcho& Inputs)
 {
     Inputs.SetROS2(laser_echo_msg);
 }

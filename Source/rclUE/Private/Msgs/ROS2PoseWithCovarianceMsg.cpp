@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2PoseWithCovarianceMsg::GetTypeSupport(
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, PoseWithCovariance);
 }
 
-void UROS2PoseWithCovarianceMsg::SetMsg(const FROSPoseWithCovariance Inputs)
+void UROS2PoseWithCovarianceMsg::SetMsg(const FROSPoseWithCovariance& Inputs)
 {
     Inputs.SetROS2(pose_with_covariance_msg);
 }

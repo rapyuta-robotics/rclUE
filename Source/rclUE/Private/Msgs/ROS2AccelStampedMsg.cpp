@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2AccelStampedMsg::GetTypeSupport() cons
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, AccelStamped);
 }
 
-void UROS2AccelStampedMsg::SetMsg(const FROSAccelStamped Inputs)
+void UROS2AccelStampedMsg::SetMsg(const FROSAccelStamped& Inputs)
 {
     Inputs.SetROS2(accel_stamped_msg);
 }

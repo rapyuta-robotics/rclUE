@@ -79,7 +79,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSChannelFloat32 Input);
+	void SetMsg(const FROSChannelFloat32& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSChannelFloat32& Output) const;

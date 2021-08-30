@@ -154,7 +154,7 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetRequest(const FROSSetEntityState_Request Request);
+	void SetRequest(const FROSSetEntityState_Request& Request);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
@@ -162,7 +162,7 @@ public:
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetResponse(const FROSSetEntityState_Response Response);
+	void SetResponse(const FROSSetEntityState_Response& Response);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)

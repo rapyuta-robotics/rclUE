@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2ColorRGBAMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, ColorRGBA);
 }
 
-void UROS2ColorRGBAMsg::SetMsg(const FROSColorRGBA Inputs)
+void UROS2ColorRGBAMsg::SetMsg(const FROSColorRGBA& Inputs)
 {
     Inputs.SetROS2(color_rgba_msg);
 }

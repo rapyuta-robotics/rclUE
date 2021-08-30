@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2GridCellsMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, GridCells);
 }
 
-void UROS2GridCellsMsg::SetMsg(const FROSGridCells Inputs)
+void UROS2GridCellsMsg::SetMsg(const FROSGridCells& Inputs)
 {
     Inputs.SetROS2(grid_cells_msg);
 }

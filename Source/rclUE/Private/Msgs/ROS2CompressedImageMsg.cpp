@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2CompressedImageMsg::GetTypeSupport() c
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, CompressedImage);
 }
 
-void UROS2CompressedImageMsg::SetMsg(const FROSCompressedImage Inputs)
+void UROS2CompressedImageMsg::SetMsg(const FROSCompressedImage& Inputs)
 {
     Inputs.SetROS2(compressed_image_msg);
 }

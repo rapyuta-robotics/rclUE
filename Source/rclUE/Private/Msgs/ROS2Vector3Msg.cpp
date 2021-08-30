@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2Vector3Msg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Vector3);
 }
 
-void UROS2Vector3Msg::SetMsg(const FROSVector3 Inputs)
+void UROS2Vector3Msg::SetMsg(const FROSVector3& Inputs)
 {
     Inputs.SetROS2(vector3_msg);
 }

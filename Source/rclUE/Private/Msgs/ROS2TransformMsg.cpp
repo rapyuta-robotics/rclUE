@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2TransformMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Transform);
 }
 
-void UROS2TransformMsg::SetMsg(const FROSTransform Inputs)
+void UROS2TransformMsg::SetMsg(const FROSTransform& Inputs)
 {
     Inputs.SetROS2(transform_msg);
 }

@@ -20,7 +20,7 @@ void UROS2GetMapSrv::Fini()
     nav_msgs__srv__GetMap_Response__fini(&GetMap_res);
 }
 
-void UROS2GetMapSrv::SetRequest(const FROSGetMap_Request Request)
+void UROS2GetMapSrv::SetRequest(const FROSGetMap_Request& Request)
 {
     Request.SetROS2(GetMap_req);
 }
@@ -30,7 +30,7 @@ void UROS2GetMapSrv::GetRequest(FROSGetMap_Request& Request) const
     Request.SetFromROS2(GetMap_req);
 }
 
-void UROS2GetMapSrv::SetResponse(const FROSGetMap_Response Response)
+void UROS2GetMapSrv::SetResponse(const FROSGetMap_Response& Response)
 {
     Response.SetROS2(GetMap_res);
 }

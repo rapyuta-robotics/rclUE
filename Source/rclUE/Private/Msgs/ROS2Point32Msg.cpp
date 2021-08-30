@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2Point32Msg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Point32);
 }
 
-void UROS2Point32Msg::SetMsg(const FROSPoint32 Inputs)
+void UROS2Point32Msg::SetMsg(const FROSPoint32& Inputs)
 {
     Inputs.SetROS2(point32_msg);
 }

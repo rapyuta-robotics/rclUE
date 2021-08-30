@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2PolygonStampedMsg::GetTypeSupport() co
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, PolygonStamped);
 }
 
-void UROS2PolygonStampedMsg::SetMsg(const FROSPolygonStamped Inputs)
+void UROS2PolygonStampedMsg::SetMsg(const FROSPolygonStamped& Inputs)
 {
     Inputs.SetROS2(polygon_stamped_msg);
 }

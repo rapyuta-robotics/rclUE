@@ -177,7 +177,7 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetRequest(const FROSGetMap_Request Request);
+	void SetRequest(const FROSGetMap_Request& Request);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
@@ -185,7 +185,7 @@ public:
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetResponse(const FROSGetMap_Response Response);
+	void SetResponse(const FROSGetMap_Response& Response);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)

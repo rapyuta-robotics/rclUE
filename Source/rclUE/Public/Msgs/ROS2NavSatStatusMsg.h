@@ -55,7 +55,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSNavSatStatus Input);
+	void SetMsg(const FROSNavSatStatus& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSNavSatStatus& Output) const;

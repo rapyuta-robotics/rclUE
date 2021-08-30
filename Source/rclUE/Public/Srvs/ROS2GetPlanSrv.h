@@ -370,7 +370,7 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetRequest(const FROSGetPlan_Request Request);
+	void SetRequest(const FROSGetPlan_Request& Request);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
@@ -378,7 +378,7 @@ public:
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetResponse(const FROSGetPlan_Response Response);
+	void SetResponse(const FROSGetPlan_Response& Response);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)

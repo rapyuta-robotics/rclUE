@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2JoyMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Joy);
 }
 
-void UROS2JoyMsg::SetMsg(const FROSJoy Inputs)
+void UROS2JoyMsg::SetMsg(const FROSJoy& Inputs)
 {
     Inputs.SetROS2(joy_msg);
 }

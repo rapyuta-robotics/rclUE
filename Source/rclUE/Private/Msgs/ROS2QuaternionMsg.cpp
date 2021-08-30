@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2QuaternionMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Quaternion);
 }
 
-void UROS2QuaternionMsg::SetMsg(const FROSQuaternion Inputs)
+void UROS2QuaternionMsg::SetMsg(const FROSQuaternion& Inputs)
 {
     Inputs.SetROS2(quaternion_msg);
 }

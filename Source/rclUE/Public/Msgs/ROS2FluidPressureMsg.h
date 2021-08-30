@@ -82,7 +82,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSFluidPressure Input);
+	void SetMsg(const FROSFluidPressure& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSFluidPressure& Output) const;

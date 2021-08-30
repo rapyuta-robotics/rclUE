@@ -82,7 +82,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSTemperature Input);
+	void SetMsg(const FROSTemperature& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSTemperature& Output) const;

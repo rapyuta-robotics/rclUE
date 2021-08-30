@@ -20,7 +20,7 @@ void UROS2AddIntsSrv::Fini()
     ue4_interfaces__srv__AddInts_Response__fini(&AddInts_res);
 }
 
-void UROS2AddIntsSrv::SetRequest(const FROSAddInts_Request Request)
+void UROS2AddIntsSrv::SetRequest(const FROSAddInts_Request& Request)
 {
     Request.SetROS2(AddInts_req);
 }
@@ -30,7 +30,7 @@ void UROS2AddIntsSrv::GetRequest(FROSAddInts_Request& Request) const
     Request.SetFromROS2(AddInts_req);
 }
 
-void UROS2AddIntsSrv::SetResponse(const FROSAddInts_Response Response)
+void UROS2AddIntsSrv::SetResponse(const FROSAddInts_Response& Response)
 {
     Response.SetROS2(AddInts_res);
 }

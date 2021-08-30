@@ -20,7 +20,7 @@ void UROS2DeleteEntitySrv::Fini()
     ue_msgs__srv__DeleteEntity_Response__fini(&DeleteEntity_res);
 }
 
-void UROS2DeleteEntitySrv::SetRequest(const FROSDeleteEntity_Request Request)
+void UROS2DeleteEntitySrv::SetRequest(const FROSDeleteEntity_Request& Request)
 {
     Request.SetROS2(DeleteEntity_req);
 }
@@ -30,7 +30,7 @@ void UROS2DeleteEntitySrv::GetRequest(FROSDeleteEntity_Request& Request) const
     Request.SetFromROS2(DeleteEntity_req);
 }
 
-void UROS2DeleteEntitySrv::SetResponse(const FROSDeleteEntity_Response Response)
+void UROS2DeleteEntitySrv::SetResponse(const FROSDeleteEntity_Response& Response)
 {
     Response.SetROS2(DeleteEntity_res);
 }

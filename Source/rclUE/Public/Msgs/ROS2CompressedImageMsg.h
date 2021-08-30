@@ -105,7 +105,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSCompressedImage Input);
+	void SetMsg(const FROSCompressedImage& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSCompressedImage& Output) const;

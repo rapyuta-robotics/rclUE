@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2InertiaStampedMsg::GetTypeSupport() co
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, InertiaStamped);
 }
 
-void UROS2InertiaStampedMsg::SetMsg(const FROSInertiaStamped Inputs)
+void UROS2InertiaStampedMsg::SetMsg(const FROSInertiaStamped& Inputs)
 {
     Inputs.SetROS2(inertia_stamped_msg);
 }

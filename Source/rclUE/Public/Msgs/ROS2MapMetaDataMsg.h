@@ -106,7 +106,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSMapMetaData Input);
+	void SetMsg(const FROSMapMetaData& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSMapMetaData& Output) const;

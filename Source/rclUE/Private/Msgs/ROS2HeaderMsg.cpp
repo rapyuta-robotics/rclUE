@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2HeaderMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header);
 }
 
-void UROS2HeaderMsg::SetMsg(const FROSHeader Inputs)
+void UROS2HeaderMsg::SetMsg(const FROSHeader& Inputs)
 {
     Inputs.SetROS2(header_msg);
 }

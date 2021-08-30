@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2FluidPressureMsg::GetTypeSupport() con
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, FluidPressure);
 }
 
-void UROS2FluidPressureMsg::SetMsg(const FROSFluidPressure Inputs)
+void UROS2FluidPressureMsg::SetMsg(const FROSFluidPressure& Inputs)
 {
     Inputs.SetROS2(fluid_pressure_msg);
 }

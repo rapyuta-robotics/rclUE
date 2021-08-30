@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2WrenchStampedMsg::GetTypeSupport() con
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, WrenchStamped);
 }
 
-void UROS2WrenchStampedMsg::SetMsg(const FROSWrenchStamped Inputs)
+void UROS2WrenchStampedMsg::SetMsg(const FROSWrenchStamped& Inputs)
 {
     Inputs.SetROS2(wrench_stamped_msg);
 }

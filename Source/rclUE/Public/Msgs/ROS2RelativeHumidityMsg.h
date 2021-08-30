@@ -82,7 +82,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSRelativeHumidity Input);
+	void SetMsg(const FROSRelativeHumidity& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSRelativeHumidity& Output) const;

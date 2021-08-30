@@ -20,7 +20,7 @@ void UROS2SetEntityStateSrv::Fini()
     ue_msgs__srv__SetEntityState_Response__fini(&SetEntityState_res);
 }
 
-void UROS2SetEntityStateSrv::SetRequest(const FROSSetEntityState_Request Request)
+void UROS2SetEntityStateSrv::SetRequest(const FROSSetEntityState_Request& Request)
 {
     Request.SetROS2(SetEntityState_req);
 }
@@ -30,7 +30,7 @@ void UROS2SetEntityStateSrv::GetRequest(FROSSetEntityState_Request& Request) con
     Request.SetFromROS2(SetEntityState_req);
 }
 
-void UROS2SetEntityStateSrv::SetResponse(const FROSSetEntityState_Response Response)
+void UROS2SetEntityStateSrv::SetResponse(const FROSSetEntityState_Response& Response)
 {
     Response.SetROS2(SetEntityState_res);
 }

@@ -211,25 +211,25 @@ public:
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const override;
 
   	UFUNCTION(BlueprintCallable)
-	void SetGoalRequest(const FROSFibonacci_SendGoal_Request Goal);
+	void SetGoalRequest(const FROSFibonacci_SendGoal_Request& Goal);
 
   	UFUNCTION(BlueprintCallable)
 	void GetGoalRequest(FROSFibonacci_SendGoal_Request& Goal) const;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetGoalResponse(const FROSFibonacci_SendGoal_Response Goal);
+	void SetGoalResponse(const FROSFibonacci_SendGoal_Response& Goal);
 
   	UFUNCTION(BlueprintCallable)
 	void GetGoalResponse(FROSFibonacci_SendGoal_Response& Goal) const;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetResultRequest(const FROSFibonacci_GetResult_Request Result);
+	void SetResultRequest(const FROSFibonacci_GetResult_Request& Result);
 
   	UFUNCTION(BlueprintCallable)
 	void GetResultRequest(FROSFibonacci_GetResult_Request& Result) const;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetResultResponse(const FROSFibonacci_GetResult_Response Result);
+	void SetResultResponse(const FROSFibonacci_GetResult_Response& Result);
 
   	UFUNCTION(BlueprintCallable)
 	void GetResultResponse(FROSFibonacci_GetResult_Response& Result) const;
@@ -237,7 +237,7 @@ public:
 
 
   	UFUNCTION(BlueprintCallable)
-	void SetFeedback(const FROSFibonacci_FeedbackMessage Feedback);
+	void SetFeedback(const FROSFibonacci_FeedbackMessage& Feedback);
 
   	UFUNCTION(BlueprintCallable)
 	void GetFeedback(FROSFibonacci_FeedbackMessage& Feedback) const;

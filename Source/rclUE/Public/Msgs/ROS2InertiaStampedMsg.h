@@ -130,7 +130,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSInertiaStamped Input);
+	void SetMsg(const FROSInertiaStamped& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSInertiaStamped& Output) const;

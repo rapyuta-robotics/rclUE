@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2ChannelFloat32Msg::GetTypeSupport() co
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, ChannelFloat32);
 }
 
-void UROS2ChannelFloat32Msg::SetMsg(const FROSChannelFloat32 Inputs)
+void UROS2ChannelFloat32Msg::SetMsg(const FROSChannelFloat32& Inputs)
 {
     Inputs.SetROS2(channel_float32_msg);
 }

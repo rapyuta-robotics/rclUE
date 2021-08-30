@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2TemperatureMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Temperature);
 }
 
-void UROS2TemperatureMsg::SetMsg(const FROSTemperature Inputs)
+void UROS2TemperatureMsg::SetMsg(const FROSTemperature& Inputs)
 {
     Inputs.SetROS2(temperature_msg);
 }

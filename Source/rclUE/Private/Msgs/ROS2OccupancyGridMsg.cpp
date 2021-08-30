@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2OccupancyGridMsg::GetTypeSupport() con
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, OccupancyGrid);
 }
 
-void UROS2OccupancyGridMsg::SetMsg(const FROSOccupancyGrid Inputs)
+void UROS2OccupancyGridMsg::SetMsg(const FROSOccupancyGrid& Inputs)
 {
     Inputs.SetROS2(occupancy_grid_msg);
 }

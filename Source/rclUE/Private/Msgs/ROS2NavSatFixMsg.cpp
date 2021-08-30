@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2NavSatFixMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, NavSatFix);
 }
 
-void UROS2NavSatFixMsg::SetMsg(const FROSNavSatFix Inputs)
+void UROS2NavSatFixMsg::SetMsg(const FROSNavSatFix& Inputs)
 {
     Inputs.SetROS2(nav_sat_fix_msg);
 }

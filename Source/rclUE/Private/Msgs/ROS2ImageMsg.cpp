@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2ImageMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Image);
 }
 
-void UROS2ImageMsg::SetMsg(const FROSImage Inputs)
+void UROS2ImageMsg::SetMsg(const FROSImage& Inputs)
 {
     Inputs.SetROS2(image_msg);
 }

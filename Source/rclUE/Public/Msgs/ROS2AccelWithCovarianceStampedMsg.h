@@ -104,7 +104,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSAccelWithCovarianceStamped Input);
+	void SetMsg(const FROSAccelWithCovarianceStamped& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSAccelWithCovarianceStamped& Output) const;

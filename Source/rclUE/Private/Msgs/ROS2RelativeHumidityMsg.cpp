@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2RelativeHumidityMsg::GetTypeSupport() 
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, RelativeHumidity);
 }
 
-void UROS2RelativeHumidityMsg::SetMsg(const FROSRelativeHumidity Inputs)
+void UROS2RelativeHumidityMsg::SetMsg(const FROSRelativeHumidity& Inputs)
 {
     Inputs.SetROS2(relative_humidity_msg);
 }

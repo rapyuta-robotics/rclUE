@@ -166,7 +166,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSImu Input);
+	void SetMsg(const FROSImu& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSImu& Output) const;

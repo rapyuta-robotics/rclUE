@@ -196,7 +196,7 @@ public:
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)
-	void SetRequest(const FROSSpawnEntity_Request Request);
+	void SetRequest(const FROSSpawnEntity_Request& Request);
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
@@ -204,7 +204,7 @@ public:
 	
 	// used by service
   	UFUNCTION(BlueprintCallable)
-	void SetResponse(const FROSSpawnEntity_Response Response);
+	void SetResponse(const FROSSpawnEntity_Response& Response);
 	
 	// used by client
   	UFUNCTION(BlueprintCallable)

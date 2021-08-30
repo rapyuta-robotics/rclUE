@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2RegionOfInterestMsg::GetTypeSupport() 
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, RegionOfInterest);
 }
 
-void UROS2RegionOfInterestMsg::SetMsg(const FROSRegionOfInterest Inputs)
+void UROS2RegionOfInterestMsg::SetMsg(const FROSRegionOfInterest& Inputs)
 {
     Inputs.SetROS2(region_of_interest_msg);
 }

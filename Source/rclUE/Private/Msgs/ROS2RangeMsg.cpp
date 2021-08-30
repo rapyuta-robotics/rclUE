@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2RangeMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Range);
 }
 
-void UROS2RangeMsg::SetMsg(const FROSRange Inputs)
+void UROS2RangeMsg::SetMsg(const FROSRange& Inputs)
 {
     Inputs.SetROS2(range_msg);
 }

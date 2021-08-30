@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2EmptyMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Empty);
 }
 
-void UROS2EmptyMsg::SetMsg(const FROSEmpty Inputs)
+void UROS2EmptyMsg::SetMsg(const FROSEmpty& Inputs)
 {
     Inputs.SetROS2(empty_msg);
 }

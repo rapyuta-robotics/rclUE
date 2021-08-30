@@ -20,7 +20,7 @@ void UROS2GetPlanSrv::Fini()
     nav_msgs__srv__GetPlan_Response__fini(&GetPlan_res);
 }
 
-void UROS2GetPlanSrv::SetRequest(const FROSGetPlan_Request Request)
+void UROS2GetPlanSrv::SetRequest(const FROSGetPlan_Request& Request)
 {
     Request.SetROS2(GetPlan_req);
 }
@@ -30,7 +30,7 @@ void UROS2GetPlanSrv::GetRequest(FROSGetPlan_Request& Request) const
     Request.SetFromROS2(GetPlan_req);
 }
 
-void UROS2GetPlanSrv::SetResponse(const FROSGetPlan_Response Response)
+void UROS2GetPlanSrv::SetResponse(const FROSGetPlan_Response& Response)
 {
     Response.SetROS2(GetPlan_res);
 }

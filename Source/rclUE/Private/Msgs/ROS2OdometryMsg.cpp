@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2OdometryMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(nav_msgs, msg, Odometry);
 }
 
-void UROS2OdometryMsg::SetMsg(const FROSOdometry Inputs)
+void UROS2OdometryMsg::SetMsg(const FROSOdometry& Inputs)
 {
     Inputs.SetROS2(odometry_msg);
 }

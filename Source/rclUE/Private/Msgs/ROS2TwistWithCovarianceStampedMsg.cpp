@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2TwistWithCovarianceStampedMsg::GetType
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, TwistWithCovarianceStamped);
 }
 
-void UROS2TwistWithCovarianceStampedMsg::SetMsg(const FROSTwistWithCovarianceStamped Inputs)
+void UROS2TwistWithCovarianceStampedMsg::SetMsg(const FROSTwistWithCovarianceStamped& Inputs)
 {
     Inputs.SetROS2(twist_with_covariance_stamped_msg);
 }

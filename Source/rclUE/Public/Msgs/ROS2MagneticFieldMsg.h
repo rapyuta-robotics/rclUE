@@ -100,7 +100,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSMagneticField Input);
+	void SetMsg(const FROSMagneticField& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSMagneticField& Output) const;

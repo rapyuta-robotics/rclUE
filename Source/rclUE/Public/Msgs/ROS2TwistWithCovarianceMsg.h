@@ -77,7 +77,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSTwistWithCovariance Input);
+	void SetMsg(const FROSTwistWithCovariance& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSTwistWithCovariance& Output) const;

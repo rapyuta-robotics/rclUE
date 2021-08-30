@@ -20,7 +20,7 @@ void UROS2SetCameraInfoSrv::Fini()
     sensor_msgs__srv__SetCameraInfo_Response__fini(&SetCameraInfo_res);
 }
 
-void UROS2SetCameraInfoSrv::SetRequest(const FROSSetCameraInfo_Request Request)
+void UROS2SetCameraInfoSrv::SetRequest(const FROSSetCameraInfo_Request& Request)
 {
     Request.SetROS2(SetCameraInfo_req);
 }
@@ -30,7 +30,7 @@ void UROS2SetCameraInfoSrv::GetRequest(FROSSetCameraInfo_Request& Request) const
     Request.SetFromROS2(SetCameraInfo_req);
 }
 
-void UROS2SetCameraInfoSrv::SetResponse(const FROSSetCameraInfo_Response Response)
+void UROS2SetCameraInfoSrv::SetResponse(const FROSSetCameraInfo_Response& Response)
 {
     Response.SetROS2(SetCameraInfo_res);
 }

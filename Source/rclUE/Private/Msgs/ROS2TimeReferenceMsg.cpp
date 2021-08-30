@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2TimeReferenceMsg::GetTypeSupport() con
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, TimeReference);
 }
 
-void UROS2TimeReferenceMsg::SetMsg(const FROSTimeReference Inputs)
+void UROS2TimeReferenceMsg::SetMsg(const FROSTimeReference& Inputs)
 {
     Inputs.SetROS2(time_reference_msg);
 }

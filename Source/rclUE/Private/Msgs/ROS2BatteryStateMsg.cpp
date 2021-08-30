@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2BatteryStateMsg::GetTypeSupport() cons
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, BatteryState);
 }
 
-void UROS2BatteryStateMsg::SetMsg(const FROSBatteryState Inputs)
+void UROS2BatteryStateMsg::SetMsg(const FROSBatteryState& Inputs)
 {
     Inputs.SetROS2(battery_state_msg);
 }

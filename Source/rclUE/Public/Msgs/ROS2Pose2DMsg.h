@@ -61,7 +61,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSPose2D Input);
+	void SetMsg(const FROSPose2D& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSPose2D& Output) const;

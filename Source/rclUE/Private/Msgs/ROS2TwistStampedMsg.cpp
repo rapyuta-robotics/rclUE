@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2TwistStampedMsg::GetTypeSupport() cons
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, TwistStamped);
 }
 
-void UROS2TwistStampedMsg::SetMsg(const FROSTwistStamped Inputs)
+void UROS2TwistStampedMsg::SetMsg(const FROSTwistStamped& Inputs)
 {
     Inputs.SetROS2(twist_stamped_msg);
 }

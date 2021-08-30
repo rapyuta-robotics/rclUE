@@ -20,7 +20,7 @@ const rosidl_message_type_support_t* UROS2ImuMsg::GetTypeSupport() const
 	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Imu);
 }
 
-void UROS2ImuMsg::SetMsg(const FROSImu Inputs)
+void UROS2ImuMsg::SetMsg(const FROSImu& Inputs)
 {
     Inputs.SetROS2(imu_msg);
 }

@@ -163,7 +163,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSLaserScan Input);
+	void SetMsg(const FROSLaserScan& Input);
 	
   	UFUNCTION(BlueprintCallable)
 	void GetMsg(FROSLaserScan& Output) const;
