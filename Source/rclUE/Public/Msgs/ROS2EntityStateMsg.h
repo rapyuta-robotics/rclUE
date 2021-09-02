@@ -76,7 +76,7 @@ public:
 			free(out_ros_data.name.data);
 		}
 		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
-		memcpy(out_ros_data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
+		memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*name), (name.Len()+1)*sizeof(char));
 		out_ros_data.name.size = name.Len();
 		out_ros_data.name.capacity = name.Len() + 1;
 
@@ -104,7 +104,7 @@ public:
 			free(out_ros_data.reference_frame.data);
 		}
 		out_ros_data.reference_frame.data = (decltype(out_ros_data.reference_frame.data))malloc((reference_frame.Len() + 1)*sizeof(decltype(*out_ros_data.reference_frame.data)));
-		memcpy(out_ros_data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
+		memcpy(out_ros_data.reference_frame.data, TCHAR_TO_UTF8(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
 		out_ros_data.reference_frame.size = reference_frame.Len();
 		out_ros_data.reference_frame.capacity = reference_frame.Len() + 1;
 

@@ -112,7 +112,7 @@ public:
 			free(out_ros_data.header.frame_id.data);
 		}
 		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
 		out_ros_data.header.frame_id.size = header_frame_id.Len();
 		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
 
@@ -127,7 +127,7 @@ public:
 				free(out_ros_data.fields.data);
 			}
 			out_ros_data.fields.data[i].name.data = (char*)malloc((fields_name[i].Len()+1)*sizeof(char));
-			memcpy(out_ros_data.fields.data[i].name.data, TCHAR_TO_ANSI(*fields_name[i]), (fields_name[i].Len()+1)*sizeof(char));
+			memcpy(out_ros_data.fields.data[i].name.data, TCHAR_TO_UTF8(*fields_name[i]), (fields_name[i].Len()+1)*sizeof(char));
 			out_ros_data.fields.size = fields_name[i].Len();
 			out_ros_data.fields.capacity = fields_name[i].Len() + 1;
 		}

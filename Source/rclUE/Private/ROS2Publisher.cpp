@@ -34,7 +34,7 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		pub_opt.qos = QoS_LUT[QoS];
 
-		RCSOFTCHECK(rcl_publisher_init(&pub, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_ANSI(*TopicName), &pub_opt));
+		RCSOFTCHECK(rcl_publisher_init(&pub, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
 		GWorld->GetGameInstance()->GetTimerManager().SetTimer(
 			TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);

@@ -36,7 +36,7 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 		// 	free(tf_pub_msg.transforms.data[i].header.frame_id.data);
 		// }
 		tf_pub_msg.transforms.data[i].header.frame_id.data = (char*)malloc((data[i].frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-		memcpy(tf_pub_msg.transforms.data[i].header.frame_id.data, TCHAR_TO_ANSI(*data[i].frame_id), (data[i].frame_id.Len()+1)*sizeof(char));
+		memcpy(tf_pub_msg.transforms.data[i].header.frame_id.data, TCHAR_TO_UTF8(*data[i].frame_id), (data[i].frame_id.Len()+1)*sizeof(char));
 		tf_pub_msg.transforms.data[i].header.frame_id.size = data[i].frame_id.Len(); // GetStringLength excludes nullterm char
 		tf_pub_msg.transforms.data[i].header.frame_id.capacity = data[i].frame_id.Len()+1;
 
@@ -45,7 +45,7 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 		// 	free(tf_pub_msg.transforms.data[i].child_frame_id.data);
 		// }
 		tf_pub_msg.transforms.data[i].child_frame_id.data = (char*)malloc((data[i].child_frame_id.Len()+1)*sizeof(char)); // sizeof(char) is just to clarify the type
-		memcpy(tf_pub_msg.transforms.data[i].child_frame_id.data, TCHAR_TO_ANSI(*data[i].child_frame_id), (data[i].child_frame_id.Len()+1)*sizeof(char));
+		memcpy(tf_pub_msg.transforms.data[i].child_frame_id.data, TCHAR_TO_UTF8(*data[i].child_frame_id), (data[i].child_frame_id.Len()+1)*sizeof(char));
 		tf_pub_msg.transforms.data[i].child_frame_id.size = data[i].child_frame_id.Len(); // Len excludes nullterm char
 		tf_pub_msg.transforms.data[i].child_frame_id.capacity = data[i].child_frame_id.Len()+1;
 

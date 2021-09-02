@@ -24,7 +24,7 @@ void UROS2StringMsg::Update(const FString &stringData)
 	const unsigned int StringMsgCapacity = stringData.Len() + 1;
 	string_pub_msg.data.data = (char*)malloc(StringMsgCapacity);
 	string_pub_msg.data.capacity = StringMsgCapacity;
-	snprintf(string_pub_msg.data.data, string_pub_msg.data.capacity, "%s", TCHAR_TO_ANSI(*stringData));
+	snprintf(string_pub_msg.data.data, string_pub_msg.data.capacity, "%s", TCHAR_TO_UTF8(*stringData));
 	string_pub_msg.data.size = strlen(string_pub_msg.data.data);
 }
 

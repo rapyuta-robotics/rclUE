@@ -118,7 +118,7 @@ public:
 			free(out_ros_data.map.header.frame_id.data);
 		}
 		out_ros_data.map.header.frame_id.data = (decltype(out_ros_data.map.header.frame_id.data))malloc((map_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.map.header.frame_id.data)));
-		memcpy(out_ros_data.map.header.frame_id.data, TCHAR_TO_ANSI(*map_header_frame_id), (map_header_frame_id.Len()+1)*sizeof(char));
+		memcpy(out_ros_data.map.header.frame_id.data, TCHAR_TO_UTF8(*map_header_frame_id), (map_header_frame_id.Len()+1)*sizeof(char));
 		out_ros_data.map.header.frame_id.size = map_header_frame_id.Len();
 		out_ros_data.map.header.frame_id.capacity = map_header_frame_id.Len() + 1;
 

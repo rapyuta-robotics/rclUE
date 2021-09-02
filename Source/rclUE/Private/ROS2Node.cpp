@@ -79,7 +79,7 @@ void AROS2Node::Init()
 
 			UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(
-				&node, TCHAR_TO_ANSI(*Name), Namespace != FString() ? TCHAR_TO_ANSI(*Namespace) : "", &Context->Get()));
+				&node, TCHAR_TO_UTF8(*Name), Namespace != FString() ? TCHAR_TO_UTF8(*Namespace) : "", &Context->Get()));
 		}
 
 		State = UROS2State::Initialized;
@@ -130,7 +130,7 @@ void AROS2Node::AddSubscription(const FString TopicName,
 	NewSub.rcl_subscription = rcl_get_zero_initialized_subscription();
 	const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
 	rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-	RCSOFTCHECK(rcl_subscription_init(&NewSub.rcl_subscription, &node, type_support, TCHAR_TO_ANSI(*TopicName), &sub_opt));
+	RCSOFTCHECK(rcl_subscription_init(&NewSub.rcl_subscription, &node, type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
 	Subscriptions.Add(NewSub);
 
@@ -163,7 +163,7 @@ void AROS2Node::AddService(const FString ServiceName, const TSubclassOf<UROS2Gen
 	NewSrv.rcl_service = rcl_get_zero_initialized_service();
 	const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();
 	rcl_service_options_t srv_opt = rcl_service_get_default_options();
-	RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, &node, type_support, TCHAR_TO_ANSI(*ServiceName), &srv_opt));
+	RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, &node, type_support, TCHAR_TO_UTF8(*ServiceName), &srv_opt));
 
 	Services.Add(NewSrv);
 

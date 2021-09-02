@@ -18,7 +18,7 @@ void UROS2ActionServer::InitializeActionComponent(const TEnumAsByte<UROS2QoS> Qo
 	rcl_allocator_t allocator = rcl_get_default_allocator();
 	RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));
 	rcl_ret_t rc = rcl_action_server_init(
-		&server, OwnerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_ANSI(*ActionName), &server_opt);
+		&server, OwnerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_UTF8(*ActionName), &server_opt);
 
 	check(rc == RCL_RET_OK);
 }

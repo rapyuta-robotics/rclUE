@@ -28,7 +28,7 @@ void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		client_opt.qos = QoS_LUT[QoS];
 
-		RCSOFTCHECK(rcl_client_init(&client, OwnerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
+		RCSOFTCHECK(rcl_client_init(&client, OwnerNode->GetNode(), srv_type_support, TCHAR_TO_UTF8(*ServiceName), &client_opt));
 
 		State = UROS2State::Initialized;
 	}

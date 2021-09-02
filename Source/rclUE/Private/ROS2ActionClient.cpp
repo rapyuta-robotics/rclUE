@@ -16,7 +16,7 @@ void UROS2ActionClient::InitializeActionComponent(const TEnumAsByte<UROS2QoS> Qo
 	client_opt.status_topic_qos = QoS_LUT[QoS];
 
 	rcl_ret_t rc =
-		rcl_action_client_init(&client, OwnerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
+		rcl_action_client_init(&client, OwnerNode->GetNode(), action_type_support, TCHAR_TO_UTF8(*ActionName), &client_opt);
 }
 
 void UROS2ActionClient::Destroy()

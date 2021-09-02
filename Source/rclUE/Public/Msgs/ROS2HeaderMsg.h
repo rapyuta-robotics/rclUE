@@ -50,7 +50,7 @@ public:
 			free(out_ros_data.frame_id.data);
 		}
 		out_ros_data.frame_id.data = (decltype(out_ros_data.frame_id.data))malloc((frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.frame_id.data)));
-		memcpy(out_ros_data.frame_id.data, TCHAR_TO_ANSI(*frame_id), (frame_id.Len()+1)*sizeof(char));
+		memcpy(out_ros_data.frame_id.data, TCHAR_TO_UTF8(*frame_id), (frame_id.Len()+1)*sizeof(char));
 		out_ros_data.frame_id.size = frame_id.Len();
 		out_ros_data.frame_id.capacity = frame_id.Len() + 1;
 

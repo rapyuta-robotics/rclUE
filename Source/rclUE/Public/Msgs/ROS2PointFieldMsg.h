@@ -49,7 +49,7 @@ public:
 			free(out_ros_data.name.data);
 		}
 		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
-		memcpy(out_ros_data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
+		memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*name), (name.Len()+1)*sizeof(char));
 		out_ros_data.name.size = name.Len();
 		out_ros_data.name.capacity = name.Len() + 1;
 
