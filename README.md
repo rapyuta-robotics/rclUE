@@ -33,36 +33,6 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 
 ## How to install this plugin (Ubuntu 18):
 This section has not been recently updated - please refer to the Ubuntu 20 and adapt it to what's written here.
-1. clone this repository in your Unreal Engine 4 Plugin folder
-2. create and use the following shell script to run the UE4 editor (substituting `PROJECT_PATH`, `PROJECT_NAME` and `UNREAL_ENGINE_REPO` for the appropriate strings):
-```
-#!/bin/sh
-
-export LD_LIBRARY_PATH="PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib":"PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib/std_msgs/lib"
-
-EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
-
-(exec "$EDITOR_COMMAND" "PROJECT_PATH/PROJECT_NAME.uproject")
-```
-3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
-4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-5. add a PubSubExample actor to the scene and test
-
-## How to install this plugin (Ubuntu 20):
-1. clone this repository in your Unreal Engine 4 Plugin folder
-2. create and use the following shell script to run the UE4 editor (substituting `PROJECT_PATH`, `PROJECT_NAME` and `UNREAL_ENGINE_REPO` for the appropriate strings):
-```
-#!/bin/sh
-
-export LD_LIBRARY_PATH="PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib":"PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib/std_msgs/lib":"PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib/builtin_interfaces/lib/":"PROJECT_PATH/PROJECT_NAME/Plugins/rclUE/Source/ThirdParty/ros2lib/ue4_interfaces/lib/"
-
-EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
-
-(exec "$EDITOR_COMMAND" "PROJECT_PATH/PROJECT_NAME.uproject")
-```
-3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
-4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-5. add a PubSubExample actor to the scene and test
 
 ## How to install this plugin (Windows 10)
 1. clone this repository in your Unreal Engine 4 Plugin folder (branch?)
