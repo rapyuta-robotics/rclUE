@@ -1,8 +1,9 @@
 # Basic information
 ## Branches
 ### master
-This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20
-This branch currently represents the release branch
+This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20. 
+
+This branch currently represents the release branch.
 
 # Installation
 
