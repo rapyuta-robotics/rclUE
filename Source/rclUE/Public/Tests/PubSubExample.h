@@ -6,9 +6,8 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
-
 #include <CoreMinimal.h>
+#include <GameFramework/Actor.h>
 #include <rclc/executor.h>
 #include <rclc/rclc.h>
 #include <std_msgs/msg/string.h>

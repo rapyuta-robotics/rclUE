@@ -4,9 +4,8 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
-
 #include <CoreMinimal.h>
+#include <GameFramework/Actor.h>
 #include <ue4_interfaces/srv/add_ints.h>
 
 #include "ClientNodeExample.generated.h"
