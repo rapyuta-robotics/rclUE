@@ -1,11 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #include "ROS2ActionClient.h"
 
 void UROS2ActionClient::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
 {
-	const rosidl_action_type_support_t * action_type_support = Action->GetTypeSupport();
+	const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();
 
 	client = rcl_action_get_zero_initialized_client();
 	rcl_action_client_options_t client_opt = rcl_action_client_get_default_options();
@@ -16,7 +15,8 @@ void UROS2ActionClient::InitializeActionComponent(const TEnumAsByte<UROS2QoS> Qo
 	client_opt.feedback_topic_qos = QoS_LUT[QoS];
 	client_opt.status_topic_qos = QoS_LUT[QoS];
 
-	rcl_ret_t rc = rcl_action_client_init(&client, OwnerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
+	rcl_ret_t rc =
+		rcl_action_client_init(&client, OwnerNode->GetNode(), action_type_support, TCHAR_TO_ANSI(*ActionName), &client_opt);
 }
 
 void UROS2ActionClient::Destroy()
@@ -29,16 +29,11 @@ void UROS2ActionClient::Destroy()
 	}
 }
 
-
 void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 {
 	TArray<bool, TFixedAllocator<5>> IsReady = {false, false, false, false, false};
-	RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(wait_set, &client,
-		&IsReady[0],
-		&IsReady[1],
-		&IsReady[2],
-		&IsReady[3],
-		&IsReady[4]));
+	RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(
+		wait_set, &client, &IsReady[0], &IsReady[1], &IsReady[2], &IsReady[3], &IsReady[4]));
 
 	if (IsReady[0])
 	{
@@ -78,7 +73,6 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 	}
 }
 
-
 void UROS2ActionClient::UpdateAndSendGoal()
 {
 	check(State == UROS2State::Initialized);
@@ -102,8 +96,8 @@ void UROS2ActionClient::UpdateAndSendGoal()
 }
 
 void UROS2ActionClient::GetResultRequest()
-{	
-    UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request (%s)"), *__LOG_INFO__);
+{
+	UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request (%s)"), *__LOG_INFO__);
 	const void* result = Action->GetResultRequest();
 
 	int64_t Seq;
@@ -112,8 +106,8 @@ void UROS2ActionClient::GetResultRequest()
 
 void UROS2ActionClient::CancelActionRequest()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
-	action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*) Action->GetCancelRequest();
+	UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
+	action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*)Action->GetCancelRequest();
 	float CancelTime = UGameplayStatics::GetTimeSeconds(GWorld);
 	cancel_request->goal_info.stamp.sec = (int32)CancelTime;
 	uint64 ns = (uint64)(CancelTime * 1000000000.0f);
@@ -129,7 +123,6 @@ void UROS2ActionClient::SetDelegates(const FActionCallback SetGoal,
 									 const FSimpleCallback GoalResponse,
 									 const FSimpleCallback Cancel)
 {
-
 	if (!SetGoalDelegate.IsBound())
 	{
 		UE_LOG(LogROS2Action, Warning, TEXT("SetGoalDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);

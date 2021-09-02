@@ -1,8 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 #include "rclcUtilities.h"
 #include <rosidl_runtime_c/action_type_support_struct.h>
 

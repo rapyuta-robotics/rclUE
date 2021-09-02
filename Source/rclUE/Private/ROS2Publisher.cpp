@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #include "ROS2Publisher.h"
 
@@ -20,15 +19,16 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 
 	if (State == UROS2State::Created)
 	{
-		InitializeMessage(); // needed to get type support
-		
+		InitializeMessage();	// needed to get type support
+
 		check(IsValid(TopicMessage));
-		
-		const rosidl_message_type_support_t * msg_type_support = TopicMessage->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+
+		const rosidl_message_type_support_t* msg_type_support =
+			TopicMessage->GetTypeSupport();	   // this should be a parameter, but for the moment we leave it fixed
 
 		OwnerNode->Init();
 		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);
-		
+
 		pub = rcl_get_zero_initialized_publisher();
 		rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
@@ -36,7 +36,8 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		RCSOFTCHECK(rcl_publisher_init(&pub, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_ANSI(*TopicName), &pub_opt));
 
-		GWorld->GetGameInstance()->GetTimerManager().SetTimer(TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
+		GWorld->GetGameInstance()->GetTimerManager().SetTimer(
+			TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
 
 		State = UROS2State::Initialized;
 	}
@@ -63,10 +64,10 @@ void UROS2Publisher::InitializeMessage()
 	check(TopicName != FString());
 	check(MsgClass)
 
-	TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+		TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
 
 	check(IsValid(TopicMessage));
-	
+
 	TopicMessage->Init();
 }
 
@@ -85,6 +86,6 @@ void UROS2Publisher::Publish()
 	check(OwnerNode != nullptr);
 
 	pub_msg = TopicMessage->Get();
-	
-    RCSOFTCHECK(rcl_publish(&pub, pub_msg, NULL));
+
+	RCSOFTCHECK(rcl_publish(&pub, pub_msg, NULL));
 }

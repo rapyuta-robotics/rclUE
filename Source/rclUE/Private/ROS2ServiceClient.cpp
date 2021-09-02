@@ -1,11 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #include "ROS2ServiceClient.h"
 
-
 DEFINE_LOG_CATEGORY(LogROS2Service);
-
 
 // Sets default values for this component's properties
 UROS2ServiceClient::UROS2ServiceClient()
@@ -23,15 +20,16 @@ void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		check(IsValid(Service));
 
-		const rosidl_service_type_support_t * srv_type_support = Service->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+		const rosidl_service_type_support_t* srv_type_support =
+			Service->GetTypeSupport();	  // this should be a parameter, but for the moment we leave it fixed
 
 		client = rcl_get_zero_initialized_client();
-  		rcl_client_options_t client_opt = rcl_client_get_default_options();
+		rcl_client_options_t client_opt = rcl_client_get_default_options();
 
 		client_opt.qos = QoS_LUT[QoS];
 
 		RCSOFTCHECK(rcl_client_init(&client, OwnerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
-			
+
 		State = UROS2State::Initialized;
 	}
 
@@ -42,11 +40,11 @@ void UROS2ServiceClient::InitializeService()
 {
 	check(ServiceName != FString());
 	check(SrvClass);
-	
+
 	Service = NewObject<UROS2GenericSrv>(this, SrvClass);
 
 	check(IsValid(Service));
-	
+
 	Service->Init();
 }
 
@@ -66,17 +64,17 @@ void UROS2ServiceClient::Destroy()
 
 void UROS2ServiceClient::UpdateAndSendRequest()
 {
-    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
+	UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
 	check(IsValid(OwnerNode));
-	
+
 	RequestDelegate.ExecuteIfBound(Service);
 	SendRequest();
 }
 
 void UROS2ServiceClient::SendRequest()
 {
-    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
+	UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
 	check(State == UROS2State::Initialized);
 	check(OwnerNode != nullptr);
 

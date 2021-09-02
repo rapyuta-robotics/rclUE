@@ -2,12 +2,11 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-
 #include "rclcUtilities.h"
 
-#include "ROS2Context.generated.h"
+#include <CoreMinimal.h>
 
+#include "ROS2Context.generated.h"
 
 /**
  * Do we need the full rclc_support_t? or is storing the rcl_context_t sufficient?
@@ -24,17 +23,17 @@ UCLASS(Blueprintable)
 class RCLUE_API UROS2Context : public UObject
 {
 	GENERATED_BODY()
-	
-public:	
-	UFUNCTION(BlueprintCallable)
-  void Init();
 
-  UFUNCTION(BlueprintCallable)
-  void Fini();
+public:
+	UFUNCTION(BlueprintCallable)
+	void Init();
+
+	UFUNCTION(BlueprintCallable)
+	void Fini();
 
 	rclc_support_t& Get();
-	
+
 private:
-  rcl_allocator_t allocator;
+	rcl_allocator_t allocator;
 	rclc_support_t support;
 };

@@ -2,24 +2,23 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
-
 #include "rclcUtilities.h"
+
+#include <CoreMinimal.h>
 
 #include "ROS2Executor.generated.h"
 
-
 /**
- * 
+ *
  */
 UCLASS(Blueprintable)
 class RCLUE_API UROS2Executor : public UObject
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	UROS2Executor();
-    ~UROS2Executor();
+	~UROS2Executor();
 
 	void Init();
 	void Fini();
@@ -29,6 +28,6 @@ public:
 	void AddClient();
 
 	void SpinSome();
-	
+
 private:
 };

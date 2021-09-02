@@ -4,19 +4,19 @@
 
 #pragma once
 
+#include "GameFramework/Actor.h"
 
+#include <CoreMinimal.h>
 #include <ue4_interfaces/srv/add_ints.h>
 
-#include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
 #include "ClientNodeExample.generated.h"
 
 UCLASS()
 class RCLUE_API AClientNodeExample : public AActor
 {
 	GENERATED_BODY()
-	
-public:	
+
+public:
 	// Sets default values for this actor's properties
 	AClientNodeExample();
 
@@ -24,19 +24,18 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
+public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 public:
 	UPROPERTY(EditAnywhere)
-    int v1;
-	
-	UPROPERTY(EditAnywhere)
-    int v2;
+	int v1;
 
+	UPROPERTY(EditAnywhere)
+	int v2;
 
 	static ue4_interfaces__srv__AddInts_Request req;
 	static ue4_interfaces__srv__AddInts_Response res;
-	static void client_callback(const void * msg);
+	static void client_callback(const void* msg);
 };

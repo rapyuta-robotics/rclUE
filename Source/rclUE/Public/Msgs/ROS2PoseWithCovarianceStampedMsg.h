@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "geometry_msgs/msg/pose_with_covariance_stamped.h"
 

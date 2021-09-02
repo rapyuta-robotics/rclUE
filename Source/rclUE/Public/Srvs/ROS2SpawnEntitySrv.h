@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "Srvs/ROS2GenericSrv.h"
 #include "rclcUtilities.h"

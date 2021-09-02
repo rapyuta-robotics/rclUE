@@ -1,8 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #include "ROS2Action.h"
-
 
 // Sets default values for this component's properties
 UROS2Action::UROS2Action()
@@ -25,7 +23,7 @@ void UROS2Action::Init(const TEnumAsByte<UROS2QoS> QoS)
 		check(IsValid(Action));
 
 		InitializeActionComponent(QoS);
-		
+
 		State = UROS2State::Initialized;
 	}
 }
@@ -34,11 +32,11 @@ void UROS2Action::InitializeAction()
 {
 	check(ActionName != FString());
 	check(ActionClass);
-	
+
 	Action = NewObject<UROS2GenericAction>(this, ActionClass);
 
 	check(IsValid(Action));
-	
+
 	Action->Init();
 }
 

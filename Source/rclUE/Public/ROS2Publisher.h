@@ -1,35 +1,36 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
-#include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
 #include "ROS2Node.h"
+
+#include <CoreMinimal.h>
+
 #include "ROS2Publisher.generated.h"
 
+DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg*, TopicMessage);
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg *, TopicMessage);
-
-UCLASS( ClassGroup=(Custom), Blueprintable, meta=(BlueprintSpawnableComponent) )
+UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2Publisher : public UActorComponent
 {
 	GENERATED_BODY()
 
-public:	
+public:
 	// Sets default values for this component's properties
 	UROS2Publisher();
 
-public:	
+public:
 	UFUNCTION(BlueprintCallable)
 	void Init(TEnumAsByte<UROS2QoS> QoS);
-	
+
 	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();
-	
+
 	// with a callback function, this might not needed anymore, eliminating the need to create Publisher classes for each MsgClass
 	UFUNCTION(BlueprintNativeEvent)
 	void UpdateAndPublishMessage();
-	
+
 	UFUNCTION()
 	virtual void Destroy();
 
@@ -56,14 +57,14 @@ public:
 protected:
 	UFUNCTION(BlueprintCallable)
 	void Publish();
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	UROS2GenericMsg *TopicMessage;
-	
+	UROS2GenericMsg* TopicMessage;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FTimerHandle TimerHandle;
 
 	const void* pub_msg;
-	
+
 	rcl_publisher_t pub;
 };

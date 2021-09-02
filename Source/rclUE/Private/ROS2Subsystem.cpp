@@ -1,15 +1,13 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
-
 #include "ROS2Subsystem.h"
 
-
-bool UROS2Subsystem::ShouldCreateSubsystem(UObject *Outer) const
+bool UROS2Subsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
-	return true;		// TODO: If client/server, this should only be created on the server.
+	return true;	// TODO: If client/server, this should only be created on the server.
 }
 
-void UROS2Subsystem::Initialize(FSubsystemCollectionBase &Collection)
+void UROS2Subsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
 	Super::Initialize(Collection);
 
@@ -25,12 +23,11 @@ void UROS2Subsystem::Deinitialize()
 
 void UROS2Subsystem::Tick(float DeltaTime)
 {
-
 }
 
 bool UROS2Subsystem::IsTickable() const
 {
-    return true;
+	return true;
 }
 
 bool UROS2Subsystem::IsTickableWhenPaused() const
@@ -51,5 +48,5 @@ TStatId UROS2Subsystem::GetStatId() const
 
 UROS2Context* UROS2Subsystem::GetContext() const
 {
-    return Context;
+	return Context;
 }
