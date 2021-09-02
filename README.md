@@ -28,8 +28,9 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 ```
 3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
 4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-5. add a PubSubExample actor to the scene and test
+5. add a PubSubExample actor to the scene and test (this is just for testing purposes)
 6. change the world settings to use meters as units instead of the default centimeters
+7. Example_BP_PubSub.mp4 shows how to build a PubSub example using Blueprint
 
 ## How to install this plugin (Ubuntu 18):
 This section has not been recently updated - please refer to the Ubuntu 20 and adapt it to what's written here.
