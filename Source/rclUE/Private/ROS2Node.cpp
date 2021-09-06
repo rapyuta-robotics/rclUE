@@ -75,7 +75,7 @@ void AROS2Node::Init()
 	{
 		if (!rcl_node_is_valid(&node))	  // ensures that it stays safe when called multiple times
 		{
-			Context = GWorld->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
+            Context = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
 
 			UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(

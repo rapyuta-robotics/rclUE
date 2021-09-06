@@ -21,7 +21,7 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void Init(TEnumAsByte<UROS2QoS> QoS);
+    void Init(const TEnumAsByte<UROS2QoS>& QoS);
 
 	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();
@@ -63,7 +63,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FTimerHandle TimerHandle;
 
-	const void* pub_msg;
+    const void* PublishedMsg = nullptr;
 
-	rcl_publisher_t pub;
+    rcl_publisher_t RclPublisher;
 };
