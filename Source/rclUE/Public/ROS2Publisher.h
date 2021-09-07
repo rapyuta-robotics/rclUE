@@ -21,7 +21,7 @@ public:
 
 public:
 	UFUNCTION(BlueprintCallable)
-    void Init(const TEnumAsByte<UROS2QoS>& QoS);
+    void Init(const TEnumAsByte<UROS2QoS> QoS);
 
 	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();

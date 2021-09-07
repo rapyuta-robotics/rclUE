@@ -12,7 +12,7 @@ UROS2Publisher::UROS2Publisher()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS>& QoS)
+void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 {
 	check(OwnerNode != nullptr);
 	check(OwnerNode->State == UROS2State::Initialized);
