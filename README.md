@@ -8,7 +8,7 @@ This branch currently represents the release branch.
 # Installation
 
 ## How to install this plugin (Ubuntu 20):
-1. clone this repository in your Unreal Engine 4 Plugin folder
+1. clone this repository in your Unreal Engine 4 Project Plugin folder (note that it's the project folder and not the main Engine folder)
 2. create and use the following shell script to run the UE4 editor (substituting `PROJECT_PATH`, `PROJECT_NAME` and `UNREAL_ENGINE_REPO` for the appropriate strings):
 ```
 #!/bin/sh
