@@ -17,7 +17,7 @@
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 #define __LOG_INFO__ \
-	FString(__FILENAME__).Append(FString("::")).Append(__FUNCTION__).Append(FString("::")).Append(FString::FromInt(__LINE__))
+    FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);
@@ -130,4 +130,4 @@ static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
 	{UROS2QoS::Services, rmw_qos_profile_services_default},
 	{UROS2QoS::ParameterEvents, rmw_qos_profile_parameter_events},
 	{UROS2QoS::System, rmw_qos_profile_system_default},
-	{UROS2QoS::Unknown, rmw_qos_profile_unknown}};
+    {UROS2QoS::Unknown, rmw_qos_profile_unknown}};

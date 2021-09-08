@@ -12,7 +12,7 @@ UROS2Publisher::UROS2Publisher()
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
+void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 {
 	check(OwnerNode != nullptr);
 	check(OwnerNode->State == UROS2State::Initialized);
@@ -29,14 +29,14 @@ void UROS2Publisher::Init(TEnumAsByte<UROS2QoS> QoS)
 		OwnerNode->Init();
 		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);
 
-		pub = rcl_get_zero_initialized_publisher();
+        RclPublisher = rcl_get_zero_initialized_publisher();
 		rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
 		pub_opt.qos = QoS_LUT[QoS];
 
-		RCSOFTCHECK(rcl_publisher_init(&pub, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
+        RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
-		GWorld->GetGameInstance()->GetTimerManager().SetTimer(
+        GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(
 			TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
 
 		State = UROS2State::Initialized;
@@ -54,7 +54,7 @@ void UROS2Publisher::Destroy()
 	if (OwnerNode != nullptr)
 	{
 		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
-		RCSOFTCHECK(rcl_publisher_fini(&pub, OwnerNode->GetNode()));
+        RCSOFTCHECK(rcl_publisher_fini(&RclPublisher, OwnerNode->GetNode()));
 	}
 	UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - Done (%s)"), *__LOG_INFO__);
 }
@@ -85,7 +85,7 @@ void UROS2Publisher::Publish()
 	check(State == UROS2State::Initialized);
 	check(OwnerNode != nullptr);
 
-	pub_msg = TopicMessage->Get();
+    PublishedMsg = TopicMessage->Get();
 
-	RCSOFTCHECK(rcl_publish(&pub, pub_msg, NULL));
+    RCSOFTCHECK(rcl_publish(&RclPublisher, PublishedMsg, nullptr));
 }
