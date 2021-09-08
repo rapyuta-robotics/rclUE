@@ -131,15 +131,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void AddActionServer(UROS2ActionServer* ActionServer);
 
-	// Queries/Diagnostics
+	// Queries/Diagnostics - together with the widget BPs, they show how a GUI to ROS can be added in UE4
 	UFUNCTION(BlueprintCallable)
 	const TMap<FString, FString> GetListOfNodes();
 
 	UFUNCTION(BlueprintCallable)
 	const TMap<FString, FString> GetListOfTopics();
-
-	UFUNCTION(BlueprintCallable)
-	const TMap<FString, FString> GetListOfServices();
 
 	// wait_set quantities
 	UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
@@ -153,10 +150,6 @@ public:
 
 protected:
 	UFUNCTION()
-	UROS2Support* GetSupport();
-
-	// this will be handled by the executor as anything related to the wait_set
-	UFUNCTION()	   // uint64 is apparently not supported by BP - might need some changes here
 	void SpinSome();
 
 	rcl_wait_set_t wait_set;

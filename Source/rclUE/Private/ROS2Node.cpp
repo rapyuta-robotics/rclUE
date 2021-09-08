@@ -88,11 +88,6 @@ void AROS2Node::Init()
 	UE_LOG(LogROS2Node, Log, TEXT("%s - Done"), *__LOG_INFO__);
 }
 
-UROS2Support* AROS2Node::GetSupport()
-{
-	return Support;
-}
-
 rcl_node_t* AROS2Node::GetNode()
 {
 	return &node;
@@ -463,13 +458,6 @@ const TMap<FString, FString> AROS2Node::GetListOfTopics()
 	}
 
 	RCSOFTCHECK(rcl_names_and_types_fini(&TopicNamesAndTypes));
-
-	return Result;
-}
-
-const TMap<FString, FString> AROS2Node::GetListOfServices()
-{
-	TMap<FString, FString> Result;
 
 	return Result;
 }
