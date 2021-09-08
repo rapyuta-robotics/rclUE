@@ -12,7 +12,6 @@
 
 DEFINE_LOG_CATEGORY(LogROS2Node);
 
-// Sets default values
 AROS2Node::AROS2Node()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -256,9 +255,6 @@ void AROS2Node::HandleSubscriptions()
 
 void AROS2Node::HandleServices()
 {
-	// is there a reason for handling it this way?
-	// 1st find all ready elements and then process them
-	// instead of just processing ready elements
 	// current implementation is based on rclc executor
 	for (int i = 0; i < wait_set.size_of_services; i++)
 	{
@@ -279,8 +275,6 @@ void AROS2Node::HandleServices()
 	{
 		if (s.Ready == true)
 		{
-			// this should all go in the callback?
-			// can't go in the callback unless the rcl functions are wrapped
 			rmw_service_info_t req_info;
 			void* data = s.Service->GetRequest();
 			RCSOFTCHECK(rcl_take_request_with_info(&s.rcl_service, &req_info, data));
@@ -300,9 +294,6 @@ void AROS2Node::HandleServices()
 
 void AROS2Node::HandleClients()
 {
-	// is there a reason for handling it this way?
-	// 1st find all ready elements and then process them
-	// instead of just processing ready elements
 	// current implementation is based on rclc executor
 	for (int i = 0; i < wait_set.size_of_clients; i++)
 	{
@@ -323,8 +314,6 @@ void AROS2Node::HandleClients()
 	{
 		if (c->Ready == true)
 		{
-			// this should all go in the callback?
-			// can't go in the callback unless the rcl functions are wrapped
 			rmw_service_info_t req_info;
 			void* data = c->Service->GetResponse();
 			RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));

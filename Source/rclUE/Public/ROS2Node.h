@@ -1,8 +1,8 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
 // Class implementing ROS2 nodes
-// This class handles tasks performed by the executor in rclc
-// Additionally, structs FSubscription and FService are defined as they are considered components of the node and not additional entities
+// This class also handles tasks performed by the executor in rclc
+// Additionally, helper structs FSubscription and FService are defined here as they are considered components of the node and not additional distinct entities
 // Publishers, subscribers, services, service clients, action servers and action clients should register to the node with the appropriate methods (Add*)
 
 #pragma once
@@ -26,8 +26,6 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, Service);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, Action);
 DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 
-// these structs assume that the MAP containing them is short enough
-// that iterating through them is not a performance bottleneck
 USTRUCT(Blueprintable)
 struct RCLUE_API FSubscription
 {
@@ -76,16 +74,13 @@ public:
 	bool Ready;
 };
 
-/**
- * ROS2 Node that additionally acts as a factory for Publishers, Subscribers, Clients, Services
- */
+
 UCLASS(Blueprintable)
 class RCLUE_API AROS2Node : public AActor
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AROS2Node();
 
 protected:
@@ -96,21 +91,14 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 public:
+	// must be called before using
 	UFUNCTION(BlueprintCallable)
 	void Init();
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Name = TEXT("node");
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString Namespace = TEXT("ros_global");
-
 	rcl_node_t* GetNode();
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TEnumAsByte<UROS2State> State = UROS2State::Created;
-
-	// It is up to the user to ensure that subscriptions are only added once
+	// Methods to register subscribers, publishers, clients (for services), services, action clients and action servers
+	// It is up to the user to ensure that they are only added once
 	UFUNCTION(BlueprintCallable)
 	void AddSubscription(const FString TopicName,
 						 const TSubclassOf<UROS2GenericMsg> MsgClass,
@@ -138,7 +126,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 	const TMap<FString, FString> GetListOfTopics();
 
-	// wait_set quantities
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TEnumAsByte<UROS2State> State = UROS2State::Created;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name = TEXT("node");
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Namespace = TEXT("ros_global");
+
+	// wait_set quantities - currently unused
 	UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
 	int NGuardConditions = 0;
 
@@ -149,6 +146,7 @@ public:
 	int NEvents = 0;
 
 protected:
+	// method used to wait on communication and call delegates when appropriate
 	UFUNCTION()
 	void SpinSome();
 
