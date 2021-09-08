@@ -1,5 +1,7 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
+// Header containing utilities and includes that are needed/useful in almost any class in rclUE
+
 #pragma once
 
 #include <HAL/UnrealMemory.h>
@@ -23,6 +25,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Publisher, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Service, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
+// this macro can be used on rcl functions that return an error code
 #define RCSOFTCHECK(fn)                                                             \
 	{                                                                               \
 		rcl_ret_t temp_rc = fn;                                                     \
@@ -38,6 +41,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 		}                                                                           \
 	}
 
+// used to add states to classes (e.g. to avoid double initializations)
 UENUM()
 enum UROS2State
 {
@@ -45,6 +49,8 @@ enum UROS2State
 	Initialized UMETA(DisplayName = "Initialized"),
 };
 
+// used to set QoS policies (https://docs.ros.org/en/foxy/Concepts/About-Quality-of-Service-Settings.html)
+// also check rmw/types.h for details
 UENUM()
 enum UROS2QoS
 {
@@ -61,6 +67,7 @@ enum UROS2QoS
 	Unknown UMETA(DisplayName = "Unknown"),
 };
 
+// profiles provided by rclUE
 static const rmw_qos_profile_t rclUE_qos_profile_keep_last = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
 															  1,
 															  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
@@ -111,6 +118,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_P
 																	   RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
 																	   false};
 
+// Look-Up Table matching enum with rcl profiles
 static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
 	{UROS2QoS::Default, rmw_qos_profile_default},
 	{UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
