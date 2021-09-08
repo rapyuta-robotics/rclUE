@@ -1,26 +1,18 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
+// class that tracks rclc_support_t (see rclc/types.h)
+// this object is used to initialized ROS2 nodes
+
 #pragma once
 
 #include "rclcUtilities.h"
 
 #include <CoreMinimal.h>
 
-#include "ROS2Context.generated.h"
+#include "ROS2Support.generated.h"
 
-/**
- * Do we need the full rclc_support_t? or is storing the rcl_context_t sufficient?
- * For reference:
-typedef struct
-{
-  rcl_init_options_t init_options;
-  rcl_context_t context;
-  rcl_allocator_t * allocator;
-  rcl_clock_t clock;
-} rclc_support_t;
- */
 UCLASS(Blueprintable)
-class RCLUE_API UROS2Context : public UObject
+class RCLUE_API UROS2Support : public UObject
 {
 	GENERATED_BODY()
 

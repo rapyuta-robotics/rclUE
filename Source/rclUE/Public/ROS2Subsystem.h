@@ -1,8 +1,11 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
+// Game Instance Subsystem class used to maintain the rcl support object
+// This class is automatically instanced (see UE4 documentation for Subsystems for more details)
+
 #pragma once
 
-#include "ROS2Context.h"
+#include "ROS2Support.h"
 #include "rclcUtilities.h"
 
 #include <CoreMinimal.h>
@@ -11,11 +14,6 @@
 
 #include "ROS2Subsystem.generated.h"
 
-/**
- * ROS2 Subsystem managing clock, execution model (executor), memory management and debugging support
- * - owner of Context (contained in the rclc_support_t structure in rclc and wrapped in the UROS2Context in UE4)
- * 		should this be a TUniquePtr? the subsystem should be the first ROS2 component created and the last to be destroyed
- */
 UCLASS(Blueprintable)
 class RCLUE_API UROS2Subsystem : public UGameInstanceSubsystem, public FTickableGameObject
 {
@@ -23,7 +21,7 @@ class RCLUE_API UROS2Subsystem : public UGameInstanceSubsystem, public FTickable
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "ROS2")
-	UROS2Context* GetContext() const;
+	UROS2Support* GetSupport() const;
 
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 
@@ -43,5 +41,5 @@ public:
 
 private:
 	UPROPERTY()
-	UROS2Context* Context;
+	UROS2Support* Support;
 };

@@ -1,8 +1,13 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
+// Class implementing ROS2 nodes
+// This class handles tasks performed by the executor in rclc
+// Additionally, structs FSubscription and FService are defined as they are considered components of the node and not additional entities
+// Publishers, subscribers, services, service clients, action servers and action clients should register to the node with the appropriate methods (Add*)
+
 #pragma once
 
-#include "ROS2Context.h"
+#include "ROS2Support.h"
 
 #include <Components/ActorComponent.h>
 #include <Containers/Map.h>
@@ -148,7 +153,7 @@ public:
 
 protected:
 	UFUNCTION()
-	UROS2Context* GetContext();
+	UROS2Support* GetSupport();
 
 	// this will be handled by the executor as anything related to the wait_set
 	UFUNCTION()	   // uint64 is apparently not supported by BP - might need some changes here
@@ -157,7 +162,7 @@ protected:
 	rcl_wait_set_t wait_set;
 
 	UPROPERTY()
-	UROS2Context* Context;
+	UROS2Support* Support;
 
 	rcl_node_t node;
 

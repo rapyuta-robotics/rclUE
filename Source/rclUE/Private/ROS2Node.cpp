@@ -75,11 +75,11 @@ void AROS2Node::Init()
 	{
 		if (!rcl_node_is_valid(&node))	  // ensures that it stays safe when called multiple times
 		{
-            Context = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetContext();
+			Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
 			UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
 			RCSOFTCHECK(rclc_node_init_default(
-				&node, TCHAR_TO_UTF8(*Name), Namespace != FString() ? TCHAR_TO_UTF8(*Namespace) : "", &Context->Get()));
+				&node, TCHAR_TO_UTF8(*Name), Namespace != FString() ? TCHAR_TO_UTF8(*Namespace) : "", &Support->Get()));
 		}
 
 		State = UROS2State::Initialized;
@@ -88,9 +88,9 @@ void AROS2Node::Init()
 	UE_LOG(LogROS2Node, Log, TEXT("%s - Done"), *__LOG_INFO__);
 }
 
-UROS2Context* AROS2Node::GetContext()
+UROS2Support* AROS2Node::GetSupport()
 {
-	return Context;
+	return Support;
 }
 
 rcl_node_t* AROS2Node::GetNode()
@@ -359,7 +359,7 @@ void AROS2Node::SpinSome()
 									  Clients.Num() + ActionClients.Num() * 3,
 									  Services.Num() + ActionServers.Num() * 3,
 									  NEvents,
-									  &Context->Get().context,
+									  &Support->Get().context,
 									  rcl_get_default_allocator()));
 	}
 
