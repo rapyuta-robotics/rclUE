@@ -1,5 +1,10 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
+// Class implementing ROS2 nodes
+// This class handles tasks performed by the executor in rclc
+// Additionally, structs FSubscription and FService are defined as they are considered components of the node and not additional entities
+// Publishers, subscribers, services, service clients, action servers and action clients should register to the node with the appropriate methods (Add*)
+
 #pragma once
 
 #include "ROS2Support.h"

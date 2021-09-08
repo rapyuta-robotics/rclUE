@@ -1,5 +1,8 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
+// Class implementing ROS2 action clients
+// Callbacks are set through the SetDelegates method
+
 #pragma once
 
 #include "ROS2Action.h"

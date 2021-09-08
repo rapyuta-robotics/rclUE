@@ -1,5 +1,8 @@
 // Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
 
+// Class implementing ROS2 publishers
+// Message type is defined by MsgClass
+
 #pragma once
 
 #include <Components/ActorComponent.h>
