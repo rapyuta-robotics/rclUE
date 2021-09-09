@@ -20,8 +20,7 @@ void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
 
 		check(IsValid(Service));
 
-		const rosidl_service_type_support_t* srv_type_support =
-			Service->GetTypeSupport();	  // this should be a parameter, but for the moment we leave it fixed
+		const rosidl_service_type_support_t* srv_type_support =	Service->GetTypeSupport();
 
 		client = rcl_get_zero_initialized_client();
 		rcl_client_options_t client_opt = rcl_client_get_default_options();

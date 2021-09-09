@@ -21,7 +21,6 @@ class RCLUE_API UROS2ServiceClient : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
 	UROS2ServiceClient();
 
 public:
@@ -31,7 +30,6 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitializeService();
 
-	// with a callback function, this might not needed anymore, eliminating the need to create Publisher classes for each MsgClass
 	UFUNCTION(BlueprintCallable)
 	void UpdateAndSendRequest();
 
@@ -49,7 +47,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FServiceClientCallback RequestDelegate;
 
-	// used to receive answer
+	// used to receive the answer
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FServiceClientCallback AnswerDelegate;
 

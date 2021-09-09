@@ -19,7 +19,6 @@ class RCLUE_API UROS2Action : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
 	UROS2Action();
 
 public:

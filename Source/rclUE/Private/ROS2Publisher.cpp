@@ -4,11 +4,8 @@
 
 DEFINE_LOG_CATEGORY(LogROS2Publisher);
 
-// Sets default values for this component's properties
 UROS2Publisher::UROS2Publisher()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 }
 
@@ -23,8 +20,7 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 
 		check(IsValid(TopicMessage));
 
-		const rosidl_message_type_support_t* msg_type_support =
-			TopicMessage->GetTypeSupport();	   // this should be a parameter, but for the moment we leave it fixed
+		const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
 
 		OwnerNode->Init();
 		UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);

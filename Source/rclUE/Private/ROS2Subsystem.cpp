@@ -32,7 +32,6 @@ bool UROS2Subsystem::IsTickable() const
 
 bool UROS2Subsystem::IsTickableWhenPaused() const
 {
-	// TODO: Need to investigate if we should send the clock to ROS still, even if we pause the simulation.
 	return false;
 }
 

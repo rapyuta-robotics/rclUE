@@ -19,7 +19,6 @@ class RCLUE_API UROS2Publisher : public UActorComponent
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this component's properties
 	UROS2Publisher();
 
 public:
@@ -29,21 +28,20 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void InitializeMessage();
 
-	// with a callback function, this might not needed anymore, eliminating the need to create Publisher classes for each MsgClass
 	UFUNCTION(BlueprintNativeEvent)
 	void UpdateAndPublishMessage();
 
 	UFUNCTION()
 	virtual void Destroy();
 
-	// this information is redundant with Topic, but it's used to initialize it
+	// this information is redundant with Topic, but it's needed to initialize it
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString TopicName;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 PublicationFrequencyHz = 1000;
 
-	// this information is redundant with Topic, but it's used to initialize it
+	// this information is redundant with Topic, but it's needed to initialize it
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TSubclassOf<UROS2GenericMsg> MsgClass;
 

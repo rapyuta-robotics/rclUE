@@ -147,6 +147,7 @@ public:
 
 protected:
 	// method used to wait on communication and call delegates when appropriate
+	// modeled after executor + actions
 	UFUNCTION()
 	void SpinSome();
 
@@ -179,6 +180,7 @@ protected:
 	FTimerHandle TimerHandle;
 
 private:
+	// these 3 methods are based on _rclc_default_scheduling of the rclc executor
 	UFUNCTION()
 	void HandleSubscriptions();
 

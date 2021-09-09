@@ -32,7 +32,6 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 		RCSOFTCHECK(rcl_service_fini(&s.rcl_service, &node));
 	}
 
-	// this is better done with the component registering itself to the owner at creation
 	TArray<UActorComponent*> PubComponents;
 	GetComponents(UROS2Publisher::StaticClass(), PubComponents, true);
 	for (auto& c : PubComponents)
@@ -52,7 +51,6 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
-// Called every frame
 void AROS2Node::Tick(float DeltaTime)
 {
 	check(State == UROS2State::Initialized);
@@ -221,10 +219,9 @@ void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
 
 void AROS2Node::HandleSubscriptions()
 {
-	// based on _rclc_default_scheduling
 	for (int i = 0; i < wait_set.size_of_subscriptions; i++)
 	{
-		if (wait_set.subscriptions[i])	  // need to iterate on all subscriptions instead? since there's no index
+		if (wait_set.subscriptions[i])
 		{
 			const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
 			for (auto& s : Subscriptions)
@@ -255,7 +252,6 @@ void AROS2Node::HandleSubscriptions()
 
 void AROS2Node::HandleServices()
 {
-	// current implementation is based on rclc executor
 	for (int i = 0; i < wait_set.size_of_services; i++)
 	{
 		if (wait_set.services[i])
@@ -281,7 +277,6 @@ void AROS2Node::HandleServices()
 
 			UE_LOG(LogROS2Node, Log, TEXT("Executing Service (%s)"), *__LOG_INFO__);
 
-			// there's a variant with req_id in the callback and one with context
 			const FServiceCallback* SrvCallback = &s.Callback;
 			SrvCallback->ExecuteIfBound(s.Service);
 
@@ -294,7 +289,6 @@ void AROS2Node::HandleServices()
 
 void AROS2Node::HandleClients()
 {
-	// current implementation is based on rclc executor
 	for (int i = 0; i < wait_set.size_of_clients; i++)
 	{
 		if (wait_set.clients[i])
@@ -320,7 +314,6 @@ void AROS2Node::HandleClients()
 
 			UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate for Service Client (%s)"), *__LOG_INFO__);
 
-			// there's a variant with req_id in the callback
 			const FServiceClientCallback* SrvClientCallback = &c->AnswerDelegate;
 			SrvClientCallback->ExecuteIfBound(c->Service);
 
@@ -329,7 +322,6 @@ void AROS2Node::HandleClients()
 	}
 }
 
-// modeled after executor + actions
 void AROS2Node::SpinSome()
 {
 	if (!rcl_wait_set_is_valid(&wait_set))
@@ -392,7 +384,6 @@ void AROS2Node::SpinSome()
 	}
 }
 
-// Queries/Diagnostics
 const TMap<FString, FString> AROS2Node::GetListOfNodes()
 {
 	TMap<FString, FString> Result;
@@ -422,7 +413,6 @@ const TMap<FString, FString> AROS2Node::GetListOfNodes()
 	return Result;
 }
 
-// need a way to convert the message type as well
 const TMap<FString, FString> AROS2Node::GetListOfTopics()
 {
 	TMap<FString, FString> Result;
