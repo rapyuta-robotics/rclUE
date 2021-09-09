@@ -119,13 +119,6 @@ public:
     UFUNCTION(BlueprintCallable)
     void AddActionServer(UROS2ActionServer* ActionServer);
 
-    // Queries/Diagnostics - together with the widget BPs, they show how a GUI to ROS can be added in UE4
-    UFUNCTION(BlueprintCallable)
-    const TMap<FString, FString> GetListOfNodes();
-
-    UFUNCTION(BlueprintCallable)
-    const TMap<FString, FString> GetListOfTopics();
-
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TEnumAsByte<UROS2State> State = UROS2State::Created;
 
