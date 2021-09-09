@@ -318,7 +318,7 @@ void AROS2Node::HandleClients()
 			void* data = c->Service->GetResponse();
 			RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
 
-			UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate (%s)"), *__LOG_INFO__);
+			UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate for Service Client (%s)"), *__LOG_INFO__);
 
 			// there's a variant with req_id in the callback
 			const FServiceClientCallback* SrvClientCallback = &c->AnswerDelegate;
