@@ -31,7 +31,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
         rcl_ret_t temp_rc = fn;                                                     \
         if ((temp_rc != RCL_RET_OK))                                                \
         {                                                                           \
-            UE_LOG(LogROS2,                                                         \
+            UE_LOG(LogTemp,                                                         \
                    Error,                                                           \
                    TEXT("Failed status on line %d (function %s): %d. Continuing."), \
                    __LINE__,                                                        \
