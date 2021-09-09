@@ -14,50 +14,50 @@
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionClient : public UROS2Action
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	virtual void Destroy() override;
+    virtual void Destroy() override;
 
-	virtual void ProcessReady(rcl_wait_set_t* wait_set) override;
+    virtual void ProcessReady(rcl_wait_set_t* wait_set) override;
 
-	UFUNCTION(BlueprintCallable)
-	void UpdateAndSendGoal();
+    UFUNCTION(BlueprintCallable)
+    void UpdateAndSendGoal();
 
-	UFUNCTION(BlueprintCallable)
-	void GetResultRequest();
+    UFUNCTION(BlueprintCallable)
+    void GetResultRequest();
 
-	UFUNCTION(BlueprintCallable)
-	void CancelActionRequest();
+    UFUNCTION(BlueprintCallable)
+    void CancelActionRequest();
 
-	UFUNCTION(BlueprintCallable)
-	void SetDelegates(const FActionCallback SetGoal,
-					  const FActionCallback Feedback,
-					  const FActionCallback Result,
-					  const FSimpleCallback GoalResponse,
-					  const FSimpleCallback Cancel);
+    UFUNCTION(BlueprintCallable)
+    void SetDelegates(const FActionCallback SetGoal,
+                      const FActionCallback Feedback,
+                      const FActionCallback Result,
+                      const FSimpleCallback GoalResponse,
+                      const FSimpleCallback Cancel);
 
-	rcl_action_client_t client;
+    rcl_action_client_t client;
 
 private:
-	rmw_request_id_t goal_res_id;
-	rmw_request_id_t result_res_id;
-	rmw_request_id_t cancel_res_id;
+    rmw_request_id_t goal_res_id;
+    rmw_request_id_t result_res_id;
+    rmw_request_id_t cancel_res_id;
 
-	UPROPERTY()
-	FActionCallback SetGoalDelegate;
+    UPROPERTY()
+    FActionCallback SetGoalDelegate;
 
-	UPROPERTY()
-	FActionCallback FeedbackDelegate;
+    UPROPERTY()
+    FActionCallback FeedbackDelegate;
 
-	UPROPERTY()
-	FActionCallback ResultDelegate;
+    UPROPERTY()
+    FActionCallback ResultDelegate;
 
-	UPROPERTY()
-	FSimpleCallback GoalResponseDelegate;
+    UPROPERTY()
+    FSimpleCallback GoalResponseDelegate;
 
-	UPROPERTY()
-	FSimpleCallback CancelDelegate;
+    UPROPERTY()
+    FSimpleCallback CancelDelegate;
 
-	virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS) override;
+    virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS) override;
 };
