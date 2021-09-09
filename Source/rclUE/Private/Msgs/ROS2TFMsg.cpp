@@ -60,7 +60,7 @@ void UROS2TFMsg::Update(const TArray<FTFData> &data)
 		// FString frame_id, child_frame_id;
 		// frame_id.AppendChars(tf_pub_msg.transforms.data[i].header.frame_id.data, tf_pub_msg.transforms.data[i].header.frame_id.size);
 		// child_frame_id.AppendChars(tf_pub_msg.transforms.data[i].child_frame_id.data, tf_pub_msg.transforms.data[i].child_frame_id.size);
-		// UE_LOG(LogTemp, Warning, TEXT("TF - %ds %dns: %s, %s - (%f %f %f) (%f %f %f %f)"),
+		// UE_LOG(LogROS2Msg, Warning, TEXT("TF - %ds %dns: %s, %s - (%f %f %f) (%f %f %f %f)"),
 		// 	tf_pub_msg.transforms.data[i].header.stamp.sec,
 		// 	tf_pub_msg.transforms.data[i].header.stamp.nanosec,
 		// 	*frame_id,

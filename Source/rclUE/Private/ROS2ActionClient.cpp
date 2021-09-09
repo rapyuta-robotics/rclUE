@@ -91,7 +91,7 @@ void UROS2ActionClient::UpdateAndSendGoal()
 	}
 	else
 	{
-		UE_LOG(LogTemp, Error, TEXT("Action Server Unavailable (%s)"), *__LOG_INFO__);
+		UE_LOG(LogROS2Action, Error, TEXT("Action Server Unavailable (%s)"), *__LOG_INFO__);
 	}
 }
 
