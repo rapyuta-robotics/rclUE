@@ -1,4 +1,4 @@
-// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
+// Copyright (c) 2020-2021 Rapyuta Robotics Co., Ltd.
 
 // class that tracks rclc_support_t (see rclc/types.h)
 // this object is used to initialized ROS2 nodes

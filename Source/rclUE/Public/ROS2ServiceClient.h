@@ -1,4 +1,4 @@
-// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
+// Copyright (c) 2020-2021 Rapyuta Robotics Co., Ltd.
 
 // Class implementing ROS2 service clients
 // Service type is defined by SrvClass

@@ -1,4 +1,4 @@
-// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
+// Copyright (c) 2020-2021 Rapyuta Robotics Co., Ltd.
 
 // code based on the rclc examples
 // the purpose of this example is to just give a quick way to test if rcl/ros2 is setup correctly
