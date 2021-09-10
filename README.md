@@ -28,8 +28,7 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 ```
 3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
 4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-5. add a PubSubExample actor to the scene and test
-6. change the world settings to use meters as units instead of the default centimeters
+5. change the world settings to use meters as units instead of the default centimeters
 
 ## How to install this plugin (Ubuntu 18):
 This section has not been recently updated - please refer to the Ubuntu 20 and adapt it to what's written here.
@@ -62,7 +61,6 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 ```
 3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
 4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-5. add a PubSubExample actor to the scene and test
 
 ## How to install this plugin (Windows 10)
 1. clone this repository in your Unreal Engine 4 Plugin folder (branch?)
