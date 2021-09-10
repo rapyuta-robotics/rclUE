@@ -105,3 +105,7 @@ Currently, the plugin requires the following shared libraries at runtime:
 - librmw_dds_common.so (Ubuntu 20/Foxy)
 - librmw_dds_common__rosidl_typesupport_cpp.so (Ubuntu 20/Foxy)
 - librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so (Ubuntu 20/Foxy)
+
+# Notes on working with ROS2 and UE4
+- rcl and void* types cannot be managed by UE4 (no UPROPERTY) and therefore can't be used directly in Blueprint. Whenever access to these variables is needed, the user should write a class to wrap it and all of their handling must be done in C++.
+- some basic numerical types are not natively supported in Blueprint (e.g. double, unsigned int). In order to use these, a workaround is needed (a plugin implementing those types for BP, a modified UE4 or a custom implementation).
