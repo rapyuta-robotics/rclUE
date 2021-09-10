@@ -115,27 +115,35 @@ public:
 
 		out_ros_data.camera_info.header.stamp.nanosec = camera_info_header_stamp_nanosec;
 
-		if (out_ros_data.camera_info.header.frame_id.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *camera_info_header_frame_id );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.camera_info.header.frame_id.data != nullptr)
 		{
 			free(out_ros_data.camera_info.header.frame_id.data);
 		}
-		out_ros_data.camera_info.header.frame_id.data = (decltype(out_ros_data.camera_info.header.frame_id.data))malloc((camera_info_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.camera_info.header.frame_id.data)));
-		memcpy(out_ros_data.camera_info.header.frame_id.data, TCHAR_TO_UTF8(*camera_info_header_frame_id), (camera_info_header_frame_id.Len()+1)*sizeof(char));
-		out_ros_data.camera_info.header.frame_id.size = camera_info_header_frame_id.Len();
-		out_ros_data.camera_info.header.frame_id.capacity = camera_info_header_frame_id.Len() + 1;
+		out_ros_data.camera_info.header.frame_id.data = (decltype(out_ros_data.camera_info.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.camera_info.header.frame_id.data)));
+		memcpy(out_ros_data.camera_info.header.frame_id.data, TCHAR_TO_UTF8(*camera_info_header_frame_id), (strLength+1)*sizeof(char));
+			out_ros_data.camera_info.header.frame_id.size = strLength;
+			out_ros_data.camera_info.header.frame_id.capacity = strLength + 1;
+		}
 
 		out_ros_data.camera_info.height = camera_info_height;
 
 		out_ros_data.camera_info.width = camera_info_width;
 
-		if (out_ros_data.camera_info.distortion_model.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *camera_info_distortion_model );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.camera_info.distortion_model.data != nullptr)
 		{
 			free(out_ros_data.camera_info.distortion_model.data);
 		}
-		out_ros_data.camera_info.distortion_model.data = (decltype(out_ros_data.camera_info.distortion_model.data))malloc((camera_info_distortion_model.Len() + 1)*sizeof(decltype(*out_ros_data.camera_info.distortion_model.data)));
-		memcpy(out_ros_data.camera_info.distortion_model.data, TCHAR_TO_UTF8(*camera_info_distortion_model), (camera_info_distortion_model.Len()+1)*sizeof(char));
-		out_ros_data.camera_info.distortion_model.size = camera_info_distortion_model.Len();
-		out_ros_data.camera_info.distortion_model.capacity = camera_info_distortion_model.Len() + 1;
+		out_ros_data.camera_info.distortion_model.data = (decltype(out_ros_data.camera_info.distortion_model.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.camera_info.distortion_model.data)));
+		memcpy(out_ros_data.camera_info.distortion_model.data, TCHAR_TO_UTF8(*camera_info_distortion_model), (strLength+1)*sizeof(char));
+			out_ros_data.camera_info.distortion_model.size = strLength;
+			out_ros_data.camera_info.distortion_model.capacity = strLength + 1;
+		}
 
 		if (out_ros_data.camera_info.d.data != nullptr)
 		{
@@ -211,14 +219,18 @@ public:
 	{
     	out_ros_data.success = success;
 
-		if (out_ros_data.status_message.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *status_message );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.status_message.data != nullptr)
 		{
 			free(out_ros_data.status_message.data);
 		}
-		out_ros_data.status_message.data = (decltype(out_ros_data.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*out_ros_data.status_message.data)));
-		memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*status_message), (status_message.Len()+1)*sizeof(char));
-		out_ros_data.status_message.size = status_message.Len();
-		out_ros_data.status_message.capacity = status_message.Len() + 1;
+		out_ros_data.status_message.data = (decltype(out_ros_data.status_message.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.status_message.data)));
+		memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*status_message), (strLength+1)*sizeof(char));
+			out_ros_data.status_message.size = strLength;
+			out_ros_data.status_message.capacity = strLength + 1;
+		}
 
 		
 	}

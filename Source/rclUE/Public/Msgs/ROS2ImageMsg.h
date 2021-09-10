@@ -73,27 +73,35 @@ public:
 
 		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (out_ros_data.header.frame_id.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *header_frame_id );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.header.frame_id.data != nullptr)
 		{
 			free(out_ros_data.header.frame_id.data);
 		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		out_ros_data.header.frame_id.size = header_frame_id.Len();
-		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength+1)*sizeof(char));
+			out_ros_data.header.frame_id.size = strLength;
+			out_ros_data.header.frame_id.capacity = strLength + 1;
+		}
 
 		out_ros_data.height = height;
 
 		out_ros_data.width = width;
 
-		if (out_ros_data.encoding.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *encoding );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.encoding.data != nullptr)
 		{
 			free(out_ros_data.encoding.data);
 		}
-		out_ros_data.encoding.data = (decltype(out_ros_data.encoding.data))malloc((encoding.Len() + 1)*sizeof(decltype(*out_ros_data.encoding.data)));
-		memcpy(out_ros_data.encoding.data, TCHAR_TO_UTF8(*encoding), (encoding.Len()+1)*sizeof(char));
-		out_ros_data.encoding.size = encoding.Len();
-		out_ros_data.encoding.capacity = encoding.Len() + 1;
+		out_ros_data.encoding.data = (decltype(out_ros_data.encoding.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.encoding.data)));
+		memcpy(out_ros_data.encoding.data, TCHAR_TO_UTF8(*encoding), (strLength+1)*sizeof(char));
+			out_ros_data.encoding.size = strLength;
+			out_ros_data.encoding.capacity = strLength + 1;
+		}
 
 		out_ros_data.is_bigendian = is_bigendian;
 

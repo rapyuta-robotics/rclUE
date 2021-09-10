@@ -32,14 +32,18 @@ public:
 
 	void SetROS2(ue_msgs__srv__DeleteEntity_Request& out_ros_data) const
 	{
-    	if (out_ros_data.name.data != nullptr)
+    	{
+			FTCHARToUTF8 strUtf8( *name );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.name.data != nullptr)
 		{
 			free(out_ros_data.name.data);
 		}
-		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
-		memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*name), (name.Len()+1)*sizeof(char));
-		out_ros_data.name.size = name.Len();
-		out_ros_data.name.capacity = name.Len() + 1;
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.name.data)));
+		memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*name), (strLength+1)*sizeof(char));
+			out_ros_data.name.size = strLength;
+			out_ros_data.name.capacity = strLength + 1;
+		}
 
 		
 	}
@@ -72,14 +76,18 @@ public:
 	{
     	out_ros_data.success = success;
 
-		if (out_ros_data.status_message.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *status_message );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.status_message.data != nullptr)
 		{
 			free(out_ros_data.status_message.data);
 		}
-		out_ros_data.status_message.data = (decltype(out_ros_data.status_message.data))malloc((status_message.Len() + 1)*sizeof(decltype(*out_ros_data.status_message.data)));
-		memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*status_message), (status_message.Len()+1)*sizeof(char));
-		out_ros_data.status_message.size = status_message.Len();
-		out_ros_data.status_message.capacity = status_message.Len() + 1;
+		out_ros_data.status_message.data = (decltype(out_ros_data.status_message.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.status_message.data)));
+		memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*status_message), (strLength+1)*sizeof(char));
+			out_ros_data.status_message.size = strLength;
+			out_ros_data.status_message.capacity = strLength + 1;
+		}
 
 		
 	}
