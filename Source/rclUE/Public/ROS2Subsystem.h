@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2021 Rapyuta Robotics Co., Ltd.
+// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
 // Game Instance Subsystem class used to maintain the rcl support object
 // This class is automatically instanced (see UE4 documentation for Subsystems for more details)

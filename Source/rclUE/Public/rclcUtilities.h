@@ -1,4 +1,4 @@
-// Copyright (c) 2020-2021 Rapyuta Robotics Co., Ltd.
+// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
 // Header containing utilities and includes that are needed/useful in almost any class in rclUE
 
