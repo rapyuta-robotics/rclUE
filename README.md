@@ -3,6 +3,9 @@
 ### master
 This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20
 
+### Other branches
+Experimental and WIP
+
 # Installation
 
 ## How to install this plugin (Ubuntu 20):
@@ -90,6 +93,8 @@ Currently, the plugin requires the following shared libraries at runtime:
 
 # Getting Started
 The plugin folder contains a video "Example_BP_PubSub.mp4" demonstrating how to setup a PubSub example in Blueprint.
+
+An example setup for Turtlebot3 using this plugin can be found at https://github.com/rapyuta-robotics/turtlebot3-UE
 
 # Notes on working with ROS2 and UE4
 - rcl and void* types cannot be managed by UE4 (no UPROPERTY) and therefore can't be used directly in Blueprint. Whenever access to these variables is needed, the user should write a class to wrap it and all of their handling must be done in C++.
