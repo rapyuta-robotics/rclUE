@@ -1,8 +1,6 @@
 # Basic information
 ## Branches
 ### master
-This build of the plugin is based on ROS2 Eloquent and has been tested on Ubuntu 18
-### focal-foxy-devel
 This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20
 
 # Installation
@@ -47,8 +45,7 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
 5. add a PubSubExample actor to the scene and test
 
-## How to install this plugin (Windows 10)
-Untested
+## Windows is currently unsupported
 
 # Dependencies
 ## Compile time (includes+libs)
