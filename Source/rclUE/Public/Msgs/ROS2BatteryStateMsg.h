@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "sensor_msgs/msg/battery_state.h"
 
@@ -123,14 +123,18 @@ public:
 
 		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (out_ros_data.header.frame_id.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *header_frame_id );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.header.frame_id.data != nullptr)
 		{
 			free(out_ros_data.header.frame_id.data);
 		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		out_ros_data.header.frame_id.size = header_frame_id.Len();
-		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength+1)*sizeof(char));
+			out_ros_data.header.frame_id.size = strLength;
+			out_ros_data.header.frame_id.capacity = strLength + 1;
+		}
 
 		out_ros_data.voltage = voltage;
 
@@ -182,23 +186,31 @@ public:
 		out_ros_data.cell_temperature.size = cell_temperature.Num();
 		out_ros_data.cell_temperature.capacity = cell_temperature.Num();
 
-		if (out_ros_data.location.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *location );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.location.data != nullptr)
 		{
 			free(out_ros_data.location.data);
 		}
-		out_ros_data.location.data = (decltype(out_ros_data.location.data))malloc((location.Len() + 1)*sizeof(decltype(*out_ros_data.location.data)));
-		memcpy(out_ros_data.location.data, TCHAR_TO_ANSI(*location), (location.Len()+1)*sizeof(char));
-		out_ros_data.location.size = location.Len();
-		out_ros_data.location.capacity = location.Len() + 1;
+		out_ros_data.location.data = (decltype(out_ros_data.location.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.location.data)));
+		memcpy(out_ros_data.location.data, TCHAR_TO_UTF8(*location), (strLength+1)*sizeof(char));
+			out_ros_data.location.size = strLength;
+			out_ros_data.location.capacity = strLength + 1;
+		}
 
-		if (out_ros_data.serial_number.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *serial_number );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.serial_number.data != nullptr)
 		{
 			free(out_ros_data.serial_number.data);
 		}
-		out_ros_data.serial_number.data = (decltype(out_ros_data.serial_number.data))malloc((serial_number.Len() + 1)*sizeof(decltype(*out_ros_data.serial_number.data)));
-		memcpy(out_ros_data.serial_number.data, TCHAR_TO_ANSI(*serial_number), (serial_number.Len()+1)*sizeof(char));
-		out_ros_data.serial_number.size = serial_number.Len();
-		out_ros_data.serial_number.capacity = serial_number.Len() + 1;
+		out_ros_data.serial_number.data = (decltype(out_ros_data.serial_number.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.serial_number.data)));
+		memcpy(out_ros_data.serial_number.data, TCHAR_TO_UTF8(*serial_number), (strLength+1)*sizeof(char));
+			out_ros_data.serial_number.size = strLength;
+			out_ros_data.serial_number.capacity = strLength + 1;
+		}
 
 		
 	}

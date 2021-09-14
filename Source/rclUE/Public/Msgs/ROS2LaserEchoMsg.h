@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "sensor_msgs/msg/laser_echo.h"
 

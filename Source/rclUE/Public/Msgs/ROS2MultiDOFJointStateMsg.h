@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "sensor_msgs/msg/multi_dof_joint_state.h"
 
@@ -114,25 +114,33 @@ public:
 
 		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-		if (out_ros_data.header.frame_id.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *header_frame_id );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.header.frame_id.data != nullptr)
 		{
 			free(out_ros_data.header.frame_id.data);
 		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_ANSI(*header_frame_id), (header_frame_id.Len()+1)*sizeof(char));
-		out_ros_data.header.frame_id.size = header_frame_id.Len();
-		out_ros_data.header.frame_id.capacity = header_frame_id.Len() + 1;
+		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
+		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength+1)*sizeof(char));
+			out_ros_data.header.frame_id.size = strLength;
+			out_ros_data.header.frame_id.capacity = strLength + 1;
+		}
 
 		for (int i = 0; i < joint_names.Num(); i++)
 		{
-			if (out_ros_data.joint_names.data != nullptr)
 			{
-				free(out_ros_data.joint_names.data);
+			FTCHARToUTF8 strUtf8( *joint_names[i] );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.joint_names.data != nullptr)
+				{
+					free(out_ros_data.joint_names.data);
+				}
+				out_ros_data.joint_names.data[i].data = (char*)malloc((strLength+1)*sizeof(char));
+				memcpy(out_ros_data.joint_names.data[i].data, TCHAR_TO_UTF8(*joint_names[i]), (strLength+1)*sizeof(char));
+				out_ros_data.joint_names.size = strLength;
+				out_ros_data.joint_names.capacity = strLength + 1;
 			}
-			out_ros_data.joint_names.data[i].data = (char*)malloc((joint_names[i].Len()+1)*sizeof(char));
-			memcpy(out_ros_data.joint_names.data[i].data, TCHAR_TO_ANSI(*joint_names[i]), (joint_names[i].Len()+1)*sizeof(char));
-			out_ros_data.joint_names.size = joint_names[i].Len();
-			out_ros_data.joint_names.capacity = joint_names[i].Len() + 1;
 		}
 
 		if (out_ros_data.transforms.data != nullptr)

@@ -5,6 +5,9 @@ This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20.
 
 This branch currently represents the release branch.
 
+### Other branches
+Experimental and WIP
+
 # Installation
 
 ## How to add this plugin to an Unreal Engine 4 project (Ubuntu 20):
@@ -32,10 +35,9 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 6. Example_BP_PubSub.mp4 shows how to build a PubSub example using Blueprint
 
 ## How to install this plugin (Ubuntu 18):
-This section has not been recently updated - please refer to the Ubuntu 20 and adapt it to what's written here.
+Development switched from Ubuntu18+noetic to Ubuntu20+foxy - please refer to the Ubuntu 20 and adapt it
 
-## How to install this plugin (Windows 10)
-1. clone this repository in your Unreal Engine 4 Plugin folder (branch?)
+## Windows is currently unsupported
 
 # Dependencies
 ## Compile time (includes+libs)
@@ -77,3 +79,12 @@ Currently, the plugin requires the following shared libraries at runtime:
 - librmw_dds_common.so (Ubuntu 20/Foxy)
 - librmw_dds_common__rosidl_typesupport_cpp.so (Ubuntu 20/Foxy)
 - librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so (Ubuntu 20/Foxy)
+
+# Getting Started
+The plugin folder contains a video "Example_BP_PubSub.mp4" demonstrating how to setup a PubSub example in Blueprint.
+
+An example setup for Turtlebot3 using this plugin can be found at https://github.com/rapyuta-robotics/turtlebot3-UE
+
+# Notes on working with ROS2 and UE4
+- rcl and void* types cannot be managed by UE4 (no UPROPERTY) and therefore can't be used directly in Blueprint. Whenever access to these variables is needed, the user should write a class to wrap it and all of their handling must be done in C++.
+- some basic numerical types are not natively supported in Blueprint (e.g. double, unsigned int). In order to use these, a workaround is needed (a plugin implementing those types for BP, a modified UE4 or a custom implementation).

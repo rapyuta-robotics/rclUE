@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "Srvs/ROS2GenericSrv.h"
 #include "rclcUtilities.h"
@@ -71,14 +71,18 @@ public:
 
 	void SetROS2(ue_msgs__srv__SetEntityState_Request& out_ros_data) const
 	{
-    	if (out_ros_data.state.name.data != nullptr)
+    	{
+			FTCHARToUTF8 strUtf8( *state_name );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.state.name.data != nullptr)
 		{
 			free(out_ros_data.state.name.data);
 		}
-		out_ros_data.state.name.data = (decltype(out_ros_data.state.name.data))malloc((state_name.Len() + 1)*sizeof(decltype(*out_ros_data.state.name.data)));
-		memcpy(out_ros_data.state.name.data, TCHAR_TO_ANSI(*state_name), (state_name.Len()+1)*sizeof(char));
-		out_ros_data.state.name.size = state_name.Len();
-		out_ros_data.state.name.capacity = state_name.Len() + 1;
+		out_ros_data.state.name.data = (decltype(out_ros_data.state.name.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.state.name.data)));
+		memcpy(out_ros_data.state.name.data, TCHAR_TO_UTF8(*state_name), (strLength+1)*sizeof(char));
+			out_ros_data.state.name.size = strLength;
+			out_ros_data.state.name.capacity = strLength + 1;
+		}
 
 		out_ros_data.state.pose.position.x = state_pose_position_x;
 
@@ -99,14 +103,18 @@ public:
 		out_ros_data.state.twist.angular.y = state_twist_angular.Y;
 		out_ros_data.state.twist.angular.z = state_twist_angular.Z;
 
-		if (out_ros_data.state.reference_frame.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *state_reference_frame );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.state.reference_frame.data != nullptr)
 		{
 			free(out_ros_data.state.reference_frame.data);
 		}
-		out_ros_data.state.reference_frame.data = (decltype(out_ros_data.state.reference_frame.data))malloc((state_reference_frame.Len() + 1)*sizeof(decltype(*out_ros_data.state.reference_frame.data)));
-		memcpy(out_ros_data.state.reference_frame.data, TCHAR_TO_ANSI(*state_reference_frame), (state_reference_frame.Len()+1)*sizeof(char));
-		out_ros_data.state.reference_frame.size = state_reference_frame.Len();
-		out_ros_data.state.reference_frame.capacity = state_reference_frame.Len() + 1;
+		out_ros_data.state.reference_frame.data = (decltype(out_ros_data.state.reference_frame.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.state.reference_frame.data)));
+		memcpy(out_ros_data.state.reference_frame.data, TCHAR_TO_UTF8(*state_reference_frame), (strLength+1)*sizeof(char));
+			out_ros_data.state.reference_frame.size = strLength;
+			out_ros_data.state.reference_frame.capacity = strLength + 1;
+		}
 
 		
 	}

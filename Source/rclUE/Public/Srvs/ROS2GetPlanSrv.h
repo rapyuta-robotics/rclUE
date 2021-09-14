@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "Srvs/ROS2GenericSrv.h"
 #include "rclcUtilities.h"
@@ -104,14 +104,18 @@ public:
 
 		out_ros_data.start.header.stamp.nanosec = start_header_stamp_nanosec;
 
-		if (out_ros_data.start.header.frame_id.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *start_header_frame_id );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.start.header.frame_id.data != nullptr)
 		{
 			free(out_ros_data.start.header.frame_id.data);
 		}
-		out_ros_data.start.header.frame_id.data = (decltype(out_ros_data.start.header.frame_id.data))malloc((start_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.start.header.frame_id.data)));
-		memcpy(out_ros_data.start.header.frame_id.data, TCHAR_TO_ANSI(*start_header_frame_id), (start_header_frame_id.Len()+1)*sizeof(char));
-		out_ros_data.start.header.frame_id.size = start_header_frame_id.Len();
-		out_ros_data.start.header.frame_id.capacity = start_header_frame_id.Len() + 1;
+		out_ros_data.start.header.frame_id.data = (decltype(out_ros_data.start.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.start.header.frame_id.data)));
+		memcpy(out_ros_data.start.header.frame_id.data, TCHAR_TO_UTF8(*start_header_frame_id), (strLength+1)*sizeof(char));
+			out_ros_data.start.header.frame_id.size = strLength;
+			out_ros_data.start.header.frame_id.capacity = strLength + 1;
+		}
 
 		out_ros_data.start.pose.position.x = start_pose_position_x;
 
@@ -128,14 +132,18 @@ public:
 
 		out_ros_data.goal.header.stamp.nanosec = goal_header_stamp_nanosec;
 
-		if (out_ros_data.goal.header.frame_id.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *goal_header_frame_id );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.goal.header.frame_id.data != nullptr)
 		{
 			free(out_ros_data.goal.header.frame_id.data);
 		}
-		out_ros_data.goal.header.frame_id.data = (decltype(out_ros_data.goal.header.frame_id.data))malloc((goal_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.goal.header.frame_id.data)));
-		memcpy(out_ros_data.goal.header.frame_id.data, TCHAR_TO_ANSI(*goal_header_frame_id), (goal_header_frame_id.Len()+1)*sizeof(char));
-		out_ros_data.goal.header.frame_id.size = goal_header_frame_id.Len();
-		out_ros_data.goal.header.frame_id.capacity = goal_header_frame_id.Len() + 1;
+		out_ros_data.goal.header.frame_id.data = (decltype(out_ros_data.goal.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.goal.header.frame_id.data)));
+		memcpy(out_ros_data.goal.header.frame_id.data, TCHAR_TO_UTF8(*goal_header_frame_id), (strLength+1)*sizeof(char));
+			out_ros_data.goal.header.frame_id.size = strLength;
+			out_ros_data.goal.header.frame_id.capacity = strLength + 1;
+		}
 
 		out_ros_data.goal.pose.position.x = goal_pose_position_x;
 
@@ -242,14 +250,18 @@ public:
 
 		out_ros_data.plan.header.stamp.nanosec = plan_header_stamp_nanosec;
 
-		if (out_ros_data.plan.header.frame_id.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *plan_header_frame_id );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.plan.header.frame_id.data != nullptr)
 		{
 			free(out_ros_data.plan.header.frame_id.data);
 		}
-		out_ros_data.plan.header.frame_id.data = (decltype(out_ros_data.plan.header.frame_id.data))malloc((plan_header_frame_id.Len() + 1)*sizeof(decltype(*out_ros_data.plan.header.frame_id.data)));
-		memcpy(out_ros_data.plan.header.frame_id.data, TCHAR_TO_ANSI(*plan_header_frame_id), (plan_header_frame_id.Len()+1)*sizeof(char));
-		out_ros_data.plan.header.frame_id.size = plan_header_frame_id.Len();
-		out_ros_data.plan.header.frame_id.capacity = plan_header_frame_id.Len() + 1;
+		out_ros_data.plan.header.frame_id.data = (decltype(out_ros_data.plan.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.plan.header.frame_id.data)));
+		memcpy(out_ros_data.plan.header.frame_id.data, TCHAR_TO_UTF8(*plan_header_frame_id), (strLength+1)*sizeof(char));
+			out_ros_data.plan.header.frame_id.size = strLength;
+			out_ros_data.plan.header.frame_id.capacity = strLength + 1;
+		}
 
 		if (out_ros_data.plan.poses.data != nullptr)
 		{
@@ -281,14 +293,18 @@ public:
 
 		for (int i = 0; i < plan_poses_header_frame_id.Num(); i++)
 		{
-			if (out_ros_data.plan.poses.data != nullptr)
 			{
-				free(out_ros_data.plan.poses.data);
+			FTCHARToUTF8 strUtf8( *plan_poses_header_frame_id[i] );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.plan.poses.data != nullptr)
+				{
+					free(out_ros_data.plan.poses.data);
+				}
+				out_ros_data.plan.poses.data[i].header.frame_id.data = (char*)malloc((strLength+1)*sizeof(char));
+				memcpy(out_ros_data.plan.poses.data[i].header.frame_id.data, TCHAR_TO_UTF8(*plan_poses_header_frame_id[i]), (strLength+1)*sizeof(char));
+				out_ros_data.plan.poses.size = strLength;
+				out_ros_data.plan.poses.capacity = strLength + 1;
 			}
-			out_ros_data.plan.poses.data[i].header.frame_id.data = (char*)malloc((plan_poses_header_frame_id[i].Len()+1)*sizeof(char));
-			memcpy(out_ros_data.plan.poses.data[i].header.frame_id.data, TCHAR_TO_ANSI(*plan_poses_header_frame_id[i]), (plan_poses_header_frame_id[i].Len()+1)*sizeof(char));
-			out_ros_data.plan.poses.size = plan_poses_header_frame_id[i].Len();
-			out_ros_data.plan.poses.capacity = plan_poses_header_frame_id[i].Len() + 1;
 		}
 
 		if (out_ros_data.plan.poses.data != nullptr)

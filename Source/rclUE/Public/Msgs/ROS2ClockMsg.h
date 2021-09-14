@@ -1,8 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 #include "Msgs/ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 #include <rosgraph_msgs/msg/clock.h>

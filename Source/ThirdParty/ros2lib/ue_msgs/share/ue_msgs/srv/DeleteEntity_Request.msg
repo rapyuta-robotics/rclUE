@@ -1,1 +1,0 @@
-string name                       # Entity name.

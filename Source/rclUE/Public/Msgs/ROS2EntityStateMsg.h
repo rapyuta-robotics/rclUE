@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "ue_msgs/msg/entity_state.h"
 
@@ -71,14 +71,18 @@ public:
 
 	void SetROS2(ue_msgs__msg__EntityState& out_ros_data) const
 	{
-    	if (out_ros_data.name.data != nullptr)
+    	{
+			FTCHARToUTF8 strUtf8( *name );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.name.data != nullptr)
 		{
 			free(out_ros_data.name.data);
 		}
-		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Len() + 1)*sizeof(decltype(*out_ros_data.name.data)));
-		memcpy(out_ros_data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
-		out_ros_data.name.size = name.Len();
-		out_ros_data.name.capacity = name.Len() + 1;
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.name.data)));
+		memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*name), (strLength+1)*sizeof(char));
+			out_ros_data.name.size = strLength;
+			out_ros_data.name.capacity = strLength + 1;
+		}
 
 		out_ros_data.pose.position.x = pose_position_x;
 
@@ -99,14 +103,18 @@ public:
 		out_ros_data.twist.angular.y = twist_angular.Y;
 		out_ros_data.twist.angular.z = twist_angular.Z;
 
-		if (out_ros_data.reference_frame.data != nullptr)
+		{
+			FTCHARToUTF8 strUtf8( *reference_frame );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.reference_frame.data != nullptr)
 		{
 			free(out_ros_data.reference_frame.data);
 		}
-		out_ros_data.reference_frame.data = (decltype(out_ros_data.reference_frame.data))malloc((reference_frame.Len() + 1)*sizeof(decltype(*out_ros_data.reference_frame.data)));
-		memcpy(out_ros_data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
-		out_ros_data.reference_frame.size = reference_frame.Len();
-		out_ros_data.reference_frame.capacity = reference_frame.Len() + 1;
+		out_ros_data.reference_frame.data = (decltype(out_ros_data.reference_frame.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.reference_frame.data)));
+		memcpy(out_ros_data.reference_frame.data, TCHAR_TO_UTF8(*reference_frame), (strLength+1)*sizeof(char));
+			out_ros_data.reference_frame.size = strLength;
+			out_ros_data.reference_frame.capacity = strLength + 1;
+		}
 
 		
 	}

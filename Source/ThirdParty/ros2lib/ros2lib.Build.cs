@@ -13,28 +13,6 @@ public class ros2lib : ModuleRules
 		get { return ModuleDirectory; }
 	}
 
-	private bool BuildPlugin(ReadOnlyTargetRules Target)
-	{
-
-		ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/usr/bin/colcon", Arguments = "build --cmake-args -DBUILD_TESTING=OFF", }; 
-		// startInfo.RedirectStandardOutput = true;
-		// startInfo.UseShellExecute = false;
-		// startInfo.CreateNoWindow = true;
-		Process proc = new Process() { StartInfo = startInfo, };
-		proc.Start();
-		proc.WaitForExit();
-		//proc.StandardOutput.ReadToEnd();
-
-		// var configureCommand = "colcon build --cmake-args -DBUILD_TESTING=OFF --symlink-install";
-		// var configureCode = ExecuteCommandSync(configureCommand);
-		// if (configureCode != 0)
-		// {
-		// 	Console.WriteLine("Cannot run colcon. Exited with code: " + configureCode);
-		// 	return false;
-		// }
-		return true;
-	}
-
 	public ros2lib(ReadOnlyTargetRules Target) : base(Target)
 	{
 		Type = ModuleType.External;
@@ -48,8 +26,6 @@ public class ros2lib : ModuleRules
 
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			//BuildPlugin(Target);
-
 			PublicRuntimeLibraryPaths.Add(ModulePath);
 			var libs = Directory.EnumerateFiles(ModulePath, "*.so", SearchOption.TopDirectoryOnly);
 			foreach (var libName in libs)
