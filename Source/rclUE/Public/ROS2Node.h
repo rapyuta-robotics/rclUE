@@ -10,9 +10,10 @@
 
 #include "ROS2Support.h"
 
-#include <Components/ActorComponent.h>
 #include <Containers/Map.h>
 #include <CoreMinimal.h>
+#include <GameFramework/Actor.h>
+#include <Components/ActorComponent.h>
 
 #include "ROS2Node.generated.h"
 

@@ -64,7 +64,7 @@ enum UROS2QoS
     Services UMETA(DisplayName = "Services"),
     ParameterEvents UMETA(DisplayName = "ParameterEvents"),
     System UMETA(DisplayName = "System"),
-    Unknown UMETA(DisplayName = "Unknown"),
+    UnknownQoS UMETA(DisplayName = "UnknownQoS"),
 };
 
 // profiles provided by rclUE
@@ -130,4 +130,4 @@ static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::Services, rmw_qos_profile_services_default},
     {UROS2QoS::ParameterEvents, rmw_qos_profile_parameter_events},
     {UROS2QoS::System, rmw_qos_profile_system_default},
-    {UROS2QoS::Unknown, rmw_qos_profile_unknown}};
+    {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};

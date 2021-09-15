@@ -8,6 +8,7 @@
 #include "ROS2ServiceClient.h"
 #include "ROS2Subsystem.h"
 
+#include <Engine/GameInstance.h>
 #include <Kismet/GameplayStatics.h>
 
 DEFINE_LOG_CATEGORY(LogROS2Node);

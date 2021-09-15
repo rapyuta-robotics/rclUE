@@ -79,7 +79,7 @@ void UROS2ActionServer::SendGoalResponse()
     ue4_interfaces__action__Fibonacci_SendGoal_Response* GoalResponse =
         (ue4_interfaces__action__Fibonacci_SendGoal_Response*)Action->GetGoalResponse();
     GoalResponse->accepted = true;
-    float TimeOfResponse = UGameplayStatics::GetTimeSeconds(GetWorld());
+    float TimeOfResponse = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject *>(GetWorld()));
     GoalResponse->stamp.sec = static_cast<int32>(TimeOfResponse);
     uint64 ns = (uint64)(TimeOfResponse * 1e+09f);
     GoalResponse->stamp.nanosec = static_cast<uint32>(ns - (GoalResponse->stamp.sec * 1e+09));
@@ -94,7 +94,7 @@ void UROS2ActionServer::ProcessAndSendCancelResponse()
     check(IsValid(OwnerNode));
 
     rcl_action_cancel_request_t cancel_request = rcl_action_get_zero_initialized_cancel_request();
-    float TimeOfCancelProcess = UGameplayStatics::GetTimeSeconds(GetWorld());
+    float TimeOfCancelProcess = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject *>(GetWorld()));
     cancel_request.goal_info.stamp.sec = static_cast<int32>(TimeOfCancelProcess);
     uint64 ns = (uint64)(TimeOfCancelProcess * 1e+09f);
     cancel_request.goal_info.stamp.nanosec = static_cast<uint32>(ns - (cancel_request.goal_info.stamp.sec * 1e+09));
