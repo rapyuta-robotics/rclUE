@@ -37,22 +37,7 @@ void* UROS2OdometryMsg::Get()
 
 FString UROS2OdometryMsg::MsgToString() const
 {
-    return FString::Printf(TEXT("Odometry:\n\tStamp: %ds %dns\n\tFrame ID %s\n\tChild Frame ID %s\n\tPosition %f %f %f\n\tOrientation %f %f %f %f\n\tTwist linear %f %f %f\n\tTwist angular %f %f %f"),
-		odometry_msg.header.stamp.sec,
-		odometry_msg.header.stamp.nanosec,
-		odometry_msg.header.frame_id.data,
-		odometry_msg.child_frame_id.data,
-		odometry_msg.pose.pose.position.x,
-		odometry_msg.pose.pose.position.y,
-		odometry_msg.pose.pose.position.z,
-		odometry_msg.pose.pose.orientation.x,
-		odometry_msg.pose.pose.orientation.y,
-		odometry_msg.pose.pose.orientation.z,
-		odometry_msg.pose.pose.orientation.w,
-		odometry_msg.twist.twist.linear.x,
-		odometry_msg.twist.twist.linear.y,
-		odometry_msg.twist.twist.linear.z,
-		odometry_msg.twist.twist.angular.x,
-		odometry_msg.twist.twist.angular.y,
-		odometry_msg.twist.twist.angular.z);
+    /* TODO: Fill here */
+	checkNoEntry();
+	return FString();
 }

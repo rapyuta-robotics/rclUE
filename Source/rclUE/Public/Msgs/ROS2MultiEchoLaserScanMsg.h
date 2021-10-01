@@ -127,31 +127,27 @@ public:
 		{
 			free(out_ros_data.ranges.data);
 		}
-		out_ros_data.ranges.data = (decltype(out_ros_data.ranges.data))malloc((ranges_echoes.Num())*sizeof(decltype(*out_ros_data.ranges.data)));
-		
+		out_ros_data.ranges.data = (decltype(out_ros_data.ranges.data))malloc(ranges_echoes.Num() * (sizeof(ranges_echoes)));
+		out_ros_data.ranges.size = ranges_echoes.Num();
+		out_ros_data.ranges.capacity = ranges_echoes.Num();
 		for (int i = 0; i < ranges_echoes.Num(); i++)
 		{
 			out_ros_data.ranges.data[i].echoes.data[i] = ranges_echoes[i];
-		}
 
-		out_ros_data.ranges.size = ranges_echoes.Num();
-		out_ros_data.ranges.capacity = ranges_echoes.Num();
-
-		if (out_ros_data.intensities.data != nullptr)
+			}
+	if (out_ros_data.intensities.data != nullptr)
 		{
 			free(out_ros_data.intensities.data);
 		}
-		out_ros_data.intensities.data = (decltype(out_ros_data.intensities.data))malloc((intensities_echoes.Num())*sizeof(decltype(*out_ros_data.intensities.data)));
-		
+		out_ros_data.intensities.data = (decltype(out_ros_data.intensities.data))malloc(intensities_echoes.Num() * (sizeof(intensities_echoes)));
+		out_ros_data.intensities.size = intensities_echoes.Num();
+		out_ros_data.intensities.capacity = intensities_echoes.Num();
 		for (int i = 0; i < intensities_echoes.Num(); i++)
 		{
 			out_ros_data.intensities.data[i].echoes.data[i] = intensities_echoes[i];
-		}
 
-		out_ros_data.intensities.size = intensities_echoes.Num();
-		out_ros_data.intensities.capacity = intensities_echoes.Num();
-
-		
+			}
+	
 	}
 };
 

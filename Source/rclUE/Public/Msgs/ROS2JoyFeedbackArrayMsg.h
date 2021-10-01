@@ -53,45 +53,19 @@ public:
 		{
 			free(out_ros_data.array.data);
 		}
-		out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc((array_type.Num())*sizeof(decltype(*out_ros_data.array.data)));
-		
+		out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc(array_type.Num() * (sizeof(array_type) + sizeof(array_id) + sizeof(array_intensity)));
+		out_ros_data.array.size = array_type.Num();
+		out_ros_data.array.capacity = array_type.Num();
 		for (int i = 0; i < array_type.Num(); i++)
 		{
 			out_ros_data.array.data[i].type = array_type[i];
-		}
 
-		out_ros_data.array.size = array_type.Num();
-		out_ros_data.array.capacity = array_type.Num();
-
-		if (out_ros_data.array.data != nullptr)
-		{
-			free(out_ros_data.array.data);
-		}
-		out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc((array_id.Num())*sizeof(decltype(*out_ros_data.array.data)));
-		
-		for (int i = 0; i < array_id.Num(); i++)
-		{
 			out_ros_data.array.data[i].id = array_id[i];
-		}
 
-		out_ros_data.array.size = array_id.Num();
-		out_ros_data.array.capacity = array_id.Num();
-
-		if (out_ros_data.array.data != nullptr)
-		{
-			free(out_ros_data.array.data);
-		}
-		out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc((array_intensity.Num())*sizeof(decltype(*out_ros_data.array.data)));
-		
-		for (int i = 0; i < array_intensity.Num(); i++)
-		{
 			out_ros_data.array.data[i].intensity = array_intensity[i];
-		}
 
-		out_ros_data.array.size = array_intensity.Num();
-		out_ros_data.array.capacity = array_intensity.Num();
-
-		
+			}
+	
 	}
 };
 

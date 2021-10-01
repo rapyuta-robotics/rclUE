@@ -87,19 +87,24 @@ public:
 			out_ros_data.header.frame_id.capacity = strLength + 1;
 		}
 
+		if (out_ros_data.name.data != nullptr)
+		{
+			free(out_ros_data.name.data);
+		}
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((name.Num())*sizeof(decltype(*out_ros_data.name.data)));
 		for (int i = 0; i < name.Num(); i++)
 		{
 			{
-			FTCHARToUTF8 strUtf8( *name[i] );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.name.data != nullptr)
+				FTCHARToUTF8 strUtf8( *name[i] );
+				int32 strLength = strUtf8.Length();
+				if (out_ros_data.name.data[i].data != nullptr)
 				{
-					free(out_ros_data.name.data);
+					free(out_ros_data.name.data[i].data);
 				}
 				out_ros_data.name.data[i].data = (char*)malloc((strLength+1)*sizeof(char));
 				memcpy(out_ros_data.name.data[i].data, TCHAR_TO_UTF8(*name[i]), (strLength+1)*sizeof(char));
-				out_ros_data.name.size = strLength;
-				out_ros_data.name.capacity = strLength + 1;
+				out_ros_data.name.data[i].size = strLength;
+				out_ros_data.name.data[i].capacity = strLength + 1;
 			}
 		}
 

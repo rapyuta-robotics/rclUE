@@ -102,75 +102,40 @@ public:
 		{
 			free(out_ros_data.points.data);
 		}
-		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc((points_x.Num())*sizeof(decltype(*out_ros_data.points.data)));
-		
+		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(points_x.Num() * (sizeof(points_x) + sizeof(points_y) + sizeof(points_z)));
+		out_ros_data.points.size = points_x.Num();
+		out_ros_data.points.capacity = points_x.Num();
 		for (int i = 0; i < points_x.Num(); i++)
 		{
 			out_ros_data.points.data[i].x = points_x[i];
-		}
 
-		out_ros_data.points.size = points_x.Num();
-		out_ros_data.points.capacity = points_x.Num();
-
-		if (out_ros_data.points.data != nullptr)
-		{
-			free(out_ros_data.points.data);
-		}
-		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc((points_y.Num())*sizeof(decltype(*out_ros_data.points.data)));
-		
-		for (int i = 0; i < points_y.Num(); i++)
-		{
 			out_ros_data.points.data[i].y = points_y[i];
-		}
 
-		out_ros_data.points.size = points_y.Num();
-		out_ros_data.points.capacity = points_y.Num();
-
-		if (out_ros_data.points.data != nullptr)
-		{
-			free(out_ros_data.points.data);
-		}
-		out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc((points_z.Num())*sizeof(decltype(*out_ros_data.points.data)));
-		
-		for (int i = 0; i < points_z.Num(); i++)
-		{
 			out_ros_data.points.data[i].z = points_z[i];
-		}
 
-		out_ros_data.points.size = points_z.Num();
-		out_ros_data.points.capacity = points_z.Num();
-
-		for (int i = 0; i < channels_name.Num(); i++)
-		{
-			{
-			FTCHARToUTF8 strUtf8( *channels_name[i] );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.channels.data != nullptr)
-				{
-					free(out_ros_data.channels.data);
-				}
-				out_ros_data.channels.data[i].name.data = (char*)malloc((strLength+1)*sizeof(char));
-				memcpy(out_ros_data.channels.data[i].name.data, TCHAR_TO_UTF8(*channels_name[i]), (strLength+1)*sizeof(char));
-				out_ros_data.channels.size = strLength;
-				out_ros_data.channels.capacity = strLength + 1;
 			}
-		}
-
-		if (out_ros_data.channels.data != nullptr)
+	if (out_ros_data.channels.data != nullptr)
 		{
 			free(out_ros_data.channels.data);
 		}
-		out_ros_data.channels.data = (decltype(out_ros_data.channels.data))malloc((channels_values.Num())*sizeof(decltype(*out_ros_data.channels.data)));
-		
-		for (int i = 0; i < channels_values.Num(); i++)
+		out_ros_data.channels.data = (decltype(out_ros_data.channels.data))malloc(channels_name.Num() * (sizeof(channels_name) + sizeof(channels_values)));
+		out_ros_data.channels.size = channels_name.Num();
+		out_ros_data.channels.capacity = channels_name.Num();
+		for (int i = 0; i < channels_name.Num(); i++)
 		{
+			{
+				FTCHARToUTF8 strUtf8( *channels_name[i] );
+			int32 strLength = strUtf8.Length();
+				out_ros_data.channels.data[i].name.data = (decltype(out_ros_data.channels.data[i].name.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.channels.data[i].name.data)));
+		memcpy(out_ros_data.channels.data[i].name.data, TCHAR_TO_UTF8(*channels_name[i]), (strLength+1)*sizeof(char));
+				out_ros_data.channels.data[i].name.size = strLength;
+				out_ros_data.channels.data[i].name.capacity = strLength + 1;
+			}
+
 			out_ros_data.channels.data[i].values.data[i] = channels_values[i];
-		}
 
-		out_ros_data.channels.size = channels_values.Num();
-		out_ros_data.channels.capacity = channels_values.Num();
-
-		
+			}
+	
 	}
 };
 
