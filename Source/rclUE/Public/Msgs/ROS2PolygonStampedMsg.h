@@ -41,6 +41,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.polygon.points.size; i++)
 		{
+			polygon_points.Add(FVector());
 			polygon_points[i].X = in_ros_data.polygon.points.data[i].x;
 			polygon_points[i].Y = in_ros_data.polygon.points.data[i].y;
 			polygon_points[i].Z = in_ros_data.polygon.points.data[i].z;

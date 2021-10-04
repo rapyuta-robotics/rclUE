@@ -72,7 +72,7 @@ public:
 
 		for (int i = 0; i < 9; i++)
 		{
-			orientation_covariance[i] = in_ros_data.orientation_covariance[i];
+			orientation_covariance.Add(in_ros_data.orientation_covariance[i]);
 		}
 
 		angular_velocity_x = in_ros_data.angular_velocity.x;
@@ -83,7 +83,7 @@ public:
 
 		for (int i = 0; i < 9; i++)
 		{
-			angular_velocity_covariance[i] = in_ros_data.angular_velocity_covariance[i];
+			angular_velocity_covariance.Add(in_ros_data.angular_velocity_covariance[i]);
 		}
 
 		linear_acceleration_x = in_ros_data.linear_acceleration.x;
@@ -94,7 +94,7 @@ public:
 
 		for (int i = 0; i < 9; i++)
 		{
-			linear_acceleration_covariance[i] = in_ros_data.linear_acceleration_covariance[i];
+			linear_acceleration_covariance.Add(in_ros_data.linear_acceleration_covariance[i]);
 		}
 
 		

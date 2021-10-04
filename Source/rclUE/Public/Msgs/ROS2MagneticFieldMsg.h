@@ -52,7 +52,7 @@ public:
 
 		for (int i = 0; i < 9; i++)
 		{
-			magnetic_field_covariance[i] = in_ros_data.magnetic_field_covariance[i];
+			magnetic_field_covariance.Add(in_ros_data.magnetic_field_covariance[i]);
 		}
 
 		

@@ -47,22 +47,23 @@ public:
 
 		for (int i = 0; i < in_ros_data.name.size; i++)
 		{
+			name.Add("");
 			name[i].AppendChars(in_ros_data.name.data[i].data,in_ros_data.name.data[i].size);
 		}
 
 		for (int i = 0; i < in_ros_data.position.size; i++)
 		{
-			position[i] = in_ros_data.position.data[i];
+			position.Add(in_ros_data.position.data[i]);
 		}
 
 		for (int i = 0; i < in_ros_data.velocity.size; i++)
 		{
-			velocity[i] = in_ros_data.velocity.data[i];
+			velocity.Add(in_ros_data.velocity.data[i]);
 		}
 
 		for (int i = 0; i < in_ros_data.effort.size; i++)
 		{
-			effort[i] = in_ros_data.effort.data[i];
+			effort.Add(in_ros_data.effort.data[i]);
 		}
 
 		

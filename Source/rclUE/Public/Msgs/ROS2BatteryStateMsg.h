@@ -102,12 +102,12 @@ public:
 
 		for (int i = 0; i < in_ros_data.cell_voltage.size; i++)
 		{
-			cell_voltage[i] = in_ros_data.cell_voltage.data[i];
+			cell_voltage.Add(in_ros_data.cell_voltage.data[i]);
 		}
 
 		for (int i = 0; i < in_ros_data.cell_temperature.size; i++)
 		{
-			cell_temperature[i] = in_ros_data.cell_temperature.data[i];
+			cell_temperature.Add(in_ros_data.cell_temperature.data[i]);
 		}
 
 		location.AppendChars(in_ros_data.location.data, in_ros_data.location.size);

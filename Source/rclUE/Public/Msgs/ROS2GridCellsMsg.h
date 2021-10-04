@@ -54,17 +54,17 @@ public:
 
 		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_x[i] = in_ros_data.cells.data[i].x;
+			cells_x.Add(in_ros_data.cells.data[i].x);
 		}
 
 		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_y[i] = in_ros_data.cells.data[i].y;
+			cells_y.Add(in_ros_data.cells.data[i].y);
 		}
 
 		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_z[i] = in_ros_data.cells.data[i].z;
+			cells_z.Add(in_ros_data.cells.data[i].z);
 		}
 
 		

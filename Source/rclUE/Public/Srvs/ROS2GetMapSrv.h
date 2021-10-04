@@ -101,7 +101,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.map.data.size; i++)
 		{
-			map_data[i] = in_ros_data.map.data.data[i];
+			map_data.Add(in_ros_data.map.data.data[i]);
 		}
 
 		

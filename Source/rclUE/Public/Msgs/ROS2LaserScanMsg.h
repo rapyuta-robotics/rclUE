@@ -79,12 +79,12 @@ public:
 
 		for (int i = 0; i < in_ros_data.ranges.size; i++)
 		{
-			ranges[i] = in_ros_data.ranges.data[i];
+			ranges.Add(in_ros_data.ranges.data[i]);
 		}
 
 		for (int i = 0; i < in_ros_data.intensities.size; i++)
 		{
-			intensities[i] = in_ros_data.intensities.data[i];
+			intensities.Add(in_ros_data.intensities.data[i]);
 		}
 
 		

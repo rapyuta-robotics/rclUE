@@ -59,11 +59,13 @@ public:
 
 		for (int i = 0; i < in_ros_data.joint_names.size; i++)
 		{
+			joint_names.Add("");
 			joint_names[i].AppendChars(in_ros_data.joint_names.data[i].data,in_ros_data.joint_names.data[i].size);
 		}
 
 		for (int i = 0; i < in_ros_data.transforms.size; i++)
 		{
+			transforms_translation.Add(FVector());
 			transforms_translation[i].X = in_ros_data.transforms.data[i].translation.x;
 			transforms_translation[i].Y = in_ros_data.transforms.data[i].translation.y;
 			transforms_translation[i].Z = in_ros_data.transforms.data[i].translation.z;
@@ -71,6 +73,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.transforms.size; i++)
 		{
+			transforms_rotation.Add(FQuat());
 			transforms_rotation[i].X = in_ros_data.transforms.data[i].rotation.x;
 			transforms_rotation[i].Y = in_ros_data.transforms.data[i].rotation.y;
 			transforms_rotation[i].Z = in_ros_data.transforms.data[i].rotation.z;
@@ -79,6 +82,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.twist.size; i++)
 		{
+			twist_linear.Add(FVector());
 			twist_linear[i].X = in_ros_data.twist.data[i].linear.x;
 			twist_linear[i].Y = in_ros_data.twist.data[i].linear.y;
 			twist_linear[i].Z = in_ros_data.twist.data[i].linear.z;
@@ -86,6 +90,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.twist.size; i++)
 		{
+			twist_angular.Add(FVector());
 			twist_angular[i].X = in_ros_data.twist.data[i].angular.x;
 			twist_angular[i].Y = in_ros_data.twist.data[i].angular.y;
 			twist_angular[i].Z = in_ros_data.twist.data[i].angular.z;
@@ -93,6 +98,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.wrench.size; i++)
 		{
+			wrench_force.Add(FVector());
 			wrench_force[i].X = in_ros_data.wrench.data[i].force.x;
 			wrench_force[i].Y = in_ros_data.wrench.data[i].force.y;
 			wrench_force[i].Z = in_ros_data.wrench.data[i].force.z;
@@ -100,6 +106,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.wrench.size; i++)
 		{
+			wrench_torque.Add(FVector());
 			wrench_torque[i].X = in_ros_data.wrench.data[i].torque.x;
 			wrench_torque[i].Y = in_ros_data.wrench.data[i].torque.y;
 			wrench_torque[i].Z = in_ros_data.wrench.data[i].torque.z;

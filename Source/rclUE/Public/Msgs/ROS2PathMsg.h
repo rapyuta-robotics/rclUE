@@ -55,36 +55,38 @@ public:
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_header_stamp_sec[i] = in_ros_data.poses.data[i].header.stamp.sec;
+			poses_header_stamp_sec.Add(in_ros_data.poses.data[i].header.stamp.sec);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_header_stamp_nanosec[i] = in_ros_data.poses.data[i].header.stamp.nanosec;
+			poses_header_stamp_nanosec.Add(in_ros_data.poses.data[i].header.stamp.nanosec);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
+			poses_header_frame_id.Add("");
 			poses_header_frame_id[i].AppendChars(in_ros_data.poses.data[i].header.frame_id.data,in_ros_data.poses.data[i].header.frame_id.size);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_pose_position_x[i] = in_ros_data.poses.data[i].pose.position.x;
+			poses_pose_position_x.Add(in_ros_data.poses.data[i].pose.position.x);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_pose_position_y[i] = in_ros_data.poses.data[i].pose.position.y;
+			poses_pose_position_y.Add(in_ros_data.poses.data[i].pose.position.y);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_pose_position_z[i] = in_ros_data.poses.data[i].pose.position.z;
+			poses_pose_position_z.Add(in_ros_data.poses.data[i].pose.position.z);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
+			poses_pose_orientation.Add(FQuat());
 			poses_pose_orientation[i].X = in_ros_data.poses.data[i].pose.orientation.x;
 			poses_pose_orientation[i].Y = in_ros_data.poses.data[i].pose.orientation.y;
 			poses_pose_orientation[i].Z = in_ros_data.poses.data[i].pose.orientation.z;

@@ -47,21 +47,22 @@ public:
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_position_x[i] = in_ros_data.poses.data[i].position.x;
+			poses_position_x.Add(in_ros_data.poses.data[i].position.x);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_position_y[i] = in_ros_data.poses.data[i].position.y;
+			poses_position_y.Add(in_ros_data.poses.data[i].position.y);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_position_z[i] = in_ros_data.poses.data[i].position.z;
+			poses_position_z.Add(in_ros_data.poses.data[i].position.z);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
+			poses_orientation.Add(FQuat());
 			poses_orientation[i].X = in_ros_data.poses.data[i].orientation.x;
 			poses_orientation[i].Y = in_ros_data.poses.data[i].orientation.y;
 			poses_orientation[i].Z = in_ros_data.poses.data[i].orientation.z;

@@ -53,27 +53,28 @@ public:
 
 		for (int i = 0; i < in_ros_data.points.size; i++)
 		{
-			points_x[i] = in_ros_data.points.data[i].x;
+			points_x.Add(in_ros_data.points.data[i].x);
 		}
 
 		for (int i = 0; i < in_ros_data.points.size; i++)
 		{
-			points_y[i] = in_ros_data.points.data[i].y;
+			points_y.Add(in_ros_data.points.data[i].y);
 		}
 
 		for (int i = 0; i < in_ros_data.points.size; i++)
 		{
-			points_z[i] = in_ros_data.points.data[i].z;
+			points_z.Add(in_ros_data.points.data[i].z);
 		}
 
 		for (int i = 0; i < in_ros_data.channels.size; i++)
 		{
+			channels_name.Add("");
 			channels_name[i].AppendChars(in_ros_data.channels.data[i].name.data,in_ros_data.channels.data[i].name.size);
 		}
 
 		for (int i = 0; i < in_ros_data.channels.size; i++)
 		{
-			channels_values[i] = in_ros_data.channels.data[i].values.data[i];
+			channels_values.Add(in_ros_data.channels.data[i].values.data[i]);
 		}
 
 		

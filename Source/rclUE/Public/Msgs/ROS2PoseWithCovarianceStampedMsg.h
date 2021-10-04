@@ -60,7 +60,7 @@ public:
 
 		for (int i = 0; i < 36; i++)
 		{
-			pose_covariance[i] = in_ros_data.pose.covariance[i];
+			pose_covariance.Add(in_ros_data.pose.covariance[i]);
 		}
 
 		

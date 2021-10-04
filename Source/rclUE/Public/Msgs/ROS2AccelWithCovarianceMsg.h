@@ -40,7 +40,7 @@ public:
 
 		for (int i = 0; i < 36; i++)
 		{
-			covariance[i] = in_ros_data.covariance[i];
+			covariance.Add(in_ros_data.covariance[i]);
 		}
 
 		

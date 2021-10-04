@@ -27,7 +27,7 @@ public:
 	{
     	for (int i = 0; i < in_ros_data.echoes.size; i++)
 		{
-			echoes[i] = in_ros_data.echoes.data[i];
+			echoes.Add(in_ros_data.echoes.data[i]);
 		}
 
 		

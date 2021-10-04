@@ -31,17 +31,17 @@ public:
 	{
     	for (int i = 0; i < in_ros_data.array.size; i++)
 		{
-			array_type[i] = in_ros_data.array.data[i].type;
+			array_type.Add(in_ros_data.array.data[i].type);
 		}
 
 		for (int i = 0; i < in_ros_data.array.size; i++)
 		{
-			array_id[i] = in_ros_data.array.data[i].id;
+			array_id.Add(in_ros_data.array.data[i].id);
 		}
 
 		for (int i = 0; i < in_ros_data.array.size; i++)
 		{
-			array_intensity[i] = in_ros_data.array.data[i].intensity;
+			array_intensity.Add(in_ros_data.array.data[i].intensity);
 		}
 
 		

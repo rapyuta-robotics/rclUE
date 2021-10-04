@@ -67,22 +67,23 @@ public:
 
 		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
+			fields_name.Add("");
 			fields_name[i].AppendChars(in_ros_data.fields.data[i].name.data,in_ros_data.fields.data[i].name.size);
 		}
 
 		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
-			fields_offset[i] = in_ros_data.fields.data[i].offset;
+			fields_offset.Add(in_ros_data.fields.data[i].offset);
 		}
 
 		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
-			fields_datatype[i] = in_ros_data.fields.data[i].datatype;
+			fields_datatype.Add(in_ros_data.fields.data[i].datatype);
 		}
 
 		for (int i = 0; i < in_ros_data.fields.size; i++)
 		{
-			fields_count[i] = in_ros_data.fields.data[i].count;
+			fields_count.Add(in_ros_data.fields.data[i].count);
 		}
 
 		is_bigendian = in_ros_data.is_bigendian;
@@ -93,7 +94,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.data.size; i++)
 		{
-			data[i] = in_ros_data.data.data[i];
+			data.Add(in_ros_data.data.data[i]);
 		}
 
 		is_dense = in_ros_data.is_dense;

@@ -82,7 +82,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.data.size; i++)
 		{
-			data[i] = in_ros_data.data.data[i];
+			data.Add(in_ros_data.data.data[i]);
 		}
 
 		

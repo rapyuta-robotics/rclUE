@@ -74,22 +74,22 @@ public:
 
 		for (int i = 0; i < in_ros_data.d.size; i++)
 		{
-			d[i] = in_ros_data.d.data[i];
+			d.Add(in_ros_data.d.data[i]);
 		}
 
 		for (int i = 0; i < 9; i++)
 		{
-			k[i] = in_ros_data.k[i];
+			k.Add(in_ros_data.k[i]);
 		}
 
 		for (int i = 0; i < 9; i++)
 		{
-			r[i] = in_ros_data.r[i];
+			r.Add(in_ros_data.r[i]);
 		}
 
 		for (int i = 0; i < 12; i++)
 		{
-			p[i] = in_ros_data.p[i];
+			p.Add(in_ros_data.p[i]);
 		}
 
 		binning_x = in_ros_data.binning_x;
