@@ -44,12 +44,12 @@ public:
 
 		for (int i = 0; i < in_ros_data.axes.size; i++)
 		{
-			axes[i] = in_ros_data.axes.data[i];
+			axes.Add(in_ros_data.axes.data[i]);
 		}
 
 		for (int i = 0; i < in_ros_data.buttons.size; i++)
 		{
-			buttons[i] = in_ros_data.buttons.data[i];
+			buttons.Add(in_ros_data.buttons.data[i]);
 		}
 
 		

@@ -47,21 +47,22 @@ public:
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_position_x[i] = in_ros_data.poses.data[i].position.x;
+			poses_position_x.Add(in_ros_data.poses.data[i].position.x);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_position_y[i] = in_ros_data.poses.data[i].position.y;
+			poses_position_y.Add(in_ros_data.poses.data[i].position.y);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
-			poses_position_z[i] = in_ros_data.poses.data[i].position.z;
+			poses_position_z.Add(in_ros_data.poses.data[i].position.z);
 		}
 
 		for (int i = 0; i < in_ros_data.poses.size; i++)
 		{
+			poses_orientation.Add(FQuat());
 			poses_orientation[i].X = in_ros_data.poses.data[i].orientation.x;
 			poses_orientation[i].Y = in_ros_data.poses.data[i].orientation.y;
 			poses_orientation[i].Z = in_ros_data.poses.data[i].orientation.z;
@@ -94,62 +95,24 @@ public:
 		{
 			free(out_ros_data.poses.data);
 		}
-		out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc((poses_position_x.Num())*sizeof(decltype(*out_ros_data.poses.data)));
-		
+		out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc(poses_position_x.Num() * (sizeof(poses_position_x) + sizeof(poses_position_y) + sizeof(poses_position_z) + sizeof(poses_orientation)));
+		out_ros_data.poses.size = poses_position_x.Num();
+		out_ros_data.poses.capacity = poses_position_x.Num();
 		for (int i = 0; i < poses_position_x.Num(); i++)
 		{
 			out_ros_data.poses.data[i].position.x = poses_position_x[i];
-		}
 
-		out_ros_data.poses.size = poses_position_x.Num();
-		out_ros_data.poses.capacity = poses_position_x.Num();
-
-		if (out_ros_data.poses.data != nullptr)
-		{
-			free(out_ros_data.poses.data);
-		}
-		out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc((poses_position_y.Num())*sizeof(decltype(*out_ros_data.poses.data)));
-		
-		for (int i = 0; i < poses_position_y.Num(); i++)
-		{
 			out_ros_data.poses.data[i].position.y = poses_position_y[i];
-		}
 
-		out_ros_data.poses.size = poses_position_y.Num();
-		out_ros_data.poses.capacity = poses_position_y.Num();
-
-		if (out_ros_data.poses.data != nullptr)
-		{
-			free(out_ros_data.poses.data);
-		}
-		out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc((poses_position_z.Num())*sizeof(decltype(*out_ros_data.poses.data)));
-		
-		for (int i = 0; i < poses_position_z.Num(); i++)
-		{
 			out_ros_data.poses.data[i].position.z = poses_position_z[i];
-		}
 
-		out_ros_data.poses.size = poses_position_z.Num();
-		out_ros_data.poses.capacity = poses_position_z.Num();
-
-		if (out_ros_data.poses.data != nullptr)
-		{
-			free(out_ros_data.poses.data);
-		}
-		out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc((poses_orientation.Num() * 4)*sizeof(decltype(*out_ros_data.poses.data)));
-		
-		for (int i = 0; i < poses_orientation.Num(); i++)
-		{
 			out_ros_data.poses.data[i].orientation.x = poses_orientation[i].X;
 			out_ros_data.poses.data[i].orientation.y = poses_orientation[i].Y;
 			out_ros_data.poses.data[i].orientation.z = poses_orientation[i].Z;
 			out_ros_data.poses.data[i].orientation.w = poses_orientation[i].W;
-		}
 
-		out_ros_data.poses.size = poses_orientation.Num();
-		out_ros_data.poses.capacity = poses_orientation.Num();
-
-		
+			}
+	
 	}
 };
 

@@ -62,7 +62,7 @@ public:
 
 		for (int i = 0; i < 9; i++)
 		{
-			position_covariance[i] = in_ros_data.position_covariance[i];
+			position_covariance.Add(in_ros_data.position_covariance[i]);
 		}
 
 		position_covariance_type = in_ros_data.position_covariance_type;

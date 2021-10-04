@@ -54,17 +54,17 @@ public:
 
 		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_x[i] = in_ros_data.cells.data[i].x;
+			cells_x.Add(in_ros_data.cells.data[i].x);
 		}
 
 		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_y[i] = in_ros_data.cells.data[i].y;
+			cells_y.Add(in_ros_data.cells.data[i].y);
 		}
 
 		for (int i = 0; i < in_ros_data.cells.size; i++)
 		{
-			cells_z[i] = in_ros_data.cells.data[i].z;
+			cells_z.Add(in_ros_data.cells.data[i].z);
 		}
 
 		
@@ -97,45 +97,19 @@ public:
 		{
 			free(out_ros_data.cells.data);
 		}
-		out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc((cells_x.Num())*sizeof(decltype(*out_ros_data.cells.data)));
-		
+		out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc(cells_x.Num() * (sizeof(cells_x) + sizeof(cells_y) + sizeof(cells_z)));
+		out_ros_data.cells.size = cells_x.Num();
+		out_ros_data.cells.capacity = cells_x.Num();
 		for (int i = 0; i < cells_x.Num(); i++)
 		{
 			out_ros_data.cells.data[i].x = cells_x[i];
-		}
 
-		out_ros_data.cells.size = cells_x.Num();
-		out_ros_data.cells.capacity = cells_x.Num();
-
-		if (out_ros_data.cells.data != nullptr)
-		{
-			free(out_ros_data.cells.data);
-		}
-		out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc((cells_y.Num())*sizeof(decltype(*out_ros_data.cells.data)));
-		
-		for (int i = 0; i < cells_y.Num(); i++)
-		{
 			out_ros_data.cells.data[i].y = cells_y[i];
-		}
 
-		out_ros_data.cells.size = cells_y.Num();
-		out_ros_data.cells.capacity = cells_y.Num();
-
-		if (out_ros_data.cells.data != nullptr)
-		{
-			free(out_ros_data.cells.data);
-		}
-		out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc((cells_z.Num())*sizeof(decltype(*out_ros_data.cells.data)));
-		
-		for (int i = 0; i < cells_z.Num(); i++)
-		{
 			out_ros_data.cells.data[i].z = cells_z[i];
-		}
 
-		out_ros_data.cells.size = cells_z.Num();
-		out_ros_data.cells.capacity = cells_z.Num();
-
-		
+			}
+	
 	}
 };
 

@@ -101,7 +101,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.map.data.size; i++)
 		{
-			map_data[i] = in_ros_data.map.data.data[i];
+			map_data.Add(in_ros_data.map.data.data[i]);
 		}
 
 		initial_pose_header_stamp_sec = in_ros_data.initial_pose.header.stamp.sec;
@@ -123,7 +123,7 @@ public:
 
 		for (int i = 0; i < 36; i++)
 		{
-			initial_pose_pose_covariance[i] = in_ros_data.initial_pose.pose.covariance[i];
+			initial_pose_pose_covariance.Add(in_ros_data.initial_pose.pose.covariance[i]);
 		}
 
 		

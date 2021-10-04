@@ -54,7 +54,7 @@ public:
 
 		for (int i = 0; i < 36; i++)
 		{
-			accel_covariance[i] = in_ros_data.accel.covariance[i];
+			accel_covariance.Add(in_ros_data.accel.covariance[i]);
 		}
 
 		

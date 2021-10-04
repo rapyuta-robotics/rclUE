@@ -32,7 +32,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.values.size; i++)
 		{
-			values[i] = in_ros_data.values.data[i];
+			values.Add(in_ros_data.values.data[i]);
 		}
 
 		

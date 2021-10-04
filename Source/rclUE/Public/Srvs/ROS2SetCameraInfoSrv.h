@@ -74,22 +74,22 @@ public:
 
 		for (int i = 0; i < in_ros_data.camera_info.d.size; i++)
 		{
-			camera_info_d[i] = in_ros_data.camera_info.d.data[i];
+			camera_info_d.Add(in_ros_data.camera_info.d.data[i]);
 		}
 
 		for (int i = 0; i < 9; i++)
 		{
-			camera_info_k[i] = in_ros_data.camera_info.k[i];
+			camera_info_k.Add(in_ros_data.camera_info.k[i]);
 		}
 
 		for (int i = 0; i < 9; i++)
 		{
-			camera_info_r[i] = in_ros_data.camera_info.r[i];
+			camera_info_r.Add(in_ros_data.camera_info.r[i]);
 		}
 
 		for (int i = 0; i < 12; i++)
 		{
-			camera_info_p[i] = in_ros_data.camera_info.p[i];
+			camera_info_p.Add(in_ros_data.camera_info.p[i]);
 		}
 
 		camera_info_binning_x = in_ros_data.camera_info.binning_x;

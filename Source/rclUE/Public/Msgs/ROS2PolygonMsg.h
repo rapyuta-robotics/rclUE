@@ -27,6 +27,7 @@ public:
 	{
     	for (int i = 0; i < in_ros_data.points.size; i++)
 		{
+			points.Add(FVector());
 			points[i].X = in_ros_data.points.data[i].x;
 			points[i].Y = in_ros_data.points.data[i].y;
 			points[i].Z = in_ros_data.points.data[i].z;

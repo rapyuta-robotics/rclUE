@@ -59,11 +59,13 @@ public:
 
 		for (int i = 0; i < in_ros_data.joint_names.size; i++)
 		{
+			joint_names.Add("");
 			joint_names[i].AppendChars(in_ros_data.joint_names.data[i].data,in_ros_data.joint_names.data[i].size);
 		}
 
 		for (int i = 0; i < in_ros_data.transforms.size; i++)
 		{
+			transforms_translation.Add(FVector());
 			transforms_translation[i].X = in_ros_data.transforms.data[i].translation.x;
 			transforms_translation[i].Y = in_ros_data.transforms.data[i].translation.y;
 			transforms_translation[i].Z = in_ros_data.transforms.data[i].translation.z;
@@ -71,6 +73,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.transforms.size; i++)
 		{
+			transforms_rotation.Add(FQuat());
 			transforms_rotation[i].X = in_ros_data.transforms.data[i].rotation.x;
 			transforms_rotation[i].Y = in_ros_data.transforms.data[i].rotation.y;
 			transforms_rotation[i].Z = in_ros_data.transforms.data[i].rotation.z;
@@ -79,6 +82,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.twist.size; i++)
 		{
+			twist_linear.Add(FVector());
 			twist_linear[i].X = in_ros_data.twist.data[i].linear.x;
 			twist_linear[i].Y = in_ros_data.twist.data[i].linear.y;
 			twist_linear[i].Z = in_ros_data.twist.data[i].linear.z;
@@ -86,6 +90,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.twist.size; i++)
 		{
+			twist_angular.Add(FVector());
 			twist_angular[i].X = in_ros_data.twist.data[i].angular.x;
 			twist_angular[i].Y = in_ros_data.twist.data[i].angular.y;
 			twist_angular[i].Z = in_ros_data.twist.data[i].angular.z;
@@ -93,6 +98,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.wrench.size; i++)
 		{
+			wrench_force.Add(FVector());
 			wrench_force[i].X = in_ros_data.wrench.data[i].force.x;
 			wrench_force[i].Y = in_ros_data.wrench.data[i].force.y;
 			wrench_force[i].Z = in_ros_data.wrench.data[i].force.z;
@@ -100,6 +106,7 @@ public:
 
 		for (int i = 0; i < in_ros_data.wrench.size; i++)
 		{
+			wrench_torque.Add(FVector());
 			wrench_torque[i].X = in_ros_data.wrench.data[i].torque.x;
 			wrench_torque[i].Y = in_ros_data.wrench.data[i].torque.y;
 			wrench_torque[i].Z = in_ros_data.wrench.data[i].torque.z;
@@ -127,19 +134,24 @@ public:
 			out_ros_data.header.frame_id.capacity = strLength + 1;
 		}
 
+		if (out_ros_data.joint_names.data != nullptr)
+		{
+			free(out_ros_data.joint_names.data);
+		}
+		out_ros_data.joint_names.data = (decltype(out_ros_data.joint_names.data))malloc((joint_names.Num())*sizeof(decltype(*out_ros_data.joint_names.data)));
 		for (int i = 0; i < joint_names.Num(); i++)
 		{
 			{
-			FTCHARToUTF8 strUtf8( *joint_names[i] );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.joint_names.data != nullptr)
+				FTCHARToUTF8 strUtf8( *joint_names[i] );
+				int32 strLength = strUtf8.Length();
+				if (out_ros_data.joint_names.data[i].data != nullptr)
 				{
-					free(out_ros_data.joint_names.data);
+					free(out_ros_data.joint_names.data[i].data);
 				}
 				out_ros_data.joint_names.data[i].data = (char*)malloc((strLength+1)*sizeof(char));
 				memcpy(out_ros_data.joint_names.data[i].data, TCHAR_TO_UTF8(*joint_names[i]), (strLength+1)*sizeof(char));
-				out_ros_data.joint_names.size = strLength;
-				out_ros_data.joint_names.capacity = strLength + 1;
+				out_ros_data.joint_names.data[i].size = strLength;
+				out_ros_data.joint_names.data[i].capacity = strLength + 1;
 			}
 		}
 
@@ -147,100 +159,58 @@ public:
 		{
 			free(out_ros_data.transforms.data);
 		}
-		out_ros_data.transforms.data = (decltype(out_ros_data.transforms.data))malloc((transforms_translation.Num() * 3)*sizeof(decltype(*out_ros_data.transforms.data)));
-		
+		out_ros_data.transforms.data = (decltype(out_ros_data.transforms.data))malloc(transforms_translation.Num() * (sizeof(transforms_translation) + sizeof(transforms_rotation)));
+		out_ros_data.transforms.size = transforms_translation.Num();
+		out_ros_data.transforms.capacity = transforms_translation.Num();
 		for (int i = 0; i < transforms_translation.Num(); i++)
 		{
 			out_ros_data.transforms.data[i].translation.x = transforms_translation[i].X;
 			out_ros_data.transforms.data[i].translation.y = transforms_translation[i].Y;
 			out_ros_data.transforms.data[i].translation.z = transforms_translation[i].Z;
-		}
 
-		out_ros_data.transforms.size = transforms_translation.Num();
-		out_ros_data.transforms.capacity = transforms_translation.Num();
-
-		if (out_ros_data.transforms.data != nullptr)
-		{
-			free(out_ros_data.transforms.data);
-		}
-		out_ros_data.transforms.data = (decltype(out_ros_data.transforms.data))malloc((transforms_rotation.Num() * 4)*sizeof(decltype(*out_ros_data.transforms.data)));
-		
-		for (int i = 0; i < transforms_rotation.Num(); i++)
-		{
 			out_ros_data.transforms.data[i].rotation.x = transforms_rotation[i].X;
 			out_ros_data.transforms.data[i].rotation.y = transforms_rotation[i].Y;
 			out_ros_data.transforms.data[i].rotation.z = transforms_rotation[i].Z;
 			out_ros_data.transforms.data[i].rotation.w = transforms_rotation[i].W;
-		}
 
-		out_ros_data.transforms.size = transforms_rotation.Num();
-		out_ros_data.transforms.capacity = transforms_rotation.Num();
-
-		if (out_ros_data.twist.data != nullptr)
+			}
+	if (out_ros_data.twist.data != nullptr)
 		{
 			free(out_ros_data.twist.data);
 		}
-		out_ros_data.twist.data = (decltype(out_ros_data.twist.data))malloc((twist_linear.Num() * 3)*sizeof(decltype(*out_ros_data.twist.data)));
-		
+		out_ros_data.twist.data = (decltype(out_ros_data.twist.data))malloc(twist_linear.Num() * (sizeof(twist_linear) + sizeof(twist_angular)));
+		out_ros_data.twist.size = twist_linear.Num();
+		out_ros_data.twist.capacity = twist_linear.Num();
 		for (int i = 0; i < twist_linear.Num(); i++)
 		{
 			out_ros_data.twist.data[i].linear.x = twist_linear[i].X;
 			out_ros_data.twist.data[i].linear.y = twist_linear[i].Y;
 			out_ros_data.twist.data[i].linear.z = twist_linear[i].Z;
-		}
 
-		out_ros_data.twist.size = twist_linear.Num();
-		out_ros_data.twist.capacity = twist_linear.Num();
-
-		if (out_ros_data.twist.data != nullptr)
-		{
-			free(out_ros_data.twist.data);
-		}
-		out_ros_data.twist.data = (decltype(out_ros_data.twist.data))malloc((twist_angular.Num() * 3)*sizeof(decltype(*out_ros_data.twist.data)));
-		
-		for (int i = 0; i < twist_angular.Num(); i++)
-		{
 			out_ros_data.twist.data[i].angular.x = twist_angular[i].X;
 			out_ros_data.twist.data[i].angular.y = twist_angular[i].Y;
 			out_ros_data.twist.data[i].angular.z = twist_angular[i].Z;
-		}
 
-		out_ros_data.twist.size = twist_angular.Num();
-		out_ros_data.twist.capacity = twist_angular.Num();
-
-		if (out_ros_data.wrench.data != nullptr)
+			}
+	if (out_ros_data.wrench.data != nullptr)
 		{
 			free(out_ros_data.wrench.data);
 		}
-		out_ros_data.wrench.data = (decltype(out_ros_data.wrench.data))malloc((wrench_force.Num() * 3)*sizeof(decltype(*out_ros_data.wrench.data)));
-		
+		out_ros_data.wrench.data = (decltype(out_ros_data.wrench.data))malloc(wrench_force.Num() * (sizeof(wrench_force) + sizeof(wrench_torque)));
+		out_ros_data.wrench.size = wrench_force.Num();
+		out_ros_data.wrench.capacity = wrench_force.Num();
 		for (int i = 0; i < wrench_force.Num(); i++)
 		{
 			out_ros_data.wrench.data[i].force.x = wrench_force[i].X;
 			out_ros_data.wrench.data[i].force.y = wrench_force[i].Y;
 			out_ros_data.wrench.data[i].force.z = wrench_force[i].Z;
-		}
 
-		out_ros_data.wrench.size = wrench_force.Num();
-		out_ros_data.wrench.capacity = wrench_force.Num();
-
-		if (out_ros_data.wrench.data != nullptr)
-		{
-			free(out_ros_data.wrench.data);
-		}
-		out_ros_data.wrench.data = (decltype(out_ros_data.wrench.data))malloc((wrench_torque.Num() * 3)*sizeof(decltype(*out_ros_data.wrench.data)));
-		
-		for (int i = 0; i < wrench_torque.Num(); i++)
-		{
 			out_ros_data.wrench.data[i].torque.x = wrench_torque[i].X;
 			out_ros_data.wrench.data[i].torque.y = wrench_torque[i].Y;
 			out_ros_data.wrench.data[i].torque.z = wrench_torque[i].Z;
-		}
 
-		out_ros_data.wrench.size = wrench_torque.Num();
-		out_ros_data.wrench.capacity = wrench_torque.Num();
-
-		
+			}
+	
 	}
 };
 

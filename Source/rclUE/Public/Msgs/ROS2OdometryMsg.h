@@ -73,7 +73,7 @@ public:
 
 		for (int i = 0; i < 36; i++)
 		{
-			pose_covariance[i] = in_ros_data.pose.covariance[i];
+			pose_covariance.Add(in_ros_data.pose.covariance[i]);
 		}
 
 		twist_twist_linear.X = in_ros_data.twist.twist.linear.x;
@@ -86,7 +86,7 @@ public:
 
 		for (int i = 0; i < 36; i++)
 		{
-			twist_covariance[i] = in_ros_data.twist.covariance[i];
+			twist_covariance.Add(in_ros_data.twist.covariance[i]);
 		}
 
 		
