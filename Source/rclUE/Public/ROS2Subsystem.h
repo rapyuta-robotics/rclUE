@@ -1,48 +1,45 @@
-// Copyright (c) 2020 Rapyuta Robotics Co., Ltd.
+// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
+
+// Game Instance Subsystem class used to maintain the rcl support object
+// This class is automatically instanced (see UE4 documentation for Subsystems for more details)
 
 #pragma once
 
-#include "CoreMinimal.h"
-#include "Tickable.h"
-#include "Subsystems/GameInstanceSubsystem.h"
-
+#include "ROS2Support.h"
 #include "rclcUtilities.h"
-#include "ROS2Context.h"
+
+#include <CoreMinimal.h>
+#include <Subsystems/GameInstanceSubsystem.h>
+#include <Tickable.h>
 
 #include "ROS2Subsystem.generated.h"
 
-
-/**
- * ROS2 Subsystem managing clock, execution model (executor), memory management and debugging support
- * - owner of context (contained in the rclc_support_t structure in rclc and wrapped in the UROS2Context in UE4)
- * 		should this be a TUniquePtr? the subsystem should be the first ROS2 component created and the last to be destroyed
- */
 UCLASS(Blueprintable)
 class RCLUE_API UROS2Subsystem : public UGameInstanceSubsystem, public FTickableGameObject
 {
-	GENERATED_BODY()
-	
-public:	
-	UFUNCTION(BlueprintCallable, Category="ROS2")
-    UROS2Context* GetContext() const;
+    GENERATED_BODY()
 
-	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+public:
+    UFUNCTION(BlueprintCallable, Category = "ROS2")
+    UROS2Support* GetSupport() const;
 
-	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+    virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
 
-	virtual void Deinitialize() override;
+    virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
-	virtual void Tick(float DeltaTime) override;
+    virtual void Deinitialize() override;
 
-	virtual bool IsTickable() const override;
+    virtual void Tick(float DeltaTime) override;
 
-	virtual bool IsTickableWhenPaused() const override;
+    virtual bool IsTickable() const override;
 
-	virtual bool IsTickableInEditor() const override;
+    virtual bool IsTickableWhenPaused() const override;
 
-	virtual TStatId GetStatId() const override;
-	
+    virtual bool IsTickableInEditor() const override;
+
+    virtual TStatId GetStatId() const override;
+
 private:
-	UPROPERTY()
-    UROS2Context* context;
+    UPROPERTY()
+    UROS2Support* Support;
 };

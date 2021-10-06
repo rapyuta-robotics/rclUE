@@ -3,7 +3,7 @@
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 
 #include "ue_msgs/msg/entity_state.h"
 
@@ -13,7 +13,7 @@
 #include "ROS2EntityStateMsg.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FEntityState
+struct RCLUE_API FROSEntityState
 {
 	GENERATED_BODY()
 
@@ -21,8 +21,11 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString name;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector pose_position;
+	double pose_position_x;
+
+	double pose_position_y;
+
+	double pose_position_z;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FQuat pose_orientation;
@@ -38,68 +41,80 @@ public:
 
 	
 
-	void SetFromROS2(ue_msgs__msg__EntityState data)
+	void SetFromROS2(const ue_msgs__msg__EntityState& in_ros_data)
 	{
-    	name.AppendChars(data.name.data, data.name.size);
+    	name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
 
-		pose_position.X = data.pose.position.x;
-		pose_position.Y = data.pose.position.y;
-		pose_position.Z = data.pose.position.z;
+		pose_position_x = in_ros_data.pose.position.x;
 
-		pose_orientation.X = data.pose.orientation.x;
-		pose_orientation.Y = data.pose.orientation.y;
-		pose_orientation.Z = data.pose.orientation.z;
-		pose_orientation.W = data.pose.orientation.w;
+		pose_position_y = in_ros_data.pose.position.y;
 
-		twist_linear.X = data.twist.linear.x;
-		twist_linear.Y = data.twist.linear.y;
-		twist_linear.Z = data.twist.linear.z;
+		pose_position_z = in_ros_data.pose.position.z;
 
-		twist_angular.X = data.twist.angular.x;
-		twist_angular.Y = data.twist.angular.y;
-		twist_angular.Z = data.twist.angular.z;
+		pose_orientation.X = in_ros_data.pose.orientation.x;
+		pose_orientation.Y = in_ros_data.pose.orientation.y;
+		pose_orientation.Z = in_ros_data.pose.orientation.z;
+		pose_orientation.W = in_ros_data.pose.orientation.w;
 
-		reference_frame.AppendChars(data.reference_frame.data, data.reference_frame.size);
+		twist_linear.X = in_ros_data.twist.linear.x;
+		twist_linear.Y = in_ros_data.twist.linear.y;
+		twist_linear.Z = in_ros_data.twist.linear.z;
+
+		twist_angular.X = in_ros_data.twist.angular.x;
+		twist_angular.Y = in_ros_data.twist.angular.y;
+		twist_angular.Z = in_ros_data.twist.angular.z;
+
+		reference_frame.AppendChars(in_ros_data.reference_frame.data, in_ros_data.reference_frame.size);
 
 		
 	}
 
-	void SetROS2(ue_msgs__msg__EntityState& data) const
+	void SetROS2(ue_msgs__msg__EntityState& out_ros_data) const
 	{
-    	if (data.name.data != nullptr)
+    	{
+			FTCHARToUTF8 strUtf8( *name );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.name.data != nullptr)
 		{
-			free(data.name.data);
+			free(out_ros_data.name.data);
 		}
-		data.name.data = (char*)malloc((name.Len()+1)*sizeof(char));
-		memcpy(data.name.data, TCHAR_TO_ANSI(*name), (name.Len()+1)*sizeof(char));
-		data.name.size = name.Len();
-		data.name.capacity = name.Len() + 1;
+		out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.name.data)));
+		memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*name), (strLength+1)*sizeof(char));
+			out_ros_data.name.size = strLength;
+			out_ros_data.name.capacity = strLength + 1;
+		}
 
-		data.pose.position.x = pose_position.X;
-		data.pose.position.y = pose_position.Y;
-		data.pose.position.z = pose_position.Z;
+		out_ros_data.pose.position.x = pose_position_x;
 
-		data.pose.orientation.x = pose_orientation.X;
-		data.pose.orientation.y = pose_orientation.Y;
-		data.pose.orientation.z = pose_orientation.Z;
-		data.pose.orientation.w = pose_orientation.W;
+		out_ros_data.pose.position.y = pose_position_y;
 
-		data.twist.linear.x = twist_linear.X;
-		data.twist.linear.y = twist_linear.Y;
-		data.twist.linear.z = twist_linear.Z;
+		out_ros_data.pose.position.z = pose_position_z;
 
-		data.twist.angular.x = twist_angular.X;
-		data.twist.angular.y = twist_angular.Y;
-		data.twist.angular.z = twist_angular.Z;
+		out_ros_data.pose.orientation.x = pose_orientation.X;
+		out_ros_data.pose.orientation.y = pose_orientation.Y;
+		out_ros_data.pose.orientation.z = pose_orientation.Z;
+		out_ros_data.pose.orientation.w = pose_orientation.W;
 
-		if (data.reference_frame.data != nullptr)
+		out_ros_data.twist.linear.x = twist_linear.X;
+		out_ros_data.twist.linear.y = twist_linear.Y;
+		out_ros_data.twist.linear.z = twist_linear.Z;
+
+		out_ros_data.twist.angular.x = twist_angular.X;
+		out_ros_data.twist.angular.y = twist_angular.Y;
+		out_ros_data.twist.angular.z = twist_angular.Z;
+
 		{
-			free(data.reference_frame.data);
+			FTCHARToUTF8 strUtf8( *reference_frame );
+			int32 strLength = strUtf8.Length();
+			if (out_ros_data.reference_frame.data != nullptr)
+		{
+			free(out_ros_data.reference_frame.data);
 		}
-		data.reference_frame.data = (char*)malloc((reference_frame.Len()+1)*sizeof(char));
-		memcpy(data.reference_frame.data, TCHAR_TO_ANSI(*reference_frame), (reference_frame.Len()+1)*sizeof(char));
-		data.reference_frame.size = reference_frame.Len();
-		data.reference_frame.capacity = reference_frame.Len() + 1;
+		out_ros_data.reference_frame.data = (decltype(out_ros_data.reference_frame.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.reference_frame.data)));
+		memcpy(out_ros_data.reference_frame.data, TCHAR_TO_UTF8(*reference_frame), (strLength+1)*sizeof(char));
+			out_ros_data.reference_frame.size = strLength;
+			out_ros_data.reference_frame.capacity = strLength + 1;
+		}
 
 		
 	}
@@ -117,10 +132,10 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 	
   	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FEntityState Input);
+	void SetMsg(const FROSEntityState& Input);
 	
   	UFUNCTION(BlueprintCallable)
-	void GetMsg(FEntityState& Output);
+	void GetMsg(FROSEntityState& Output) const;
 	
 	virtual void* Get() override;
 

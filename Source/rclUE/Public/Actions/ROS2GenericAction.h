@@ -1,8 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
 #pragma once
 
-#include "CoreMinimal.h"
+#include <CoreMinimal.h>
 #include "rclcUtilities.h"
 #include <rosidl_runtime_c/action_type_support_struct.h>
 
@@ -37,13 +37,13 @@ public:
 	virtual const rosidl_action_type_support_t* GetTypeSupport() const;
 	
 	UFUNCTION(BlueprintCallable)
-	virtual FString ActionGoalToString() const;
+	virtual const FString ActionGoalToString() const;
 
 	UFUNCTION(BlueprintCallable)
-	virtual FString ActionResultToString() const;
+	virtual const FString ActionResultToString() const;
 
 	UFUNCTION(BlueprintCallable)
-	virtual FString ActionFeedbackToString() const;
+	virtual const FString ActionFeedbackToString() const;
 
 private:
 	action_msgs__srv__CancelGoal_Request cancel_request;

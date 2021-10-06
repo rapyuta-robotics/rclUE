@@ -1,5 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
 #include "Actions/ROS2GenericAction.h"
 
@@ -7,76 +6,76 @@ DEFINE_LOG_CATEGORY(LogROS2Action);
 
 const rosidl_action_type_support_t* UROS2GenericAction::GetTypeSupport() const
 {
-	checkNoEntry();
-	return nullptr;
+    checkNoEntry();
+    return nullptr;
 }
 
 void UROS2GenericAction::Init()
 {
-	action_msgs__srv__CancelGoal_Request__init(&cancel_request);
-	action_msgs__srv__CancelGoal_Response__init(&cancel_response);
+    action_msgs__srv__CancelGoal_Request__init(&cancel_request);
+    action_msgs__srv__CancelGoal_Response__init(&cancel_response);
 }
 
 void UROS2GenericAction::Fini()
 {
-	action_msgs__srv__CancelGoal_Request__fini(&cancel_request);
-	action_msgs__srv__CancelGoal_Response__fini(&cancel_response);
+    action_msgs__srv__CancelGoal_Request__fini(&cancel_request);
+    action_msgs__srv__CancelGoal_Response__fini(&cancel_response);
 }
 
 void* UROS2GenericAction::GetGoalRequest()
 {
-	checkNoEntry();
-	return nullptr;
+    checkNoEntry();
+    return nullptr;
 }
 
 void* UROS2GenericAction::GetGoalResponse()
 {
-	checkNoEntry();
-	return nullptr;
+    checkNoEntry();
+    return nullptr;
 }
 
 void* UROS2GenericAction::GetResultRequest()
 {
-	checkNoEntry();
-	return nullptr;
+    checkNoEntry();
+    return nullptr;
 }
 
 void* UROS2GenericAction::GetResultResponse()
 {
-	checkNoEntry();
-	return nullptr;
+    checkNoEntry();
+    return nullptr;
 }
 
 void* UROS2GenericAction::GetFeedbackMessage()
 {
-	checkNoEntry();
-	return nullptr;
+    checkNoEntry();
+    return nullptr;
 }
 
 void* UROS2GenericAction::GetCancelRequest()
 {
-	return &cancel_request;
+    return &cancel_request;
 }
 
 void* UROS2GenericAction::GetCancelResponse()
 {
-	return &cancel_response;
+    return &cancel_response;
 }
 
-FString UROS2GenericAction::ActionGoalToString() const
+const FString UROS2GenericAction::ActionGoalToString() const
 {
-	checkNoEntry();
-	return FString();
+    checkNoEntry();
+    return FString();
 }
 
-FString UROS2GenericAction::ActionResultToString() const
+const FString UROS2GenericAction::ActionResultToString() const
 {
-	checkNoEntry();
-	return FString();
+    checkNoEntry();
+    return FString();
 }
 
-FString UROS2GenericAction::ActionFeedbackToString() const
+const FString UROS2GenericAction::ActionFeedbackToString() const
 {
-	checkNoEntry();
-	return FString();
+    checkNoEntry();
+    return FString();
 }

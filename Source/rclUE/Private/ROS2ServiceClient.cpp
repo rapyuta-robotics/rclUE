@@ -1,91 +1,84 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
+// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
 #include "ROS2ServiceClient.h"
 
-
 DEFINE_LOG_CATEGORY(LogROS2Service);
-
 
 // Sets default values for this component's properties
 UROS2ServiceClient::UROS2ServiceClient()
 {
-	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
-	// off to improve performance if you don't need them.
-	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
+    PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
 {
-	check(ownerNode != nullptr);
-	check(ownerNode->State == UROS2State::Initialized);
-	if (State == UROS2State::Created)
-	{
-		InitializeService();
+    check(OwnerNode != nullptr);
+    check(OwnerNode->State == UROS2State::Initialized);
+    if (State == UROS2State::Created)
+    {
+        InitializeService();
 
-		check(IsValid(Service));
+        check(IsValid(Service));
 
-		const rosidl_service_type_support_t * srv_type_support = Service->GetTypeSupport(); // this should be a parameter, but for the moment we leave it fixed
+        const rosidl_service_type_support_t* srv_type_support = Service->GetTypeSupport();
 
-		client = rcl_get_zero_initialized_client();
-  		rcl_client_options_t client_opt = rcl_client_get_default_options();
+        client = rcl_get_zero_initialized_client();
+        rcl_client_options_t client_opt = rcl_client_get_default_options();
 
-		client_opt.qos = QoS_LUT[QoS];
+        client_opt.qos = QoS_LUT[QoS];
 
-		RCSOFTCHECK(rcl_client_init(&client, ownerNode->GetNode(), srv_type_support, TCHAR_TO_ANSI(*ServiceName), &client_opt));
-			
-		State = UROS2State::Initialized;
-	}
+        RCSOFTCHECK(rcl_client_init(&client, OwnerNode->GetNode(), srv_type_support, TCHAR_TO_UTF8(*ServiceName), &client_opt));
 
-	Ready = false;
+        State = UROS2State::Initialized;
+    }
+
+    Ready = false;
 }
 
 void UROS2ServiceClient::InitializeService()
 {
-	check(ServiceName != FString());
-	check(SrvClass);
-	
-	Service = NewObject<UROS2GenericSrv>(this, SrvClass);
+    check(ServiceName != FString());
+    check(SrvClass);
 
-	check(IsValid(Service));
-	
-	Service->Init();
+    Service = NewObject<UROS2GenericSrv>(this, SrvClass);
+
+    check(IsValid(Service));
+
+    Service->Init();
 }
 
 void UROS2ServiceClient::Destroy()
 {
-	if (Service != nullptr)
-	{
-		Service->Fini();
-	}
+    if (Service != nullptr)
+    {
+        Service->Fini();
+    }
 
-	if (ownerNode != nullptr)
-	{
-		UE_LOG(LogROS2Service, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
-		RCSOFTCHECK(rcl_client_fini(&client, ownerNode->GetNode()));
-	}
+    if (OwnerNode != nullptr)
+    {
+        UE_LOG(LogROS2Service, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
+        RCSOFTCHECK(rcl_client_fini(&client, OwnerNode->GetNode()));
+    }
 }
 
 void UROS2ServiceClient::UpdateAndSendRequest()
 {
     UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
-	check(State == UROS2State::Initialized);
-	check(IsValid(ownerNode));
-	
-	RequestDelegate.ExecuteIfBound(Service);
-	SendRequest();
+    check(State == UROS2State::Initialized);
+    check(IsValid(OwnerNode));
+
+    RequestDelegate.ExecuteIfBound(Service);
+    SendRequest();
 }
 
 void UROS2ServiceClient::SendRequest()
 {
     UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
-	check(State == UROS2State::Initialized);
-	check(ownerNode != nullptr);
+    check(State == UROS2State::Initialized);
+    check(OwnerNode != nullptr);
 
-	req = Service->GetRequest();
+    req = Service->GetRequest();
 
-	int64_t seq;
-	RCSOFTCHECK(rcl_send_request(&client, req, &seq));
+    int64_t Seq;
+    RCSOFTCHECK(rcl_send_request(&client, req, &Seq));
 }
