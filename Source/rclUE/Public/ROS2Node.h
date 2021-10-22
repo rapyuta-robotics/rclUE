@@ -139,6 +139,9 @@ public:
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
     int NEvents = 0;
 
+    UPROPERTY(EditAnywhere)
+    int32 SpinNTimes = 1;
+
 protected:
     // method used to wait on communication and call delegates when appropriate
     // modeled after executor + actions
