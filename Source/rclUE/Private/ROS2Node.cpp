@@ -21,6 +21,15 @@ AROS2Node::AROS2Node()
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
 
+// testing purposes - should be removed afterwards
+void AROS2Node::PrintOutput()
+{
+    if (!iterationCounterTest.IsEmpty() && iterationCounterTest.Dequeue(CurrentIteration))
+    {
+		UE_LOG(LogTemp, Error, TEXT("Thread running... iterations done: %d"), CurrentIteration);
+    }
+}
+
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
     for (auto& s : Subscriptions)
@@ -50,6 +59,16 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
     RCSOFTCHECK(rcl_node_fini(&node));
 
     Super::EndPlay(EndPlayReason);
+
+    if (CurrentRunningThread && ROS2Thread)
+    {
+        CurrentRunningThread->Suspend(true);
+        ROS2Thread->bStopThread = true;
+        CurrentRunningThread->Suspend(false);
+        CurrentRunningThread->Kill(false);
+        CurrentRunningThread->WaitForCompletion();
+        delete ROS2Thread;
+    }
 }
 
 void AROS2Node::Tick(float DeltaTime)
@@ -58,6 +77,8 @@ void AROS2Node::Tick(float DeltaTime)
 
     Super::Tick(DeltaTime);
 
+    PrintOutput();
+    
     if (Subscriptions.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0)
     {
         SpinSome();
@@ -79,6 +100,9 @@ void AROS2Node::Init()
             RCSOFTCHECK(rclc_node_init_default(
                 &node, TCHAR_TO_UTF8(*Name), Namespace != FString() ? TCHAR_TO_UTF8(*Namespace) : "", &Support->Get()));
         }
+
+        ROS2Thread = new FROS2Thread(this);
+        CurrentRunningThread = FRunnableThread::Create(ROS2Thread, TEXT("ROS2NodeThread"));
 
         State = UROS2State::Initialized;
     }

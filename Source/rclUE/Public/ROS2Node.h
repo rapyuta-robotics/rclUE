@@ -9,11 +9,14 @@
 #pragma once
 
 #include "ROS2Support.h"
+#include "ROS2Thread.h"
 
 #include <Containers/Map.h>
 #include <CoreMinimal.h>
 #include <GameFramework/Actor.h>
 #include <Components/ActorComponent.h>
+#include <HAL/Runnable.h>
+#include <HAL/RunnableThread.h>
 
 #include "ROS2Node.generated.h"
 
@@ -139,9 +142,21 @@ public:
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
     int NEvents = 0;
 
+
+    
+    TQueue<int32> iterationCounterTest;
+
 protected:
+    class FROS2Thread *ROS2Thread = nullptr;
+    FRunnableThread *CurrentRunningThread = nullptr;
+
+    // these are for testing purposes
+    void PrintOutput();
+    int32 CurrentIteration;
+
     // method used to wait on communication and call delegates when appropriate
     // modeled after executor + actions
+    // this should move to ROS2Thread
     UFUNCTION()
     void SpinSome();
 
