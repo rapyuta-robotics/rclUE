@@ -144,58 +144,58 @@ public:
 
 
     
-    TQueue<int32> iterationCounterTest;
+    // TQueue<int32> iterationCounterTest;
 
 protected:
     class FROS2Thread *ROS2Thread = nullptr;
     FRunnableThread *CurrentRunningThread = nullptr;
 
     // these are for testing purposes
-    void PrintOutput();
-    int32 CurrentIteration;
+    // void PrintOutput(int i);
+    // int32 CurrentIteration;
 
     // method used to wait on communication and call delegates when appropriate
     // modeled after executor + actions
     // this should move to ROS2Thread
-    UFUNCTION()
-    void SpinSome();
+    // UFUNCTION()
+    // void SpinSome();
 
-    rcl_wait_set_t wait_set;
+    // rcl_wait_set_t wait_set;
 
     UPROPERTY()
     UROS2Support* Support;
 
     rcl_node_t node;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FSubscription> Subscriptions;
+    // UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    // TArray<FSubscription> Subscriptions;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FService> Services;
+    // UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    // TArray<FService> Services;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<UROS2Publisher*> Publishers;
+    // UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    // TArray<UROS2Publisher*> Publishers;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<UROS2ServiceClient*> Clients;
+    // UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    // TArray<UROS2ServiceClient*> Clients;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<UROS2ActionClient*> ActionClients;
+    // UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    // TArray<UROS2ActionClient*> ActionClients;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<UROS2ActionServer*> ActionServers;
+    // UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    // TArray<UROS2ActionServer*> ActionServers;
 
     UPROPERTY()
     FTimerHandle TimerHandle;
 
 private:
     // these 3 methods are based on _rclc_default_scheduling of the rclc executor
-    UFUNCTION()
-    void HandleSubscriptions();
+    // UFUNCTION()
+    // void HandleSubscriptions();
 
-    UFUNCTION()
-    void HandleServices();
+    // UFUNCTION()
+    // void HandleServices();
 
-    UFUNCTION()
-    void HandleClients();
+    // UFUNCTION()
+    // void HandleClients();
 };

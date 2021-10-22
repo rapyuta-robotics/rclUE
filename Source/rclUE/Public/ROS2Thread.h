@@ -27,6 +27,30 @@ public:
 
 	AROS2Node* OwnerNode;
 
-	// testing
-	int32 counter;
+	
+    rcl_wait_set_t wait_set;
+
+    TArray<FSubscription> Subscriptions;
+
+    TArray<FService> Services;
+
+    TArray<UROS2Publisher*> Publishers;
+
+    TArray<UROS2ServiceClient*> Clients;
+
+    TArray<UROS2ActionClient*> ActionClients;
+
+    TArray<UROS2ActionServer*> ActionServers;
+
+	// // testing
+	// int32 counter;
+
+private:
+	void SpinSome();
+	
+    void HandleSubscriptions();
+
+    void HandleServices();
+
+    void HandleClients();
 };
