@@ -1,4 +1,9 @@
 # Basic information
+## Supported versions
+- Ubuntu 20.04
+- Unreal Engine 4.27
+- ROS2 Foxy
+
 ## Branches
 ### master
 This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20. 
