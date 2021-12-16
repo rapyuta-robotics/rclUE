@@ -3,181 +3,182 @@
 
 #pragma once
 
-#include <CoreMinimal.h>
-
-#include "nav_msgs/msg/odometry.h"
-
 #include "Msgs/ROS2GenericMsg.h"
+#include "nav_msgs/msg/odometry.h"
 #include "rclcUtilities.h"
+
+#include <CoreMinimal.h>
 
 #include "ROS2OdometryMsg.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSOdometry
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int header_stamp_sec;
+    static constexpr int8 COVARIANCE_VALUES_NUM = 36;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 header_stamp_sec = 0;
 
-	unsigned int header_stamp_nanosec;
+    UPROPERTY()
+    uint32 header_stamp_nanosec = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString header_frame_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString header_frame_id;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString child_frame_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString child_frame_id;
 
-	double pose_pose_position_x;
+    UPROPERTY()
+    double pose_pose_position_x = 0;
 
-	double pose_pose_position_y;
+    UPROPERTY()
+    double pose_pose_position_y = 0;
 
-	double pose_pose_position_z;
+    UPROPERTY()
+    double pose_pose_position_z = 0;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FQuat pose_pose_orientation;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FQuat pose_pose_orientation = FQuat::Identity;
 
-	TArray<double> pose_covariance;
+    UPROPERTY()
+    TArray<double> pose_covariance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector twist_twist_linear;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FVector twist_twist_linear = FVector::ZeroVector;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector twist_twist_angular;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FVector twist_twist_angular = FVector::ZeroVector;
 
-	TArray<double> twist_covariance;
+    UPROPERTY()
+    TArray<double> twist_covariance;
 
-	
+    bool IsValid() const
+    {
+        return (false == header_frame_id.IsEmpty()) && (false == child_frame_id.IsEmpty()) &&
+               (COVARIANCE_VALUES_NUM == pose_covariance.Num()) && (COVARIANCE_VALUES_NUM == twist_covariance.Num());
+    }
 
-	void SetFromROS2(const nav_msgs__msg__Odometry& in_ros_data)
-	{
-    	header_stamp_sec = in_ros_data.header.stamp.sec;
+    FORCEINLINE void SetFromROS2(const nav_msgs__msg__Odometry& in_ros_data)
+    {
+        header_stamp_sec = in_ros_data.header.stamp.sec;
 
-		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
+        header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
 
-		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
+        header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
 
-		child_frame_id.AppendChars(in_ros_data.child_frame_id.data, in_ros_data.child_frame_id.size);
+        child_frame_id.AppendChars(in_ros_data.child_frame_id.data, in_ros_data.child_frame_id.size);
 
-		pose_pose_position_x = in_ros_data.pose.pose.position.x;
+        pose_pose_position_x = in_ros_data.pose.pose.position.x;
+        pose_pose_position_y = in_ros_data.pose.pose.position.y;
+        pose_pose_position_z = in_ros_data.pose.pose.position.z;
 
-		pose_pose_position_y = in_ros_data.pose.pose.position.y;
+        pose_pose_orientation.X = in_ros_data.pose.pose.orientation.x;
+        pose_pose_orientation.Y = in_ros_data.pose.pose.orientation.y;
+        pose_pose_orientation.Z = in_ros_data.pose.pose.orientation.z;
+        pose_pose_orientation.W = in_ros_data.pose.pose.orientation.w;
 
-		pose_pose_position_z = in_ros_data.pose.pose.position.z;
+        pose_covariance = decltype(pose_covariance)(&in_ros_data.pose.covariance[0], COVARIANCE_VALUES_NUM);
 
-		pose_pose_orientation.X = in_ros_data.pose.pose.orientation.x;
-		pose_pose_orientation.Y = in_ros_data.pose.pose.orientation.y;
-		pose_pose_orientation.Z = in_ros_data.pose.pose.orientation.z;
-		pose_pose_orientation.W = in_ros_data.pose.pose.orientation.w;
+        twist_twist_linear.X = in_ros_data.twist.twist.linear.x;
+        twist_twist_linear.Y = in_ros_data.twist.twist.linear.y;
+        twist_twist_linear.Z = in_ros_data.twist.twist.linear.z;
 
-		for (int i = 0; i < 36; i++)
-		{
-			pose_covariance.Add(in_ros_data.pose.covariance[i]);
-		}
+        twist_twist_angular.X = in_ros_data.twist.twist.angular.x;
+        twist_twist_angular.Y = in_ros_data.twist.twist.angular.y;
+        twist_twist_angular.Z = in_ros_data.twist.twist.angular.z;
 
-		twist_twist_linear.X = in_ros_data.twist.twist.linear.x;
-		twist_twist_linear.Y = in_ros_data.twist.twist.linear.y;
-		twist_twist_linear.Z = in_ros_data.twist.twist.linear.z;
+        twist_covariance = decltype(twist_covariance)(&in_ros_data.twist.covariance[0], COVARIANCE_VALUES_NUM);
+    }
 
-		twist_twist_angular.X = in_ros_data.twist.twist.angular.x;
-		twist_twist_angular.Y = in_ros_data.twist.twist.angular.y;
-		twist_twist_angular.Z = in_ros_data.twist.twist.angular.z;
+    template<typename T>
+    static void SetCovarianceValues(const TArray<T>& InValues, T* OutValues)
+    {
+        if (InValues.Num() >= COVARIANCE_VALUES_NUM)
+        {
+            FMemory::Memcpy(&OutValues[0], InValues.GetData(), COVARIANCE_VALUES_NUM * InValues.GetTypeSize());
+        }
+    }
 
-		for (int i = 0; i < 36; i++)
-		{
-			twist_covariance.Add(in_ros_data.twist.covariance[i]);
-		}
+    FORCEINLINE void SetROS2(nav_msgs__msg__Odometry& out_ros_data) const
+    {
+        out_ros_data.header.stamp.sec = header_stamp_sec;
 
-		
-	}
+        out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
 
-	void SetROS2(nav_msgs__msg__Odometry& out_ros_data) const
-	{
-    	out_ros_data.header.stamp.sec = header_stamp_sec;
+        {
+            FTCHARToUTF8 strUtf8(*header_frame_id);
+            int32 strLength = strUtf8.Length();
+            if (out_ros_data.header.frame_id.data != nullptr)
+            {
+                free(out_ros_data.header.frame_id.data);
+            }
+            out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc(
+                (strLength + 1) * sizeof(decltype(*out_ros_data.header.frame_id.data)));
+            memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength + 1) * sizeof(char));
+            out_ros_data.header.frame_id.size = strLength;
+            out_ros_data.header.frame_id.capacity = strLength + 1;
+        }
 
-		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
+        {
+            FTCHARToUTF8 strUtf8(*child_frame_id);
+            int32 strLength = strUtf8.Length();
+            if (out_ros_data.child_frame_id.data != nullptr)
+            {
+                free(out_ros_data.child_frame_id.data);
+            }
+            out_ros_data.child_frame_id.data = (decltype(out_ros_data.child_frame_id.data))malloc(
+                (strLength + 1) * sizeof(decltype(*out_ros_data.child_frame_id.data)));
+            memcpy(out_ros_data.child_frame_id.data, TCHAR_TO_UTF8(*child_frame_id), (strLength + 1) * sizeof(char));
+            out_ros_data.child_frame_id.size = strLength;
+            out_ros_data.child_frame_id.capacity = strLength + 1;
+        }
 
-		{
-			FTCHARToUTF8 strUtf8( *header_frame_id );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.header.frame_id.data != nullptr)
-		{
-			free(out_ros_data.header.frame_id.data);
-		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength+1)*sizeof(char));
-			out_ros_data.header.frame_id.size = strLength;
-			out_ros_data.header.frame_id.capacity = strLength + 1;
-		}
+        out_ros_data.pose.pose.position.x = pose_pose_position_x;
+        out_ros_data.pose.pose.position.y = pose_pose_position_y;
+        out_ros_data.pose.pose.position.z = pose_pose_position_z;
 
-		{
-			FTCHARToUTF8 strUtf8( *child_frame_id );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.child_frame_id.data != nullptr)
-		{
-			free(out_ros_data.child_frame_id.data);
-		}
-		out_ros_data.child_frame_id.data = (decltype(out_ros_data.child_frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.child_frame_id.data)));
-		memcpy(out_ros_data.child_frame_id.data, TCHAR_TO_UTF8(*child_frame_id), (strLength+1)*sizeof(char));
-			out_ros_data.child_frame_id.size = strLength;
-			out_ros_data.child_frame_id.capacity = strLength + 1;
-		}
+        out_ros_data.pose.pose.orientation.x = pose_pose_orientation.X;
+        out_ros_data.pose.pose.orientation.y = pose_pose_orientation.Y;
+        out_ros_data.pose.pose.orientation.z = pose_pose_orientation.Z;
+        out_ros_data.pose.pose.orientation.w = pose_pose_orientation.W;
 
-		out_ros_data.pose.pose.position.x = pose_pose_position_x;
+        SetCovarianceValues(pose_covariance, out_ros_data.pose.covariance);
 
-		out_ros_data.pose.pose.position.y = pose_pose_position_y;
+        out_ros_data.twist.twist.linear.x = twist_twist_linear.X;
+        out_ros_data.twist.twist.linear.y = twist_twist_linear.Y;
+        out_ros_data.twist.twist.linear.z = twist_twist_linear.Z;
 
-		out_ros_data.pose.pose.position.z = pose_pose_position_z;
+        out_ros_data.twist.twist.angular.x = twist_twist_angular.X;
+        out_ros_data.twist.twist.angular.y = twist_twist_angular.Y;
+        out_ros_data.twist.twist.angular.z = twist_twist_angular.Z;
 
-		out_ros_data.pose.pose.orientation.x = pose_pose_orientation.X;
-		out_ros_data.pose.pose.orientation.y = pose_pose_orientation.Y;
-		out_ros_data.pose.pose.orientation.z = pose_pose_orientation.Z;
-		out_ros_data.pose.pose.orientation.w = pose_pose_orientation.W;
-
-		for (int i = 0; i < 36; i++)
-		{
-			out_ros_data.pose.covariance[i] = pose_covariance[i];
-		}
-
-		out_ros_data.twist.twist.linear.x = twist_twist_linear.X;
-		out_ros_data.twist.twist.linear.y = twist_twist_linear.Y;
-		out_ros_data.twist.twist.linear.z = twist_twist_linear.Z;
-
-		out_ros_data.twist.twist.angular.x = twist_twist_angular.X;
-		out_ros_data.twist.twist.angular.y = twist_twist_angular.Y;
-		out_ros_data.twist.twist.angular.z = twist_twist_angular.Z;
-
-		for (int i = 0; i < 36; i++)
-		{
-			out_ros_data.twist.covariance[i] = twist_covariance[i];
-		}
-
-		
-	}
+        SetCovarianceValues(twist_covariance, out_ros_data.twist.covariance);
+    }
 };
 
 UCLASS()
 class RCLUE_API UROS2OdometryMsg : public UROS2GenericMsg
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	virtual void Init() override;
-	virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
-	
-  	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSOdometry& Input);
-	
-  	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSOdometry& Output) const;
-	
-	virtual void* Get() override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSOdometry& Input);
+
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSOdometry& Output) const;
+
+    virtual void* Get() override;
 
 private:
-	virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-	nav_msgs__msg__Odometry odometry_msg;
+    nav_msgs__msg__Odometry odometry_msg;
 };

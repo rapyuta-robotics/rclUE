@@ -64,7 +64,8 @@ void AROS2Node::Tick(float DeltaTime)
     }
 }
 
-// this stuff can't be placed in BeginPlay as the order of rcl(c) instructions is relevant
+// This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be
+// different/relevant in each of Child classes
 void AROS2Node::Init()
 {
     UE_LOG(LogROS2Node, Log, TEXT("%s"), *__LOG_INFO__);
@@ -76,8 +77,7 @@ void AROS2Node::Init()
             Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
             UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
-            RCSOFTCHECK(rclc_node_init_default(
-                &node, TCHAR_TO_UTF8(*Name), Namespace != FString() ? TCHAR_TO_UTF8(*Namespace) : "", &Support->Get()));
+            RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
         }
 
         State = UROS2State::Initialized;
@@ -220,7 +220,7 @@ void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
 
 void AROS2Node::HandleSubscriptions()
 {
-    for (int i = 0; i < wait_set.size_of_subscriptions; i++)
+    for (auto i = 0; i < wait_set.size_of_subscriptions; i++)
     {
         if (wait_set.subscriptions[i])
         {
@@ -253,7 +253,7 @@ void AROS2Node::HandleSubscriptions()
 
 void AROS2Node::HandleServices()
 {
-    for (int i = 0; i < wait_set.size_of_services; i++)
+    for (auto i = 0; i < wait_set.size_of_services; i++)
     {
         if (wait_set.services[i])
         {
@@ -290,7 +290,7 @@ void AROS2Node::HandleServices()
 
 void AROS2Node::HandleClients()
 {
-    for (int i = 0; i < wait_set.size_of_clients; i++)
+    for (auto i = 0; i < wait_set.size_of_clients; i++)
     {
         if (wait_set.clients[i])
         {
