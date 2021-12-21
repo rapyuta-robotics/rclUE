@@ -10,10 +10,10 @@
 
 #include "ROS2Support.h"
 
+#include <Components/ActorComponent.h>
 #include <Containers/Map.h>
 #include <CoreMinimal.h>
 #include <GameFramework/Actor.h>
-#include <Components/ActorComponent.h>
 
 #include "ROS2Node.generated.h"
 
@@ -41,7 +41,7 @@ public:
     TSubclassOf<UROS2GenericMsg> TopicType;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2GenericMsg* TopicMsg;
+    UROS2GenericMsg* TopicMsg = nullptr;
 
     rcl_subscription_t rcl_subscription;
 
@@ -65,7 +65,7 @@ public:
     TSubclassOf<UROS2GenericSrv> ServiceType;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2GenericSrv* Service;
+    UROS2GenericSrv* Service = nullptr;
 
     rcl_service_t rcl_service;
 
@@ -73,7 +73,7 @@ public:
     FServiceCallback Callback;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool Ready;
+    bool Ready = false;
 };
 
 UCLASS(Blueprintable)

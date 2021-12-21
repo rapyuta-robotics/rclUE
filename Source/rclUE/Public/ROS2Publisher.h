@@ -22,6 +22,12 @@ public:
     UROS2Publisher();
 
 public:
+    UFUNCTION()
+    virtual void InitializeWithROS2(AROS2Node* InROS2Node)
+    {
+        InROS2Node->AddPublisher(this);
+    }
+
     UFUNCTION(BlueprintCallable)
     void Init(const TEnumAsByte<UROS2QoS> QoS);
 
