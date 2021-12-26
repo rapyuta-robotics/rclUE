@@ -42,6 +42,12 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
     }
 }
 
+void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
+{
+    SetupUpdateCallback();
+    InROS2Node->AddPublisher(this);
+}
+
 void UROS2Publisher::Destroy()
 {
     UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy (%s)"), *__LOG_INFO__);
