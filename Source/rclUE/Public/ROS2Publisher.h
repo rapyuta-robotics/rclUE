@@ -11,7 +11,8 @@
 
 #include "ROS2Publisher.generated.h"
 
-DECLARE_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg* /*TopicMessage*/);
+DECLARE_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg* /*InTopicMessage*/);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallbackBP, UROS2GenericMsg*, InTopicMessage);
 
 UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2Publisher : public UActorComponent
@@ -35,7 +36,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void InitializeMessage();
 
-    UFUNCTION(BlueprintNativeEvent)
+    UFUNCTION()
     void UpdateAndPublishMessage();
 
     UFUNCTION()
@@ -52,6 +53,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UROS2GenericMsg> MsgClass;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FPublisherUpdateCallbackBP UpdateDelegateBP;
     FPublisherUpdateCallback UpdateDelegate;
 
     UFUNCTION(BlueprintCallable)
@@ -63,6 +66,7 @@ public:
     void RevokeUpdateCallback()
     {
         UpdateDelegate.Unbind();
+        UpdateDelegateBP.Unbind();
     }
     UFUNCTION()
     virtual void UpdateMessage(UROS2GenericMsg* InMessage)

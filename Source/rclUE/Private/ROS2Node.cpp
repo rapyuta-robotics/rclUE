@@ -90,9 +90,9 @@ rcl_node_t* AROS2Node::GetNode()
     return &node;
 }
 
-void AROS2Node::AddSubscription(const FString TopicName,
-                                const TSubclassOf<UROS2GenericMsg> MsgClass,
-                                const FSubscriptionCallback Callback)
+void AROS2Node::AddSubscription(const FString& TopicName,
+                                const TSubclassOf<UROS2GenericMsg>& MsgClass,
+                                const FSubscriptionCallback& Callback)
 {
     check(State == UROS2State::Initialized);
 
@@ -133,7 +133,9 @@ void AROS2Node::AddSubscription(const FString TopicName,
     }
 }
 
-void AROS2Node::AddService(const FString ServiceName, const TSubclassOf<UROS2GenericSrv> SrvClass, const FServiceCallback Callback)
+void AROS2Node::AddService(const FString& ServiceName,
+                           const TSubclassOf<UROS2GenericSrv>& SrvClass,
+                           const FServiceCallback& Callback)
 {
     check(State == UROS2State::Initialized);
 
@@ -170,9 +172,12 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 {
     check(IsValid(InPublisher));
 
-    if (!InPublisher->UpdateDelegate.IsBound())
+    if (false == (InPublisher->UpdateDelegate.IsBound() || InPublisher->UpdateDelegateBP.IsBound()))
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] UpdateDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node,
+               Warning,
+               TEXT("UpdateDelegate & UpdateDelegateBP are both not set - is this on purpose? (%s)"),
+               *__LOG_INFO__);
     }
 
     if (false == Publishers.Contains(InPublisher))

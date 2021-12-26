@@ -108,7 +108,7 @@ void UROS2ActionClient::CancelActionRequest()
 {
     UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
     action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*)Action->GetCancelRequest();
-    float CancelTime = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject *>(GetWorld()));
+    float CancelTime = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld()));
     cancel_request->goal_info.stamp.sec = static_cast<int32>(CancelTime);
     uint64 ns = static_cast<uint64>(CancelTime * 1e+09f);
     cancel_request->goal_info.stamp.nanosec = static_cast<uint32>(ns - (cancel_request->goal_info.stamp.sec * 1e+09));
@@ -117,11 +117,11 @@ void UROS2ActionClient::CancelActionRequest()
     RCSOFTCHECK(rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &Seq));
 }
 
-void UROS2ActionClient::SetDelegates(const FActionCallback SetGoal,
-                                     const FActionCallback Feedback,
-                                     const FActionCallback Result,
-                                     const FSimpleCallback GoalResponse,
-                                     const FSimpleCallback Cancel)
+void UROS2ActionClient::SetDelegates(const FActionCallback& SetGoal,
+                                     const FActionCallback& Feedback,
+                                     const FActionCallback& Result,
+                                     const FSimpleCallback& GoalResponse,
+                                     const FSimpleCallback& Cancel)
 {
     if (!SetGoalDelegate.IsBound())
     {

@@ -6,6 +6,7 @@
 #pragma once
 
 #include "ROS2Action.h"
+#include "ROS2Node.h"
 
 #include <rcl_action/action_server.h>
 
@@ -33,12 +34,11 @@ public:
     UFUNCTION(BlueprintCallable)
     void UpdateAndSendResult();
 
-    UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FActionCallback UpdateFeedback,
-                      const FActionCallback UpdateResult,
-                      const FActionCallback HandleGoal,
-                      const FSimpleCallback HandleCancel,
-                      const FSimpleCallback HandleAccepted);
+    void SetDelegates(const FActionCallback& UpdateFeedback,
+                      const FActionCallback& UpdateResult,
+                      const FActionCallback& HandleGoal,
+                      const FSimpleCallback& HandleCancel,
+                      const FSimpleCallback& HandleAccepted);
 
     rcl_action_server_t server;
 
@@ -48,19 +48,10 @@ private:
     rmw_request_id_t result_req_id;
     rmw_request_id_t cancel_req_id;
 
-    UPROPERTY()
     FActionCallback UpdateFeedbackDelegate;
-
-    UPROPERTY()
     FActionCallback UpdateResultDelegate;
-
-    UPROPERTY()
     FActionCallback HandleGoalDelegate;
-
-    UPROPERTY()
     FSimpleCallback HandleCancelDelegate;
-
-    UPROPERTY()
     FSimpleCallback HandleAcceptedDelegate;
 
     virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS) override;
