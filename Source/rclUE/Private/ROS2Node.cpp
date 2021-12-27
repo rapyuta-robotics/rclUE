@@ -125,7 +125,7 @@ void AROS2Node::AddSubscription(const FString TopicName,
     rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
     RCSOFTCHECK(rcl_subscription_init(&NewSub.rcl_subscription, &node, type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
-    Subscriptions.Add(NewSub);
+    Subscriptions.Emplace(MoveTemp(NewSub));
 
     // invalidate wait_set
     if (rcl_wait_set_is_valid(&wait_set))
@@ -158,7 +158,7 @@ void AROS2Node::AddService(const FString ServiceName, const TSubclassOf<UROS2Gen
     rcl_service_options_t srv_opt = rcl_service_get_default_options();
     RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, &node, type_support, TCHAR_TO_UTF8(*ServiceName), &srv_opt));
 
-    Services.Add(NewSrv);
+    Services.Emplace(MoveTemp(NewSrv));
 
     // invalidate wait_set
     if (rcl_wait_set_is_valid(&wait_set))
@@ -167,55 +167,67 @@ void AROS2Node::AddService(const FString ServiceName, const TSubclassOf<UROS2Gen
     }
 }
 
-void AROS2Node::AddPublisher(UROS2Publisher* Publisher)
+void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 {
-    check(IsValid(Publisher));
+    check(IsValid(InPublisher));
 
-    if (!Publisher->UpdateDelegate.IsBound())
+    if (!InPublisher->UpdateDelegate.IsBound())
     {
         UE_LOG(LogROS2Node, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    Publisher->RegisterComponent();
-    Publisher->OwnerNode = this;
-    Publishers.Add(Publisher);
+    if (false == Publishers.Contains(InPublisher))
+    {
+        InPublisher->RegisterComponent();
+        InPublisher->OwnerNode = this;
+        Publishers.Add(InPublisher);
+    }
 }
 
-void AROS2Node::AddClient(UROS2ServiceClient* Client)
+void AROS2Node::AddClient(UROS2ServiceClient* InClient)
 {
-    check(IsValid(Client));
+    check(IsValid(InClient));
 
-    if (!Client->RequestDelegate.IsBound())
+    if (!InClient->RequestDelegate.IsBound())
     {
         UE_LOG(LogROS2Node, Warning, TEXT("RequestDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!Client->AnswerDelegate.IsBound())
+    if (!InClient->AnswerDelegate.IsBound())
     {
         UE_LOG(LogROS2Node, Warning, TEXT("AnswerDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    Client->OwnerNode = this;
-    Client->Init(UROS2QoS::Services);
-    Clients.Add(Client);
+    if (false == Clients.Contains(InClient))
+    {
+        InClient->OwnerNode = this;
+        InClient->Init(UROS2QoS::Services);
+        Clients.Add(InClient);
+    }
 }
 
-void AROS2Node::AddActionClient(UROS2ActionClient* ActionClient)
+void AROS2Node::AddActionClient(UROS2ActionClient* InActionClient)
 {
-    check(IsValid(ActionClient));
+    check(IsValid(InActionClient));
 
-    ActionClient->OwnerNode = this;
-    ActionClient->Init(UROS2QoS::Default);
-    ActionClients.Add(ActionClient);
+    if (false == ActionClients.Contains(InActionClient))
+    {
+        InActionClient->OwnerNode = this;
+        InActionClient->Init(UROS2QoS::Default);
+        ActionClients.Add(InActionClient);
+    }
 }
 
-void AROS2Node::AddActionServer(UROS2ActionServer* ActionServer)
+void AROS2Node::AddActionServer(UROS2ActionServer* InActionServer)
 {
-    check(IsValid(ActionServer));
+    check(IsValid(InActionServer));
 
-    ActionServer->OwnerNode = this;
-    ActionServer->Init(UROS2QoS::Default);
-    ActionServers.Add(ActionServer);
+    if (false == ActionServers.Contains(InActionServer))
+    {
+        InActionServer->OwnerNode = this;
+        InActionServer->Init(UROS2QoS::Default);
+        ActionServers.Add(InActionServer);
+    }
 }
 
 void AROS2Node::HandleSubscriptions()
