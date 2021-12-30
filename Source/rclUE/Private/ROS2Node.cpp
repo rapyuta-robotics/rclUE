@@ -46,7 +46,7 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
     RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 
-    UE_LOG(LogROS2Node, Log, TEXT("Node EndPlay - rcl_node_fini (%s)"), *__LOG_INFO__);
+    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node EndPlay - rcl_node_fini"), *GetName());
     RCSOFTCHECK(rcl_node_fini(&node));
 
     Super::EndPlay(EndPlayReason);
@@ -68,10 +68,9 @@ void AROS2Node::Tick(float DeltaTime)
 // different/relevant in each of Child classes
 void AROS2Node::Init()
 {
-    UE_LOG(LogROS2Node, Log, TEXT("%s"), *__LOG_INFO__);
-
     if (State == UROS2State::Created)
     {
+        UE_LOG(LogROS2Node, Log, TEXT("[%s] start initializing.."), *GetName());
         if (!rcl_node_is_valid(&node))    // ensures that it stays safe when called multiple times
         {
             Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
@@ -83,7 +82,7 @@ void AROS2Node::Init()
         State = UROS2State::Initialized;
     }
 
-    UE_LOG(LogROS2Node, Log, TEXT("%s - Done"), *__LOG_INFO__);
+    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node inited"), *GetName());
 }
 
 rcl_node_t* AROS2Node::GetNode()
@@ -107,7 +106,7 @@ void AROS2Node::AddSubscription(const FString TopicName,
 
     if (!Callback.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
@@ -140,7 +139,7 @@ void AROS2Node::AddService(const FString ServiceName, const TSubclassOf<UROS2Gen
 
     if (!Callback.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     UROS2GenericSrv* Service = NewObject<UROS2GenericSrv>(this, SrvClass);
@@ -173,7 +172,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 
     if (!InPublisher->UpdateDelegate.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] UpdateDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     if (false == Publishers.Contains(InPublisher))
@@ -181,6 +180,10 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
         InPublisher->RegisterComponent();
         InPublisher->OwnerNode = this;
         Publishers.Add(InPublisher);
+    }
+    else
+    {
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -190,12 +193,12 @@ void AROS2Node::AddClient(UROS2ServiceClient* InClient)
 
     if (!InClient->RequestDelegate.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("RequestDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] RequestDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     if (!InClient->AnswerDelegate.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("AnswerDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] AnswerDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     if (false == Clients.Contains(InClient))
@@ -203,6 +206,10 @@ void AROS2Node::AddClient(UROS2ServiceClient* InClient)
         InClient->OwnerNode = this;
         InClient->Init(UROS2QoS::Services);
         Clients.Add(InClient);
+    }
+    else
+    {
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -216,6 +223,10 @@ void AROS2Node::AddActionClient(UROS2ActionClient* InActionClient)
         InActionClient->Init(UROS2QoS::Default);
         ActionClients.Add(InActionClient);
     }
+    else
+    {
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ActionClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
+    }
 }
 
 void AROS2Node::AddActionServer(UROS2ActionServer* InActionServer)
@@ -227,6 +238,10 @@ void AROS2Node::AddActionServer(UROS2ActionServer* InActionServer)
         InActionServer->OwnerNode = this;
         InActionServer->Init(UROS2QoS::Default);
         ActionServers.Add(InActionServer);
+    }
+    else
+    {
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ActionServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -288,7 +303,7 @@ void AROS2Node::HandleServices()
             void* data = s.Service->GetRequest();
             RCSOFTCHECK(rcl_take_request_with_info(&s.rcl_service, &req_info, data));
 
-            UE_LOG(LogROS2Node, Log, TEXT("Executing Service (%s)"), *__LOG_INFO__);
+            UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node Executing Service (%s)"), *GetName(), *__LOG_INFO__);
 
             const FServiceCallback* SrvCallback = &s.Callback;
             SrvCallback->ExecuteIfBound(s.Service);
@@ -325,7 +340,11 @@ void AROS2Node::HandleClients()
             void* data = c->Service->GetResponse();
             RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
 
-            UE_LOG(LogROS2Node, Log, TEXT("Executing Answer Delegate for Service Client (%s)"), *__LOG_INFO__);
+            UE_LOG(LogROS2Node,
+                   Log,
+                   TEXT("[%s] ROS2Node Executing Answer Delegate for Service Client (%s)"),
+                   *GetName(),
+                   *__LOG_INFO__);
 
             const FServiceClientCallback* SrvClientCallback = &c->AnswerDelegate;
             SrvClientCallback->ExecuteIfBound(c->Service);
