@@ -75,7 +75,7 @@ void AROS2Node::Init()
         {
             Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
-            UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
+            UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
         }
 
@@ -133,6 +133,49 @@ void AROS2Node::AddSubscription(const FString& TopicName,
     }
 }
 
+void AROS2Node::AddSubscriptionBP(const FString& InTopicName,
+                                  TSubclassOf<UROS2GenericMsg> InMsgClass,
+                                  const FSubscriptionCallbackBP& InCallbackBP)
+{
+    check(State == UROS2State::Initialized);
+
+    bool SubExists = false;
+    for (auto& s : Subscriptions)
+    {
+        SubExists |= (s.TopicName == InTopicName);
+    }
+
+    check(!SubExists);
+
+    if (!InCallbackBP.IsBound())
+    {
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] InCallbackBP is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+    }
+
+    UROS2GenericMsg* topicMessage = NewObject<UROS2GenericMsg>(this, InMsgClass);
+    topicMessage->Init();
+
+    FSubscription newSub;
+    newSub.TopicName = InTopicName;
+    newSub.TopicType = InMsgClass;
+    newSub.TopicMsg = topicMessage;
+    newSub.CallbackBP = InCallbackBP;
+    newSub.Ready = false;
+
+    newSub.rcl_subscription = rcl_get_zero_initialized_subscription();
+    const rosidl_message_type_support_t* type_support = topicMessage->GetTypeSupport();
+    rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
+    RCSOFTCHECK(rcl_subscription_init(&newSub.rcl_subscription, &node, type_support, TCHAR_TO_UTF8(*InTopicName), &sub_opt));
+
+    Subscriptions.Emplace(MoveTemp(newSub));
+
+    // invalidate wait_set
+    if (rcl_wait_set_is_valid(&wait_set))
+    {
+        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+    }
+}
+
 void AROS2Node::AddService(const FString& ServiceName,
                            const TSubclassOf<UROS2GenericSrv>& SrvClass,
                            const FServiceCallback& Callback)
@@ -176,7 +219,8 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
     {
         UE_LOG(LogROS2Node,
                Warning,
-               TEXT("UpdateDelegate & UpdateDelegateBP are both not set - is this on purpose? (%s)"),
+               TEXT("[%s] UpdateDelegate & UpdateDelegateBP are both not set - is this on purpose? (%s)"),
+               *GetName(),
                *__LOG_INFO__);
     }
 
@@ -277,6 +321,9 @@ void AROS2Node::HandleSubscriptions()
 
             const FSubscriptionCallback* SubCallback = &s.Callback;
             SubCallback->ExecuteIfBound(s.TopicMsg);
+
+            const FSubscriptionCallbackBP* SubCallbackBP = &s.CallbackBP;
+            SubCallbackBP->ExecuteIfBound(s.TopicMsg);
 
             s.Ready = false;
         }

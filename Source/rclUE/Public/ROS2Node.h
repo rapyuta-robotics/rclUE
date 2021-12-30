@@ -28,7 +28,8 @@ class UROS2ActionServer;
 class UROS2ActionClient;
 
 // Reminder: functions bound to delegates must be UFUNCTION
-DECLARE_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg* /*Message*/);
+DECLARE_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg* /*InMessage*/);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallbackBP, const UROS2GenericMsg*, InMessage);
 DECLARE_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv* /*Service*/);
 DECLARE_DELEGATE_OneParam(FActionCallback, UROS2GenericAction* /*Action*/);
 DECLARE_DELEGATE(FSimpleCallback);
@@ -51,6 +52,7 @@ public:
     rcl_subscription_t rcl_subscription;
 
     FSubscriptionCallback Callback;
+    FSubscriptionCallbackBP CallbackBP;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     bool Ready;
@@ -106,6 +108,10 @@ public:
     void AddSubscription(const FString& TopicName,
                          const TSubclassOf<UROS2GenericMsg>& MsgClass,
                          const FSubscriptionCallback& Callback);
+    UFUNCTION(BlueprintCallable)
+    void AddSubscriptionBP(const FString& InTopicName,
+                           TSubclassOf<UROS2GenericMsg> InMsgClass,
+                           const FSubscriptionCallbackBP& InCallbackBP);
 
     UFUNCTION(BlueprintCallable)
     void AddPublisher(UROS2Publisher* InPublisher);
