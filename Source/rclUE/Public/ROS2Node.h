@@ -106,19 +106,19 @@ public:
                          const FSubscriptionCallback Callback);
 
     UFUNCTION(BlueprintCallable)
-    void AddPublisher(UROS2Publisher* Publisher);
+    void AddPublisher(UROS2Publisher* InPublisher);
 
     UFUNCTION(BlueprintCallable)
-    void AddClient(UROS2ServiceClient* Client);
+    void AddClient(UROS2ServiceClient* InClient);
 
     UFUNCTION(BlueprintCallable)
     void AddService(const FString ServiceName, const TSubclassOf<UROS2GenericSrv> SrvClass, const FServiceCallback Callback);
 
     UFUNCTION(BlueprintCallable)
-    void AddActionClient(UROS2ActionClient* ActionClient);
+    void AddActionClient(UROS2ActionClient* InActionClient);
 
     UFUNCTION(BlueprintCallable)
-    void AddActionServer(UROS2ActionServer* ActionServer);
+    void AddActionServer(UROS2ActionServer* InActionServer);
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TEnumAsByte<UROS2State> State = UROS2State::Created;
