@@ -63,7 +63,7 @@ public:
         UpdateDelegate.BindUObject(this, &UROS2Publisher::UpdateMessage);
     }
     UFUNCTION(BlueprintCallable)
-    void RevokeUpdateCallback()
+    virtual void RevokeUpdateCallback()
     {
         UpdateDelegate.Unbind();
         UpdateDelegateBP.Unbind();
