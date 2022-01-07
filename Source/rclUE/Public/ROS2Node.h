@@ -104,9 +104,7 @@ public:
     // Methods to register subscribers, publishers, clients (for services), services, action clients and action servers
     // It is up to the user to ensure that they are only added once
     UFUNCTION(BlueprintCallable)
-    void AddSubscription(const FString& TopicName,
-                         const TSubclassOf<UROS2GenericMsg>& MsgClass,
-                         const FSubscriptionCallback& Callback);
+    void AddSubscription(const FString& TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback& Callback);
 
     UFUNCTION(BlueprintCallable)
     void AddPublisher(UROS2Publisher* InPublisher);

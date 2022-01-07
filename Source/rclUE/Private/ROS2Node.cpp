@@ -91,7 +91,7 @@ rcl_node_t* AROS2Node::GetNode()
 }
 
 void AROS2Node::AddSubscription(const FString& TopicName,
-                                const TSubclassOf<UROS2GenericMsg>& MsgClass,
+                                TSubclassOf<UROS2GenericMsg> MsgClass,
                                 const FSubscriptionCallback& Callback)
 {
     check(State == UROS2State::Initialized);

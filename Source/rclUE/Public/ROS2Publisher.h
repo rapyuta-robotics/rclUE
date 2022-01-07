@@ -22,7 +22,6 @@ class RCLUE_API UROS2Publisher : public UActorComponent
 public:
     UROS2Publisher();
 
-public:
     virtual void InitializeWithROS2(AROS2Node* InROS2Node)
     {
         RegisterToROS2Node(InROS2Node);
