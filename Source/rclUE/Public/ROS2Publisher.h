@@ -25,7 +25,7 @@ public:
 public:
     virtual void InitializeWithROS2(AROS2Node* InROS2Node)
     {
-        checkNoEntry();
+        RegisterToROS2Node(InROS2Node);
     }
     UFUNCTION()
     void RegisterToROS2Node(AROS2Node* InROS2Node);
