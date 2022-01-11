@@ -75,7 +75,7 @@ void AROS2Node::Init()
         {
             Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
-            UE_LOG(LogROS2Node, Log, TEXT("rclc_node_init_default"));
+            UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
         }
 
@@ -90,9 +90,9 @@ rcl_node_t* AROS2Node::GetNode()
     return &node;
 }
 
-void AROS2Node::AddSubscription(const FString TopicName,
-                                const TSubclassOf<UROS2GenericMsg> MsgClass,
-                                const FSubscriptionCallback Callback)
+void AROS2Node::AddSubscription(const FString& TopicName,
+                                TSubclassOf<UROS2GenericMsg> MsgClass,
+                                const FSubscriptionCallback& Callback)
 {
     check(State == UROS2State::Initialized);
 
@@ -133,7 +133,9 @@ void AROS2Node::AddSubscription(const FString TopicName,
     }
 }
 
-void AROS2Node::AddService(const FString ServiceName, const TSubclassOf<UROS2GenericSrv> SrvClass, const FServiceCallback Callback)
+void AROS2Node::AddService(const FString& ServiceName,
+                           const TSubclassOf<UROS2GenericSrv>& SrvClass,
+                           const FServiceCallback& Callback)
 {
     check(State == UROS2State::Initialized);
 
@@ -170,7 +172,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 {
     check(IsValid(InPublisher));
 
-    if (!InPublisher->UpdateDelegate.IsBound())
+    if (false == (InPublisher->UpdateDelegate.IsBound()))
     {
         UE_LOG(LogROS2Node, Warning, TEXT("[%s] UpdateDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }

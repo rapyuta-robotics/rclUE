@@ -5,15 +5,18 @@
 
 #pragma once
 
+// UE
+#include "Components/ActorComponent.h"
+#include "CoreMinimal.h"
+
+// rclUE
+#include "Msgs/ROS2GenericMsg.h"
 #include "ROS2Node.h"
 #include "Srvs/ROS2GenericSrv.h"
 
-#include <Components/ActorComponent.h>
-#include <CoreMinimal.h>
-
 #include "ROS2ServiceClient.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv*, Service);
+DECLARE_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv* /*Service*/);
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceClient : public UActorComponent
@@ -44,11 +47,9 @@ public:
     TSubclassOf<UROS2GenericSrv> SrvClass;
 
     // used to pass data for the request
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceClientCallback RequestDelegate;
 
     // used to receive the answer
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceClientCallback AnswerDelegate;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

@@ -35,11 +35,17 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 
         RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
-        GetWorld()->GetGameInstance()->GetTimerManager().SetTimer(
+        GetWorld()->GetTimerManager().SetTimer(
             TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
 
         State = UROS2State::Initialized;
     }
+}
+
+void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
+{
+    SetupUpdateCallback();
+    InROS2Node->AddPublisher(this);
 }
 
 void UROS2Publisher::Destroy()
@@ -61,16 +67,16 @@ void UROS2Publisher::Destroy()
 void UROS2Publisher::InitializeMessage()
 {
     check(TopicName != FString());
-    check(MsgClass)
+    check(MsgClass);
 
-        TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
+    TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
 
     check(IsValid(TopicMessage));
 
     TopicMessage->Init();
 }
 
-void UROS2Publisher::UpdateAndPublishMessage_Implementation()
+void UROS2Publisher::UpdateAndPublishMessage()
 {
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));

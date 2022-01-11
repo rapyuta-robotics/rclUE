@@ -8,12 +8,17 @@
 
 #pragma once
 
-#include "ROS2Support.h"
+// UE
+#include "Components/ActorComponent.h"
+#include "Containers/Map.h"
+#include "CoreMinimal.h"
+#include "GameFramework/Actor.h"
 
-#include <Components/ActorComponent.h>
-#include <Containers/Map.h>
-#include <CoreMinimal.h>
-#include <GameFramework/Actor.h>
+// rclUE
+#include "Actions/ROS2GenericAction.h"
+#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2Support.h"
+#include "Srvs/ROS2GenericSrv.h"
 
 #include "ROS2Node.generated.h"
 
@@ -23,10 +28,10 @@ class UROS2ActionServer;
 class UROS2ActionClient;
 
 // Reminder: functions bound to delegates must be UFUNCTION
-DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, Message);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, Service);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, Action);
-DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
+DECLARE_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv* /*Service*/);
+DECLARE_DELEGATE_OneParam(FActionCallback, UROS2GenericAction* /*Action*/);
+DECLARE_DELEGATE(FSimpleCallback);
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FSubscription
@@ -45,7 +50,6 @@ public:
 
     rcl_subscription_t rcl_subscription;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FSubscriptionCallback Callback;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -69,7 +73,6 @@ public:
 
     rcl_service_t rcl_service;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceCallback Callback;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -101,9 +104,7 @@ public:
     // Methods to register subscribers, publishers, clients (for services), services, action clients and action servers
     // It is up to the user to ensure that they are only added once
     UFUNCTION(BlueprintCallable)
-    void AddSubscription(const FString TopicName,
-                         const TSubclassOf<UROS2GenericMsg> MsgClass,
-                         const FSubscriptionCallback Callback);
+    void AddSubscription(const FString& TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback& Callback);
 
     UFUNCTION(BlueprintCallable)
     void AddPublisher(UROS2Publisher* InPublisher);
@@ -111,8 +112,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void AddClient(UROS2ServiceClient* InClient);
 
-    UFUNCTION(BlueprintCallable)
-    void AddService(const FString ServiceName, const TSubclassOf<UROS2GenericSrv> SrvClass, const FServiceCallback Callback);
+    void AddService(const FString& ServiceName, const TSubclassOf<UROS2GenericSrv>& SrvClass, const FServiceCallback& Callback);
 
     UFUNCTION(BlueprintCallable)
     void AddActionClient(UROS2ActionClient* InActionClient);
