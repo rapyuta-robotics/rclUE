@@ -82,7 +82,10 @@ void UROS2Publisher::UpdateAndPublishMessage()
     check(IsValid(OwnerNode));
 
     UpdateDelegate.ExecuteIfBound(TopicMessage);
-    Publish();
+    if(bPublish)
+    {
+        Publish();
+    }
 }
 
 void UROS2Publisher::Publish()
