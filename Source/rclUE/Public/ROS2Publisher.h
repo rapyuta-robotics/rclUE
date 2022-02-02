@@ -55,6 +55,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FPublisherUpdateCallback UpdateDelegate;
 
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool bPublish = true;
+
     UFUNCTION(BlueprintCallable)
     void SetupUpdateCallback()
     {
