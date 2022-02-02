@@ -45,6 +45,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString state_reference_frame;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FString> tags;
+
 	
 
 	void SetFromROS2(const ue_msgs__srv__SpawnEntity_Request& in_ros_data)
@@ -75,6 +78,12 @@ public:
 		state_twist_angular.Z = in_ros_data.state.twist.angular.z;
 
 		state_reference_frame.AppendChars(in_ros_data.state.reference_frame.data, in_ros_data.state.reference_frame.size);
+
+		for (int i = 0; i < in_ros_data.tags.size; i++)
+		{
+			tags.Add("");
+			tags[i].AppendChars(in_ros_data.tags.data[i].data,in_ros_data.tags.data[i].size);
+		}
 
 		
 	}
@@ -150,6 +159,27 @@ public:
 		memcpy(out_ros_data.state.reference_frame.data, TCHAR_TO_UTF8(*state_reference_frame), (strLength+1)*sizeof(char));
 			out_ros_data.state.reference_frame.size = strLength;
 			out_ros_data.state.reference_frame.capacity = strLength + 1;
+		}
+
+		if (out_ros_data.tags.data != nullptr)
+		{
+			free(out_ros_data.tags.data);
+		}
+		out_ros_data.tags.data = (decltype(out_ros_data.tags.data))malloc((tags.Num())*sizeof(decltype(*out_ros_data.tags.data)));
+		for (int i = 0; i < tags.Num(); i++)
+		{
+			{
+				FTCHARToUTF8 strUtf8( *tags[i] );
+				int32 strLength = strUtf8.Length();
+				if (out_ros_data.tags.data[i].data != nullptr)
+				{
+					free(out_ros_data.tags.data[i].data);
+				}
+				out_ros_data.tags.data[i].data = (char*)malloc((strLength+1)*sizeof(char));
+				memcpy(out_ros_data.tags.data[i].data, TCHAR_TO_UTF8(*tags[i]), (strLength+1)*sizeof(char));
+				out_ros_data.tags.data[i].size = strLength;
+				out_ros_data.tags.data[i].capacity = strLength + 1;
+			}
 		}
 
 		

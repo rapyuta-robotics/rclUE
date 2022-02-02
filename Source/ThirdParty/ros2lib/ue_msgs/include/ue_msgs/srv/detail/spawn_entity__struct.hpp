@@ -70,6 +70,9 @@ struct SpawnEntity_Request_
   using _state_type =
     ue_msgs::msg::EntityState_<ContainerAllocator>;
   _state_type state;
+  using _tags_type =
+    std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other>;
+  _tags_type tags;
 
   // setters for named parameter idiom
   Type & set__xml(
@@ -88,6 +91,12 @@ struct SpawnEntity_Request_
     const ue_msgs::msg::EntityState_<ContainerAllocator> & _arg)
   {
     this->state = _arg;
+    return *this;
+  }
+  Type & set__tags(
+    const std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other> & _arg)
+  {
+    this->tags = _arg;
     return *this;
   }
 
@@ -140,6 +149,9 @@ struct SpawnEntity_Request_
       return false;
     }
     if (this->state != other.state) {
+      return false;
+    }
+    if (this->tags != other.tags) {
       return false;
     }
     return true;

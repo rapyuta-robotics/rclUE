@@ -186,6 +186,20 @@ namespace ue_msgs {
                 ue_msgs::msg::dds_::EntityState_PluginSupport_print_data(
                     (const ue_msgs::msg::dds_::EntityState_*) &sample->state_, "state_", indent_level + 1);
 
+                if (DDS_StringSeq_get_contiguous_bufferI(&sample->tags_) != NULL) {
+                    RTICdrType_printStringArray(
+                        DDS_StringSeq_get_contiguous_bufferI(&sample->tags_),
+                        DDS_StringSeq_get_length(&sample->tags_),
+                        "tags_", indent_level + 1,
+                        RTI_CDR_CHAR_TYPE);
+                } else {
+                    RTICdrType_printStringPointerArray(
+                        DDS_StringSeq_get_discontiguous_bufferI(&sample->tags_),
+                        DDS_StringSeq_get_length(&sample->tags_),
+                        "tags_", indent_level + 1,
+                        RTI_CDR_CHAR_TYPE);
+                }
+
             }
 
             /* ----------------------------------------------------------------------------
@@ -354,6 +368,28 @@ namespace ue_msgs {
                         return RTI_FALSE;
                     }
 
+                    if (DDS_StringSeq_get_contiguous_bufferI(&sample->tags_) != NULL) {
+                        if (!RTICdrStream_serializeStringSequence(
+                            stream,
+                            DDS_StringSeq_get_contiguous_bufferI(&sample->tags_),
+                            DDS_StringSeq_get_length(&sample->tags_),
+                            (RTI_INT32_MAX-1),
+                            (RTI_INT32_MAX-1) +1,
+                            RTI_CDR_CHAR_TYPE)) {
+                            return RTI_FALSE;
+                        } 
+                    } else {
+                        if (!RTICdrStream_serializeStringPointerSequence(
+                            stream,
+                            (const void **) DDS_StringSeq_get_discontiguous_bufferI(&sample->tags_),
+                            DDS_StringSeq_get_length(&sample->tags_),
+                            (RTI_INT32_MAX-1), 
+                            (RTI_INT32_MAX-1) +1,
+                            RTI_CDR_CHAR_TYPE)) {
+                            return RTI_FALSE;
+                        } 
+                    }
+
                 }
 
                 if(serialize_encapsulation) {
@@ -408,6 +444,38 @@ namespace ue_msgs {
                             RTI_FALSE, RTI_TRUE,
                             endpoint_plugin_qos)) {
                             goto fin; 
+                        }
+                        {
+                            RTICdrUnsignedLong sequence_length;
+                            if (!RTICdrStream_lookUnsignedLong(stream,&sequence_length)) {
+                                goto fin; 
+                            }
+                            if (!DDS_StringSeq_set_maximum(&sample->tags_,sequence_length)) {
+                                return RTI_FALSE;
+                            }
+                            if (DDS_StringSeq_get_contiguous_bufferI(&sample->tags_) != NULL) {
+                                if (!RTICdrStream_deserializeStringSequenceEx(
+                                    stream,
+                                    DDS_StringSeq_get_contiguous_bufferI(&sample->tags_),
+                                    &sequence_length,
+                                    DDS_StringSeq_get_maximum(&sample->tags_),
+                                    (RTI_INT32_MAX-1) +1,RTI_CDR_CHAR_TYPE,RTI_TRUE)){
+                                    goto fin; 
+                                }
+                            } else {
+                                if (!RTICdrStream_deserializeStringPointerSequenceEx(
+                                    stream,
+                                    (void **) DDS_StringSeq_get_discontiguous_bufferI(&sample->tags_),
+                                    &sequence_length,
+                                    DDS_StringSeq_get_maximum(&sample->tags_),
+                                    (RTI_INT32_MAX-1) +1,RTI_CDR_CHAR_TYPE,RTI_TRUE)){
+                                    goto fin; 
+                                }
+                            }
+                            if (!DDS_StringSeq_set_length(&sample->tags_, sequence_length)) {
+                                return RTI_FALSE;
+                            }
+
                         }
                     }
 
@@ -653,6 +721,15 @@ namespace ue_msgs {
                         endpoint_plugin_qos)) {
                         goto fin; 
                     }
+                    {
+                        RTICdrUnsignedLong sequence_length;
+                        if (!RTICdrStream_skipStringSequence(
+                            stream,
+                            &sequence_length,
+                            (RTI_INT32_MAX-1) + 1,     RTI_CDR_CHAR_TYPE)){
+                            goto fin; 
+                        }
+                    }
                 }
 
                 done = RTI_TRUE;
@@ -742,6 +819,8 @@ namespace ue_msgs {
                     current_alignment, 1);
                 current_alignment +=ue_msgs::msg::dds_::EntityState_Plugin_get_serialized_sample_min_size(
                     endpoint_data,RTI_FALSE,encapsulation_id,current_alignment);
+                current_alignment +=    RTICdrType_getStringSequenceMaxSizeSerialized(
+                    current_alignment,0,1, RTI_CDR_CHAR_TYPE);
 
                 if (include_encapsulation) {
                     current_alignment += encapsulation_size;
@@ -804,6 +883,22 @@ namespace ue_msgs {
                 current_alignment += ue_msgs::msg::dds_::EntityState_Plugin_get_serialized_sample_size(
                     endpoint_data,RTI_FALSE, encapsulation_id,
                     current_alignment, (const ue_msgs::msg::dds_::EntityState_*) &sample->state_);
+
+                if (DDS_StringSeq_get_contiguous_bufferI(&sample->tags_) != NULL) {
+                    current_alignment += RTICdrStream_getStringSequenceSerializedSize(
+                        PRESTypePluginDefaultEndpointData_getAlignment(
+                            endpoint_data, current_alignment),
+                            DDS_StringSeq_get_contiguous_bufferI(&sample->tags_),
+                            DDS_StringSeq_get_length(&sample->tags_),
+                            RTI_CDR_CHAR_TYPE);
+                } else {
+                    current_alignment += RTICdrStream_getStringPointerSequenceSerializedSize(
+                        PRESTypePluginDefaultEndpointData_getAlignment(
+                            endpoint_data,current_alignment),
+                            (const void **)DDS_StringSeq_get_discontiguous_bufferI(&sample->tags_),
+                            DDS_StringSeq_get_length(&sample->tags_),
+                            RTI_CDR_CHAR_TYPE);
+                }
 
                 if (include_encapsulation) {
                     current_alignment += encapsulation_size;
