@@ -9,8 +9,8 @@ For more information, type 'rtiddsgen -help' at a command shell
 or consult the RTI Connext manual.
 */
 
-#ifndef SpawnEntity__465644222_h
-#define SpawnEntity__465644222_h
+#ifndef SpawnEntity__465644247_h
+#define SpawnEntity__465644247_h
 
 #ifndef NDDS_STANDALONE_TYPE
 #ifndef ndds_cpp_h
@@ -47,6 +47,7 @@ namespace ue_msgs {
                 DDS_Char *   xml_ ;
                 DDS_Char *   robot_namespace_ ;
                 ue_msgs::msg::dds_::EntityState_   state_ ;
+                DDS_StringSeq  tags_ ;
 
             };
             #if (defined(RTI_WIN32) || defined (RTI_WINCE)) && defined(NDDS_USER_DLL_EXPORT)

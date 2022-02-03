@@ -20,16 +20,32 @@ namespace srv
 namespace builder
 {
 
+class Init_SpawnEntity_Request_tags
+{
+public:
+  explicit Init_SpawnEntity_Request_tags(::ue_msgs::srv::SpawnEntity_Request & msg)
+  : msg_(msg)
+  {}
+  ::ue_msgs::srv::SpawnEntity_Request tags(::ue_msgs::srv::SpawnEntity_Request::_tags_type arg)
+  {
+    msg_.tags = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::ue_msgs::srv::SpawnEntity_Request msg_;
+};
+
 class Init_SpawnEntity_Request_state
 {
 public:
   explicit Init_SpawnEntity_Request_state(::ue_msgs::srv::SpawnEntity_Request & msg)
   : msg_(msg)
   {}
-  ::ue_msgs::srv::SpawnEntity_Request state(::ue_msgs::srv::SpawnEntity_Request::_state_type arg)
+  Init_SpawnEntity_Request_tags state(::ue_msgs::srv::SpawnEntity_Request::_state_type arg)
   {
     msg_.state = std::move(arg);
-    return std::move(msg_);
+    return Init_SpawnEntity_Request_tags(msg_);
   }
 
 private:

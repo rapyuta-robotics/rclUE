@@ -11,6 +11,7 @@
 // Include directives for member types
 // Member `xml`
 // Member `robot_namespace`
+// Member `tags`
 #include "rosidl_runtime_c/string_functions.h"
 // Member `state`
 #include "ue_msgs/msg/detail/entity_state__functions.h"
@@ -36,6 +37,11 @@ ue_msgs__srv__SpawnEntity_Request__init(ue_msgs__srv__SpawnEntity_Request * msg)
     ue_msgs__srv__SpawnEntity_Request__fini(msg);
     return false;
   }
+  // tags
+  if (!rosidl_runtime_c__String__Sequence__init(&msg->tags, 0)) {
+    ue_msgs__srv__SpawnEntity_Request__fini(msg);
+    return false;
+  }
   return true;
 }
 
@@ -51,6 +57,8 @@ ue_msgs__srv__SpawnEntity_Request__fini(ue_msgs__srv__SpawnEntity_Request * msg)
   rosidl_runtime_c__String__fini(&msg->robot_namespace);
   // state
   ue_msgs__msg__EntityState__fini(&msg->state);
+  // tags
+  rosidl_runtime_c__String__Sequence__fini(&msg->tags);
 }
 
 ue_msgs__srv__SpawnEntity_Request *

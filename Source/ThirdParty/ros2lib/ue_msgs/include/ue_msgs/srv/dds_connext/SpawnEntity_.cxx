@@ -45,7 +45,9 @@ namespace ue_msgs {
 
                 static DDS_TypeCode SpawnEntity_Request__g_tc_xml__string = DDS_INITIALIZE_STRING_TYPECODE(RTI_INT32_MAX);
                 static DDS_TypeCode SpawnEntity_Request__g_tc_robot_namespace__string = DDS_INITIALIZE_STRING_TYPECODE(RTI_INT32_MAX);
-                static DDS_TypeCode_Member SpawnEntity_Request__g_tc_members[3]=
+                static DDS_TypeCode SpawnEntity_Request__g_tc_tags__string = DDS_INITIALIZE_STRING_TYPECODE(RTI_INT32_MAX);
+                static DDS_TypeCode SpawnEntity_Request__g_tc_tags__sequence = DDS_INITIALIZE_SEQUENCE_TYPECODE(RTI_INT32_MAX,NULL);
+                static DDS_TypeCode_Member SpawnEntity_Request__g_tc_members[4]=
                 {
 
                     {
@@ -98,6 +100,23 @@ namespace ue_msgs {
                         DDS_PUBLIC_MEMBER,/* Member visibility */
                         1,
                         NULL/* Ignored */
+                    }, 
+                    {
+                        (char *)"tags_",/* Member name */
+                        {
+                            3,/* Representation ID */          
+                            DDS_BOOLEAN_FALSE,/* Is a pointer? */
+                            -1, /* Bitfield bits */
+                            NULL/* Member type code is assigned later */
+                        },
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        0, /* Ignored */
+                        NULL, /* Ignored */
+                        RTI_CDR_REQUIRED_MEMBER, /* Is a key? */
+                        DDS_PUBLIC_MEMBER,/* Member visibility */
+                        1,
+                        NULL/* Ignored */
                     }
                 };
 
@@ -111,7 +130,7 @@ namespace ue_msgs {
                         0, /* Ignored */
                         0, /* Ignored */
                         NULL, /* Ignored */
-                        3, /* Number of members */
+                        4, /* Number of members */
                         SpawnEntity_Request__g_tc_members, /* Members */
                         DDS_VM_NONE  /* Ignored */         
                     }}; /* Type code for SpawnEntity_Request_*/
@@ -120,11 +139,15 @@ namespace ue_msgs {
                     return &SpawnEntity_Request__g_tc;
                 }
 
+                SpawnEntity_Request__g_tc_tags__sequence._data._typeCode = (RTICdrTypeCode *)&SpawnEntity_Request__g_tc_tags__string;
+
                 SpawnEntity_Request__g_tc_members[0]._representation._typeCode = (RTICdrTypeCode *)&SpawnEntity_Request__g_tc_xml__string;
 
                 SpawnEntity_Request__g_tc_members[1]._representation._typeCode = (RTICdrTypeCode *)&SpawnEntity_Request__g_tc_robot_namespace__string;
 
                 SpawnEntity_Request__g_tc_members[2]._representation._typeCode = (RTICdrTypeCode *)ue_msgs::msg::dds_::EntityState__get_typecode();
+
+                SpawnEntity_Request__g_tc_members[3]._representation._typeCode = (RTICdrTypeCode *)& SpawnEntity_Request__g_tc_tags__sequence;
 
                 is_initialized = RTI_TRUE;
 
@@ -154,6 +177,9 @@ namespace ue_msgs {
             RTIBool SpawnEntity_Request__initialize_w_params(
                 SpawnEntity_Request_* sample, const struct DDS_TypeAllocationParams_t * allocParams)
             {
+
+                void* buffer = NULL;
+                if (buffer) {} /* To avoid warnings */
 
                 if (sample == NULL) {
                     return RTI_FALSE;
@@ -189,6 +215,26 @@ namespace ue_msgs {
                 if (!ue_msgs::msg::dds_::EntityState__initialize_w_params(&sample->state_,
                 allocParams)) {
                     return RTI_FALSE;
+                }
+                if (allocParams->allocate_memory) {
+                    DDS_StringSeq_initialize(&sample->tags_  );
+                    DDS_StringSeq_set_absolute_maximum(&sample->tags_ , RTI_INT32_MAX);
+                    if (!DDS_StringSeq_set_maximum(&sample->tags_ , (0))) {
+                        return RTI_FALSE;
+                    }
+                    buffer = DDS_StringSeq_get_contiguous_bufferI(
+                        &sample->tags_ );
+
+                    if (buffer != NULL) {
+                        if (!RTICdrType_initStringArray(buffer, 
+                        (0),
+                        (0)+1,
+                        RTI_CDR_CHAR_TYPE)) {
+                            return RTI_FALSE;
+                        } 
+                    }
+                } else { 
+                    DDS_StringSeq_set_length(&sample->tags_, 0);
                 }
                 return RTI_TRUE;
             }
@@ -240,6 +286,8 @@ namespace ue_msgs {
                 }
                 ue_msgs::msg::dds_::EntityState__finalize_w_params(&sample->state_,deallocParams);
 
+                DDS_StringSeq_finalize(&sample->tags_);
+
             }
 
             void SpawnEntity_Request__finalize_optional_members(
@@ -285,6 +333,10 @@ namespace ue_msgs {
                         &dst->state_,(const ue_msgs::msg::dds_::EntityState_*)&src->state_)) {
                         return RTI_FALSE;
                     } 
+                    if (!DDS_StringSeq_copy(&dst->tags_ ,
+                    &src->tags_ )) {
+                        return RTI_FALSE;
+                    }
 
                     return RTI_TRUE;
 
