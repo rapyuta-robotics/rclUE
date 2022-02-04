@@ -13,53 +13,62 @@ public class ros2lib : ModuleRules
 		get { return ModuleDirectory; }
 	}
 
+	// TODO: Change to environmental variable
+	private string ROS2InstallPath
+	{
+		get { return "/home/russ/work/ros2_rolling/install"; }
+	}
+
 	public ros2lib(ReadOnlyTargetRules Target) : base(Target)
 	{
 		Type = ModuleType.External;
 
 		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
 		var folders = new string[] { "rcutils", "rmw", "tracetools",
-									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "example_interfaces", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "ue4_interfaces", "ue_msgs", "unique_identifier_msgs", "action_msgs",
+									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", 
+									 "example_interfaces",
+									//  "ue4_interfaces", "ue_msgs",
+									 "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "unique_identifier_msgs", "action_msgs",
 									 "rosidl_generator_c", "rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
 									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
 									 "rclc", "rclc_lifecycle" };
 
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			PublicRuntimeLibraryPaths.Add(ModulePath);
-			var libs = Directory.EnumerateFiles(ModulePath, "*.so", SearchOption.TopDirectoryOnly);
-			foreach (var libName in libs)
-			{
-				PublicAdditionalLibraries.Add(libName);
-				RuntimeDependencies.Add(libName);
-			}
+			// PublicRuntimeLibraryPaths.Add(ModulePath);
+			// var libs = Directory.EnumerateFiles(ModulePath, "*.so", SearchOption.TopDirectoryOnly);
+			// foreach (var libName in libs)
+			// {
+			// 	PublicAdditionalLibraries.Add(libName);
+			// 	RuntimeDependencies.Add(libName);
+			// }
 					
-			var extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
-			foreach (var libName in extended_libs)
-			{
-				RuntimeDependencies.Add(libName);
-			}
+			// var extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
+			// foreach (var libName in extended_libs)
+			// {
+			// 	RuntimeDependencies.Add(libName);
+			// }
 
 			foreach (var folder in folders)
 			{
-				var LibrariesPath = Path.Combine(ModulePath, folder, "lib");
+				var LibrariesPath = Path.Combine(ROS2InstallPath, folder, "lib");
 
 				if (Directory.Exists(LibrariesPath))
 				{
 					PublicRuntimeLibraryPaths.Add(LibrariesPath);
-					libs = Directory.EnumerateFiles(LibrariesPath, "*.so", SearchOption.TopDirectoryOnly);
+					var libs = Directory.EnumerateFiles(LibrariesPath, "*.so", SearchOption.TopDirectoryOnly);
 
 					foreach (var libName in libs)
 					{
 						PublicAdditionalLibraries.Add(libName);
-						RuntimeDependencies.Add(libName); // needed for .so?
-					}
-
-					extended_libs = Directory.EnumerateFiles(LibrariesPath, "*.so.*", SearchOption.TopDirectoryOnly);
-					foreach (var libName in extended_libs)
-					{
 						RuntimeDependencies.Add(libName);
 					}
+
+					// extended_libs = Directory.EnumerateFiles(LibrariesPath, "*.so.*", SearchOption.TopDirectoryOnly);
+					// foreach (var libName in extended_libs)
+					// {
+					// 	RuntimeDependencies.Add(libName);
+					// }
 				}
 			}
 		}

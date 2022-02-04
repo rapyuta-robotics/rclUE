@@ -72,19 +72,19 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
 void UROS2ActionServer::SendGoalResponse()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("3. Action Server - Send goal response (%s)"), *__LOG_INFO__);
-    check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    // UE_LOG(LogROS2Action, Log, TEXT("3. Action Server - Send goal response (%s)"), *__LOG_INFO__);
+    // check(State == UROS2State::Initialized);
+    // check(IsValid(OwnerNode));
 
-    ue4_interfaces__action__Fibonacci_SendGoal_Response* GoalResponse =
-        (ue4_interfaces__action__Fibonacci_SendGoal_Response*)Action->GetGoalResponse();
-    GoalResponse->accepted = true;
-    float TimeOfResponse = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld()));
-    GoalResponse->stamp.sec = static_cast<int32>(TimeOfResponse);
-    uint64 ns = (uint64)(TimeOfResponse * 1e+09f);
-    GoalResponse->stamp.nanosec = static_cast<uint32>(ns - (GoalResponse->stamp.sec * 1e+09));
+    // ue4_interfaces__action__Fibonacci_SendGoal_Response* GoalResponse =
+    //     (ue4_interfaces__action__Fibonacci_SendGoal_Response*)Action->GetGoalResponse();
+    // GoalResponse->accepted = true;
+    // float TimeOfResponse = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld()));
+    // GoalResponse->stamp.sec = static_cast<int32>(TimeOfResponse);
+    // uint64 ns = (uint64)(TimeOfResponse * 1e+09f);
+    // GoalResponse->stamp.nanosec = static_cast<uint32>(ns - (GoalResponse->stamp.sec * 1e+09));
 
-    RCSOFTCHECK(rcl_action_send_goal_response(&server, &goal_req_id, Action->GetGoalResponse()));
+    // RCSOFTCHECK(rcl_action_send_goal_response(&server, &goal_req_id, Action->GetGoalResponse()));
 }
 
 void UROS2ActionServer::ProcessAndSendCancelResponse()
