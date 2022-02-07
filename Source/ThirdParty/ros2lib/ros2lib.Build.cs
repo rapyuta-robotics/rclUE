@@ -13,10 +13,9 @@ public class ros2lib : ModuleRules
 		get { return ModuleDirectory; }
 	}
 
-	// TODO: Change to environmental variable
 	private string ROS2InstallPath
 	{
-		get { return "/home/russ/work/ros2_rolling/install"; }
+		get { return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH"); }
 	}
 
 	public ros2lib(ReadOnlyTargetRules Target) : base(Target)

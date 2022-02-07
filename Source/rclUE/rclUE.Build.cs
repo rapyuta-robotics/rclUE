@@ -12,7 +12,8 @@ public class rclUE : ModuleRules
 	// TODO: Change to environmental variable
 	private string ROS2InstallPath
 	{
-		get { return "/home/russ/work/ros2_rolling/install"; }
+		// get { return "/home/russ/work/ros2_rolling/install"; }
+		get { return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH"); }
 	}
 
 	public rclUE(ReadOnlyTargetRules Target) : base(Target)
@@ -35,7 +36,7 @@ public class rclUE : ModuleRules
 				PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, folder, "include"));
 			}
 
-			// Because rclc is for compiling in C this is not defined
+			// Because rclc is typically compiled using a C compiler, this is not defined
 			PrivateDefinitions.Add("__STDC_VERSION__=201112L");
 		}
 
