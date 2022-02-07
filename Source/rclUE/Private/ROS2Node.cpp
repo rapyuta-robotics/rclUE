@@ -133,9 +133,9 @@ void AROS2Node::AddSubscription(const FString& TopicName,
     }
 }
 
-void AROS2Node::AddService(const FString& ServiceName,
-                           const TSubclassOf<UROS2GenericSrv>& SrvClass,
-                           const FServiceCallback& Callback)
+void AROS2Node::AddServiceServer(const FString& ServiceName,
+                                 const TSubclassOf<UROS2GenericSrv> SrvClass,
+                                 const FServiceCallback& Callback)
 {
     check(State == UROS2State::Initialized);
 
@@ -189,7 +189,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
     }
 }
 
-void AROS2Node::AddClient(UROS2ServiceClient* InClient)
+void AROS2Node::AddServiceClient(UROS2ServiceClient* InClient)
 {
     check(IsValid(InClient));
 

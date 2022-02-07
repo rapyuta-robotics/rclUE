@@ -29,8 +29,8 @@ class UROS2ActionClient;
 
 // Reminder: functions bound to delegates must be UFUNCTION
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
-DECLARE_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv* /*Service*/);
-DECLARE_DELEGATE_OneParam(FActionCallback, UROS2GenericAction* /*Action*/);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DELEGATE(FSimpleCallback);
 
 USTRUCT(Blueprintable)
@@ -110,9 +110,12 @@ public:
     void AddPublisher(UROS2Publisher* InPublisher);
 
     UFUNCTION(BlueprintCallable)
-    void AddClient(UROS2ServiceClient* InClient);
+    void AddServiceClient(UROS2ServiceClient* InClient);
 
-    void AddService(const FString& ServiceName, const TSubclassOf<UROS2GenericSrv>& SrvClass, const FServiceCallback& Callback);
+    UFUNCTION(BlueprintCallable)
+    void AddServiceServer(const FString& ServiceName,
+                          const TSubclassOf<UROS2GenericSrv> SrvClass,
+                          const FServiceCallback& Callback);
 
     UFUNCTION(BlueprintCallable)
     void AddActionClient(UROS2ActionClient* InActionClient);
