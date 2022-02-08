@@ -21,8 +21,18 @@ AROS2Node::AROS2Node()
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 }
 
-void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
+void AROS2Node::BeginPlay()
 {
+    if (InitialiseOnBeginPlay)
+        Init();
+
+    Super::BeginPlay();
+}
+
+void AROS2Node::BringDown()
+{
+    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node BringDown start"), *GetName());
+
     for (auto& s : Subscriptions)
     {
         RCSOFTCHECK(rcl_subscription_fini(&s.rcl_subscription, &node));
@@ -31,6 +41,12 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
     for (auto& s : Services)
     {
         RCSOFTCHECK(rcl_service_fini(&s.rcl_service, &node));
+    }
+
+    for (auto& p : Publishers)
+    {
+        p->Destroy();
+        // RCSOFTCHECK(rcl_publisher_fini(&p.RclPublisher, &node));
     }
 
     TArray<UActorComponent*> PubComponents;
@@ -46,9 +62,13 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
     RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node EndPlay - rcl_node_fini"), *GetName());
+    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node BringDown - rcl_node_fini"), *GetName());
     RCSOFTCHECK(rcl_node_fini(&node));
+}
 
+void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+    BringDown();
     Super::EndPlay(EndPlayReason);
 }
 
@@ -66,14 +86,20 @@ void AROS2Node::Tick(float DeltaTime)
 
 // This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be
 // different/relevant in each of Child classes
+
+// TODO Move the rclc stuff to Support/Subsystem
 void AROS2Node::Init()
 {
     if (State == UROS2State::Created)
     {
         UE_LOG(LogROS2Node, Log, TEXT("[%s] start initializing.."), *GetName());
+
+        Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
+
+        FScopeLock lock(&Support->RCLCritical);
         if (!rcl_node_is_valid(&node))    // ensures that it stays safe when called multiple times
         {
-            Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
+            rcutils_reset_error();
 
             UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
@@ -119,6 +145,8 @@ void AROS2Node::AddSubscription(const FString& TopicName,
     NewSub.Callback = Callback;
     NewSub.Ready = false;
 
+    FScopeLock lock(&Support->RCLCritical);
+
     NewSub.rcl_subscription = rcl_get_zero_initialized_subscription();
     const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
     rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
@@ -153,6 +181,8 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
     NewSrv.Service = Service;
     NewSrv.Callback = Callback;
     NewSrv.Ready = false;
+
+    FScopeLock lock(&Support->RCLCritical);
 
     NewSrv.rcl_service = rcl_get_zero_initialized_service();
     const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();
@@ -270,7 +300,11 @@ void AROS2Node::HandleSubscriptions()
         {
             void* data = s.TopicMsg->Get();
             rmw_message_info_t messageInfo;
-            RCSOFTCHECK(rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr));
+
+            //{  RJW: rcl_take may or may not be threadsafe. Comments in RCL indicate they don't even know...
+            //    FScopeLock lock(&Support->RCLCritical);
+                RCSOFTCHECK(rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr));
+            //}
 
             const FSubscriptionCallback* SubCallback = &s.Callback;
             SubCallback->ExecuteIfBound(s.TopicMsg);
@@ -358,50 +392,54 @@ void AROS2Node::HandleClients()
 
 void AROS2Node::SpinSome()
 {
-    if (!rcl_wait_set_is_valid(&wait_set))
     {
-        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-        wait_set = rcl_get_zero_initialized_wait_set();
-        RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-                                      Subscriptions.Num() + ActionClients.Num() * 2,
-                                      NGuardConditions,
-                                      NTimers + ActionServers.Num(),
-                                      Clients.Num() + ActionClients.Num() * 3,
-                                      Services.Num() + ActionServers.Num() * 3,
-                                      NEvents,
-                                      &Support->Get().context,
-                                      rcl_get_default_allocator()));
+        FScopeLock lock(&Support->RCLCritical);
+
+        if (!rcl_wait_set_is_valid(&wait_set))
+        {
+            RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+            wait_set = rcl_get_zero_initialized_wait_set();
+            RCSOFTCHECK(rcl_wait_set_init(&wait_set,
+                                        Subscriptions.Num() + ActionClients.Num() * 2,
+                                        NGuardConditions,
+                                        NTimers + ActionServers.Num(),
+                                        Clients.Num() + ActionClients.Num() * 3,
+                                        Services.Num() + ActionServers.Num() * 3,
+                                        NEvents,
+                                        &Support->Get().context,
+                                        rcl_get_default_allocator()));
+        }
+
+        RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
+
+        for (auto& s : Subscriptions)
+        {
+            RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.rcl_subscription, nullptr));
+        }
+
+        for (auto& c : Clients)
+        {
+            RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
+        }
+
+        for (auto& s : Services)
+        {
+            RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.rcl_service, nullptr));
+        }
+
+        for (auto& a : ActionClients)
+        {
+            RCSOFTCHECK(rcl_action_wait_set_add_action_client(&wait_set, &a->client, nullptr, nullptr));
+        }
+
+        for (auto& a : ActionServers)
+        {
+            RCSOFTCHECK(rcl_action_wait_set_add_action_server(&wait_set, &a->server, nullptr));
+        }
+
+        rcl_ret_t rc = rcl_wait(&wait_set, 0);
+        RCLC_UNUSED(rc);
     }
-
-    RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
-
-    for (auto& s : Subscriptions)
-    {
-        RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.rcl_subscription, nullptr));
-    }
-
-    for (auto& c : Clients)
-    {
-        RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
-    }
-
-    for (auto& s : Services)
-    {
-        RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.rcl_service, nullptr));
-    }
-
-    for (auto& a : ActionClients)
-    {
-        RCSOFTCHECK(rcl_action_wait_set_add_action_client(&wait_set, &a->client, nullptr, nullptr));
-    }
-
-    for (auto& a : ActionServers)
-    {
-        RCSOFTCHECK(rcl_action_wait_set_add_action_server(&wait_set, &a->server, nullptr));
-    }
-
-    rcl_ret_t rc = rcl_wait(&wait_set, 0);
-    RCLC_UNUSED(rc);
 
     HandleSubscriptions();
     HandleServices();

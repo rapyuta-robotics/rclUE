@@ -88,6 +88,7 @@ public:
     AROS2Node();
 
 protected:
+    virtual void BeginPlay() override;
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
@@ -98,6 +99,9 @@ public:
     // must be called before using
     UFUNCTION(BlueprintCallable)
     void Init();
+
+    UFUNCTION(BlueprintCallable)
+    void BringDown();
 
     rcl_node_t* GetNode();
 
@@ -130,7 +134,10 @@ public:
     FString Name = TEXT("node");
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Namespace = TEXT("ros_global");
+    FString Namespace = TEXT("");
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool InitialiseOnBeginPlay = true;
 
     // wait_set quantities - currently unused
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")

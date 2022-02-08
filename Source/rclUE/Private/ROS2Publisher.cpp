@@ -25,9 +25,7 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 
         const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
 
-        OwnerNode->Init();
         UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);
-
         RclPublisher = rcl_get_zero_initialized_publisher();
         rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 

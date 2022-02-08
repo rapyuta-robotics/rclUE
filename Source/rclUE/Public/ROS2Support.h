@@ -9,6 +9,7 @@
 
 #include <CoreMinimal.h>
 
+// #include "ROS2Node.h"
 #include "ROS2Support.generated.h"
 
 UCLASS(Blueprintable)
@@ -24,8 +25,12 @@ public:
     void Fini();
 
     rclc_support_t& Get();
+    FCriticalSection RCLCritical;
 
 private:
+    // void RegisterNode(AROS2Node* node);
+
     rcl_allocator_t allocator;
     rclc_support_t support;
+    // TArray<AROS2Node*> Nodes;
 };

@@ -14,7 +14,14 @@ void UROS2Support::Init()
     RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
 }
 
+// void UROS2Support::RegisterNode(AROS2Node* node) {
+//     Nodes.Add(node);
+// }
+
 void UROS2Support::Fini()
 {
+    // for (auto& n : Nodes)
+    //     n->BringDown();
+
     RCSOFTCHECK(rclc_support_fini(&support));
 }

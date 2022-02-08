@@ -46,7 +46,7 @@ public:
     FString TopicName;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 PublicationFrequencyHz = 1000;
+    int32 PublicationFrequencyHz = 100;
 
     // this information is redundant with Topic, but it's needed to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -63,18 +63,20 @@ public:
     {
         UpdateDelegate.BindDynamic(this, &UROS2Publisher::UpdateMessage);
     }
+
     UFUNCTION(BlueprintCallable)
     virtual void RevokeUpdateCallback()
     {
         UpdateDelegate.Unbind();
     }
+
     UFUNCTION()
     virtual void UpdateMessage(UROS2GenericMsg* InMessage)
     {
         checkNoEntry();
     }
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     AROS2Node* OwnerNode = nullptr;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
