@@ -17,11 +17,11 @@
 // rclUE
 #include "Actions/ROS2GenericAction.h"
 #include "Msgs/ROS2GenericMsg.h"
-#include "ROS2Support.h"
 #include "Srvs/ROS2GenericSrv.h"
 
 #include "ROS2Node.generated.h"
 
+class UROS2Support;
 class UROS2Publisher;
 class UROS2ServiceClient;
 class UROS2ActionServer;

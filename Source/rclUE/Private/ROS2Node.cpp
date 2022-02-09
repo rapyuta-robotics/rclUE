@@ -7,6 +7,7 @@
 #include "ROS2Publisher.h"
 #include "ROS2ServiceClient.h"
 #include "ROS2Subsystem.h"
+#include "ROS2Support.h"
 
 #include <Engine/GameInstance.h>
 #include <Kismet/GameplayStatics.h>
@@ -45,8 +46,8 @@ void AROS2Node::BringDown()
 
     for (auto& p : Publishers)
     {
-        p->Destroy();
-        // RCSOFTCHECK(rcl_publisher_fini(&p.RclPublisher, &node));
+        if (IsValid(p))
+            p->Destroy();
     }
 
     TArray<UActorComponent*> PubComponents;
@@ -103,6 +104,8 @@ void AROS2Node::Init()
 
             UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
+
+            Support->RegisterNode(this);
         }
 
         State = UROS2State::Initialized;

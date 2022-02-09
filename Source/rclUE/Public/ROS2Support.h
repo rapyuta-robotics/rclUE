@@ -9,8 +9,9 @@
 
 #include <CoreMinimal.h>
 
-// #include "ROS2Node.h"
 #include "ROS2Support.generated.h"
+
+class AROS2Node;
 
 UCLASS(Blueprintable)
 class RCLUE_API UROS2Support : public UObject
@@ -27,10 +28,11 @@ public:
     rclc_support_t& Get();
     FCriticalSection RCLCritical;
 
+    void RegisterNode(AROS2Node* node);
+    TArray<AROS2Node*> Nodes;
+
 private:
-    // void RegisterNode(AROS2Node* node);
 
     rcl_allocator_t allocator;
     rclc_support_t support;
-    // TArray<AROS2Node*> Nodes;
 };

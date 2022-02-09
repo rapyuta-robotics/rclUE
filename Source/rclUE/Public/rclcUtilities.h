@@ -20,6 +20,7 @@
     FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Support, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Publisher, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Service, Log, All);
