@@ -44,7 +44,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
 // used to add states to classes (e.g. to avoid double initializations)
 UENUM()
-enum UROS2State
+enum class UROS2State : uint8
 {
     Created UMETA(DisplayName = "Created"),
     Initialized UMETA(DisplayName = "Initialized"),
@@ -53,7 +53,7 @@ enum UROS2State
 // used to set QoS policies (https://docs.ros.org/en/foxy/Concepts/About-Quality-of-Service-Settings.html)
 // also check rmw/types.h for details
 UENUM()
-enum UROS2QoS
+enum class UROS2QoS : uint8
 {
     Default UMETA(DisplayName = "Default"),
     SensorData UMETA(DisplayName = "SensorData"),
@@ -120,7 +120,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_P
                                                                        false};
 
 // Look-Up Table matching enum with rcl profiles
-static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
+static const TMap<UROS2QoS, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::Default, rmw_qos_profile_default},
     {UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
     {UROS2QoS::DynamicBroadcaster, rclUE_qos_profile_dynamic_broadcaster},
@@ -132,3 +132,51 @@ static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::ParameterEvents, rmw_qos_profile_parameter_events},
     {UROS2QoS::System, rmw_qos_profile_system_default},
     {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
+
+UENUM(BlueprintType)
+enum class UROS2QosReliabilityPolicy : uint8
+{
+    SYSTEM_DEFAULT,
+    RELIABLE,
+    BEST_EFFORT,
+    UNKNOWN
+};
+
+static const TMap<UROS2QosReliabilityPolicy, rmw_qos_reliability_policy_t> UROS2QosReliabilityPolicy_LUT = {
+    {UROS2QosReliabilityPolicy::SYSTEM_DEFAULT, RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT},
+    {UROS2QosReliabilityPolicy::RELIABLE, RMW_QOS_POLICY_RELIABILITY_RELIABLE},
+    {UROS2QosReliabilityPolicy::BEST_EFFORT, RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT},
+    {UROS2QosReliabilityPolicy::UNKNOWN, RMW_QOS_POLICY_RELIABILITY_UNKNOWN}
+};
+
+UENUM(BlueprintType)
+enum class UROS2QosHistoryPolicy : uint8
+{
+    SYSTEM_DEFAULT,
+    KEEP_LAST,
+    KEEP_ALL,
+    UNKNOWN
+};
+
+static const TMap<UROS2QosHistoryPolicy, rmw_qos_history_policy_t> UROS2QosHistoryPolicy_LUT = {
+    {UROS2QosHistoryPolicy::SYSTEM_DEFAULT, RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT},
+    {UROS2QosHistoryPolicy::KEEP_LAST, RMW_QOS_POLICY_HISTORY_KEEP_LAST},
+    {UROS2QosHistoryPolicy::KEEP_ALL, RMW_QOS_POLICY_HISTORY_KEEP_ALL},
+    {UROS2QosHistoryPolicy::UNKNOWN, RMW_QOS_POLICY_HISTORY_UNKNOWN}
+};
+  
+UENUM(BlueprintType)
+enum class UROS2QosDurabilityPolicy : uint8
+{
+    SYSTEM_DEFAULT,
+    TRANSIENT_LOCAL,
+    VOLATILE,
+    UNKNOWN
+};
+
+static const TMap<UROS2QosDurabilityPolicy, rmw_qos_durability_policy_t> UROS2QosDurabilityPolicy_LUT = {
+    {UROS2QosDurabilityPolicy::SYSTEM_DEFAULT, RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT},
+    {UROS2QosDurabilityPolicy::TRANSIENT_LOCAL, RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL},
+    {UROS2QosDurabilityPolicy::VOLATILE, RMW_QOS_POLICY_DURABILITY_VOLATILE},
+    {UROS2QosDurabilityPolicy::UNKNOWN, RMW_QOS_POLICY_DURABILITY_UNKNOWN}
+};

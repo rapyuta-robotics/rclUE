@@ -28,7 +28,7 @@ public:
 
 public:
     UFUNCTION(BlueprintCallable)
-    void Init(TEnumAsByte<UROS2QoS> QoS);
+    void Init(UROS2QoS QoS);
 
     UFUNCTION(BlueprintCallable)
     void InitializeService();
@@ -56,7 +56,7 @@ public:
     AROS2Node* OwnerNode;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    TEnumAsByte<UROS2State> State = UROS2State::Created;
+    UROS2State State = UROS2State::Created;
 
     rcl_client_t client;
 

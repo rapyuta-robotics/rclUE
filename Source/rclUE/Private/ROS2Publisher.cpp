@@ -12,7 +12,7 @@ UROS2Publisher::UROS2Publisher()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
+void UROS2Publisher::Init()
 {
     check(OwnerNode != nullptr);
     check(OwnerNode->State == UROS2State::Initialized);
@@ -29,13 +29,27 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
         RclPublisher = rcl_get_zero_initialized_publisher();
         rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
-        pub_opt.qos = QoS_LUT[QoS];
+        if (bQosOverride) {
+            pub_opt.qos = {
+                UROS2QosHistoryPolicy_LUT[QosHistoryPolicy],
+                (uint32) QosDepth,
+                UROS2QosReliabilityPolicy_LUT[QosReliabilityPolicy],
+                UROS2QosDurabilityPolicy_LUT[QosDurabilityPolicy],
+                RMW_QOS_DEADLINE_DEFAULT,
+                RMW_QOS_LIFESPAN_DEFAULT,
+                RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+                RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+                false
+            };
+        } else {
+            pub_opt.qos = QoS_LUT[QosProfilePreset];
+        }
 
         RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
         if (bPublishOnTimer) {
             GetWorld()->GetTimerManager().SetTimer(
-                TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
+                TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / PublicationFrequencyHz, true);
         }
 
         State = UROS2State::Initialized;

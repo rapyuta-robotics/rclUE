@@ -128,7 +128,7 @@ public:
     void AddActionServer(UROS2ActionServer* InActionServer);
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    TEnumAsByte<UROS2State> State = UROS2State::Created;
+    UROS2State State = UROS2State::Created;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString Name = TEXT("node");

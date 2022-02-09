@@ -30,7 +30,40 @@ public:
     void RegisterToROS2Node(AROS2Node* InROS2Node);
 
     UFUNCTION(BlueprintCallable)
-    void Init(const TEnumAsByte<UROS2QoS> QoS);
+    void Init();
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="!bQosOverride"))
+    UROS2QoS QosProfilePreset = UROS2QoS::Default;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool bQosOverride = false;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bQosOverride"))
+    UROS2QosHistoryPolicy QosHistoryPolicy = UROS2QosHistoryPolicy::KEEP_LAST;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bQosOverride"))
+    int32 QosDepth = 10;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bQosOverride"))
+    UROS2QosReliabilityPolicy QosReliabilityPolicy = UROS2QosReliabilityPolicy::RELIABLE;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bQosOverride"))
+    UROS2QosDurabilityPolicy QosDurabilityPolicy = UROS2QosDurabilityPolicy::VOLATILE;
+
+/*
+    struct rmw_time_t 	deadline
+        The period at which messages are expected to be sent/received. More...
+    
+    struct rmw_time_t 	lifespan
+        The age at which messages are considered expired and no longer valid. More...
+    
+    enum rmw_qos_liveliness_policy_t 	liveliness
+        Liveliness QoS policy setting. More...
+    
+    struct rmw_time_t 	liveliness_lease_duration
+        The time within which the RMW node or publisher must show that it is alive. More...
+
+*/
 
     UFUNCTION(BlueprintCallable)
     void InitializeMessage();
@@ -49,7 +82,7 @@ public:
     bool bPublishOnTimer = true;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bPublishOnTimer"))
-    int32 PublicationFrequencyHz = 100;
+    float PublicationFrequencyHz = 10.0;
 
     // this information is redundant with Topic, but it's needed to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -83,7 +116,7 @@ public:
     AROS2Node* OwnerNode = nullptr;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    TEnumAsByte<UROS2State> State = UROS2State::Created;
+    UROS2State State = UROS2State::Created;
 
 protected:
     UFUNCTION(BlueprintCallable)

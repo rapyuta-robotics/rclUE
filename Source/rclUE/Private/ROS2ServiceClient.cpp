@@ -10,7 +10,7 @@ UROS2ServiceClient::UROS2ServiceClient()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2ServiceClient::Init(TEnumAsByte<UROS2QoS> QoS)
+void UROS2ServiceClient::Init(UROS2QoS QoS)
 {
     check(OwnerNode != nullptr);
     check(OwnerNode->State == UROS2State::Initialized);
