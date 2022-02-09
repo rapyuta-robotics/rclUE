@@ -35,7 +35,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void InitializeMessage();
 
-    UFUNCTION()
+    UFUNCTION(BlueprintCallable)
     void UpdateAndPublishMessage();
 
     UFUNCTION()
@@ -46,6 +46,9 @@ public:
     FString TopicName;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool bPublishOnTimer = true;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bPublishOnTimer"))
     int32 PublicationFrequencyHz = 100;
 
     // this information is redundant with Topic, but it's needed to initialize it
