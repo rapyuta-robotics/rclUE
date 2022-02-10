@@ -36,3 +36,6 @@ private:
     rcl_allocator_t allocator;
     rclc_support_t support;
 };
+
+rmw_qos_profile_t BuildQoSProfile(UROS2QosHistoryPolicy QosHistoryPolicy, int32 QosDepth,
+    UROS2QosReliabilityPolicy QosReliabilityPolicy, UROS2QosDurabilityPolicy QosDurabilityPolicy);

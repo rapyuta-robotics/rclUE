@@ -85,9 +85,6 @@ void AROS2Node::Tick(float DeltaTime)
     }
 }
 
-// This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be
-// different/relevant in each of Child classes
-
 // TODO Move the rclc stuff to Support/Subsystem
 void AROS2Node::Init()
 {
@@ -119,9 +116,14 @@ rcl_node_t* AROS2Node::GetNode()
     return &node;
 }
 
+// TODO move to own Actor
 void AROS2Node::AddSubscription(const FString& TopicName,
                                 TSubclassOf<UROS2GenericMsg> MsgClass,
-                                const FSubscriptionCallback& Callback)
+                                const FSubscriptionCallback& Callback,
+                                UROS2QosHistoryPolicy SubQosHistoryPolicy,
+                                int32 SubQosDepth,
+                                UROS2QosReliabilityPolicy SubQosReliabilityPolicy,
+                                UROS2QosDurabilityPolicy SubQosDurabilityPolicy)
 {
     check(State == UROS2State::Initialized);
 
@@ -135,7 +137,7 @@ void AROS2Node::AddSubscription(const FString& TopicName,
 
     if (!Callback.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
@@ -153,6 +155,10 @@ void AROS2Node::AddSubscription(const FString& TopicName,
     NewSub.rcl_subscription = rcl_get_zero_initialized_subscription();
     const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
     rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
+
+    rmw_qos_profile_t qos = BuildQoSProfile(SubQosHistoryPolicy, SubQosDepth, SubQosReliabilityPolicy, SubQosDurabilityPolicy);
+    sub_opt.qos = qos;
+
     RCSOFTCHECK(rcl_subscription_init(&NewSub.rcl_subscription, &node, type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
     Subscriptions.Emplace(MoveTemp(NewSub));
@@ -172,7 +178,7 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
 
     if (!Callback.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     UROS2GenericSrv* Service = NewObject<UROS2GenericSrv>(this, SrvClass);
@@ -207,7 +213,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 
     if (false == (InPublisher->UpdateDelegate.IsBound()))
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] UpdateDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] UpdateDelegate is not set (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     if (false == Publishers.Contains(InPublisher))
@@ -228,12 +234,12 @@ void AROS2Node::AddServiceClient(UROS2ServiceClient* InClient)
 
     if (!InClient->RequestDelegate.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] RequestDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] RequestDelegate is not set (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     if (!InClient->AnswerDelegate.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] AnswerDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] AnswerDelegate is not set (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     if (false == Clients.Contains(InClient))

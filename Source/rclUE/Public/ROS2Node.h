@@ -33,6 +33,8 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DELEGATE(FSimpleCallback);
 
+
+// TODO: This should be moved to its own class
 USTRUCT(Blueprintable)
 struct RCLUE_API FSubscription
 {
@@ -44,6 +46,18 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UROS2GenericMsg> TopicType;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2QosHistoryPolicy QosHistoryPolicy = UROS2QosHistoryPolicy::KEEP_LAST;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int32 QosDepth = 10;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2QosReliabilityPolicy QosReliabilityPolicy = UROS2QosReliabilityPolicy::RELIABLE;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2QosDurabilityPolicy QosDurabilityPolicy = UROS2QosDurabilityPolicy::VOLATILE;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2GenericMsg* TopicMsg = nullptr;
@@ -108,7 +122,13 @@ public:
     // Methods to register subscribers, publishers, clients (for services), services, action clients and action servers
     // It is up to the user to ensure that they are only added once
     UFUNCTION(BlueprintCallable)
-    void AddSubscription(const FString& TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback& Callback);
+    void AddSubscription(const FString& TopicName,
+                                TSubclassOf<UROS2GenericMsg> MsgClass,
+                                const FSubscriptionCallback& Callback,
+                                UROS2QosHistoryPolicy SubQosHistoryPolicy=UROS2QosHistoryPolicy::KEEP_LAST,
+                                int32 SubQosDepth=10,
+                                UROS2QosReliabilityPolicy SubQosReliabilityPolicy=UROS2QosReliabilityPolicy::RELIABLE,
+                                UROS2QosDurabilityPolicy SubQosDurabilityPolicy=UROS2QosDurabilityPolicy::VOLATILE);
 
     UFUNCTION(BlueprintCallable)
     void AddPublisher(UROS2Publisher* InPublisher);

@@ -25,7 +25,7 @@ void UROS2ServiceClient::Init(UROS2QoS QoS)
         client = rcl_get_zero_initialized_client();
         rcl_client_options_t client_opt = rcl_client_get_default_options();
 
-        client_opt.qos = QoS_LUT[QoS];
+        client_opt.qos = QoSProfiles_LUT[QoS];
 
         RCSOFTCHECK(rcl_client_init(&client, OwnerNode->GetNode(), srv_type_support, TCHAR_TO_UTF8(*ServiceName), &client_opt));
 

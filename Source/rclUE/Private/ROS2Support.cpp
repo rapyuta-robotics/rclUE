@@ -30,3 +30,18 @@ void UROS2Support::Fini()
 
     RCSOFTCHECK(rclc_support_fini(&support));
 }
+
+rmw_qos_profile_t BuildQoSProfile(UROS2QosHistoryPolicy QosHistoryPolicy, int32 QosDepth,
+    UROS2QosReliabilityPolicy QosReliabilityPolicy, UROS2QosDurabilityPolicy QosDurabilityPolicy) {
+    return {
+                UROS2QosHistoryPolicy_LUT[QosHistoryPolicy],
+                (uint32) QosDepth,
+                UROS2QosReliabilityPolicy_LUT[QosReliabilityPolicy],
+                UROS2QosDurabilityPolicy_LUT[QosDurabilityPolicy],
+                RMW_QOS_DEADLINE_DEFAULT,
+                RMW_QOS_LIFESPAN_DEFAULT,
+                RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+                RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+                false
+            };
+}

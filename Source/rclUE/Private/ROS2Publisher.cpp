@@ -1,5 +1,6 @@
 // Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
+#include "ROS2Support.h"
 #include "ROS2Publisher.h"
 
 #include <Engine/World.h>
@@ -30,19 +31,9 @@ void UROS2Publisher::Init()
         rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
         if (bQosOverride) {
-            pub_opt.qos = {
-                UROS2QosHistoryPolicy_LUT[QosHistoryPolicy],
-                (uint32) QosDepth,
-                UROS2QosReliabilityPolicy_LUT[QosReliabilityPolicy],
-                UROS2QosDurabilityPolicy_LUT[QosDurabilityPolicy],
-                RMW_QOS_DEADLINE_DEFAULT,
-                RMW_QOS_LIFESPAN_DEFAULT,
-                RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                false
-            };
+            pub_opt.qos = BuildQoSProfile(QosHistoryPolicy, QosDepth, QosReliabilityPolicy, QosDurabilityPolicy);
         } else {
-            pub_opt.qos = QoS_LUT[QosProfilePreset];
+            pub_opt.qos = QoSProfiles_LUT[QosProfilePreset];
         }
 
         RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));

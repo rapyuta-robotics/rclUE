@@ -9,11 +9,11 @@ void UROS2ActionServer::InitializeActionComponent(const UROS2QoS QoS)
     server = rcl_action_get_zero_initialized_server();
     rcl_action_server_options_t server_opt = rcl_action_server_get_default_options();
 
-    server_opt.goal_service_qos = QoS_LUT[QoS];
-    server_opt.result_service_qos = QoS_LUT[QoS];
-    server_opt.cancel_service_qos = QoS_LUT[QoS];
-    server_opt.feedback_topic_qos = QoS_LUT[QoS];
-    server_opt.status_topic_qos = QoS_LUT[QoS];
+    server_opt.goal_service_qos = QoSProfiles_LUT[QoS];
+    server_opt.result_service_qos = QoSProfiles_LUT[QoS];
+    server_opt.cancel_service_qos = QoSProfiles_LUT[QoS];
+    server_opt.feedback_topic_qos = QoSProfiles_LUT[QoS];
+    server_opt.status_topic_qos = QoSProfiles_LUT[QoS];
 
     rcl_allocator_t allocator = rcl_get_default_allocator();
     RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));

@@ -132,7 +132,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_P
                                                                        false};
 
 // Look-Up Table matching enum with rcl profiles
-static const TMap<UROS2QoS, rmw_qos_profile_t> QoS_LUT = {
+static const TMap<UROS2QoS, rmw_qos_profile_t> QoSProfiles_LUT = {
     {UROS2QoS::Default, rmw_qos_profile_default},
     {UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
     {UROS2QoS::DynamicBroadcaster, rclUE_qos_profile_dynamic_broadcaster},
@@ -144,6 +144,22 @@ static const TMap<UROS2QoS, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::ParameterEvents, rmw_qos_profile_parameter_events},
     {UROS2QoS::System, rmw_qos_profile_system_default},
     {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
+
+UENUM(BlueprintType)
+enum class UROS2QosHistoryPolicy : uint8
+{
+    SYSTEM_DEFAULT,
+    KEEP_LAST,
+    KEEP_ALL,
+    UNKNOWN
+};
+
+static const TMap<UROS2QosHistoryPolicy, rmw_qos_history_policy_t> UROS2QosHistoryPolicy_LUT = {
+    {UROS2QosHistoryPolicy::SYSTEM_DEFAULT, RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT},
+    {UROS2QosHistoryPolicy::KEEP_LAST, RMW_QOS_POLICY_HISTORY_KEEP_LAST},
+    {UROS2QosHistoryPolicy::KEEP_ALL, RMW_QOS_POLICY_HISTORY_KEEP_ALL},
+    {UROS2QosHistoryPolicy::UNKNOWN, RMW_QOS_POLICY_HISTORY_UNKNOWN}
+};
 
 UENUM(BlueprintType)
 enum class UROS2QosReliabilityPolicy : uint8
@@ -161,21 +177,7 @@ static const TMap<UROS2QosReliabilityPolicy, rmw_qos_reliability_policy_t> UROS2
     {UROS2QosReliabilityPolicy::UNKNOWN, RMW_QOS_POLICY_RELIABILITY_UNKNOWN}
 };
 
-UENUM(BlueprintType)
-enum class UROS2QosHistoryPolicy : uint8
-{
-    SYSTEM_DEFAULT,
-    KEEP_LAST,
-    KEEP_ALL,
-    UNKNOWN
-};
 
-static const TMap<UROS2QosHistoryPolicy, rmw_qos_history_policy_t> UROS2QosHistoryPolicy_LUT = {
-    {UROS2QosHistoryPolicy::SYSTEM_DEFAULT, RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT},
-    {UROS2QosHistoryPolicy::KEEP_LAST, RMW_QOS_POLICY_HISTORY_KEEP_LAST},
-    {UROS2QosHistoryPolicy::KEEP_ALL, RMW_QOS_POLICY_HISTORY_KEEP_ALL},
-    {UROS2QosHistoryPolicy::UNKNOWN, RMW_QOS_POLICY_HISTORY_UNKNOWN}
-};
   
 UENUM(BlueprintType)
 enum class UROS2QosDurabilityPolicy : uint8
