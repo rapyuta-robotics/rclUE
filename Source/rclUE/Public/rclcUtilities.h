@@ -26,26 +26,30 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Publisher, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Service, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
+
+#define RC_UE_LOG(rc) \
+    { \
+        if (rcutils_error_is_set()) {\
+            UE_LOG(LogTemp,                                                         \
+                Error,                                                           \
+                TEXT("RCL error %d: %s (%s)"),  \
+                (int) rc, *FString(rcutils_get_error_string().str), *__LOG_INFO__); \
+            rcutils_reset_error(); \
+        } else { \
+            UE_LOG(LogTemp,                                                         \
+                Error,                                                           \
+                TEXT("RCL error %d (%s)."), \
+                (int)rc, *__LOG_INFO__);                                                   \
+        } \
+    }
+
 // this macro can be used on rcl functions that return an error code
 #define RCSOFTCHECK(fn)                                                             \
     {                                                                               \
         rcl_ret_t temp_rc = fn;                                                     \
         if ((temp_rc != RCL_RET_OK))                                                \
         {                                                                           \
-            if (rcutils_error_is_set()) {\
-                UE_LOG(LogTemp,                                                         \
-                    Error,                                                           \
-                    TEXT("RCL error occured on %s:%d: Error code %d. Error msg: %s"),  \
-                    *FString(__FUNCTION__), __LINE__, (int) temp_rc, *FString(rcutils_get_error_string().str)); \
-                rcutils_reset_error(); \
-            } else { \
-                UE_LOG(LogTemp,                                                         \
-                    Error,                                                           \
-                    TEXT("Failed status on line %d (function %s): %d."), \
-                    __LINE__,                                                        \
-                    *FString(__FUNCTION__),                                          \
-                    (int)temp_rc);                                                   \
-            } \
+            RC_UE_LOG(temp_rc) \
             ensure(temp_rc == 0);                                                     \
         }                                                                           \
     }

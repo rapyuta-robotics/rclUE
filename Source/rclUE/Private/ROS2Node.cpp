@@ -32,7 +32,7 @@ void AROS2Node::BeginPlay()
 
 void AROS2Node::BringDown()
 {
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node BringDown start"), *GetName());
+    UE_LOG(LogROS2Node, Log, TEXT("[%s] Bring Down start"), *GetName());
 
     for (auto& s : Subscriptions)
     {
@@ -63,7 +63,7 @@ void AROS2Node::BringDown()
 
     RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node BringDown - rcl_node_fini"), *GetName());
+    UE_LOG(LogROS2Node, Log, TEXT("[%s] Bring Down - rcl_node_fini"), *GetName());
     RCSOFTCHECK(rcl_node_fini(&node));
 }
 
@@ -93,7 +93,7 @@ void AROS2Node::Init()
 {
     if (State == UROS2State::Created)
     {
-        UE_LOG(LogROS2Node, Log, TEXT("[%s] start initializing.."), *GetName());
+        UE_LOG(LogROS2Node, Log, TEXT("[%s] initializing.."), *GetName());
 
         Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
@@ -111,7 +111,7 @@ void AROS2Node::Init()
         State = UROS2State::Initialized;
     }
 
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node inited"), *GetName());
+    UE_LOG(LogROS2Node, Log, TEXT("[%s] initialize complete."), *GetName());
 }
 
 rcl_node_t* AROS2Node::GetNode()
@@ -303,14 +303,21 @@ void AROS2Node::HandleSubscriptions()
         {
             void* data = s.TopicMsg->Get();
             rmw_message_info_t messageInfo;
+            rcl_ret_t rc_take;
 
-            //{  RJW: rcl_take may or may not be threadsafe. Comments in RCL indicate they don't even know...
-            //    FScopeLock lock(&Support->RCLCritical);
-                RCSOFTCHECK(rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr));
-            //}
+            {  // rcl_take may or may not be threadsafe. Comments in RCL indicate they don't even know...
+                FScopeLock lock(&Support->RCLCritical);
+                rc_take = rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr);
+            }
 
-            const FSubscriptionCallback* SubCallback = &s.Callback;
-            SubCallback->ExecuteIfBound(s.TopicMsg);
+            if (rc_take == RCL_RET_OK) {
+                const FSubscriptionCallback* SubCallback = &s.Callback;
+                SubCallback->ExecuteIfBound(s.TopicMsg);
+            } else if (rc_take == RCL_RET_SUBSCRIPTION_TAKE_FAILED) {
+                UE_LOG(LogROS2Node, Warning, TEXT("[%s] Subscription take failed (%s)"), *GetName(), *__LOG_INFO__);
+            } else {
+                RCSOFTCHECK(rc_take);
+            }
 
             s.Ready = false;
         }
@@ -342,7 +349,7 @@ void AROS2Node::HandleServices()
             void* data = s.Service->GetRequest();
             RCSOFTCHECK(rcl_take_request_with_info(&s.rcl_service, &req_info, data));
 
-            UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node Executing Service (%s)"), *GetName(), *__LOG_INFO__);
+            UE_LOG(LogROS2Node, Log, TEXT("[%s] Executing Service (%s)"), *GetName(), *__LOG_INFO__);
 
             const FServiceCallback* SrvCallback = &s.Callback;
             SrvCallback->ExecuteIfBound(s.Service);
@@ -381,7 +388,7 @@ void AROS2Node::HandleClients()
 
             UE_LOG(LogROS2Node,
                    Log,
-                   TEXT("[%s] ROS2Node Executing Answer Delegate for Service Client (%s)"),
+                   TEXT("[%s] Executing Answer Delegate for Service Client (%s)"),
                    *GetName(),
                    *__LOG_INFO__);
 
