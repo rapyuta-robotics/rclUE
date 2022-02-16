@@ -11,8 +11,6 @@
 
 #include "ROS2Publisher.generated.h"
 
-// BP requires a custom-made callback thus it must be Dynamic
-DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg*, InTopicMessage);
 
 UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2Publisher : public UActorComponent
@@ -89,28 +87,7 @@ public:
     TSubclassOf<UROS2GenericMsg> MsgClass;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FPublisherUpdateCallback UpdateDelegate;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     bool bPublish = true;
-
-    UFUNCTION(BlueprintCallable)
-    void SetupUpdateCallback()
-    {
-        UpdateDelegate.BindDynamic(this, &UROS2Publisher::UpdateMessage);
-    }
-
-    UFUNCTION(BlueprintCallable)
-    virtual void RevokeUpdateCallback()
-    {
-        UpdateDelegate.Unbind();
-    }
-
-    UFUNCTION()
-    virtual void UpdateMessage(UROS2GenericMsg* InMessage)
-    {
-        checkNoEntry();
-    }
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     AROS2Node* OwnerNode = nullptr;
@@ -119,6 +96,14 @@ public:
     UROS2State State = UROS2State::Created;
 
 protected:
+    UFUNCTION(BlueprintNativeEvent)
+    void UpdateMessage(UROS2GenericMsg* InMessage);
+
+    void UpdateMessage_Implementation(UROS2GenericMsg* InMessage)
+    {
+        checkNoEntry();
+    }
+
     UFUNCTION(BlueprintCallable)
     void Publish();
 

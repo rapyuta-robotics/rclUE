@@ -49,7 +49,6 @@ void UROS2Publisher::Init()
 
 void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
 {
-    SetupUpdateCallback();
     InROS2Node->AddPublisher(this);
 }
 
@@ -86,7 +85,8 @@ void UROS2Publisher::UpdateAndPublishMessage()
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));
 
-    UpdateDelegate.ExecuteIfBound(TopicMessage);
+    UpdateMessage(TopicMessage);
+
     if(bPublish)
     {
         Publish();

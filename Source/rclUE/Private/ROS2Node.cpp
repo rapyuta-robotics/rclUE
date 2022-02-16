@@ -211,11 +211,6 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 {
     check(IsValid(InPublisher));
 
-    if (false == (InPublisher->UpdateDelegate.IsBound()))
-    {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] UpdateDelegate is not set (%s)"), *GetName(), *__LOG_INFO__);
-    }
-
     if (false == Publishers.Contains(InPublisher))
     {
         InPublisher->RegisterComponent();
@@ -224,7 +219,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Attempt to re-add Publisher (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 

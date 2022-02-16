@@ -1,5 +1,3 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
-
 using System;
 using System.IO;
 using System.Diagnostics;
@@ -9,10 +7,8 @@ using UnrealBuildTool;
 public class rclUE : ModuleRules
 {
 
-	// TODO: Change to environmental variable
 	private string ROS2InstallPath
 	{
-		// get { return "/home/russ/work/ros2_rolling/install"; }
 		get { return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH"); }
 	}
 
@@ -51,7 +47,6 @@ public class rclUE : ModuleRules
 				"Engine",
 				"ros2lib",
 				"Projects"
-				// ... add other public dependencies that you statically link with here ...
 			}
 		);
 	}
