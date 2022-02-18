@@ -12,34 +12,51 @@
 
 #include "ROS2NavSatStatusMsg.generated.h"
 
+// TODO - Unreal only supports uint8 as base types for enums
+// UENUM(BlueprintType)
+// enum class UROSNavSatStatusStatus : int8
+// {
+// 	STATUS_NO_FIX =  -1, // unable to fix position
+// 	STATUS_FIX =      0, // unaugmented fix
+// 	STATUS_SBAS_FIX = 1, // with satellite-based augmentation
+// 	STATUS_GBAS_FIX = 2 // with ground-based augmentation
+// };
+
+// UENUM(BlueprintType)
+// enum class UROSNavSatStatusService : uint16
+// {
+// 	SERVICE_GPS =     1,
+// 	SERVICE_GLONASS = 2,
+// 	SERVICE_COMPASS = 4,    // includes BeiDou.
+// 	SERVICE_GALILEO = 8
+// };
+
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSNavSatStatus
 {
 	GENERATED_BODY()
 
 public:
-	int8 status;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 status; // original int8
 
-	uint16 service;
-
-	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 service; // original uint16
 
 	void SetFromROS2(const sensor_msgs__msg__NavSatStatus& in_ros_data)
 	{
+    	// status = static_cast<UROSNavSatStatusStatus>(in_ros_data.status);
+		// service = static_cast<UROSNavSatStatusService>(in_ros_data.service);
     	status = in_ros_data.status;
-
 		service = in_ros_data.service;
-
-		
 	}
 
 	void SetROS2(sensor_msgs__msg__NavSatStatus& out_ros_data) const
 	{
+    	// out_ros_data.status = static_cast<int8>(status);
+		// out_ros_data.service = static_cast<uint16>(service);
     	out_ros_data.status = status;
-
 		out_ros_data.service = service;
-
-		
 	}
 };
 

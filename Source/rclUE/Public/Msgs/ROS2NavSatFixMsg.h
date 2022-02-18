@@ -8,9 +8,20 @@
 #include "sensor_msgs/msg/nav_sat_fix.h"
 
 #include "Msgs/ROS2GenericMsg.h"
+#include "Msgs/ROS2HeaderMsg.h"
+#include "Msgs/ROS2NavSatStatusMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2NavSatFixMsg.generated.h"
+
+UENUM(BlueprintType)
+enum class UROSNavSatFixPositionCovarianceType : uint8
+{
+	COVARIANCE_TYPE_UNKNOWN = 0,
+	COVARIANCE_TYPE_APPROXIMATED = 1,
+	COVARIANCE_TYPE_DIAGONAL_KNOWN = 2,
+	COVARIANCE_TYPE_KNOWN = 3
+};
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSNavSatFix
@@ -19,40 +30,31 @@ struct RCLUE_API FROSNavSatFix
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int header_stamp_sec;
-
-	unsigned int header_stamp_nanosec;
+	FROSHeader header;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString header_frame_id;
+	FROSNavSatStatus status;
 
-	int8 status_status;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float latitude; // original double
 
-	uint16 status_service;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float longitude; // original double
 
-	double latitude;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float altitude; // original double
 
-	double longitude;
-
-	double altitude;
-
-	TArray<double> position_covariance;
-
-	uint8 position_covariance_type;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<float> position_covariance; // original double
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	UROSNavSatFixPositionCovarianceType position_covariance_type; // original uint8
+
 
 	void SetFromROS2(const sensor_msgs__msg__NavSatFix& in_ros_data)
 	{
-    	header_stamp_sec = in_ros_data.header.stamp.sec;
-
-		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
-
-		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
-
-		status_status = in_ros_data.status.status;
-
-		status_service = in_ros_data.status.service;
+    	header.SetFromROS2(in_ros_data.header);
+		status.SetFromROS2(in_ros_data.status);
 
 		latitude = in_ros_data.latitude;
 
@@ -65,33 +67,13 @@ public:
 			position_covariance.Add(in_ros_data.position_covariance[i]);
 		}
 
-		position_covariance_type = in_ros_data.position_covariance_type;
-
-		
+		position_covariance_type = static_cast<UROSNavSatFixPositionCovarianceType>(in_ros_data.position_covariance_type);
 	}
 
 	void SetROS2(sensor_msgs__msg__NavSatFix& out_ros_data) const
 	{
-    	out_ros_data.header.stamp.sec = header_stamp_sec;
-
-		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
-
-		{
-			FTCHARToUTF8 strUtf8( *header_frame_id );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.header.frame_id.data != nullptr)
-		{
-			free(out_ros_data.header.frame_id.data);
-		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength+1)*sizeof(char));
-			out_ros_data.header.frame_id.size = strLength;
-			out_ros_data.header.frame_id.capacity = strLength + 1;
-		}
-
-		out_ros_data.status.status = status_status;
-
-		out_ros_data.status.service = status_service;
+		header.SetROS2(out_ros_data.header);
+		status.SetROS2(out_ros_data.status);
 
 		out_ros_data.latitude = latitude;
 
@@ -99,12 +81,15 @@ public:
 
 		out_ros_data.altitude = altitude;
 
-		for (int i = 0; i < 9; i++)
-		{
-			out_ros_data.position_covariance[i] = position_covariance[i];
+		// TODO - How should this be done?
+		if (position_covariance.Num()) {
+			for (int i = 0; i < 9; i++)
+			{
+				out_ros_data.position_covariance[i] = position_covariance[i];
+			}
 		}
 
-		out_ros_data.position_covariance_type = position_covariance_type;
+		out_ros_data.position_covariance_type = static_cast<uint8>(position_covariance_type);
 
 		
 	}

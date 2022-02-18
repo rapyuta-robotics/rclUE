@@ -2,7 +2,9 @@
 
 - Quite a lot of refactoring
 - Uses system installed ROS2 instead of included binaries
-- Upstream does not provide `ue_msgs` or `ue4_interfaces` or the code generator so everything relying on this has been removed
+- Reworked messages so the fields are accessible via Blueprints.
+- Added thread safety to `rcl` calls.
+- Remove Node and publisher initialisation complexity from Blueprints.
 
 
 # Basic information
@@ -38,7 +40,7 @@ ROS2_ENV="/opt/ros/foxy"
 EDITOR_COMMAND="${UNREAL_HOME}/Engine/Binaries/Linux/UE4Editor"
 
 source ${ROS2_ENV}/setup.bash
-(exec "$EDITOR_COMMAND" "${PROJECTS_HOME}/${PROJECT_NAME}.uproject")
+(exec "$EDITOR_COMMAND" "${PROJECTS_HOME}/${PROJECT_NAME}/${PROJECT_NAME}.uproject")
 ```
 
 3. within the Unreal Editor: Edit->Plugins, enable for `rclc`
@@ -46,9 +48,7 @@ source ${ROS2_ENV}/setup.bash
 
 
 # Getting Started
-The plugin folder contains a video "Example_BP_PubSub.mp4" demonstrating how to setup a PubSub example in Blueprint.
-
-An example setup for Turtlebot3 using this plugin can be found at https://github.com/rapyuta-robotics/turtlebot3-UE
+TBD
 
 # Notes on working with ROS2 and UE4
 - rcl and void* types cannot be managed by UE4 (no UPROPERTY) and therefore can't be used directly in Blueprint. Whenever access to these variables is needed, the user should write a class to wrap it and all of their handling must be done in C++.

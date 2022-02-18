@@ -33,4 +33,6 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	virtual FString MsgToString() const;
+	// UFUNCTION(BlueprintCallable)
+	// virtual FString ToString() const;
 };

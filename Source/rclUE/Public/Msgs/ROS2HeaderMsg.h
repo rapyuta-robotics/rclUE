@@ -8,6 +8,7 @@
 #include "std_msgs/msg/header.h"
 
 #include "Msgs/ROS2GenericMsg.h"
+#include "Msgs/ROS2TimeMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2HeaderMsg.generated.h"
@@ -19,31 +20,22 @@ struct RCLUE_API FROSHeader
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int stamp_sec;
-
-	unsigned int stamp_nanosec;
+	FROSTime stamp;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString frame_id;
 
-	
-
 	void SetFromROS2(const std_msgs__msg__Header& in_ros_data)
 	{
-    	stamp_sec = in_ros_data.stamp.sec;
-
-		stamp_nanosec = in_ros_data.stamp.nanosec;
+		stamp.SetFromROS2(in_ros_data.stamp);
 
 		frame_id.AppendChars(in_ros_data.frame_id.data, in_ros_data.frame_id.size);
-
 		
 	}
 
 	void SetROS2(std_msgs__msg__Header& out_ros_data) const
 	{
-    	out_ros_data.stamp.sec = stamp_sec;
-
-		out_ros_data.stamp.nanosec = stamp_nanosec;
+    	stamp.SetROS2(out_ros_data.stamp);
 
 		{
 			FTCHARToUTF8 strUtf8( *frame_id );
