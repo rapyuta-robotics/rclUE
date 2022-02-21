@@ -9,6 +9,7 @@
 
 #include <CoreMinimal.h>
 
+#include "Msgs/ROS2TimeMsg.h"
 #include "ROS2Support.generated.h"
 
 class AROS2Node;
@@ -37,5 +38,28 @@ private:
     rclc_support_t support;
 };
 
-rmw_qos_profile_t BuildQoSProfile(UROS2QosHistoryPolicy QosHistoryPolicy, int32 QosDepth,
+static rmw_qos_profile_t BuildQoSProfile(UROS2QosHistoryPolicy QosHistoryPolicy, int32 QosDepth,
     UROS2QosReliabilityPolicy QosReliabilityPolicy, UROS2QosDurabilityPolicy QosDurabilityPolicy);
+
+UCLASS()
+class URCLUEBlueprintLibrary :
+    public UBlueprintFunctionLibrary
+{
+    GENERATED_UCLASS_BODY()
+
+public:
+    UFUNCTION(BlueprintPure, Category="Transforms")
+    static FQuat RotatorToQuat(const FRotator& rotator) {
+        return rotator.Quaternion();
+    }
+
+    UFUNCTION(BlueprintPure, Category="Utilities")
+    static FROSTime ElapsedToTimestamp(const float elapsedTime)
+    {
+        FROSTime timemsg;
+        timemsg.sec = static_cast<int32>(elapsedTime);
+        uint64 ns = static_cast<uint64>(elapsedTime * 1e+09f);
+        timemsg.nanosec = static_cast<uint32>(ns - (timemsg.sec * 1e+09));
+        return timemsg;
+    }
+};

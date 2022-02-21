@@ -45,3 +45,7 @@ rmw_qos_profile_t BuildQoSProfile(UROS2QosHistoryPolicy QosHistoryPolicy, int32 
                 false
             };
 }
+
+URCLUEBlueprintLibrary::URCLUEBlueprintLibrary(const FObjectInitializer& ObjectInitializer)
+    : Super(ObjectInitializer)
+{     }

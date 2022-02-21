@@ -26,7 +26,7 @@ void UROS2Publisher::Init()
 
         const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
 
-        UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Init - rclc_publisher_init_default (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Publisher, Display, TEXT("Initialising %s (%s)"), *TopicName, *__LOG_INFO__);
         RclPublisher = rcl_get_zero_initialized_publisher();
         rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
@@ -54,7 +54,7 @@ void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
 
 void UROS2Publisher::Destroy()
 {
-    UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy (%s)"), *__LOG_INFO__);
+    UE_LOG(LogROS2Publisher, Verbose, TEXT("Publisher Destroy Start (%s)"), *__LOG_INFO__);
     if (TopicMessage != nullptr)
     {
         TopicMessage->Fini();
@@ -62,10 +62,10 @@ void UROS2Publisher::Destroy()
 
     if (OwnerNode != nullptr)
     {
-        UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Publisher, Verbose, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
         RCSOFTCHECK(rcl_publisher_fini(&RclPublisher, OwnerNode->GetNode()));
     }
-    UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - Done (%s)"), *__LOG_INFO__);
+    UE_LOG(LogROS2Publisher, Display, TEXT("Publisher Destroy - Done (%s)"), *__LOG_INFO__);
 }
 
 void UROS2Publisher::InitializeMessage()

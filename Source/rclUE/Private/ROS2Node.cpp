@@ -32,7 +32,7 @@ void AROS2Node::BeginPlay()
 
 void AROS2Node::BringDown()
 {
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] Bring Down start"), *GetName());
+    UE_LOG(LogROS2Node, Verbose, TEXT("[%s] Bring Down start"), *GetName());
 
     for (auto& s : Subscriptions)
     {
@@ -90,7 +90,7 @@ void AROS2Node::Init()
 {
     if (State == UROS2State::Created)
     {
-        UE_LOG(LogROS2Node, Log, TEXT("[%s] initializing.."), *GetName());
+        UE_LOG(LogROS2Node, Display, TEXT("[%s] Initialising %s"), *Name, *GetName());
 
         Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
@@ -99,7 +99,7 @@ void AROS2Node::Init()
         {
             rcutils_reset_error();
 
-            UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
+            UE_LOG(LogROS2Node, Verbose, TEXT("[%s] rclc_node_init_default"), *GetName());
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
 
             Support->RegisterNode(this);
@@ -108,7 +108,7 @@ void AROS2Node::Init()
         State = UROS2State::Initialized;
     }
 
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] initialize complete."), *GetName());
+    UE_LOG(LogROS2Node, Verbose, TEXT("[%s] initialize complete."), *GetName());
 }
 
 rcl_node_t* AROS2Node::GetNode()
