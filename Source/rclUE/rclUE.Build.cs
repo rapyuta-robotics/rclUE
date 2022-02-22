@@ -46,6 +46,7 @@ public class rclUE : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"ros2lib",
+				// "UEProj",
 				"Projects"
 			}
 		);

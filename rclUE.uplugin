@@ -21,6 +21,12 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": ["Linux"]
+		},
+		{
+			"Name": "UEProj",
+			"Type": "Runtime",
+			"LoadingPhase": "Default",
+			"WhitelistPlatforms": ["Linux"]
 		}
 	]
 }

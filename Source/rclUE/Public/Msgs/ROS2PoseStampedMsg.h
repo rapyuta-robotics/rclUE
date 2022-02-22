@@ -8,6 +8,8 @@
 #include "geometry_msgs/msg/pose_stamped.h"
 
 #include "Msgs/ROS2GenericMsg.h"
+#include "Msgs/ROS2HeaderMsg.h"
+#include "Msgs/ROS2PoseMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2PoseStampedMsg.generated.h"
@@ -19,77 +21,21 @@ struct RCLUE_API FROSPoseStamped
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int header_stamp_sec;
-
-	unsigned int header_stamp_nanosec;
+	FROSHeader header;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString header_frame_id;
-
-	double pose_position_x;
-
-	double pose_position_y;
-
-	double pose_position_z;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FQuat pose_orientation;
-
-	
+	FROSPose pose;
 
 	void SetFromROS2(const geometry_msgs__msg__PoseStamped& in_ros_data)
 	{
-    	header_stamp_sec = in_ros_data.header.stamp.sec;
-
-		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
-
-		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
-
-		pose_position_x = in_ros_data.pose.position.x;
-
-		pose_position_y = in_ros_data.pose.position.y;
-
-		pose_position_z = in_ros_data.pose.position.z;
-
-		pose_orientation.X = in_ros_data.pose.orientation.x;
-		pose_orientation.Y = in_ros_data.pose.orientation.y;
-		pose_orientation.Z = in_ros_data.pose.orientation.z;
-		pose_orientation.W = in_ros_data.pose.orientation.w;
-
-		
+    	header.SetFromROS2(in_ros_data.header);
+		pose.SetFromROS2(in_ros_data.pose);
 	}
 
 	void SetROS2(geometry_msgs__msg__PoseStamped& out_ros_data) const
 	{
-    	out_ros_data.header.stamp.sec = header_stamp_sec;
-
-		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
-
-		{
-			FTCHARToUTF8 strUtf8( *header_frame_id );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.header.frame_id.data != nullptr)
-		{
-			free(out_ros_data.header.frame_id.data);
-		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength+1)*sizeof(char));
-			out_ros_data.header.frame_id.size = strLength;
-			out_ros_data.header.frame_id.capacity = strLength + 1;
-		}
-
-		out_ros_data.pose.position.x = pose_position_x;
-
-		out_ros_data.pose.position.y = pose_position_y;
-
-		out_ros_data.pose.position.z = pose_position_z;
-
-		out_ros_data.pose.orientation.x = pose_orientation.X;
-		out_ros_data.pose.orientation.y = pose_orientation.Y;
-		out_ros_data.pose.orientation.z = pose_orientation.Z;
-		out_ros_data.pose.orientation.w = pose_orientation.W;
-
-		
+    	header.SetROS2(out_ros_data.header);
+		pose.SetROS2(out_ros_data.pose);
 	}
 };
 
