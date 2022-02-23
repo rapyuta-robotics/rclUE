@@ -25,7 +25,7 @@ void UROS2Action::Init(const TEnumAsByte<UROS2QoS> QoS)
 
 void UROS2Action::InitializeAction()
 {
-    check(ActionName != FString());
+    check(false == ActionName.IsEmpty());
     check(ActionClass);
 
     Action = NewObject<UROS2GenericAction>(this, ActionClass);

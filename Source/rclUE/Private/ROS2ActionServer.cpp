@@ -128,40 +128,40 @@ void UROS2ActionServer::UpdateAndSendResult()
     RCSOFTCHECK(rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse()));
 }
 
-void UROS2ActionServer::SetDelegates(const FActionCallback& UpdateFeedback,
-                                     const FActionCallback& UpdateResult,
-                                     const FActionCallback& HandleGoal,
-                                     const FSimpleCallback& HandleCancel,
-                                     const FSimpleCallback& HandleAccepted)
+void UROS2ActionServer::SetDelegates(const FActionCallback& InUpdateFeedback,
+                                     const FActionCallback& InUpdateResult,
+                                     const FActionCallback& InHandleGoal,
+                                     const FSimpleCallback& InHandleCancel,
+                                     const FSimpleCallback& InHandleAccepted)
 {
-    if (!UpdateFeedbackDelegate.IsBound())
+    if (!InUpdateFeedback.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("UpdateFeedbackDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Action, Warning, TEXT("InUpdateFeedback is not bound - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!UpdateResultDelegate.IsBound())
+    if (!InUpdateResult.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("UpdateResultDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Action, Warning, TEXT("InUpdateResult is not bound - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!HandleGoalDelegate.IsBound())
+    if (!InHandleGoal.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("HandleGoalDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Action, Warning, TEXT("InHandleGoal is not bound - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!HandleCancelDelegate.IsBound())
+    if (!InHandleCancel.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("HandleCancelDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Action, Warning, TEXT("InHandleCancel is not bound - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!HandleAcceptedDelegate.IsBound())
+    if (!InHandleAccepted.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("HandleAcceptedDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Action, Warning, TEXT("InHandleAccepted is not bound - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    UpdateFeedbackDelegate = UpdateFeedback;
-    UpdateResultDelegate = UpdateResult;
-    HandleGoalDelegate = HandleGoal;
-    HandleCancelDelegate = HandleCancel;
-    HandleAcceptedDelegate = HandleAccepted;
+    UpdateFeedbackDelegate = InUpdateFeedback;
+    UpdateResultDelegate = InUpdateResult;
+    HandleGoalDelegate = InHandleGoal;
+    HandleCancelDelegate = InHandleCancel;
+    HandleAcceptedDelegate = InHandleAccepted;
 }

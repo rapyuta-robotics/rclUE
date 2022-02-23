@@ -34,11 +34,11 @@ public:
     UFUNCTION(BlueprintCallable)
     void UpdateAndSendResult();
 
-    void SetDelegates(const FActionCallback& UpdateFeedback,
-                      const FActionCallback& UpdateResult,
-                      const FActionCallback& HandleGoal,
-                      const FSimpleCallback& HandleCancel,
-                      const FSimpleCallback& HandleAccepted);
+    void SetDelegates(const FActionCallback& InUpdateFeedback,
+                      const FActionCallback& InUpdateResult,
+                      const FActionCallback& InHandleGoal,
+                      const FSimpleCallback& InHandleCancel,
+                      const FSimpleCallback& InHandleAccepted);
 
     rcl_action_server_t server;
 

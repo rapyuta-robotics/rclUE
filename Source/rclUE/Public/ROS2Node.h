@@ -119,6 +119,13 @@ public:
 
     UFUNCTION(BlueprintCallable)
     void AddActionClient(UROS2ActionClient* InActionClient);
+    void AddActionServer(const FString& InActionName,
+                         const TSubclassOf<UROS2GenericAction> InActionClass,
+                         const FActionCallback& InUpdateFeedbackCb,
+                         const FActionCallback& InUpdateResultCb,
+                         const FActionCallback& InHandleGoalCb,
+                         const FSimpleCallback& InHandleCancelCb,
+                         const FSimpleCallback& InHandleAcceptedCb);
 
     UFUNCTION(BlueprintCallable)
     void AddActionServer(UROS2ActionServer* InActionServer);

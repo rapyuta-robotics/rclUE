@@ -231,6 +231,35 @@ void AROS2Node::AddActionClient(UROS2ActionClient* InActionClient)
     }
 }
 
+void AROS2Node::AddActionServer(const FString& InActionName,
+                                const TSubclassOf<UROS2GenericAction> InActionClass,
+                                const FActionCallback& InUpdateFeedbackCb,
+                                const FActionCallback& InUpdateResultCb,
+                                const FActionCallback& InHandleGoalCb,
+                                const FSimpleCallback& InHandleCancelCb,
+                                const FSimpleCallback& InHandleAcceptedCb)
+{
+    bool bNewAction = (INDEX_NONE == ActionServers.IndexOfByPredicate([InActionName](const auto& InActionServer)
+                                                                      { return (InActionServer->ActionName == InActionName); }));
+    if (bNewAction)
+    {
+        UROS2ActionServer* actionServer = NewObject<UROS2ActionServer>(this, *FString::Printf(TEXT("%Server"), *InActionName));
+        actionServer->ActionName = InActionName;
+        actionServer->ActionClass = InActionClass;
+        actionServer->SetDelegates(InUpdateFeedbackCb, InUpdateResultCb, InHandleGoalCb, InHandleCancelCb, InHandleAcceptedCb);
+        AddActionServer(actionServer);
+    }
+    else
+    {
+        UE_LOG(LogROS2Node,
+               Warning,
+               TEXT("[%s] ActionServer is re-added with name [%s] (%s)"),
+               *GetName(),
+               *InActionName,
+               *__LOG_INFO__);
+    }
+}
+
 void AROS2Node::AddActionServer(UROS2ActionServer* InActionServer)
 {
     check(IsValid(InActionServer));
