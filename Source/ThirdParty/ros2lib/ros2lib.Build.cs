@@ -4,7 +4,10 @@ using System;
 using System.IO;
 using System.Diagnostics;
 using System.Linq;
+using System.Collections.Generic;
+
 using UnrealBuildTool;
+//using Tools.DotNETCommon;
 
 public class ros2lib : ModuleRules
 {
@@ -12,24 +15,26 @@ public class ros2lib : ModuleRules
 	{
 		PublicRuntimeLibraryPaths.Add(InModulePath);
 		var libs = Directory.EnumerateFiles(InModulePath, "*.so", SearchOption.TopDirectoryOnly);
-		foreach (var libPath in libs)
-		{
-			AddLib(libPath);
-		}
+		AddLibs(libs);
 				
 		var extendedLibs = Directory.EnumerateFiles(InModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
-		foreach (var libPath in extendedLibs)
-		{
-			AddLib(libPath);
-		}
+		AddLibs(extendedLibs);
 	}
 
-	private void AddLib(string InLibPath)
+	private void AddLibs(IEnumerable<string> InLibPathList)
 	{
-		PublicAdditionalLibraries.Add(InLibPath);
-		if (InLibPath.Contains(".so"))
+		foreach (var libPath in InLibPathList)
 		{
-			RuntimeDependencies.Add(InLibPath);
+			if (libPath.EndsWith(".so"))
+			{
+				PublicAdditionalLibraries.Add(libPath);
+			}
+
+			if (libPath.Contains(".so"))
+			{
+				// Log.TraceWarning(libPath);
+				RuntimeDependencies.Add(libPath);
+			}
 		}
 	}
 
