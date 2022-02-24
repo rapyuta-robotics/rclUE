@@ -27,7 +27,7 @@ public class ros2lib : ModuleRules
 	private void AddLib(string InLibPath)
 	{
 		PublicAdditionalLibraries.Add(InLibPath);
-		if (InLibPath.EndsWith(".so"))
+		if (InLibPath.Contains(".so"))
 		{
 			RuntimeDependencies.Add(InLibPath);
 		}
