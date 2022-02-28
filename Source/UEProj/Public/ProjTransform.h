@@ -53,7 +53,8 @@ public:
 
     UFUNCTION(BlueprintPure, Category="Transforms")
     FVector TransformToProjected(const FGeographicCoordinate& GeographicCoords) {
-        PJ_COORD a = proj_coord(GeographicCoords.longitude, GeographicCoords.latitude, GeographicCoords.altitude, 0);
+        // Apparently when using EPSG identifiers/WGS84 the order is latitude/longitude
+        PJ_COORD a = proj_coord(GeographicCoords.latitude, GeographicCoords.longitude, GeographicCoords.altitude, 0);
         PJ_COORD b = proj_trans(proj_transform_obj, PJ_FWD, a);
 
         FVector out;

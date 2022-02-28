@@ -8,6 +8,7 @@
 #include "sensor_msgs/msg/compressed_image.h"
 
 #include "Msgs/ROS2GenericMsg.h"
+#include "Msgs/ROS2HeaderMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2CompressedImageMsg.generated.h"
@@ -19,12 +20,7 @@ struct RCLUE_API FROSCompressedImage
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int header_stamp_sec;
-
-	unsigned int header_stamp_nanosec;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString header_frame_id;
+	FROSHeader header;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString format;
@@ -35,11 +31,7 @@ public:
 
 	void SetFromROS2(const sensor_msgs__msg__CompressedImage& in_ros_data)
 	{
-    	header_stamp_sec = in_ros_data.header.stamp.sec;
-
-		header_stamp_nanosec = in_ros_data.header.stamp.nanosec;
-
-		header_frame_id.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
+    	header.SetFromROS2(in_ros_data.header);
 
 		format.AppendChars(in_ros_data.format.data, in_ros_data.format.size);
 
@@ -53,22 +45,7 @@ public:
 
 	void SetROS2(sensor_msgs__msg__CompressedImage& out_ros_data) const
 	{
-    	out_ros_data.header.stamp.sec = header_stamp_sec;
-
-		out_ros_data.header.stamp.nanosec = header_stamp_nanosec;
-
-		{
-			FTCHARToUTF8 strUtf8( *header_frame_id );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.header.frame_id.data != nullptr)
-		{
-			free(out_ros_data.header.frame_id.data);
-		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*header_frame_id), (strLength+1)*sizeof(char));
-			out_ros_data.header.frame_id.size = strLength;
-			out_ros_data.header.frame_id.capacity = strLength + 1;
-		}
+    	header.SetROS2(out_ros_data.header);
 
 		{
 			FTCHARToUTF8 strUtf8( *format );
