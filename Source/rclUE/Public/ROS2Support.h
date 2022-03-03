@@ -27,7 +27,6 @@ public:
     void Fini();
 
     rclc_support_t& Get();
-    FCriticalSection RCLCritical;
 
     void RegisterNode(AROS2Node* node);
     TArray<AROS2Node*> Nodes;

@@ -42,4 +42,8 @@ public:
 private:
     UPROPERTY()
     UROS2Support* Support;
+
+public:
+    FCriticalSection RCLCritical;
+
 };

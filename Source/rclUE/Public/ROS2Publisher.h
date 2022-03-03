@@ -20,13 +20,6 @@ class RCLUE_API UROS2Publisher : public UActorComponent
 public:
     UROS2Publisher();
 
-    virtual void InitializeWithROS2(AROS2Node* InROS2Node)
-    {
-        RegisterToROS2Node(InROS2Node);
-    }
-    UFUNCTION()
-    void RegisterToROS2Node(AROS2Node* InROS2Node);
-
     UFUNCTION(BlueprintCallable)
     void Init();
 
@@ -63,7 +56,6 @@ public:
 
 */
 
-    UFUNCTION(BlueprintCallable)
     void InitializeMessage();
 
     UFUNCTION(BlueprintCallable)
@@ -90,9 +82,9 @@ public:
     bool bPublish = true;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    AROS2Node* OwnerNode = nullptr;
+    AROS2Node* ROSNode = nullptr;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly)
     UROS2State State = UROS2State::Created;
 
 protected:
@@ -107,7 +99,7 @@ protected:
     UFUNCTION(BlueprintCallable)
     void Publish();
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly)
     UROS2GenericMsg* TopicMessage;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

@@ -16,16 +16,16 @@ void UROS2ActionClient::InitializeActionComponent(const UROS2QoS QoS)
     client_opt.status_topic_qos = QoSProfiles_LUT[QoS];
 
     rcl_ret_t rc =
-        rcl_action_client_init(&client, OwnerNode->GetNode(), action_type_support, TCHAR_TO_UTF8(*ActionName), &client_opt);
+        rcl_action_client_init(&client, ROSNode->GetRCLNode(), action_type_support, TCHAR_TO_UTF8(*ActionName), &client_opt);
 }
 
 void UROS2ActionClient::Destroy()
 {
     Super::Destroy();
 
-    if (OwnerNode != nullptr)
+    if (ROSNode != nullptr)
     {
-        RCSOFTCHECK(rcl_action_client_fini(&client, OwnerNode->GetNode()));
+        RCSOFTCHECK(rcl_action_client_fini(&client, ROSNode->GetRCLNode()));
     }
 }
 
@@ -76,10 +76,10 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 void UROS2ActionClient::UpdateAndSendGoal()
 {
     check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    check(IsValid(ROSNode));
 
     bool ActionServerIsAvailable = false;
-    RCSOFTCHECK(rcl_action_server_is_available(OwnerNode->GetNode(), &client, &ActionServerIsAvailable));
+    RCSOFTCHECK(rcl_action_server_is_available(ROSNode->GetRCLNode(), &client, &ActionServerIsAvailable));
     if (ActionServerIsAvailable)
     {
         UE_LOG(LogROS2Action, Log, TEXT("1. Action Client - Send goal (%s)"), *__LOG_INFO__);

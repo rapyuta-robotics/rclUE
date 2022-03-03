@@ -4,15 +4,18 @@
 
 #pragma once
 
+#include <cstdlib>
+#include <cstring>
+
 #include <HAL/UnrealMemory.h>
 #include <Kismet/KismetSystemLibrary.h>
+
 #include <rcl/graph.h>
 #include <rcl/wait.h>
 #include <rcl_action/wait.h>
 #include <rclc/rclc.h>
 
-#include <cstdlib>
-#include <cstring>
+
 
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
@@ -23,6 +26,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Support, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Publisher, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Subscriber, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Service, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 

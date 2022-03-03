@@ -5,6 +5,7 @@
 #include "ROS2ActionClient.h"
 #include "ROS2ActionServer.h"
 #include "ROS2Publisher.h"
+#include "ROS2Subscriber.h"
 #include "ROS2ServiceClient.h"
 #include "ROS2Subsystem.h"
 #include "ROS2Support.h"
@@ -34,9 +35,10 @@ void AROS2Node::BringDown()
 {
     UE_LOG(LogROS2Node, Verbose, TEXT("[%s] Bring Down start"), *GetName());
 
-    for (auto& s : Subscriptions)
+    for (auto& s : Subscribers)
     {
-        RCSOFTCHECK(rcl_subscription_fini(&s.rcl_subscription, &node));
+        if (IsValid(s))
+            s->Destroy();
     }
 
     for (auto& s : Services)
@@ -79,13 +81,13 @@ void AROS2Node::Tick(float DeltaTime)
 
     Super::Tick(DeltaTime);
 
-    if (Subscriptions.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0)
+    if (Subscribers.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0)
     {
         SpinSome();
     }
 }
 
-// TODO Move the rclc stuff to Support/Subsystem
+// TODO Move the rclc stuff to Subsystem
 void AROS2Node::Init()
 {
     if (State == UROS2State::Created)
@@ -94,7 +96,7 @@ void AROS2Node::Init()
 
         Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
-        FScopeLock lock(&Support->RCLCritical);
+        FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
         if (!rcl_node_is_valid(&node))    // ensures that it stays safe when called multiple times
         {
             rcutils_reset_error();
@@ -111,62 +113,24 @@ void AROS2Node::Init()
     UE_LOG(LogROS2Node, Verbose, TEXT("[%s] initialize complete."), *GetName());
 }
 
-rcl_node_t* AROS2Node::GetNode()
+rcl_node_t* AROS2Node::GetRCLNode()
 {
     return &node;
 }
 
-// TODO move to own Actor
-void AROS2Node::AddSubscription(const FString& TopicName,
-                                TSubclassOf<UROS2GenericMsg> MsgClass,
-                                const FSubscriptionCallback& Callback,
-                                UROS2QosHistoryPolicy SubQosHistoryPolicy,
-                                int32 SubQosDepth,
-                                UROS2QosReliabilityPolicy SubQosReliabilityPolicy,
-                                UROS2QosDurabilityPolicy SubQosDurabilityPolicy)
+void AROS2Node::AddSubscriber(UROS2Subscriber* Subscriber)
 {
-    check(State == UROS2State::Initialized);
+    check(IsValid(Subscriber));
 
-    bool SubExists = false;
-    for (auto& s : Subscriptions)
+    if (!Subscribers.Contains(Subscriber))
     {
-        SubExists |= (s.TopicName == TopicName);
+        Subscriber->RegisterComponent();
+        Subscriber->ROSNode = this;
+        Subscribers.Add(Subscriber);
     }
-
-    check(!SubExists);
-
-    if (!Callback.IsBound())
+    else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set (%s)"), *GetName(), *__LOG_INFO__);
-    }
-
-    UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
-    TopicMessage->Init();
-
-    FSubscription NewSub;
-    NewSub.TopicName = TopicName;
-    NewSub.TopicType = MsgClass;
-    NewSub.TopicMsg = TopicMessage;
-    NewSub.Callback = Callback;
-    NewSub.Ready = false;
-
-    FScopeLock lock(&Support->RCLCritical);
-
-    NewSub.rcl_subscription = rcl_get_zero_initialized_subscription();
-    const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
-    rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-
-    rmw_qos_profile_t qos = BuildQoSProfile(SubQosHistoryPolicy, SubQosDepth, SubQosReliabilityPolicy, SubQosDurabilityPolicy);
-    sub_opt.qos = qos;
-
-    RCSOFTCHECK(rcl_subscription_init(&NewSub.rcl_subscription, &node, type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
-
-    Subscriptions.Emplace(MoveTemp(NewSub));
-
-    // invalidate wait_set
-    if (rcl_wait_set_is_valid(&wait_set))
-    {
-        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add Publisher (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -191,7 +155,7 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
     NewSrv.Callback = Callback;
     NewSrv.Ready = false;
 
-    FScopeLock lock(&Support->RCLCritical);
+    FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
 
     NewSrv.rcl_service = rcl_get_zero_initialized_service();
     const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();
@@ -200,11 +164,7 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
 
     Services.Emplace(MoveTemp(NewSrv));
 
-    // invalidate wait_set
-    if (rcl_wait_set_is_valid(&wait_set))
-    {
-        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-    }
+    InvalidateWaitSet();
 }
 
 void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
@@ -214,12 +174,12 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
     if (false == Publishers.Contains(InPublisher))
     {
         InPublisher->RegisterComponent();
-        InPublisher->OwnerNode = this;
+        InPublisher->ROSNode = this;
         Publishers.Add(InPublisher);
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Attempt to re-add Publisher (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add Publisher (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -239,13 +199,13 @@ void AROS2Node::AddServiceClient(UROS2ServiceClient* InClient)
 
     if (false == Clients.Contains(InClient))
     {
-        InClient->OwnerNode = this;
+        InClient->ROSNode = this;
         InClient->Init(UROS2QoS::Services);
         Clients.Add(InClient);
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] ServiceClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -255,13 +215,13 @@ void AROS2Node::AddActionClient(UROS2ActionClient* InActionClient)
 
     if (false == ActionClients.Contains(InActionClient))
     {
-        InActionClient->OwnerNode = this;
+        InActionClient->ROSNode = this;
         InActionClient->Init(UROS2QoS::Default);
         ActionClients.Add(InActionClient);
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ActionClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] ActionClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -271,56 +231,55 @@ void AROS2Node::AddActionServer(UROS2ActionServer* InActionServer)
 
     if (false == ActionServers.Contains(InActionServer))
     {
-        InActionServer->OwnerNode = this;
+        InActionServer->ROSNode = this;
         InActionServer->Init(UROS2QoS::Default);
         ActionServers.Add(InActionServer);
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ActionServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] ActionServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
-void AROS2Node::HandleSubscriptions()
+void AROS2Node::HandleSubscribers()
 {
     for (auto i = 0; i < wait_set.size_of_subscriptions; i++)
     {
         if (wait_set.subscriptions[i])
         {
             const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
-            for (auto& s : Subscriptions)
+            for (auto& s : Subscribers)
             {
-                if (&s.rcl_subscription == currentSub)
+                if (&s->rcl_subscription == currentSub)
                 {
-                    s.Ready = true;
+                    s->Ready = true;
                 }
             }
         }
     }
 
-    for (auto& s : Subscriptions)
+    for (auto& s : Subscribers)
     {
-        if (s.Ready == true)
+        if (s->Ready)
         {
-            void* data = s.TopicMsg->Get();
+            void* data = s->TopicMessage->Get();
             rmw_message_info_t messageInfo;
             rcl_ret_t rc_take;
 
             {  // rcl_take may or may not be threadsafe. Comments in RCL indicate they don't even know...
-                FScopeLock lock(&Support->RCLCritical);
-                rc_take = rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr);
+                FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
+                rc_take = rcl_take(&s->rcl_subscription, data, &messageInfo, nullptr);
             }
 
             if (rc_take == RCL_RET_OK) {
-                const FSubscriptionCallback* SubCallback = &s.Callback;
-                SubCallback->ExecuteIfBound(s.TopicMsg);
+                s->IncomingMessage(s->TopicMessage);
             } else if (rc_take == RCL_RET_SUBSCRIPTION_TAKE_FAILED) {
                 UE_LOG(LogROS2Node, Warning, TEXT("[%s] Subscription take failed (%s)"), *GetName(), *__LOG_INFO__);
             } else {
                 RCSOFTCHECK(rc_take);
             }
 
-            s.Ready = false;
+            s->Ready = false;
         }
     }
 }
@@ -401,17 +360,24 @@ void AROS2Node::HandleClients()
     }
 }
 
+void AROS2Node::InvalidateWaitSet() {
+    if (rcl_wait_set_is_valid(&wait_set))
+    {
+        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+    }
+}
+
 void AROS2Node::SpinSome()
 {
     {
-        FScopeLock lock(&Support->RCLCritical);
+        FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
 
         if (!rcl_wait_set_is_valid(&wait_set))
         {
             RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
             wait_set = rcl_get_zero_initialized_wait_set();
             RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-                                        Subscriptions.Num() + ActionClients.Num() * 2,
+                                        Subscribers.Num() + ActionClients.Num() * 2,
                                         NGuardConditions,
                                         NTimers + ActionServers.Num(),
                                         Clients.Num() + ActionClients.Num() * 3,
@@ -423,9 +389,9 @@ void AROS2Node::SpinSome()
 
         RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
 
-        for (auto& s : Subscriptions)
+        for (auto& s : Subscribers)
         {
-            RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.rcl_subscription, nullptr));
+            RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s->rcl_subscription, nullptr));
         }
 
         for (auto& c : Clients)
@@ -452,7 +418,7 @@ void AROS2Node::SpinSome()
         RCLC_UNUSED(rc);
     }
 
-    HandleSubscriptions();
+    HandleSubscribers();
     HandleServices();
     HandleClients();
 
@@ -465,4 +431,8 @@ void AROS2Node::SpinSome()
     {
         a->ProcessReady(&wait_set);
     }
+}
+
+FCriticalSection* AROS2Node::GetMutex() {
+    return &GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical;
 }

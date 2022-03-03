@@ -12,8 +12,8 @@ UROS2ServiceClient::UROS2ServiceClient()
 
 void UROS2ServiceClient::Init(UROS2QoS QoS)
 {
-    check(OwnerNode != nullptr);
-    check(OwnerNode->State == UROS2State::Initialized);
+    check(ROSNode != nullptr);
+    check(ROSNode->State == UROS2State::Initialized);
     if (State == UROS2State::Created)
     {
         InitializeService();
@@ -27,7 +27,7 @@ void UROS2ServiceClient::Init(UROS2QoS QoS)
 
         client_opt.qos = QoSProfiles_LUT[QoS];
 
-        RCSOFTCHECK(rcl_client_init(&client, OwnerNode->GetNode(), srv_type_support, TCHAR_TO_UTF8(*ServiceName), &client_opt));
+        RCSOFTCHECK(rcl_client_init(&client, ROSNode->GetRCLNode(), srv_type_support, TCHAR_TO_UTF8(*ServiceName), &client_opt));
 
         State = UROS2State::Initialized;
     }
@@ -54,10 +54,10 @@ void UROS2ServiceClient::Destroy()
         Service->Fini();
     }
 
-    if (OwnerNode != nullptr)
+    if (ROSNode != nullptr)
     {
         UE_LOG(LogROS2Service, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
-        RCSOFTCHECK(rcl_client_fini(&client, OwnerNode->GetNode()));
+        RCSOFTCHECK(rcl_client_fini(&client, ROSNode->GetRCLNode()));
     }
 }
 
@@ -65,7 +65,7 @@ void UROS2ServiceClient::UpdateAndSendRequest()
 {
     UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
     check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    check(IsValid(ROSNode));
 
     RequestDelegate.ExecuteIfBound(Service);
     SendRequest();
@@ -75,7 +75,7 @@ void UROS2ServiceClient::SendRequest()
 {
     UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
     check(State == UROS2State::Initialized);
-    check(OwnerNode != nullptr);
+    check(ROSNode != nullptr);
 
     req = Service->GetRequest();
 

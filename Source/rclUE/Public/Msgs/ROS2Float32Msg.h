@@ -21,8 +21,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float data;
 
-	
-
 	void SetFromROS2(const example_interfaces__msg__Float32& in_ros_data)
 	{
     	data = in_ros_data.data;

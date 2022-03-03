@@ -2,9 +2,6 @@
 
 // Class implementing ROS2 nodes
 // This class also handles tasks performed by the executor in rclc
-// Additionally, helper structs FSubscription and FService are defined here as they are considered components of the node and not
-// additional distinct entities Publishers, subscribers, services, service clients, action servers and action clients should
-// register to the node with the appropriate methods (Add*)
 
 #pragma once
 
@@ -23,52 +20,15 @@
 
 class UROS2Support;
 class UROS2Publisher;
+class UROS2Subscriber;
 class UROS2ServiceClient;
 class UROS2ActionServer;
 class UROS2ActionClient;
 
 // Reminder: functions bound to delegates must be UFUNCTION
-DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DELEGATE(FSimpleCallback);
-
-
-// TODO: This should be moved to its own class
-USTRUCT(Blueprintable)
-struct RCLUE_API FSubscription
-{
-    GENERATED_BODY()
-
-public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString TopicName;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TSubclassOf<UROS2GenericMsg> TopicType;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2QosHistoryPolicy QosHistoryPolicy = UROS2QosHistoryPolicy::KEEP_LAST;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 QosDepth = 10;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2QosReliabilityPolicy QosReliabilityPolicy = UROS2QosReliabilityPolicy::RELIABLE;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2QosDurabilityPolicy QosDurabilityPolicy = UROS2QosDurabilityPolicy::VOLATILE;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2GenericMsg* TopicMsg = nullptr;
-
-    rcl_subscription_t rcl_subscription;
-
-    FSubscriptionCallback Callback;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool Ready;
-};
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FService
@@ -106,8 +66,11 @@ protected:
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
-    // Called every frame
     virtual void Tick(float DeltaTime) override;
+
+    void InvalidateWaitSet();
+
+    FCriticalSection* GetMutex();
 
 public:
     // must be called before using
@@ -117,18 +80,10 @@ public:
     UFUNCTION(BlueprintCallable)
     void BringDown();
 
-    rcl_node_t* GetNode();
-
     // Methods to register subscribers, publishers, clients (for services), services, action clients and action servers
     // It is up to the user to ensure that they are only added once
     UFUNCTION(BlueprintCallable)
-    void AddSubscription(const FString& TopicName,
-                                TSubclassOf<UROS2GenericMsg> MsgClass,
-                                const FSubscriptionCallback& Callback,
-                                UROS2QosHistoryPolicy SubQosHistoryPolicy=UROS2QosHistoryPolicy::KEEP_LAST,
-                                int32 SubQosDepth=10,
-                                UROS2QosReliabilityPolicy SubQosReliabilityPolicy=UROS2QosReliabilityPolicy::RELIABLE,
-                                UROS2QosDurabilityPolicy SubQosDurabilityPolicy=UROS2QosDurabilityPolicy::VOLATILE);
+    void AddSubscriber(UROS2Subscriber* Subscriber);
 
     UFUNCTION(BlueprintCallable)
     void AddPublisher(UROS2Publisher* InPublisher);
@@ -147,7 +102,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void AddActionServer(UROS2ActionServer* InActionServer);
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UPROPERTY(BlueprintReadOnly)
     UROS2State State = UROS2State::Created;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -169,35 +124,36 @@ public:
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
     int NEvents = 0;
 
+    rcl_node_t* GetRCLNode();
+
 protected:
     // method used to wait on communication and call delegates when appropriate
     // modeled after executor + actions
     UFUNCTION()
     void SpinSome();
 
+    rcl_node_t node;
     rcl_wait_set_t wait_set;
 
     UPROPERTY()
     UROS2Support* Support;
 
-    rcl_node_t node;
+    UPROPERTY(BlueprintReadWrite)
+    TArray<UROS2Subscriber*> Subscribers;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FSubscription> Subscriptions;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite)
     TArray<FService> Services;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite)
     TArray<UROS2Publisher*> Publishers;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite)
     TArray<UROS2ServiceClient*> Clients;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite)
     TArray<UROS2ActionClient*> ActionClients;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(BlueprintReadWrite)
     TArray<UROS2ActionServer*> ActionServers;
 
     UPROPERTY()
@@ -206,7 +162,7 @@ protected:
 private:
     // these 3 methods are based on _rclc_default_scheduling of the rclc executor
     UFUNCTION()
-    void HandleSubscriptions();
+    void HandleSubscribers();
 
     UFUNCTION()
     void HandleServices();

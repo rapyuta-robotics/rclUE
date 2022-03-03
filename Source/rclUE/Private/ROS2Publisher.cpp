@@ -15,8 +15,10 @@ UROS2Publisher::UROS2Publisher()
 
 void UROS2Publisher::Init()
 {
-    check(OwnerNode != nullptr);
-    check(OwnerNode->State == UROS2State::Initialized);
+    UE_LOG(LogROS2Publisher, Verbose, TEXT("[%s] Initialising"), *GetName());
+
+    check(ROSNode != nullptr);
+    check(ROSNode->State == UROS2State::Initialized);
 
     if (State == UROS2State::Created)
     {
@@ -26,7 +28,7 @@ void UROS2Publisher::Init()
 
         const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
 
-        UE_LOG(LogROS2Publisher, Display, TEXT("Initialising %s (%s)"), *TopicName, *__LOG_INFO__);
+        UE_LOG(LogROS2Publisher, Display, TEXT("[%s] Creating topic %s"), *GetName(), *TopicName);
         RclPublisher = rcl_get_zero_initialized_publisher();
         rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
@@ -36,7 +38,7 @@ void UROS2Publisher::Init()
             pub_opt.qos = QoSProfiles_LUT[QosProfilePreset];
         }
 
-        RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
+        RCSOFTCHECK(rcl_publisher_init(&RclPublisher, ROSNode->GetRCLNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
         if (bPublishOnTimer) {
             GetWorld()->GetTimerManager().SetTimer(
@@ -47,11 +49,6 @@ void UROS2Publisher::Init()
     }
 }
 
-void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
-{
-    InROS2Node->AddPublisher(this);
-}
-
 void UROS2Publisher::Destroy()
 {
     UE_LOG(LogROS2Publisher, Verbose, TEXT("Publisher Destroy Start (%s)"), *__LOG_INFO__);
@@ -60,12 +57,12 @@ void UROS2Publisher::Destroy()
         TopicMessage->Fini();
     }
 
-    if (OwnerNode != nullptr)
+    if (ROSNode != nullptr)
     {
         UE_LOG(LogROS2Publisher, Verbose, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
-        RCSOFTCHECK(rcl_publisher_fini(&RclPublisher, OwnerNode->GetNode()));
+        RCSOFTCHECK(rcl_publisher_fini(&RclPublisher, ROSNode->GetRCLNode()));
     }
-    UE_LOG(LogROS2Publisher, Display, TEXT("Publisher Destroy - Done (%s)"), *__LOG_INFO__);
+    UE_LOG(LogROS2Publisher, Display, TEXT("[%s] Publisher destroyed"), *GetName());
 }
 
 void UROS2Publisher::InitializeMessage()
@@ -83,7 +80,7 @@ void UROS2Publisher::InitializeMessage()
 void UROS2Publisher::UpdateAndPublishMessage()
 {
     check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    check(IsValid(ROSNode));
 
     UpdateMessage(TopicMessage);
 
@@ -96,7 +93,7 @@ void UROS2Publisher::UpdateAndPublishMessage()
 void UROS2Publisher::Publish()
 {
     check(State == UROS2State::Initialized);
-    check(OwnerNode != nullptr);
+    check(ROSNode != nullptr);
 
     PublishedMsg = TopicMessage->Get();
 

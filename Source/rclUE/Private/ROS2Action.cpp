@@ -9,8 +9,8 @@ UROS2Action::UROS2Action()
 
 void UROS2Action::Init(const UROS2QoS QoS)
 {
-    check(OwnerNode != nullptr);
-    check(OwnerNode->State == UROS2State::Initialized);
+    check(ROSNode != nullptr);
+    check(ROSNode->State == UROS2State::Initialized);
     if (State == UROS2State::Created)
     {
         InitializeAction();

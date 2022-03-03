@@ -43,7 +43,7 @@ public:
     UROS2GenericAction* Action;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    AROS2Node* OwnerNode;
+    AROS2Node* ROSNode;
 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     UROS2State State = UROS2State::Created;
