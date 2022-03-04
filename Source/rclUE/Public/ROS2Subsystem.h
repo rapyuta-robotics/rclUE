@@ -39,9 +39,16 @@ public:
 
     virtual TStatId GetStatId() const override;
 
+    rcl_allocator_t GetRclUEAllocator()
+    {
+        return ue_allocator;
+    }
+
 private:
     UPROPERTY()
     UROS2Support* Support;
+
+    rcl_allocator_t ue_allocator;
 
 public:
     FCriticalSection RCLCritical;

@@ -6,6 +6,8 @@
 #include <Engine/World.h>
 #include <TimerManager.h>
 
+#include "ROS2Subsystem.h"
+
 DEFINE_LOG_CATEGORY(LogROS2Publisher);
 
 UROS2Publisher::UROS2Publisher()
@@ -32,6 +34,8 @@ void UROS2Publisher::Init()
         RclPublisher = rcl_get_zero_initialized_publisher();
         rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
+        pub_opt.allocator = ROSNode->ROSSubsystem()->GetRclUEAllocator();
+        
         if (bQosOverride) {
             pub_opt.qos = BuildQoSProfile(QosHistoryPolicy, QosDepth, QosReliabilityPolicy, QosDurabilityPolicy);
         } else {

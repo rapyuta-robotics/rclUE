@@ -1,23 +1,13 @@
 using System;
 using System.IO;
-using System.Diagnostics;
-using System.Linq;
 using UnrealBuildTool;
 
 public class rclUE : ModuleRules
 {
-
-	private bool ROSColconBuild
-	{
-		get {
-			return Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH");
-		}
-	}
-
 	private string ROS2InstallPath
 	{
 		get { 
-			if (ROSColconBuild) {
+			if (Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH")) {
 				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH");
 			} else {
 				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH");
@@ -25,12 +15,17 @@ public class rclUE : ModuleRules
 		}
 	}
 
-	public rclUE(ReadOnlyTargetRules Target) : base(Target)
+	private static bool IsRosMergedBuild(string installPath)
+	{
+		return Directory.Exists(Path.Combine(installPath, "include")) &&
+		       Directory.Exists(Path.Combine(installPath, "lib"));
+	}
+
+	public rclUE(ReadOnlyTargetRules target) : base(target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
-		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
-		var ros_packages = new string[] { "rcutils", "rmw", "tracetools",
+		var rosPackages = new string[] { "rcutils", "rmw", "tracetools",
 									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "example_interfaces", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs",
 									//  "ue4_interfaces", "ue_msgs",
 									 "unique_identifier_msgs", "action_msgs",
@@ -38,16 +33,24 @@ public class rclUE : ModuleRules
 									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
 									 "rclc", "rclc_lifecycle" };
 
-		if (Target.Platform == UnrealTargetPlatform.Linux) {
-			if (ROSColconBuild)
+		if (target.Platform == UnrealTargetPlatform.Linux) {
+			if (!IsRosMergedBuild(ROS2InstallPath))
 			{
-				foreach (var pkg in ros_packages)
+				foreach (var pkg in rosPackages)
 				{
 					PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, pkg, "include"));
 				}
-
 			} else {
 				PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, "include"));
+
+				// hack to get around the change in include paths in some packages
+				foreach (var pkg in rosPackages)
+				{
+					if (Directory.Exists(Path.Combine(ROS2InstallPath, "include", pkg, pkg)))
+					{
+						PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, "include", pkg));
+					}
+				}
 			}
 
 			// Because rclc is typically compiled using a C compiler, this is not defined
@@ -57,7 +60,7 @@ public class rclUE : ModuleRules
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"Public"));
 
 		PublicDependencyModuleNames.AddRange(
-			new string[]
+			new[]
 			{
 				"Core",
 				"CoreUObject",

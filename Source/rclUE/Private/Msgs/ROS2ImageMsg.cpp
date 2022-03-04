@@ -12,6 +12,10 @@ void UROS2ImageMsg::Init()
 
 void UROS2ImageMsg::Fini()
 {
+	// prevent the fini function from trying to deallocate the buffer
+	image_msg.data.data = nullptr;
+	image_msg.data.size = 0;
+	image_msg.data.capacity = 0;
 	sensor_msgs__msg__Image__fini(&image_msg);
 }
 

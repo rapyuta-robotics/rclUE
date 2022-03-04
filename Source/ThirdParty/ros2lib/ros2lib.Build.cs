@@ -8,17 +8,10 @@ using UnrealBuildTool;
 
 public class ros2lib : ModuleRules
 {
-	private bool ROSColconBuild
-	{
-		get {
-			return Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH");
-		}
-	}
-
 	private string ROS2InstallPath
 	{
 		get { 
-			if (ROSColconBuild) {
+			if (Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH")) {
 				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH");
 			} else {
 				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH");
@@ -26,12 +19,18 @@ public class ros2lib : ModuleRules
 		}
 	}
 
+	private static bool IsRosMergedBuild(string installPath)
+	{
+		return Directory.Exists(Path.Combine(installPath, "include")) &&
+		       Directory.Exists(Path.Combine(installPath, "lib"));
+	}
+
 	public ros2lib(ReadOnlyTargetRules Target) : base(Target)
 	{
 		Type = ModuleType.External;
 
 		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
-		var ros_packages = new string[] { "rcutils", "rmw", "tracetools",
+		var rosPackages = new string[] { "rcutils", "rmw", "tracetools",
 									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", 
 									 "example_interfaces",
 									//  "ue4_interfaces", "ue_msgs",
@@ -42,70 +41,37 @@ public class ros2lib : ModuleRules
 
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			// PublicRuntimeLibraryPaths.Add(ModulePath);
-			// var libs = Directory.EnumerateFiles(ModulePath, "*.so", SearchOption.TopDirectoryOnly);
-			// foreach (var libName in libs)
-			// {
-			// 	PublicAdditionalLibraries.Add(libName);
-			// 	RuntimeDependencies.Add(libName);
-			// }
-					
-			// var extended_libs = Directory.EnumerateFiles(ModulePath, "*.so.*", SearchOption.TopDirectoryOnly);
-			// foreach (var libName in extended_libs)
-			// {
-			// 	RuntimeDependencies.Add(libName);
-			// }
-
-			if (ROSColconBuild)
+			if (!IsRosMergedBuild(ROS2InstallPath))
 			{
-				foreach (var pkg in ros_packages)
+				foreach (var pkg in rosPackages)
 				{
-					var LibrariesPath = Path.Combine(ROS2InstallPath, pkg, "lib");
+					var librariesPath = Path.Combine(ROS2InstallPath, pkg, "lib");
 
-					if (Directory.Exists(LibrariesPath))
+					if (Directory.Exists(librariesPath))
 					{
-						PublicRuntimeLibraryPaths.Add(LibrariesPath);
-						var libs = Directory.EnumerateFiles(LibrariesPath, "*.so", SearchOption.TopDirectoryOnly);
+						PublicRuntimeLibraryPaths.Add(librariesPath);
+						var libs = Directory.EnumerateFiles(librariesPath, "*.so", SearchOption.TopDirectoryOnly);
 
 						foreach (var libName in libs)
 						{
 							PublicAdditionalLibraries.Add(libName);
 							RuntimeDependencies.Add(libName);
 						}
-
-						// extended_libs = Directory.EnumerateFiles(LibrariesPath, "*.so.*", SearchOption.TopDirectoryOnly);
-						// foreach (var libName in extended_libs)
-						// {
-						// 	RuntimeDependencies.Add(libName);
-						// }
 					}
 				}
 			} else {
-				var LibrariesPath = Path.Combine(ROS2InstallPath, "lib");
-				PublicRuntimeLibraryPaths.Add(LibrariesPath);
+				var librariesPath = Path.Combine(ROS2InstallPath, "lib");
+				PublicRuntimeLibraryPaths.Add(librariesPath);
 
-				foreach (var pkg in ros_packages)
+				foreach (var pkg in rosPackages)
 				{
-					// var pkg_lib_dir = Path.Combine(ROS2InstallPath, "lib", pkg);
-					var libs = Directory.EnumerateFiles(LibrariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
+					var libs = Directory.EnumerateFiles(librariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
 
-					foreach (var lib_filename in libs)
+					foreach (var libFilename in libs)
 					{
-						PublicAdditionalLibraries.Add(lib_filename);
-						RuntimeDependencies.Add(lib_filename);
+						PublicAdditionalLibraries.Add(libFilename);
+						RuntimeDependencies.Add(libFilename);
 					}
-					// if (Directory.Exists(pkg_lib_dir))
-					// {
-						// there exists a folder in pkg 
-
-
-
-						// extended_libs = Directory.EnumerateFiles(LibrariesPath, "*.so.*", SearchOption.TopDirectoryOnly);
-						// foreach (var libName in extended_libs)
-						// {
-						// 	RuntimeDependencies.Add(libName);
-						// }
-					// }
 				}
 			}
 		}

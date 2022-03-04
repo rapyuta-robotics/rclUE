@@ -5,17 +5,16 @@
 
 #pragma once
 
-// UE
 #include "Components/ActorComponent.h"
 #include "Containers/Map.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include <Engine/GameInstance.h>
 
-// rclUE
+#include "ROS2Subsystem.h"
 #include "Actions/ROS2GenericAction.h"
 #include "Msgs/ROS2GenericMsg.h"
 #include "Srvs/ROS2GenericSrv.h"
-
 #include "ROS2Node.generated.h"
 
 class UROS2Support;
@@ -70,8 +69,6 @@ public:
 
     void InvalidateWaitSet();
 
-    FCriticalSection* GetMutex();
-
 public:
     // must be called before using
     UFUNCTION(BlueprintCallable)
@@ -124,7 +121,20 @@ public:
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
     int NEvents = 0;
 
-    rcl_node_t* GetRCLNode();
+    UROS2Subsystem* ROSSubsystem()
+    {
+        return GetGameInstance()->GetSubsystem<UROS2Subsystem>();
+    }
+    
+    FCriticalSection* GetMutex()
+    {
+        return &GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical;
+    }
+    
+    rcl_node_t* GetRCLNode()
+    {
+        return &_rcl_node;
+    }
 
 protected:
     // method used to wait on communication and call delegates when appropriate
@@ -132,7 +142,7 @@ protected:
     UFUNCTION()
     void SpinSome();
 
-    rcl_node_t node;
+    rcl_node_t _rcl_node;
     rcl_wait_set_t wait_set;
 
     UPROPERTY()

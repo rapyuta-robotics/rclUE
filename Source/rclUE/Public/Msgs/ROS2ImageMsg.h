@@ -3,6 +3,8 @@
 
 #pragma once
 
+#include <vector>
+
 #include <CoreMinimal.h>
 
 #include "sensor_msgs/msg/image.h"
@@ -23,10 +25,10 @@ public:
 	FROSHeader header;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int64 height; // original uint32
+	int height; // original uint32
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int64 width; // original uint32
+	int width; // original uint32
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString encoding;
@@ -35,9 +37,12 @@ public:
 	int32 is_bigendian; // original uint8
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int64 step; // original uint32
+	int step; // original uint32 -- maybe this should be automatically populated
 
-	TArray<uint8> data;	// this would probably not translate across well in Blueprint compliant types..
+	UPROPERTY(BlueprintReadWrite)
+	TArray<FColor> data; // original seq of uint8
+
+	TArray<uint8>* Buffer;
 
 	void SetFromROS2(const sensor_msgs__msg__Image& in_ros_data)
 	{
@@ -53,10 +58,11 @@ public:
 
 		step = in_ros_data.step;
 
-		for (int i = 0; i < in_ros_data.data.size; i++)
-		{
-			data.Add(in_ros_data.data.data[i]);
-		}
+		// TODO
+		// for (int i = 0; i < in_ros_data.data.size; i++)
+		// {
+		// 	data.Add(in_ros_data.data.data[i]);
+		// }
 
 		
 	}
@@ -83,24 +89,11 @@ public:
 		}
 
 		out_ros_data.is_bigendian = is_bigendian;
-
 		out_ros_data.step = step;
-
-		if (out_ros_data.data.data != nullptr)
-		{
-			free(out_ros_data.data.data);
-		}
-		out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc((data.Num())*sizeof(decltype(*out_ros_data.data.data)));
 		
-		for (int i = 0; i < data.Num(); i++)
-		{
-			out_ros_data.data.data[i] = data[i];
-		}
-
-		out_ros_data.data.size = data.Num();
-		out_ros_data.data.capacity = data.Num();
-
-		
+		out_ros_data.data.data = Buffer->GetData();
+		out_ros_data.data.size = Buffer->Num();
+		out_ros_data.data.capacity = Buffer->Max();
 	}
 };
 
@@ -122,6 +115,13 @@ public:
 	void GetMsg(FROSImage& Output) const;
 	
 	virtual void* Get() override;
+
+	UFUNCTION(BlueprintCallable)
+	void SetBuffer(UPARAM(ref) FROSImage& ImgMsg, UPARAM(ref) TArray<uint8>& InBuffer)
+	{
+		ImgMsg.Buffer = &InBuffer;
+	}
+
 
 private:
 	virtual FString MsgToString() const override;

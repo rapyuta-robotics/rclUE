@@ -7,10 +7,8 @@
 #include "ROS2Publisher.h"
 #include "ROS2Subscriber.h"
 #include "ROS2ServiceClient.h"
-#include "ROS2Subsystem.h"
 #include "ROS2Support.h"
 
-#include <Engine/GameInstance.h>
 #include <Kismet/GameplayStatics.h>
 
 DEFINE_LOG_CATEGORY(LogROS2Node);
@@ -43,7 +41,7 @@ void AROS2Node::BringDown()
 
     for (auto& s : Services)
     {
-        RCSOFTCHECK(rcl_service_fini(&s.rcl_service, &node));
+        RCSOFTCHECK(rcl_service_fini(&s.rcl_service, GetRCLNode()));
     }
 
     for (auto& p : Publishers)
@@ -66,7 +64,7 @@ void AROS2Node::BringDown()
     RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 
     UE_LOG(LogROS2Node, Log, TEXT("[%s] Bring Down - rcl_node_fini"), *GetName());
-    RCSOFTCHECK(rcl_node_fini(&node));
+    RCSOFTCHECK(rcl_node_fini(GetRCLNode()));
 }
 
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
@@ -77,7 +75,12 @@ void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void AROS2Node::Tick(float DeltaTime)
 {
-    check(State == UROS2State::Initialized);
+    if (State != UROS2State::Initialized)
+    {
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Tick reached but not initialised. Destroying... %s"), *GetName(), *__LOG_INFO__);
+        Destroy();
+        return;
+    }
 
     Super::Tick(DeltaTime);
 
@@ -96,13 +99,16 @@ void AROS2Node::Init()
 
         Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
-        FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
-        if (!rcl_node_is_valid(&node))    // ensures that it stays safe when called multiple times
+        FScopeLock lock(GetMutex());
+        if (!rcl_node_is_valid(GetRCLNode()))    // ensures that it stays safe when called multiple times
         {
             rcutils_reset_error();
 
-            UE_LOG(LogROS2Node, Verbose, TEXT("[%s] rclc_node_init_default"), *GetName());
-            RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
+            UE_LOG(LogROS2Node, Verbose, TEXT("[%s] rclc_node_init_with_options"), *GetName());
+
+            rcl_node_options_t node_ops = rcl_node_get_default_options();
+            node_ops.allocator = ROSSubsystem()->GetRclUEAllocator();
+            RCSOFTCHECK(rclc_node_init_with_options(GetRCLNode(), TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get(), &node_ops));
 
             Support->RegisterNode(this);
         }
@@ -113,18 +119,16 @@ void AROS2Node::Init()
     UE_LOG(LogROS2Node, Verbose, TEXT("[%s] initialize complete."), *GetName());
 }
 
-rcl_node_t* AROS2Node::GetRCLNode()
-{
-    return &node;
-}
-
 void AROS2Node::AddSubscriber(UROS2Subscriber* Subscriber)
 {
     check(IsValid(Subscriber));
 
     if (!Subscribers.Contains(Subscriber))
     {
-        Subscriber->RegisterComponent();
+        if (!Subscriber->IsRegistered())
+        {
+            Subscriber->RegisterComponent();
+        }
         Subscriber->ROSNode = this;
         Subscribers.Add(Subscriber);
     }
@@ -155,12 +159,13 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
     NewSrv.Callback = Callback;
     NewSrv.Ready = false;
 
-    FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
+    FScopeLock lock(GetMutex());
 
     NewSrv.rcl_service = rcl_get_zero_initialized_service();
     const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();
     rcl_service_options_t srv_opt = rcl_service_get_default_options();
-    RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, &node, type_support, TCHAR_TO_UTF8(*ServiceName), &srv_opt));
+    srv_opt.allocator = ROSSubsystem()->GetRclUEAllocator();
+    RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, GetRCLNode(), type_support, TCHAR_TO_UTF8(*ServiceName), &srv_opt));
 
     Services.Emplace(MoveTemp(NewSrv));
 
@@ -173,7 +178,10 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 
     if (false == Publishers.Contains(InPublisher))
     {
-        InPublisher->RegisterComponent();
+        if (!InPublisher->IsRegistered())
+        {
+            InPublisher->RegisterComponent();
+        }
         InPublisher->ROSNode = this;
         Publishers.Add(InPublisher);
     }
@@ -267,7 +275,7 @@ void AROS2Node::HandleSubscribers()
             rcl_ret_t rc_take;
 
             {  // rcl_take may or may not be threadsafe. Comments in RCL indicate they don't even know...
-                FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
+                FScopeLock lock(GetMutex());
                 rc_take = rcl_take(&s->rcl_subscription, data, &messageInfo, nullptr);
             }
 
@@ -370,7 +378,7 @@ void AROS2Node::InvalidateWaitSet() {
 void AROS2Node::SpinSome()
 {
     {
-        FScopeLock lock(&GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical);
+        FScopeLock lock(GetMutex());
 
         if (!rcl_wait_set_is_valid(&wait_set))
         {
@@ -384,7 +392,7 @@ void AROS2Node::SpinSome()
                                         Services.Num() + ActionServers.Num() * 3,
                                         NEvents,
                                         &Support->Get().context,
-                                        rcl_get_default_allocator()));
+                                        ROSSubsystem()->GetRclUEAllocator()));
         }
 
         RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
@@ -431,8 +439,4 @@ void AROS2Node::SpinSome()
     {
         a->ProcessReady(&wait_set);
     }
-}
-
-FCriticalSection* AROS2Node::GetMutex() {
-    return &GetGameInstance()->GetSubsystem<UROS2Subsystem>()->RCLCritical;
 }

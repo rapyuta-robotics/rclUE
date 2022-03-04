@@ -36,6 +36,8 @@ void UROS2Subscriber::Init()
         const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
         rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
 
+        sub_opt.allocator = ROSNode->ROSSubsystem()->GetRclUEAllocator();
+        
         if (bQosOverride) {
             sub_opt.qos = BuildQoSProfile(QosHistoryPolicy, QosDepth, QosReliabilityPolicy, QosDurabilityPolicy);
         } else {
