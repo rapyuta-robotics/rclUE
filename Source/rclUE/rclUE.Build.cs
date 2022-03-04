@@ -7,9 +7,22 @@ using UnrealBuildTool;
 public class rclUE : ModuleRules
 {
 
+	private bool ROSColconBuild
+	{
+		get {
+			return Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH");
+		}
+	}
+
 	private string ROS2InstallPath
 	{
-		get { return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH"); }
+		get { 
+			if (ROSColconBuild) {
+				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH");
+			} else {
+				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH");
+			}
+		}
 	}
 
 	public rclUE(ReadOnlyTargetRules Target) : base(Target)
@@ -17,7 +30,7 @@ public class rclUE : ModuleRules
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
-		var folders = new string[] { "rcutils", "rmw", "tracetools",
+		var ros_packages = new string[] { "rcutils", "rmw", "tracetools",
 									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "example_interfaces", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs",
 									//  "ue4_interfaces", "ue_msgs",
 									 "unique_identifier_msgs", "action_msgs",
@@ -25,11 +38,16 @@ public class rclUE : ModuleRules
 									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
 									 "rclc", "rclc_lifecycle" };
 
-		if (Target.Platform == UnrealTargetPlatform.Linux)
-		{
-			foreach (var folder in folders)
+		if (Target.Platform == UnrealTargetPlatform.Linux) {
+			if (ROSColconBuild)
 			{
-				PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, folder, "include"));
+				foreach (var pkg in ros_packages)
+				{
+					PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, pkg, "include"));
+				}
+
+			} else {
+				PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, "include"));
 			}
 
 			// Because rclc is typically compiled using a C compiler, this is not defined
@@ -37,8 +55,7 @@ public class rclUE : ModuleRules
 		}
 
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"Public"));
-			
-		
+
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
