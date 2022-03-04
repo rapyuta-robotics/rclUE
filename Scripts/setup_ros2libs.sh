@@ -1,14 +1,40 @@
 #!/bin/bash
 # Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
+Help()
+{
+    # Display Help
+    echo "Syntax: ${BASH_SOURCE[0]} [-h] <rclUE_dir>"
+    echo "options:"
+    echo "-h Print this Help."
+    echo "arguments:"
+    echo "-rclUE_dir: Path to the rclUE dir"
+}
+
+while getopts ":h" option; do
+    case $option in
+        h) # display Help
+            Help
+            exit;;
+        \?) # Invalid option
+            echo "Error: Invalid option"
+            Help
+            exit;;
+    esac
+done
+
 # Set exit on any non-zero status cmd
 set -e
 
-RCLUE_DIR=${1:-"$(pwd)"}
+CURRENT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &> /dev/null && pwd)
+RCLUE_DIR=${1:-"$(dirname ${CURRENT_DIR})"}
 RCLUE_DIR_NAME=${RCLUE_DIR##*/}
+#echo "${BASH_SOURCE[0]}'s dir: ${CURRENT_DIR}"
 
 if [[ "rclUE" != "${RCLUE_DIR_NAME}" ]]; then
-	printf "${BASH_SOURCE[0]} must be run from rclUE dir (current dir: ${RCLUE_DIR_NAME})\n"
+	printf "RCLUE_DIR: ${RCLUE_DIR}\n"
+	printf "${BASH_SOURCE[0]} must be run with first arg as rclUE dir path\n"
+	Help
 	exit 1
 fi
 
@@ -30,3 +56,5 @@ done
 
 #export ROS_MASTER_URI=http://localhost:11311
 #unset ROS_DOMAIN_ID
+
+printf "ROS2 libs setup successfully!\n"
