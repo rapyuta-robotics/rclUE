@@ -2,8 +2,6 @@
 
 #include "ROS2Subsystem.h"
 
-#include "HAL/UnrealMemory.h"
-
 namespace RclUEAllocator
 {
     static void *
@@ -12,14 +10,14 @@ namespace RclUEAllocator
         RCUTILS_CAN_RETURN_WITH_ERROR_OF(NULL);
 
         RCUTILS_UNUSED(state);
-        return malloc(size);
+        return FMemory::Malloc(size);
     }
 
     static void
     deallocate(void * pointer, void * state)
     {
         RCUTILS_UNUSED(state);
-        free(pointer);
+        FMemory::Free(pointer);
     }
 
     static void *
@@ -28,7 +26,7 @@ namespace RclUEAllocator
         RCUTILS_CAN_RETURN_WITH_ERROR_OF(NULL);
 
         RCUTILS_UNUSED(state);
-        return realloc(pointer, size);
+        return FMemory::Realloc(pointer, size);
     }
 
     static void *
@@ -37,11 +35,9 @@ namespace RclUEAllocator
         RCUTILS_CAN_RETURN_WITH_ERROR_OF(NULL);
 
         RCUTILS_UNUSED(state);
-        return calloc(number_of_elements, size_of_element);
+        return FMemory::MallocZeroed(number_of_elements * size_of_element);
     }
 }
-
-
 
 bool UROS2Subsystem::ShouldCreateSubsystem(UObject* Outer) const
 {
