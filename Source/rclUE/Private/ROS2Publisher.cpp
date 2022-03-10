@@ -24,16 +24,26 @@ void UROS2Publisher::Init()
 
     if (State == UROS2State::Created)
     {
-        InitializeMessage();    // needed to get type support
+        if(TopicName.IsEmpty())
+        {
+            UE_LOG(LogROS2Publisher, Error, TEXT("[%s] Topic name not set. Initialisation failed."), *GetName());
+            return;
+        }
 
+        if(TopicType == nullptr)
+        {
+            UE_LOG(LogROS2Publisher, Error, TEXT("[%s] Topic Type not set. Initialisation failed."), *GetName());
+            return;
+        }
+
+        TopicMessage = NewObject<UROS2GenericMsg>(this, TopicType);
         check(IsValid(TopicMessage));
-
-        const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
+        TopicMessage->Init();
 
         UE_LOG(LogROS2Publisher, Display, TEXT("[%s] Creating topic %s"), *GetName(), *TopicName);
         RclPublisher = rcl_get_zero_initialized_publisher();
+        
         rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
-
         pub_opt.allocator = ROSNode->ROSSubsystem()->GetRclUEAllocator();
         
         if (bQosOverride) {
@@ -42,7 +52,7 @@ void UROS2Publisher::Init()
             pub_opt.qos = QoSProfiles_LUT[QosProfilePreset];
         }
 
-        RCSOFTCHECK(rcl_publisher_init(&RclPublisher, ROSNode->GetRCLNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
+        RCSOFTCHECK(rcl_publisher_init(&RclPublisher, ROSNode->GetRCLNode(), TopicMessage->GetTypeSupport(), TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
         if (bPublishOnTimer) {
             GetWorld()->GetTimerManager().SetTimer(
@@ -69,25 +79,16 @@ void UROS2Publisher::Destroy()
     UE_LOG(LogROS2Publisher, Display, TEXT("[%s] Publisher destroyed"), *GetName());
 }
 
-void UROS2Publisher::InitializeMessage()
-{
-    check(TopicName != FString());
-    check(MsgClass);
-
-    TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
-
-    check(IsValid(TopicMessage));
-
-    TopicMessage->Init();
-}
-
 void UROS2Publisher::UpdateAndPublishMessage()
 {
     check(State == UROS2State::Initialized);
     check(IsValid(ROSNode));
-
-    UpdateMessage(TopicMessage);
-
+    
+    {
+        FScopeLock Lock(&Mutex);
+        UpdateMessage(TopicMessage);
+    }
+    
     if(bPublish)
     {
         Publish();
@@ -98,8 +99,10 @@ void UROS2Publisher::Publish()
 {
     check(State == UROS2State::Initialized);
     check(ROSNode != nullptr);
-
-    PublishedMsg = TopicMessage->Get();
-
-    RCSOFTCHECK(rcl_publish(&RclPublisher, PublishedMsg, nullptr));
+    
+    {
+        FScopeLock Lock(&Mutex);
+        PublishedMsg = TopicMessage->Get();
+        RCSOFTCHECK(rcl_publish(&RclPublisher, PublishedMsg, nullptr));
+    }
 }

@@ -60,12 +60,9 @@ public:
 
     bool Ready;
 
-// public:
     UPROPERTY(BlueprintReadOnly)
     UROS2GenericMsg* TopicMessage;
 
     rcl_subscription_t rcl_subscription;
 
-protected:
-    void InitializeMessage();
 };

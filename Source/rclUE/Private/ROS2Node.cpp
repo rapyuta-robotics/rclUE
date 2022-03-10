@@ -95,7 +95,7 @@ void AROS2Node::Init()
 {
     if (State == UROS2State::Created)
     {
-        UE_LOG(LogROS2Node, Display, TEXT("[%s] Initialising %s"), *Name, *GetName());
+        UE_LOG(LogROS2Node, Verbose, TEXT("[%s] Initialising"), *GetName());
 
         Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
@@ -104,13 +104,12 @@ void AROS2Node::Init()
         {
             rcutils_reset_error();
 
-            UE_LOG(LogROS2Node, Verbose, TEXT("[%s] rclc_node_init_with_options"), *GetName());
-
             rcl_node_options_t node_ops = rcl_node_get_default_options();
             node_ops.allocator = ROSSubsystem()->GetRclUEAllocator();
             RCSOFTCHECK(rclc_node_init_with_options(GetRCLNode(), TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get(), &node_ops));
-
             Support->RegisterNode(this);
+
+            UE_LOG(LogROS2Node, Display, TEXT("[%s] Node started with name %s"), *GetName(), *Name);
         }
 
         State = UROS2State::Initialized;
@@ -131,6 +130,7 @@ void AROS2Node::AddSubscriber(UROS2Subscriber* Subscriber)
         }
         Subscriber->ROSNode = this;
         Subscribers.Add(Subscriber);
+        Subscriber->Init();
     }
     else
     {
@@ -184,6 +184,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
         }
         InPublisher->ROSNode = this;
         Publishers.Add(InPublisher);
+        InPublisher->Init();
     }
     else
     {

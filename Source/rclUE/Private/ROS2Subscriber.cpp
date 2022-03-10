@@ -26,16 +26,29 @@ void UROS2Subscriber::Init()
 
     if (State == UROS2State::Created)
     {
-        InitializeMessage();
+        if(TopicName.IsEmpty())
+        {
+            UE_LOG(LogROS2Subscriber, Error, TEXT("[%s] Topic Name not set. Initialisation failed."), *GetName());
+            return;
+        }
+
+        if(TopicType == nullptr)
+        {
+            UE_LOG(LogROS2Subscriber, Error, TEXT("[%s] Topic Type not set. Initialisation failed."), *GetName());
+            return;
+        }
+
+        TopicMessage = NewObject<UROS2GenericMsg>(this, TopicType);
+        check(IsValid(TopicMessage));
+        TopicMessage->Init();
 
         Ready = false;
 
         FScopeLock lock(ROSNode->GetMutex());
 
         rcl_subscription = rcl_get_zero_initialized_subscription();
-        const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
-        rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
 
+        rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
         sub_opt.allocator = ROSNode->ROSSubsystem()->GetRclUEAllocator();
         
         if (bQosOverride) {
@@ -45,7 +58,7 @@ void UROS2Subscriber::Init()
         }
 
         UE_LOG(LogROS2Subscriber, Display, TEXT("[%s] Subscribing to topic %s"), *GetName(), *TopicName);
-        RCSOFTCHECK(rcl_subscription_init(&rcl_subscription, ROSNode->GetRCLNode(), type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
+        RCSOFTCHECK(rcl_subscription_init(&rcl_subscription, ROSNode->GetRCLNode(), TopicMessage->GetTypeSupport(), TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
         ROSNode->InvalidateWaitSet();
 
@@ -68,18 +81,3 @@ void UROS2Subscriber::Destroy()
     }
     UE_LOG(LogROS2Subscriber, Display, TEXT("Subscriber %s Destroyed"), *GetName());
 }
-
-void UROS2Subscriber::InitializeMessage()
-{
-    check(TopicName != FString());
-    check(TopicType);
-
-    TopicMessage = NewObject<UROS2GenericMsg>(this, TopicType);
-    check(IsValid(TopicMessage));
-    TopicMessage->Init();
-}
-
-// void UROS2Subscriber::IncomingMessage_Implementation()
-// {
-
-// }

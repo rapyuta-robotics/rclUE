@@ -56,8 +56,6 @@ public:
 
 */
 
-    void InitializeMessage();
-
     UFUNCTION(BlueprintCallable)
     void UpdateAndPublishMessage();
 
@@ -76,7 +74,7 @@ public:
 
     // this information is redundant with Topic, but it's needed to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TSubclassOf<UROS2GenericMsg> MsgClass;
+    TSubclassOf<UROS2GenericMsg> TopicType;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     bool bPublish = true;
@@ -105,6 +103,8 @@ protected:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     FTimerHandle TimerHandle;
 
+    FCriticalSection Mutex;
+    
     const void* PublishedMsg = nullptr;
 
     rcl_publisher_t RclPublisher;
