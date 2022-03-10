@@ -19,7 +19,7 @@ void UROS2Subscriber::Init()
         return;
     }
 
-    UE_LOG(LogROS2Subscriber, Display, TEXT("[%s] Initialising..."), *GetName());
+    UE_LOG(LogROS2Subscriber, Verbose, TEXT("[%s] Initialising..."), *GetName());
 
     check(ROSNode != nullptr);
     check(ROSNode->State == UROS2State::Initialized);

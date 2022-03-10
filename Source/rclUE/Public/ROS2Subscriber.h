@@ -44,7 +44,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UROS2GenericMsg> TopicType;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     AROS2Node* ROSNode = nullptr;
 
     UPROPERTY(BlueprintReadOnly)

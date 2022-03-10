@@ -79,7 +79,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     bool bPublish = true;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     AROS2Node* ROSNode = nullptr;
 
     UPROPERTY(BlueprintReadOnly)
