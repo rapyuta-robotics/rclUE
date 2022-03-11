@@ -66,7 +66,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString TopicName;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (InlineEditConditionToggle))
     bool bPublishOnTimer = true;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bPublishOnTimer"))

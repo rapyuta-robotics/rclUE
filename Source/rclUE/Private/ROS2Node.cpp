@@ -120,7 +120,11 @@ void AROS2Node::Init()
 
 void AROS2Node::AddSubscriber(UROS2Subscriber* Subscriber)
 {
-    check(IsValid(Subscriber));
+    if (!IsValid(Subscriber))
+    {
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Invalid subscriber provided (%s)"), *GetName(), *Subscriber->GetName(), *__LOG_INFO__);
+        return;
+    }
 
     if (!Subscribers.Contains(Subscriber))
     {
@@ -134,7 +138,7 @@ void AROS2Node::AddSubscriber(UROS2Subscriber* Subscriber)
     }
     else
     {
-        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add Publisher (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add Publisher %s (%s)"), *GetName(), *Subscriber->GetName(), *__LOG_INFO__);
     }
 }
 
@@ -174,7 +178,11 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
 
 void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 {
-    check(IsValid(InPublisher));
+    if (!IsValid(InPublisher))
+    {
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Invalid publisher provided (%s)"), *GetName(), *InPublisher->GetName(), *__LOG_INFO__);
+        return;
+    }
 
     if (false == Publishers.Contains(InPublisher))
     {
@@ -188,7 +196,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
     }
     else
     {
-        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add Publisher (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add publisher %s (%s)"), *GetName(), *InPublisher->GetName(), *__LOG_INFO__);
     }
 }
 

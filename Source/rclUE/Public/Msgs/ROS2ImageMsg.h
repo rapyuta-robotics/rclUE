@@ -40,9 +40,8 @@ public:
 	int step; // original uint32 -- maybe this should be automatically populated
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<FColor> data; // original seq of uint8
-
-	TArray<uint8>* Buffer;
+	TArray<uint8> data; // original seq of uint8
+	
 
 	void SetFromROS2(const sensor_msgs__msg__Image& in_ros_data)
 	{
@@ -91,9 +90,9 @@ public:
 		out_ros_data.is_bigendian = is_bigendian;
 		out_ros_data.step = step;
 		
-		out_ros_data.data.data = Buffer->GetData();
-		out_ros_data.data.size = Buffer->Num();
-		out_ros_data.data.capacity = Buffer->Max();
+		out_ros_data.data.data = const_cast<uint8_t*>(data.GetData());
+		out_ros_data.data.size = data.Num();
+		out_ros_data.data.capacity = data.Max();
 	}
 };
 
@@ -115,13 +114,6 @@ public:
 	void GetMsg(FROSImage& Output) const;
 	
 	virtual void* Get() override;
-
-	UFUNCTION(BlueprintCallable)
-	void SetBuffer(UPARAM(ref) FROSImage& ImgMsg, UPARAM(ref) TArray<uint8>& InBuffer)
-	{
-		ImgMsg.Buffer = &InBuffer;
-	}
-
 
 private:
 	virtual FString MsgToString() const override;
