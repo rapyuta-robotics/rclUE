@@ -19,7 +19,11 @@ void UROS2Publisher::Init()
 {
     UE_LOG(LogROS2Publisher, Verbose, TEXT("[%s] Initialising"), *GetName());
 
-    check(ROSNode != nullptr);
+    if (!IsValid(ROSNode)) {
+        UE_LOG(LogROS2Publisher, Error, TEXT("[%s] ROS Node is invalid"), *GetName());
+        return;
+    }
+
     check(ROSNode->State == UROS2State::Initialized);
 
     if (State == UROS2State::Created)
@@ -81,8 +85,11 @@ void UROS2Publisher::Destroy()
 
 void UROS2Publisher::UpdateAndPublishMessage()
 {
-    check(State == UROS2State::Initialized);
-    check(IsValid(ROSNode));
+    if(State != UROS2State::Initialized)
+    {
+        UE_LOG(LogROS2Publisher, Error, TEXT("[%s] Update and Publish called when publisher has not been initialised."), *GetName());
+        return;
+    }
     
     {
         FScopeLock Lock(&Mutex);
@@ -97,8 +104,11 @@ void UROS2Publisher::UpdateAndPublishMessage()
 
 void UROS2Publisher::Publish()
 {
-    check(State == UROS2State::Initialized);
-    check(ROSNode != nullptr);
+    if(State != UROS2State::Initialized)
+    {
+        UE_LOG(LogROS2Publisher, Error, TEXT("[%s] Publish called when publisher has not been initialised."), *GetName());
+        return;
+    }
     
     {
         FScopeLock Lock(&Mutex);

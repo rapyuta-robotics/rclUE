@@ -14,9 +14,6 @@ class RCLUE_API UROS2Subscriber : public UActorComponent
 public:
     UROS2Subscriber();
 
-    UFUNCTION(BlueprintCallable)
-    void Init();
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="!bQosOverride"))
     UROS2QoS QosProfilePreset = UROS2QoS::Default;
 
@@ -35,6 +32,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bQosOverride"))
     UROS2QosDurabilityPolicy QosDurabilityPolicy = UROS2QosDurabilityPolicy::VOLATILE;
 
+    void Init();
+
     UFUNCTION()
     virtual void Destroy();
 
@@ -52,11 +51,7 @@ public:
 
     UFUNCTION(BlueprintNativeEvent)
     void IncomingMessage(UROS2GenericMsg* Message);
-
-    void IncomingMessage_Implementation(UROS2GenericMsg* Message)
-    {
-        checkNoEntry();
-    }
+    void IncomingMessage_Implementation(UROS2GenericMsg* Message);
 
     bool Ready;
 
@@ -64,5 +59,4 @@ public:
     UROS2GenericMsg* TopicMessage;
 
     rcl_subscription_t rcl_subscription;
-
 };

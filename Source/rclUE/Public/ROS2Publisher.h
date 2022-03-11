@@ -20,9 +20,6 @@ class RCLUE_API UROS2Publisher : public UActorComponent
 public:
     UROS2Publisher();
 
-    UFUNCTION(BlueprintCallable)
-    void Init();
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="!bQosOverride"))
     UROS2QoS QosProfilePreset = UROS2QoS::Default;
 
@@ -56,13 +53,14 @@ public:
 
 */
 
+    void Init();
+    
     UFUNCTION(BlueprintCallable)
     void UpdateAndPublishMessage();
 
     UFUNCTION()
     virtual void Destroy();
 
-    // this information is redundant with Topic, but it's needed to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString TopicName;
 
@@ -72,7 +70,6 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="bPublishOnTimer"))
     float PublicationFrequencyHz = 10.0;
 
-    // this information is redundant with Topic, but it's needed to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UROS2GenericMsg> TopicType;
 

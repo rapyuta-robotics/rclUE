@@ -21,7 +21,11 @@ void UROS2Subscriber::Init()
 
     UE_LOG(LogROS2Subscriber, Verbose, TEXT("[%s] Initialising..."), *GetName());
 
-    check(ROSNode != nullptr);
+    if (!IsValid(ROSNode)) {
+        UE_LOG(LogROS2Subscriber, Error, TEXT("[%s] ROS Node is invalid"), *GetName());
+        return;
+    }
+
     check(ROSNode->State == UROS2State::Initialized);
 
     if (State == UROS2State::Created)
@@ -80,4 +84,9 @@ void UROS2Subscriber::Destroy()
         RCSOFTCHECK(rcl_subscription_fini(&rcl_subscription, ROSNode->GetRCLNode()));
     }
     UE_LOG(LogROS2Subscriber, Display, TEXT("Subscriber %s Destroyed"), *GetName());
+}
+
+void UROS2Subscriber::IncomingMessage_Implementation(UROS2GenericMsg* Message)
+{
+    UE_LOG(LogROS2Subscriber, Error, TEXT("[%s] Incoming Message has not been overriden."), *GetName());
 }
