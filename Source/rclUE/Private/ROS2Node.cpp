@@ -10,6 +10,8 @@
 #include "ROS2Support.h"
 
 #include <Kismet/GameplayStatics.h>
+#include "TimerManager.h"
+
 
 DEFINE_LOG_CATEGORY(LogROS2Node);
 
@@ -100,7 +102,7 @@ void AROS2Node::Init()
         Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
         FScopeLock lock(GetMutex());
-        if (!rcl_node_is_valid(GetRCLNode()))    // ensures that it stays safe when called multiple times
+        if (!rcl_node_is_valid(GetRCLNode()))
         {
             rcutils_reset_error();
 
@@ -109,20 +111,35 @@ void AROS2Node::Init()
             RCSOFTCHECK(rclc_node_init_with_options(GetRCLNode(), TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get(), &node_ops));
             Support->RegisterNode(this);
 
-            UE_LOG(LogROS2Node, Display, TEXT("[%s] Node started with name %s"), *GetName(), *Name);
+            UE_LOG(LogROS2Node, Display, TEXT("[%s] Node started with name '%s'"), *GetName(), *Name);
         }
 
         State = UROS2State::Initialized;
-    }
+        UE_LOG(LogROS2Node, Verbose, TEXT("[%s] initialize complete."), *GetName());
 
-    UE_LOG(LogROS2Node, Verbose, TEXT("[%s] initialize complete."), *GetName());
+        // Create an event informing the node is initialised and ready for subs/pubs
+        // do it next Tick so any binding to the event in OnBeginPlay will work
+        GetWorld()->GetTimerManager().SetTimerForNextTick(
+            FTimerDelegate::CreateLambda([this]
+        {
+            OnNodeInitialised.Broadcast();
+        }));
+        
+    } else {
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Initialised called on already initialised Node (%s)"), *GetName(), *__LOG_INFO__);
+    }
 }
 
 void AROS2Node::AddSubscriber(UROS2Subscriber* Subscriber)
 {
     if (!IsValid(Subscriber))
     {
-        UE_LOG(LogROS2Node, Error, TEXT("[%s] Invalid subscriber provided (%s)"), *GetName(), *Subscriber->GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Invalid subscriber '%s' provided (%s)"), *GetName(), *Subscriber->GetName(), *__LOG_INFO__);
+        return;
+    }
+
+    if (State != UROS2State::Initialized) {
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Tried to add subscriber '%s' to uninitialised node (%s)"), *GetName(), *Subscriber->GetName(), *__LOG_INFO__);
         return;
     }
 
@@ -180,7 +197,12 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
 {
     if (!IsValid(InPublisher))
     {
-        UE_LOG(LogROS2Node, Error, TEXT("[%s] Invalid publisher provided (%s)"), *GetName(), *InPublisher->GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Invalid publisher '%s' provided (%s)"), *GetName(), *InPublisher->GetName(), *__LOG_INFO__);
+        return;
+    }
+
+    if (State != UROS2State::Initialized) {
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Tried to add publisher '%s' to uninitialised node (%s)"), *GetName(), *InPublisher->GetName(), *__LOG_INFO__);
         return;
     }
 
@@ -196,7 +218,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
     }
     else
     {
-        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add publisher %s (%s)"), *GetName(), *InPublisher->GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Error, TEXT("[%s] Attempt to re-add publisher '%s' (%s)"), *GetName(), *InPublisher->GetName(), *__LOG_INFO__);
     }
 }
 

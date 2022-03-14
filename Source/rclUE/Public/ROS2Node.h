@@ -28,6 +28,7 @@ class UROS2ActionClient;
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DELEGATE(FSimpleCallback);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnNodeInitialisedDelegate);
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FService
@@ -69,16 +70,12 @@ public:
 
     void InvalidateWaitSet();
 
-public:
-    // must be called before using
     UFUNCTION(BlueprintCallable)
     void Init();
 
     UFUNCTION(BlueprintCallable)
     void BringDown();
 
-    // Methods to register subscribers, publishers, clients (for services), services, action clients and action servers
-    // It is up to the user to ensure that they are only added once
     UFUNCTION(BlueprintCallable)
     void AddSubscriber(UROS2Subscriber* Subscriber);
 
@@ -120,6 +117,9 @@ public:
 
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
     int NEvents = 0;
+
+    UPROPERTY(BlueprintAssignable)
+    FOnNodeInitialisedDelegate OnNodeInitialised;
 
     UROS2Subsystem* ROSSubsystem()
     {
