@@ -65,8 +65,9 @@ void AROS2Node::BringDown()
 
     RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] Bring Down - rcl_node_fini"), *GetName());
+    UE_LOG(LogROS2Node, Verbose, TEXT("[%s] Bring Down - rcl_node_fini"), *GetName());
     RCSOFTCHECK(rcl_node_fini(GetRCLNode()));
+    UE_LOG(LogROS2Node, Display, TEXT("[%s] Node destroyed"), *GetName());
 }
 
 void AROS2Node::EndPlay(const EEndPlayReason::Type EndPlayReason)

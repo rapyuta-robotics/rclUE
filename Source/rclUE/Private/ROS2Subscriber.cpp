@@ -72,7 +72,7 @@ void UROS2Subscriber::Init()
 
 void UROS2Subscriber::Destroy()
 {
-    UE_LOG(LogROS2Subscriber, Verbose, TEXT("Subscriber %s Destroy Start (%s)"), *GetName(), *__LOG_INFO__);
+    UE_LOG(LogROS2Subscriber, Verbose, TEXT("[%s] subscriber destroy start (%s)"), *GetName(), *__LOG_INFO__);
     if (TopicMessage != nullptr)
     {
         TopicMessage->Fini();
@@ -83,7 +83,7 @@ void UROS2Subscriber::Destroy()
         UE_LOG(LogROS2Subscriber, Verbose, TEXT("Subscriber Destroy - rcl_Subscriber_fini (%s)"), *__LOG_INFO__);
         RCSOFTCHECK(rcl_subscription_fini(&rcl_subscription, ROSNode->GetRCLNode()));
     }
-    UE_LOG(LogROS2Subscriber, Display, TEXT("Subscriber %s Destroyed"), *GetName());
+    UE_LOG(LogROS2Subscriber, Display, TEXT("[%s] subscriber destroyed"), *GetName());
 }
 
 void UROS2Subscriber::IncomingMessage_Implementation(UROS2GenericMsg* Message)
