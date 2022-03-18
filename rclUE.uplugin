@@ -21,12 +21,12 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default",
 			"WhitelistPlatforms": ["Linux"]
-		},
+		}
+	],
+	"Plugins": [
 		{
-			"Name": "UEProj",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"WhitelistPlatforms": ["Linux"]
+			"Name": "GeoReferencing",
+			"Enabled": true
 		}
 	]
 }

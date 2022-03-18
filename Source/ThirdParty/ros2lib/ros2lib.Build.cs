@@ -24,6 +24,39 @@ public class ros2lib : ModuleRules
 		return Directory.Exists(Path.Combine(installPath, "include")) &&
 		       Directory.Exists(Path.Combine(installPath, "lib"));
 	}
+	
+	private void AddROSPackageLib(string pkg)
+	{
+		if (!IsRosMergedBuild(ROS2InstallPath))
+		{
+			var librariesPath = Path.Combine(ROS2InstallPath, pkg, "lib");
+
+			if (Directory.Exists(librariesPath))
+			{
+				PublicRuntimeLibraryPaths.Add(librariesPath);
+				var libs = Directory.EnumerateFiles(librariesPath, "*.so", SearchOption.TopDirectoryOnly);
+
+				foreach (var libName in libs)
+				{
+					PublicAdditionalLibraries.Add(libName);
+					RuntimeDependencies.Add(libName);
+				}
+			}
+		}
+		else
+		{
+			var librariesPath = Path.Combine(ROS2InstallPath, "lib");
+			PublicRuntimeLibraryPaths.Add(librariesPath);
+
+			var libs = Directory.EnumerateFiles(librariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
+
+			foreach (var libFilename in libs)
+			{
+				PublicAdditionalLibraries.Add(libFilename);
+				RuntimeDependencies.Add(libFilename);
+			}
+		}
+	}
 
 	public ros2lib(ReadOnlyTargetRules Target) : base(Target)
 	{
@@ -33,46 +66,16 @@ public class ros2lib : ModuleRules
 		var rosPackages = new string[] { "rcutils", "rmw", "tracetools",
 									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", 
 									 "example_interfaces",
-									//  "ue4_interfaces", "ue_msgs",
-									 "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "unique_identifier_msgs", "action_msgs",
+									 "geometry_msgs", "geographic_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "unique_identifier_msgs", "action_msgs",
 									 "rosidl_generator_c", "rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
 									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
 									 "rclc", "rclc_lifecycle" };
 
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			if (!IsRosMergedBuild(ROS2InstallPath))
+			foreach (var pkg in rosPackages)
 			{
-				foreach (var pkg in rosPackages)
-				{
-					var librariesPath = Path.Combine(ROS2InstallPath, pkg, "lib");
-
-					if (Directory.Exists(librariesPath))
-					{
-						PublicRuntimeLibraryPaths.Add(librariesPath);
-						var libs = Directory.EnumerateFiles(librariesPath, "*.so", SearchOption.TopDirectoryOnly);
-
-						foreach (var libName in libs)
-						{
-							PublicAdditionalLibraries.Add(libName);
-							RuntimeDependencies.Add(libName);
-						}
-					}
-				}
-			} else {
-				var librariesPath = Path.Combine(ROS2InstallPath, "lib");
-				PublicRuntimeLibraryPaths.Add(librariesPath);
-
-				foreach (var pkg in rosPackages)
-				{
-					var libs = Directory.EnumerateFiles(librariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
-
-					foreach (var libFilename in libs)
-					{
-						PublicAdditionalLibraries.Add(libFilename);
-						RuntimeDependencies.Add(libFilename);
-					}
-				}
+				AddROSPackageLib(pkg);
 			}
 		}
 	}

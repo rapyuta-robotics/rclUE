@@ -26,8 +26,7 @@ public class rclUE : ModuleRules
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		var rosPackages = new string[] { "rcutils", "rmw", "tracetools",
-									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "example_interfaces", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs",
-									//  "ue4_interfaces", "ue_msgs",
+									 "builtin_interfaces", "std_msgs", "rosgraph_msgs", "example_interfaces", "geometry_msgs", "geographic_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs",
 									 "unique_identifier_msgs", "action_msgs",
 									 "rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
 									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
@@ -54,10 +53,10 @@ public class rclUE : ModuleRules
 			}
 
 			// Because rclc is typically compiled using a C compiler, this is not defined
-			PrivateDefinitions.Add("__STDC_VERSION__=201112L");
+			PublicDefinitions.Add("__STDC_VERSION__=201112L");
 		}
 
-		PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"Public"));
+		PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public"));
 
 		PublicDependencyModuleNames.AddRange(
 			new[]
@@ -66,8 +65,8 @@ public class rclUE : ModuleRules
 				"CoreUObject",
 				"Engine",
 				"ros2lib",
-				// "UEProj",
-				"Projects"
+				"Projects",
+				"GeoReferencing"
 			}
 		);
 	}

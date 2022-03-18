@@ -116,3 +116,23 @@ void UROS2Publisher::Publish()
         RCSOFTCHECK(rcl_publish(&RclPublisher, PublishedMsg, nullptr));
     }
 }
+
+void UROS2Publisher::PublishMsg(UROS2GenericMsg* Message)
+{
+    if(State != UROS2State::Initialized)
+    {
+        UE_LOG(LogROS2Publisher, Error, TEXT("[%s] PublishMsg called when publisher has not been initialised."), *GetName());
+        return;
+    }
+
+    if(!IsValid(Message)) //if(!Message.IsValid())
+    {
+        UE_LOG(LogROS2Publisher, Error, TEXT("[%s] PublishMsg called with invalid Message parameter."), *GetName());
+        return;
+    }
+    
+    {
+        FScopeLock Lock(&Mutex);
+        RCSOFTCHECK(rcl_publish(&RclPublisher, Message->Get(), nullptr));
+    }
+}

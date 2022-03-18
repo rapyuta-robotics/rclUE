@@ -94,6 +94,9 @@ protected:
     UFUNCTION(BlueprintCallable)
     void Publish();
 
+    UFUNCTION(BlueprintCallable)
+    void PublishMsg(UROS2GenericMsg* Message);
+
     UPROPERTY(BlueprintReadOnly)
     UROS2GenericMsg* TopicMessage;
 
