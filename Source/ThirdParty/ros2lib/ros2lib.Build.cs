@@ -2,8 +2,6 @@
 
 using System;
 using System.IO;
-using System.Diagnostics;
-using System.Linq;
 using UnrealBuildTool;
 
 public class ros2lib : ModuleRules
@@ -19,41 +17,86 @@ public class ros2lib : ModuleRules
 		}
 	}
 
+	private string[] ROS2InstallPaths
+	{
+		get { 
+			if (Environment.GetEnvironmentVariables().Contains("AMENT_PREFIX_PATH")) {
+				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH").Split(":");
+			} 
+			if (Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH")) {
+				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH").Split(":");
+			}
+
+			return new string[] {};
+		}
+	}
+	
 	private static bool IsRosMergedBuild(string installPath)
 	{
 		return Directory.Exists(Path.Combine(installPath, "include")) &&
 		       Directory.Exists(Path.Combine(installPath, "lib"));
 	}
-	
-	private void AddROSPackageLib(string pkg)
+
+	private void AddROSInclude(string pkg)
 	{
-		if (!IsRosMergedBuild(ROS2InstallPath))
+		foreach (string installPath in ROS2InstallPaths)
 		{
-			var librariesPath = Path.Combine(ROS2InstallPath, pkg, "lib");
-
-			if (Directory.Exists(librariesPath))
+			if (!IsRosMergedBuild(installPath))
 			{
-				PublicRuntimeLibraryPaths.Add(librariesPath);
-				var libs = Directory.EnumerateFiles(librariesPath, "*.so", SearchOption.TopDirectoryOnly);
-
-				foreach (var libName in libs)
+				if (Directory.Exists(Path.Combine(installPath, pkg)))
 				{
-					PublicAdditionalLibraries.Add(libName);
-					RuntimeDependencies.Add(libName);
+					PublicIncludePaths.Add(Path.Combine(installPath, pkg, "include"));					
 				}
 			}
-		}
-		else
-		{
-			var librariesPath = Path.Combine(ROS2InstallPath, "lib");
-			PublicRuntimeLibraryPaths.Add(librariesPath);
-
-			var libs = Directory.EnumerateFiles(librariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
-
-			foreach (var libFilename in libs)
+			else
 			{
-				PublicAdditionalLibraries.Add(libFilename);
-				RuntimeDependencies.Add(libFilename);
+				if (!PublicIncludePaths.Contains(Path.Combine(installPath, "include"))) {
+				    PublicIncludePaths.Add(Path.Combine(installPath, "include"));
+                }
+
+				// hack to get around the change in include paths in some packages
+				if (Directory.Exists(Path.Combine(installPath, "include", pkg, pkg)))
+				{
+					PublicIncludePaths.Add(Path.Combine(installPath, "include", pkg));
+				}
+			}
+
+		}
+	}
+
+	private void AddROSPackageLib(string pkg)
+	{
+		foreach (string installPath in ROS2InstallPaths)
+		{
+			if (!IsRosMergedBuild(installPath))
+			{
+				var librariesPath = Path.Combine(installPath, pkg, "lib");
+
+				if (Directory.Exists(librariesPath))
+				{
+					PublicRuntimeLibraryPaths.Add(librariesPath);
+					var libs = Directory.EnumerateFiles(librariesPath, "*.so", SearchOption.TopDirectoryOnly);
+
+					foreach (var libName in libs)
+					{
+						PublicAdditionalLibraries.Add(libName);
+						RuntimeDependencies.Add(libName);
+					}
+				}
+			} else {
+				var librariesPath = Path.Combine(installPath, "lib");
+				if (!PublicRuntimeLibraryPaths.Contains(librariesPath))
+				{
+					PublicRuntimeLibraryPaths.Add(librariesPath);					
+				}
+
+				var libs = Directory.EnumerateFiles(librariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
+
+				foreach (var libFilename in libs)
+				{
+					PublicAdditionalLibraries.Add(libFilename);
+					RuntimeDependencies.Add(libFilename);
+				}
 			}
 		}
 	}
@@ -76,7 +119,10 @@ public class ros2lib : ModuleRules
 			foreach (var pkg in rosPackages)
 			{
 				AddROSPackageLib(pkg);
+				AddROSInclude(pkg);
 			}
+			// Because rclc is typically compiled using a C compiler, this is not defined
+			PublicDefinitions.Add("__STDC_VERSION__=201112L");
 		}
 	}
 }

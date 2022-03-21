@@ -4,14 +4,17 @@ using UnrealBuildTool;
 
 public class rclUE : ModuleRules
 {
-	private string ROS2InstallPath
+	private string[] ROS2InstallPath
 	{
 		get { 
+			if (Environment.GetEnvironmentVariables().Contains("AMENT_PREFIX_PATH")) {
+				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH").Split(":");
+			} 
 			if (Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH")) {
-				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH");
-			} else {
-				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH");
+				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH").Split(":");
 			}
+
+			return new String[] {};
 		}
 	}
 
@@ -32,29 +35,35 @@ public class rclUE : ModuleRules
 									 "rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
 									 "rclc", "rclc_lifecycle" };
 
-		if (target.Platform == UnrealTargetPlatform.Linux) {
-			if (!IsRosMergedBuild(ROS2InstallPath))
+		/*if (target.Platform == UnrealTargetPlatform.Linux) {
+			foreach (string installPath in ROS2InstallPath)
 			{
 				foreach (var pkg in rosPackages)
 				{
-					PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, pkg, "include"));
-				}
-			} else {
-				PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, "include"));
-
-				// hack to get around the change in include paths in some packages
-				foreach (var pkg in rosPackages)
-				{
-					if (Directory.Exists(Path.Combine(ROS2InstallPath, "include", pkg, pkg)))
+					if (!IsRosMergedBuild(installPath))
 					{
-						PublicIncludePaths.Add(Path.Combine(ROS2InstallPath, "include", pkg));
+						PublicIncludePaths.Add(Path.Combine(installPath, pkg, "include"));
+					}
+					else
+					{
+						PublicIncludePaths.Add(Path.Combine(installPath, "include"));
+
+						// hack to get around the change in include paths in some packages
+						foreach (var pkg in rosPackages)
+						{
+							if (Directory.Exists(Path.Combine(installPath, "include", pkg, pkg)))
+							{
+								PublicIncludePaths.Add(Path.Combine(installPath, "include", pkg));
+							}
+						}
 					}
 				}
 			}
 
+
 			// Because rclc is typically compiled using a C compiler, this is not defined
 			PublicDefinitions.Add("__STDC_VERSION__=201112L");
-		}
+		}*/
 
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory, "Public"));
 
