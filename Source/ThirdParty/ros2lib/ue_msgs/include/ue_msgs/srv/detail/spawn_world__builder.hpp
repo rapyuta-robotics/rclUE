@@ -20,16 +20,32 @@ namespace srv
 namespace builder
 {
 
-class Init_SpawnWorld_Request_state
+class Init_SpawnWorld_Request_pose
 {
 public:
-  explicit Init_SpawnWorld_Request_state(::ue_msgs::srv::SpawnWorld_Request & msg)
+  explicit Init_SpawnWorld_Request_pose(::ue_msgs::srv::SpawnWorld_Request & msg)
   : msg_(msg)
   {}
-  ::ue_msgs::srv::SpawnWorld_Request state(::ue_msgs::srv::SpawnWorld_Request::_state_type arg)
+  ::ue_msgs::srv::SpawnWorld_Request pose(::ue_msgs::srv::SpawnWorld_Request::_pose_type arg)
   {
-    msg_.state = std::move(arg);
+    msg_.pose = std::move(arg);
     return std::move(msg_);
+  }
+
+private:
+  ::ue_msgs::srv::SpawnWorld_Request msg_;
+};
+
+class Init_SpawnWorld_Request_world_instance_name
+{
+public:
+  explicit Init_SpawnWorld_Request_world_instance_name(::ue_msgs::srv::SpawnWorld_Request & msg)
+  : msg_(msg)
+  {}
+  Init_SpawnWorld_Request_pose world_instance_name(::ue_msgs::srv::SpawnWorld_Request::_world_instance_name_type arg)
+  {
+    msg_.world_instance_name = std::move(arg);
+    return Init_SpawnWorld_Request_pose(msg_);
   }
 
 private:
@@ -42,10 +58,10 @@ public:
   Init_SpawnWorld_Request_world_model()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_SpawnWorld_Request_state world_model(::ue_msgs::srv::SpawnWorld_Request::_world_model_type arg)
+  Init_SpawnWorld_Request_world_instance_name world_model(::ue_msgs::srv::SpawnWorld_Request::_world_model_type arg)
   {
     msg_.world_model = std::move(arg);
-    return Init_SpawnWorld_Request_state(msg_);
+    return Init_SpawnWorld_Request_world_instance_name(msg_);
   }
 
 private:

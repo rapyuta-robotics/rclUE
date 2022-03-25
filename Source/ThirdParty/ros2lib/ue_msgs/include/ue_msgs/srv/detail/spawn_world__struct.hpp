@@ -15,8 +15,8 @@
 
 
 // Include directives for member types
-// Member 'state'
-#include "ue_msgs/msg/detail/entity_state__struct.hpp"
+// Member 'pose'
+#include "geometry_msgs/msg/detail/pose__struct.hpp"
 
 #ifndef _WIN32
 # define DEPRECATED__ue_msgs__srv__SpawnWorld_Request __attribute__((deprecated))
@@ -37,23 +37,26 @@ struct SpawnWorld_Request_
   using Type = SpawnWorld_Request_<ContainerAllocator>;
 
   explicit SpawnWorld_Request_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-  : state(_init)
+  : pose(_init)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->world_model = "";
+      this->world_instance_name = "";
     }
   }
 
   explicit SpawnWorld_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : world_model(_alloc),
-    state(_alloc, _init)
+    world_instance_name(_alloc),
+    pose(_alloc, _init)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->world_model = "";
+      this->world_instance_name = "";
     }
   }
 
@@ -61,9 +64,12 @@ struct SpawnWorld_Request_
   using _world_model_type =
     std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>;
   _world_model_type world_model;
-  using _state_type =
-    ue_msgs::msg::EntityState_<ContainerAllocator>;
-  _state_type state;
+  using _world_instance_name_type =
+    std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>;
+  _world_instance_name_type world_instance_name;
+  using _pose_type =
+    geometry_msgs::msg::Pose_<ContainerAllocator>;
+  _pose_type pose;
 
   // setters for named parameter idiom
   Type & set__world_model(
@@ -72,10 +78,16 @@ struct SpawnWorld_Request_
     this->world_model = _arg;
     return *this;
   }
-  Type & set__state(
-    const ue_msgs::msg::EntityState_<ContainerAllocator> & _arg)
+  Type & set__world_instance_name(
+    const std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other> & _arg)
   {
-    this->state = _arg;
+    this->world_instance_name = _arg;
+    return *this;
+  }
+  Type & set__pose(
+    const geometry_msgs::msg::Pose_<ContainerAllocator> & _arg)
+  {
+    this->pose = _arg;
     return *this;
   }
 
@@ -124,7 +136,10 @@ struct SpawnWorld_Request_
     if (this->world_model != other.world_model) {
       return false;
     }
-    if (this->state != other.state) {
+    if (this->world_instance_name != other.world_instance_name) {
+      return false;
+    }
+    if (this->pose != other.pose) {
       return false;
     }
     return true;

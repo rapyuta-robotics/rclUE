@@ -20,22 +20,22 @@ void UROS2SpawnWorldSrv::Fini()
     ue_msgs__srv__SpawnWorld_Response__fini(&SpawnWorld_res);
 }
 
-void UROS2SpawnWorldSrv::SetRequest(const FROS2SpawnWorldRequest& Request)
+void UROS2SpawnWorldSrv::SetRequest(const FROSSpawnWorldRequest& Request)
 {
     Request.SetROS2(SpawnWorld_req);
 }
 
-void UROS2SpawnWorldSrv::GetRequest(FROS2SpawnWorldRequest& Request) const
+void UROS2SpawnWorldSrv::GetRequest(FROSSpawnWorldRequest& Request) const
 {
     Request.SetFromROS2(SpawnWorld_req);
 }
 
-void UROS2SpawnWorldSrv::SetResponse(const FROS2SpawnWorldResponse& Response)
+void UROS2SpawnWorldSrv::SetResponse(const FROSSpawnWorldResponse& Response)
 {
     Response.SetROS2(SpawnWorld_res);
 }
 
-void UROS2SpawnWorldSrv::GetResponse(FROS2SpawnWorldResponse& Response) const
+void UROS2SpawnWorldSrv::GetResponse(FROSSpawnWorldResponse& Response) const
 {
     Response.SetFromROS2(SpawnWorld_res);
 }

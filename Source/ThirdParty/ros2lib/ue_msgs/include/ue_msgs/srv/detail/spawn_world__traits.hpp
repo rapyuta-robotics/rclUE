@@ -11,8 +11,8 @@
 #include <type_traits>
 
 // Include directives for member types
-// Member 'state'
-#include "ue_msgs/msg/detail/entity_state__traits.hpp"
+// Member 'pose'
+#include "geometry_msgs/msg/detail/pose__traits.hpp"
 
 namespace rosidl_generator_traits
 {

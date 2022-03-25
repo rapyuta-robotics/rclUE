@@ -19,15 +19,17 @@ extern "C"
 
 // Include directives for member types
 // Member 'world_model'
+// Member 'world_instance_name'
 #include "rosidl_runtime_c/string.h"
-// Member 'state'
-#include "ue_msgs/msg/detail/entity_state__struct.h"
+// Member 'pose'
+#include "geometry_msgs/msg/detail/pose__struct.h"
 
 // Struct defined in srv/SpawnWorld in the package ue_msgs.
 typedef struct ue_msgs__srv__SpawnWorld_Request
 {
   rosidl_runtime_c__String world_model;
-  ue_msgs__msg__EntityState state;
+  rosidl_runtime_c__String world_instance_name;
+  geometry_msgs__msg__Pose pose;
 } ue_msgs__srv__SpawnWorld_Request;
 
 // Struct for a sequence of ue_msgs__srv__SpawnWorld_Request.
