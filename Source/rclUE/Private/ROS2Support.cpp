@@ -14,7 +14,7 @@ void UROS2Support::Init()
 {
     allocator = rcl_get_default_allocator();
 
-    RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
+    RCHARDCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
 }
 
 void UROS2Support::RegisterNode(AROS2Node* node) {

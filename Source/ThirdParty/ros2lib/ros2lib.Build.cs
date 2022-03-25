@@ -2,33 +2,36 @@
 
 using System;
 using System.IO;
+using Tools.DotNETCommon;
 using UnrealBuildTool;
+using System.Collections.Generic;
 
 public class ros2lib : ModuleRules
 {
-	private string ROS2InstallPath
+	private List<string> ROS2InstallPaths()
 	{
-		get { 
-			if (Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH")) {
-				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH");
-			} else {
-				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH");
+		List<string> envs = new List<String>();
+	    
+		if (Environment.GetEnvironmentVariables().Contains("AMENT_PREFIX_PATH")) {
+			foreach (string e in Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH").Split(":"))
+			{
+				if (File.Exists(Path.Combine(e, "local_setup.sh")) && !envs.Contains(e))
+				{
+					envs.Add(e);
+				}
+			}
+		} 
+		if (Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH")) {
+			foreach (string e in Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH").Split(":"))
+			{
+				if (File.Exists(Path.Combine(e, "local_setup.sh")) && !envs.Contains(e))
+				{
+					envs.Add(e);
+				}
 			}
 		}
-	}
 
-	private string[] ROS2InstallPaths
-	{
-		get { 
-			if (Environment.GetEnvironmentVariables().Contains("AMENT_PREFIX_PATH")) {
-				return Environment.GetEnvironmentVariable("AMENT_PREFIX_PATH").Split(":");
-			} 
-			if (Environment.GetEnvironmentVariables().Contains("COLCON_PREFIX_PATH")) {
-				return Environment.GetEnvironmentVariable("COLCON_PREFIX_PATH").Split(":");
-			}
-
-			return new string[] {};
-		}
+		return envs;
 	}
 	
 	private static bool IsRosMergedBuild(string installPath)
@@ -37,66 +40,65 @@ public class ros2lib : ModuleRules
 		       Directory.Exists(Path.Combine(installPath, "lib"));
 	}
 
-	private void AddROSInclude(string pkg)
+	private void AddROSInclude(string pkg, string installPath)
 	{
-		foreach (string installPath in ROS2InstallPaths)
+		if (!IsRosMergedBuild(installPath))
 		{
-			if (!IsRosMergedBuild(installPath))
+			// hack to get around the change in include paths in some packages
+			if (Directory.Exists(Path.Combine(installPath, pkg, "include", pkg, pkg)))
 			{
-				if (Directory.Exists(Path.Combine(installPath, pkg)))
-				{
-					PublicIncludePaths.Add(Path.Combine(installPath, pkg, "include"));					
-				}
-			}
-			else
-			{
-				if (!PublicIncludePaths.Contains(Path.Combine(installPath, "include"))) {
-				    PublicIncludePaths.Add(Path.Combine(installPath, "include"));
+				PublicSystemIncludePaths.Add(Path.Combine(installPath, pkg, "include", pkg));
+			} else {
+                if (Directory.Exists(Path.Combine(installPath, pkg, "include")))
+                {
+                    PublicSystemIncludePaths.Insert(0, Path.Combine(installPath, pkg, "include"));
                 }
-
-				// hack to get around the change in include paths in some packages
-				if (Directory.Exists(Path.Combine(installPath, "include", pkg, pkg)))
-				{
-					PublicIncludePaths.Add(Path.Combine(installPath, "include", pkg));
-				}
+			}
+		}
+		else
+		{
+			// hack to get around the change in include paths in some packages
+			if (Directory.Exists(Path.Combine(installPath, "include", pkg, pkg)))
+			{
+				PublicSystemIncludePaths.Add(Path.Combine(installPath, "include", pkg));
 			}
 
+			if (!PublicSystemIncludePaths.Contains(Path.Combine(installPath, "include"))) {
+				PublicSystemIncludePaths.Add(Path.Combine(installPath, "include"));
+			}
 		}
 	}
 
-	private void AddROSPackageLib(string pkg)
+	private void AddROSPackageLib(string pkg, string installPath)
 	{
-		foreach (string installPath in ROS2InstallPaths)
+		if (!IsRosMergedBuild(installPath))
 		{
-			if (!IsRosMergedBuild(installPath))
+			var librariesPath = Path.Combine(installPath, pkg, "lib");
+
+			if (Directory.Exists(librariesPath))
 			{
-				var librariesPath = Path.Combine(installPath, pkg, "lib");
+				PublicSystemLibraryPaths.Add(librariesPath);
+				var libs = Directory.EnumerateFiles(librariesPath, "*.so", SearchOption.TopDirectoryOnly);
 
-				if (Directory.Exists(librariesPath))
+				foreach (var libName in libs)
 				{
-					PublicRuntimeLibraryPaths.Add(librariesPath);
-					var libs = Directory.EnumerateFiles(librariesPath, "*.so", SearchOption.TopDirectoryOnly);
-
-					foreach (var libName in libs)
-					{
-						PublicAdditionalLibraries.Add(libName);
-						RuntimeDependencies.Add(libName);
-					}
+					PublicSystemLibraries.Add(libName);
+					// RuntimeDependencies.Add(libName);
 				}
-			} else {
-				var librariesPath = Path.Combine(installPath, "lib");
-				if (!PublicRuntimeLibraryPaths.Contains(librariesPath))
-				{
-					PublicRuntimeLibraryPaths.Add(librariesPath);					
-				}
+			}
+		} else {
+			var librariesPath = Path.Combine(installPath, "lib");
+			if (!PublicSystemLibraryPaths.Contains(librariesPath))
+			{
+				PublicSystemLibraryPaths.Add(librariesPath);
+			}
 
-				var libs = Directory.EnumerateFiles(librariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
+			var libs = Directory.EnumerateFiles(librariesPath, "*" + pkg + "*.so", SearchOption.TopDirectoryOnly);
 
-				foreach (var libFilename in libs)
-				{
-					PublicAdditionalLibraries.Add(libFilename);
-					RuntimeDependencies.Add(libFilename);
-				}
+			foreach (var libFilename in libs)
+			{
+				PublicSystemLibraries.Add(libFilename);
+				// RuntimeDependencies.Add(libFilename);
 			}
 		}
 	}
@@ -116,11 +118,22 @@ public class ros2lib : ModuleRules
 
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			foreach (var pkg in rosPackages)
+			var rosPaths = ROS2InstallPaths();
+			if (rosPaths.Count == 0)
 			{
-				AddROSPackageLib(pkg);
-				AddROSInclude(pkg);
+				Log.TraceError("No ROS2 workspaces were detected.");
 			}
+			foreach (string rosPath in rosPaths)
+			{
+				Log.TraceInformation("Found ROS2 workspace: " + rosPath);
+
+				foreach (var pkg in rosPackages)
+				{
+					AddROSPackageLib(pkg, rosPath);
+					AddROSInclude(pkg, rosPath);
+				}
+			}
+
 			// Because rclc is typically compiled using a C compiler, this is not defined
 			PublicDefinitions.Add("__STDC_VERSION__=201112L");
 		}

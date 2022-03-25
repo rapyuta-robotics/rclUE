@@ -58,6 +58,17 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
         }                                                                           \
     }
 
+// this macro can be used on rcl functions that return an error code
+#define RCHARDCHECK(fn)                                                             \
+{                                                                               \
+rcl_ret_t temp_rc = fn;                                                     \
+if ((temp_rc != RCL_RET_OK))                                                \
+{                                                                           \
+RC_UE_LOG(temp_rc) \
+check(temp_rc == 0);                                                     \
+}                                                                           \
+}
+
 // used to add states to classes (e.g. to avoid double initializations)
 UENUM()
 enum class UROS2State : uint8
