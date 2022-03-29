@@ -20,22 +20,22 @@ void UROS2SpawnEntitySrv::Fini()
     ue_msgs__srv__SpawnEntity_Response__fini(&SpawnEntity_res);
 }
 
-void UROS2SpawnEntitySrv::SetRequest(const FROSSpawnEntity_Request& Request)
+void UROS2SpawnEntitySrv::SetRequest(const FROSSpawnEntityRequest& Request)
 {
     Request.SetROS2(SpawnEntity_req);
 }
 
-void UROS2SpawnEntitySrv::GetRequest(FROSSpawnEntity_Request& Request) const
+void UROS2SpawnEntitySrv::GetRequest(FROSSpawnEntityRequest& Request) const
 {
     Request.SetFromROS2(SpawnEntity_req);
 }
 
-void UROS2SpawnEntitySrv::SetResponse(const FROSSpawnEntity_Response& Response)
+void UROS2SpawnEntitySrv::SetResponse(const FROSSpawnEntityResponse& Response)
 {
     Response.SetROS2(SpawnEntity_res);
 }
 
-void UROS2SpawnEntitySrv::GetResponse(FROSSpawnEntity_Response& Response) const
+void UROS2SpawnEntitySrv::GetResponse(FROSSpawnEntityResponse& Response) const
 {
     Response.SetFromROS2(SpawnEntity_res);
 }
@@ -53,13 +53,13 @@ void* UROS2SpawnEntitySrv::GetResponse()
 FString UROS2SpawnEntitySrv::SrvRequestToString() const
 {
     /* TODO: Fill here */
-	checkNoEntry();
+    checkNoEntry();
     return FString();
 }
 
 FString UROS2SpawnEntitySrv::SrvResponseToString() const
 {
     /* TODO: Fill here */
-	checkNoEntry();
+    checkNoEntry();
     return FString();
 }
