@@ -6,17 +6,17 @@
 
 void UROS2StringMsg::Init()
 {
-    std_msgs__msg__String__init(&string_pub_msg);
+    example_interfaces__msg__String__init(&string_pub_msg);
 }
 
 void UROS2StringMsg::Fini()
 {
-    std_msgs__msg__String__fini(&string_pub_msg);
+    example_interfaces__msg__String__fini(&string_pub_msg);
 }
 
 const rosidl_message_type_support_t* UROS2StringMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, String);
+    return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, String);
 }
 
 void UROS2StringMsg::Update(const FString& stringData)

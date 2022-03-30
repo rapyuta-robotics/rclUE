@@ -5,7 +5,7 @@
 #include <CoreMinimal.h>
 #include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
-#include <std_msgs/msg/string.h>
+#include "example_interfaces/msg/string.h"
 
 #include "ROS2StringMsg.generated.h"
 
@@ -31,5 +31,5 @@ public:
 	virtual FString MsgToString() const override;
 	
 private:
-	std_msgs__msg__String string_pub_msg;
+	example_interfaces__msg__String string_pub_msg;
 };
