@@ -18,42 +18,42 @@ struct RCLUE_API FROSSpawnWorldRequest
 
 public:
     UPROPERTY()
-    FString WorldModelName;
+    FString WorldModel;
 
     UPROPERTY()
-    FString WorldActorName;
+    FString WorldInstanceName;
 
     UPROPERTY()
-    double PositionX = 0.f;
+    double PosePositionX = 0;
     UPROPERTY()
-    double PositionY = 0.f;
+    double PosePositionY = 0;
     UPROPERTY()
-    double PositionZ = 0.f;
+    double PosePositionZ = 0;
 
     UPROPERTY()
-    FQuat Orientation = FQuat::Identity;
+    FQuat PoseOrientation = FQuat::Identity;
 
     void SetFromROS2(const ue_msgs__srv__SpawnWorld_Request& in_ros_data)
     {
-        WorldModelName.AppendChars(in_ros_data.world_model.data, in_ros_data.world_model.size);
+        WorldModel.AppendChars(in_ros_data.world_model.data, in_ros_data.world_model.size);
 
-        WorldActorName.AppendChars(in_ros_data.world_instance_name.data, in_ros_data.world_instance_name.size);
+        WorldInstanceName.AppendChars(in_ros_data.world_instance_name.data, in_ros_data.world_instance_name.size);
 
-        PositionX = in_ros_data.pose.position.x;
-        PositionY = in_ros_data.pose.position.y;
-        PositionZ = in_ros_data.pose.position.z;
+        PosePositionX = in_ros_data.pose.position.x;
+        PosePositionY = in_ros_data.pose.position.y;
+        PosePositionZ = in_ros_data.pose.position.z;
 
-        Orientation.X = in_ros_data.pose.orientation.x;
-        Orientation.Y = in_ros_data.pose.orientation.y;
-        Orientation.Z = in_ros_data.pose.orientation.z;
-        Orientation.W = in_ros_data.pose.orientation.w;
+        PoseOrientation.X = in_ros_data.pose.orientation.x;
+        PoseOrientation.Y = in_ros_data.pose.orientation.y;
+        PoseOrientation.Z = in_ros_data.pose.orientation.z;
+        PoseOrientation.W = in_ros_data.pose.orientation.w;
     }
 
     void SetROS2(ue_msgs__srv__SpawnWorld_Request& out_ros_data) const
     {
         // world_model
         {
-            FTCHARToUTF8 strUtf8(*WorldModelName);
+            FTCHARToUTF8 strUtf8(*WorldModel);
             int32 strLength = strUtf8.Length();
             if (out_ros_data.world_model.data != nullptr)
             {
@@ -61,14 +61,14 @@ public:
             }
             out_ros_data.world_model.data =
                 (decltype(out_ros_data.world_model.data))malloc((strLength + 1) * sizeof(decltype(*out_ros_data.world_model.data)));
-            memcpy(out_ros_data.world_model.data, TCHAR_TO_UTF8(*WorldModelName), (strLength + 1) * sizeof(char));
+            memcpy(out_ros_data.world_model.data, TCHAR_TO_UTF8(*WorldModel), (strLength + 1) * sizeof(char));
             out_ros_data.world_model.size = strLength;
             out_ros_data.world_model.capacity = strLength + 1;
         }
 
         // world_instance_name
         {
-            FTCHARToUTF8 strUtf8(*WorldActorName);
+            FTCHARToUTF8 strUtf8(*WorldInstanceName);
             int32 strLength = strUtf8.Length();
             if (out_ros_data.world_instance_name.data != nullptr)
             {
@@ -76,19 +76,19 @@ public:
             }
             out_ros_data.world_instance_name.data = (decltype(out_ros_data.world_instance_name.data))malloc(
                 (strLength + 1) * sizeof(decltype(*out_ros_data.world_instance_name.data)));
-            memcpy(out_ros_data.world_instance_name.data, TCHAR_TO_UTF8(*WorldActorName), (strLength + 1) * sizeof(char));
+            memcpy(out_ros_data.world_instance_name.data, TCHAR_TO_UTF8(*WorldInstanceName), (strLength + 1) * sizeof(char));
             out_ros_data.world_instance_name.size = strLength;
             out_ros_data.world_instance_name.capacity = strLength + 1;
         }
 
-        out_ros_data.pose.position.x = PositionX;
-        out_ros_data.pose.position.y = PositionY;
-        out_ros_data.pose.position.z = PositionZ;
+        out_ros_data.pose.position.x = PosePositionX;
+        out_ros_data.pose.position.y = PosePositionY;
+        out_ros_data.pose.position.z = PosePositionZ;
 
-        out_ros_data.pose.orientation.x = Orientation.X;
-        out_ros_data.pose.orientation.y = Orientation.Y;
-        out_ros_data.pose.orientation.z = Orientation.Z;
-        out_ros_data.pose.orientation.w = Orientation.W;
+        out_ros_data.pose.orientation.x = PoseOrientation.X;
+        out_ros_data.pose.orientation.y = PoseOrientation.Y;
+        out_ros_data.pose.orientation.z = PoseOrientation.Z;
+        out_ros_data.pose.orientation.w = PoseOrientation.W;
     }
 };
 
