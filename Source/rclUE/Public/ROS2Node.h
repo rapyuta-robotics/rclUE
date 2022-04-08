@@ -79,15 +79,28 @@ public:
     bool Ready = false;
 };
 
+//!  AROS2Node. 
+/*!
+    ROS2 Node class
+*/
 UCLASS(Blueprintable)
 class RCLUE_API AROS2Node : public AActor
 {
     GENERATED_BODY()
 
 public:
+    //! A constructor.
+    /*!
+      Constructor
+    */
     AROS2Node();
 
 protected:
+    //! 
+    /*!
+      \param EndPlayReason an integer argument.
+      \sa [Unreal Engine Doc](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Engine/GameFramework/AActor/EndPlay/)
+    */
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:

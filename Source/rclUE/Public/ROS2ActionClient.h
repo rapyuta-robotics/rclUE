@@ -12,6 +12,10 @@
 
 #include "ROS2ActionClient.generated.h"
 
+//!  UROS2ActionClient. 
+/*!
+    ROS2 Action Client class
+*/
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionClient : public UROS2Action
 {

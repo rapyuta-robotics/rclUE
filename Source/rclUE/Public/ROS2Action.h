@@ -1,7 +1,9 @@
 // Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
-// Base class implementing ROS2 actions from which ActionServer and ActionClient should inherit
-// type of action is defined by ActionClass
+/**
+ * Base class implementing ROS2 actions from which ActionServer and ActionClient should inherit
+ * type of action is defined by ActionClass
+ */
 
 #pragma once
 
@@ -14,6 +16,10 @@
 #include "ROS2Action.generated.h"
 
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+//!  UROS2Action. 
+/*!
+    ROS2 Action class
+*/
 class RCLUE_API UROS2Action : public UActorComponent
 {
     GENERATED_BODY()

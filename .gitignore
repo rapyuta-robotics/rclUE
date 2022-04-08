@@ -39,7 +39,6 @@
 *.workspace
 *.code-workspace
 *.kdev4
-Makefile
 CMakeLists.txt
 SimulaTOR/SimulaTORCode*.txt
 
@@ -50,3 +49,5 @@ Intermediate/*
 !*/ThirdParty/**/*.so
 
 *_BuiltData.uasset
+
+docs/source/_build
