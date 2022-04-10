@@ -15,11 +15,17 @@
 
 #include "ROS2Action.generated.h"
 
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 //!  UROS2Action. 
 /*!
-    ROS2 Action class
+ * ROS2 Action class
+ 
+ * test comment
+
+ * test comment2
+
+ * test comment3
 */
+UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent)
 class RCLUE_API UROS2Action : public UActorComponent
 {
     GENERATED_BODY()

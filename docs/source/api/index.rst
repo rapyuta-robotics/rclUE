@@ -4,6 +4,5 @@ API
 ===
 
 .. toctree::
-
     cpp
     bp

@@ -108,7 +108,7 @@ public:
     virtual void Tick(float DeltaTime) override;
 
 public:
-    // must be called before using
+    //! must be called before using
     UFUNCTION(BlueprintCallable)
     void Init();
 
