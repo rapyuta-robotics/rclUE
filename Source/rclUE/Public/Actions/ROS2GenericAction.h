@@ -9,7 +9,7 @@
 #include "ROS2GenericAction.generated.h"
 
 /**
- * This should be refactored with other generic ROS2 types (Msgs, Sensors, Actions)
+ * @brief This should be refactored with other generic ROS2 types (Msgs, Sensors, Actions)
  * Need to have a common class
  * Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
  */
