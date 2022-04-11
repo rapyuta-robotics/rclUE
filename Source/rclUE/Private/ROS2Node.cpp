@@ -33,6 +33,7 @@ void AROS2Node::BeginPlay()
 
 void AROS2Node::BringDown()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("AROS2Node::BringDown")
     UE_LOG(LogROS2Node, Verbose, TEXT("[%s] Bring Down start"), *GetName());
 
     for (auto& s : Subscribers)
@@ -96,6 +97,7 @@ void AROS2Node::Tick(float DeltaTime)
 // TODO Move the rclc stuff to Subsystem
 void AROS2Node::Init()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("AROS2Node::Init")
     if (State == UROS2State::Created)
     {
         UE_LOG(LogROS2Node, Verbose, TEXT("[%s] Initialising"), *GetName());
@@ -283,6 +285,7 @@ void AROS2Node::AddActionServer(UROS2ActionServer* InActionServer)
 
 void AROS2Node::HandleSubscribers()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("AROS2Node::HandleSubscribers")
     for (auto i = 0; i < wait_set.size_of_subscriptions; i++)
     {
         if (wait_set.subscriptions[i])
@@ -326,6 +329,7 @@ void AROS2Node::HandleSubscribers()
 
 void AROS2Node::HandleServices()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("AROS2Node::HandleServices")
     for (auto i = 0; i < wait_set.size_of_services; i++)
     {
         if (wait_set.services[i])
@@ -409,6 +413,7 @@ void AROS2Node::InvalidateWaitSet() {
 
 void AROS2Node::SpinSome()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("AROS2Node::SpinSome")
     {
         FScopeLock lock(GetMutex());
 

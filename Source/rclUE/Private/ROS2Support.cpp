@@ -12,6 +12,7 @@ rclc_support_t& UROS2Support::Get()
 
 void UROS2Support::Init()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Support::Init")
     allocator = rcl_get_default_allocator();
 
     RCHARDCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
@@ -23,6 +24,7 @@ void UROS2Support::RegisterNode(AROS2Node* node) {
 
 void UROS2Support::Fini()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Support::Fini")
     // UE_LOG(LogROS2Support, Log, TEXT("[%s] ROS2Support tearing down nodes..."), *GetName());
     // for (auto* n : Nodes)
     //     if (IsValid(n))

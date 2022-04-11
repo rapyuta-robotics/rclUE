@@ -17,6 +17,7 @@ UROS2Publisher::UROS2Publisher()
 
 void UROS2Publisher::Init()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Publisher::Init")
     UE_LOG(LogROS2Publisher, Verbose, TEXT("[%s] Initialising"), *GetName());
 
     if (!IsValid(ROSNode)) {
@@ -85,6 +86,7 @@ void UROS2Publisher::Destroy()
 
 void UROS2Publisher::UpdateAndPublishMessage()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Publisher::UpdateAndPublishMessage")
     if(State != UROS2State::Initialized)
     {
         UE_LOG(LogROS2Publisher, Error, TEXT("[%s] Update and Publish called when publisher has not been initialised."), *GetName());
@@ -104,6 +106,7 @@ void UROS2Publisher::UpdateAndPublishMessage()
 
 void UROS2Publisher::Publish()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Publisher::Publish")
     if(State != UROS2State::Initialized)
     {
         UE_LOG(LogROS2Publisher, Error, TEXT("[%s] Publish called when publisher has not been initialised."), *GetName());
@@ -117,15 +120,17 @@ void UROS2Publisher::Publish()
     }
 }
 
+// this is an attempt to create a inheritance based publish msg to clean up blueprints and the need for casting
 void UROS2Publisher::PublishMsg(UROS2GenericMsg* Message)
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Publisher::PublishMsg")
     if(State != UROS2State::Initialized)
     {
         UE_LOG(LogROS2Publisher, Error, TEXT("[%s] PublishMsg called when publisher has not been initialised."), *GetName());
         return;
     }
 
-    if(!IsValid(Message)) //if(!Message.IsValid())
+    if(!IsValid(Message))
     {
         UE_LOG(LogROS2Publisher, Error, TEXT("[%s] PublishMsg called with invalid Message parameter."), *GetName());
         return;

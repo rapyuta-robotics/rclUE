@@ -14,6 +14,7 @@ UROS2Subscriber::UROS2Subscriber()
 
 void UROS2Subscriber::Init()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Subscriber::Init")
     if (State == UROS2State::Initialized) {
         UE_LOG(LogROS2Subscriber, Error, TEXT("[%s] Initialise called when already initialised"), *GetName());
         return;

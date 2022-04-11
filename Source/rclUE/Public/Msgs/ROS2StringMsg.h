@@ -22,7 +22,8 @@ public:
 	virtual void Fini() override;
 
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
-	
+
+	// TODO - this should be SetMsg like the rest of them
   	UFUNCTION(BlueprintCallable)
 	void Update(const FString &stringData);
 

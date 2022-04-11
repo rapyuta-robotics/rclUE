@@ -46,6 +46,7 @@ bool UROS2Subsystem::ShouldCreateSubsystem(UObject* Outer) const
 
 void UROS2Subsystem::Initialize(FSubsystemCollectionBase& Collection)
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Subsystem::Initialize")
     Super::Initialize(Collection);
 
     Support = NewObject<UROS2Support>();
@@ -62,6 +63,7 @@ void UROS2Subsystem::Initialize(FSubsystemCollectionBase& Collection)
 
 void UROS2Subsystem::Deinitialize()
 {
+    TRACE_CPUPROFILER_EVENT_SCOPE_STR("UROS2Subsystem::Deinitialize")
     Support->Fini();
     Super::Deinitialize();
 }
