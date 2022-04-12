@@ -14,6 +14,9 @@ UE_MACROS = {
 
 with open(sys.argv[1], 'r') as f:
     for line in f:
+        if line.lstrip().startswith('GENERATED_BODY()'): #skip GENERATED_BODY()
+            continue
+        line = line.replace('UMETA', ', //! UMETA') #convevrt UMETA to comment
         for key in UE_MACROS:
             if line.lstrip().startswith(key):
                 line = '''
