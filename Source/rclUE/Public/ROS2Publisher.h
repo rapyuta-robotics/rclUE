@@ -8,6 +8,7 @@
 #include <Components/ActorComponent.h>
 #include <CoreMinimal.h>
 #include <ROS2Node.h>
+#include "Async/Async.h"
 
 #include "ROS2Publisher.generated.h"
 
@@ -95,7 +96,7 @@ protected:
     void Publish();
 
     UFUNCTION(BlueprintCallable)
-    void PublishMsg(UROS2GenericMsg* Message);
+    void PublishMsg(UROS2GenericMsg* Message, bool async=false);
 
     UPROPERTY(BlueprintReadOnly)
     UROS2GenericMsg* TopicMessage;
@@ -108,4 +109,7 @@ protected:
     const void* PublishedMsg = nullptr;
 
     rcl_publisher_t RclPublisher;
+
+private:
+    TFuture<void> AsyncPublisherFuture;
 };

@@ -7,6 +7,7 @@
 #include "geometry_msgs/msg/quaternion.h"
 #include "geographic_msgs/msg/geo_point.h"
 #include "builtin_interfaces/msg/time.h"
+#include "Msgs/ROS2TimeMsg.h"
 
 // builtin_interfaces__msg__Time --> FDateTime ???
 
@@ -80,6 +81,13 @@ namespace UEToROS2Msg
 	}
 
 	inline void SetTime(const FDateTime& in, builtin_interfaces__msg__Time& out)
+	{
+		FTimespan delta = in - FDateTime(1970, 1, 1);
+		out.sec = delta.GetTotalSeconds();
+		out.nanosec = delta.GetFractionNano();
+	}
+
+	inline void SetTime(const FDateTime& in, FROSTime& out)
 	{
 		FTimespan delta = in - FDateTime(1970, 1, 1);
 		out.sec = delta.GetTotalSeconds();
