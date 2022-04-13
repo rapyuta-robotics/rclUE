@@ -1,4 +1,12 @@
-// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
+/**
+ * @file ROS2ActionClient.h
+ * @brief Class implementing ROS2 action clients. 
+ * Wrapper class of rclc action client. 
+ * Callbacks are set through the SetDelegates method
+ * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
+ * 
+ */
+
 
 #pragma once
 

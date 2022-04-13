@@ -1,4 +1,9 @@
-// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
+/**
+ * @file ROS2Action.h
+ * @brief Base class implementing ROS2 actions from which ActionServer and ActionClient should inherit
+ * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
+ * 
+ */
 
 #pragma once
 

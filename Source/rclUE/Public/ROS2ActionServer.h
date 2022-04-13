@@ -1,7 +1,11 @@
-// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
-
-// Class implementing ROS2 action servers
-// Callbacks are set through the SetDelegates method
+/**
+ * @file ROS2ActionServer.h
+ * @brief   Class implementing ROS2 action servers.
+ * Wrapper class of rclc action server.
+ * Callbacks are set through the SetDelegates method.
+ * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
+ * 
+ */
 
 #pragma once
 
