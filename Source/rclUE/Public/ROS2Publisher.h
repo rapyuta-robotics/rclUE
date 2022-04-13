@@ -61,7 +61,7 @@ public:
     void Init(const TEnumAsByte<UROS2QoS> QoS);
 
     /**
-     * @brief Create Msg instance and initialize.
+     * @brief Create Msg instance and initialize it.
      * 
      */
     UFUNCTION(BlueprintCallable)
