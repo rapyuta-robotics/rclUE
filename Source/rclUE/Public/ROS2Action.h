@@ -70,11 +70,11 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     UROS2GenericAction* Action; 
 
-    //! Ower ROS2Node
+    //! ROS2Node which own this action.
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     AROS2Node* OwnerNode;
 
-    //! Action state
+    //! Action state 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TEnumAsByte<UROS2State> State = UROS2State::Created; 
 
