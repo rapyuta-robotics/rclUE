@@ -16,6 +16,7 @@ read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
     #sys.path.append( "/usr/local/lib/python3.9/site-packages/breathe/" )
 
 # -- Doxygen and breath
+subprocess.call('ln -s ../../README.md README.md;', shell=True)
 subprocess.call('mkdir -p _build/html/; cd ..; doxygen', shell=True)
 breathe_projects = { "rclUE": "_build/html/doxygen_generated/xml" }
 # breathe_projects_source = {
@@ -43,7 +44,8 @@ extensions = [
     'sphinx.ext.imgmath', 
     'sphinx.ext.todo', 
     'breathe', 
-    "sphinx.ext.graphviz"
+    'sphinx.ext.graphviz',
+    'myst_parser'
 ]
 
 intersphinx_mapping = {
@@ -62,3 +64,8 @@ html_theme = 'sphinx_rtd_theme'
 epub_show_urls = 'footnote'
 
 # html_extra_path = ['../html']
+
+source_suffix = {
+    '.rst': 'restructuredtext',
+    '.md': 'markdown',
+}
