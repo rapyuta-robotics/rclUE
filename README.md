@@ -1,7 +1,5 @@
 # Basic information
 
-[Online Documentation](https://rclue.readthedocs.io/en/yu_doxygen/)
-
 ## Supported versions
 
 - Ubuntu 20.04
