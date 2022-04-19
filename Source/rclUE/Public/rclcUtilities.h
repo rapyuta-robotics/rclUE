@@ -32,12 +32,11 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
         if ((temp_rc != RCL_RET_OK))                                                \
         {                                                                           \
             UE_LOG(LogTemp,                                                         \
-                   Error,                                                           \
+                   Warning,                                                           \
                    TEXT("Failed status on line %d (function %s): %d. Continuing."), \
                    __LINE__,                                                        \
                    *FString(__FUNCTION__),                                          \
                    (int)temp_rc);                                                   \
-            check(temp_rc == 0)                                                     \
         }                                                                           \
     }
 
