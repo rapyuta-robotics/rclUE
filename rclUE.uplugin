@@ -1,33 +1,43 @@
 {
-	"FileVersion": 3,
-	"Version": 1,
-	"VersionName": "1.0",
-	"FriendlyName": "rclUE",
-	"Description": "ROS2 rclc interface for UE",
-	"Category": "Robotics",
-	"CreatedBy": "Rapyuta Robotics, Greenroom Robotics",
-	"CreatedByURL": "https://github.com/Greenroom-Robotics/rclUE",
-	"DocsURL": "",
-	"MarketplaceURL": "",
-	"SupportURL": "",
-	"EnabledByDefault": true,
-	"CanContainContent": true,
-	"IsBetaVersion": true,
-	"IsExperimentalVersion": false,
-	"Installed": true,
-	"Modules": [
-		{
-			"Name": "rclUE",
-			"Type": "Runtime",
-			"LoadingPhase": "Default",
-			"WhitelistPlatforms": ["Linux"]
-		}
-	],
-	"Plugins": [
-		{
-			"Name": "GeoReferencing",
-			"Enabled": true
-		}
-	]
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0",
+  "FriendlyName": "rclUE",
+  "Description": "ROS2 rclc interface for UE",
+  "Category": "Robotics",
+  "CreatedBy": "Rapyuta Robotics, Greenroom Robotics",
+  "CreatedByURL": "https://github.com/Greenroom-Robotics/rclUE",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "SupportURL": "",
+  "EnabledByDefault": true,
+  "CanContainContent": true,
+  "IsBetaVersion": true,
+  "IsExperimentalVersion": false,
+  "Installed": true,
+  "Modules": [
+    {
+      "Name": "rclUE",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "WhitelistPlatforms": [
+        "Linux"
+      ]
+    },
+    {
+      "Name": "UnrealCameraCapture",
+      "Type": "Runtime",
+      "LoadingPhase": "Default",
+      "WhitelistPlatforms": [
+        "Linux"
+      ]
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "GeoReferencing",
+      "Enabled": true
+    }
+  ]
 }
 

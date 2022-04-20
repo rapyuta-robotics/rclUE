@@ -40,8 +40,7 @@ public:
 	int step; // original uint32 -- maybe this should be automatically populated
 
 	UPROPERTY(BlueprintReadWrite)
-	TArray<uint8> data; // original seq of uint8
-	
+	TArray<FColor> data; // original seq of uint8
 
 	void SetFromROS2(const sensor_msgs__msg__Image& in_ros_data)
 	{
@@ -90,9 +89,9 @@ public:
 		out_ros_data.is_bigendian = is_bigendian;
 		out_ros_data.step = step;
 		
-		out_ros_data.data.data = const_cast<uint8_t*>(data.GetData());
-		out_ros_data.data.size = data.Num();
-		out_ros_data.data.capacity = data.Max();
+		out_ros_data.data.data = (uint8_t*) data.GetData();
+		out_ros_data.data.size = data.Num() * 4;
+		out_ros_data.data.capacity = data.Max() * 4;
 	}
 };
 
