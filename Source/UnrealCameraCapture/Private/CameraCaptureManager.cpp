@@ -188,6 +188,7 @@ void UCameraCaptureManagerComponent::CaptureNonBlocking()
 		TArray<FColor>* OutData;
 		FIntRect Rect;
 		FReadSurfaceDataFlags Flags;
+		FDateTime& CaptureTime;
 	};
 
 	// Init new RenderRequest
@@ -198,7 +199,8 @@ void UCameraCaptureManagerComponent::CaptureNonBlocking()
 		renderTargetResource,
 		&(renderRequest->Image),
 		FIntRect(0, 0, renderTargetResource->GetSizeXY().X, renderTargetResource->GetSizeXY().Y),
-		FReadSurfaceDataFlags(RCM_UNorm, CubeFace_MAX)
+		FReadSurfaceDataFlags(RCM_UNorm, CubeFace_MAX),
+		renderRequest->CaptureTime
 	};
 
 	ENQUEUE_RENDER_COMMAND(SceneDrawCompletion)(
@@ -211,6 +213,7 @@ void UCameraCaptureManagerComponent::CaptureNonBlocking()
 				*readSurfaceContext.OutData,
 				readSurfaceContext.Flags
 			);
+			readSurfaceContext.CaptureTime = FDateTime::UtcNow();
 		});
 
 	// Notifiy new task in RenderQueue
