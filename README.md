@@ -6,6 +6,8 @@
 - Unreal Engine 4.27
 - ROS2 Foxy
 
+\*Please setup UE4 by following [Linux Quick Start](https://docs.unrealengine.com/4.27/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/)
+
 ## Branches
 
 ### master

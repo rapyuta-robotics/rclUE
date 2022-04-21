@@ -1,9 +1,10 @@
 Welcome to rclUE's documentation!
 ===================================
 
-**rclUE** is a ROS2 client library for Unreal Engine.
-rclUE is a UE4 Plugin whih bridges UE4 and ROS2, 
-opening UE4’s tools to ROS developers through a C++ interface. 
+**rclUE** is a `ROS2 <https://docs.ros.org/en/foxy/index.html#>`_ 
+client library for Unreal Engine.
+rclUE is a UE4 Plugin whih bridges `Unreal Engine <https://www.unrealengine.com/en-US/?lang=en-US>`_ 
+and ROS2, opening UE4’s tools to ROS developers through a C++ interface. 
 Furthermore non-ROS engineers should be able to quickly set up robot simulations 
 through UE4’s blueprint visual scripting language by using the instruments 
 that ROS developers and the plugin exposed. 
