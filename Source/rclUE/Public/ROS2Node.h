@@ -1,10 +1,11 @@
-// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
-
-// Class implementing ROS2 nodes
-// This class also handles tasks performed by the executor in rclc
-// Additionally, helper structs FSubscription and FService are defined here as they are considered components of the node and not
-// additional distinct entities Publishers, subscribers, services, service clients, action servers and action clients should
-// register to the node with the appropriate methods (Add*)
+/**
+ * @file ROS2Node.h
+ * @brief Class implementing ROS2 node.
+ * This class also handles tasks performed by the executor in rclc.
+ * Additionally, helper structs FSubscription and FService are defined here as they are considered components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers and action clients should register to the node with the appropriate methods (Add*).
+ * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
+ * 
+ */
 
 #pragma once
 
@@ -33,12 +34,18 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DELEGATE(FSimpleCallback);
 
+/**
+ * @brief Helper structs which is components of the node and should register to 
+ * the node with the appropriate methods (AddSubscription).
+ * 
+ */
 USTRUCT(Blueprintable)
 struct RCLUE_API FSubscription
 {
     GENERATED_BODY()
 
 public:
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString TopicName;
 
@@ -56,6 +63,10 @@ public:
     bool Ready;
 };
 
+/**
+ * @brief Helper structs which is components of the node and should register to 
+ * the node with the appropriate methods (AddServiceServer).
+ */
 USTRUCT(Blueprintable)
 struct RCLUE_API FService
 {
@@ -79,50 +90,107 @@ public:
     bool Ready = false;
 };
 
+/**
+ * Class implementing ROS2 node.
+ * This class also handles tasks performed by the executor in rclc.
+ * Components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers and action clients should register to the node with the appropriate methods (Add*).
+*/
 UCLASS(Blueprintable)
 class RCLUE_API AROS2Node : public AActor
 {
     GENERATED_BODY()
 
 public:
+    //! A constructor.
+    /*!
+      Constructor
+    */
     AROS2Node();
 
 protected:
+
+    /**
+     * @brief Overridable function called whenever this actor is being removed from a level
+     * @param EndPlayReason 
+     * \sa [AActor::EndPlay](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Engine/GameFramework/AActor/EndPlay/)
+     */
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
-    // Called every frame
+    /**
+     * @brief Called every frame
+     * 
+     * @param DeltaTime 
+     * @sa [Actor Ticking](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Actors/Ticking/)
+     */
     virtual void Tick(float DeltaTime) override;
 
 public:
-    // must be called before using
+    /**
+     * @brief Initilize rosnode with rclc_node_init_default
+     * This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be different/relevant in each of Child classes
+     * 
+     */
     UFUNCTION(BlueprintCallable)
     void Init();
 
     rcl_node_t* GetNode();
 
-    // Methods to register subscribers, publishers, clients (for services), services, action clients and action servers
-    // It is up to the user to ensure that they are only added once
+    /**
+     * @brief Methods to register subscribers.
+     * It is up to the user to ensure that they are only added once
+     * @param TopicName 
+     * @param MsgClass 
+     * @param Callback 
+     */
     UFUNCTION(BlueprintCallable)
     void AddSubscription(const FString& TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback& Callback);
 
+    /**
+     * @brief Set this node to UROS2Publisher::OwnerNode of InPublisher and add to #Publishers.
+     * 
+     * @param InPublisher 
+     */
     UFUNCTION(BlueprintCallable)
     void AddPublisher(UROS2Publisher* InPublisher);
 
+    /**
+     * @brief Set this node to UROS2ServiceClient::OwnerNode and add to #Clients.
+     * 
+     * @param InClient 
+     */
     UFUNCTION(BlueprintCallable)
     void AddServiceClient(UROS2ServiceClient* InClient);
 
+    /**
+     * @brief Create ServiceServer with rcl_service_init and add to #Services.
+     * 
+     * @param ServiceName 
+     * @param SrvClass 
+     * @param Callback 
+     */
     UFUNCTION(BlueprintCallable)
     void AddServiceServer(const FString& ServiceName,
                           const TSubclassOf<UROS2GenericSrv> SrvClass,
                           const FServiceCallback& Callback);
 
+    /**
+     * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionClients.
+     * 
+     * @param InActionClient 
+     */
     UFUNCTION(BlueprintCallable)
     void AddActionClient(UROS2ActionClient* InActionClient);
 
+    /**
+     * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionServers.
+     * 
+     * @param InActionServer 
+     */
     UFUNCTION(BlueprintCallable)
     void AddActionServer(UROS2ActionServer* InActionServer);
 
+    //! Node state
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TEnumAsByte<UROS2State> State = UROS2State::Created;
 
@@ -132,7 +200,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString Namespace = TEXT("ros_global");
 
-    // wait_set quantities - currently unused
+    //! wait_set quantities - currently unused
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
     int NGuardConditions = 0;
 
@@ -143,8 +211,10 @@ public:
     int NEvents = 0;
 
 protected:
-    // method used to wait on communication and call delegates when appropriate
-    // modeled after executor + actions
+    /**
+    * @brief method used to wait on communication and call delegates when appropriate modeled after executor + actions
+    * 
+    */
     UFUNCTION()
     void SpinSome();
 
@@ -177,13 +247,27 @@ protected:
     FTimerHandle TimerHandle;
 
 private:
-    // these 3 methods are based on _rclc_default_scheduling of the rclc executor
+    /**
+    * @brief based on _rclc_default_scheduling of the rclc executor. 
+    * Called inside #SpinSome. rcl_take to get topic and execute Callback.
+    * 
+    */
     UFUNCTION()
     void HandleSubscriptions();
 
+    /**
+    * @brief based on _rclc_default_scheduling of the rclc executor. 
+    * Called inside #SpinSome. rcl_take_request_with_info to get request, execute Callback and rcl_send_response to send response
+    * 
+    */
     UFUNCTION()
     void HandleServices();
 
+    /**
+    * @brief based on _rclc_default_scheduling of the rclc executor. 
+    * Called inside #SpinSome. rcl_take_response_with_info to get response and execute Callback.
+    * 
+    */
     UFUNCTION()
     void HandleClients();
 };

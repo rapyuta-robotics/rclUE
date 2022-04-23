@@ -1,6 +1,8 @@
-// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
-
-// Header containing utilities and includes that are needed/useful in almost any class in rclUE
+/**
+ * @file rclcUtilities.h
+ * @brief Header containing utilities and includes that are needed/useful in almost any class in rclUE
+ * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
+ */
 
 #pragma once
 
@@ -14,10 +16,11 @@
 #include <cstdlib>
 #include <cstring>
 
+/// Output Filename
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
-#define __LOG_INFO__ \
-    FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
+/// Log info joint with `::`
+#define __LOG_INFO__  FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);
@@ -25,7 +28,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Publisher, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Service, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
-// this macro can be used on rcl functions that return an error code
+/// this macro can be used on rcl functions that return an error code
 #define RCSOFTCHECK(fn)                                                             \
     {                                                                               \
         rcl_ret_t temp_rc = fn;                                                     \
@@ -41,7 +44,10 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
         }                                                                           \
     }
 
-// used to add states to classes (e.g. to avoid double initializations)
+/**
+ * @brief used to add states to classes (e.g. to avoid double initializations)
+ * 
+ */
 UENUM()
 enum UROS2State
 {
@@ -49,8 +55,10 @@ enum UROS2State
     Initialized UMETA(DisplayName = "Initialized"),
 };
 
-// used to set QoS policies (https://docs.ros.org/en/foxy/Concepts/About-Quality-of-Service-Settings.html)
-// also check rmw/types.h for details
+/**
+ * @brief used to set [QoS policies](https://docs.ros.org/en/foxy/Concepts/About-Quality-of-Service-Settings.html)
+ * also check rmw/types.h for details
+ */
 UENUM()
 enum UROS2QoS
 {

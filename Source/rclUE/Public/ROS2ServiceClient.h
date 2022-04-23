@@ -1,4 +1,9 @@
-// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
+/**
+ * @file ROS2ServiceClient.h
+ * @brief Class implementing ROS2 service clients.
+ *  Service type is defined by SrvClass
+ * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
+ */
 
 // Class implementing ROS2 service clients
 // Service type is defined by SrvClass
@@ -16,56 +21,95 @@
 
 #include "ROS2ServiceClient.generated.h"
 
+//! Servoce call back delegate.  BP requires a custom-made callback thus it must be Dynamic
 DECLARE_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv* /*Service*/);
 
+/**
+ * @brief Class implementing ROS2 service clients.
+ *  Service type is defined by SrvClass
+ * 
+ */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceClient : public UActorComponent
 {
     GENERATED_BODY()
 
 public:
+    /**
+    * @brief Construct a new UROS2ServiceClient object
+    * 
+    */
     UROS2ServiceClient();
 
 public:
+    /**
+     * @brief Initialize ROS2 service client with rcl_client_init, set QoS, etc.
+     * 
+     * @param QoS Quality of Service
+     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+     */
     UFUNCTION(BlueprintCallable)
     void Init(TEnumAsByte<UROS2QoS> QoS);
 
+    /**
+     * @brief Create #UROS2GenericSrv instance and initialize it.
+     * 
+     */
     UFUNCTION(BlueprintCallable)
     void InitializeService();
 
+    /**
+     * @brief Update Srv with delegate and send request.
+     * 
+     */
     UFUNCTION(BlueprintCallable)
     void UpdateAndSendRequest();
 
+    /**
+     * @brief Destroy publisher with rcl_client_fini
+     * 
+     */
     UFUNCTION()
     virtual void Destroy();
 
-    // this information is redundant with Topic, but it's used to initialize it
+    //! this information is redundant with Topic, but it's used to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString ServiceName;
 
+    //! type of Srv class
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UROS2GenericSrv> SrvClass;
 
-    // used to pass data for the request
+    //! used to pass data for the request
     FServiceClientCallback RequestDelegate;
 
-    // used to receive the answer
+    //! used to receive the answer
     FServiceClientCallback AnswerDelegate;
 
+    //! ROS2Node which own this service client. 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     AROS2Node* OwnerNode;
 
+    //! Service client state
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TEnumAsByte<UROS2State> State = UROS2State::Created;
 
+    //! ROS2 Service client
     rcl_client_t client;
 
+    //! Service Instance
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     UROS2GenericSrv* Service;
 
+    //! Service is ready or not
     bool Ready;
 
 protected:
+
+    /**
+     * @brief Send service request
+     * 
+     */
     UFUNCTION()
     void SendRequest();
 
