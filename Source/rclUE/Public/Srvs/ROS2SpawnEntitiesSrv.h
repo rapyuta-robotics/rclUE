@@ -83,9 +83,11 @@ public:
 		for (int i = 0; i < in_ros_data.spawn_state.size; i++)
 		{
 			spawn_state_tags.Add("");
-			spawn_state_tags[i].AppendChars(in_ros_data.spawn_state.data[i].tags.data[i].data,in_ros_data.spawn_state.data[i].tags.data[i].size);
+			for( int j=0; j < in_ros_data.spawn_state.data[i].tags.size; j++)
+			{
+				spawn_state_tags[i].AppendChars(in_ros_data.spawn_state.data[i].tags.data[j].data,in_ros_data.spawn_state.data[i].tags.data[j].size);
+			}
 		}
-		
 	}
 
 	void SetROS2(ue_msgs__srv__SpawnEntities_Request& out_ros_data) const
