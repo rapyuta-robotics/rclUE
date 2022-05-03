@@ -19,12 +19,10 @@ struct RCLUE_API FROSTwist
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector linear;
+	FVector linear = FVector(EForceInit::ForceInitToZero);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector angular;
-
-	
+	FVector angular = FVector(EForceInit::ForceInitToZero);
 
 	void SetFromROS2(const geometry_msgs__msg__Twist& in_ros_data)
 	{

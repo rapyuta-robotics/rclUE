@@ -10,7 +10,8 @@
 
 DEFINE_LOG_CATEGORY(LogROS2Publisher);
 
-UROS2Publisher::UROS2Publisher()
+UROS2Publisher::UROS2Publisher(const FObjectInitializer& ObjectInitializer)
+    : Super(ObjectInitializer)
 {
     PrimaryComponentTick.bCanEverTick = true;
 }

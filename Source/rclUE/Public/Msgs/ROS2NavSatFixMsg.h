@@ -55,18 +55,10 @@ public:
 	{
     	header.SetFromROS2(in_ros_data.header);
 		status.SetFromROS2(in_ros_data.status);
-
 		latitude = in_ros_data.latitude;
-
 		longitude = in_ros_data.longitude;
-
 		altitude = in_ros_data.altitude;
-
-		for (int i = 0; i < 9; i++)
-		{
-			position_covariance.Add(in_ros_data.position_covariance[i]);
-		}
-
+		position_covariance = ROS2MsgToUE::FromArray(in_ros_data.position_covariance);
 		position_covariance_type = static_cast<UROSNavSatFixPositionCovarianceType>(in_ros_data.position_covariance_type);
 	}
 
@@ -74,24 +66,11 @@ public:
 	{
 		header.SetROS2(out_ros_data.header);
 		status.SetROS2(out_ros_data.status);
-
 		out_ros_data.latitude = latitude;
-
 		out_ros_data.longitude = longitude;
-
 		out_ros_data.altitude = altitude;
-
-		// TODO - How should this be done?
-		if (position_covariance.Num()) {
-			for (int i = 0; i < 9; i++)
-			{
-				out_ros_data.position_covariance[i] = position_covariance[i];
-			}
-		}
-
+		UEToROS2Msg::SetSequence(position_covariance, out_ros_data.position_covariance);
 		out_ros_data.position_covariance_type = static_cast<uint8>(position_covariance_type);
-
-		
 	}
 };
 

@@ -1,14 +1,9 @@
 // Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
-
-// Class implementing ROS2 publishers
-// Message type is defined by MsgClass
-
 #pragma once
 
 #include <Components/ActorComponent.h>
 #include <CoreMinimal.h>
 #include <ROS2Node.h>
-#include "Async/Async.h"
 
 #include "ROS2Publisher.generated.h"
 
@@ -19,7 +14,7 @@ class RCLUE_API UROS2Publisher : public UActorComponent
     GENERATED_BODY()
 
 public:
-    UROS2Publisher();
+    UROS2Publisher(const FObjectInitializer& ObjectInitializer = FObjectInitializer::Get());
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Meta = (EditCondition="!bQosOverride"))
     UROS2QoS QosProfilePreset = UROS2QoS::Default;

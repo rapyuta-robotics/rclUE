@@ -19,25 +19,25 @@ public:
 	FROSHeader header;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FQuat orientation;
+	FQuat orientation = FQuat(EForceInit::ForceInitToZero);
 
 	// TODO: Don't downsample to float when using UE5
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<float> orientation_covariance; // TODO implement as 3x3 Matrix
+	TArray<float> orientation_covariance = ArrayInitialisers::FloatArray(9);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector angular_velocity;
-
-	// TODO: Don't downsample to float when using UE5
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<float> angular_velocity_covariance;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector linear_acceleration;
+	FVector angular_velocity = FVector(EForceInit::ForceInitToZero);
 
 	// TODO: Don't downsample to float when using UE5
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<float> linear_acceleration_covariance;
+	TArray<float> angular_velocity_covariance = ArrayInitialisers::FloatArray(9);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector linear_acceleration = FVector(EForceInit::ForceInitToZero);
+
+	// TODO: Don't downsample to float when using UE5
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<float> linear_acceleration_covariance = ArrayInitialisers::FloatArray(9);
 
 	void SetFromROS2(const sensor_msgs__msg__Imu& in_ros_data)
 	{

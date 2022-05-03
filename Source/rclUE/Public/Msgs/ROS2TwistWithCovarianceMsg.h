@@ -5,10 +5,11 @@
 
 #include <CoreMinimal.h>
 
+#include "Conversions.h"
 #include "geometry_msgs/msg/twist_with_covariance.h"
 
 #include "Msgs/ROS2GenericMsg.h"
-#include "rclcUtilities.h"
+#include "ROS2TwistMsg.h"
 
 #include "ROS2TwistWithCovarianceMsg.generated.h"
 
@@ -19,49 +20,21 @@ struct RCLUE_API FROSTwistWithCovariance
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector twist_linear;
+	FROSTwist twist;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector twist_angular;
-
-	TArray<double> covariance;
-
+	TArray<float> covariance = ArrayInitialisers::FloatArray(36); //double[36]
 	
-
 	void SetFromROS2(const geometry_msgs__msg__TwistWithCovariance& in_ros_data)
 	{
-    	twist_linear.X = in_ros_data.twist.linear.x;
-		twist_linear.Y = in_ros_data.twist.linear.y;
-		twist_linear.Z = in_ros_data.twist.linear.z;
-
-		twist_angular.X = in_ros_data.twist.angular.x;
-		twist_angular.Y = in_ros_data.twist.angular.y;
-		twist_angular.Z = in_ros_data.twist.angular.z;
-
-		for (int i = 0; i < 36; i++)
-		{
-			covariance.Add(in_ros_data.covariance[i]);
-		}
-
-		
+		twist.SetFromROS2(in_ros_data.twist);
+		covariance = ROS2MsgToUE::FromArray(in_ros_data.covariance);
 	}
 
 	void SetROS2(geometry_msgs__msg__TwistWithCovariance& out_ros_data) const
 	{
-    	out_ros_data.twist.linear.x = twist_linear.X;
-		out_ros_data.twist.linear.y = twist_linear.Y;
-		out_ros_data.twist.linear.z = twist_linear.Z;
-
-		out_ros_data.twist.angular.x = twist_angular.X;
-		out_ros_data.twist.angular.y = twist_angular.Y;
-		out_ros_data.twist.angular.z = twist_angular.Z;
-
-		for (int i = 0; i < 36; i++)
-		{
-			out_ros_data.covariance[i] = covariance[i];
-		}
-
-		
+    	twist.SetROS2(out_ros_data.twist);
+		UEToROS2Msg::SetSequence(covariance, out_ros_data.covariance);
 	}
 };
 

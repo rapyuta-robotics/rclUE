@@ -19,10 +19,10 @@ struct RCLUE_API FROSAccel
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector linear;
+	FVector linear = FVector(EForceInit::ForceInitToZero);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector angular;
+	FVector angular = FVector(EForceInit::ForceInitToZero);
 
 	
 

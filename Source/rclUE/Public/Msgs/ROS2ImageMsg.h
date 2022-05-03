@@ -45,15 +45,10 @@ public:
 	void SetFromROS2(const sensor_msgs__msg__Image& in_ros_data)
 	{
     	header.SetFromROS2(in_ros_data.header);
-
 		height = in_ros_data.height;
-
 		width = in_ros_data.width;
-
-		encoding.AppendChars(in_ros_data.encoding.data, in_ros_data.encoding.size);
-
+		encoding = ROS2MsgToUE::From(in_ros_data.encoding);
 		is_bigendian = in_ros_data.is_bigendian;
-
 		step = in_ros_data.step;
 
 		// TODO
@@ -70,22 +65,9 @@ public:
     	header.SetROS2(out_ros_data.header);
 
 		out_ros_data.height = height;
-
 		out_ros_data.width = width;
 
-		{
-			FTCHARToUTF8 strUtf8( *encoding );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.encoding.data != nullptr)
-		{
-			free(out_ros_data.encoding.data);
-		}
-		out_ros_data.encoding.data = (decltype(out_ros_data.encoding.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.encoding.data)));
-		memcpy(out_ros_data.encoding.data, TCHAR_TO_UTF8(*encoding), (strLength+1)*sizeof(char));
-			out_ros_data.encoding.size = strLength;
-			out_ros_data.encoding.capacity = strLength + 1;
-		}
-
+		UEToROS2Msg::Set(encoding, out_ros_data.encoding);
 		out_ros_data.is_bigendian = is_bigendian;
 		out_ros_data.step = step;
 		

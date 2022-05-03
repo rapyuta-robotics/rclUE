@@ -5,6 +5,7 @@
 
 #include <CoreMinimal.h>
 
+#include "Conversions.h"
 #include "std_msgs/msg/header.h"
 
 #include "Msgs/ROS2GenericMsg.h"
@@ -28,29 +29,13 @@ public:
 	void SetFromROS2(const std_msgs__msg__Header& in_ros_data)
 	{
 		stamp.SetFromROS2(in_ros_data.stamp);
-
-		frame_id.AppendChars(in_ros_data.frame_id.data, in_ros_data.frame_id.size);
-		
+		frame_id = ROS2MsgToUE::From(in_ros_data.frame_id);
 	}
 
 	void SetROS2(std_msgs__msg__Header& out_ros_data) const
 	{
     	stamp.SetROS2(out_ros_data.stamp);
-
-		{
-			FTCHARToUTF8 strUtf8( *frame_id );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.frame_id.data != nullptr)
-		{
-			free(out_ros_data.frame_id.data);
-		}
-		out_ros_data.frame_id.data = (decltype(out_ros_data.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.frame_id.data)));
-		memcpy(out_ros_data.frame_id.data, TCHAR_TO_UTF8(*frame_id), (strLength+1)*sizeof(char));
-			out_ros_data.frame_id.size = strLength;
-			out_ros_data.frame_id.capacity = strLength + 1;
-		}
-
-		
+		UEToROS2Msg::Set(frame_id, out_ros_data.frame_id);
 	}
 };
 
