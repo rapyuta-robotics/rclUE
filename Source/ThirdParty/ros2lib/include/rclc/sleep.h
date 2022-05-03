@@ -13,44 +13,36 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#ifndef RCLC__TIMER_H_
-#define RCLC__TIMER_H_
+#ifndef RCLC__SLEEP_H_
+#define RCLC__SLEEP_H_
 
 #if __cplusplus
 extern "C"
 {
 #endif
 
-#include <rcl/timer.h>
-#include <rclc/types.h>
+#include "rclc/visibility_control.h"
 
 /**
- *  Creates an rcl timer.
+ *  Waits for milliseconds.
  *
  *  * <hr>
  * Attribute          | Adherence
  * ------------------ | -------------
- * Allocates Memory   | Yes (in RCL)
+ * Allocates Memory   | No
  * Thread-Safe        | No
  * Uses Atomics       | No
  * Lock-Free          | Yes
  *
- * \param[inout] timer a zero-initialized rcl_timer_t
- * \param[in] support the rclc_support_t object
- * \param[in] timeout_ns the time out in nanoseconds of the timer
- * \param[in] callback the callback of the timer
- * \return `RCL_RET_OK` if successful
- * \return `RCL_ERROR` (or other error code) if an error occurred
+ * \param[in] ms milliseconds to wait
  */
-rcl_ret_t
-rclc_timer_init_default(
-  rcl_timer_t * timer,
-  rclc_support_t * support,
-  const uint64_t timeout_ns,
-  const rcl_timer_callback_t callback);
+RCLC_PUBLIC
+void
+rclc_sleep_ms(
+  unsigned int ms);
 
 #if __cplusplus
 }
 #endif
 
-#endif  // RCLC__TIMER_H_
+#endif  // RCLC__SLEEP_H_

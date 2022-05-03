@@ -26,6 +26,7 @@ extern "C"
 // #include<rcl/node.h>
 #include <rcl/allocator.h>
 #include <rclc/types.h>
+#include "rclc/visibility_control.h"
 
 /**
  *  Creates an rcl publisher.
@@ -45,6 +46,7 @@ extern "C"
  * \return `RCL_RET_OK` if successful
  * \return `RCL_ERROR` (or other error code) if an error has occurred
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_publisher_init_default(
   rcl_publisher_t * publisher,
@@ -70,12 +72,41 @@ rclc_publisher_init_default(
  * \return `RCL_RET_OK` if successful
  * \return `RCL_ERROR` (or other error code) if an error has occurred
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_publisher_init_best_effort(
   rcl_publisher_t * publisher,
   const rcl_node_t * node,
   const rosidl_message_type_support_t * type_support,
   const char * topic_name);
+
+/**
+ *  Creates an rcl publisher with defined QoS
+ *
+ *  * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes (in RCL)
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param[inout] publisher a zero_initialized rcl_publisher_t
+ * \param[in] node the rcl node
+ * \param[in] type_support the message data type
+ * \param[in] topic_name the name of published topic
+ * \param[in] qos_profile the qos of the topic
+ * \return `RCL_RET_OK` if successful
+ * \return `RCL_ERROR` (or other error code) if an error has occurred
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_publisher_init(
+  rcl_publisher_t * publisher,
+  const rcl_node_t * node,
+  const rosidl_message_type_support_t * type_support,
+  const char * topic_name,
+  const rmw_qos_profile_t * qos_profile);
 
 #if __cplusplus
 }

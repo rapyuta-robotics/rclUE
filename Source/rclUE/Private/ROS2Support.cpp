@@ -11,8 +11,10 @@ void UROS2Support::Init()
 {
     allocator = rcl_get_default_allocator();
 
-    RCSOFTCHECK(rclc_support_init(&support, 0, nullptr, &allocator));
-}
+    rcl_ret_t rc = rclc_support_init(&support, 0, nullptr, &allocator);
+    UE_LOG(LogTemp, Warning, TEXT("VITYO rclc_support_init %d"), rc);
+    RCSOFTCHECK(rc);
+}  
 
 void UROS2Support::Fini()
 {

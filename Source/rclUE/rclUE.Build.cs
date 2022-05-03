@@ -5,6 +5,8 @@ using System.IO;
 using System.Diagnostics;
 using System.Linq;
 using UnrealBuildTool;
+using Tools.DotNETCommon;
+using System.Collections;
 
 public class rclUE : ModuleRules
 {
@@ -18,28 +20,91 @@ public class rclUE : ModuleRules
 		get { return Path.Combine(ThirdPartyPath, "ros2lib"); }
 	}
 
+	private void AddModule(string InModulePath, bool IsRootOnly, SearchOption searchOption)
+	{
+        string includePath = IsRootOnly ? InModulePath : Path.Combine(InModulePath, "include");
+        
+        if(Directory.Exists(includePath))
+        {
+            PublicIncludePaths.Add(includePath);
+            Log.TraceInformation("VITYO include " + includePath);
+        }
+        else
+        {
+            Log.TraceWarning("VITYO include DOESNT EXIST  " + includePath);
+        }
+        
+        string libPath = IsRootOnly ? InModulePath : Path.Combine(InModulePath, "lib");
+
+        if(Directory.Exists(libPath))
+        {
+            PublicLibraryPaths.Add(libPath);
+            PublicRuntimeLibraryPaths.Add(libPath);
+            PrivateRuntimeLibraryPaths.Add(libPath);
+            Log.TraceInformation("VITYO      libPath  " + libPath);
+            var libs = Directory.EnumerateFiles(libPath, "*.so", searchOption);
+            
+            foreach (var lib in libs)
+            {
+                Log.TraceInformation("VITYO     lib  " + lib);
+                PublicAdditionalLibraries.Add(lib);
+                RuntimeDependencies.Add(lib);
+            }
+        }
+        else
+        {
+            Log.TraceWarning("VITYO libPath DOESNT   EXIST  " + libPath);
+        }
+	}
+	
 	public rclUE(ReadOnlyTargetRules Target) : base(Target)
 	{
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
-		var ros2ModuleNameList = new string[] { "rcutils", "rmw", "tracetools",
-									 			"builtin_interfaces", "std_msgs", "rosgraph_msgs", "example_interfaces", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "ue4_interfaces", "ue_msgs", "unique_identifier_msgs", "action_msgs",
-									 			"rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
-									 			"rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
-									 			"rclc", "rclc_lifecycle" };
-
+		var ros2ModuleNameList = new string[]
+		{
+			"ue4_interfaces", 
+			"ue_msgs",
+			"rcutils",
+			"rmw",
+			"tracetools",
+			"builtin_interfaces",
+			"std_msgs",
+			"rosgraph_msgs",
+			"example_interfaces",
+			"geometry_msgs",
+			"sensor_msgs",
+			"nav_msgs",
+			"tf2_msgs",
+			"unique_identifier_msgs",
+			"action_msgs",
+			"rosidl_typesupport_c",
+			"rosidl_typesupport_interface",
+			"rosidl_typesupport_introspection_c",
+			"rosidl_runtime_c",
+			"rcl",
+			"rcl_action",
+			"rcl_lifecycle",
+			"rcl_yaml_param_parser",
+			"rcl_interfaces",
+			"rclc",
+			"rclc_lifecycle"
+		};
+		
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
+		    AddModule(ROS2LibPath, true, SearchOption.TopDirectoryOnly);
+		    AddModule(ROS2LibPath, false, SearchOption.TopDirectoryOnly);
+		    
 			foreach (var ros2ModuleName in ros2ModuleNameList)
 			{
-				PublicIncludePaths.Add(Path.Combine(ROS2LibPath, ros2ModuleName, "include"));
+			    AddModule(Path.Combine(ROS2LibPath, ros2ModuleName), false, SearchOption.TopDirectoryOnly);
 			}
 		}
 
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"Public"));
 			
-		
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
@@ -48,7 +113,6 @@ public class rclUE : ModuleRules
 				"Engine",
 				"ros2lib",
 				"Projects"
-				// ... add other public dependencies that you statically link with here ...
 			}
 		);
 	}

@@ -76,7 +76,54 @@ void AROS2Node::Init()
             Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
             UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
-            RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
+            
+            // rcl_guard_condition_t * guard_condition = NULL;
+            // const rmw_guard_condition_t * rmw_guard_condition= NULL;
+            // rcl_context_t * context= NULL;
+            // const rcl_guard_condition_options_t options =  *rcl_guard_condition_get_options(NULL);
+            // rcl_ret_t rc1 = rcl_guard_condition_init_from_rmw(guard_condition, rmw_guard_condition, context, options);
+            //
+            // {
+            //     rcl_guard_condition_t * guard_condition = NULL;
+            //     const rmw_guard_condition_t * rmw_guard_condition= NULL;
+            //     rcl_context_t * context = NULL;
+            //     rcl_guard_condition_options_t options = rcl_guard_condition_get_default_options();
+            //     rcl_guard_condition_init
+            //     rcl_ret_t rc111 =rcl_guard_condition_init_from_rmw(guard_condition, rmw_guard_condition, context, options);
+            //         if(if(lib.EndsWith(""){}!)
+            // }           eeedsssdd  
+            // const rosidl_message_type_support_t * sup = get_message_typesupport_handle(
+            //   const rosidl_message_type_support_t * handle, const char * identifier); dsdfddss eedd
+
+            // {
+            //     int DlOpenMode = RTLD_LAZY;
+            //     FString fileName = TEXT("rmw_dds_common__rosidl_typesupport_fastrtps_cpp");
+            //     FString AbsolutePath = FPaths::ConvertRelativePathToFull(fileName);
+            //     UE_LOG(LogTemp, Warning, TEXT("VITYO AbsolutePath %s"), *AbsolutePath);
+            //     void* handle1 = dlopen( TCHAR_TO_UTF8(*fileName), DlOpenMode | RTLD_GLOBAL );
+            //     UE_LOG(LogTemp, Warning, TEXT("VITYO handle1 %s"), handle1 ? TEXT("not null") : TEXT("null"));
+            //     void* handle2 = FPlatformProcess::GetDllHandle(*fileName);
+            //     UE_LOG(LogTemp, Warning, TEXT("VITYO handle2 %s"), handle2 ? TEXT("not null") : TEXT("null"));
+            // }
+            void* handle = NULL;
+            int DlOpenMode = RTLD_NOW | RTLD_GLOBAL;
+            handle = dlopen( "librclc.so", DlOpenMode);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO librclc %s"), handle ? TEXT("not null") : TEXT("null"));
+            handle = dlopen( "librcl.so", DlOpenMode);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO librcl %s"), handle ? TEXT("not null") : TEXT("null"));
+            handle = dlopen( "librmw.so", DlOpenMode);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO librmw %s"), handle ? TEXT("not null") : TEXT("null"));
+            handle = dlopen( "librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so", DlOpenMode);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO librmw_dds_common__rosidl_typesupport_fastrtps_cpp %s"), handle ? TEXT("not null") : TEXT("null"));
+
+            rcl_ret_t rc = rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get());
+
+            UE_LOG(LogTemp, Warning, TEXT("VITYO Name %s"), *Name);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO Namespace %s"), *Namespace);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO Clock %d"), Support->Get().clock.type);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO allocator %s"), Support->Get().allocator == NULL ? TEXT("null") : TEXT("not null") );
+            UE_LOG(LogTemp, Warning, TEXT("VITYO rclc_node_init_default %d"), rc);
+            RCSOFTCHECK(rc);
         }
 
         State = UROS2State::Initialized;
