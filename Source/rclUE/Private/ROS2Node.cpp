@@ -115,6 +115,8 @@ void AROS2Node::Init()
             UE_LOG(LogTemp, Warning, TEXT("VITYO librmw %s"), handle ? TEXT("not null") : TEXT("null"));
             handle = dlopen( "librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so", DlOpenMode);
             UE_LOG(LogTemp, Warning, TEXT("VITYO librmw_dds_common__rosidl_typesupport_fastrtps_cpp %s"), handle ? TEXT("not null") : TEXT("null"));
+            handle = dlopen( "librmw_fastrtps_cpp.so", DlOpenMode);
+            UE_LOG(LogTemp, Warning, TEXT("VITYO librmw_fastrtps_cpp %s"), handle ? TEXT("not null") : TEXT("null"));
 
             rcl_ret_t rc = rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get());
 

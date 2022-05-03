@@ -24,6 +24,18 @@ This branch currently represents the release branch.
 
 Experimental and WIP
 
+# Update ros2
+To add or update part of ros2, for example 'rclc', branch 'foxy':
+1. Build ros2 https://docs.ros.org/en/foxy/Installation/Ubuntu-Development-Setup.html
+2. Clone part:
+git clone -b foxy https://github.com/ros2/rclc.git
+3. Make sure you installed colcon https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#create-a-workspace
+4. Build .so lib:
+. ~/ros2_foxy/install/local_setup.bash
+colcon build --packages-up-to --allow-overriding rclc
+(or without --allow-overriding, it's only in my case)
+5. Copy-replace includes and lib to appropriate folders to rclUE/Source/ThirdParty/ros2lib
+
 # Installation
 
 ## How to add this plugin to an Unreal Engine 4 project (Ubuntu 20):
@@ -54,10 +66,13 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 5. change the world settings to use meters as units instead of the default centimeters
 6. Example_BP_PubSub.mp4 shows how to build a PubSub example using Blueprint
 
+<<<<<<< HEAD
 ## How to install this plugin (Ubuntu 18):
 
 Development switched from Ubuntu18+noetic to Ubuntu20+foxy - please refer to the Ubuntu 20 and adapt it
 
+=======
+>>>>>>> intermediate changes, updated sub-parts of ros2 to run scripts on them, part1
 ## Windows is currently unsupported
 
 # Dependencies

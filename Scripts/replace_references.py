@@ -1,11 +1,12 @@
 import os, sys, shutil
  
-#ros2thirdparty = sys.argv[1] + '/' # '~/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib'
-ros2thirdparty = '/home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib/'
+ros2 = '/home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib' # sys.argv[1]
+ros2Libs = ros2 + '/lib/'
+
 libfastcdrRaw = 'libfastcdr.so' 
-libfastcdr = ros2thirdparty + libfastcdrRaw
+libfastcdr = ros2Libs + libfastcdrRaw
 libfastcdr1Raw = libfastcdrRaw + '.1'
-libfastcdr1 = ros2thirdparty + libfastcdr1Raw
+libfastcdr1 = ros2Libs + libfastcdr1Raw
 
 if os.path.exists(libfastcdr1):
     if os.path.exists(libfastcdr):
@@ -13,46 +14,28 @@ if os.path.exists(libfastcdr1):
         
     os.rename(libfastcdr1, libfastcdr)
 
+print('Patching: libfastcdr.so')
 os.system('patchelf --set-soname ' + libfastcdrRaw + ' ' + libfastcdr)
 
 libfastrtpsRaw = 'libfastrtps.so'
-libfastrtps = ros2thirdparty + libfastrtpsRaw
+libfastrtps = ros2Libs + libfastrtpsRaw
 libfastrtps2Raw = libfastrtpsRaw + '.2'
-libfastrtps2 = ros2thirdparty + libfastrtps2Raw
+libfastrtps2 = ros2Libs + libfastrtps2Raw
 
 if os.path.exists(libfastrtps2):
     os.rename(libfastrtps2, libfastrtps)
 
+print('Patching: libfastrtps.so')
 os.system('patchelf --set-soname ' + libfastrtpsRaw + ' ' + libfastrtps)
 
-# nameNew = 'rmw_dds_common__rosidl_typesupport_fastrtps_cpp.so'
-# nameOld = 'lib' + nameNew
-# libNameOld = ros2thirdparty + nameOld
-# libNameNew = ros2thirdparty + nameNew
+print('Patching: librclc.so')
+os.system('patchelf --add-needed ' + 'librmw_fastrtps_cpp.so' + ' ' + os.path.join(ros2Libs, 'librclc.so'))
 
-# if os.path.exists(libNameOld):
-#     os.rename(libNameOld, libNameNew)
-
-# os.system('patchelf --set-soname ' + nameNew + ' ' + libNameNew)
-
-for dirpath,subdirs,files in os.walk(ros2thirdparty):
+for dirpath,subdirs,files in os.walk(ros2):
     for file in files:
         if file.endswith('.so') or '.so.' in file:
             fullName = os.path.join(dirpath, file)
-            print(fullName)
+            print('Patching:', fullName)
             os.system('patchelf --replace-needed ' + libfastcdr1Raw + ' ' +  libfastcdrRaw + ' ' + fullName)
             os.system('patchelf --replace-needed ' + libfastrtps2Raw + ' ' +  libfastrtpsRaw + ' ' + fullName)
-
-            if not file.endswith('librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so'):
-                os.system('patchelf --add-needed ' + 'librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so' + ' ' + fullName)
-            
-            #os.system('patchelf --remove-needed ' + 'librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so' + ' ' + fullName)
-            #os.system('patchelf --remove-needed ' + 'librclc.so' + ' ' + fullName)
-            #os.system('patchelf --remove-needed ' + 'librclc.so' + ' ' + fullName)
-            # os.system('patchelf --remove-needed ' + ros2thirdparty + 'rmw_dds_common__rosidl_typesupport_fastrtps_cpp ' + fullName)
-            # os.system('patchelf --remove-needed ' + ros2thirdparty + 'rmw_dds_common__rosidl_typesupport_fastrtps_cpp.so ' + fullName)
-            # os.system('patchelf --remove-needed ' + ros2thirdparty + 'librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so ' + fullName)
-            # os.system('patchelf --remove-needed ' + ros2thirdparty + 'librmw_dds_common__rosidl_typesupport_fastrtps_cpp ' + fullName)
-            # #os.system('patchelf --replace-needed ' + 'rmw_dds_common__rosidl_typesupport_fastrtps_cpp' + ' ' +  nameNew + ' ' + fullName)
-            #patchelf  libfoo.so.1 my-program
    
