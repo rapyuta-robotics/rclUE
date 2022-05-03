@@ -13,70 +13,74 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-#ifndef RCLC__SUBSCRIPTION_H_
-#define RCLC__SUBSCRIPTION_H_
+
+#ifndef RCLC__NODE_H_
+#define RCLC__NODE_H_
 
 #if __cplusplus
 extern "C"
 {
 #endif
-
-#include <rcl/subscription.h>
+#include <rcl/node.h>
 #include <rclc/types.h>
+
 #include <rclc/init.h>
-
+#include "rclc/visibility_control.h"
 /**
- *  Creates an rcl subscription.
+ *  Creates a default RCL node.
  *
  *  * <hr>
  * Attribute          | Adherence
  * ------------------ | -------------
- * Allocates Memory   | Yes (in RCL)
+ * Allocates Memory   | Yes (in this function and in RCL)
  * Thread-Safe        | No
  * Uses Atomics       | No
  * Lock-Free          | Yes
  *
- * \param[inout] subscription -  a zero-initialized rcl_subscription_t
- * \param[in] node the rcl node
- * \param[in] type_support the message data type
- * \param[in] topic_name the name of subscribed topic
- * \return `RCL_RET_OK` if successful
- * \return `RCL_ERROR` (or other error code) if an error occurred
+ * \param[in] name the name of the node
+ * \param[in] namespace the namespace of the node
+ * \param[in] support the rclc_support_t object
+ * \return rcl_node_t if successful
+ * \return NULL if an error occurred
  */
+RCLC_PUBLIC
 rcl_ret_t
-rclc_subscription_init_default(
-  rcl_subscription_t * subscription,
+rclc_node_init_default(
   rcl_node_t * node,
-  const rosidl_message_type_support_t * type_support,
-  const char * topic_name);
+  const char * name,
+  const char * namespace_,
+  rclc_support_t * support);
 
 /**
- *  Creates an rcl subscription with quality of service option best effort
+ *  Creates a RCL node with options.
  *
  *  * <hr>
  * Attribute          | Adherence
  * ------------------ | -------------
- * Allocates Memory   | Yes (in RCL)
+ * Allocates Memory   | Yes (in this function and in RCL)
  * Thread-Safe        | No
  * Uses Atomics       | No
  * Lock-Free          | Yes
  *
- * \param[inout] subscription -  a zero-initialized rcl_subscription_t
- * \param[in] node the rcl node
- * \param[in] type_support the message data type
- * \param[in] topic_name the name of subscribed topic
- * \return `RCL_RET_OK` if successful
- * \return `RCL_ERROR` (or other error code) if an error occurred
+ * \param[in] name the name of the node
+ * \param[in] namespace the namespace of the node
+ * \param[in] support the rclc_support_t object
+ * \param[in] node_ops node options
+ * \return rcl_node_t if successful
+ * \return NULL if an error occurred
  */
+RCLC_PUBLIC
 rcl_ret_t
-rclc_subscription_init_best_effort(
-  rcl_subscription_t * subscription,
+rclc_node_init_with_options(
   rcl_node_t * node,
-  const rosidl_message_type_support_t * type_support,
-  const char * topic_name);
+  const char * name,
+  const char * namespace_,
+  rclc_support_t * support,
+  rcl_node_options_t * node_ops);
+
 
 #if __cplusplus
 }
 #endif
 
-#endif  // RCLC__SUBSCRIPTION_H_
+#endif  // RCLC__NODE_H_

@@ -29,6 +29,8 @@ extern "C"
 
 #include "rclc/executor_handle.h"
 #include "rclc/types.h"
+#include "rclc/sleep.h"
+#include "rclc/visibility_control.h"
 
 /*! \file executor.h
     \brief The RCLC-Executor provides an Executor based on RCL in which all callbacks are
@@ -84,6 +86,7 @@ typedef struct
  *  Return a rclc_executor_t struct with pointer members initialized to `NULL`
  *  and member variables to 0.
  */
+RCLC_PUBLIC
 rclc_executor_t
 rclc_executor_get_zero_initialized_executor(void);
 
@@ -91,6 +94,21 @@ rclc_executor_get_zero_initialized_executor(void);
  *  Initializes an executor.
  *  It creates a dynamic array with size \p number_of_handles using the
  *  \p allocator.
+ * As the Executor is intended for embedded controllers, dynamic memory management is crucial.
+ *  Therefore at initialization of the RCLC-Executor, the user defines the total \p number_of_handles.
+ * A handle is a term for subscriptions, timers, services, clients and guard conditions. The
+ * heap will be allocated only in this phase and no more memory will be allocated in the
+ * running phase in the executor. However, the heap memory of corresponding wait-set is
+ * allocated in the first iteration of a spin-method, which calls internally rclc_executor_prepare.
+ * Optionally, you can also call rclc_executor_prepare before calling any of the spin-methods.
+ * Then all wait-set related memory allocation will be done in rclc_executor_prepare and not
+ * in the first iteration of the spin-method.
+ *
+ * This makes this Executor static in
+ * terms of memory allocation, in the sense, that during runtime no heap allocations occur.
+ * You can add, however, at runtime as many handles, e.g. subscriptions, to the executor
+ * until the maximum number of handles is reached. In this case, the wait-set needs to be
+ * updated and rclc_executor_prepare is called again (with dynamic memory allocation in RCL).
  *
  *
  *  * <hr>
@@ -110,6 +128,7 @@ rclc_executor_get_zero_initialized_executor(void);
  * \return `RCL_RET_INVALID_ARGUMENT` if any null pointer as argument
  * \return `RCL_RET_ERROR` in case of failure
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_init(
   rclc_executor_t * executor,
@@ -134,6 +153,7 @@ rclc_executor_init(
  * \return `RCL_RET_INVALID_ARGUMENT` if \p executor is a null pointer
  * \return `RCL_RET_ERROR` in an error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_set_timeout(
   rclc_executor_t * executor,
@@ -155,6 +175,7 @@ rclc_executor_set_timeout(
  * \return `RCL_RET_OK` if semantics was set successfully
  * \return `RCL_RET_INVALID_ARGUMENT` if \p executor is a null pointer
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_set_semantics(
   rclc_executor_t * executor,
@@ -179,6 +200,7 @@ rclc_executor_set_semantics(
  * \return `RCL_RET_INVALID_ARGUMENT` if \p executor.handles is a null pointer
  * \return `RCL_RET_ERROR` in an error occured (aka executor was not initialized)
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_fini(rclc_executor_t * executor);
 
@@ -205,12 +227,47 @@ rclc_executor_fini(rclc_executor_t * executor);
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_subscription(
   rclc_executor_t * executor,
   rcl_subscription_t * subscription,
   void * msg,
-  rclc_callback_t callback,
+  rclc_subscription_callback_t callback,
+  rclc_executor_handle_invocation_t invocation);
+
+/**
+ *  Adds a subscription to an executor.
+ * * An error is returned, if {@link rclc_executor_t.handles} array is full.
+ * * The total number_of_subscriptions field of {@link rclc_executor_t.info}
+ *   is incremented by one.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param [inout] executor pointer to initialized executor
+ * \param [in] subscription pointer to an allocated subscription
+ * \param [in] msg pointer to an allocated message
+ * \param [in] callback    function pointer to a callback
+ * \param [in] context     type-erased ptr to additional callback context
+ * \param [in] invocation  invocation type for the callback (ALWAYS or only ON_NEW_DATA)
+ * \return `RCL_RET_OK` if add-operation was successful
+ * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer (NULL context is ignored)
+ * \return `RCL_RET_ERROR` if any other error occured
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_executor_add_subscription_with_context(
+  rclc_executor_t * executor,
+  rcl_subscription_t * subscription,
+  void * msg,
+  rclc_subscription_callback_with_context_t callback,
+  void * context,
   rclc_executor_handle_invocation_t invocation);
 
 /**
@@ -233,6 +290,7 @@ rclc_executor_add_subscription(
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_timer(
   rclc_executor_t * executor,
@@ -261,6 +319,7 @@ rclc_executor_add_timer(
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_client(
   rclc_executor_t * executor,
@@ -290,6 +349,7 @@ rclc_executor_add_client(
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_client_with_request_id(
   rclc_executor_t * executor,
@@ -320,6 +380,7 @@ rclc_executor_add_client_with_request_id(
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_service(
   rclc_executor_t * executor,
@@ -351,6 +412,7 @@ rclc_executor_add_service(
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_service_with_request_id(
   rclc_executor_t * executor,
@@ -383,6 +445,7 @@ rclc_executor_add_service_with_request_id(
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_service_with_context(
   rclc_executor_t * executor,
@@ -413,11 +476,176 @@ rclc_executor_add_service_with_context(
  * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_add_guard_condition(
   rclc_executor_t * executor,
   rcl_guard_condition_t * gc,
   rclc_gc_callback_t callback);
+
+
+/**
+ *  Removes a subscription from an executor.
+ * * An error is returned if {@link rclc_executor_t.handles} array is empty.
+ * * An error is returned if subscription is not found in {@link rclc_executor_t.handles}.
+ * * The total number_of_subscriptions field of {@link rclc_executor_t.info}
+ *   is decremented by one.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param [inout] executor pointer to initialized executor
+ * \param [in] subscription pointer to an allocated and initialized subscription previously added to executor
+ * \return `RCL_RET_OK` if add-operation was successful
+ * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
+ * \return `RCL_RET_ERROR` if any other error occured
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_executor_remove_subscription(
+  rclc_executor_t * executor,
+  const rcl_subscription_t * subscription);
+
+
+/**
+ *  Removes a timer from an executor.
+ * * An error is returned if {@link rclc_executor_t.handles} array is empty.
+ * * An error is returned if timer is not found in {@link rclc_executor_t.handles}.
+ * * The total number_of_timers field of {@link rclc_executor_t.info}
+ *   is incremented by one.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param [inout] executor pointer to initialized executor
+ * \param [in] timer pointer to an allocated and initialized timer previously added to executor
+ * \return `RCL_RET_OK` if add-operation was successful
+ * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
+ * \return `RCL_RET_ERROR` if any other error occured
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_executor_remove_timer(
+  rclc_executor_t * executor,
+  const rcl_timer_t * timer);
+
+
+/**
+ *  Removes a client from an executor.
+ * * An error is returned if {@link rclc_executor_t.handles} array is empty.
+ * * An error is returned if client is not found in {@link rclc_executor_t.handles}.
+ * * The total number_of_clients field of {@link rclc_executor_t.info}
+ *   is incremented by one.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param [inout] executor pointer to initialized executor
+ * \param [in] client pointer to an allocated and initialized client previously added to executor
+ * \return `RCL_RET_OK` if add-operation was successful
+ * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
+ * \return `RCL_RET_ERROR` if any other error occured
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_executor_remove_client(
+  rclc_executor_t * executor,
+  const rcl_client_t * client);
+
+
+/**
+ *  Removes a service from an executor.
+ * * An error is returned if {@link rclc_executor_t.handles} array is empty.
+ * * An error is returned if service is not found in {@link rclc_executor_t.handles}.
+ * * The total number_of_services field of {@link rclc_executor_t.info}
+ *   is incremented by one.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param [inout] executor pointer to initialized executor
+ * \param [in] service pointer to an allocated and initialized service previously added to executor
+ * \return `RCL_RET_OK` if add-operation was successful
+ * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
+ * \return `RCL_RET_ERROR` if any other error occured
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_executor_remove_service(
+  rclc_executor_t * executor,
+  const rcl_service_t * service);
+
+/**
+ *  Removes a guard_condition from an executor.
+ * * An error is returned if {@link rclc_executor_t.handles} array is empty.
+ * * An error is returned if guard_condition is not found in {@link rclc_executor_t.handles}.
+ * * The total number_of_guard_conditions field of {@link rclc_executor_t.info}
+ *   is incremented by one.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param [inout] executor pointer to initialized executor
+ * \param [in] guard_condition pointer to an allocated and initialized guard_condition previously added to executor
+ * \return `RCL_RET_OK` if add-operation was successful
+ * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
+ * \return `RCL_RET_ERROR` if any other error occured
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_executor_remove_guard_condition(
+  rclc_executor_t * executor,
+  const rcl_guard_condition_t * guard_condition);
+
+/**
+ *  The executor prepare function prepare the waitset of the executor if
+ *  it is invalid. Does nothing if a valid waitset is already prepared.
+ *
+ * Memory is dynamically allocated within rcl-layer, when DDS queue is accessed with rcl_wait_set_init()
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ *
+ * \param [inout] executor pointer to initialized executor
+ * \return `RCL_RET_OK` if executor prepare operation was successful
+ * \return `RCL_RET_INVALID_ARGUMENT` if any parameter is a null pointer
+ * \return `RCL_RET_ERROR` if any other error occured
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_executor_prepare(
+  rclc_executor_t * executor);
 
 /**
  *  The spin-some function checks one-time for new data from the DDS-queue.
@@ -449,6 +677,7 @@ rclc_executor_add_guard_condition(
  * \return `RCL_RET_TIMEOUT` if rcl_wait() returned timeout (aka no data is avaiable during until the timeout)
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_spin_some(
   rclc_executor_t * executor,
@@ -475,6 +704,7 @@ rclc_executor_spin_some(
  * \return `RCL_RET_INVALID_ARGUMENT` if executor is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_spin(rclc_executor_t * executor);
 
@@ -500,6 +730,7 @@ rclc_executor_spin(rclc_executor_t * executor);
  * \return `RCL_RET_INVALID_ARGUMENT` if executor is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_spin_period(
   rclc_executor_t * executor,
@@ -528,6 +759,7 @@ rclc_executor_spin_period(
  * \return `RCL_RET_INVALID_ARGUMENT` if executor is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_spin_one_period(
   rclc_executor_t * executor,
@@ -552,6 +784,7 @@ rclc_executor_spin_one_period(
  * \return `RCL_RET_INVALID_ARGUMENT` if executor is a null pointer
  * \return `RCL_RET_ERROR` if any other error occured
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_executor_set_trigger(
   rclc_executor_t * executor,
@@ -576,6 +809,7 @@ rclc_executor_set_trigger(
  * \return true - if all handles are ready (subscriptions have new data, timers are ready)
  * \return false - otherwise
  */
+RCLC_PUBLIC
 bool
 rclc_executor_trigger_all(
   rclc_executor_handle_t * handles,
@@ -600,6 +834,7 @@ rclc_executor_trigger_all(
  * \return true - if at least one handles is ready (subscriptions have new data, timers are ready)
  * \return false - otherwise
  */
+RCLC_PUBLIC
 bool
 rclc_executor_trigger_any(
   rclc_executor_handle_t * handles,
@@ -623,6 +858,7 @@ rclc_executor_trigger_any(
  * \param [in] obj trigger_object set by rclc_executor_set_trigger (not used)
  * \return true always
  */
+RCLC_PUBLIC
 bool
 rclc_executor_trigger_always(
   rclc_executor_handle_t * handles,
@@ -648,6 +884,7 @@ rclc_executor_trigger_always(
  * \return true if rcl-handle obj is ready
  * \return false otherwise
  */
+RCLC_PUBLIC
 bool
 rclc_executor_trigger_one(
   rclc_executor_handle_t * handles,

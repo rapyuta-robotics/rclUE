@@ -24,6 +24,7 @@ extern "C"
 #include <rcl/service.h>
 #include <rcl/allocator.h>
 #include <rclc/types.h>
+#include "rclc/visibility_control.h"
 
 /**
  *  Creates an rcl service.
@@ -43,6 +44,7 @@ extern "C"
  * \return `RCL_RET_OK` if successful
  * \return `RCL_ERROR` (or other error code) if an error has occurred
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_service_init_default(
   rcl_service_t * service,
@@ -68,12 +70,41 @@ rclc_service_init_default(
  * \return `RCL_RET_OK` if successful
  * \return `RCL_ERROR` (or other error code) if an error has occurred
  */
+RCLC_PUBLIC
 rcl_ret_t
 rclc_service_init_best_effort(
   rcl_service_t * service,
   const rcl_node_t * node,
   const rosidl_service_type_support_t * type_support,
   const char * service_name);
+
+/**
+ *  Creates an rcl service with defined QoS
+ *
+ *  * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes (in RCL)
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param[inout] service a zero_initialized rcl_service_t
+ * \param[in] node pointer to an initialized rcl node
+ * \param[in] type_support type of the request message
+ * \param[in] service_name the name of service topic
+ * \param[in] qos_profile the qos of the topic
+ * \return `RCL_RET_OK` if successful
+ * \return `RCL_ERROR` (or other error code) if an error has occurred
+ */
+RCLC_PUBLIC
+rcl_ret_t
+rclc_service_init(
+  rcl_service_t * service,
+  const rcl_node_t * node,
+  const rosidl_service_type_support_t * type_support,
+  const char * service_name,
+  const rmw_qos_profile_t * qos_profile);
 
 #if __cplusplus
 }
