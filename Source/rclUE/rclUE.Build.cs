@@ -26,12 +26,12 @@ public class rclUE : ModuleRules
         
         if(Directory.Exists(includePath))
         {
+            Log.TraceInformation("[rclUE] include: " + includePath);
             PublicIncludePaths.Add(includePath);
-            Log.TraceInformation("VITYO include " + includePath);
         }
         else
         {
-            Log.TraceWarning("VITYO include DOESNT EXIST  " + includePath);
+            Log.TraceWarning("[rclUE] include wasn't found: " + includePath);
         }
         
         string libPath = IsRootOnly ? InModulePath : Path.Combine(InModulePath, "lib");
@@ -41,24 +41,32 @@ public class rclUE : ModuleRules
             PublicLibraryPaths.Add(libPath);
             PublicRuntimeLibraryPaths.Add(libPath);
             PrivateRuntimeLibraryPaths.Add(libPath);
-            Log.TraceInformation("VITYO      libPath  " + libPath);
+            Log.TraceInformation("[rclUE] libPath: " + libPath);
             var libs = Directory.EnumerateFiles(libPath, "*.so", searchOption);
             
             foreach (var lib in libs)
             {
-                Log.TraceInformation("VITYO     lib  " + lib);
+                Log.TraceInformation("[rclUE] lib: " + lib);
                 PublicAdditionalLibraries.Add(lib);
                 RuntimeDependencies.Add(lib);
             }
         }
         else
         {
-            Log.TraceWarning("VITYO libPath DOESNT   EXIST  " + libPath);
+            Log.TraceWarning("[rclUE]                           libPath wasn't found" + libPath);
         }
 	}
 	
 	public rclUE(ReadOnlyTargetRules Target) : base(Target)
 	{
+		var envVars = Environment.GetEnvironmentVariables();
+		string ldLibraryPathKey = "LD_LIBRARY_PATH";
+
+		if (envVars.Contains(ldLibraryPathKey))
+		{
+			Log.TraceInformation("[rclUE]           LD_LIBRARY_PATH: " + envVars[ldLibraryPathKey]);
+		}
+		
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
@@ -99,7 +107,7 @@ public class rclUE : ModuleRules
 		    
 			foreach (var ros2ModuleName in ros2ModuleNameList)
 			{
-			    AddModule(Path.Combine(ROS2LibPath, ros2ModuleName), false, SearchOption.TopDirectoryOnly);
+			    AddModule(Path.Combine(ROS2LibPath, "include", ros2ModuleName), false, SearchOption.TopDirectoryOnly);
 			}
 		}
 
@@ -111,7 +119,6 @@ public class rclUE : ModuleRules
 				"Core",
 				"CoreUObject",
 				"Engine",
-				"ros2lib",
 				"Projects"
 			}
 		);
