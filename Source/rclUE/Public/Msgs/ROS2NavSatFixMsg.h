@@ -45,7 +45,7 @@ public:
 	float altitude; // original double
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<float> position_covariance; // original double
+	TArray<float> position_covariance = ArrayInitialisers::FloatArray(9); // original double
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	UROSNavSatFixPositionCovarianceType position_covariance_type; // original uint8

@@ -148,7 +148,6 @@ namespace UEToROS2Msg
 	inline void Set(const FString& in, rosidl_runtime_c__String& out)
 	{
 		auto Str = StringCast<ANSICHAR>(*in);
-		
 		out.data = (decltype(out.data)) FMemory::Realloc(out.data, (Str.Length() + 1) * sizeof(decltype(*out.data)));
 		memcpy(out.data, Str.Get(), Str.Length());
 		out.data[Str.Length()] = '\0'; // rosidl c Strings are null terminated
