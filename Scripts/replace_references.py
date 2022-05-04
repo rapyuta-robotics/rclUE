@@ -28,8 +28,8 @@ if os.path.exists(libfastrtps2):
 print('Patching: libfastrtps.so')
 os.system('patchelf --set-soname ' + libfastrtpsRaw + ' ' + libfastrtps)
 
-print('Patching: librclc.so')
-os.system('patchelf --add-needed ' + 'librmw_fastrtps_cpp.so' + ' ' + os.path.join(ros2Libs, 'librclc.so'))
+#print('Patching: librclc.so')
+#os.system('patchelf --add-needed ' + 'librmw_fastrtps_cpp.so' + ' ' + os.path.join(ros2Libs, 'librclc.so'))
 
 for dirpath,subdirs,files in os.walk(ros2):
     for file in files:

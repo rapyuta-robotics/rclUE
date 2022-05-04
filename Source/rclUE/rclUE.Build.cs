@@ -53,7 +53,7 @@ public class rclUE : ModuleRules
         }
         else
         {
-            Log.TraceWarning("[rclUE]                           libPath wasn't found" + libPath);
+            Log.TraceWarning("[rclUE] libPath wasn't found" + libPath);
         }
 	}
 	
@@ -64,7 +64,7 @@ public class rclUE : ModuleRules
 
 		if (envVars.Contains(ldLibraryPathKey))
 		{
-			Log.TraceInformation("[rclUE]           LD_LIBRARY_PATH: " + envVars[ldLibraryPathKey]);
+			Log.TraceInformation("[rclUE] LD_LIBRARY_PATH: " + envVars[ldLibraryPathKey]);
 		}
 		
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
