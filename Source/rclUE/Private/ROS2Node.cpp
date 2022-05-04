@@ -209,7 +209,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
         return;
     }
 
-    if (false == Publishers.Contains(InPublisher))
+    if (!Publishers.Contains(InPublisher))
     {
         if (!InPublisher->IsRegistered())
         {
