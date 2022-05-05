@@ -9,6 +9,8 @@ if os.path.isdir(folderName):
 
 os.mkdir(folderName)
 
+libs = list()
+
 for dirpath,subdirs,files in os.walk(p):
     for file in files:
         if file.endswith('.so') or '.so.' in file:
@@ -21,10 +23,24 @@ for dirpath,subdirs,files in os.walk(p):
             #command = 'readelf -d ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'ldd ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'objdump -x ' + fullName +' |grep RPATH'+ ' > ' + folderName + '/' + file + '.txt'
-            command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
+            #command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #nm --demangle
             
-            print(command)
-            os.system(command)
+            libs.append(file)
+            #print(command)
+            #os.system(command)
             
-   
+libs.sort()
+libsSet = set()
+
+print('All libs names:')
+print('"' + '",\n"'.join(libs) + '"')
+
+print('Checking duplications...')
+for lib in libs:
+    if lib in libsSet:
+        print('Duplication:', lib)
+    else:
+        libsSet.add(lib)
+
+print('Error. Duplications were found') if len(libs) != len(libsSet) else print('All ok. Duplications are not found')
