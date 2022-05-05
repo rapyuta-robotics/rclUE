@@ -105,26 +105,181 @@ void AROS2Node::Init()
             //     void* handle2 = FPlatformProcess::GetDllHandle(*fileName);
             //     UE_LOG(LogTemp, Warning, TEXT("VITYO handle2 %s"), handle2 ? TEXT("not null") : TEXT("null"));
             // }
-            void* handle = NULL;
-            int DlOpenMode = RTLD_NOW | RTLD_GLOBAL;
-            handle = dlopen( "librclc.so", DlOpenMode);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO librclc %s"), handle ? TEXT("not null") : TEXT("null"));
-            handle = dlopen( "librcl.so", DlOpenMode);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO librcl %s"), handle ? TEXT("not null") : TEXT("null"));
-            handle = dlopen( "librmw.so", DlOpenMode);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO librmw %s"), handle ? TEXT("not null") : TEXT("null"));
-            handle = dlopen( "librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so", DlOpenMode);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO librmw_dds_common__rosidl_typesupport_fastrtps_cpp %s"), handle ? TEXT("not null") : TEXT("null"));
-            handle = dlopen( "librmw_fastrtps_cpp.so", DlOpenMode);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO librmw_fastrtps_cpp %s"), handle ? TEXT("not null") : TEXT("null"));
+            // void* handle = NULL;
+            // int DlOpenMode = RTLD_NOW | RTLD_GLOBAL;
+            // handle = dlopen( "librclc.so", DlOpenMode);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO librclc %s"), handle ? TEXT("not null") : TEXT("null"));
+            // handle = dlopen( "librcl.so", DlOpenMode);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO librcl %s"), handle ? TEXT("not null") : TEXT("null"));
+            // handle = dlopen( "librmw.so", DlOpenMode);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO librmw %s"), handle ? TEXT("not null") : TEXT("null"));
+            // handle = dlopen( "librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so", DlOpenMode);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO librmw_dds_common__rosidl_typesupport_fastrtps_cpp %s"), handle ? TEXT("not null") : TEXT("null"));
+            // handle = dlopen( "librmw_fastrtps_cpp.so", DlOpenMode);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO librmw_fastrtps_cpp %s"), handle ? TEXT("not null") : TEXT("null"));
 
+            // void* handle = NULL;
+            // int DlOpenMode = RTLD_NOW | RTLD_GLOBAL;
+            // handle = dlopen( "librclc.so", DlOpenMode);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO librclc %s"), handle ? TEXT("not null") : TEXT("null"));
+
+            TArray<FString> libs = {
+"libaction_msgs__rosidl_generator_c.so",
+"libaction_msgs__rosidl_typesupport_c.so",
+"libaction_msgs__rosidl_typesupport_fastrtps_c.so",
+"libbuiltin_interfaces__rosidl_generator_c.so",
+"libbuiltin_interfaces__rosidl_typesupport_c.so",
+"libbuiltin_interfaces__rosidl_typesupport_cpp.so",
+"libbuiltin_interfaces__rosidl_typesupport_fastrtps_c.so",
+"libbuiltin_interfaces__rosidl_typesupport_fastrtps_cpp.so",
+"libbuiltin_interfaces__rosidl_typesupport_introspection_c.so",
+"libbuiltin_interfaces__rosidl_typesupport_introspection_cpp.so",
+"libexample_interfaces__python.so",
+"libexample_interfaces__rosidl_generator_c.so",
+"libexample_interfaces__rosidl_typesupport_c.so",
+"libexample_interfaces__rosidl_typesupport_connext_c.so",
+"libexample_interfaces__rosidl_typesupport_connext_cpp.so",
+"libexample_interfaces__rosidl_typesupport_cpp.so",
+"libexample_interfaces__rosidl_typesupport_fastrtps_c.so",
+"libexample_interfaces__rosidl_typesupport_fastrtps_cpp.so",
+"libexample_interfaces__rosidl_typesupport_introspection_c.so",
+"libexample_interfaces__rosidl_typesupport_introspection_cpp.so",
+"libfastcdr.so",
+"libfastrtps.so",
+"libgeometry_msgs__rosidl_generator_c.so",
+"libgeometry_msgs__rosidl_typesupport_c.so",
+"libgeometry_msgs__rosidl_typesupport_connext_c.so",
+"libgeometry_msgs__rosidl_typesupport_connext_cpp.so",
+"libgeometry_msgs__rosidl_typesupport_cpp.so",
+"libgeometry_msgs__rosidl_typesupport_fastrtps_c.so",
+"libgeometry_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"libgeometry_msgs__rosidl_typesupport_introspection_c.so",
+"libgeometry_msgs__rosidl_typesupport_introspection_cpp.so",
+"libnav_msgs__rosidl_generator_c.so",
+"libnav_msgs__rosidl_typesupport_c.so",
+"libnav_msgs__rosidl_typesupport_connext_c.so",
+"libnav_msgs__rosidl_typesupport_connext_cpp.so",
+"libnav_msgs__rosidl_typesupport_cpp.so",
+"libnav_msgs__rosidl_typesupport_fastrtps_c.so",
+"libnav_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"libnav_msgs__rosidl_typesupport_introspection_c.so",
+"libnav_msgs__rosidl_typesupport_introspection_cpp.so",
+"librcl.so",
+"librcl_action.so",
+"librcl_interfaces__rosidl_generator_c.so",
+"librcl_interfaces__rosidl_typesupport_c.so",
+"librcl_interfaces__rosidl_typesupport_cpp.so",
+"librcl_interfaces__rosidl_typesupport_fastrtps_c.so",
+"librcl_interfaces__rosidl_typesupport_fastrtps_cpp.so",
+"librcl_interfaces__rosidl_typesupport_introspection_c.so",
+"librcl_interfaces__rosidl_typesupport_introspection_cpp.so",
+"librcl_lifecycle.so",
+"librcl_logging_spdlog.so",
+"librcl_yaml_param_parser.so",
+"librclc.so",
+"librcpputils.so",
+"librcutils.so",
+"librmw.so",
+"librmw_dds_common.so",
+"librmw_dds_common__rosidl_generator_c.so",
+"librmw_dds_common__rosidl_typesupport_c.so",
+"librmw_dds_common__rosidl_typesupport_cpp.so",
+"librmw_dds_common__rosidl_typesupport_fastrtps_c.so",
+"librmw_dds_common__rosidl_typesupport_fastrtps_cpp.so",
+"librmw_dds_common__rosidl_typesupport_introspection_c.so",
+"librmw_dds_common__rosidl_typesupport_introspection_cpp.so",
+"librmw_fastrtps_cpp.so",
+"librmw_fastrtps_shared_cpp.so",
+"librmw_implementation.so",
+"librosgraph_msgs__rosidl_generator_c.so",
+"librosgraph_msgs__rosidl_typesupport_c.so",
+"librosgraph_msgs__rosidl_typesupport_cpp.so",
+"librosgraph_msgs__rosidl_typesupport_fastrtps_c.so",
+"librosgraph_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"librosgraph_msgs__rosidl_typesupport_introspection_c.so",
+"librosgraph_msgs__rosidl_typesupport_introspection_cpp.so",
+"librosidl_runtime_c.so",
+"librosidl_typesupport_c.so",
+"librosidl_typesupport_cpp.so",
+"librosidl_typesupport_fastrtps_c.so",
+"librosidl_typesupport_fastrtps_cpp.so",
+"librosidl_typesupport_introspection_c.so",
+"librosidl_typesupport_introspection_cpp.so",
+"libsensor_msgs__rosidl_generator_c.so",
+"libsensor_msgs__rosidl_typesupport_c.so",
+"libsensor_msgs__rosidl_typesupport_connext_c.so",
+"libsensor_msgs__rosidl_typesupport_connext_cpp.so",
+"libsensor_msgs__rosidl_typesupport_cpp.so",
+"libsensor_msgs__rosidl_typesupport_fastrtps_c.so",
+"libsensor_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"libsensor_msgs__rosidl_typesupport_introspection_c.so",
+"libsensor_msgs__rosidl_typesupport_introspection_cpp.so",
+"libstd_msgs__rosidl_generator_c.so",
+"libstd_msgs__rosidl_typesupport_c.so",
+"libstd_msgs__rosidl_typesupport_connext_c.so",
+"libstd_msgs__rosidl_typesupport_connext_cpp.so",
+"libstd_msgs__rosidl_typesupport_cpp.so",
+"libstd_msgs__rosidl_typesupport_fastrtps_c.so",
+"libstd_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"libstd_msgs__rosidl_typesupport_introspection_c.so",
+"libstd_msgs__rosidl_typesupport_introspection_cpp.so",
+"libtf2_msgs__rosidl_generator_c.so",
+"libtf2_msgs__rosidl_typesupport_c.so",
+"libtf2_msgs__rosidl_typesupport_connext_c.so",
+"libtf2_msgs__rosidl_typesupport_connext_cpp.so",
+"libtf2_msgs__rosidl_typesupport_cpp.so",
+"libtf2_msgs__rosidl_typesupport_fastrtps_c.so",
+"libtf2_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"libtf2_msgs__rosidl_typesupport_introspection_c.so",
+"libtf2_msgs__rosidl_typesupport_introspection_cpp.so",
+"libtracetools.so",
+"libue4_interfaces__rosidl_generator_c.so",
+"libue4_interfaces__rosidl_typesupport_c.so",
+"libue4_interfaces__rosidl_typesupport_cpp.so",
+"libue4_interfaces__rosidl_typesupport_fastrtps_c.so",
+"libue4_interfaces__rosidl_typesupport_fastrtps_cpp.so",
+"libue4_interfaces__rosidl_typesupport_introspection_c.so",
+"libue4_interfaces__rosidl_typesupport_introspection_cpp.so",
+"libue_msgs__python.so",
+"libue_msgs__rosidl_generator_c.so",
+"libue_msgs__rosidl_typesupport_c.so",
+"libue_msgs__rosidl_typesupport_connext_c.so",
+"libue_msgs__rosidl_typesupport_connext_cpp.so",
+"libue_msgs__rosidl_typesupport_cpp.so",
+"libue_msgs__rosidl_typesupport_fastrtps_c.so",
+"libue_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"libue_msgs__rosidl_typesupport_introspection_c.so",
+"libue_msgs__rosidl_typesupport_introspection_cpp.so",
+"libunique_identifier_msgs__python.so",
+"libunique_identifier_msgs__rosidl_generator_c.so",
+"libunique_identifier_msgs__rosidl_typesupport_c.so",
+"libunique_identifier_msgs__rosidl_typesupport_connext_c.so",
+"libunique_identifier_msgs__rosidl_typesupport_connext_cpp.so",
+"libunique_identifier_msgs__rosidl_typesupport_cpp.so",
+"libunique_identifier_msgs__rosidl_typesupport_fastrtps_c.so",
+"libunique_identifier_msgs__rosidl_typesupport_fastrtps_cpp.so",
+"libunique_identifier_msgs__rosidl_typesupport_introspection_c.so",
+"libunique_identifier_msgs__rosidl_typesupport_introspection_cpp.so",
+"libyaml.so"
+            };
+
+            for(const auto& lib : libs)
+            {
+                void* handle = FPlatformProcess::GetDllHandle(*lib);
+
+                if(handle)
+                {
+                    UE_LOG(LogTemp, Warning, TEXT("lib found %s"), *lib);
+                }
+            }
+            
             rcl_ret_t rc = rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get());
 
-            UE_LOG(LogTemp, Warning, TEXT("VITYO Name %s"), *Name);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO Namespace %s"), *Namespace);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO Clock %d"), Support->Get().clock.type);
-            UE_LOG(LogTemp, Warning, TEXT("VITYO allocator %s"), Support->Get().allocator == NULL ? TEXT("null") : TEXT("not null") );
-            UE_LOG(LogTemp, Warning, TEXT("VITYO rclc_node_init_default %d"), rc);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO Name %s"), *Name);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO Namespace %s"), *Namespace);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO Clock %d"), Support->Get().clock.type);
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO allocator %s"), Support->Get().allocator == NULL ? TEXT("null") : TEXT("not null") );
+            // UE_LOG(LogTemp, Warning, TEXT("VITYO rclc_node_init_default %d"), rc);
             RCSOFTCHECK(rc);
         }
 
