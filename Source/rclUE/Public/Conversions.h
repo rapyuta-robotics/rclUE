@@ -138,7 +138,7 @@ namespace UEToROS2Msg
 
 	inline void Set(const FGuid& in, unique_identifier_msgs__msg__UUID& out)
 	{
-		uint32* uuid = (uint32*) &out.uuid; // todo - ensure the endianness is correct
+		uint32* uuid = (uint32*) &out.uuid; // TODO - ensure the endianness is correct
 		uuid[0] = in.A;
 		uuid[1] = in.B;
 		uuid[2] = in.C;
@@ -166,42 +166,49 @@ namespace UEToROS2Msg
 	template <typename T, typename ROST>
 	inline void SetStructSequence(const TArray<T>& in, ROST &out)
 	{
-		// out.data = (decltype(out.data)) FMemory::Realloc(out.data, in.Num() * sizeof(decltype(*out.data)));
 		if (out.data != nullptr)
 		{
 			FMemory::Free(out.data);
+			out.data = nullptr;
 		}
-		
-		out.data = (decltype(out.data)) FMemory::MallocZeroed(in.Num() * sizeof(decltype(*out.data)));
 
-		for (int i = 0; i < in.Num(); i++)
+		if (in.Num() > 0)
 		{
-			in[i].SetROS2(out.data[i]);
+			out.data = (decltype(out.data)) FMemory::MallocZeroed(in.Num() * sizeof(decltype(*out.data)));
+
+			for (int i = 0; i < in.Num(); i++)
+			{
+				in[i].SetROS2(out.data[i]);
+			}
 		}
 
 		out.size = in.Num();
 		out.capacity = in.Num();
 	}
-	
+
 	template <typename T, typename ROSSequenceT>
 	inline void SetSequence(const T& in, ROSSequenceT &out) // TODO: change to be template param of TArray
 	{
 		if (out.data != nullptr)
 		{
 			FMemory::Free(out.data);
+			out.data = nullptr;
 		}
-		
-		out.data = (decltype(out.data)) FMemory::MallocZeroed(in.Num() * sizeof(decltype(*out.data)));
 
-		for (int i = 0; i < in.Num(); i++)
+		if (in.Num() > 0)
 		{
-			Set(in[i], out.data[i]);
+			out.data = (decltype(out.data)) FMemory::MallocZeroed(in.Num() * sizeof(decltype(*out.data)));
+
+			for (int i = 0; i < in.Num(); i++)
+			{
+				Set(in[i], out.data[i]);
+			}
 		}
 
 		out.size = in.Num();
 		out.capacity = in.Num();
 	}
-	
+
 	template <size_t N>
 	inline void SetSequence(const TArray<float>& in, double (&out)[N])
 	{
