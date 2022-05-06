@@ -9,7 +9,7 @@ Furthermore non-ROS engineers should be able to quickly set up robot simulations
 through UE4’s blueprint visual scripting language by using the instruments 
 that ROS developers and the plugin exposed. 
 
-This document includes not only rclUE but also includes overviews of a group of rclUE softwares which includes multiple repositories.
+This document includes not only rclUE but also an overview of its stakeholders from various repositories.
 Please check the :doc:`overview`.
 
 A demo of our tool can be found in our port of the `turtlebot examples to UE4 <https://github.com/rapyuta-robotics/turtlebot3-UE>`_.
