@@ -25,7 +25,7 @@ ROS2 integration features such as creating ROS2 Node, publisher/subscriber and e
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Provides feature to create ROS2 controllable actor, e.g. robot and sensors.
 Most of the features in top figure are provided by this repository.
-Pleasae check `overview of RapyutaSimulationPlugins <https://rapyutasimulationplugins.readthedocs.io/en/devel/overview.html>`_ 
+Please check `overview of RapyutaSimulationPlugins <https://rapyutasimulationplugins.readthedocs.io/en/devel/overview.html>`_ 
 
 `UE_tools <https://github.com/rapyuta-robotics/UE_tools>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
