@@ -16,6 +16,32 @@ for dirpath,subdirs,files in os.walk(ros2Include):
             os.remove(fileFrom)
             #libsInclude.add(file)
 
+
+# add allowed only space:
+# current are:
+# ue4_interfaces
+# ue_msgs
+# action_msgs
+# builtin_interfaces
+# example_interfaces
+# fastcdr
+# fastrtps
+# geometry_msgs
+# nav_msgs
+# rcl.
+# rcl_
+# rclc.
+# rcpputils
+# rcutils
+# rmw
+# rosgraph_msgs
+# rosidl
+# sensor_msgs
+# std_msgs
+# tf2_msgs
+# tracetools
+# unique_identifier_msgs
+# yaml
 for dirpath,subdirs,files in os.walk(folderFrom):
     for file in files:
         #if (file.endswith('.so') or '.so.' in file) and \
