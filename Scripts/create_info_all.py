@@ -23,18 +23,18 @@ for dirpath,subdirs,files in os.walk(p):
             #command = 'readelf -d ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'ldd ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'objdump -x ' + fullName +' |grep RPATH'+ ' > ' + folderName + '/' + file + '.txt'
-            #command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
+            command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #nm --demangle
             
             libs.append(file)
             #print(command)
-            #os.system(command)
-            
+            os.system(command)
+  
 libs.sort()
 libsSet = set()
 
-print('All libs names:')
-print('"' + '",\n"'.join(libs) + '"')
+#print('All libs names:')
+#print('"' + '",\n"'.join(libs) + '"')
 
 print('Checking duplications...')
 for lib in libs:
