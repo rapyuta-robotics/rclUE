@@ -2,8 +2,6 @@
 
 #include "Msgs/ROS2StringMsg.h"
 
-#include "Kismet/GameplayStatics.h"
-
 void UROS2StringMsg::Init()
 {
     example_interfaces__msg__String__init(&string_pub_msg);
@@ -21,11 +19,7 @@ const rosidl_message_type_support_t* UROS2StringMsg::GetTypeSupport() const
 
 void UROS2StringMsg::Update(const FString& stringData)
 {
-    const unsigned int StringMsgCapacity = stringData.Len() + 1;
-    string_pub_msg.data.data = (char*)malloc(StringMsgCapacity);
-    string_pub_msg.data.capacity = StringMsgCapacity;
-    snprintf(string_pub_msg.data.data, string_pub_msg.data.capacity, "%s", TCHAR_TO_UTF8(*stringData));
-    string_pub_msg.data.size = strlen(string_pub_msg.data.data);
+    UEToROS2Msg::Set(stringData, string_pub_msg.data);
 }
 
 void* UROS2StringMsg::Get()
@@ -35,5 +29,5 @@ void* UROS2StringMsg::Get()
 
 FString UROS2StringMsg::MsgToString() const
 {
-    return FString(string_pub_msg.data.data);
+    return ROS2MsgToUE::From(string_pub_msg.data);
 }
