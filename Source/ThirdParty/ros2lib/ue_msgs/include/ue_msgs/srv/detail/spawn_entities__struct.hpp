@@ -15,8 +15,8 @@
 
 
 // Include directives for member types
-// Member 'spawn_state'
-#include "ue_msgs/msg/detail/spawn_entity_state__struct.hpp"
+// Member 'state'
+#include "ue_msgs/msg/detail/entity_state__struct.hpp"
 
 #ifndef _WIN32
 # define DEPRECATED__ue_msgs__srv__SpawnEntities_Request __attribute__((deprecated))
@@ -38,42 +38,43 @@ struct SpawnEntities_Request_
 
   explicit SpawnEntities_Request_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   {
-    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
-      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
-    {
-      this->xml = "";
-    }
+    (void)_init;
   }
 
   explicit SpawnEntities_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-  : xml(_alloc)
   {
-    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
-      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
-    {
-      this->xml = "";
-    }
+    (void)_init;
+    (void)_alloc;
   }
 
   // field types and members
-  using _xml_type =
-    std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>;
-  _xml_type xml;
-  using _spawn_state_type =
-    std::vector<ue_msgs::msg::SpawnEntityState_<ContainerAllocator>, typename ContainerAllocator::template rebind<ue_msgs::msg::SpawnEntityState_<ContainerAllocator>>::other>;
-  _spawn_state_type spawn_state;
+  using _type_type =
+    std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other>;
+  _type_type type;
+  using _state_type =
+    std::vector<ue_msgs::msg::EntityState_<ContainerAllocator>, typename ContainerAllocator::template rebind<ue_msgs::msg::EntityState_<ContainerAllocator>>::other>;
+  _state_type state;
+  using _tags_type =
+    std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other>;
+  _tags_type tags;
 
   // setters for named parameter idiom
-  Type & set__xml(
-    const std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other> & _arg)
+  Type & set__type(
+    const std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other> & _arg)
   {
-    this->xml = _arg;
+    this->type = _arg;
     return *this;
   }
-  Type & set__spawn_state(
-    const std::vector<ue_msgs::msg::SpawnEntityState_<ContainerAllocator>, typename ContainerAllocator::template rebind<ue_msgs::msg::SpawnEntityState_<ContainerAllocator>>::other> & _arg)
+  Type & set__state(
+    const std::vector<ue_msgs::msg::EntityState_<ContainerAllocator>, typename ContainerAllocator::template rebind<ue_msgs::msg::EntityState_<ContainerAllocator>>::other> & _arg)
   {
-    this->spawn_state = _arg;
+    this->state = _arg;
+    return *this;
+  }
+  Type & set__tags(
+    const std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other> & _arg)
+  {
+    this->tags = _arg;
     return *this;
   }
 
@@ -119,10 +120,13 @@ struct SpawnEntities_Request_
   // comparison operators
   bool operator==(const SpawnEntities_Request_ & other) const
   {
-    if (this->xml != other.xml) {
+    if (this->type != other.type) {
       return false;
     }
-    if (this->spawn_state != other.spawn_state) {
+    if (this->state != other.state) {
+      return false;
+    }
+    if (this->tags != other.tags) {
       return false;
     }
     return true;

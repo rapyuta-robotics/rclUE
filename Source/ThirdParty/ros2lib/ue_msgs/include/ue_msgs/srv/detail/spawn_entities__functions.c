@@ -9,10 +9,11 @@
 #include <string.h>
 
 // Include directives for member types
-// Member `xml`
+// Member `type`
+// Member `tags`
 #include "rosidl_runtime_c/string_functions.h"
-// Member `spawn_state`
-#include "ue_msgs/msg/detail/spawn_entity_state__functions.h"
+// Member `state`
+#include "ue_msgs/msg/detail/entity_state__functions.h"
 
 bool
 ue_msgs__srv__SpawnEntities_Request__init(ue_msgs__srv__SpawnEntities_Request * msg)
@@ -20,13 +21,18 @@ ue_msgs__srv__SpawnEntities_Request__init(ue_msgs__srv__SpawnEntities_Request * 
   if (!msg) {
     return false;
   }
-  // xml
-  if (!rosidl_runtime_c__String__init(&msg->xml)) {
+  // type
+  if (!rosidl_runtime_c__String__Sequence__init(&msg->type, 0)) {
     ue_msgs__srv__SpawnEntities_Request__fini(msg);
     return false;
   }
-  // spawn_state
-  if (!ue_msgs__msg__SpawnEntityState__Sequence__init(&msg->spawn_state, 0)) {
+  // state
+  if (!ue_msgs__msg__EntityState__Sequence__init(&msg->state, 0)) {
+    ue_msgs__srv__SpawnEntities_Request__fini(msg);
+    return false;
+  }
+  // tags
+  if (!rosidl_runtime_c__String__Sequence__init(&msg->tags, 0)) {
     ue_msgs__srv__SpawnEntities_Request__fini(msg);
     return false;
   }
@@ -39,10 +45,12 @@ ue_msgs__srv__SpawnEntities_Request__fini(ue_msgs__srv__SpawnEntities_Request * 
   if (!msg) {
     return;
   }
-  // xml
-  rosidl_runtime_c__String__fini(&msg->xml);
-  // spawn_state
-  ue_msgs__msg__SpawnEntityState__Sequence__fini(&msg->spawn_state);
+  // type
+  rosidl_runtime_c__String__Sequence__fini(&msg->type);
+  // state
+  ue_msgs__msg__EntityState__Sequence__fini(&msg->state);
+  // tags
+  rosidl_runtime_c__String__Sequence__fini(&msg->tags);
 }
 
 ue_msgs__srv__SpawnEntities_Request *

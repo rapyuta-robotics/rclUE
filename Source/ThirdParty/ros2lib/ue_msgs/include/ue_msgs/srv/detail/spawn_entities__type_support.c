@@ -13,12 +13,13 @@
 
 
 // Include directives for member types
-// Member `xml`
+// Member `type`
+// Member `tags`
 #include "rosidl_runtime_c/string_functions.h"
-// Member `spawn_state`
-#include "ue_msgs/msg/spawn_entity_state.h"
-// Member `spawn_state`
-#include "ue_msgs/msg/detail/spawn_entity_state__rosidl_typesupport_introspection_c.h"
+// Member `state`
+#include "ue_msgs/msg/entity_state.h"
+// Member `state`
+#include "ue_msgs/msg/detail/entity_state__rosidl_typesupport_introspection_c.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -39,49 +40,49 @@ void SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Re
   ue_msgs__srv__SpawnEntities_Request__fini(message_memory);
 }
 
-size_t SpawnEntities_Request__rosidl_typesupport_introspection_c__size_function__SpawnEntityState__spawn_state(
+size_t SpawnEntities_Request__rosidl_typesupport_introspection_c__size_function__EntityState__state(
   const void * untyped_member)
 {
-  const ue_msgs__msg__SpawnEntityState__Sequence * member =
-    (const ue_msgs__msg__SpawnEntityState__Sequence *)(untyped_member);
+  const ue_msgs__msg__EntityState__Sequence * member =
+    (const ue_msgs__msg__EntityState__Sequence *)(untyped_member);
   return member->size;
 }
 
-const void * SpawnEntities_Request__rosidl_typesupport_introspection_c__get_const_function__SpawnEntityState__spawn_state(
+const void * SpawnEntities_Request__rosidl_typesupport_introspection_c__get_const_function__EntityState__state(
   const void * untyped_member, size_t index)
 {
-  const ue_msgs__msg__SpawnEntityState__Sequence * member =
-    (const ue_msgs__msg__SpawnEntityState__Sequence *)(untyped_member);
+  const ue_msgs__msg__EntityState__Sequence * member =
+    (const ue_msgs__msg__EntityState__Sequence *)(untyped_member);
   return &member->data[index];
 }
 
-void * SpawnEntities_Request__rosidl_typesupport_introspection_c__get_function__SpawnEntityState__spawn_state(
+void * SpawnEntities_Request__rosidl_typesupport_introspection_c__get_function__EntityState__state(
   void * untyped_member, size_t index)
 {
-  ue_msgs__msg__SpawnEntityState__Sequence * member =
-    (ue_msgs__msg__SpawnEntityState__Sequence *)(untyped_member);
+  ue_msgs__msg__EntityState__Sequence * member =
+    (ue_msgs__msg__EntityState__Sequence *)(untyped_member);
   return &member->data[index];
 }
 
-bool SpawnEntities_Request__rosidl_typesupport_introspection_c__resize_function__SpawnEntityState__spawn_state(
+bool SpawnEntities_Request__rosidl_typesupport_introspection_c__resize_function__EntityState__state(
   void * untyped_member, size_t size)
 {
-  ue_msgs__msg__SpawnEntityState__Sequence * member =
-    (ue_msgs__msg__SpawnEntityState__Sequence *)(untyped_member);
-  ue_msgs__msg__SpawnEntityState__Sequence__fini(member);
-  return ue_msgs__msg__SpawnEntityState__Sequence__init(member, size);
+  ue_msgs__msg__EntityState__Sequence * member =
+    (ue_msgs__msg__EntityState__Sequence *)(untyped_member);
+  ue_msgs__msg__EntityState__Sequence__fini(member);
+  return ue_msgs__msg__EntityState__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_member_array[2] = {
+static rosidl_typesupport_introspection_c__MessageMember SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_member_array[3] = {
   {
-    "xml",  // name
+    "type",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
     0,  // upper bound of string
     NULL,  // members of sub message
-    false,  // is array
+    true,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(ue_msgs__srv__SpawnEntities_Request, xml),  // bytes offset in struct
+    offsetof(ue_msgs__srv__SpawnEntities_Request, type),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -89,26 +90,41 @@ static rosidl_typesupport_introspection_c__MessageMember SpawnEntities_Request__
     NULL  // resize(index) function pointer
   },
   {
-    "spawn_state",  // name
+    "state",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
     0,  // upper bound of string
     NULL,  // members of sub message (initialized later)
     true,  // is array
     0,  // array size
     false,  // is upper bound
-    offsetof(ue_msgs__srv__SpawnEntities_Request, spawn_state),  // bytes offset in struct
+    offsetof(ue_msgs__srv__SpawnEntities_Request, state),  // bytes offset in struct
     NULL,  // default value
-    SpawnEntities_Request__rosidl_typesupport_introspection_c__size_function__SpawnEntityState__spawn_state,  // size() function pointer
-    SpawnEntities_Request__rosidl_typesupport_introspection_c__get_const_function__SpawnEntityState__spawn_state,  // get_const(index) function pointer
-    SpawnEntities_Request__rosidl_typesupport_introspection_c__get_function__SpawnEntityState__spawn_state,  // get(index) function pointer
-    SpawnEntities_Request__rosidl_typesupport_introspection_c__resize_function__SpawnEntityState__spawn_state  // resize(index) function pointer
+    SpawnEntities_Request__rosidl_typesupport_introspection_c__size_function__EntityState__state,  // size() function pointer
+    SpawnEntities_Request__rosidl_typesupport_introspection_c__get_const_function__EntityState__state,  // get_const(index) function pointer
+    SpawnEntities_Request__rosidl_typesupport_introspection_c__get_function__EntityState__state,  // get(index) function pointer
+    SpawnEntities_Request__rosidl_typesupport_introspection_c__resize_function__EntityState__state  // resize(index) function pointer
+  },
+  {
+    "tags",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    true,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ue_msgs__srv__SpawnEntities_Request, tags),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_members = {
   "ue_msgs__srv",  // message namespace
   "SpawnEntities_Request",  // message name
-  2,  // number of fields
+  3,  // number of fields
   sizeof(ue_msgs__srv__SpawnEntities_Request),
   SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_member_array,  // message members
   SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_init_function,  // function to initialize message memory (memory has to be allocated)
@@ -127,7 +143,7 @@ ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT_ue_msgs
 const rosidl_message_type_support_t *
 ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, ue_msgs, srv, SpawnEntities_Request)() {
   SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_member_array[1].members_ =
-    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, ue_msgs, msg, SpawnEntityState)();
+    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, ue_msgs, msg, EntityState)();
   if (!SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_type_support_handle.typesupport_identifier) {
     SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_type_support_handle.typesupport_identifier =
       rosidl_typesupport_introspection_c__identifier;

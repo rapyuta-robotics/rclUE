@@ -19,153 +19,157 @@ struct RCLUE_API FROSSpawnEntities_Request
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString xml;
+	TArray<FString> type;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> spawn_state_xml;
+	TArray<FString> name;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> spawn_state_name;
+	TArray<FVector> position;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FVector> spawn_state_pose_position;
+	TArray<FQuat> orientation;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FQuat> spawn_state_pose_orientation;
+	TArray<FVector> twist_linear;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FVector> spawn_state_twist_linear;
+	TArray<FVector> twist_angular;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FVector> spawn_state_twist_angular;
+	TArray<FString> reference_frame;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> spawn_state_reference_frame;
+	TArray<FString> tags;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<FString> spawn_state_tags;
-
+	
 
 	void SetFromROS2(const ue_msgs__srv__SpawnEntities_Request& in_ros_data)
 	{
-    	xml.AppendChars(in_ros_data.xml.data, in_ros_data.xml.size);
-
-		for (int i = 0; i < in_ros_data.spawn_state.size; i++)
+    	for (int i = 0; i < in_ros_data.type.size; i++)
 		{
-			spawn_state_xml.Add("");
-			spawn_state_xml[i].AppendChars(in_ros_data.spawn_state.data[i].xml.data,in_ros_data.spawn_state.data[i].xml.size);
+			type.Add("");
+			type[i].AppendChars(in_ros_data.type.data[i].data,in_ros_data.type.data[i].size);
 		}
 
-		for (int i = 0; i < in_ros_data.spawn_state.size; i++)
+		for (int i = 0; i < in_ros_data.state.size; i++)
 		{
-			spawn_state_name.Add("");
-			spawn_state_name[i].AppendChars(in_ros_data.spawn_state.data[i].state.name.data,in_ros_data.spawn_state.data[i].state.name.size);
+			name.Add("");
+			name[i].AppendChars(in_ros_data.state.data[i].name.data,in_ros_data.state.data[i].name.size);
 		}
 
-		for (int i = 0; i < in_ros_data.spawn_state.size; i++)
+		for (int i = 0; i < in_ros_data.state.size; i++)
 		{
-			spawn_state_pose_position.Add( FVector( in_ros_data.spawn_state.data[i].state.pose.position.x, in_ros_data.spawn_state.data[i].state.pose.position.y, in_ros_data.spawn_state.data[i].state.pose.position.z ) );
-			spawn_state_pose_orientation.Add( FQuat( in_ros_data.spawn_state.data[i].state.pose.orientation.x, in_ros_data.spawn_state.data[i].state.pose.orientation.y, in_ros_data.spawn_state.data[i].state.pose.orientation.z, in_ros_data.spawn_state.data[i].state.pose.orientation.w ) );
+			position.Add( FVector( in_ros_data.state.data[i].pose.position.x, in_ros_data.state.data[i].pose.position.y, in_ros_data.state.data[i].pose.position.z ) );
+			orientation.Add( FQuat( in_ros_data.state.data[i].pose.orientation.x, in_ros_data.state.data[i].pose.orientation.y, in_ros_data.state.data[i].pose.orientation.z, in_ros_data.state.data[i].pose.orientation.w ) );
 		}
 
-		for (int i = 0; i < in_ros_data.spawn_state.size; i++)
+		for (int i = 0; i < in_ros_data.state.size; i++)
 		{
-			spawn_state_twist_linear.Add( FVector( in_ros_data.spawn_state.data[i].state.twist.linear.x, in_ros_data.spawn_state.data[i].state.twist.linear.y, in_ros_data.spawn_state.data[i].state.twist.linear.z ) );
-			spawn_state_twist_angular.Add( FVector( in_ros_data.spawn_state.data[i].state.twist.angular.x, in_ros_data.spawn_state.data[i].state.twist.angular.y, in_ros_data.spawn_state.data[i].state.twist.angular.z ) );
+			twist_linear.Add( FVector( in_ros_data.state.data[i].twist.linear.x, in_ros_data.state.data[i].twist.linear.y, in_ros_data.state.data[i].twist.linear.z ) );
+			twist_angular.Add( FVector( in_ros_data.state.data[i].twist.angular.x, in_ros_data.state.data[i].twist.angular.y, in_ros_data.state.data[i].twist.angular.z ) );
 		}
 
-		for (int i = 0; i < in_ros_data.spawn_state.size; i++)
+		for (int i = 0; i < in_ros_data.state.size; i++)
 		{
-			spawn_state_reference_frame.Add("");
-			spawn_state_reference_frame[i].AppendChars(in_ros_data.spawn_state.data[i].state.reference_frame.data,in_ros_data.spawn_state.data[i].state.reference_frame.size);
+			reference_frame.Add("");
+			reference_frame[i].AppendChars(in_ros_data.state.data[i].reference_frame.data,in_ros_data.state.data[i].reference_frame.size);
 		}
 
-		for (int i = 0; i < in_ros_data.spawn_state.size; i++)
+		for (int i = 0; i < in_ros_data.tags.size; i++)
 		{
-			spawn_state_tags.Add("");
-			for( int j=0; j < in_ros_data.spawn_state.data[i].tags.size; j++)
-			{
-				spawn_state_tags[i].AppendChars(in_ros_data.spawn_state.data[i].tags.data[j].data,in_ros_data.spawn_state.data[i].tags.data[j].size);
-			}
+			tags.Add("");
+			tags[i].AppendChars(in_ros_data.tags.data[i].data,in_ros_data.tags.data[i].size);
 		}
 	}
 
 	void SetROS2(ue_msgs__srv__SpawnEntities_Request& out_ros_data) const
 	{
-    	{
-			FTCHARToUTF8 strUtf8( *xml );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.xml.data != nullptr)
+    	if (out_ros_data.type.data != nullptr)
 		{
-			free(out_ros_data.xml.data);
+			free(out_ros_data.type.data);
 		}
-		out_ros_data.xml.data = (decltype(out_ros_data.xml.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.xml.data)));
-		memcpy(out_ros_data.xml.data, TCHAR_TO_UTF8(*xml), (strLength+1)*sizeof(char));
-			out_ros_data.xml.size = strLength;
-			out_ros_data.xml.capacity = strLength + 1;
-		}
-
-		if (out_ros_data.spawn_state.data != nullptr)
-		{
-			free(out_ros_data.spawn_state.data);
-		}
-		out_ros_data.spawn_state.data = (decltype(out_ros_data.spawn_state.data))malloc(spawn_state_xml.Num() * (sizeof(spawn_state_xml) + sizeof(spawn_state_name) + sizeof(spawn_state_pose_position) + sizeof(spawn_state_pose_orientation) + sizeof(spawn_state_twist_linear) + sizeof(spawn_state_twist_angular) + sizeof(spawn_state_reference_frame) + sizeof(spawn_state_tags)));
-		out_ros_data.spawn_state.size = spawn_state_xml.Num();
-		out_ros_data.spawn_state.capacity = spawn_state_xml.Num();
-		for (int i = 0; i < spawn_state_xml.Num(); i++)
+		out_ros_data.type.data = (decltype(out_ros_data.type.data))malloc((type.Num())*sizeof(decltype(*out_ros_data.type.data)));
+		for (int i = 0; i < type.Num(); i++)
 		{
 			{
-				FTCHARToUTF8 strUtf8( *spawn_state_xml[i] );
-			int32 strLength = strUtf8.Length();
-				out_ros_data.spawn_state.data[i].xml.data = (decltype(out_ros_data.spawn_state.data[i].xml.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.spawn_state.data[i].xml.data)));
-		memcpy(out_ros_data.spawn_state.data[i].xml.data, TCHAR_TO_UTF8(*spawn_state_xml[i]), (strLength+1)*sizeof(char));
-				out_ros_data.spawn_state.data[i].xml.size = strLength;
-				out_ros_data.spawn_state.data[i].xml.capacity = strLength + 1;
-			}
-
-			{
-				FTCHARToUTF8 strUtf8( *spawn_state_name[i] );
-			int32 strLength = strUtf8.Length();
-				out_ros_data.spawn_state.data[i].state.name.data = (decltype(out_ros_data.spawn_state.data[i].state.name.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.spawn_state.data[i].state.name.data)));
-		memcpy(out_ros_data.spawn_state.data[i].state.name.data, TCHAR_TO_UTF8(*spawn_state_name[i]), (strLength+1)*sizeof(char));
-				out_ros_data.spawn_state.data[i].state.name.size = strLength;
-				out_ros_data.spawn_state.data[i].state.name.capacity = strLength + 1;
-			}
-
-			out_ros_data.spawn_state.data[i].state.pose.position.x = spawn_state_pose_position[i].X;
-			out_ros_data.spawn_state.data[i].state.pose.position.y = spawn_state_pose_position[i].Y;
-			out_ros_data.spawn_state.data[i].state.pose.position.z = spawn_state_pose_position[i].Z;
-			out_ros_data.spawn_state.data[i].state.pose.orientation.x = spawn_state_pose_orientation[i].X;
-			out_ros_data.spawn_state.data[i].state.pose.orientation.y = spawn_state_pose_orientation[i].Y;
-			out_ros_data.spawn_state.data[i].state.pose.orientation.z = spawn_state_pose_orientation[i].Z;
-			out_ros_data.spawn_state.data[i].state.pose.orientation.w = spawn_state_pose_orientation[i].W;
-
-			out_ros_data.spawn_state.data[i].state.twist.linear.x = spawn_state_twist_linear[i].X;
-			out_ros_data.spawn_state.data[i].state.twist.linear.y = spawn_state_twist_linear[i].Y;
-			out_ros_data.spawn_state.data[i].state.twist.linear.z = spawn_state_twist_linear[i].Z;
-			out_ros_data.spawn_state.data[i].state.twist.angular.x = spawn_state_twist_angular[i].X;
-			out_ros_data.spawn_state.data[i].state.twist.angular.y = spawn_state_twist_angular[i].Y;
-			out_ros_data.spawn_state.data[i].state.twist.angular.z = spawn_state_twist_angular[i].Z;
-
-			{
-				FTCHARToUTF8 strUtf8( *spawn_state_reference_frame[i] );
+				FTCHARToUTF8 strUtf8( *type[i] );
 				int32 strLength = strUtf8.Length();
-				out_ros_data.spawn_state.data[i].state.reference_frame.data = (decltype(out_ros_data.spawn_state.data[i].state.reference_frame.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.spawn_state.data[i].state.reference_frame.data)));
-				memcpy(out_ros_data.spawn_state.data[i].state.reference_frame.data, TCHAR_TO_UTF8(*spawn_state_reference_frame[i]), (strLength+1)*sizeof(char));
-				out_ros_data.spawn_state.data[i].state.reference_frame.size = strLength;
-				out_ros_data.spawn_state.data[i].state.reference_frame.capacity = strLength + 1;
+				if (out_ros_data.type.data[i].data != nullptr)
+				{
+					free(out_ros_data.type.data[i].data);
+				}
+				out_ros_data.type.data[i].data = (char*)malloc((strLength+1)*sizeof(char));
+				memcpy(out_ros_data.type.data[i].data, TCHAR_TO_UTF8(*type[i]), (strLength+1)*sizeof(char));
+				out_ros_data.type.data[i].size = strLength;
+				out_ros_data.type.data[i].capacity = strLength + 1;
 			}
+		}
+
+		if (out_ros_data.state.data != nullptr)
+		{
+			free(out_ros_data.state.data);
+		}
+		out_ros_data.state.data = (decltype(out_ros_data.state.data))malloc(name.Num() * (sizeof(type) + sizeof(name) + sizeof(position) + sizeof(orientation) + sizeof(twist_linear) + sizeof(twist_angular) + sizeof(reference_frame)));
+		out_ros_data.state.size = name.Num();
+		out_ros_data.state.capacity = name.Num();
+		for (int i = 0; i < name.Num(); i++)
+		{
+			{
+				FTCHARToUTF8 strUtf8( *name[i] );
+				int32 strLength = strUtf8.Length();
+				out_ros_data.state.data[i].name.data = (decltype(out_ros_data.state.data[i].name.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.state.data[i].name.data)));
+				memcpy(out_ros_data.state.data[i].name.data, TCHAR_TO_UTF8(*name[i]), (strLength+1)*sizeof(char));
+				out_ros_data.state.data[i].name.size = strLength;
+				out_ros_data.state.data[i].name.capacity = strLength + 1;
+			}
+
+			out_ros_data.state.data[i].pose.position.x = position[i].X;
+			out_ros_data.state.data[i].pose.position.y = position[i].Y;
+			out_ros_data.state.data[i].pose.position.z = position[i].Z;
+			
+			out_ros_data.state.data[i].pose.orientation.x = orientation[i].X;
+			out_ros_data.state.data[i].pose.orientation.y = orientation[i].Y;
+			out_ros_data.state.data[i].pose.orientation.z = orientation[i].Z;
+			out_ros_data.state.data[i].pose.orientation.w = orientation[i].W;
+			
+			out_ros_data.state.data[i].twist.linear.x = twist_linear[i].X;
+			out_ros_data.state.data[i].twist.linear.y = twist_linear[i].Y;
+			out_ros_data.state.data[i].twist.linear.z = twist_linear[i].Z;
+			out_ros_data.state.data[i].twist.angular.x = twist_angular[i].X;
+			out_ros_data.state.data[i].twist.angular.y = twist_angular[i].Y;
+			out_ros_data.state.data[i].twist.angular.z = twist_angular[i].Z;
 
 			{
-				FTCHARToUTF8 strUtf8( *spawn_state_tags[i] );
-			int32 strLength = strUtf8.Length();
-				out_ros_data.spawn_state.data[i].tags.data[i].data = (decltype(out_ros_data.spawn_state.data[i].tags.data[i].data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.spawn_state.data[i].tags.data[i].data)));
-		memcpy(out_ros_data.spawn_state.data[i].tags.data[i].data, TCHAR_TO_UTF8(*spawn_state_tags[i]), (strLength+1)*sizeof(char));
-				out_ros_data.spawn_state.data[i].tags.data[i].size = strLength;
-				out_ros_data.spawn_state.data[i].tags.data[i].capacity = strLength + 1;
+				FTCHARToUTF8 strUtf8( *reference_frame[i] );
+				int32 strLength = strUtf8.Length();
+				out_ros_data.state.data[i].reference_frame.data = (decltype(out_ros_data.state.data[i].reference_frame.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.state.data[i].reference_frame.data)));
+				memcpy(out_ros_data.state.data[i].reference_frame.data, TCHAR_TO_UTF8(*reference_frame[i]), (strLength+1)*sizeof(char));
+				out_ros_data.state.data[i].reference_frame.size = strLength;
+				out_ros_data.state.data[i].reference_frame.capacity = strLength + 1;
 			}
 
+		}
+		if (out_ros_data.tags.data != nullptr)
+		{
+			free(out_ros_data.tags.data);
+		}
+		out_ros_data.tags.data = (decltype(out_ros_data.tags.data))malloc((tags.Num())*sizeof(decltype(*out_ros_data.tags.data)));
+		for (int i = 0; i < tags.Num(); i++)
+		{
+			{
+				FTCHARToUTF8 strUtf8( *tags[i] );
+				int32 strLength = strUtf8.Length();
+				if (out_ros_data.tags.data[i].data != nullptr)
+				{
+					free(out_ros_data.tags.data[i].data);
+				}
+				out_ros_data.tags.data[i].data = (char*)malloc((strLength+1)*sizeof(char));
+				memcpy(out_ros_data.tags.data[i].data, TCHAR_TO_UTF8(*tags[i]), (strLength+1)*sizeof(char));
+				out_ros_data.tags.data[i].size = strLength;
+				out_ros_data.tags.data[i].capacity = strLength + 1;
 			}
+		}
 	
 	}
 };
@@ -181,8 +185,6 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	FString status_message;
-
-	
 
 	void SetFromROS2(const ue_msgs__srv__SpawnEntities_Response& in_ros_data)
 	{
@@ -207,8 +209,6 @@ public:
 			out_ros_data.status_message.size = strLength;
 			out_ros_data.status_message.capacity = strLength + 1;
 		}
-
-		
 	}
 };
 

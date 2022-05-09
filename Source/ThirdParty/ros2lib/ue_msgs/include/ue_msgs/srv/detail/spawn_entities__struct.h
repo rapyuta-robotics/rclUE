@@ -18,16 +18,18 @@ extern "C"
 // Constants defined in the message
 
 // Include directives for member types
-// Member 'xml'
+// Member 'type'
+// Member 'tags'
 #include "rosidl_runtime_c/string.h"
-// Member 'spawn_state'
-#include "ue_msgs/msg/detail/spawn_entity_state__struct.h"
+// Member 'state'
+#include "ue_msgs/msg/detail/entity_state__struct.h"
 
 // Struct defined in srv/SpawnEntities in the package ue_msgs.
 typedef struct ue_msgs__srv__SpawnEntities_Request
 {
-  rosidl_runtime_c__String xml;
-  ue_msgs__msg__SpawnEntityState__Sequence spawn_state;
+  rosidl_runtime_c__String__Sequence type;
+  ue_msgs__msg__EntityState__Sequence state;
+  rosidl_runtime_c__String__Sequence tags;
 } ue_msgs__srv__SpawnEntities_Request;
 
 // Struct for a sequence of ue_msgs__srv__SpawnEntities_Request.

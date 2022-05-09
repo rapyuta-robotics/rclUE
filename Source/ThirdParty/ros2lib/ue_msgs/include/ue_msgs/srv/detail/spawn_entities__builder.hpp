@@ -20,15 +20,15 @@ namespace srv
 namespace builder
 {
 
-class Init_SpawnEntities_Request_spawn_state
+class Init_SpawnEntities_Request_tags
 {
 public:
-  explicit Init_SpawnEntities_Request_spawn_state(::ue_msgs::srv::SpawnEntities_Request & msg)
+  explicit Init_SpawnEntities_Request_tags(::ue_msgs::srv::SpawnEntities_Request & msg)
   : msg_(msg)
   {}
-  ::ue_msgs::srv::SpawnEntities_Request spawn_state(::ue_msgs::srv::SpawnEntities_Request::_spawn_state_type arg)
+  ::ue_msgs::srv::SpawnEntities_Request tags(::ue_msgs::srv::SpawnEntities_Request::_tags_type arg)
   {
-    msg_.spawn_state = std::move(arg);
+    msg_.tags = std::move(arg);
     return std::move(msg_);
   }
 
@@ -36,16 +36,32 @@ private:
   ::ue_msgs::srv::SpawnEntities_Request msg_;
 };
 
-class Init_SpawnEntities_Request_xml
+class Init_SpawnEntities_Request_state
 {
 public:
-  Init_SpawnEntities_Request_xml()
+  explicit Init_SpawnEntities_Request_state(::ue_msgs::srv::SpawnEntities_Request & msg)
+  : msg_(msg)
+  {}
+  Init_SpawnEntities_Request_tags state(::ue_msgs::srv::SpawnEntities_Request::_state_type arg)
+  {
+    msg_.state = std::move(arg);
+    return Init_SpawnEntities_Request_tags(msg_);
+  }
+
+private:
+  ::ue_msgs::srv::SpawnEntities_Request msg_;
+};
+
+class Init_SpawnEntities_Request_type
+{
+public:
+  Init_SpawnEntities_Request_type()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_SpawnEntities_Request_spawn_state xml(::ue_msgs::srv::SpawnEntities_Request::_xml_type arg)
+  Init_SpawnEntities_Request_state type(::ue_msgs::srv::SpawnEntities_Request::_type_type arg)
   {
-    msg_.xml = std::move(arg);
-    return Init_SpawnEntities_Request_spawn_state(msg_);
+    msg_.type = std::move(arg);
+    return Init_SpawnEntities_Request_state(msg_);
   }
 
 private:
@@ -63,7 +79,7 @@ template<>
 inline
 auto build<::ue_msgs::srv::SpawnEntities_Request>()
 {
-  return ue_msgs::srv::builder::Init_SpawnEntities_Request_xml();
+  return ue_msgs::srv::builder::Init_SpawnEntities_Request_type();
 }
 
 }  // namespace ue_msgs
