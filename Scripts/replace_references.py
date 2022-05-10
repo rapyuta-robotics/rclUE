@@ -5,6 +5,7 @@ ros2 = '/home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib'
 ros2Libs = ros2 + '/lib/'
 
 def RunCommandForEveryLib(commandArgsList):
+    print('Running command:', ' '.join(commandArgsList))
     for dirpath,subdirs,files in os.walk(ros2):
         for file in files:
             if file.endswith('.so') or '.so.' in file:
@@ -33,15 +34,71 @@ def ReplaceSonameWithFileRemove(soname, fileName):
     os.system('patchelf --set-soname ' + soname + ' ' + libFileNameNew)
     RunCommandForEveryLib(['patchelf', '--replace-needed', fileName, soname])
 
-#ReplaceSonameWithFileRemove('libfastcdr.so', 'libfastcdr.so.1')
-#ReplaceSonameWithFileRemove('libfastrtps.so', 'libfastrtps.so.2')
+# ReplaceSonameWithFileRemove('libfastcdr.so', 'libfastcdr.so.1')
+# ReplaceSonameWithFileRemove('libfastrtps.so', 'libfastrtps.so.2')
+# ReplaceSonameWithFileRemove('libconsole_bridge.so', 'libconsole_bridge.so.1.0')
+# ReplaceSonameWithFileRemove('libyaml-cpp.so', 'libyaml-cpp.so.0.6')
+# ReplaceSonameWithFileRemove('liburdfdom_model.so', 'liburdfdom_model.so.1.0')
+# ReplaceSonameWithFileRemove('liburdfdom_model_state.so', 'liburdfdom_model_state.so.1.0')
+# ReplaceSonameWithFileRemove('liburdfdom_sensor.so', 'liburdfdom_sensor.so.1.0')
+# ReplaceSonameWithFileRemove('liburdfdom_world.so', 'liburdfdom_world.so.1.0')
+# ReplaceSonameWithFileRemove('liborocos-kdl.so', 'liborocos-kdl.so.1.4')
+# ReplaceSonameWithFileRemove('libddsc.so', 'libddsc.so.0')
+# ReplaceSonameWithFileRemove('libOgreMain.so', 'libOgreMain.so.1.12.1')
+# ReplaceSonameWithFileRemove('libOgrePaging.so', 'libOgrePaging.so.1.12.1 ')
+# ReplaceSonameWithFileRemove('libOgreOverlay.so', 'libOgreOverlay.so.1.12.1 ')
+
+# print('Patching rpath for every lib...')
+# RunCommandForEveryLib(['patchelf', '--force-rpath', '--set-rpath', r'${ORIGIN}'])
+
+
+print('Removing references to not found libs...')
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'libnddsc.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'libnddscore.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'libnddscpp.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'librticonnextmsgcpp.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'librosidl_typesupport_connext_c.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'librosidl_typesupport_connext_cpp.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'libbuiltin_interfaces__rosidl_typesupport_connext_c.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'libbuiltin_interfaces__rosidl_typesupport_connext_cpp.so'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'libOgrePaging.so.1.12.1'])
+# RunCommandForEveryLib(['patchelf', '--remove-needed', 'libOgreOverlay.so.1.12.1'])
+RunCommandForEveryLib(['patchelf', '--remove-needed', 'libbuiltin_interfaces__python.so'])
+RunCommandForEveryLib(['patchelf', '--remove-needed', 'libgeometry_msgs__python.so'])
+
+
+
+print('Done')
+
+
+
+
+
+
+
 #ReplaceSonameWithFileRemove('Codec_EXR.so', 'Codec_EXR.so.1.12.1')
 #ReplaceSonameWithFileRemove('Codec_STBI.so', 'Codec_STBI.so.1.12.1')
 
 
-print('Patching rpath for every lib...')
 #RunCommandForEveryLib(['patchelf', '--set-rpath', '${ORIGIN}/../../../../../../UE/UnrealEngine/../../work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib/lib'])
-RunCommandForEveryLib(['patchelf', '--set-rpath', '/home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib/lib'])
+#RunCommandForEveryLib(['patchelf', '--set-rpath', r"${ORIGIN}:${ORIGIN}/..:${ORIGIN}/../..:${ORIGIN}/../../.."]) #/home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib/lib'])
+#RunCommandForEveryLib(['patchelf', '--append-rpath', r"${ORIGIN}:${ORIGIN}/..:${ORIGIN}/../..:${ORIGIN}/../../..:${ORIGIN}/../../../..:${ORIGIN}/../../../../..:${ORIGIN}/../../../../../..:/home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib/lib"])
+
+
+
+
+#RunCommandForEveryLib(['patchelf', '--remove-rpath'])
+
+# --set-rpath always sets a RUNPATH, instead of RPATH, so it's a bug.
+# to workaround a bug, we use several arguments, see more here https://github.com/NixOS/patchelf/issues/94
+# here we try to set RPATH, not RUNPATH value https://man7.org/linux/man-pages/man3/dlopen.3.html 
+#RunCommandForEveryLib(['patchelf', '--force-rpath', '--set-rpath', r'${ORIGIN}:${ORIGIN}/../../Source/ThirdParty/ros2lib/lib'])
+#RunCommandForEveryLib(['patchelf', '--force-rpath', '--set-rpath', r'${ORIGIN}/../../Source/ThirdParty/ros2lib/lib'])
+
+# sudo apt-get install chrpath
+#RunCommandForEveryLib(['chrpath', '--replace', '${ORIGIN}:${ORIGIN}/../../../../../../UE/UnrealEngine/../../work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib/lib'])
+ 
+
 
 # RUNPATH              /home/vilkun/ros2_foxy/install/builtin_interfaces/lib:
 # /home/vilkun/ros2_foxy/install/unique_identifier_msgs/lib:
@@ -53,7 +110,6 @@ RunCommandForEveryLib(['patchelf', '--set-rpath', '/home/vilkun/work/turtlebot3-
 # /home/vilkun/ros2_foxy/install/rcpputils/lib:
 # /home/vilkun/ros2_foxy/install/rcutils/lib:
   
-print('Done')
 #print('Patching: librclc.so')
 #os.system('patchelf --add-needed ' + 'librmw_fastrtps_cpp.so' + ' ' + os.path.join(ros2Libs, 'librclc.so'))
    

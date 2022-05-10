@@ -21,10 +21,12 @@ for dirpath,subdirs,files in os.walk(p):
             #command = 'readelf -Ws ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'readelf -d ' + fullName + ' |head -20 > ' + folderName + '/' + file + '.txt'
             #command = 'readelf -d ' + fullName + ' > ' + folderName + '/' + file + '.txt'
-            #command = 'ldd ' + fullName + ' > ' + folderName + '/' + file + '.txt'
+            command = 'ldd ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'objdump -x ' + fullName +' |grep RPATH'+ ' > ' + folderName + '/' + file + '.txt'
-            command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
+            #command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #nm --demangle
+            
+            #command = 'readelf -d ' + fullName +' |grep RPATH'+ ' > ' + folderName + '/' + file + '.txt'
             
             libs.append(file)
             #print(command)
