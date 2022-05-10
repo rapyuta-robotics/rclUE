@@ -42,11 +42,14 @@ for dirpath,subdirs,files in os.walk(ros2Include):
 # tracetools
 # unique_identifier_msgs
 # yaml
+filesCount = 0
+
 for dirpath,subdirs,files in os.walk(folderFrom):
     for file in files:
         #if (file.endswith('.so') or '.so.' in file) and \
            # (
         if file.endswith('.so') and not any(elem in file for elem in ['python', 'Codec_', 'Plugin_', 'RenderSystem_', '_test_type_support']):
+            filesCount += 1
             fileFrom = os.path.join(dirpath, file)
             fileTo = ros2Lib + '/' + file
 
@@ -58,12 +61,17 @@ for dirpath,subdirs,files in os.walk(folderFrom):
             print(fileTo)
             shutil.copy(fileFrom, fileTo)
 
+print('Found libs to copy and replace:', filesCount)
+
 #'generator_c.', 
 #, '_c.'
 # and \
 #            not any(elem in file for elem in ['rosidl_typesupport_c', 'ue4_interfaces', 'action_msgs', 'geometry_msgs'])
 #, 'libmemory_tools_interpose.so', 'libperformance_test_fixture.so'
+
+
 for dirpath,subdirs,files in os.walk(ros2Lib):
     for file in files:
-        if any(elem in file for elem in ['python', '.so.', 'connext']):
+#        if any(elem in file for elem in ['python', '.so.', 'connext']):
+        if any(elem in file for elem in ['.so.']):
             os.remove(os.path.join(dirpath, file))
