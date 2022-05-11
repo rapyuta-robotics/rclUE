@@ -35,8 +35,14 @@ for dirpath,subdirs,files in os.walk(p):
 libs.sort()
 libsSet = set()
 
-#print('All libs names:')
-#print('"' + '",\n"'.join(libs) + '"')
+print('All libs names:')
+print('"' + '",\n"'.join(libs) + '"')
+
+for lib in libs:
+    command = 'patchelf --add-needed ' + lib + ' /home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Binaries/Linux/libUE4Editor-rclUE-Linux-DebugGame.so'
+    print(command)
+    os.system(command)
+
 
 print('Checking duplications...')
 for lib in libs:
