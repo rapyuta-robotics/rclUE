@@ -1,4 +1,7 @@
 # Changelog for rclUE repository
+## 0.0.2 ##
+------------------------
+* Add sphinx documentation
 
 ## 0.0.2 ##
 ------------------------

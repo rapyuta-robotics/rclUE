@@ -1,4 +1,10 @@
-// Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
+/**
+ * @file ROS2GenericSrv.h
+ * @brief This should be refactored with other generic ROS2 types (Msgs, Sensors, Actions).
+ * @todo  Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
+ * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
+ * 
+ */
 
 #pragma once
 
@@ -10,9 +16,8 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
 
 /**
- * This should be refactored with other generic ROS2 types (Msgs, Sensors, Actions)
- * Need to have a common class
- * Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
+ * @brief This should be refactored with other generic ROS2 types (Msgs, Sensors, Actions).
+ * @todo  Get/Print/ToString methods should be merged into a single of each with a parameter to switch versions (these are not bottlenecks and control flow inside them should be fine)
  */
 UCLASS(Blueprintable)
 class RCLUE_API UROS2GenericSrv : public UObject
