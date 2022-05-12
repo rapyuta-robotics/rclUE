@@ -10,56 +10,56 @@ const rosidl_service_type_support_t* UROS2SpawnEntitiesSrv::GetTypeSupport() con
 
 void UROS2SpawnEntitiesSrv::Init()
 {
-    ue_msgs__srv__SpawnEntities_Request__init(&SpawnEntities_req);
-    ue_msgs__srv__SpawnEntities_Response__init(&SpawnEntities_res);
+    ue_msgs__srv__SpawnEntities_Request__init(&SpawnEntitiesReq);
+    ue_msgs__srv__SpawnEntities_Response__init(&SpawnEntitiesRes);
 }
 
 void UROS2SpawnEntitiesSrv::Fini()
 {
-    ue_msgs__srv__SpawnEntities_Request__fini(&SpawnEntities_req);
-    ue_msgs__srv__SpawnEntities_Response__fini(&SpawnEntities_res);
+    ue_msgs__srv__SpawnEntities_Request__fini(&SpawnEntitiesReq);
+    ue_msgs__srv__SpawnEntities_Response__fini(&SpawnEntitiesRes);
 }
 
-void UROS2SpawnEntitiesSrv::SetRequest(const FROSSpawnEntities_Request& Request)
+void UROS2SpawnEntitiesSrv::SetRequest(const FROSSpawnEntitiesRequest& Request)
 {
-    Request.SetROS2(SpawnEntities_req);
+    Request.SetROS2(SpawnEntitiesReq);
 }
 
-void UROS2SpawnEntitiesSrv::GetRequest(FROSSpawnEntities_Request& Request) const
+void UROS2SpawnEntitiesSrv::GetRequest(FROSSpawnEntitiesRequest& Request) const
 {
-    Request.SetFromROS2(SpawnEntities_req);
+    Request.SetFromROS2(SpawnEntitiesReq);
 }
 
-void UROS2SpawnEntitiesSrv::SetResponse(const FROSSpawnEntities_Response& Response)
+void UROS2SpawnEntitiesSrv::SetResponse(const FROSSpawnEntitiesResponse& Response)
 {
-    Response.SetROS2(SpawnEntities_res);
+    Response.SetROS2(SpawnEntitiesRes);
 }
 
-void UROS2SpawnEntitiesSrv::GetResponse(FROSSpawnEntities_Response& Response) const
+void UROS2SpawnEntitiesSrv::GetResponse(FROSSpawnEntitiesResponse& Response) const
 {
-    Response.SetFromROS2(SpawnEntities_res);
+    Response.SetFromROS2(SpawnEntitiesRes);
 }
 
 void* UROS2SpawnEntitiesSrv::GetRequest()
 {
-    return &SpawnEntities_req;
+    return &SpawnEntitiesReq;
 }
 
 void* UROS2SpawnEntitiesSrv::GetResponse()
 {
-    return &SpawnEntities_res;
+    return &SpawnEntitiesRes;
 }
 
 FString UROS2SpawnEntitiesSrv::SrvRequestToString() const
 {
     /* TODO: Fill here */
-	checkNoEntry();
+    checkNoEntry();
     return FString();
 }
 
 FString UROS2SpawnEntitiesSrv::SrvResponseToString() const
 {
     /* TODO: Fill here */
-	checkNoEntry();
+    checkNoEntry();
     return FString();
 }

@@ -3,11 +3,13 @@
 
 #pragma once
 
+// UE
+#include <CoreMinimal.h>
+
+// rclUE
 #include "Msgs/ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 #include "ue_msgs/msg/entity_state.h"
-
-#include <CoreMinimal.h>
 
 #include "ROS2EntityStateMsg.generated.h"
 
@@ -20,20 +22,18 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString name;
 
-    double pose_position_x;
-
-    double pose_position_y;
-
-    double pose_position_z;
+    double pose_position_x = 0;
+    double pose_position_y = 0;
+    double pose_position_z = 0;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FQuat pose_orientation;
+    FQuat pose_orientation = FQuat::Identity;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FVector twist_linear;
+    FVector twist_linear = FVector::ZeroVector;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FVector twist_angular;
+    FVector twist_angular = FVector::ZeroVector;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString reference_frame;
@@ -81,9 +81,7 @@ public:
         }
 
         out_ros_data.pose.position.x = pose_position_x;
-
         out_ros_data.pose.position.y = pose_position_y;
-
         out_ros_data.pose.position.z = pose_position_z;
 
         out_ros_data.pose.orientation.x = pose_orientation.X;

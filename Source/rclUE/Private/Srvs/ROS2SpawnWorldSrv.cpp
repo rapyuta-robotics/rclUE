@@ -53,13 +53,13 @@ void* UROS2SpawnWorldSrv::GetResponse()
 FString UROS2SpawnWorldSrv::SrvRequestToString() const
 {
     /* TODO: Fill here */
-	checkNoEntry();
+    checkNoEntry();
     return FString();
 }
 
 FString UROS2SpawnWorldSrv::SrvResponseToString() const
 {
     /* TODO: Fill here */
-	checkNoEntry();
+    checkNoEntry();
     return FString();
 }
