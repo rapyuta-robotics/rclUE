@@ -21,9 +21,9 @@ for dirpath,subdirs,files in os.walk(p):
             #command = 'readelf -Ws ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'readelf -d ' + fullName + ' |head -20 > ' + folderName + '/' + file + '.txt'
             #command = 'readelf -d ' + fullName + ' > ' + folderName + '/' + file + '.txt'
-            command = 'ldd ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #command = 'objdump -x ' + fullName +' |grep RPATH'+ ' > ' + folderName + '/' + file + '.txt'
-            #command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
+            #command = 'ldd ' + fullName + ' > ' + folderName + '/' + file + '.txt'
+            command = 'objdump -x ' + fullName + ' > ' + folderName + '/' + file + '.txt'
             #nm --demangle
             
             #command = 'readelf -d ' + fullName +' |grep RPATH'+ ' > ' + folderName + '/' + file + '.txt'
@@ -38,10 +38,10 @@ libsSet = set()
 print('All libs names:')
 print('"' + '",\n"'.join(libs) + '"')
 
-for lib in libs:
-    command = 'patchelf --add-needed ' + lib + ' /home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Binaries/Linux/libUE4Editor-rclUE-Linux-DebugGame.so'
-    print(command)
-    os.system(command)
+# for lib in libs:
+#     command = 'patchelf --add-needed ' + lib + ' /home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Binaries/Linux/libUE4Editor-rclUE-Linux-DebugGame.so'
+#     print(command)
+#     os.system(command)
 
 
 print('Checking duplications...')
