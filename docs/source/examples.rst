@@ -1,6 +1,26 @@
 Examples
 ========
-**The content presented here can be found in the `Pubsub in the turtlebot3-UE <https://github.com/rapyuta-robotics/turtlebot3-UE/tree/devel/Source/turtlebot3/pubsub>`_ sample code.
+\* The content presented here can be found in the `Pubsub in the turtlebot3-UE <https://github.com/rapyuta-robotics/turtlebot3-UE/tree/devel/Source/turtlebot3/pubsub>`_ sample code.
+
+Setup and run
+---------------
+1. Setup UE4 in Linux by following `Linux Quick Start <https://docs.unrealengine.com/4.27/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/>`_
+2. Clone and build
+
+.. code-block:: shell
+
+    git clone `turtlebot3-UE <https://github.com/rapyuta-robotics/turtlebot3-UE/>`_
+    cd turtlebot3-UE
+    ./update_project_files.sh
+    ./make_editor.sh
+
+3. Run
+
+.. code-block:: shell
+
+    ./run_editor.sh
+
+4. Open `turtlebot3-UE/Content/Maps/PubSub.umap` and Play.
 
 PubSub Example (Unreal C++) 
 ---------------------------
