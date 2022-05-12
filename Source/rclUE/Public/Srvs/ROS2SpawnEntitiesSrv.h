@@ -46,19 +46,19 @@ public:
 
     void SetFromROS2(const ue_msgs__srv__SpawnEntities_Request& in_ros_data)
     {
-        for (int i = 0; i < in_ros_data.type.size; i++)
+        for (auto i = 0; i < in_ros_data.type.size; ++i)
         {
             TypeList.Add("");
             TypeList[i].AppendChars(in_ros_data.type.data[i].data, in_ros_data.type.data[i].size);
         }
 
-        for (int i = 0; i < in_ros_data.state.size; i++)
+        for (auto i = 0; i < in_ros_data.state.size; ++i)
         {
             NameList.Add("");
             NameList[i].AppendChars(in_ros_data.state.data[i].name.data, in_ros_data.state.data[i].name.size);
         }
 
-        for (int i = 0; i < in_ros_data.state.size; i++)
+        for (auto i = 0; i < in_ros_data.state.size; ++i)
         {
             PositionList.Add(FVector(in_ros_data.state.data[i].pose.position.x,
                                      in_ros_data.state.data[i].pose.position.y,
@@ -69,7 +69,7 @@ public:
                                       in_ros_data.state.data[i].pose.orientation.w));
         }
 
-        for (int i = 0; i < in_ros_data.state.size; i++)
+        for (auto i = 0; i < in_ros_data.state.size; ++i)
         {
             TwistLinearList.Add(FVector(in_ros_data.state.data[i].twist.linear.x,
                                         in_ros_data.state.data[i].twist.linear.y,
@@ -79,14 +79,14 @@ public:
                                          in_ros_data.state.data[i].twist.angular.z));
         }
 
-        for (int i = 0; i < in_ros_data.state.size; i++)
+        for (auto i = 0; i < in_ros_data.state.size; ++i)
         {
             ReferenceFrameList.Add("");
             ReferenceFrameList[i].AppendChars(in_ros_data.state.data[i].reference_frame.data,
                                               in_ros_data.state.data[i].reference_frame.size);
         }
 
-        for (int i = 0; i < in_ros_data.tags.size; i++)
+        for (auto i = 0; i < in_ros_data.tags.size; ++i)
         {
             TagsList.Add("");
             TagsList[i].AppendChars(in_ros_data.tags.data[i].data, in_ros_data.tags.data[i].size);
@@ -101,7 +101,7 @@ public:
         }
         out_ros_data.type.data =
             (decltype(out_ros_data.type.data))malloc((TypeList.Num()) * sizeof(decltype(*out_ros_data.type.data)));
-        for (int i = 0; i < TypeList.Num(); i++)
+        for (auto i = 0; i < TypeList.Num(); ++i)
         {
             {
                 FTCHARToUTF8 strUtf8(*TypeList[i]);
@@ -126,7 +126,7 @@ public:
                               sizeof(TwistLinearList) + sizeof(TwistAngularList) + sizeof(ReferenceFrameList)));
         out_ros_data.state.size = NameList.Num();
         out_ros_data.state.capacity = NameList.Num();
-        for (int i = 0; i < NameList.Num(); i++)
+        for (auto i = 0; i < NameList.Num(); ++i)
         {
             {
                 FTCHARToUTF8 strUtf8(*NameList[i]);
@@ -172,7 +172,7 @@ public:
         }
         out_ros_data.tags.data =
             (decltype(out_ros_data.tags.data))malloc((TagsList.Num()) * sizeof(decltype(*out_ros_data.tags.data)));
-        for (int i = 0; i < TagsList.Num(); i++)
+        for (auto i = 0; i < TagsList.Num(); ++i)
         {
             {
                 FTCHARToUTF8 strUtf8(*TagsList[i]);
@@ -197,7 +197,7 @@ struct RCLUE_API FROSSpawnEntitiesResponse
 
 public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool bSuccess;
+    bool bSuccess = false;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString StatusMessage;
