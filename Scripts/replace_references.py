@@ -56,11 +56,29 @@ for dirpath,subdirs,files in os.walk(ros2):
 
 
 libsReplacements = dict(sorted(libsReplacements.items())) 
-#[print(libNameVersioning, libName) for libNameVersioning, libName in libsReplacements.items()]
 for libNameVersioning, libName in libsReplacements.items():
     ReplaceSonameWithFileRemove(libName, libNameVersioning)
 
-RunCommandForEveryLib(['patchelf', '--force-rpath', '--set-rpath', r'${ORIGIN}:/lib/x86_64-linux-gnu/'])
+#RunCommandForEveryLib(['patchelf', '--remove-rpath'])
+#RunCommandForEveryLib(['patchelf', '--force-rpath', '--set-rpath', r'${ORIGIN}'])
+
+
+
+#/home/vilkun/work/turtlebot3-UE/Plugins/rclUE/Source/ThirdParty/ros2lib/lib
+
+
+
+
+
+
+
+
+#RunCommandForEveryLib(['patchelf', '--force-rpath', '--set-rpath', r'${ORIGIN}:/lib/x86_64-linux-gnu/'])
+
+
+
+#[print(libNameVersioning, libName) for libNameVersioning, libName in libsReplacements.items()]
+
 #/usr/local/lib:/usr/local/lib64
 
 
