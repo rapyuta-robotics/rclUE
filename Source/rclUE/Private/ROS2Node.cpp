@@ -537,11 +537,11 @@ void AROS2Node::Init()
             // UE_LOG(LogTemp, Warning, TEXT("VITYO Clock %d"), Support->Get().clock.type);
             // UE_LOG(LogTemp, Warning, TEXT("VITYO allocator %s"), Support->Get().allocator == NULL ? TEXT("null") : TEXT("not null") );
             // UE_LOG(LogTemp, Warning, TEXT("VITYO rclc_node_init_default %d"), rc);
-            RCSOFTCHECK(rc);
+             RCSOFTCHECK(rc);
         }
 
         State = UROS2State::Initialized;
-    }
+    }//
 
     UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node inited"), *GetName());
 }
