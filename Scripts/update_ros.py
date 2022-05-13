@@ -80,20 +80,8 @@ if __name__ == "__main__":
     os.system('chmod +x ' + buildRosScript)
     os.system('bash ' + buildRosScript + ' ' + UE + ' ' + ros + ' ' + rclc + ' ' + ue_msgs)
 
-    print('\n\n\nGrabbing libs...')
-
-    # remove this at the end 
-    for dirpath,subdirs,files in os.walk(rclUERosInclude):
-        for file in files:
-            if file.endswith('.so') or '.so.' in file:
-                fileFrom = os.path.join(dirpath, file)
-                fileTo = rclUERosLib + '/' + file
-                shutil.copy(fileFrom, fileTo)
-
-                os.remove(fileFrom)
-    # (and redundant in 'lib' folder)
-
     # See more comments inside function description
+    print('\n\n\nGrabbing libs...')
     Grab(rosBuild, rosInstall, renamedSuffix, rclUERosLib, allowed_spaces)
     Grab(rclcBuild, rclcInstall, renamedSuffix, rclUERosLib, [])
     Grab(ue_msgsBuild, ue_msgsInstall, renamedSuffix, rclUERosLib, [])
@@ -102,7 +90,7 @@ if __name__ == "__main__":
     SetRPATH(rclUERosLib)
     InvalidateBinaries(turtlebot3Binaries, rclUEBinaries, rclUEBuildCS)
 
-    # You can try this:
+    # You also can try this:
     # CreateInfoForAll('objdump -x', rclUERosLib, infoRosOutput) # see also 'ldd'
     # CheckLibs(rclUERosLib)
     print('Done. Time:', '{:.2f}'.format(time.time() - start), '(sec)')
