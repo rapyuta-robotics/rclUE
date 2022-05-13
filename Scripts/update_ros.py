@@ -76,9 +76,9 @@ ue_msgsInstall = ue_msgs + '/install'
 if __name__ == "__main__":
     start = time.time()
     
-    # print('Building ros...')
-    # os.system('chmod +x ' + buildRosScript)
-    # os.system('bash ' + buildRosScript + ' ' + UE + ' ' + ros + ' ' + rclc + ' ' + ue_msgs)
+    print('Building ros...')
+    os.system('chmod +x ' + buildRosScript)
+    os.system('bash ' + buildRosScript + ' ' + UE + ' ' + ros + ' ' + rclc + ' ' + ue_msgs)
 
     print('\n\n\nGrabbing libs...')
 
