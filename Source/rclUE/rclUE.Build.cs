@@ -7,6 +7,7 @@ using System.Linq;
 using UnrealBuildTool;
 using Tools.DotNETCommon;
 using System.Collections;
+using System.Collections.Generic;
 
 public class rclUE : ModuleRules
 {
@@ -38,11 +39,12 @@ public class rclUE : ModuleRules
 
         if(Directory.Exists(libPath))
         {
-            PublicLibraryPaths.Add(libPath);
+            //PublicLibraryPaths.Add(libPath);
             PublicRuntimeLibraryPaths.Add(libPath);
             PrivateRuntimeLibraryPaths.Add(libPath);
             Log.TraceInformation("[rclUE] libPath: " + libPath);
             var libs = Directory.EnumerateFiles(libPath, "*.so", searchOption);
+            //.Union(Directory.EnumerateFiles(libPath, "*.so.*", searchOption));
             
             foreach (var lib in libs)
             {
@@ -55,6 +57,10 @@ public class rclUE : ModuleRules
         {
             Log.TraceWarning("[rclUE] libPath wasn't found" + libPath);
         }
+	}
+	public List<string> Shuffle(List<string> items)
+	{
+	  return items.Distinct().OrderBy(x =>  System.Guid.NewGuid().ToString()).ToList();
 	}
 	
 	public rclUE(ReadOnlyTargetRules Target) : base(Target)
@@ -122,5 +128,14 @@ public class rclUE : ModuleRules
 				"Projects"
 			}
 		);
+		
+		//PublicAdditionalLibraries = new List<string>();
+		
+		//PublicAdditionalLibraries = Shuffle(PublicAdditionalLibraries);
+		
+		foreach (var lib in PublicAdditionalLibraries)
+		{
+			Log.TraceInformation("[rclUE] Result lib: " + lib);
+		}
 	}
 }
