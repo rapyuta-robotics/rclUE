@@ -60,6 +60,7 @@ not_allowed_spaces = [ \
     'rclc_parameter', \
     'connext', \
     'cyclonedds', \
+    'test_msgs', \
     'rmw_fastrtps_dynamic_cpp', \
     'rosidl_cmake', \
     'rosidl_default', \
@@ -123,8 +124,8 @@ if __name__ == '__main__':
     GrabIncludes(ue_msgsInstall, rclUERosInclude, allowed_spaces)
     CleanIncludes(rclUERosInclude, not_allowed_spaces)
 
-    #apply patch
-
+    print('Applying includes patch...')
+    os.system('cd .. ; git apply Scripts/ros.patch')
 
     print('Grabbing libs...')
     GrabLibs(rosBuild, rclUERosLib, allowed_spaces)
