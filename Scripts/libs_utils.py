@@ -66,13 +66,19 @@ def CreateInfoForAll(commandName, folderWithLibs, folderOut):
         command = commandName + ' ' + lib + ' > ' + folderOut + '/' + tail + '.txt' # ' |head -20 > '  ' |grep RPATH'
         os.system(command)
 
-def GrabCopyReplace(folderFrom, folderTo, allowed_spaces):
+def RenameDir(dir, suffix):
+    if os.path.isdir(dir):
+        print('> rename', dir, dir + suffix)
+        os.rename(dir, dir + suffix)
+    
+    return dir + suffix
+
+def GrabLibs(folderFrom, folderTo, allowed_spaces):
     filesCount = 0
 
     for dirpath,subdirs,files in os.walk(folderFrom):
         for file in files:
            if (file.endswith('.so') or '.so.' in file) and \
-                not any(elem in file for elem in ['python', 'Codec_', 'Plugin_', 'RenderSystem_', '_test_type_support']) and \
                 any(elem in file for elem in allowed_spaces):
                 filesCount += 1
                 fileFrom = os.path.join(dirpath, file)
@@ -83,20 +89,30 @@ def GrabCopyReplace(folderFrom, folderTo, allowed_spaces):
 
                 shutil.copy(fileFrom, fileTo)
 
-    return filesCount
+    print('Grabbed libs (' + folderFrom + '): ' + str(filesCount))
 
-def RenameDir(dir, suffix):
-    if os.path.isdir(dir):
-        print('> rename', dir, dir + suffix)
-        os.rename(dir, dir + suffix)
+def GrabIncludes(folderFrom, folderTo, allowed_spaces):
+    foldersCount = 0
 
-def Grab(buildFolder, installFolder, renamedSuffix, folderOut, allowed_spaces):
-    RenameDir(buildFolder, renamedSuffix)
-    RenameDir(installFolder, renamedSuffix)
-    filesCount = GrabCopyReplace(buildFolder + renamedSuffix, folderOut, allowed_spaces)
-    print('Grabbed libs (' + buildFolder + '): ' + str(filesCount))
+    for elemName in os.listdir(folderFrom):
+        dirPath = os.path.join(folderFrom, elemName)
+        includeFolder = os.path.join(dirPath, 'include')
+        
+        if os.path.isdir(dirPath) and os.path.isdir(includeFolder) and \
+            any(elem in elemName for elem in allowed_spaces):
+            for subincludeElem in os.listdir(includeFolder):
+                subincludePath = os.path.join(includeFolder, subincludeElem)
 
-def CleanDir(dir, not_allowed_spaces):
+                if os.path.isdir(subincludePath):
+                    folderToFull = os.path.join(folderTo, subincludeElem)
+
+                    if not os.path.isdir(folderToFull):
+                        shutil.copytree(subincludePath, folderToFull)
+                        foldersCount += 1
+
+    print('Grabbed include folders (' + folderFrom + '): ' + str(foldersCount))
+
+def CleanLibs(dir, not_allowed_spaces):
     removedCount = 0
 
     for dirpath,subdirs,files in os.walk(dir):
@@ -106,7 +122,19 @@ def CleanDir(dir, not_allowed_spaces):
                 removedCount += 1
                 os.remove(fileName)
 
-    print('Files cleaned:', removedCount)
+    print('Libs files cleaned:', removedCount)
+
+def CleanIncludes(dir, not_allowed_spaces):
+    removedCount = 0
+
+    for elemName in os.listdir(dir):
+        dirPath = os.path.join(dir, elemName)
+        
+        if os.path.isdir(dirPath) and any(elem in elemName for elem in not_allowed_spaces):
+            shutil.rmtree(dirPath)
+            removedCount += 1
+
+    print('Include folders cleaned:', removedCount)
 
 def RunCommandForEveryLib(folderName, commandArgsList):
     print('>', ' '.join(commandArgsList))
