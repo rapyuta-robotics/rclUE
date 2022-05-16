@@ -22,12 +22,13 @@ Notes:
 import os, sys, shutil, re, time, subprocess
 from libs_utils import *
 
-# main arguments:
+# Main arguments:
 UE = '/home/vilkun/UE/UnrealEngine' # contains 'Engine' folder
 ros = '/home/vilkun/ros2_foxy' # '/opt/ros/foxy/lib'
 rclc = '/home/vilkun/work/build_foxy/rclc' # includes rclc_lifecycle
 ue_msgs = '/home/vilkun/work/build_foxy/UE_msgs' # check https://github.com/rapyuta-robotics/UE_msgs
 turtlebot3 = '/home/vilkun/work/turtlebot3-UE'
+# 'rcl' will include 'rclc'
 allowed_spaces = [ \
     'action_msgs', \
     'builtin_interfaces', \
@@ -46,7 +47,7 @@ allowed_spaces = [ \
     'std_msgs', \
     'tf2_msgs', \
     'tracetools', \
-    'unique_identifier_msgs' ] # 'rcl' will include 'rclc'
+    'unique_identifier_msgs' ]
 rr_spaces = ['ue_msgs']
 allowed_spaces.extend(rr_spaces)
 not_allowed_spaces = [ \
@@ -60,7 +61,23 @@ not_allowed_spaces = [ \
     'rclc_parameter', \
     'connext', \
     'cyclonedds', \
+    'action_tutorials', \
+    'actionlib_msgs', \
+    'composition_interfaces', \
+    'diagnostic_msgs', \
+    'lifecycle_msgs', \
+    'logging_demo', \
+    'map_msgs', \
+    'move_base_msgs', \
+    'pendulum_msgs', \
+    'shape_msgs', \
+    'statistics_msgs', \
+    'std_srvs', \
+    'stereo_msgs', \
     'test_msgs', \
+    'trajectory_msgs', \
+    'visualization_msgs', \
+    'turtlesim', \
     'rmw_fastrtps_dynamic_cpp', \
     'rosidl_cmake', \
     'rosidl_default', \
@@ -99,9 +116,9 @@ ue_msgsInstall = ue_msgs + '/install'
 if __name__ == '__main__':
     start = time.time()
     
-    # print('Building ros...')
-    # os.system('chmod +x ' + buildRosScript)
-    # os.system('bash ' + buildRosScript + ' ' + UE + ' ' + ros + ' ' + rclc + ' ' + ue_msgs)
+    print('Building ros...')
+    os.system('chmod +x ' + buildRosScript)
+    os.system('bash ' + buildRosScript + ' ' + UE + ' ' + ros + ' ' + rclc + ' ' + ue_msgs)
 
     # to be sure that we don't use libraries from this paths:
     rosBuild = RenameDir(rosBuild, renamedSuffix)
