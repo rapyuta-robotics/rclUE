@@ -76,13 +76,12 @@ void UROS2ActionServer::SendGoalResponse()
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));
 
-    ue4_interfaces__action__Fibonacci_SendGoal_Response* GoalResponse =
-        (ue4_interfaces__action__Fibonacci_SendGoal_Response*)Action->GetGoalResponse();
-    GoalResponse->accepted = true;
+    void* GoalResponse = Action->GetGoalResponse();
+    // GoalResponse->accepted = true;//to do
     float TimeOfResponse = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld()));
-    GoalResponse->stamp.sec = static_cast<int32>(TimeOfResponse);
+    // GoalResponse->stamp.sec = static_cast<int32>(TimeOfResponse); //to do
     uint64 ns = (uint64)(TimeOfResponse * 1e+09f);
-    GoalResponse->stamp.nanosec = static_cast<uint32>(ns - (GoalResponse->stamp.sec * 1e+09));
+    // GoalResponse->stamp.nanosec = static_cast<uint32>(ns - (GoalResponse->stamp.sec * 1e+09)); //to do
 
     RCSOFTCHECK(rcl_action_send_goal_response(&server, &goal_req_id, Action->GetGoalResponse()));
 }

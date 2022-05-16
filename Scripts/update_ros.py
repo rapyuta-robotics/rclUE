@@ -54,7 +54,8 @@ not_allowed_spaces = [ \
     'python', \
     'rclcpp', 
     'rclpy', 
-    'rcl_logging', \
+    'rcl_logging_log4cxx', \
+    'rcl_logging_noop', \
     'rclc_examples', \
     'rclc_parameter', \
     'connext', \
@@ -67,7 +68,6 @@ not_allowed_spaces = [ \
     'rosidl_generator_py', \
     'rosidl_runtime_cpp', \
     'rosidl_runtime_py', \
-    'rosidl_typesupport_introspection_cpp', \
     'sensor_msgs_py', \
     'tf2_sensor_msgs', \
     'tracetools_', \
@@ -122,6 +122,9 @@ if __name__ == '__main__':
     GrabIncludes(rclcInstall, rclUERosInclude, allowed_spaces)
     GrabIncludes(ue_msgsInstall, rclUERosInclude, allowed_spaces)
     CleanIncludes(rclUERosInclude, not_allowed_spaces)
+
+    #apply patch
+
 
     print('Grabbing libs...')
     GrabLibs(rosBuild, rclUERosLib, allowed_spaces)
