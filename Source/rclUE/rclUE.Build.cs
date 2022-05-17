@@ -59,6 +59,7 @@ public class rclUE : ModuleRules
 		}
 
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"Public"));
+		PrivateIncludePaths.Add(Path.Combine(ModuleDirectory,"Private"));
 			
 		PublicDependencyModuleNames.AddRange(
 			new string[]
