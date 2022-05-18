@@ -3,12 +3,12 @@ from subprocess import check_output
 
 # this script forces to link libraries again on next IDE run
 # (inside present a workaround for build.cs file, that's trick is to avoid deleting 'intermediate' folder at all)
-def InvalidateBinaries(turtlebot3Binaries, rclUEBinaries, rclUEBuildCS):
+def InvalidateBinaries(projectPathBinaries, rclUEBinaries, rclUEBuildCS):
     cwd = os.getcwd()
 
-    if os.path.isdir(turtlebot3Binaries):
-        print('Removing:', turtlebot3Binaries)
-        shutil.rmtree(turtlebot3Binaries)
+    if os.path.isdir(projectPathBinaries):
+        print('Removing:', projectPathBinaries)
+        shutil.rmtree(projectPathBinaries)
 
     if os.path.isdir(rclUEBinaries):
         print('Removing:', rclUEBinaries)
@@ -66,6 +66,8 @@ def CreateInfoForAll(commandName, folderWithLibs, folderOut):
         command = commandName + ' ' + lib + ' > ' + folderOut + '/' + tail + '.txt' # ' |head -20 > '  ' |grep RPATH'
         os.system(command)
 
+# we really need to be sure that we don't use libraries from 'build' or 'install' folders
+# which are metntioned in 'RPATH', 'LD_LIBRARY_PATH', 'RUNPATH'  values
 def RenameDir(dir, suffix):
     if os.path.isdir(dir):
         print('> rename', dir, dir + suffix)

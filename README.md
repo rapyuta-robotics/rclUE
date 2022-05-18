@@ -8,15 +8,11 @@ https://rclUE.readthedocs.io/en/devel/
 
 - Ubuntu 20.04
 - Unreal Engine 4.27
-<<<<<<< HEAD
 - ROS2 Foxy
+- Clang: 11.0.1 (from UE)
 
-\*Please setup UE4 by following [Linux Quick Start](https://docs.unrealengine.com/4.27/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/)
+Please setup UE4 by following [Linux Quick Start](https://docs.unrealengine.com/4.27/en-US/SharingAndReleasing/Linux/BeginnerLinuxDeveloper/SettingUpAnUnrealWorkflow/)
 
-=======
-- ROS2 Foxy 
-- Clang: 11.0.1
->>>>>>> Updated readme
 ## Branches
 
 ### master
@@ -29,49 +25,6 @@ This branch currently represents the release branch.
 
 Experimental and WIP
 
-<<<<<<< HEAD
-# Update ros2
-To add or update part of ros2, for example 'rclc', branch 'foxy':
-1. Build ros2 https://docs.ros.org/en/foxy/Installation/Ubuntu-Development-Setup.html
-2. Clone part:
-git clone -b foxy https://github.com/ros2/rclc.git
-3. Make sure you installed colcon https://docs.ros.org/en/foxy/Tutorials/Colcon-Tutorial.html#create-a-workspace
-4. Build .so lib:
-. ~/ros2_foxy/install/local_setup.bash
-colcon build --packages-up-to --allow-overriding rclc
-(or without --allow-overriding, it's only in my case)
-5. Copy-replace includes and lib to appropriate folders to rclUE/Source/ThirdParty/ros2lib
-
-# Installation
-
-## How to add this plugin to an Unreal Engine 4 project (Ubuntu 20):
-
-1. clone this repository in your project Plugin folder
-2. create and use the following shell script to run the UE4 editor (substituting `PROJECT_PATH`, `PROJECT_NAME` and `UNREAL_ENGINE_REPO` for the appropriate strings):
-
-```
-#!/bin/sh
-
-export LD_LIBRARY_PATH=\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib":\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/std_msgs/lib":\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/example_interfaces/lib":\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/geometry_msgs/lib":\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/sensor_msgs/lib":\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/rosgraph_msgs/lib":\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/builtin_interfaces/lib":\
-"${PWD}/Plugins/rclUE/Source/ThirdParty/ros2lib/ue4_interfaces/lib"
-
-EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
-
-(exec "$EDITOR_COMMAND" "PROJECT_PATH/PROJECT_NAME.uproject")
-```
-
-3. For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
-4. within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
-5. change the world settings to use meters as units instead of the default centimeters
-6. Example_BP_PubSub.mp4 shows how to build a PubSub example using Blueprint
-=======
 # RclUE and ROS2
 
 ## Description
@@ -81,70 +34,9 @@ EDITOR_COMMAND="UNREAL_ENGINE_REPO/Engine/Binaries/Linux/UE4Editor"
 - to use this plugin change the world settings to use meters as units instead of the default centimeters
 - within the Unreal Editor: Edit->Plugins, search and enable for `rclc`
 - For messages not in std_msgs, the appropriate library path needs to be added to LD_LIBRARY_PATH
->>>>>>> Updated readme
 
-<<<<<<< HEAD
-## How to install this plugin (Ubuntu 18):
-
-Development switched from Ubuntu18+noetic to Ubuntu20+foxy - please refer to the Ubuntu 20 and adapt it
-
-=======
->>>>>>> intermediate changes, updated sub-parts of ros2 to run scripts on them, part1
 ## Windows is currently unsupported
 
-<<<<<<< HEAD
-# Dependencies
-
-## ROS2 msg repository
-
-- [UE_msgs](https://github.com/rapyuta-robotics/UE_msgs)
-
-## Compile time (includes+libs)
-
-- rcl
-- rcl_action
-- rcl_interfaces
-- rcl_lifecycle
-- rcl_yaml_param_parser
-- rclc
-- rclc_lifecycle
-- rcutils
-- rmw
-- tracetools
-- rosidl_adapter
-- rosidl_cmake
-- rosidl_generator_c
-- rosidl_parser
-- rosidl_typesupport_c
-- rosidl_typesupport_interface
-- rosidl_typesupport_introspection_c
-- rosidl_runtime_c (Ubuntu 20/Foxy)
-- rosgraph_msgs
-- std_msgs
-- ue4_interfaces (contains an example of custom interface)
-
-## Runtime (in addition to the compile time requirements)
-
-Currently, the plugin requires the following shared libraries at runtime:
-
-- libfastcdr.so
-- libfastcdr.so.1
-- libfastrtps.so.1 (Ubuntu 18/Eloquent)
-- libfastrtps.so.2 (Ubuntu 20/Foxy)
-- librcl_logging_spdlog.so
-- librmw_fastrtps_cpp.so
-- librmw_fastrtps_shared_cpp.so
-- librmw_implementation.so
-- librosidl_typesupport_cpp.so (Ubuntu 20/Foxy)
-- librosidl_typesupport_fastrtps_cpp.so
-- librosidl_typesupport_fastrtps_c.so
-- librcpputils.so (Ubuntu 20/Foxy)
-- librmw_dds_common.so (Ubuntu 20/Foxy)
-- librmw_dds_common\_\_rosidl_typesupport_cpp.so (Ubuntu 20/Foxy)
-- librmw_dds_common\_\_rosidl_typesupport_fastrtps_cpp.so (Ubuntu 20/Foxy)
-
-=======
->>>>>>> Updated readme
 # Getting Started
 
 The plugin folder contains a video "Example_BP_PubSub.mp4" demonstrating how to setup a PubSub example in Blueprint.
