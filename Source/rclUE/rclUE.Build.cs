@@ -5,50 +5,69 @@ using System.IO;
 using System.Diagnostics;
 using System.Linq;
 using UnrealBuildTool;
+using Tools.DotNETCommon;
 
 public class rclUE : ModuleRules
 {
-	private string ThirdPartyPath
+	private string RosPath
 	{
-		get { return Path.Combine(ModuleDirectory, "..", "ThirdParty"); }
+		get { return Path.Combine(ModuleDirectory, "..", "ThirdParty", "ros"); }
 	}
 
-	private string ROS2LibPath
+	private void AddModule(string InModulePath)
 	{
-		get { return Path.Combine(ThirdPartyPath, "ros2lib"); }
+        string includePath = Path.Combine(InModulePath, "include");
+        
+        if(Directory.Exists(includePath))
+        {
+            PublicIncludePaths.Add(includePath);
+        }
+        
+        string libPath = Path.Combine(InModulePath, "lib");
+
+        if(Directory.Exists(libPath))
+        {
+            //PublicLibraryPaths.Add(libPath);
+            PublicRuntimeLibraryPaths.Add(libPath);
+            PrivateRuntimeLibraryPaths.Add(libPath);
+            var libs = Directory.EnumerateFiles(libPath, "*.so", SearchOption.TopDirectoryOnly); //.Union(Directory.EnumerateFiles(libPath, "*.so.*", searchOption));
+            
+            foreach (var lib in libs)
+            {
+                Log.TraceInformation("[rclUE] lib: " + lib);
+                PublicAdditionalLibraries.Add(lib);
+                RuntimeDependencies.Add(lib);
+            }
+        }
 	}
 
 	public rclUE(ReadOnlyTargetRules Target) : base(Target)
 	{
-		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+		var envVars = Environment.GetEnvironmentVariables();
+		string ldLibraryPathKey = "LD_LIBRARY_PATH";
 
-		// each of those could be put in a separate module, and their dependencies specified in the uplugin file
-		var ros2ModuleNameList = new string[] { "rcutils", "rmw", "tracetools",
-									 			"builtin_interfaces", "std_msgs", "rosgraph_msgs", "example_interfaces", "geometry_msgs", "sensor_msgs", "nav_msgs", "tf2_msgs", "ue4_interfaces", "ue_msgs", "unique_identifier_msgs", "action_msgs",
-									 			"rosidl_typesupport_c", "rosidl_typesupport_interface", "rosidl_typesupport_introspection_c", "rosidl_runtime_c",
-									 			"rcl", "rcl_action", "rcl_lifecycle", "rcl_yaml_param_parser", "rcl_interfaces",
-									 			"rclc", "rclc_lifecycle" };
+		if (envVars.Contains(ldLibraryPathKey))
+		{
+			Log.TraceInformation("[rclUE] LD_LIBRARY_PATH: " + envVars[ldLibraryPathKey]);
+		}
+		
+		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
 
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-			foreach (var ros2ModuleName in ros2ModuleNameList)
-			{
-				PublicIncludePaths.Add(Path.Combine(ROS2LibPath, ros2ModuleName, "include"));
-			}
+		    AddModule(RosPath);
 		}
 
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"Public"));
+		PrivateIncludePaths.Add(Path.Combine(ModuleDirectory,"Private"));
 			
-		
 		PublicDependencyModuleNames.AddRange(
 			new string[]
 			{
 				"Core",
 				"CoreUObject",
 				"Engine",
-				"ros2lib",
 				"Projects"
-				// ... add other public dependencies that you statically link with here ...
 			}
 		);
 	}

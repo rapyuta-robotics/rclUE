@@ -76,6 +76,7 @@ void AROS2Node::Init()
             Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
             UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
+            
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
         }
 

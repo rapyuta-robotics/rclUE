@@ -2,6 +2,8 @@
 .vscode/
 .kdev4/
 
+*__pycache__
+
 *.slo
 *.lo
 *.o
@@ -18,7 +20,6 @@
 
 *.lai
 *.la
-*.a
 *.lib
 
 *.exe
