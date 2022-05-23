@@ -56,7 +56,7 @@ Currently there is a Scripts/update_ros.py for automatic build and update ROS2 (
 sudo apt remove shiboken2 libshiboken2-dev libshiboken2-py3-5.14
 pip3 install --user shiboken2
 ```
-- Apply patch for ros2 to avoid LD_LIBRARY_PATH dependency issue:
+- Apply patch for ros2 to avoid setting LD_LIBRARY_PATH environment variable to the dynamic libs paths:
 ```
 src/ros2/rcpputils/src/find_library.cpp:
 in function find_library_path():
