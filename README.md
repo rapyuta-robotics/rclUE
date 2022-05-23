@@ -71,7 +71,7 @@ python3 update_ros.py <Path to UE4> <Path to ROS2 foxy> <Path to rclc package> <
 ```
 Notes:
 - Script also updates Rapyuta-Robotics UE_msgs libraries inside RclUE.
-- For more details check script, for example how it deals with libraries versions in their SONAME (UE4 can't deal with it, see 2 potential fix ways)
+- Please check the scripts for more details about how it deals with libraries versions in their SONAME (UE4 can't deal with it, see 2 potential fix ways)
 
 # Documentation
 
