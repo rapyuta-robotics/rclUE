@@ -13,7 +13,7 @@ in function find_library_path():
 +++return "lib" + library_name + ".so";
 - Clone 'rclc' package (which is not a part of official ros2), branch 'foxy' https://github.com/ros2/rclc/tree/foxy
 - Clone 'ue_msgs' (RR project) https://github.com/rapyuta-robotics/UE_msgs
-- Run this script with providing main path arguments, for example my command is:
+- Run this script with providing main path arguments, for example:
 python3 update_ros.py /home/vilkun/UE/UnrealEngine /home/vilkun/ros2_foxy /home/vilkun/work/build_foxy/rclc /home/vilkun/work/build_foxy/UE_msgs /home/vilkun/work/turtlebot3-UE
 
 Notes:
