@@ -68,6 +68,8 @@ in function find_library_path():
 - Run Scripts/update_ros.py script with arguments:
 ```
 python3 update_ros.py <Path to UE4> <Path to ROS2 foxy> <Path to rclc package> <Path to UE_msgs> <Path to project, which includes RclUE plugin>
+For example:
+python3 update_ros.py /home/vilkun/UE/UnrealEngine /home/vilkun/ros2_foxy /home/vilkun/work/build_foxy/rclc /home/vilkun/work/build_foxy/UE_msgs /home/vilkun/work/turtlebot3-UE
 ```
 Notes:
 - Script also updates Rapyuta-Robotics UE_msgs libraries inside RclUE.
