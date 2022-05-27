@@ -102,7 +102,11 @@ void AROS2Node::AddSubscription(const FString& TopicName,
         SubExists |= (s.TopicName == TopicName);
     }
 
-    check(!SubExists);
+    if (!ensure(!SubExists))
+    {
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Subscriber for %s does already exists "), *GetName(), *TopicName, *__LOG_INFO__);
+        return;
+    }
 
     if (!Callback.IsBound())
     {
