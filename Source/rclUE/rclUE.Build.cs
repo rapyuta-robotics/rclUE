@@ -5,7 +5,6 @@ using System.IO;
 using System.Diagnostics;
 using System.Linq;
 using UnrealBuildTool;
-using Tools.DotNETCommon;
 
 public class rclUE : ModuleRules
 {
@@ -34,7 +33,7 @@ public class rclUE : ModuleRules
             
             foreach (var lib in libs)
             {
-                Log.TraceInformation("[rclUE] lib: " + lib);
+                Console.WriteLine(string.Format("[rclUE] lib: {0}", lib));
                 PublicAdditionalLibraries.Add(lib);
                 RuntimeDependencies.Add(lib);
             }
@@ -48,7 +47,7 @@ public class rclUE : ModuleRules
 
 		if (envVars.Contains(ldLibraryPathKey))
 		{
-			Log.TraceInformation("[rclUE] LD_LIBRARY_PATH: " + envVars[ldLibraryPathKey]);
+			Console.WriteLine(string.Format("[rclUE] LD_LIBRARY_PATH: {0}", envVars[ldLibraryPathKey]));
 		}
 		
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
