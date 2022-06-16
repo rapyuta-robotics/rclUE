@@ -96,13 +96,13 @@ void AROS2Node::AddSubscription(const FString& TopicName,
 {
     check(State == UROS2State::Initialized);
 
-    bool SubExists = false;
     for (auto& s : Subscriptions)
     {
-        SubExists |= (s.TopicName == TopicName);
+        if( s.TopicName != TopicName ) continue;
+        
+        UE_LOG(LogROS2Node, Warning, TEXT("ROS2Node::AddSubscription - already subscribed to [%s]"), *s.TopicName );
+        return;
     }
-
-    check(!SubExists);
 
     if (!Callback.IsBound())
     {
