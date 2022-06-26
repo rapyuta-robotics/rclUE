@@ -76,7 +76,7 @@ void AROS2Node::Init()
             Support = GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
             UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
-            
+
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
         }
 
@@ -105,7 +105,12 @@ void AROS2Node::AddSubscription(const FString& TopicName,
 
     if (!ensure(!SubExists))
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Subscriber for [%s] topic already exists (%s)"), *GetName(), *TopicName, *__LOG_INFO__);
+        UE_LOG(LogROS2Node,
+               Warning,
+               TEXT("[%s] Subscriber for [%s] topic already exists (%s)"),
+               *GetName(),
+               *TopicName,
+               *__LOG_INFO__);
         return;
     }
 
@@ -203,9 +208,10 @@ void AROS2Node::AddServiceClient(UROS2ServiceClient* InClient)
         UE_LOG(LogROS2Node, Warning, TEXT("[%s] RequestDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
-    if (!InClient->AnswerDelegate.IsBound())
+    if (!InClient->ResponseDelegate.IsBound())
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] AnswerDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(
+            LogROS2Node, Warning, TEXT("[%s] ResponseDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
     if (false == Clients.Contains(InClient))
@@ -353,7 +359,7 @@ void AROS2Node::HandleClients()
                    *GetName(),
                    *__LOG_INFO__);
 
-            const FServiceClientCallback* SrvClientCallback = &c->AnswerDelegate;
+            const FServiceClientCallback* SrvClientCallback = &c->ResponseDelegate;
             SrvClientCallback->ExecuteIfBound(c->Service);
 
             c->Ready = false;
