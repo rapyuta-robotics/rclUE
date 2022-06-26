@@ -80,9 +80,11 @@ public:
     TSubclassOf<UROS2GenericSrv> SrvClass;
 
     //! used to pass data for the request
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceClientCallback RequestDelegate;
 
     //! used to receive the answer
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceClientCallback ResponseDelegate;
 
     //! ROS2Node which own this service client.
