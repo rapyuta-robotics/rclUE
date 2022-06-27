@@ -188,7 +188,7 @@ public:
         return totalCapacity;
     }
 
-    static void SetStringProp(rosidl_runtime_c__String& OutStr, const FString& InStr)
+    static void FStringToCString(const FString& InStr, rosidl_runtime_c__String& OutStr)
     {
         FTCHARToUTF8 strUtf8(*InStr);
         const int32 strSize = strUtf8.Length();
@@ -203,7 +203,7 @@ public:
         OutStr.capacity = strCapacity;
     }
 
-    static void SetStringSequenceProp(rosidl_runtime_c__String__Sequence& OutStrSequence, const TArray<FString>& InStrList)
+    static void FStringArrayToCStringSequence(const TArray<FString>& InStrList, rosidl_runtime_c__String__Sequence& OutStrSequence)
     {
         if (OutStrSequence.data->data != nullptr)
         {
@@ -241,7 +241,7 @@ public:
     }
 
     template<typename TSequence, typename T>
-    static void SetSequenceProp(TSequence& OutSequence, const TArray<T>& InArray)
+    static void ArrayToSequence(const TArray<T>& InArray, TSequence& OutSequence)
     {
         if (OutSequence.data != nullptr)
         {
