@@ -2,9 +2,11 @@
  * @file ROS2Node.h
  * @brief Class implementing ROS2 node.
  * This class also handles tasks performed by the executor in rclc.
- * Additionally, helper structs FSubscription and FService are defined here as they are considered components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers and action clients should register to the node with the appropriate methods (Add*).
+ * Additionally, helper structs FSubscription and FService are defined here as they are considered components of the node and not
+ * additional distinct entities Publishers, subscribers, services, service clients, action servers and action clients should
+ * register to the node with the appropriate methods (Add*).
  * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
- * 
+ *
  */
 
 #pragma once
@@ -35,9 +37,23 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction
 DECLARE_DELEGATE(FSimpleCallback);
 
 /**
- * @brief Helper structs which is components of the node and should register to 
+ * @brief RR_ROS2_SUBSCRIBE_TO_TOPIC
+ * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
+ * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define RR_ROS2_SUBSCRIBE_TO_TOPIC(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
+    if (ensure(IsValid(InROS2Node)))                                                              \
+    {                                                                                             \
+        FSubscriptionCallback cb;                                                                 \
+        cb.BindDynamic(InUserObject, InCallback);                                                 \
+        InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
+    }
+
+/**
+ * @brief Helper structs which is components of the node and should register to
  * the node with the appropriate methods (AddSubscription).
- * 
+ *
  */
 USTRUCT(Blueprintable)
 struct RCLUE_API FSubscription
@@ -45,7 +61,6 @@ struct RCLUE_API FSubscription
     GENERATED_BODY()
 
 public:
-
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString TopicName;
 
@@ -64,7 +79,7 @@ public:
 };
 
 /**
- * @brief Helper structs which is components of the node and should register to 
+ * @brief Helper structs which is components of the node and should register to
  * the node with the appropriate methods (AddServiceServer).
  */
 USTRUCT(Blueprintable)
@@ -93,8 +108,9 @@ public:
 /**
  * Class implementing ROS2 node.
  * This class also handles tasks performed by the executor in rclc.
- * Components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers and action clients should register to the node with the appropriate methods (Add*).
-*/
+ * Components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers
+ * and action clients should register to the node with the appropriate methods (Add*).
+ */
 UCLASS(Blueprintable)
 class RCLUE_API AROS2Node : public AActor
 {
@@ -108,10 +124,9 @@ public:
     AROS2Node();
 
 protected:
-
     /**
      * @brief Overridable function called whenever this actor is being removed from a level
-     * @param EndPlayReason 
+     * @param EndPlayReason
      * \sa [AActor::EndPlay](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Engine/GameFramework/AActor/EndPlay/)
      */
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
@@ -119,17 +134,19 @@ protected:
 public:
     /**
      * @brief Called every frame
-     * 
-     * @param DeltaTime 
-     * @sa [Actor Ticking](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Actors/Ticking/)
+     *
+     * @param DeltaTime
+     * @sa [Actor
+     * Ticking](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Actors/Ticking/)
      */
     virtual void Tick(float DeltaTime) override;
 
 public:
     /**
      * @brief Initilize rosnode with rclc_node_init_default
-     * This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be different/relevant in each of Child classes
-     * 
+     * This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be different/relevant in each of
+     * Child classes
+     *
      */
     UFUNCTION(BlueprintCallable)
     void Init();
@@ -139,35 +156,35 @@ public:
     /**
      * @brief Methods to register subscribers.
      * It is up to the user to ensure that they are only added once
-     * @param TopicName 
-     * @param MsgClass 
-     * @param Callback 
+     * @param TopicName
+     * @param MsgClass
+     * @param Callback
      */
     UFUNCTION(BlueprintCallable)
     void AddSubscription(const FString& TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback& Callback);
 
     /**
      * @brief Set this node to UROS2Publisher::OwnerNode of InPublisher and add to #Publishers.
-     * 
-     * @param InPublisher 
+     *
+     * @param InPublisher
      */
     UFUNCTION(BlueprintCallable)
     void AddPublisher(UROS2Publisher* InPublisher);
 
     /**
      * @brief Set this node to UROS2ServiceClient::OwnerNode and add to #Clients.
-     * 
-     * @param InClient 
+     *
+     * @param InClient
      */
     UFUNCTION(BlueprintCallable)
     void AddServiceClient(UROS2ServiceClient* InClient);
 
     /**
      * @brief Create ServiceServer with rcl_service_init and add to #Services.
-     * 
-     * @param ServiceName 
-     * @param SrvClass 
-     * @param Callback 
+     *
+     * @param ServiceName
+     * @param SrvClass
+     * @param Callback
      */
     UFUNCTION(BlueprintCallable)
     void AddServiceServer(const FString& ServiceName,
@@ -176,16 +193,16 @@ public:
 
     /**
      * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionClients.
-     * 
-     * @param InActionClient 
+     *
+     * @param InActionClient
      */
     UFUNCTION(BlueprintCallable)
     void AddActionClient(UROS2ActionClient* InActionClient);
 
     /**
      * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionServers.
-     * 
-     * @param InActionServer 
+     *
+     * @param InActionServer
      */
     UFUNCTION(BlueprintCallable)
     void AddActionServer(UROS2ActionServer* InActionServer);
@@ -212,9 +229,9 @@ public:
 
 protected:
     /**
-    * @brief method used to wait on communication and call delegates when appropriate modeled after executor + actions
-    * 
-    */
+     * @brief method used to wait on communication and call delegates when appropriate modeled after executor + actions
+     *
+     */
     UFUNCTION()
     void SpinSome();
 
@@ -248,26 +265,26 @@ protected:
 
 private:
     /**
-    * @brief based on _rclc_default_scheduling of the rclc executor. 
-    * Called inside #SpinSome. rcl_take to get topic and execute Callback.
-    * 
-    */
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take to get topic and execute Callback.
+     *
+     */
     UFUNCTION()
     void HandleSubscriptions();
 
     /**
-    * @brief based on _rclc_default_scheduling of the rclc executor. 
-    * Called inside #SpinSome. rcl_take_request_with_info to get request, execute Callback and rcl_send_response to send response
-    * 
-    */
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take_request_with_info to get request, execute Callback and rcl_send_response to send response
+     *
+     */
     UFUNCTION()
     void HandleServices();
 
     /**
-    * @brief based on _rclc_default_scheduling of the rclc executor. 
-    * Called inside #SpinSome. rcl_take_response_with_info to get response and execute Callback.
-    * 
-    */
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take_response_with_info to get response and execute Callback.
+     *
+     */
     UFUNCTION()
     void HandleClients();
 };
