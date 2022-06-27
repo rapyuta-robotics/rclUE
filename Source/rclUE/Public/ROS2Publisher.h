@@ -88,7 +88,7 @@ public:
      * @brief Update Msg with delegate and publish msg.
      *
      */
-    UFUNCTION()
+    UFUNCTION(BlueprintCallable)
     void UpdateAndPublishMessage();
 
     /**
@@ -102,7 +102,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString TopicName;
 
-    //! publish frequencly
+    //! Publish frequency. if this value > 0, this will update and publish msg periodically.
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     int32 PublicationFrequencyHz = 1000;
 
