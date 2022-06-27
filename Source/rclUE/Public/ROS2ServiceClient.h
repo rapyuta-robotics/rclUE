@@ -22,12 +22,11 @@
 #include "ROS2ServiceClient.generated.h"
 
 //! Servoce call back delegate.  BP requires a custom-made callback thus it must be Dynamic
-DECLARE_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv* /*Service*/);
-
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv*, InService);
 /**
  * @brief Class implementing ROS2 service clients.
  *  Service type is defined by SrvClass
- * 
+ *
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceClient : public UActorComponent
@@ -36,15 +35,15 @@ class RCLUE_API UROS2ServiceClient : public UActorComponent
 
 public:
     /**
-    * @brief Construct a new UROS2ServiceClient object
-    * 
-    */
+     * @brief Construct a new UROS2ServiceClient object
+     *
+     */
     UROS2ServiceClient();
 
 public:
     /**
      * @brief Initialize ROS2 service client with rcl_client_init, set QoS, etc.
-     * 
+     *
      * @param QoS Quality of Service
      * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */
@@ -53,21 +52,21 @@ public:
 
     /**
      * @brief Create #UROS2GenericSrv instance and initialize it.
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
     void InitializeService();
 
     /**
      * @brief Update Srv with delegate and send request.
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
     void UpdateAndSendRequest();
 
     /**
      * @brief Destroy publisher with rcl_client_fini
-     * 
+     *
      */
     UFUNCTION()
     virtual void Destroy();
@@ -81,12 +80,14 @@ public:
     TSubclassOf<UROS2GenericSrv> SrvClass;
 
     //! used to pass data for the request
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceClientCallback RequestDelegate;
 
     //! used to receive the answer
-    FServiceClientCallback AnswerDelegate;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FServiceClientCallback ResponseDelegate;
 
-    //! ROS2Node which own this service client. 
+    //! ROS2Node which own this service client.
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     AROS2Node* OwnerNode;
 
@@ -105,10 +106,9 @@ public:
     bool Ready;
 
 protected:
-
     /**
      * @brief Send service request
-     * 
+     *
      */
     UFUNCTION()
     void SendRequest();

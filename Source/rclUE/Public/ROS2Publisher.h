@@ -3,7 +3,7 @@
  * @brief  Class implementing ROS2 publishers
  * Message type is defined by MsgClass
  * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
- * 
+ *
  */
 
 #pragma once
@@ -19,7 +19,7 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg*, In
 
 /**
  * @brief ROS2 Publisher class.
- * 
+ *
  */
 UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2Publisher : public UActorComponent
@@ -29,13 +29,13 @@ class RCLUE_API UROS2Publisher : public UActorComponent
 public:
     /**
      * @brief Construct a new UROS2Publisher object
-     * 
+     *
      */
     UROS2Publisher();
 
     /**
-     * @brief Initialize Publisher 
-     * 
+     * @brief Initialize Publisher
+     *
      * @param InROS2Node ROS2Node which this publisher belongs to
      */
     virtual void InitializeWithROS2(AROS2Node* InROS2Node)
@@ -45,16 +45,16 @@ public:
 
     /**
      * @brief Register this publisher to input ROS2Node
-     * 
+     *
      * @param InROS2Node ROS2Node which this publisher belongs to
      */
     UFUNCTION()
     void RegisterToROS2Node(AROS2Node* InROS2Node);
 
     /**
-     * @brief Initialize publisher with rcl_publisher_init, initialize message and start timer and 
-     * 
-     * @param QoS 
+     * @brief Initialize publisher with rcl_publisher_init, initialize message and start timer and
+     *
+     * @param QoS
      * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */
     UFUNCTION(BlueprintCallable)
@@ -62,21 +62,21 @@ public:
 
     /**
      * @brief Create #UROS2GenericMsg instance and initialize it.
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
     void InitializeMessage();
 
     /**
      * @brief Update Msg with delegate and publish msg.
-     * 
+     *
      */
     UFUNCTION()
     void UpdateAndPublishMessage();
 
     /**
      * @brief Destroy publisher with rcl_publisher_fini
-     * 
+     *
      */
     UFUNCTION()
     virtual void Destroy();
@@ -103,7 +103,7 @@ public:
 
     /**
      * @brief Bind #UpdateMessage with #UpdateDelegate
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
     void SetupUpdateCallback()
@@ -113,7 +113,7 @@ public:
 
     /**
      * @brief Unbind #UpdateDelegate
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
     virtual void RevokeUpdateCallback()
@@ -123,7 +123,7 @@ public:
 
     /**
      * @brief Update msg. Should be implemented in child class.
-     * 
+     *
      * @param InMessage Input Message.
      */
     UFUNCTION()
@@ -132,7 +132,7 @@ public:
         checkNoEntry();
     }
 
-    //! ROS2Node which own this publisher. 
+    //! ROS2Node which own this publisher.
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     AROS2Node* OwnerNode = nullptr;
 
@@ -142,9 +142,9 @@ public:
 
 protected:
     /**
-    * @brief Publish msg.
-    * 
-    */
+     * @brief Publish msg.
+     *
+     */
     UFUNCTION(BlueprintCallable)
     void Publish();
 
