@@ -10,7 +10,10 @@
 
 #include <Components/ActorComponent.h>
 #include <CoreMinimal.h>
-#include <ROS2Node.h>
+
+// rclUE
+#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2Node.h"
 
 #include "ROS2Publisher.generated.h"
 
@@ -27,6 +30,20 @@ class RCLUE_API UROS2Publisher : public UActorComponent
     GENERATED_BODY()
 
 public:
+    /**
+     * @brief Create a new UROS2Publisher of custom type
+     *
+     * @param InTopicName Topic name
+     * @param InPublisherClass Custom output publisher type class
+     * @param InMsgClass Custom message type class
+     * @param InPubFrequency Publishing frequency
+     */
+    static UROS2Publisher* CreatePublisher(UObject* InOwner,
+                                           const FString& InTopicName,
+                                           const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                           const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                           int32 InPubFrequency);
+
     /**
      * @brief Construct a new UROS2Publisher object
      *
