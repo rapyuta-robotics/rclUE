@@ -3,92 +3,89 @@
 
 #pragma once
 
-#include <CoreMinimal.h>
-
-#include "geometry_msgs/msg/pose_with_covariance.h"
-
 #include "Msgs/ROS2GenericMsg.h"
+#include "geometry_msgs/msg/pose_with_covariance.h"
 #include "rclcUtilities.h"
+
+#include <CoreMinimal.h>
 
 #include "ROS2PoseWithCovarianceMsg.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSPoseWithCovariance
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector PosePosition = FVector::ZeroVector;
+    FROSPoseWithCovariance()
+    {
+        Covariance.SetNumZeroed(36);
+    }
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FVector PosePosition = FVector::ZeroVector;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FQuat PoseOrientation = FQuat::Identity;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FQuat PoseOrientation = FQuat::Identity;
 
-	UPROPERTY(EditAnywhere)
-	TArray<double> Covariance;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Covariance;
 
-	
+    void SetFromROS2(const geometry_msgs__msg__PoseWithCovariance& in_ros_data)
+    {
+        PosePosition.X = in_ros_data.pose.position.x;
+        PosePosition.Y = in_ros_data.pose.position.y;
+        PosePosition.Z = in_ros_data.pose.position.z;
 
-	void SetFromROS2(const geometry_msgs__msg__PoseWithCovariance& in_ros_data)
-	{
-    	PosePosition.X = in_ros_data.pose.position.x;
-		PosePosition.Y = in_ros_data.pose.position.y;
-		PosePosition.Z = in_ros_data.pose.position.z;
+        PoseOrientation.X = in_ros_data.pose.orientation.x;
+        PoseOrientation.Y = in_ros_data.pose.orientation.y;
+        PoseOrientation.Z = in_ros_data.pose.orientation.z;
+        PoseOrientation.W = in_ros_data.pose.orientation.w;
 
-		PoseOrientation.X = in_ros_data.pose.orientation.x;
-		PoseOrientation.Y = in_ros_data.pose.orientation.y;
-		PoseOrientation.Z = in_ros_data.pose.orientation.z;
-		PoseOrientation.W = in_ros_data.pose.orientation.w;
+        for (auto i = 0; i < 36; ++i)
+        {
+            Covariance[i] = in_ros_data.covariance[i];
+        }
+    }
 
-		for (auto i = 0; i < 36; ++i)
-		{
-			Covariance.Emplace(in_ros_data.covariance[i]);
-		}
+    void SetROS2(geometry_msgs__msg__PoseWithCovariance& out_ros_data) const
+    {
+        out_ros_data.pose.position.x = PosePosition.X;
+        out_ros_data.pose.position.y = PosePosition.Y;
+        out_ros_data.pose.position.z = PosePosition.Z;
 
-		
-	}
+        out_ros_data.pose.orientation.x = PoseOrientation.X;
+        out_ros_data.pose.orientation.y = PoseOrientation.Y;
+        out_ros_data.pose.orientation.z = PoseOrientation.Z;
+        out_ros_data.pose.orientation.w = PoseOrientation.W;
 
-	void SetROS2(geometry_msgs__msg__PoseWithCovariance& out_ros_data) const
-	{
-    	out_ros_data.pose.position.x = PosePosition.X;
-		out_ros_data.pose.position.y = PosePosition.Y;
-		out_ros_data.pose.position.z = PosePosition.Z;
-
-		out_ros_data.pose.orientation.x = PoseOrientation.X;
-		out_ros_data.pose.orientation.y = PoseOrientation.Y;
-		out_ros_data.pose.orientation.z = PoseOrientation.Z;
-		out_ros_data.pose.orientation.w = PoseOrientation.W;
-
-		for (auto i = 0; i < 36; ++i)
-		{
-			out_ros_data.covariance[i] = Covariance[i];
-		}
-
-		
-	}
+        for (auto i = 0; i < 36; ++i)
+        {
+            out_ros_data.covariance[i] = Covariance[i];
+        }
+    }
 };
 
 UCLASS()
 class RCLUE_API UROS2PoseWithCovarianceMsg : public UROS2GenericMsg
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	virtual void Init() override;
-	virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
-	
-  	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSPoseWithCovariance& Input);
-	
-  	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPoseWithCovariance& Output) const;
-	
-	virtual void* Get() override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSPoseWithCovariance& Input);
+
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSPoseWithCovariance& Output) const;
+
+    virtual void* Get() override;
 
 private:
-	virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-	geometry_msgs__msg__PoseWithCovariance pose_with_covariance_msg;
+    geometry_msgs__msg__PoseWithCovariance pose_with_covariance_msg;
 };

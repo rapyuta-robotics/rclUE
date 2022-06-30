@@ -92,6 +92,29 @@ public:
     void UpdateAndPublishMessage();
 
     /**
+     * @brief Publish a message
+     *
+     * @tparam TMessageStruct
+     * @param InMessage
+     */
+    template<typename TUEMessage, typename TUEStruct>
+    void PublishMessage(const TUEStruct& InMessageData)
+    {
+        if (UROS2State::Initialized == State)
+        {
+            // Update [TopicMessage] with [InMessageData]
+            CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData);
+
+            // Publish [TopicMessage]
+            Publish();
+        }
+        else
+        {
+            UE_LOG(LogTemp, Log, TEXT("PublishMessage() [%s] Publisher not yet initialized"), *GetName());
+        }
+    }
+
+    /**
      * @brief Destroy publisher with rcl_publisher_fini
      *
      */

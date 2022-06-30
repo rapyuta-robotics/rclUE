@@ -13,7 +13,7 @@ public class rclUE : ModuleRules
 		get { return Path.Combine(ModuleDirectory, "..", "ThirdParty", "ros"); }
 	}
 
-	private void AddModule(string InModulePath)
+	private void AddModule(string InModulePath, bool bInCopySharedLibsToOutputDir = false)
 	{
         string includePath = Path.Combine(InModulePath, "include");
         
@@ -31,11 +31,20 @@ public class rclUE : ModuleRules
             PrivateRuntimeLibraryPaths.Add(libPath);
             var libs = Directory.EnumerateFiles(libPath, "*.so", SearchOption.TopDirectoryOnly); //.Union(Directory.EnumerateFiles(libPath, "*.so.*", searchOption));
             
+            Console.WriteLine("== Add [rclUE] libs:");
             foreach (var lib in libs)
             {
-                Console.WriteLine(string.Format("[rclUE] lib: {0}", lib));
+                Console.WriteLine(lib);
                 PublicAdditionalLibraries.Add(lib);
-                RuntimeDependencies.Add(lib);
+                if (bInCopySharedLibsToOutputDir)
+                {
+                	// NOTE: Don't use $(BinaryOutputDir), which makes lib copied to this module's Binaries folder in Editor build, not the executor folder (UE4Editor/UnrealEditor or packaged app)
+                    RuntimeDependencies.Add(Path.Combine("$(TargetOutputDir)", Path.GetFileName(lib)), lib, StagedFileType.NonUFS);
+                }
+                else
+                {
+                    RuntimeDependencies.Add(lib, StagedFileType.NonUFS);
+                }
             }
         }
 	}
@@ -51,10 +60,12 @@ public class rclUE : ModuleRules
 		}
 		
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-
+		CppStandard = CppStandardVersion.Cpp17;
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
-		    AddModule(RosPath);
+			// In order to ROS shared libs to be linkable by client UE app & for sake of portability, they need to all co-locate in the same folder
+			// => Need to copy them TargetOutputDir
+			AddModule(RosPath, true);
 		}
 
 		PublicIncludePaths.Add(Path.Combine(ModuleDirectory,"Public"));

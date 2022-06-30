@@ -7,17 +7,17 @@
 
 void UROS2StringMsg::Init()
 {
-	example_interfaces__msg__String__init(&string_msg);
+    example_interfaces__msg__String__init(&string_msg);
 }
 
 void UROS2StringMsg::Fini()
 {
-	example_interfaces__msg__String__fini(&string_msg);
+    example_interfaces__msg__String__fini(&string_msg);
 }
 
 const rosidl_message_type_support_t* UROS2StringMsg::GetTypeSupport() const
 {
-	return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, String);
+    return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, String);
 }
 
 void UROS2StringMsg::SetMsg(const FROSString& Inputs)
@@ -32,12 +32,12 @@ void UROS2StringMsg::GetMsg(FROSString& Outputs) const
 
 void* UROS2StringMsg::Get()
 {
-	return &string_msg;
+    return &string_msg;
 }
 
 FString UROS2StringMsg::MsgToString() const
 {
     /* TODO: Fill here */
-	checkNoEntry();
-	return FString();
+    checkNoEntry();
+    return FString();
 }
