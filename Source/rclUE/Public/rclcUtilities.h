@@ -256,4 +256,13 @@ public:
         OutSequence.size = arrayNum;
         OutSequence.capacity = arrayNum;
     }
+
+    static builtin_interfaces__msg__Time FloatToROSStamp(const float InTimeSec)
+    {
+        builtin_interfaces__msg__Time stamp;
+        stamp.sec = static_cast<int32>(InTimeSec);
+        uint64 ns = (uint64)(InTimeSec * 1e+09f);
+        stamp.nanosec = static_cast<uint32>(ns - (stamp.sec * 1e+09));    // to do
+        return stamp;
+    }
 };

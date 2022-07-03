@@ -58,7 +58,7 @@ void AROS2Node::Tick(float DeltaTime)
 
     Super::Tick(DeltaTime);
 
-    if (Subscriptions.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0)
+    if (Subscriptions.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0 || ActionClients.Num() > 0 || ActionServers.Num() > 0)
     {
         SpinSome();
     }

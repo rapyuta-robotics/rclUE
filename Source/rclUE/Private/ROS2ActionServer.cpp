@@ -45,7 +45,10 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
         UE_LOG(LogROS2Action, Log, TEXT("2. Action Server - Received goal request (%s)"), *__LOG_INFO__);
         void* data = Action->GetGoalRequest();
         RCSOFTCHECK(rcl_action_take_goal_request(&server, &goal_req_id, data));
-        HandleAcceptedDelegate.ExecuteIfBound();
+        if (HandleGoalDelegate.IsBound() && HandleGoalDelegate.Execute(Action))    // ExecuteIfBound do not exist?
+        {
+            HandleAcceptedDelegate.ExecuteIfBound();
+        }
     }
 
     if (IsReady[1])
@@ -61,7 +64,7 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
         UE_LOG(LogROS2Action, Log, TEXT("6. Action Server - Received result request (%s)"), *__LOG_INFO__);
         void* data = Action->GetResultRequest();
         RCSOFTCHECK(rcl_action_take_result_request(&server, &result_req_id, data));
-        HandleGoalDelegate.ExecuteIfBound(Action);
+        // HandleGoalDelegate.ExecuteIfBound(Action);
     }
 
     if (IsReady[3])
@@ -75,14 +78,6 @@ void UROS2ActionServer::SendGoalResponse()
     UE_LOG(LogROS2Action, Log, TEXT("3. Action Server - Send goal response (%s)"), *__LOG_INFO__);
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));
-
-    void* GoalResponse = Action->GetGoalResponse();
-    // GoalResponse->accepted = true;//to do
-    float TimeOfResponse = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld()));
-    // GoalResponse->stamp.sec = static_cast<int32>(TimeOfResponse); //to do
-    uint64 ns = (uint64)(TimeOfResponse * 1e+09f);
-    // GoalResponse->stamp.nanosec = static_cast<uint32>(ns - (GoalResponse->stamp.sec * 1e+09)); //to do
-
     RCSOFTCHECK(rcl_action_send_goal_response(&server, &goal_req_id, Action->GetGoalResponse()));
 }
 
@@ -129,31 +124,31 @@ void UROS2ActionServer::UpdateAndSendResult()
 
 void UROS2ActionServer::SetDelegates(const FActionCallback& UpdateFeedback,
                                      const FActionCallback& UpdateResult,
-                                     const FActionCallback& HandleGoal,
+                                     const FActionGoalCallback& HandleGoal,
                                      const FSimpleCallback& HandleCancel,
                                      const FSimpleCallback& HandleAccepted)
 {
-    if (!UpdateFeedbackDelegate.IsBound())
+    if (!UpdateFeedback.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("UpdateFeedbackDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!UpdateResultDelegate.IsBound())
+    if (!UpdateResult.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("UpdateResultDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!HandleGoalDelegate.IsBound())
+    if (!HandleGoal.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("HandleGoalDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!HandleCancelDelegate.IsBound())
+    if (!HandleCancel.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("HandleCancelDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!HandleAcceptedDelegate.IsBound())
+    if (!HandleAccepted.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("HandleAcceptedDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
