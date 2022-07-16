@@ -1,12 +1,11 @@
 /**
  * @file ROS2ActionClient.h
- * @brief Class implementing ROS2 action clients. 
- * Wrapper class of rclc action client. 
+ * @brief Class implementing ROS2 action clients.
+ * Wrapper class of rclc action client.
  * Callbacks are set through the SetDelegates method
  * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
- * 
+ *
  */
-
 
 #pragma once
 
@@ -18,9 +17,11 @@
 #include "ROS2ActionClient.generated.h"
 
 /**
- * @brief  Class implementing ROS2 action clients. Wrapper class of rclc action client. Callbacks are set through the SetDelegates method
+ * @brief  Class implementing ROS2 action clients. Wrapper class of rclc action client. Callbacks are set through the SetDelegates
+ * method
  * @sa [rclc action client](https://docs.ros2.org/dashing/api/rcl_action/action__client_8h.html)
- * @sa [Unreal Engine Delegates](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
+ * @sa [Unreal Engine
+ * Delegates](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionClient : public UROS2Action
@@ -30,51 +31,51 @@ class RCLUE_API UROS2ActionClient : public UROS2Action
 public:
     /**
      * @brief Destroy action client from rclc
-     * 
+     *
      */
     virtual void Destroy() override;
 
     /**
-     * @brief Determine the relevant action client functions to call.  
-     * 
-     * @param wait_set 
+     * @brief Determine the relevant action client functions to call.
+     *
+     * @param wait_set
      */
     virtual void ProcessReady(rcl_wait_set_t* wait_set) override;
 
     /**
      * @brief Send action goal with rcl_action_send_goal_request
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
-    void UpdateAndSendGoal();
+    bool UpdateAndSendGoal();
 
     /**
      * @brief Send result request to get result with rcl_action_send_result_request
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
     void GetResultRequest();
 
     /**
      * @brief Send cancel request with rcl_action_send_cancel_request
-     * 
+     *
      */
     UFUNCTION(BlueprintCallable)
     void CancelActionRequest();
 
     /**
      * @brief Set the Delegates object
-     * 
-     * @param SetGoal 
-     * @param Feedback 
-     * @param Result 
-     * @param GoalResponse 
-     * @param Cancel 
+     *
+     * @param SetGoal
+     * @param Feedback
+     * @param Result
+     * @param GoalResponse
+     * @param Cancel
      */
     void SetDelegates(const FActionCallback& SetGoal,
                       const FActionCallback& Feedback,
                       const FActionCallback& Result,
-                      const FSimpleCallback& GoalResponse,
+                      const FActionCallback& GoalResponse,
                       const FSimpleCallback& Cancel);
 
     //! ROS2 action client from rclc
@@ -88,13 +89,13 @@ private:
     FActionCallback SetGoalDelegate;
     FActionCallback FeedbackDelegate;
     FActionCallback ResultDelegate;
-    FSimpleCallback GoalResponseDelegate;
+    FActionCallback GoalResponseDelegate;
     FSimpleCallback CancelDelegate;
 
     /**
      * @brief Initialize ROS2 action client with rcl_action_client_init.
      * Set QOS for all goal, result, cancel, feedback and status
-     * 
+     *
      * @param QoS Quality of Service
      * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */
