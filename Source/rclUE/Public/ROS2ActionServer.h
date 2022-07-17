@@ -81,6 +81,7 @@ public:
      * @param HandleCancel
      * @param HandleAccepted
      */
+    UFUNCTION(BlueprintCallable)
     void SetDelegates(const FActionCallback& UpdateFeedback,
                       const FActionCallback& UpdateResult,
                       const FActionGoalCallback& HandleGoal,

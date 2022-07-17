@@ -72,6 +72,7 @@ public:
      * @param GoalResponse
      * @param Cancel
      */
+    UFUNCTION(BlueprintCallable)
     void SetDelegates(const FActionCallback& SetGoal,
                       const FActionCallback& Feedback,
                       const FActionCallback& Result,
