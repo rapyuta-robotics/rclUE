@@ -9,6 +9,7 @@
 // std
 #include <cstdlib>
 #include <cstring>
+#include <random>
 
 // UE
 #include <HAL/UnrealMemory.h>
@@ -264,5 +265,14 @@ public:
         uint64 ns = (uint64)(InTimeSec * 1e+09f);
         stamp.nanosec = static_cast<uint32>(ns - (stamp.sec * 1e+09));    // to do
         return stamp;
+    }
+
+    static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& InUUID)
+    {
+        InUUID.Empty();
+        for (int i = 0; i < 16; i++)
+        {
+            InUUID.Add(std::random_device{}());
+        }
     }
 };
