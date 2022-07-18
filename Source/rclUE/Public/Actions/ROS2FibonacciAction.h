@@ -3,255 +3,265 @@
 
 #pragma once
 
-#include <CoreMinimal.h>
-
-#include "unique_identifier_msgs/msg/uuid.h"
-#include "example_interfaces/action/fibonacci.h"
-#include "action_msgs/srv/cancel_goal.h"
-
 #include "Actions/ROS2GenericAction.h"
+#include "Kismet/GameplayStatics.h"
+#include "action_msgs/srv/cancel_goal.h"
+#include "example_interfaces/action/fibonacci.h"
 #include "rclcUtilities.h"
+#include "unique_identifier_msgs/msg/uuid.h"
+
+#include <CoreMinimal.h>
 
 #include "ROS2FibonacciAction.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSFibonacci_SendGoal_Request
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-  	TArray<uint, TFixedAllocator<16>> goal_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int order;
+    TArray<uint, TFixedAllocator<16>> goal_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int order;
 
-	
+    FROSFibonacci_SendGoal_Request()
+    {
+        UROS2Utils::GenerateRandomUUID16(goal_id);
+    }
 
-	void SetFromROS2(const example_interfaces__action__Fibonacci_SendGoal_Request& in_ros_data)
-	{
-		for (int i=0; i<16; i++)
-		{
-			goal_id[i] = in_ros_data.goal_id.uuid[i];
-		}
+    void SetFromROS2(const example_interfaces__action__Fibonacci_SendGoal_Request& in_ros_data)
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            goal_id[i] = in_ros_data.goal_id.uuid[i];
+        }
 
-    	order = in_ros_data.goal.order;
+        order = in_ros_data.goal.order;
+    }
 
-		
-	}
+    void SetROS2(example_interfaces__action__Fibonacci_SendGoal_Request& out_ros_data) const
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            out_ros_data.goal_id.uuid[i] = goal_id[i];
+        }
 
-	void SetROS2(example_interfaces__action__Fibonacci_SendGoal_Request& out_ros_data) const
-	{
-		for (int i=0; i<16; i++)
-		{
-			out_ros_data.goal_id.uuid[i] = goal_id[i];
-		}
-
-    	out_ros_data.goal.order = order;
-
-		
-	}
+        out_ros_data.goal.order = order;
+    }
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSFibonacci_SendGoal_Response
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	bool accepted;
-	int stamp_sec;
-	uint stamp_nanosec;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool accepted;
 
-	void SetFromROS2(const example_interfaces__action__Fibonacci_SendGoal_Response& in_ros_data)
-	{
-    	accepted = in_ros_data.accepted;
-		stamp_sec = in_ros_data.stamp.sec;
-		stamp_nanosec = in_ros_data.stamp.nanosec;
-	}
+    int stamp_sec;
+    uint stamp_nanosec;
 
-	void SetROS2(example_interfaces__action__Fibonacci_SendGoal_Response& out_ros_data) const
-	{
-    	out_ros_data.accepted = accepted;
-		out_ros_data.stamp.sec = stamp_sec;
-		out_ros_data.stamp.nanosec = stamp_nanosec;
-	}
+    void SetFromROS2(const example_interfaces__action__Fibonacci_SendGoal_Response& in_ros_data)
+    {
+        accepted = in_ros_data.accepted;
+        stamp_sec = in_ros_data.stamp.sec;
+        stamp_nanosec = in_ros_data.stamp.nanosec;
+    }
+
+    void SetROS2(example_interfaces__action__Fibonacci_SendGoal_Response& out_ros_data) const
+    {
+        out_ros_data.accepted = accepted;
+        out_ros_data.stamp.sec = stamp_sec;
+        out_ros_data.stamp.nanosec = stamp_nanosec;
+    }
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSFibonacci_GetResult_Request
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-  	TArray<uint, TFixedAllocator<16>> goal_id;
+    TArray<uint, TFixedAllocator<16>> goal_id;
 
-	void SetFromROS2(const example_interfaces__action__Fibonacci_GetResult_Request& in_ros_data)
-	{
-		for (int i=0; i<16; i++)
-		{
-			goal_id[i] = in_ros_data.goal_id.uuid[i];
-		}
+    FROSFibonacci_GetResult_Request()
+    {
+        goal_id.Init(0, 16);
+    }
 
-	}
+    void SetFromROS2(const example_interfaces__action__Fibonacci_GetResult_Request& in_ros_data)
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            goal_id[i] = in_ros_data.goal_id.uuid[i];
+        }
+    }
 
-	void SetROS2(example_interfaces__action__Fibonacci_GetResult_Request& out_ros_data) const
-	{
-		for (int i=0; i<16; i++)
-		{
-			out_ros_data.goal_id.uuid[i] = goal_id[i];
-		}
-	}
+    void SetROS2(example_interfaces__action__Fibonacci_GetResult_Request& out_ros_data) const
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            out_ros_data.goal_id.uuid[i] = goal_id[i];
+        }
+    }
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSFibonacci_GetResult_Response
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	int8 status;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<int> sequence;
+    int8 status;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<int> sequence;
 
-	
+    void SetFromROS2(const example_interfaces__action__Fibonacci_GetResult_Response& in_ros_data)
+    {
+        status = in_ros_data.status;
+        for (int i = 0; i < in_ros_data.result.sequence.size; i++)
+        {
+            sequence.Add(in_ros_data.result.sequence.data[i]);
+        }
+    }
 
-	void SetFromROS2(const example_interfaces__action__Fibonacci_GetResult_Response& in_ros_data)
-	{
-		status = in_ros_data.status;
-    	for (int i = 0; i < in_ros_data.result.sequence.size; i++)
-		{
-			sequence.Add(in_ros_data.result.sequence.data[i]);
-		}
+    void SetROS2(example_interfaces__action__Fibonacci_GetResult_Response& out_ros_data) const
+    {
+        out_ros_data.status = status;
+        if (out_ros_data.result.sequence.data != nullptr)
+        {
+            free(out_ros_data.result.sequence.data);
+        }
+        out_ros_data.result.sequence.data = (decltype(out_ros_data.result.sequence.data))malloc(
+            (sequence.Num()) * sizeof(decltype(*out_ros_data.result.sequence.data)));
 
-		
-	}
+        for (int i = 0; i < sequence.Num(); i++)
+        {
+            out_ros_data.result.sequence.data[i] = sequence[i];
+        }
 
-	void SetROS2(example_interfaces__action__Fibonacci_GetResult_Response& out_ros_data) const
-	{
-		out_ros_data.status = status;
-    	if (out_ros_data.result.sequence.data != nullptr)
-		{
-			free(out_ros_data.result.sequence.data);
-		}
-		out_ros_data.result.sequence.data = (decltype(out_ros_data.result.sequence.data))malloc((sequence.Num())*sizeof(decltype(*out_ros_data.result.sequence.data)));
-		
-		for (int i = 0; i < sequence.Num(); i++)
-		{
-			out_ros_data.result.sequence.data[i] = sequence[i];
-		}
-
-		out_ros_data.result.sequence.size = sequence.Num();
-		out_ros_data.result.sequence.capacity = sequence.Num();
-
-		
-	}
+        out_ros_data.result.sequence.size = sequence.Num();
+        out_ros_data.result.sequence.capacity = sequence.Num();
+    }
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSFibonacci_FeedbackMessage
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-  	TArray<uint, TFixedAllocator<16>> goal_id;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TArray<int> sequence;
+    TArray<uint, TFixedAllocator<16>> goal_id;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<int> sequence;
 
-	
+    FROSFibonacci_FeedbackMessage()
+    {
+        goal_id.Init(0, 16);
+    }
 
-	void SetFromROS2(const example_interfaces__action__Fibonacci_FeedbackMessage& in_ros_data)
-	{
-		for (int i=0; i<16; i++)
-		{
-			goal_id[i] = in_ros_data.goal_id.uuid[i];
-		}
+    void SetFromROS2(const example_interfaces__action__Fibonacci_FeedbackMessage& in_ros_data)
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            goal_id[i] = in_ros_data.goal_id.uuid[i];
+        }
 
-    	for (int i = 0; i < in_ros_data.feedback.sequence.size; i++)
-		{
-			sequence.Add(in_ros_data.feedback.sequence.data[i]);
-		}
+        for (int i = 0; i < in_ros_data.feedback.sequence.size; i++)
+        {
+            sequence.Add(in_ros_data.feedback.sequence.data[i]);
+        }
+    }
 
-		
-	}
+    void SetROS2(example_interfaces__action__Fibonacci_FeedbackMessage& out_ros_data) const
+    {
+        for (int i = 0; i < 16; i++)
+        {
+            out_ros_data.goal_id.uuid[i] = goal_id[i];
+        }
 
-	void SetROS2(example_interfaces__action__Fibonacci_FeedbackMessage& out_ros_data) const
-	{
-		for (int i=0; i<16; i++)
-		{
-			out_ros_data.goal_id.uuid[i] = goal_id[i];
-		}
-		
-    	if (out_ros_data.feedback.sequence.data != nullptr)
-		{
-			free(out_ros_data.feedback.sequence.data);
-		}
-		out_ros_data.feedback.sequence.data = (decltype(out_ros_data.feedback.sequence.data))malloc((sequence.Num())*sizeof(decltype(*out_ros_data.feedback.sequence.data)));
-		
-		for (int i = 0; i < sequence.Num(); i++)
-		{
-			out_ros_data.feedback.sequence.data[i] = sequence[i];
-		}
+        if (out_ros_data.feedback.sequence.data != nullptr)
+        {
+            free(out_ros_data.feedback.sequence.data);
+        }
+        out_ros_data.feedback.sequence.data = (decltype(out_ros_data.feedback.sequence.data))malloc(
+            (sequence.Num()) * sizeof(decltype(*out_ros_data.feedback.sequence.data)));
 
-		out_ros_data.feedback.sequence.size = sequence.Num();
-		out_ros_data.feedback.sequence.capacity = sequence.Num();
+        for (int i = 0; i < sequence.Num(); i++)
+        {
+            out_ros_data.feedback.sequence.data[i] = sequence[i];
+        }
 
-		
-	}
+        out_ros_data.feedback.sequence.size = sequence.Num();
+        out_ros_data.feedback.sequence.capacity = sequence.Num();
+    }
 };
 
 UCLASS()
 class RCLUE_API UROS2FibonacciAction : public UROS2GenericAction
 {
-	GENERATED_BODY()
-	
+    GENERATED_BODY()
+
 public:
-	virtual void Init() override;
+    virtual void Init() override;
 
-	virtual void Fini() override;
+    virtual void Fini() override;
 
-	virtual const rosidl_action_type_support_t* GetTypeSupport() const override;
+    virtual const rosidl_action_type_support_t* GetTypeSupport() const override;
 
-  	UFUNCTION(BlueprintCallable)
-	void SetGoalRequest(const FROSFibonacci_SendGoal_Request& Goal);
+    UFUNCTION(BlueprintCallable)
+    void SetGoalRequest(const FROSFibonacci_SendGoal_Request& Goal);
 
-  	UFUNCTION(BlueprintCallable)
-	void GetGoalRequest(FROSFibonacci_SendGoal_Request& Goal) const;
-	
-  	UFUNCTION(BlueprintCallable)
-	void SetGoalResponse(const FROSFibonacci_SendGoal_Response& Goal);
+    UFUNCTION(BlueprintCallable)
+    void GetGoalRequest(FROSFibonacci_SendGoal_Request& Goal) const;
 
-  	UFUNCTION(BlueprintCallable)
-	void GetGoalResponse(FROSFibonacci_SendGoal_Response& Goal) const;
-	
-  	UFUNCTION(BlueprintCallable)
-	void SetResultRequest(const FROSFibonacci_GetResult_Request& Result);
+    UFUNCTION(BlueprintCallable)
+    void SetGoalResponse(const FROSFibonacci_SendGoal_Response& Goal);
 
-  	UFUNCTION(BlueprintCallable)
-	void GetResultRequest(FROSFibonacci_GetResult_Request& Result) const;
-	
-  	UFUNCTION(BlueprintCallable)
-	void SetResultResponse(const FROSFibonacci_GetResult_Response& Result);
+    UFUNCTION(BlueprintCallable)
+    void GetGoalResponse(FROSFibonacci_SendGoal_Response& Goal) const;
 
-  	UFUNCTION(BlueprintCallable)
-	void GetResultResponse(FROSFibonacci_GetResult_Response& Result) const;
+    UFUNCTION(BlueprintCallable)
+    void SetResultRequest(const FROSFibonacci_GetResult_Request& Result);
 
+    UFUNCTION(BlueprintCallable)
+    void GetResultRequest(FROSFibonacci_GetResult_Request& Result) const;
 
+    UFUNCTION(BlueprintCallable)
+    void SetResultResponse(const FROSFibonacci_GetResult_Response& Result);
 
-  	UFUNCTION(BlueprintCallable)
-	void SetFeedback(const FROSFibonacci_FeedbackMessage& Feedback);
+    UFUNCTION(BlueprintCallable)
+    void GetResultResponse(FROSFibonacci_GetResult_Response& Result) const;
 
-  	UFUNCTION(BlueprintCallable)
-	void GetFeedback(FROSFibonacci_FeedbackMessage& Feedback) const;
-	
-	virtual void* GetGoalRequest() override;
-	virtual void* GetGoalResponse() override;
-	virtual void* GetResultRequest() override;
-	virtual void* GetResultResponse() override;
-	virtual void* GetFeedbackMessage() override;
+    UFUNCTION(BlueprintCallable)
+    void SetFeedback(const FROSFibonacci_FeedbackMessage& Feedback);
+
+    UFUNCTION(BlueprintCallable)
+    void GetFeedback(FROSFibonacci_FeedbackMessage& Feedback) const;
+
+    virtual void* GetGoalRequest() override;
+    virtual void* GetGoalResponse() override;
+    virtual void* GetResultRequest() override;
+    virtual void* GetResultResponse() override;
+    virtual void* GetFeedbackMessage() override;
+
+    // UFUNCTION(BlueprintCallable)
+    // void GenerateRandomGoalId(FROSFibonacci_SendGoal_Request& GoalRequest);
+
+    // UFUNCTION(BlueprintCallable)
+    // void GenerateStampFromGameTime(FROSFibonacci_SendGoal_Response& GoalResponse)
+    // {
+    //     builtin_interfaces__msg__Time stamp =
+    //         UROS2Utils::FloatToROSStamp(UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld())));
+    //     GoalResponse.stamp_sec = stamp.sec;
+    //     GoalResponse.stamp_nanosec = stamp.nanosec;
+    // }
 
 private:
-	example_interfaces__action__Fibonacci_SendGoal_Request Fibonacci_goal_request;
-	example_interfaces__action__Fibonacci_SendGoal_Response Fibonacci_goal_response;
-	example_interfaces__action__Fibonacci_GetResult_Request Fibonacci_result_request;
-	example_interfaces__action__Fibonacci_GetResult_Response Fibonacci_result_response;
-	example_interfaces__action__Fibonacci_FeedbackMessage Fibonacci_feedback_message;
+    example_interfaces__action__Fibonacci_SendGoal_Request Fibonacci_goal_request;
+    example_interfaces__action__Fibonacci_SendGoal_Response Fibonacci_goal_response;
+    example_interfaces__action__Fibonacci_GetResult_Request Fibonacci_result_request;
+    example_interfaces__action__Fibonacci_GetResult_Response Fibonacci_result_response;
+    example_interfaces__action__Fibonacci_FeedbackMessage Fibonacci_feedback_message;
 };
