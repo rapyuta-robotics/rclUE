@@ -59,21 +59,19 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     bool accepted;
 
-    int stamp_sec;
-    uint stamp_nanosec;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float stamp;
 
     void SetFromROS2(const example_interfaces__action__Fibonacci_SendGoal_Response& in_ros_data)
     {
         accepted = in_ros_data.accepted;
-        stamp_sec = in_ros_data.stamp.sec;
-        stamp_nanosec = in_ros_data.stamp.nanosec;
+        stamp = UROS2Utils::ROSStampToFloat(in_ros_data.stamp);
     }
 
     void SetROS2(example_interfaces__action__Fibonacci_SendGoal_Response& out_ros_data) const
     {
         out_ros_data.accepted = accepted;
-        out_ros_data.stamp.sec = stamp_sec;
-        out_ros_data.stamp.nanosec = stamp_nanosec;
+        out_ros_data.stamp = UROS2Utils::FloatToROSStamp(stamp);
     }
 };
 
@@ -240,23 +238,14 @@ public:
     UFUNCTION(BlueprintCallable)
     void GetFeedback(FROSFibonacci_FeedbackMessage& Feedback) const;
 
+    UFUNCTION(BlueprintCallable)
+    void SetGoalIdToFeedback(FROSFibonacci_FeedbackMessage& Feedback);
+
     virtual void* GetGoalRequest() override;
     virtual void* GetGoalResponse() override;
     virtual void* GetResultRequest() override;
     virtual void* GetResultResponse() override;
     virtual void* GetFeedbackMessage() override;
-
-    // UFUNCTION(BlueprintCallable)
-    // void GenerateRandomGoalId(FROSFibonacci_SendGoal_Request& GoalRequest);
-
-    // UFUNCTION(BlueprintCallable)
-    // void GenerateStampFromGameTime(FROSFibonacci_SendGoal_Response& GoalResponse)
-    // {
-    //     builtin_interfaces__msg__Time stamp =
-    //         UROS2Utils::FloatToROSStamp(UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld())));
-    //     GoalResponse.stamp_sec = stamp.sec;
-    //     GoalResponse.stamp_nanosec = stamp.nanosec;
-    // }
 
 private:
     example_interfaces__action__Fibonacci_SendGoal_Request Fibonacci_goal_request;

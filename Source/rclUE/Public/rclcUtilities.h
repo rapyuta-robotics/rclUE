@@ -262,9 +262,13 @@ public:
     {
         builtin_interfaces__msg__Time stamp;
         stamp.sec = static_cast<int32>(InTimeSec);
-        uint64 ns = (uint64)(InTimeSec * 1e+09f);
-        stamp.nanosec = static_cast<uint32>(ns - (stamp.sec * 1e+09));    // to do
+        stamp.nanosec = (uint64)(InTimeSec * 1e+09f);
         return stamp;
+    }
+
+    static float ROSStampToFloat(const builtin_interfaces__msg__Time InTimeStamp)
+    {
+        return InTimeStamp.sec + InTimeStamp.nanosec * 1e-09f;
     }
 
     static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& InUUID)

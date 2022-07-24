@@ -68,7 +68,6 @@ void UROS2FibonacciAction::GetResultResponse(FROSFibonacci_GetResult_Response& R
     Result.SetFromROS2(Fibonacci_result_response);
 }
 
-
 void UROS2FibonacciAction::SetFeedback(const FROSFibonacci_FeedbackMessage& Feedback)
 {
     Feedback.SetROS2(Fibonacci_feedback_message);
@@ -79,6 +78,13 @@ void UROS2FibonacciAction::GetFeedback(FROSFibonacci_FeedbackMessage& Feedback) 
     Feedback.SetFromROS2(Fibonacci_feedback_message);
 }
 
+void UROS2FibonacciAction::SetGoalIdToFeedback(FROSFibonacci_FeedbackMessage& Feedback)
+{
+    for (int i = 0; i < 16; i++)
+    {
+        Feedback.goal_id[i] = Fibonacci_goal_request.goal_id.uuid[i];
+    }
+}
 
 void* UROS2FibonacciAction::GetGoalRequest()
 {
