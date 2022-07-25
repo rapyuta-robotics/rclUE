@@ -53,7 +53,7 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
         UE_LOG(LogROS2Action, Log, TEXT("4. Action Client - Received goal response (%s)"), *__LOG_INFO__);
         void* data = Action->GetGoalResponse();
         RCSOFTCHECK(rcl_action_take_goal_response(&client, &goal_res_id, data));
-        GoalResponseDelegate.ExecuteIfBound();
+        GoalResponseDelegate.ExecuteIfBound(Action);
     }
 
     if (IsReady[3])
@@ -73,14 +73,14 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
     }
 }
 
-void UROS2ActionClient::UpdateAndSendGoal()
+bool UROS2ActionClient::UpdateAndSendGoal()
 {
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));
 
-    bool ActionServerIsAvailable = false;
-    RCSOFTCHECK(rcl_action_server_is_available(OwnerNode->GetNode(), &client, &ActionServerIsAvailable));
-    if (ActionServerIsAvailable)
+    bool bActionServerIsAvailable = false;
+    RCSOFTCHECK(rcl_action_server_is_available(OwnerNode->GetNode(), &client, &bActionServerIsAvailable));
+    if (bActionServerIsAvailable)
     {
         UE_LOG(LogROS2Action, Log, TEXT("1. Action Client - Send goal (%s)"), *__LOG_INFO__);
         SetGoalDelegate.ExecuteIfBound(Action);
@@ -93,6 +93,8 @@ void UROS2ActionClient::UpdateAndSendGoal()
     {
         UE_LOG(LogROS2Action, Error, TEXT("Action Server Unavailable (%s)"), *__LOG_INFO__);
     }
+
+    return bActionServerIsAvailable;
 }
 
 void UROS2ActionClient::GetResultRequest()
@@ -120,30 +122,30 @@ void UROS2ActionClient::CancelActionRequest()
 void UROS2ActionClient::SetDelegates(const FActionCallback& SetGoal,
                                      const FActionCallback& Feedback,
                                      const FActionCallback& Result,
-                                     const FSimpleCallback& GoalResponse,
+                                     const FActionCallback& GoalResponse,
                                      const FSimpleCallback& Cancel)
 {
-    if (!SetGoalDelegate.IsBound())
+    if (!SetGoal.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("SetGoalDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!FeedbackDelegate.IsBound())
+    if (!Feedback.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("FeedbackDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!ResultDelegate.IsBound())
+    if (!Result.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("ResultDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!GoalResponseDelegate.IsBound())
+    if (!GoalResponse.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("GoalResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!CancelDelegate.IsBound())
+    if (!Cancel.IsBound())
     {
         UE_LOG(LogROS2Action, Warning, TEXT("CancelDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }

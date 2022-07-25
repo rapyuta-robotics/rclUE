@@ -34,7 +34,7 @@ class UROS2ActionClient;
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
-DECLARE_DELEGATE(FSimpleCallback);
+DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 
 /**
  * @brief RR_ROS2_SUBSCRIBE_TO_TOPIC

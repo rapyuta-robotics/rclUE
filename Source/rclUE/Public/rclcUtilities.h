@@ -9,6 +9,7 @@
 // std
 #include <cstdlib>
 #include <cstring>
+#include <random>
 
 // UE
 #include <HAL/UnrealMemory.h>
@@ -255,5 +256,27 @@ public:
         }
         OutSequence.size = arrayNum;
         OutSequence.capacity = arrayNum;
+    }
+
+    static builtin_interfaces__msg__Time FloatToROSStamp(const float& InTimeSec)
+    {
+        builtin_interfaces__msg__Time stamp;
+        stamp.sec = static_cast<int32>(InTimeSec);
+        stamp.nanosec = (uint64)(InTimeSec * 1e+09f);
+        return stamp;
+    }
+
+    static float ROSStampToFloat(const builtin_interfaces__msg__Time& InTimeStamp)
+    {
+        return InTimeStamp.sec + InTimeStamp.nanosec * 1e-09f;
+    }
+
+    static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& InUUID)
+    {
+        InUUID.Empty();
+        for (int i = 0; i < 16; i++)
+        {
+            InUUID.Add(std::random_device{}());
+        }
     }
 };
