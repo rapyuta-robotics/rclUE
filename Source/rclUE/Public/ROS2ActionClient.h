@@ -20,8 +20,7 @@
  * @brief  Class implementing ROS2 action clients. Wrapper class of rclc action client. Callbacks are set through the SetDelegates
  * method
  * @sa [rclc action client](https://docs.ros2.org/dashing/api/rcl_action/action__client_8h.html)
- * @sa [Unreal Engine
- * Delegates](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
+ * @sa [Unreal Engine Delegates](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionClient : public UROS2Action

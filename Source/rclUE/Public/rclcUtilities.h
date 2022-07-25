@@ -258,7 +258,7 @@ public:
         OutSequence.capacity = arrayNum;
     }
 
-    static builtin_interfaces__msg__Time FloatToROSStamp(const float InTimeSec)
+    static builtin_interfaces__msg__Time FloatToROSStamp(const float& InTimeSec)
     {
         builtin_interfaces__msg__Time stamp;
         stamp.sec = static_cast<int32>(InTimeSec);
@@ -266,7 +266,7 @@ public:
         return stamp;
     }
 
-    static float ROSStampToFloat(const builtin_interfaces__msg__Time InTimeStamp)
+    static float ROSStampToFloat(const builtin_interfaces__msg__Time& InTimeStamp)
     {
         return InTimeStamp.sec + InTimeStamp.nanosec * 1e-09f;
     }

@@ -78,9 +78,9 @@ bool UROS2ActionClient::UpdateAndSendGoal()
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));
 
-    bool ActionServerIsAvailable = false;
-    RCSOFTCHECK(rcl_action_server_is_available(OwnerNode->GetNode(), &client, &ActionServerIsAvailable));
-    if (ActionServerIsAvailable)
+    bool bActionServerIsAvailable = false;
+    RCSOFTCHECK(rcl_action_server_is_available(OwnerNode->GetNode(), &client, &bActionServerIsAvailable));
+    if (bActionServerIsAvailable)
     {
         UE_LOG(LogROS2Action, Log, TEXT("1. Action Client - Send goal (%s)"), *__LOG_INFO__);
         SetGoalDelegate.ExecuteIfBound(Action);
@@ -94,7 +94,7 @@ bool UROS2ActionClient::UpdateAndSendGoal()
         UE_LOG(LogROS2Action, Error, TEXT("Action Server Unavailable (%s)"), *__LOG_INFO__);
     }
 
-    return ActionServerIsAvailable;
+    return bActionServerIsAvailable;
 }
 
 void UROS2ActionClient::GetResultRequest()
