@@ -2,6 +2,8 @@
 
 #include "ROS2ActionClient.h"
 
+#include "rclcUtilities.h"
+
 void UROS2ActionClient::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
 {
     const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();
@@ -110,10 +112,7 @@ void UROS2ActionClient::CancelActionRequest()
 {
     UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
     action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*)Action->GetCancelRequest();
-    float CancelTime = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld()));
-    cancel_request->goal_info.stamp.sec = static_cast<int32>(CancelTime);
-    uint64 ns = static_cast<uint64>(CancelTime * 1e+09f);
-    cancel_request->goal_info.stamp.nanosec = static_cast<uint32>(ns - (cancel_request->goal_info.stamp.sec * 1e+09));
+    cancel_request->goal_info.stamp = UROS2Utils::FloatToROSStamp(UGameplayStatics::GetTimeSeconds(GetWorld()));
 
     int64_t Seq;
     RCSOFTCHECK(rcl_action_send_cancel_request(&client, Action->GetCancelRequest(), &Seq));
