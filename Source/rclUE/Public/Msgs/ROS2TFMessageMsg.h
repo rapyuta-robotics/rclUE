@@ -84,50 +84,33 @@ public:
 
 	void SetROS2(tf2_msgs__msg__TFMessage& out_ros_data) const
 	{
-    	// if (out_ros_data.transforms.data != nullptr)
-		// {
-		// 	free(out_ros_data.transforms.data);
-		// }
-        auto num = TransformsHeaderStampSec.Num();
-        out_ros_data.transforms.data =
-            (geometry_msgs__msg__TransformStamped*)malloc(
-                sizeof(geometry_msgs__msg__TransformStamped) * num);
-            // (decltype(out_ros_data.transforms.data))malloc(
-            //     TransformsHeaderStampSec.Num() * (
-            //         sizeof(TransformsHeaderStampSec) +
-            //         sizeof(TransformsHeaderStampNanosec) +
-            //         sizeof(TransformsHeaderFrameId) +
-            //         sizeof(TransformsChildFrameId) +
-            //         sizeof(TransformsTransformTranslation) +
-            //         sizeof(TransformsTransformRotation)
-            //     )
-            // );        
-        out_ros_data.transforms.size = num;
-		out_ros_data.transforms.capacity = num;
-		for (auto i = 0; i < num; ++i)
+    	if (out_ros_data.transforms.data != nullptr)
+		{
+			free(out_ros_data.transforms.data);
+		}
+		out_ros_data.transforms.data = (decltype(out_ros_data.transforms.data))malloc(TransformsHeaderStampSec.Num() * (sizeof(TransformsHeaderStampSec) + sizeof(TransformsHeaderStampNanosec) + sizeof(TransformsHeaderFrameId) + sizeof(TransformsChildFrameId) + sizeof(TransformsTransformTranslation) + sizeof(TransformsTransformRotation)));
+		out_ros_data.transforms.size = TransformsHeaderStampSec.Num();
+		out_ros_data.transforms.capacity = TransformsHeaderStampSec.Num();
+		for (auto i = 0; i < TransformsHeaderStampSec.Num(); ++i)
 		{
 			out_ros_data.transforms.data[i].header.stamp.sec = TransformsHeaderStampSec[i];
+
 			out_ros_data.transforms.data[i].header.stamp.nanosec = TransformsHeaderStampNanosec[i];
 
 			{
 				FTCHARToUTF8 strUtf8( *TransformsHeaderFrameId[i] );
-			    int32 strLength = strUtf8.Length();
-				out_ros_data.transforms.data[i].header.frame_id.data = 
-                    (char*)malloc((strLength+1)*sizeof(decltype(*out_ros_data.transforms.data[i].header.frame_id.data)));
-		        
-                memcpy(out_ros_data.transforms.data[i].header.frame_id.data, TCHAR_TO_UTF8(*TransformsHeaderFrameId[i]), (strLength+1)*sizeof(char));
+			int32 strLength = strUtf8.Length();
+				out_ros_data.transforms.data[i].header.frame_id.data = (decltype(out_ros_data.transforms.data[i].header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.transforms.data[i].header.frame_id.data)));
+		memcpy(out_ros_data.transforms.data[i].header.frame_id.data, TCHAR_TO_UTF8(*TransformsHeaderFrameId[i]), (strLength+1)*sizeof(char));
 				out_ros_data.transforms.data[i].header.frame_id.size = strLength;
 				out_ros_data.transforms.data[i].header.frame_id.capacity = strLength + 1;
 			}
 
 			{
 				FTCHARToUTF8 strUtf8( *TransformsChildFrameId[i] );
-			    int32 strLength = strUtf8.Length();
-				out_ros_data.transforms.data[i].child_frame_id.data = 
-                    (decltype(out_ros_data.transforms.data[i].child_frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.transforms.data[i].child_frame_id.data)));
-		        memcpy(out_ros_data.transforms.data[i].child_frame_id.data, 
-                    TCHAR_TO_UTF8(*TransformsChildFrameId[i]), 
-                    (strLength+1)*sizeof(char));
+			int32 strLength = strUtf8.Length();
+				out_ros_data.transforms.data[i].child_frame_id.data = (decltype(out_ros_data.transforms.data[i].child_frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.transforms.data[i].child_frame_id.data)));
+		memcpy(out_ros_data.transforms.data[i].child_frame_id.data, TCHAR_TO_UTF8(*TransformsChildFrameId[i]), (strLength+1)*sizeof(char));
 				out_ros_data.transforms.data[i].child_frame_id.size = strLength;
 				out_ros_data.transforms.data[i].child_frame_id.capacity = strLength + 1;
 			}
@@ -141,7 +124,7 @@ public:
 			out_ros_data.transforms.data[i].transform.rotation.z = TransformsTransformRotation[i].Z;
 			out_ros_data.transforms.data[i].transform.rotation.w = TransformsTransformRotation[i].W;
 
-        }
+			}
 	
 	}
 };

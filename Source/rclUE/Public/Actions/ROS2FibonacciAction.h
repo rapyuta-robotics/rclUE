@@ -26,6 +26,11 @@ public:
 
 	
 
+	FROSFibonacciSendGoalRequest()
+    {
+        UROS2Utils::GenerateRandomUUID16(GoalId);
+    }
+
 	void SetFromROS2(const example_interfaces__action__Fibonacci_SendGoal_Request& in_ros_data)
 	{
 		for (int i=0; i<16; i++)

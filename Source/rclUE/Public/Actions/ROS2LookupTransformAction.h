@@ -53,6 +53,11 @@ public:
 
 	
 
+	FROSLookupTransformSendGoalRequest()
+    {
+        UROS2Utils::GenerateRandomUUID16(GoalId);
+    }
+
 	void SetFromROS2(const tf2_msgs__action__LookupTransform_SendGoal_Request& in_ros_data)
 	{
 		for (int i=0; i<16; i++)
