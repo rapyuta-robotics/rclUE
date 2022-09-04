@@ -13,7 +13,7 @@
 
 // rclUE
 #include "Msgs/ROS2GenericMsg.h"
-#include "ROS2Node.h"
+#include "ROS2NodeComponent.h"
 
 #include "ROS2Publisher.generated.h"
 
@@ -151,7 +151,7 @@ public:
 
     //! ROS2Node which own this publisher.
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-    AROS2Node* OwnerNode = nullptr;
+    UROS2NodeComponent* OwnerNode = nullptr;
 
     //! Publisher state
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
