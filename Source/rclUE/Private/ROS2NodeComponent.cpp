@@ -30,12 +30,12 @@ void UROS2NodeComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
     {
         c->Destroy();
     }
-    for (auto& s : Services)
+    for (auto& s : ServiceServers)
     {
         RCSOFTCHECK(rcl_service_fini(&s.rcl_service, &node));
     }
 
-    for (auto& c : Clients)
+    for (auto& c : ServiceClients)
     {
         c->Destroy();    
     }
@@ -64,7 +64,7 @@ void UROS2NodeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    if (Subscriptions.Num() > 0 || Clients.Num() > 0 || Services.Num() > 0 || ActionClients.Num() > 0 || ActionServers.Num() > 0)
+    if (Subscriptions.Num() > 0 || ServiceClients.Num() > 0 || ServiceServers.Num() > 0 || ActionClients.Num() > 0 || ActionServers.Num() > 0)
     {
         SpinSome();
     }
@@ -175,7 +175,7 @@ void UROS2NodeComponent::AddServiceServer(const FString& ServiceName,
     rcl_service_options_t srv_opt = rcl_service_get_default_options();
     RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, &node, type_support, TCHAR_TO_UTF8(*ServiceName), &srv_opt));
 
-    Services.Emplace(MoveTemp(NewSrv));
+    ServiceServers.Emplace(MoveTemp(NewSrv));
 
     // invalidate wait_set
     if (rcl_wait_set_is_valid(&wait_set))
@@ -220,11 +220,11 @@ void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InClient)
             LogROS2Node, Warning, TEXT("[%s] ResponseDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
     }
 
-    if (false == Clients.Contains(InClient))
+    if (false == ServiceClients.Contains(InClient))
     {
         InClient->OwnerNode = this;
         InClient->Init(UROS2QoS::Services);
-        Clients.Add(InClient);
+        ServiceClients.Add(InClient);
     }
     else
     {
@@ -304,7 +304,7 @@ void UROS2NodeComponent::HandleServices()
         if (wait_set.services[i])
         {
             const rcl_service_t* currentService = wait_set.services[i];
-            for (auto& s : Services)
+            for (auto& s : ServiceServers)
             {
                 if (&s.rcl_service == currentService)
                 {
@@ -314,7 +314,7 @@ void UROS2NodeComponent::HandleServices()
         }
     }
 
-    for (auto& s : Services)
+    for (auto& s : ServiceServers)
     {
         if (s.Ready == true)
         {
@@ -341,7 +341,7 @@ void UROS2NodeComponent::HandleClients()
         if (wait_set.clients[i])
         {
             const rcl_client_t* current_client = wait_set.clients[i];
-            for (auto& c : Clients)
+            for (auto& c : ServiceClients)
             {
                 if (&c->client == current_client)
                 {
@@ -351,7 +351,7 @@ void UROS2NodeComponent::HandleClients()
         }
     }
 
-    for (auto& c : Clients)
+    for (auto& c : ServiceClients)
     {
         if (c->Ready == true)
         {
@@ -383,8 +383,8 @@ void UROS2NodeComponent::SpinSome()
                                       Subscriptions.Num() + ActionClients.Num() * 2,
                                       NGuardConditions,
                                       NTimers + ActionServers.Num(),
-                                      Clients.Num() + ActionClients.Num() * 3,
-                                      Services.Num() + ActionServers.Num() * 3,
+                                      ServiceClients.Num() + ActionClients.Num() * 3,
+                                      ServiceServers.Num() + ActionServers.Num() * 3,
                                       NEvents,
                                       &Support->Get().context,
                                       rcl_get_default_allocator()));
@@ -397,12 +397,12 @@ void UROS2NodeComponent::SpinSome()
         RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.rcl_subscription, nullptr));
     }
 
-    for (auto& c : Clients)
+    for (auto& c : ServiceClients)
     {
         RCSOFTCHECK(rcl_wait_set_add_client(&wait_set, &c->client, nullptr));
     }
 
-    for (auto& s : Services)
+    for (auto& s : ServiceServers)
     {
         RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.rcl_service, nullptr));
     }

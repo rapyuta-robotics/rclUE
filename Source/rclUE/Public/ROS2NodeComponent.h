@@ -172,7 +172,7 @@ public:
     void AddPublisher(UROS2Publisher* InPublisher);
 
     /**
-     * @brief Set this node to UROS2ServiceClient::OwnerNode and add to #Clients.
+     * @brief Set this node to UROS2ServiceClient::OwnerNode and add to #ServiceClients.
      *
      * @param InClient
      */
@@ -180,7 +180,7 @@ public:
     void AddServiceClient(UROS2ServiceClient* InClient);
 
     /**
-     * @brief Create ServiceServer with rcl_service_init and add to #Services.
+     * @brief Create ServiceServer with rcl_service_init and add to #ServiceServers.
      *
      * @param ServiceName
      * @param SrvClass
@@ -246,13 +246,13 @@ protected:
     TArray<FSubscription> Subscriptions;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FService> Services;
+    TArray<FService> ServiceServers;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<UROS2Publisher*> Publishers;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<UROS2ServiceClient*> Clients;
+    TArray<UROS2ServiceClient*> ServiceClients;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<UROS2ActionClient*> ActionClients;
