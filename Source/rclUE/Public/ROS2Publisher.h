@@ -182,8 +182,11 @@ public:
         checkNoEntry();
     }
 
+    UFUNCTION(BlueprintCallable)
+    void SetDelegates(const FPublisherUpdateCallback& InUpdateDelegate);
+
     //! ROS2Node which own this publisher.
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite) 
     UROS2NodeComponent* OwnerNode = nullptr;
 
     //! Publisher state

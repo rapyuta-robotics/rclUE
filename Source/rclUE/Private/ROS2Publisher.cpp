@@ -132,3 +132,13 @@ void UROS2Publisher::Publish()
 
     RCSOFTCHECK(rcl_publish(&RclPublisher, PublishedMsg, nullptr));
 }
+
+void UROS2Publisher::SetDelegates(const FPublisherUpdateCallback& InUpdateDelegate)
+{
+    if (!InUpdateDelegate.IsBound())
+    {
+        UE_LOG(LogROS2Publisher, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+    }
+
+    UpdateDelegate = InUpdateDelegate;
+}
