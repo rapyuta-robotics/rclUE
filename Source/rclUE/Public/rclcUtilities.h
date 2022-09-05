@@ -46,7 +46,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Publisher, Log, All);
-DECLARE_LOG_CATEGORY_EXTERN(LogROS2Service, Log, All);
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
 /// this macro can be used on rcl functions that return an error code

@@ -1,7 +1,5 @@
 // Copyright 2020-2021 Rapyuta Robotics Co., Ltd.
 
-DEFINE_LOG_CATEGORY(LogROS2Service);
-
 #include "ROS2ServiceClient.h"
 
 void UROS2ServiceClient::InitializeServiceComponent(TEnumAsByte<UROS2QoS> QoS)
@@ -22,7 +20,7 @@ void UROS2ServiceClient::Destroy()
 
     if (OwnerNode != nullptr)
     {
-        UE_LOG(LogROS2Service, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Srv, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
         RCSOFTCHECK(rcl_client_fini(&client, OwnerNode->GetNode()));
     }
 }
@@ -35,14 +33,10 @@ void UROS2ServiceClient::ProcessReady()
         void* data = Service->GetResponse();
         RCSOFTCHECK(rcl_take_response_with_info(&client, &req_info, data));
 
-        UE_LOG(LogROS2Service,
-               Log,
-               TEXT("[%s] ROS2Node Executing Answer Delegate for Service Client (%s)"),
-               *GetName(),
-               *__LOG_INFO__);
+        UE_LOG(
+            LogROS2Srv, Log, TEXT("[%s] ROS2Node Executing Response delegate for Service Client (%s)"), *GetName(), *__LOG_INFO__);
 
-        const FServiceClientCallback* SrvClientCallback = &ResponseDelegate;
-        SrvClientCallback->ExecuteIfBound(Service);
+        ResponseDelegate.ExecuteIfBound(Service);
 
         Ready = false;
     }
@@ -50,7 +44,7 @@ void UROS2ServiceClient::ProcessReady()
 
 void UROS2ServiceClient::UpdateAndSendRequest()
 {
-    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
+    UE_LOG(LogROS2Srv, Log, TEXT("%s"), *__LOG_INFO__);
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));
     if (!IsServiceReady())
@@ -64,7 +58,7 @@ void UROS2ServiceClient::UpdateAndSendRequest()
 
 void UROS2ServiceClient::SendRequest()
 {
-    UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
+    UE_LOG(LogROS2Srv, Log, TEXT("%s"), *__LOG_INFO__);
     check(State == UROS2State::Initialized);
     check(OwnerNode != nullptr);
 
@@ -94,19 +88,18 @@ bool UROS2ServiceClient::IsServiceReady()
     return is_ready;
 }
 
-void UROS2ServiceClient::SetDelegates(const FServiceClientCallback& InRequestDelegate,
-                                        const FServiceClientCallback& InResponseCallback)
+void UROS2ServiceClient::SetDelegates(const FServiceCallback& InRequestDelegate, const FServiceCallback& InResponseDelegate)
 {
     if (!InRequestDelegate.IsBound())
     {
-        UE_LOG(LogROS2Service, Warning, TEXT("RequestDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Srv, Warning, TEXT("RequestDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    if (!InResponseCallback.IsBound())
+    if (!InResponseDelegate.IsBound())
     {
-        UE_LOG(LogROS2Service, Warning, TEXT("ResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Srv, Warning, TEXT("ResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
     RequestDelegate = InRequestDelegate;
-    ResponseDelegate = InResponseCallback;
+    ResponseDelegate = InResponseDelegate;
 }

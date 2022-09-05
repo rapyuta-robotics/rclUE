@@ -19,6 +19,7 @@
 
 // rclUE
 #include "ROS2NodeComponent.h"
+#include "ROS2Service.h"
 
 #include "ROS2Node.generated.h"
 
@@ -194,7 +195,7 @@ public:
 
     /**
      * @brief Create ServiceServer with rcl_service_init and add to #Services.
-     *
+     * @note Keep original arguments, instead of take ServiceServer as arg in ROS2NodeComponent.
      * @param ServiceName
      * @param SrvClass
      * @param Callback

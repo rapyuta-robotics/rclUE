@@ -20,6 +20,9 @@
 
 #include "ROS2Service.generated.h"
 
+//! Servoce call back delegate.  BP requires a custom-made callback thus it must be Dynamic
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
+
 /**
  * @brief Class implementing ROS2 service clients.
  *  Service type is defined by SrvClass

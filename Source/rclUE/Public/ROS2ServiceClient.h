@@ -21,8 +21,6 @@
 
 #include "ROS2ServiceClient.generated.h"
 
-//! Servoce call back delegate.  BP requires a custom-made callback thus it must be Dynamic
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv*, InService);
 /**
  * @brief Class implementing ROS2 service clients.
  *  Service type is defined by SrvClass
@@ -50,18 +48,17 @@ public:
 
     /**
      * @brief Determine the relevant action client functions to call.
-     *
-     * @param wait_set
+     * 
      */
     virtual void ProcessReady() override;
 
     //! used to pass data for the request
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FServiceClientCallback RequestDelegate;
+    FServiceCallback RequestDelegate;
 
     //! used to receive the answer
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FServiceClientCallback ResponseDelegate;
+    FServiceCallback ResponseDelegate;
 
     //! ROS2 Service client
     rcl_client_t client;

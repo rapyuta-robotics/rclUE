@@ -30,14 +30,14 @@ void UROS2NodeComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
     {
         c->Destroy();
     }
-    for (auto& s : ServiceServers)
+    for (auto& c : ServiceServers)
     {
-        RCSOFTCHECK(rcl_service_fini(&s.rcl_service, &node));
+        c->Destroy();
     }
 
     for (auto& c : ServiceClients)
     {
-        c->Destroy();    
+        c->Destroy();
     }
 
     for (auto& c : ActionServers)
@@ -64,7 +64,8 @@ void UROS2NodeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    if (Subscriptions.Num() > 0 || ServiceClients.Num() > 0 || ServiceServers.Num() > 0 || ActionClients.Num() > 0 || ActionServers.Num() > 0)
+    if (Subscriptions.Num() > 0 || ServiceClients.Num() > 0 || ServiceServers.Num() > 0 || ActionClients.Num() > 0 ||
+        ActionServers.Num() > 0)
     {
         SpinSome();
     }
@@ -98,8 +99,8 @@ rcl_node_t* UROS2NodeComponent::GetNode()
 }
 
 void UROS2NodeComponent::AddSubscription(const FString& TopicName,
-                                TSubclassOf<UROS2GenericMsg> MsgClass,
-                                const FSubscriptionCallback& Callback)
+                                         TSubclassOf<UROS2GenericMsg> MsgClass,
+                                         const FSubscriptionCallback& Callback)
 {
     check(State == UROS2State::Initialized);
 
@@ -149,41 +150,6 @@ void UROS2NodeComponent::AddSubscription(const FString& TopicName,
     }
 }
 
-void UROS2NodeComponent::AddServiceServer(const FString& ServiceName,
-                                 const TSubclassOf<UROS2GenericSrv> SrvClass,
-                                 const FServiceCallback& Callback)
-{
-    check(State == UROS2State::Initialized);
-
-    if (!Callback.IsBound())
-    {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
-    }
-
-    UROS2GenericSrv* Service = NewObject<UROS2GenericSrv>(this, SrvClass);
-    Service->Init();
-
-    FService NewSrv;
-    NewSrv.ServiceName = ServiceName;
-    NewSrv.ServiceType = SrvClass;
-    NewSrv.Service = Service;
-    NewSrv.Callback = Callback;
-    NewSrv.Ready = false;
-
-    NewSrv.rcl_service = rcl_get_zero_initialized_service();
-    const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();
-    rcl_service_options_t srv_opt = rcl_service_get_default_options();
-    RCSOFTCHECK(rcl_service_init(&NewSrv.rcl_service, &node, type_support, TCHAR_TO_UTF8(*ServiceName), &srv_opt));
-
-    ServiceServers.Emplace(MoveTemp(NewSrv));
-
-    // invalidate wait_set
-    if (rcl_wait_set_is_valid(&wait_set))
-    {
-        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-    }
-}
-
 void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
 {
     check(IsValid(InPublisher));
@@ -205,26 +171,35 @@ void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
     }
 }
 
-void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InClient)
+void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
 {
-    check(IsValid(InClient));
-
-    if (!InClient->RequestDelegate.IsBound())
+    check(IsValid(InServiceClient));
+    if (false == ServiceClients.Contains(InServiceClient))
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] RequestDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        InServiceClient->OwnerNode = this;
+        InServiceClient->Init(UROS2QoS::Services);
+        ServiceClients.Add(InServiceClient);
     }
-
-    if (!InClient->ResponseDelegate.IsBound())
+    else
     {
-        UE_LOG(
-            LogROS2Node, Warning, TEXT("[%s] ResponseDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
+}
 
-    if (false == ServiceClients.Contains(InClient))
+void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
+{
+    check(IsValid(InServiceServer));
+    if (false == ServiceServers.Contains(InServiceServer))
     {
-        InClient->OwnerNode = this;
-        InClient->Init(UROS2QoS::Services);
-        ServiceClients.Add(InClient);
+        InServiceServer->OwnerNode = this;
+        InServiceServer->Init(UROS2QoS::Services);
+        ServiceServers.Add(InServiceServer);
+
+        // invalidate wait_set
+        if (rcl_wait_set_is_valid(&wait_set))
+        {
+            RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+        }
     }
     else
     {
@@ -297,7 +272,7 @@ void UROS2NodeComponent::HandleSubscriptions()
     }
 }
 
-void UROS2NodeComponent::HandleServices()
+void UROS2NodeComponent::HandleServiceServers()
 {
     for (auto i = 0; i < wait_set.size_of_services; i++)
     {
@@ -306,9 +281,9 @@ void UROS2NodeComponent::HandleServices()
             const rcl_service_t* currentService = wait_set.services[i];
             for (auto& s : ServiceServers)
             {
-                if (&s.rcl_service == currentService)
+                if (&s->rcl_service == currentService)
                 {
-                    s.Ready = true;
+                    s->Ready = true;
                 }
             }
         }
@@ -316,21 +291,7 @@ void UROS2NodeComponent::HandleServices()
 
     for (auto& s : ServiceServers)
     {
-        if (s.Ready == true)
-        {
-            rmw_service_info_t req_info;
-            void* data = s.Service->GetRequest();
-            RCSOFTCHECK(rcl_take_request_with_info(&s.rcl_service, &req_info, data));
-
-            UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node Executing Service (%s)"), *GetName(), *__LOG_INFO__);
-
-            const FServiceCallback* SrvCallback = &s.Callback;
-            SrvCallback->ExecuteIfBound(s.Service);
-
-            RCSOFTCHECK(rcl_send_response(&s.rcl_service, &req_info.request_id, s.Service->GetResponse()));
-
-            s.Ready = false;
-        }
+        s->ProcessReady();
     }
 }
 
@@ -388,7 +349,7 @@ void UROS2NodeComponent::SpinSome()
 
     for (auto& s : ServiceServers)
     {
-        RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s.rcl_service, nullptr));
+        RCSOFTCHECK(rcl_wait_set_add_service(&wait_set, &s->rcl_service, nullptr));
     }
 
     for (auto& a : ActionClients)
@@ -405,7 +366,7 @@ void UROS2NodeComponent::SpinSome()
     RCLC_UNUSED(rc);
 
     HandleSubscriptions();
-    HandleServices();
+    HandleServiceServers();
     HandleServiceClients();
 
     for (auto& a : ActionServers)
