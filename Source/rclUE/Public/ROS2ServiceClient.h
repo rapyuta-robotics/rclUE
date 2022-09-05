@@ -15,9 +15,9 @@
 #include "CoreMinimal.h"
 
 // rclUE
-#include "Msgs/ROS2GenericMsg.h"
-#include "Srvs/ROS2GenericSrv.h"
 #include "ROS2NodeComponent.h"
+#include "ROS2Service.h"
+#include "Srvs/ROS2GenericSrv.h"
 
 #include "ROS2ServiceClient.generated.h"
 
@@ -29,33 +29,17 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceClientCallback, UROS2GenericSrv*, InSe
  *
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class RCLUE_API UROS2ServiceClient : public UActorComponent
+class RCLUE_API UROS2ServiceClient : public UROS2Service
 {
     GENERATED_BODY()
 
 public:
-    /**
-     * @brief Construct a new UROS2ServiceClient object
-     *
-     */
-    UROS2ServiceClient();
-
-public:
-    /**
-     * @brief Initialize ROS2 service client with rcl_client_init, set QoS, etc.
-     *
-     * @param QoS Quality of Service
-     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
-     */
-    UFUNCTION(BlueprintCallable)
-    void Init(TEnumAsByte<UROS2QoS> QoS);
 
     /**
-     * @brief Create #UROS2GenericSrv instance and initialize it.
+     * @brief Destroy publisher with rcl_client_fini
      *
      */
-    UFUNCTION(BlueprintCallable)
-    void InitializeService();
+    virtual void Destroy();
 
     /**
      * @brief Update Srv with delegate and send request.
@@ -65,19 +49,11 @@ public:
     void UpdateAndSendRequest();
 
     /**
-     * @brief Destroy publisher with rcl_client_fini
+     * @brief Determine the relevant action client functions to call.
      *
+     * @param wait_set
      */
-    UFUNCTION()
-    virtual void Destroy();
-
-    //! this information is redundant with Topic, but it's used to initialize it
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ServiceName;
-
-    //! type of Srv class
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TSubclassOf<UROS2GenericSrv> SrvClass;
+    virtual void ProcessReady() override;
 
     //! used to pass data for the request
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -87,20 +63,8 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceClientCallback ResponseDelegate;
 
-    //! ROS2Node which own this service client.
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    UROS2NodeComponent* OwnerNode;
-
-    //! Service client state
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    TEnumAsByte<UROS2State> State = UROS2State::Created;
-
     //! ROS2 Service client
     rcl_client_t client;
-
-    //! Service Instance
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    UROS2GenericSrv* Service;
 
     //! Service is ready or not
     bool Ready;
@@ -134,12 +98,24 @@ public:
     bool IsServiceReady();
 
 protected:
+    UFUNCTION(BlueprintCallable)
+    void SetDelegates(const FServiceClientCallback& InRequestDelegate, const FServiceClientCallback& InResponseCallback);
+
     /**
      * @brief Send service request
      *
      */
-    UFUNCTION()
+    UFUNCTION() 
     void SendRequest();
     const void* req;
     const void* res;
+
+    /**
+     * @brief Initialize ROS2 action client with rcl_action_client_init.
+     * Set QOS for all goal, result, cancel, feedback and status
+     *
+     * @param QoS Quality of Service
+     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+     */
+    virtual void InitializeServiceComponent(const TEnumAsByte<UROS2QoS> QoS) override;
 };

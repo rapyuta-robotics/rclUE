@@ -283,5 +283,5 @@ private:
      *
      */
     UFUNCTION()
-    void HandleClients();
+    void HandleServiceClients();
 };

@@ -334,7 +334,7 @@ void UROS2NodeComponent::HandleServices()
     }
 }
 
-void UROS2NodeComponent::HandleClients()
+void UROS2NodeComponent::HandleServiceClients()
 {
     for (auto i = 0; i < wait_set.size_of_clients; i++)
     {
@@ -353,23 +353,7 @@ void UROS2NodeComponent::HandleClients()
 
     for (auto& c : ServiceClients)
     {
-        if (c->Ready == true)
-        {
-            rmw_service_info_t req_info;
-            void* data = c->Service->GetResponse();
-            RCSOFTCHECK(rcl_take_response_with_info(&c->client, &req_info, data));
-
-            UE_LOG(LogROS2Node,
-                   Log,
-                   TEXT("[%s] ROS2Node Executing Answer Delegate for Service Client (%s)"),
-                   *GetName(),
-                   *__LOG_INFO__);
-
-            const FServiceClientCallback* SrvClientCallback = &c->ResponseDelegate;
-            SrvClientCallback->ExecuteIfBound(c->Service);
-
-            c->Ready = false;
-        }
+        c->ProcessReady();
     }
 }
 
@@ -422,7 +406,7 @@ void UROS2NodeComponent::SpinSome()
 
     HandleSubscriptions();
     HandleServices();
-    HandleClients();
+    HandleServiceClients();
 
     for (auto& a : ActionServers)
     {
