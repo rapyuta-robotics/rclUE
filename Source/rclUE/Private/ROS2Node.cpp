@@ -6,6 +6,7 @@
 #include "ROS2ActionServer.h"
 #include "ROS2Publisher.h"
 #include "ROS2ServiceClient.h"
+#include "ROS2ServiceServer.h"
 #include "ROS2Subsystem.h"
 
 #include <Engine/GameInstance.h>
@@ -25,7 +26,7 @@ AROS2Node::AROS2Node()
 // different/relevant in each of Child classes
 void AROS2Node::Init()
 {
-    if(nullptr == ActorComponent)
+    if (nullptr == ActorComponent)
     {
         return;
     }
@@ -62,7 +63,13 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
     {
         return;
     }
-    ActorComponent->AddServiceServer(ServiceName, SrvClass, Callback);
+
+    UROS2ServiceServer* NewSrv = NewObject<UROS2ServiceServer>(this, SrvClass);
+    NewSrv->ServiceName = ServiceName;
+    NewSrv->SrvClass = SrvClass;
+    NewSrv->SrvCallback = Callback;
+
+    ActorComponent->AddServiceServer(NewSrv);
 }
 
 void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)

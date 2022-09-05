@@ -1,5 +1,5 @@
 /**
- * @file ROS2ServiceClient.h
+ * @file ROS2ServiceServer.h
  * @brief Class implementing ROS2 service clients.
  *  Service type is defined by SrvClass
  * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
@@ -19,7 +19,7 @@
 #include "ROS2Service.h"
 #include "Srvs/ROS2GenericSrv.h"
 
-#include "ROS2ServiceClient.generated.h"
+#include "ROS2ServiceServer.generated.h"
 
 /**
  * @brief Class implementing ROS2 service clients.
@@ -27,7 +27,7 @@
  *
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class RCLUE_API UROS2ServiceClient : public UROS2Service
+class RCLUE_API UROS2ServiceServer : public UROS2Service
 {
     GENERATED_BODY()
 
@@ -40,46 +40,25 @@ public:
     virtual void Destroy();
 
     /**
-     * @brief Update Srv with delegate and send request.
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void UpdateAndSendRequest();
-
-    /**
      * @brief Determine the relevant action client functions to call.
-     * 
+     *
      */
     virtual void ProcessReady() override;
 
-    //! used to pass data for the request
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FServiceCallback RequestDelegate;
-
     //! used to receive the answer
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FServiceCallback ResponseDelegate;
+    FServiceCallback SrvCallback;
 
-    //! ROS2 Service client
-    rcl_client_t client;
+    //! ROS2 Service server
+    rcl_service_t rcl_service;
 
     //! Service is ready or not
     bool Ready;
 
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FServiceCallback& InRequestDelegate, const FServiceCallback& InResponseDelegate);
+    void SetDelegates(const FServiceCallback& InSrvCallback);
 
 protected :
-
-    /**
-     * @brief Send service request
-     *
-     */
-    UFUNCTION() 
-    void SendRequest();
-
-    const void* req;
-    const void* res;
 
     /**
      * @brief Initialize ROS2 action client with rcl_action_client_init.

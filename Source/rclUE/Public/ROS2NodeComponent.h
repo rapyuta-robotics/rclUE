@@ -26,13 +26,13 @@
 #include "ROS2NodeComponent.generated.h"
 
 class UROS2Publisher;
+class UROS2ServiceServer;
 class UROS2ServiceClient;
 class UROS2ActionServer;
 class UROS2ActionClient;
 
 // Reminder: functions bound to delegates must be UFUNCTION
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 
@@ -76,33 +76,6 @@ public:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     bool Ready;
-};
-
-/**
- * @brief Helper structs which is components of the node and should register to
- * the node with the appropriate methods (AddServiceServer).
- */
-USTRUCT(Blueprintable)
-struct RCLUE_API FService
-{
-    GENERATED_BODY()
-
-public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ServiceName;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TSubclassOf<UROS2GenericSrv> ServiceType;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2GenericSrv* Service = nullptr;
-
-    rcl_service_t rcl_service;
-
-    FServiceCallback Callback;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool Ready = false;
 };
 
 /**
@@ -177,7 +150,7 @@ public:
      * @param InClient
      */
     UFUNCTION(BlueprintCallable)
-    void AddServiceClient(UROS2ServiceClient* InClient);
+    void AddServiceClient(UROS2ServiceClient* InServiceClient);
 
     /**
      * @brief Create ServiceServer with rcl_service_init and add to #ServiceServers.
@@ -187,9 +160,7 @@ public:
      * @param Callback
      */
     UFUNCTION(BlueprintCallable)
-    void AddServiceServer(const FString& ServiceName,
-                          const TSubclassOf<UROS2GenericSrv> SrvClass,
-                          const FServiceCallback& Callback);
+    void AddServiceServer(UROS2ServiceServer* InServiceServer);
 
     /**
      * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionClients.
@@ -246,7 +217,7 @@ protected:
     TArray<FSubscription> Subscriptions;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FService> ServiceServers;
+    TArray<UROS2ServiceServer*> ServiceServers;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<UROS2Publisher*> Publishers;
@@ -275,7 +246,7 @@ private:
      *
      */
     UFUNCTION()
-    void HandleServices();
+    void HandleServiceServers();
 
     /**
      * @brief based on _rclc_default_scheduling of the rclc executor.
