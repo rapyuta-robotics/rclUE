@@ -195,7 +195,7 @@ void AROS2Node::AddPublisher(UROS2Publisher* InPublisher)
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added (%s)"), *InPublisher->GetName(), *__LOG_INFO__);
     }
 }
 

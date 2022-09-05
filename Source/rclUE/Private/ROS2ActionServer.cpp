@@ -2,6 +2,8 @@
 
 #include "ROS2ActionServer.h"
 
+#include "rclcUtilities.h"
+
 void UROS2ActionServer::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
 {
     const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();
@@ -88,10 +90,8 @@ void UROS2ActionServer::ProcessAndSendCancelResponse()
     check(IsValid(OwnerNode));
 
     rcl_action_cancel_request_t cancel_request = rcl_action_get_zero_initialized_cancel_request();
-    float TimeOfCancelProcess = UGameplayStatics::GetTimeSeconds(reinterpret_cast<UObject*>(GetWorld()));
-    cancel_request.goal_info.stamp.sec = static_cast<int32>(TimeOfCancelProcess);
-    uint64 ns = (uint64)(TimeOfCancelProcess * 1e+09f);
-    cancel_request.goal_info.stamp.nanosec = static_cast<uint32>(ns - (cancel_request.goal_info.stamp.sec * 1e+09));
+    cancel_request.goal_info.stamp = UROS2Utils::FloatToROSStamp(UGameplayStatics::GetTimeSeconds(GetWorld()));
+
     rcl_action_cancel_response_t cancel_response = rcl_action_get_zero_initialized_cancel_response();
     RCSOFTCHECK(rcl_action_process_cancel_request(&server, &cancel_request, &cancel_response));
 

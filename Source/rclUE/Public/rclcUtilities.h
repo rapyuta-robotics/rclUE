@@ -262,7 +262,7 @@ public:
     {
         builtin_interfaces__msg__Time stamp;
         stamp.sec = static_cast<int32>(InTimeSec);
-        stamp.nanosec = (uint64)(InTimeSec * 1e+09f);
+        stamp.nanosec = (uint32)((InTimeSec - stamp.sec) * 1e+09f);
         return stamp;
     }
 
