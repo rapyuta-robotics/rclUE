@@ -160,22 +160,17 @@ class UROS2Utils : public UBlueprintFunctionLibrary
     GENERATED_BODY()
 
 public:
-    static builtin_interfaces__msg__Time GetCurrentROS2Time(const UObject* InContextObject)
-    {
-        builtin_interfaces__msg__Time currentTime;
-        const float timeNow = UGameplayStatics::GetTimeSeconds(InContextObject->GetWorld());
-        uint64 nanosec = uint64(timeNow * 1e+09f);
-        currentTime.sec = static_cast<int32>(timeNow);
-        currentTime.nanosec = uint64(nanosec - (currentTime.sec * 1e+09));
-        return currentTime;
-    }
-
-    static builtin_interfaces__msg__Time FloatToROSStamp(const float& InTimeSec)
+    static builtin_interfaces__msg__Time FloatToROSStamp(const float InTimeSec)
     {
         builtin_interfaces__msg__Time stamp;
         stamp.sec = static_cast<int32>(InTimeSec);
-        stamp.nanosec = uint64(InTimeSec * 1e+09f);
+        stamp.nanosec = uint32((InTimeSec - stamp.sec) * 1e+09f);
         return stamp;
+    }
+
+    static builtin_interfaces__msg__Time GetCurrentROS2Time(const UObject* InContextObject)
+    {
+        return FloatToROSStamp(UGameplayStatics::GetTimeSeconds(InContextObject->GetWorld()));
     }
 
     static float ROSStampToFloat(const builtin_interfaces__msg__Time& InTimeStamp)
