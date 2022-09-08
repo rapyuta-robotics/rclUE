@@ -178,12 +178,12 @@ public:
         return InTimeStamp.sec + InTimeStamp.nanosec * 1e-09f;
     }
 
-    static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& InUUID)
+    static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& OutUUID)
     {
-        InUUID.Reset();
+        OutUUID.Reset();
         for (int8 i = 0; i < 16; i++)
         {
-            InUUID.Add(std::random_device{}());
+            OutUUID.Add(std::random_device{}());
         }
     }
 
