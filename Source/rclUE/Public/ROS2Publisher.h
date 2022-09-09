@@ -98,6 +98,20 @@ public:
     UFUNCTION()
     virtual void Destroy();
 
+    /**
+     * @brief Stope publishing timer
+     *
+     */
+    UFUNCTION()
+    void StopPublishTimer();
+
+    /**
+     * @brief Start publishing topic with #PublicationFrequencyHz
+     *
+     */
+    UFUNCTION()
+    void StartPublishTimer();
+
     //! this information is redundant with Topic, but it's needed to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString TopicName;
@@ -113,10 +127,6 @@ public:
     //! Delegate which is Bound with #UpdateMessage by #SetupUpdateCallback
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FPublisherUpdateCallback UpdateDelegate;
-
-    //! Publish topic or not
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool bPublish = true;
 
     /**
      * @brief Bind #UpdateMessage with #UpdateDelegate
