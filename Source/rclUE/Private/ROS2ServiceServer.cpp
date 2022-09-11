@@ -2,7 +2,7 @@
 
 #include "ROS2ServiceServer.h"
 
-void UROS2ServiceServer::InitializeServiceComponent(TEnumAsByte<UROS2QoS> QoS)
+void UROS2ServiceServer::InitializeServiceComponent()
 {
     rcl_service = rcl_get_zero_initialized_service();
     const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();

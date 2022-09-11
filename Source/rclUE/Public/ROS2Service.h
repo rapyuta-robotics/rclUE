@@ -41,14 +41,20 @@ public:
     UROS2Service();
 
 public:
+
+    /**
+     * @brief Initialize Publisher
+     *
+     * @param InROS2Node ROS2Node which this publisher belongs to
+     */
+    InitializeWithROS2(AROS2Node* InROS2Node);
+
     /**
      * @brief Initialize ROS2 service client with rcl_client_init, set QoS, etc.
      *
-     * @param QoS Quality of Service
-     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */
     UFUNCTION(BlueprintCallable)
-    void Init(TEnumAsByte<UROS2QoS> QoS);
+    void Init();
 
     /**
      * @brief Create #UROS2GenericSrv instance and initialize it.
@@ -92,6 +98,11 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     UROS2GenericSrv* Service;
 
+    //! Quality of service
+    //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Services;
+
 protected :
 
     //! Service is ready or not
@@ -100,9 +111,7 @@ protected :
     /**
      * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
      *
-     * @param QoS Quality of Service
-     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */
     UFUNCTION()
-    virtual void InitializeServiceComponent(const TEnumAsByte<UROS2QoS> QoS);
+    virtual void InitializeServiceComponent();
 };

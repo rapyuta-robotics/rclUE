@@ -8,7 +8,13 @@ UROS2Service::UROS2Service()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2Service::Init(TEnumAsByte<UROS2QoS> QoS)
+void UROS2Topic::InitializeWithROS2(AROS2Node* InROS2Node)
+{
+    OwnerNode = InROS2Node;
+    Init();
+}
+
+void UROS2Service::Init()
 {
     check(OwnerNode != nullptr);
     check(OwnerNode->State == UROS2State::Initialized);
@@ -18,7 +24,7 @@ void UROS2Service::Init(TEnumAsByte<UROS2QoS> QoS)
 
         check(IsValid(Service));
 
-        InitializeServiceComponent(QoS);
+        InitializeServiceComponent();
 
         State = UROS2State::Initialized;
     }
@@ -52,7 +58,7 @@ void UROS2Service::ProcessReady()
     checkNoEntry();
 }
 
-void UROS2Service::InitializeServiceComponent(const TEnumAsByte<UROS2QoS> QoS)
+void UROS2Service::InitializeServiceComponent()
 {
     checkNoEntry();
 }

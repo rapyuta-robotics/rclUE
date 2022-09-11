@@ -21,9 +21,9 @@ UROS2NodeComponent::UROS2NodeComponent()
 
 void UROS2NodeComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
-    for (auto& s : Subscriptions)
+    for (auto& c : Subscriptions)
     {
-        RCSOFTCHECK(rcl_subscription_fini(&s.rcl_subscription, &node));
+        c->Destroy();
     }
 
     for (auto& c : Publishers)
@@ -98,55 +98,24 @@ rcl_node_t* UROS2NodeComponent::GetNode()
     return &node;
 }
 
-void UROS2NodeComponent::AddSubscription(const FString& TopicName,
-                                         TSubclassOf<UROS2GenericMsg> MsgClass,
-                                         const FSubscriptionCallback& Callback)
+void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 {
-    check(State == UROS2State::Initialized);
+    check(IsValid(InSubscriber));
 
-    bool SubExists = false;
-    for (auto& s : Subscriptions)
+    if (false == Subscriptions.Contains(InSubscriber))
     {
-        SubExists |= (s.TopicName == TopicName);
+        InSubscriber->>InitializeWithROS2(this);
+        Subscriptions.Add(InSubscriber);
+    
+        // invalidate wait_set
+        if (rcl_wait_set_is_valid(&wait_set))
+        {
+            RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+        }
     }
-
-    if (!ensure(!SubExists))
+    else
     {
-        UE_LOG(LogROS2Node,
-               Warning,
-               TEXT("[%s] Subscriber for [%s] topic already exists (%s)"),
-               *GetName(),
-               *TopicName,
-               *__LOG_INFO__);
-        return;
-    }
-
-    if (!Callback.IsBound())
-    {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Callback is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
-    }
-
-    UROS2GenericMsg* TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
-    TopicMessage->Init();
-
-    FSubscription NewSub;
-    NewSub.TopicName = TopicName;
-    NewSub.TopicType = MsgClass;
-    NewSub.TopicMsg = TopicMessage;
-    NewSub.Callback = Callback;
-    NewSub.Ready = false;
-
-    NewSub.rcl_subscription = rcl_get_zero_initialized_subscription();
-    const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
-    rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-    RCSOFTCHECK(rcl_subscription_init(&NewSub.rcl_subscription, &node, type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
-
-    Subscriptions.Emplace(MoveTemp(NewSub));
-
-    // invalidate wait_set
-    if (rcl_wait_set_is_valid(&wait_set))
-    {
-        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Subscriber is re-added (%s)"), *InSubscriber->GetName(), *__LOG_INFO__);
     }
 }
 
@@ -154,15 +123,9 @@ void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
 {
     check(IsValid(InPublisher));
 
-    if (false == (InPublisher->UpdateDelegate.IsBound()))
-    {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] UpdateDelegate is not set - is this on purpose? (%s)"), *GetName(), *__LOG_INFO__);
-    }
-
     if (false == Publishers.Contains(InPublisher))
     {
-        InPublisher->RegisterComponent();
-        InPublisher->OwnerNode = this;
+        InPublisher->InitializeWithROS2(this);
         Publishers.Add(InPublisher);
     }
     else
@@ -176,8 +139,7 @@ void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
     check(IsValid(InServiceClient));
     if (false == ServiceClients.Contains(InServiceClient))
     {
-        InServiceClient->OwnerNode = this;
-        InServiceClient->Init(UROS2QoS::Services);
+        InServiceClient->InitializeWithROS2(this);
         ServiceClients.Add(InServiceClient);
     }
     else
@@ -191,8 +153,7 @@ void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
     check(IsValid(InServiceServer));
     if (false == ServiceServers.Contains(InServiceServer))
     {
-        InServiceServer->OwnerNode = this;
-        InServiceServer->Init(UROS2QoS::Services);
+        InServiceServer->>InitializeWithROS2(this);
         ServiceServers.Add(InServiceServer);
 
         // invalidate wait_set
@@ -213,8 +174,7 @@ void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
 
     if (false == ActionClients.Contains(InActionClient))
     {
-        InActionClient->OwnerNode = this;
-        InActionClient->Init(UROS2QoS::Default);
+        InActionClient->>InitializeWithROS2(this);
         ActionClients.Add(InActionClient);
     }
     else
@@ -229,8 +189,7 @@ void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
 
     if (false == ActionServers.Contains(InActionServer))
     {
-        InActionServer->OwnerNode = this;
-        InActionServer->Init(UROS2QoS::Default);
+        InActionServer->>InitializeWithROS2(this);
         ActionServers.Add(InActionServer);
     }
     else

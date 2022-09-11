@@ -14,18 +14,16 @@
 // rclUE
 #include "Msgs/ROS2GenericMsg.h"
 #include "ROS2NodeComponent.h"
+#include "ROS2Topic.h"
 
 #include "ROS2Publisher.generated.h"
-
-//! BP requires a custom-made callback thus it must be Dynamic
-DECLARE_DYNAMIC_DELEGATE_OneParam(FPublisherUpdateCallback, UROS2GenericMsg*, InTopicMessage);
 
 /**
  * @brief ROS2 Publisher class.
  *
  */
 UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
-class RCLUE_API UROS2Publisher : public UActorComponent
+class RCLUE_API UROS2Publisher : public UROS2Topic
 {
     GENERATED_BODY()
 
@@ -44,46 +42,7 @@ public:
                                            const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                            int32 InPubFrequency);
 
-    /**
-     * @brief Construct a new UROS2Publisher object
-     *
-     */
-    UROS2Publisher();
-
-    /**
-     * @brief Initialize Publisher
-     *
-     * @param InROS2Node ROS2Node which this publisher belongs to
-     */
-    virtual void InitializeWithROS2(AROS2Node* InROS2Node)
-    {
-        RegisterToROS2Node(InROS2Node);
-    }
-
-    /**
-     * @brief Register this publisher to input ROS2Node
-     *
-     * @param InROS2Node ROS2Node which this publisher belongs to
-     */
-    UFUNCTION()
-    void RegisterToROS2Node(AROS2Node* InROS2Node);
-
-    /**
-     * @brief Initialize publisher with rcl_publisher_init, initialize message and start timer and
-     *
-     * @param QoS
-     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
-     */
-    UFUNCTION(BlueprintCallable)
-    void Init(const TEnumAsByte<UROS2QoS> QoS);
-
-    /**
-     * @brief Create #UROS2GenericMsg instance and initialize it.
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void InitializeMessage();
-
+    
     /**
      * @brief Update Msg with delegate and publish msg.
      *
@@ -96,19 +55,11 @@ public:
      *
      */
     UFUNCTION()
-    virtual void Destroy();
-
-    //! this information is redundant with Topic, but it's needed to initialize it
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString TopicName;
+    virtual void Destroy() override;
 
     //! Publish frequency. if this value > 0, this will update and publish msg periodically.
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 PublicationFrequencyHz = 1000;
-
-    //! this information is redundant with Topic, but it's needed to initialize it
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TSubclassOf<UROS2GenericMsg> MsgClass;
+    int32 PublicationFrequencyHz = 1;
 
     //! Delegate which is Bound with #UpdateMessage by #SetupUpdateCallback
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -129,16 +80,6 @@ public:
     }
 
     /**
-     * @brief Unbind #UpdateDelegate
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    virtual void RevokeUpdateCallback()
-    {
-        UpdateDelegate.Unbind();
-    }
-
-    /**
      * @brief Update msg. Should be implemented in child class.
      *
      * @param InMessage Input Message.
@@ -150,23 +91,16 @@ public:
     }
 
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FPublisherUpdateCallback& InUpdateDelegate);
+    void SetDelegates(const FTopicCallback& InUpdateDelegate);
 
-    //! ROS2Node which own this publisher.
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite) 
-    UROS2NodeComponent* OwnerNode = nullptr;
-
-    //! Publisher state
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    TEnumAsByte<UROS2State> State = UROS2State::Created;
-
-protected:
     /**
      * @brief Publish msg.
      *
      */
     UFUNCTION(BlueprintCallable)
     void Publish();
+
+protected:
 
     //! Message Instance
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -181,4 +115,11 @@ protected:
 
     //! ROS2 publisher
     rcl_publisher_t RclPublisher;
+
+    /**
+     * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
+     *
+     */
+    UFUNCTION()
+    virtual void InitializeTopicComponent();
 };
