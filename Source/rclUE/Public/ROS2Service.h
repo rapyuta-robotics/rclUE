@@ -47,7 +47,7 @@ public:
      *
      * @param InROS2Node ROS2Node which this publisher belongs to
      */
-    InitializeWithROS2(AROS2Node* InROS2Node);
+    void InitializeWithROS2(UROS2NodeComponent* InROS2Node);
 
     /**
      * @brief Initialize ROS2 service client with rcl_client_init, set QoS, etc.

@@ -20,6 +20,7 @@
 // rclUE
 #include "ROS2NodeComponent.h"
 #include "ROS2Service.h"
+#include "ROS2Subscriber.h"
 
 #include "ROS2Node.generated.h"
 

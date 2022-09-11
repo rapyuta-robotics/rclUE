@@ -21,18 +21,18 @@ void UROS2Subscriber::Destroy()
     Super::Destroy();
     if (OwnerNode != nullptr)
     {
-        UE_LOG(LogROS2Subscriber, Log, TEXT("Subscriber Destroy - rcl_Subscriber_fini (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Msg, Log, TEXT("Subscriber Destroy - rcl_Subscriber_fini (%s)"), *__LOG_INFO__);
         RCSOFTCHECK(rcl_subscription_fini(&rcl_subscription, OwnerNode->GetNode()));
     }
-    UpdateDelegate.Unbind();
+    Callback.Unbind();
 }
 
-void UROS2Subscriber::SetDelegates(const FTopicCallback& InUpdateDelegate)
+void UROS2Subscriber::SetDelegates(const FSubscriptionCallback& InCallback)
 {
-    if (!InUpdateDelegate.IsBound())
+    if (!InCallback.IsBound())
     {
-        UE_LOG(LogROS2Subscriber, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Msg, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
-    UpdateDelegate = InUpdateDelegate;
+    Callback = InCallback;
 }

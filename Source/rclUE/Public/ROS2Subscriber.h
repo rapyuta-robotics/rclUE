@@ -33,22 +33,11 @@ public:
      * @brief Destroy subscriber with rcl_subscriber_fini
      *
      */
-    UFUNCTION()
     virtual void Destroy() override;
 
     //! Delegate which is Bound with #UpdateMessage by #SetupUpdateCallback
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FSubscriberUpdateCallback UpdateDelegate;
-
-    /**
-     * @brief Bind #UpdateMessage with #UpdateDelegate
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void SetupUpdateCallback()
-    {
-        UpdateDelegate.BindDynamic(this, &UROS2Subscriber::UpdateMessage);
-    }
+    FSubscriptionCallback Callback;
     
     /**
      * @brief Update msg. Should be implemented in child class.
@@ -62,19 +51,18 @@ public:
     }
 
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FTopicCallback& InUpdateDelegate);
+    void SetDelegates(const FSubscriptionCallback& InCallback);
 
     bool Ready = false;
 
-protected:
-
     //! ROS2 subscriber
     rcl_subscription_t rcl_subscription;
+
+protected:
 
     /**
      * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
      *
      */
-    UFUNCTION()
     virtual void InitializeTopicComponent();
 };

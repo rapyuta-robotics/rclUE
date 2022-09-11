@@ -54,7 +54,6 @@ public:
      * @brief Destroy publisher with rcl_publisher_fini
      *
      */
-    UFUNCTION()
     virtual void Destroy() override;
 
     //! Publish frequency. if this value > 0, this will update and publish msg periodically.
@@ -63,7 +62,7 @@ public:
 
     //! Delegate which is Bound with #UpdateMessage by #SetupUpdateCallback
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FPublisherUpdateCallback UpdateDelegate;
+    FTopicCallback UpdateDelegate;
 
     //! Publish topic or not
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -102,10 +101,6 @@ public:
 
 protected:
 
-    //! Message Instance
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    UROS2GenericMsg* TopicMessage;
-
     //! Timer handler for periodic publisher
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     FTimerHandle TimerHandle;
@@ -120,6 +115,5 @@ protected:
      * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
      *
      */
-    UFUNCTION()
     virtual void InitializeTopicComponent();
 };

@@ -104,7 +104,7 @@ void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 
     if (false == Subscriptions.Contains(InSubscriber))
     {
-        InSubscriber->>InitializeWithROS2(this);
+        InSubscriber->InitializeWithROS2(this);
         Subscriptions.Add(InSubscriber);
     
         // invalidate wait_set
@@ -153,7 +153,7 @@ void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
     check(IsValid(InServiceServer));
     if (false == ServiceServers.Contains(InServiceServer))
     {
-        InServiceServer->>InitializeWithROS2(this);
+        InServiceServer->InitializeWithROS2(this);
         ServiceServers.Add(InServiceServer);
 
         // invalidate wait_set
@@ -174,7 +174,7 @@ void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
 
     if (false == ActionClients.Contains(InActionClient))
     {
-        InActionClient->>InitializeWithROS2(this);
+        InActionClient->InitializeWithROS2(this);
         ActionClients.Add(InActionClient);
     }
     else
@@ -189,7 +189,7 @@ void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
 
     if (false == ActionServers.Contains(InActionServer))
     {
-        InActionServer->>InitializeWithROS2(this);
+        InActionServer->InitializeWithROS2(this);
         ActionServers.Add(InActionServer);
     }
     else
@@ -207,9 +207,9 @@ void UROS2NodeComponent::HandleSubscriptions()
             const rcl_subscription_t* currentSub = wait_set.subscriptions[i];
             for (auto& s : Subscriptions)
             {
-                if (&s.rcl_subscription == currentSub)
+                if (&s->rcl_subscription == currentSub)
                 {
-                    s.Ready = true;
+                    s->Ready = true;
                 }
             }
         }
@@ -217,16 +217,16 @@ void UROS2NodeComponent::HandleSubscriptions()
 
     for (auto& s : Subscriptions)
     {
-        if (s.Ready == true)
+        if (s->Ready == true)
         {
-            void* data = s.TopicMsg->Get();
+            void* data = s->TopicMessage->Get();
             rmw_message_info_t messageInfo;
-            RCSOFTCHECK(rcl_take(&s.rcl_subscription, data, &messageInfo, nullptr));
+            RCSOFTCHECK(rcl_take(&s->rcl_subscription, data, &messageInfo, nullptr));
 
-            const FSubscriptionCallback* SubCallback = &s.Callback;
-            SubCallback->ExecuteIfBound(s.TopicMsg);
+            const FSubscriptionCallback* SubCallback = &s->Callback;
+            SubCallback->ExecuteIfBound(s->TopicMessage);
 
-            s.Ready = false;
+            s->Ready = false;
         }
     }
 }
@@ -298,7 +298,7 @@ void UROS2NodeComponent::SpinSome()
 
     for (auto& s : Subscriptions)
     {
-        RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s.rcl_subscription, nullptr));
+        RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s->rcl_subscription, nullptr));
     }
 
     for (auto& c : ServiceClients)

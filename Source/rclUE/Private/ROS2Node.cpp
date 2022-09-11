@@ -5,6 +5,7 @@
 #include "ROS2ActionClient.h"
 #include "ROS2ActionServer.h"
 #include "ROS2Publisher.h"
+#include "ROS2Subscriber.h"
 #include "ROS2ServiceClient.h"
 #include "ROS2ServiceServer.h"
 #include "ROS2Subsystem.h"
@@ -53,10 +54,10 @@ void AROS2Node::AddSubscription(const FString& TopicName,
         return;
     }
 
-    UROS2Subscriber* NewSub = NewObject<UROS2Subscriber>(this, UROS2Subscriber::StaticClass);
-    NewSub.TopicName = TopicName;
-    NewSub.TopicType = MsgClass;
-    NewSub.Callback = Callback;
+    UROS2Subscriber* NewSub = NewObject<UROS2Subscriber>(this);
+    NewSub->TopicName = TopicName;
+    NewSub->MsgClass = MsgClass;
+    NewSub->Callback = Callback;
     ActorComponent->AddSubscription(NewSub);
 }
 
@@ -69,7 +70,7 @@ void AROS2Node::AddServiceServer(const FString& ServiceName,
         return;
     }
 
-    UROS2ServiceServer* NewSrv = NewObject<UROS2ServiceServer>(this, UROS2ServiceServer::StaticClass);
+    UROS2ServiceServer* NewSrv = NewObject<UROS2ServiceServer>(this);
     NewSrv->ServiceName = ServiceName;
     NewSrv->SrvClass = SrvClass;
     NewSrv->SrvCallback = Callback;
