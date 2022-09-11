@@ -65,9 +65,8 @@ void UROS2Publisher::StartPublishTimer()
 {
     if (PublicationFrequencyHz > 0)
     {
-        StopPublishTimer();
         GetWorld()->GetTimerManager().SetTimer(
-            TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
+            TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / PublicationFrequencyHz, true);
     }
 }
 
