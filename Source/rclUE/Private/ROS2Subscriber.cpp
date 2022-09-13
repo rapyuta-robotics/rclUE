@@ -5,6 +5,18 @@
 #include <Engine/World.h>
 #include <TimerManager.h>
 
+UROS2Subscriber* UROS2Subscriber::CreateSubscriber(UObject* InOwner,
+                                                const FString& InTopicName,
+                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                const FSubscriptionCallback& InCallback)
+{
+    UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(InOwner);
+    subscriber->MsgClass = InMsgClass;
+    subscriber->TopicName = InTopicName;
+    subscriber->Callback = InCallback;
+    return subscriber;
+}
+
 void UROS2Subscriber::InitializeTopicComponent()
 {
     const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
@@ -25,6 +37,20 @@ void UROS2Subscriber::Destroy()
         RCSOFTCHECK(rcl_subscription_fini(&rcl_subscription, OwnerNode->GetNode()));
     }
     Callback.Unbind();
+}
+
+void UROS2Subscriber::ProcessReady()
+{
+    if (Ready == true)
+    {
+        void* data = TopicMessage->Get();
+        rmw_message_info_t messageInfo;
+        RCSOFTCHECK(rcl_take(&rcl_subscription, data, &messageInfo, nullptr));
+
+        Callback.ExecuteIfBound(TopicMessage);
+
+        Ready = false;
+    }
 }
 
 void UROS2Subscriber::SetDelegates(const FSubscriptionCallback& InCallback)

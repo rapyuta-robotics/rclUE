@@ -30,6 +30,19 @@ class RCLUE_API UROS2Subscriber : public UROS2Topic
 public:
 
     /**
+     * @brief Create a new UROS2Publisher of custom type
+     *
+     * @param InTopicName Topic name
+     * @param InMsgClass Custom message type class
+     * @param InCallback Callback function
+     */
+    static UROS2Subscriber* CreateSubscriber(UObject* InOwner,
+                                            const FString& InTopicName,
+                                            const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                            const FSubscriptionCallback& InCallback);
+
+
+    /**
      * @brief Destroy subscriber with rcl_subscriber_fini
      *
      */
@@ -40,15 +53,10 @@ public:
     FSubscriptionCallback Callback;
     
     /**
-     * @brief Update msg. Should be implemented in child class.
-     *
-     * @param InMessage Input Message.
+     * @brief Determine the relevant action client functions to call.
+     * Should be implemented in ActionServer and ActionClient
      */
-    UFUNCTION()
-    virtual void UpdateMessage(UROS2GenericMsg* InMessage)
-    {
-        checkNoEntry();
-    }
+    virtual void ProcessReady();
 
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FSubscriptionCallback& InCallback);

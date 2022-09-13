@@ -2,6 +2,18 @@
 
 #include "ROS2ServiceServer.h"
 
+UROS2ServiceServer* UROS2ServiceServer::CreateServiceServer(UObject* InOwner,
+                                                    const FString& InSrvName,
+                                                    const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                    const FServiceCallback& InCallback)
+{
+    UROS2ServiceServer* serviceserver = NewObject<UROS2ServiceServer>(InOwner);
+    serviceserver->SrvClass = InSrvClass;
+    serviceserver->ServiceName = InSrvName;
+    serviceserver->SrvCallback = InCallback;
+    return serviceserver;
+}
+
 void UROS2ServiceServer::InitializeServiceComponent()
 {
     rcl_service = rcl_get_zero_initialized_service();

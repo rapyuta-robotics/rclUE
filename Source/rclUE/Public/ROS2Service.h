@@ -73,8 +73,6 @@ public:
     /**
      * @brief Determine the relevant action client functions to call.
      * Should be implemented in ActionServer and ActionClient
-     *
-     * @param wait_set
      */
     virtual void ProcessReady();
 

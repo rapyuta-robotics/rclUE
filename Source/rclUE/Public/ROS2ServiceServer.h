@@ -34,6 +34,19 @@ class RCLUE_API UROS2ServiceServer : public UROS2Service
 public:
 
     /**
+     * @brief Create a new UROS2Publisher of custom type
+     *
+     * @param InTopicName Topic name
+     * @param InSrvClass Custom message type class
+     * @param InCallback Callback function
+     */
+    static UROS2ServiceServer* CreateServiceServer(UObject* InOwner,
+                                                    const FString& InSrvName,
+                                                    const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                    const FServiceCallback& InCallback);
+
+
+    /**
      * @brief Destroy publisher with rcl_client_fini
      *
      */

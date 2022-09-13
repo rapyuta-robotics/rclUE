@@ -217,17 +217,7 @@ void UROS2NodeComponent::HandleSubscriptions()
 
     for (auto& s : Subscriptions)
     {
-        if (s->Ready == true)
-        {
-            void* data = s->TopicMessage->Get();
-            rmw_message_info_t messageInfo;
-            RCSOFTCHECK(rcl_take(&s->rcl_subscription, data, &messageInfo, nullptr));
-
-            const FSubscriptionCallback* SubCallback = &s->Callback;
-            SubCallback->ExecuteIfBound(s->TopicMessage);
-
-            s->Ready = false;
-        }
+        s->ProcessReady();
     }
 }
 

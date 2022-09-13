@@ -32,7 +32,11 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessa
     {                                                                                             \
         FSubscriptionCallback cb;                                                                 \
         cb.BindDynamic(InUserObject, InCallback);                                                 \
-        InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
+        UROS2Subscriber* NewSub = NewObject<UROS2Subscriber>(this);                               \
+        NewSub->TopicName = InTopicName;                                                          \
+        NewSub->MsgClass = InMsgClass;                                                            \
+        NewSub->Callback = cb;                                                                    \
+        InROS2Node->AddSubscription(NewSub);                                                      \
     }
 
 /**
