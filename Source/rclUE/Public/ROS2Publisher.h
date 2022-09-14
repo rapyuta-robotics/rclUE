@@ -118,7 +118,7 @@ public:
 
     //! Publish frequency. if this value > 0, this will update and publish msg periodically.
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float PublicationFrequencyHz = 1000;
+    float PublicationFrequencyHz = 1000.f;
 
     //! this information is redundant with Topic, but it's needed to initialize it
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
