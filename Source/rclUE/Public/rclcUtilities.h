@@ -190,7 +190,10 @@ public:
     static FString StringROSToUE(const rosidl_runtime_c__String& InStr)
     {
         FString outStr;
-        outStr.AppendChars(InStr.data, InStr.size);
+        if (InStr.data)
+        {
+            outStr.AppendChars(InStr.data, InStr.size);
+        }
         return outStr;
     }
     static TArray<FString> StringSequenceROSToUE(const rosidl_runtime_c__String__Sequence& InStrSequence)
@@ -199,7 +202,11 @@ public:
         for (size_t i = 0; i < InStrSequence.size; ++i)
         {
             FString outStr;
-            outStr.AppendChars(InStrSequence.data[i].data, InStrSequence.data[i].size);
+            auto& str = InStrSequence.data[i];
+            if (str.data)
+            {
+                outStr.AppendChars(str.data, str.size);
+            }
             outStrArray.Emplace(MoveTemp(outStr));
         }
         return outStrArray;
