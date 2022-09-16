@@ -49,13 +49,24 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 
         RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
-        if (PublicationFrequencyHz > 0)
-        {
-            GetWorld()->GetTimerManager().SetTimer(
-                TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / (float)PublicationFrequencyHz, true);
-        }
+        StartPublishTimer();
 
         State = UROS2State::Initialized;
+    }
+}
+
+
+void UROS2Publisher::StopPublishTimer()
+{
+    GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+}
+
+void UROS2Publisher::StartPublishTimer()
+{
+    if (PublicationFrequencyHz > 0)
+    {
+        GetWorld()->GetTimerManager().SetTimer(
+            TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / PublicationFrequencyHz, true);
     }
 }
 
@@ -99,10 +110,8 @@ void UROS2Publisher::UpdateAndPublishMessage()
     check(IsValid(OwnerNode));
 
     UpdateDelegate.ExecuteIfBound(TopicMessage);
-    if (bPublish)
-    {
-        Publish();
-    }
+
+    Publish();
 }
 
 void UROS2Publisher::Publish()
