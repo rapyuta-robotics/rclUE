@@ -44,9 +44,6 @@ public:
   void SetROS2(pcl_msgs__msg__ModelCoefficients &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.values.data != nullptr) {
-      free(out_ros_data.values.data);
-    }
     out_ros_data.values.data = (decltype(out_ros_data.values.data))malloc(
         (Values.Num()) * sizeof(decltype(*out_ros_data.values.data)));
 

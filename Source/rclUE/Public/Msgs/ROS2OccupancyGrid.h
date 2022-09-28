@@ -52,9 +52,6 @@ public:
 
     Info.SetROS2(out_ros_data.info);
 
-    if (out_ros_data.data.data != nullptr) {
-      free(out_ros_data.data.data);
-    }
     out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
         (Data.Num()) * sizeof(decltype(*out_ros_data.data.data)));
 

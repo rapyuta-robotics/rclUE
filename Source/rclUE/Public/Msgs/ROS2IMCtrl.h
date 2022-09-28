@@ -81,9 +81,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Name);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.name.data != nullptr) {
-        free(out_ros_data.name.data);
-      }
       out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
       memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
@@ -103,9 +100,6 @@ public:
 
     out_ros_data.always_visible = bAlwaysVisible;
 
-    if (out_ros_data.markers.data != nullptr) {
-      free(out_ros_data.markers.data);
-    }
     out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
         (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
 
@@ -121,9 +115,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Description);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.description.data != nullptr) {
-        free(out_ros_data.description.data);
-      }
       out_ros_data.description.data =
           (decltype(out_ros_data.description.data))malloc(
               (strLength + 1) *

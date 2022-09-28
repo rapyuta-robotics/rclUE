@@ -51,9 +51,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*WorldModel);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.world_model.data != nullptr) {
-        free(out_ros_data.world_model.data);
-      }
       out_ros_data.world_model.data =
           (decltype(out_ros_data.world_model.data))malloc(
               (strLength + 1) *
@@ -67,9 +64,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*WorldInstanceName);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.world_instance_name.data != nullptr) {
-        free(out_ros_data.world_instance_name.data);
-      }
       out_ros_data.world_instance_name.data =
           (decltype(out_ros_data.world_instance_name.data))malloc(
               (strLength + 1) *
@@ -110,9 +104,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*StatusMessage);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.status_message.data != nullptr) {
-        free(out_ros_data.status_message.data);
-      }
       out_ros_data.status_message.data =
           (decltype(out_ros_data.status_message.data))malloc(
               (strLength + 1) *

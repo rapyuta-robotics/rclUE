@@ -53,9 +53,6 @@ public:
   void SetROS2(sensor_msgs__msg__PointCloud &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.points.data != nullptr) {
-      free(out_ros_data.points.data);
-    }
     out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
         (Points.Num()) * sizeof(decltype(*out_ros_data.points.data)));
 
@@ -66,9 +63,6 @@ public:
     out_ros_data.points.size = Points.Num();
     out_ros_data.points.capacity = Points.Num();
 
-    if (out_ros_data.channels.data != nullptr) {
-      free(out_ros_data.channels.data);
-    }
     out_ros_data.channels.data = (decltype(out_ros_data.channels.data))malloc(
         (Channels.Num()) * sizeof(decltype(*out_ros_data.channels.data)));
 

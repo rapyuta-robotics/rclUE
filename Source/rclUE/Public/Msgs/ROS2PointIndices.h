@@ -44,9 +44,6 @@ public:
   void SetROS2(pcl_msgs__msg__PointIndices &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.indices.data != nullptr) {
-      free(out_ros_data.indices.data);
-    }
     out_ros_data.indices.data = (decltype(out_ros_data.indices.data))malloc(
         (Indices.Num()) * sizeof(decltype(*out_ros_data.indices.data)));
 

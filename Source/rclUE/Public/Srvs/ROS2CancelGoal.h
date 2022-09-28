@@ -66,9 +66,6 @@ public:
   void SetROS2(action_msgs__srv__CancelGoal_Response &out_ros_data) const {
     out_ros_data.return_code = ReturnCode;
 
-    if (out_ros_data.goals_canceling.data != nullptr) {
-      free(out_ros_data.goals_canceling.data);
-    }
     out_ros_data.goals_canceling.data =
         (decltype(out_ros_data.goals_canceling.data))malloc(
             (GoalsCanceling.Num()) *

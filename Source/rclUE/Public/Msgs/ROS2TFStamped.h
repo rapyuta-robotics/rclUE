@@ -52,9 +52,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*ChildFrameId);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.child_frame_id.data != nullptr) {
-        free(out_ros_data.child_frame_id.data);
-      }
       out_ros_data.child_frame_id.data =
           (decltype(out_ros_data.child_frame_id.data))malloc(
               (strLength + 1) *

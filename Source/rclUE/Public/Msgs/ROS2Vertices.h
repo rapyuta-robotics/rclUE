@@ -36,9 +36,6 @@ public:
   }
 
   void SetROS2(pcl_msgs__msg__Vertices &out_ros_data) const {
-    if (out_ros_data.vertices.data != nullptr) {
-      free(out_ros_data.vertices.data);
-    }
     out_ros_data.vertices.data = (decltype(out_ros_data.vertices.data))malloc(
         (Vertices.Num()) * sizeof(decltype(*out_ros_data.vertices.data)));
 

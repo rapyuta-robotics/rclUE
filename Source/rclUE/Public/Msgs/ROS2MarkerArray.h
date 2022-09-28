@@ -37,9 +37,6 @@ public:
   }
 
   void SetROS2(visualization_msgs__msg__MarkerArray &out_ros_data) const {
-    if (out_ros_data.markers.data != nullptr) {
-      free(out_ros_data.markers.data);
-    }
     out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
         (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
 

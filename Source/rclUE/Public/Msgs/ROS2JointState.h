@@ -67,9 +67,6 @@ public:
   void SetROS2(sensor_msgs__msg__JointState &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.name.data != nullptr) {
-      free(out_ros_data.name.data);
-    }
     out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
         (Name.Num()) * sizeof(decltype(*out_ros_data.name.data)));
     for (auto i = 0; i < Name.Num(); ++i) {
@@ -88,9 +85,6 @@ public:
       }
     }
 
-    if (out_ros_data.position.data != nullptr) {
-      free(out_ros_data.position.data);
-    }
     out_ros_data.position.data = (decltype(out_ros_data.position.data))malloc(
         (Position.Num()) * sizeof(decltype(*out_ros_data.position.data)));
 
@@ -101,9 +95,6 @@ public:
     out_ros_data.position.size = Position.Num();
     out_ros_data.position.capacity = Position.Num();
 
-    if (out_ros_data.velocity.data != nullptr) {
-      free(out_ros_data.velocity.data);
-    }
     out_ros_data.velocity.data = (decltype(out_ros_data.velocity.data))malloc(
         (Velocity.Num()) * sizeof(decltype(*out_ros_data.velocity.data)));
 
@@ -114,9 +105,6 @@ public:
     out_ros_data.velocity.size = Velocity.Num();
     out_ros_data.velocity.capacity = Velocity.Num();
 
-    if (out_ros_data.effort.data != nullptr) {
-      free(out_ros_data.effort.data);
-    }
     out_ros_data.effort.data = (decltype(out_ros_data.effort.data))malloc(
         (Effort.Num()) * sizeof(decltype(*out_ros_data.effort.data)));
 

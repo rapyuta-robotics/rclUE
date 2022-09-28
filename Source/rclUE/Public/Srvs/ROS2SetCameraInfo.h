@@ -67,9 +67,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*StatusMessage);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.status_message.data != nullptr) {
-        free(out_ros_data.status_message.data);
-      }
       out_ros_data.status_message.data =
           (decltype(out_ros_data.status_message.data))malloc(
               (strLength + 1) *

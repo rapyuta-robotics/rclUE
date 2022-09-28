@@ -123,9 +123,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Ns);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.ns.data != nullptr) {
-        free(out_ros_data.ns.data);
-      }
       out_ros_data.ns.data = (decltype(out_ros_data.ns.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.ns.data)));
       memcpy(out_ros_data.ns.data, TCHAR_TO_UTF8(*Ns),
@@ -152,9 +149,6 @@ public:
 
     out_ros_data.frame_locked = bFrameLocked;
 
-    if (out_ros_data.points.data != nullptr) {
-      free(out_ros_data.points.data);
-    }
     out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
         (Points.Num() * 3) * sizeof(decltype(*out_ros_data.points.data)));
 
@@ -167,9 +161,6 @@ public:
     out_ros_data.points.size = Points.Num();
     out_ros_data.points.capacity = Points.Num();
 
-    if (out_ros_data.colors.data != nullptr) {
-      free(out_ros_data.colors.data);
-    }
     out_ros_data.colors.data = (decltype(out_ros_data.colors.data))malloc(
         (Colors.Num()) * sizeof(decltype(*out_ros_data.colors.data)));
 
@@ -183,9 +174,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Text);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.text.data != nullptr) {
-        free(out_ros_data.text.data);
-      }
       out_ros_data.text.data = (decltype(out_ros_data.text.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.text.data)));
       memcpy(out_ros_data.text.data, TCHAR_TO_UTF8(*Text),
@@ -197,9 +185,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*MeshResource);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.mesh_resource.data != nullptr) {
-        free(out_ros_data.mesh_resource.data);
-      }
       out_ros_data.mesh_resource.data =
           (decltype(out_ros_data.mesh_resource.data))malloc(
               (strLength + 1) *

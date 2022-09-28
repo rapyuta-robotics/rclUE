@@ -45,9 +45,6 @@ public:
   void SetROS2(geometry_msgs__msg__PoseArray &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.poses.data != nullptr) {
-      free(out_ros_data.poses.data);
-    }
     out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc(
         (Poses.Num()) * sizeof(decltype(*out_ros_data.poses.data)));
 

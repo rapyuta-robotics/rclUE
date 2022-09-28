@@ -86,9 +86,6 @@ public:
 
     out_ros_data.width = Width;
 
-    if (out_ros_data.fields.data != nullptr) {
-      free(out_ros_data.fields.data);
-    }
     out_ros_data.fields.data = (decltype(out_ros_data.fields.data))malloc(
         (Fields.Num()) * sizeof(decltype(*out_ros_data.fields.data)));
 
@@ -105,9 +102,6 @@ public:
 
     out_ros_data.row_step = RowStep;
 
-    if (out_ros_data.data.data != nullptr) {
-      free(out_ros_data.data.data);
-    }
     out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
         (Data.Num()) * sizeof(decltype(*out_ros_data.data.data)));
 

@@ -37,9 +37,6 @@ public:
   }
 
   void SetROS2(sensor_msgs__msg__JoyFeedbackArray &out_ros_data) const {
-    if (out_ros_data.array.data != nullptr) {
-      free(out_ros_data.array.data);
-    }
     out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc(
         (Array.Num()) * sizeof(decltype(*out_ros_data.array.data)));
 

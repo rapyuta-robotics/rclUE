@@ -100,9 +100,6 @@ public:
 
     out_ros_data.range_max = RangeMax;
 
-    if (out_ros_data.ranges.data != nullptr) {
-      free(out_ros_data.ranges.data);
-    }
     out_ros_data.ranges.data = (decltype(out_ros_data.ranges.data))malloc(
         (Ranges.Num()) * sizeof(decltype(*out_ros_data.ranges.data)));
 
@@ -113,9 +110,6 @@ public:
     out_ros_data.ranges.size = Ranges.Num();
     out_ros_data.ranges.capacity = Ranges.Num();
 
-    if (out_ros_data.intensities.data != nullptr) {
-      free(out_ros_data.intensities.data);
-    }
     out_ros_data.intensities.data =
         (decltype(out_ros_data.intensities.data))malloc(
             (Intensities.Num()) *

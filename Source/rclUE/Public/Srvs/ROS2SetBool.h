@@ -66,9 +66,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Message);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.message.data != nullptr) {
-        free(out_ros_data.message.data);
-      }
       out_ros_data.message.data = (decltype(out_ros_data.message.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.message.data)));
       memcpy(out_ros_data.message.data, TCHAR_TO_UTF8(*Message),

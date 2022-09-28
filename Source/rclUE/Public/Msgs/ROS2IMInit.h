@@ -53,9 +53,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*ServerId);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.server_id.data != nullptr) {
-        free(out_ros_data.server_id.data);
-      }
       out_ros_data.server_id.data =
           (decltype(out_ros_data.server_id.data))malloc(
               (strLength + 1) * sizeof(decltype(*out_ros_data.server_id.data)));
@@ -67,9 +64,6 @@ public:
 
     out_ros_data.seq_num = SeqNum;
 
-    if (out_ros_data.markers.data != nullptr) {
-      free(out_ros_data.markers.data);
-    }
     out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
         (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
 

@@ -61,9 +61,6 @@ public:
 
     out_ros_data.cell_height = CellHeight;
 
-    if (out_ros_data.cells.data != nullptr) {
-      free(out_ros_data.cells.data);
-    }
     out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc(
         (Cells.Num() * 3) * sizeof(decltype(*out_ros_data.cells.data)));
 

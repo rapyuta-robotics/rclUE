@@ -81,9 +81,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Name);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.name.data != nullptr) {
-        free(out_ros_data.name.data);
-      }
       out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
       memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
@@ -95,9 +92,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Description);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.description.data != nullptr) {
-        free(out_ros_data.description.data);
-      }
       out_ros_data.description.data =
           (decltype(out_ros_data.description.data))malloc(
               (strLength + 1) *
@@ -110,9 +104,6 @@ public:
 
     out_ros_data.scale = Scale;
 
-    if (out_ros_data.menu_entries.data != nullptr) {
-      free(out_ros_data.menu_entries.data);
-    }
     out_ros_data.menu_entries.data =
         (decltype(out_ros_data.menu_entries.data))malloc(
             (MenuEntries.Num()) *
@@ -125,9 +116,6 @@ public:
     out_ros_data.menu_entries.size = MenuEntries.Num();
     out_ros_data.menu_entries.capacity = MenuEntries.Num();
 
-    if (out_ros_data.controls.data != nullptr) {
-      free(out_ros_data.controls.data);
-    }
     out_ros_data.controls.data = (decltype(out_ros_data.controls.data))malloc(
         (Controls.Num()) * sizeof(decltype(*out_ros_data.controls.data)));
 

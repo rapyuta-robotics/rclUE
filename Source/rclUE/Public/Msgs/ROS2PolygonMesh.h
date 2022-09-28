@@ -53,9 +53,6 @@ public:
 
     Cloud.SetROS2(out_ros_data.cloud);
 
-    if (out_ros_data.polygons.data != nullptr) {
-      free(out_ros_data.polygons.data);
-    }
     out_ros_data.polygons.data = (decltype(out_ros_data.polygons.data))malloc(
         (Polygons.Num()) * sizeof(decltype(*out_ros_data.polygons.data)));
 

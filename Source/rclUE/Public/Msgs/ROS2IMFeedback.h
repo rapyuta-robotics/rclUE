@@ -88,9 +88,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*ClientId);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.client_id.data != nullptr) {
-        free(out_ros_data.client_id.data);
-      }
       out_ros_data.client_id.data =
           (decltype(out_ros_data.client_id.data))malloc(
               (strLength + 1) * sizeof(decltype(*out_ros_data.client_id.data)));
@@ -103,9 +100,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*MarkerName);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.marker_name.data != nullptr) {
-        free(out_ros_data.marker_name.data);
-      }
       out_ros_data.marker_name.data =
           (decltype(out_ros_data.marker_name.data))malloc(
               (strLength + 1) *
@@ -119,9 +113,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*ControlName);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.control_name.data != nullptr) {
-        free(out_ros_data.control_name.data);
-      }
       out_ros_data.control_name.data =
           (decltype(out_ros_data.control_name.data))malloc(
               (strLength + 1) *

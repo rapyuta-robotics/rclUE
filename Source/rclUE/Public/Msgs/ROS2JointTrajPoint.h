@@ -64,9 +64,6 @@ public:
   }
 
   void SetROS2(trajectory_msgs__msg__JointTrajectoryPoint &out_ros_data) const {
-    if (out_ros_data.positions.data != nullptr) {
-      free(out_ros_data.positions.data);
-    }
     out_ros_data.positions.data = (decltype(out_ros_data.positions.data))malloc(
         (Positions.Num()) * sizeof(decltype(*out_ros_data.positions.data)));
 
@@ -77,9 +74,6 @@ public:
     out_ros_data.positions.size = Positions.Num();
     out_ros_data.positions.capacity = Positions.Num();
 
-    if (out_ros_data.velocities.data != nullptr) {
-      free(out_ros_data.velocities.data);
-    }
     out_ros_data.velocities.data =
         (decltype(out_ros_data.velocities.data))malloc(
             (Velocities.Num()) *
@@ -92,9 +86,6 @@ public:
     out_ros_data.velocities.size = Velocities.Num();
     out_ros_data.velocities.capacity = Velocities.Num();
 
-    if (out_ros_data.accelerations.data != nullptr) {
-      free(out_ros_data.accelerations.data);
-    }
     out_ros_data.accelerations.data =
         (decltype(out_ros_data.accelerations.data))malloc(
             (Accelerations.Num()) *
@@ -107,9 +98,6 @@ public:
     out_ros_data.accelerations.size = Accelerations.Num();
     out_ros_data.accelerations.capacity = Accelerations.Num();
 
-    if (out_ros_data.effort.data != nullptr) {
-      free(out_ros_data.effort.data);
-    }
     out_ros_data.effort.data = (decltype(out_ros_data.effort.data))malloc(
         (Effort.Num()) * sizeof(decltype(*out_ros_data.effort.data)));
 

@@ -63,9 +63,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Name);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.name.data != nullptr) {
-        free(out_ros_data.name.data);
-      }
       out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
       memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
@@ -77,9 +74,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Message);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.message.data != nullptr) {
-        free(out_ros_data.message.data);
-      }
       out_ros_data.message.data = (decltype(out_ros_data.message.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.message.data)));
       memcpy(out_ros_data.message.data, TCHAR_TO_UTF8(*Message),
@@ -91,9 +85,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*HardwareId);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.hardware_id.data != nullptr) {
-        free(out_ros_data.hardware_id.data);
-      }
       out_ros_data.hardware_id.data =
           (decltype(out_ros_data.hardware_id.data))malloc(
               (strLength + 1) *
@@ -104,9 +95,6 @@ public:
       out_ros_data.hardware_id.capacity = strLength + 1;
     }
 
-    if (out_ros_data.values.data != nullptr) {
-      free(out_ros_data.values.data);
-    }
     out_ros_data.values.data = (decltype(out_ros_data.values.data))malloc(
         (Values.Num()) * sizeof(decltype(*out_ros_data.values.data)));
 

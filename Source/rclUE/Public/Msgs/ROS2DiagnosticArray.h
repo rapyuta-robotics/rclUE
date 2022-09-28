@@ -45,9 +45,6 @@ public:
   void SetROS2(diagnostic_msgs__msg__DiagnosticArray &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.status.data != nullptr) {
-      free(out_ros_data.status.data);
-    }
     out_ros_data.status.data = (decltype(out_ros_data.status.data))malloc(
         (Status.Num()) * sizeof(decltype(*out_ros_data.status.data)));
 

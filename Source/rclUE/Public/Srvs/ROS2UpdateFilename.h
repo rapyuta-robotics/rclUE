@@ -38,9 +38,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Filename);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.filename.data != nullptr) {
-        free(out_ros_data.filename.data);
-      }
       out_ros_data.filename.data = (decltype(out_ros_data.filename.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.filename.data)));
       memcpy(out_ros_data.filename.data, TCHAR_TO_UTF8(*Filename),

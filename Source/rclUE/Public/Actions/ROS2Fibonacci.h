@@ -125,9 +125,6 @@ public:
   void SetROS2(example_interfaces__action__Fibonacci_GetResult_Response
                    &out_ros_data) const {
     out_ros_data.status = Status;
-    if (out_ros_data.result.sequence.data != nullptr) {
-      free(out_ros_data.result.sequence.data);
-    }
     out_ros_data.result.sequence.data =
         (decltype(out_ros_data.result.sequence.data))malloc(
             (Sequence.Num()) *
@@ -171,9 +168,6 @@ public:
       out_ros_data.goal_id.uuid[i] = GoalId[i];
     }
 
-    if (out_ros_data.feedback.sequence.data != nullptr) {
-      free(out_ros_data.feedback.sequence.data);
-    }
     out_ros_data.feedback.sequence.data =
         (decltype(out_ros_data.feedback.sequence.data))malloc(
             (Sequence.Num()) *

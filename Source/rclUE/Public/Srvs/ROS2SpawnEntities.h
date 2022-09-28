@@ -56,9 +56,6 @@ public:
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntities_Request &out_ros_data) const {
-    if (out_ros_data.type.data != nullptr) {
-      free(out_ros_data.type.data);
-    }
     out_ros_data.type.data = (decltype(out_ros_data.type.data))malloc(
         (Type.Num()) * sizeof(decltype(*out_ros_data.type.data)));
     for (auto i = 0; i < Type.Num(); ++i) {
@@ -77,9 +74,6 @@ public:
       }
     }
 
-    if (out_ros_data.state.data != nullptr) {
-      free(out_ros_data.state.data);
-    }
     out_ros_data.state.data = (decltype(out_ros_data.state.data))malloc(
         (State.Num()) * sizeof(decltype(*out_ros_data.state.data)));
 
@@ -90,9 +84,6 @@ public:
     out_ros_data.state.size = State.Num();
     out_ros_data.state.capacity = State.Num();
 
-    if (out_ros_data.tags.data != nullptr) {
-      free(out_ros_data.tags.data);
-    }
     out_ros_data.tags.data = (decltype(out_ros_data.tags.data))malloc(
         (Tags.Num()) * sizeof(decltype(*out_ros_data.tags.data)));
     for (auto i = 0; i < Tags.Num(); ++i) {
@@ -139,9 +130,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*StatusMessage);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.status_message.data != nullptr) {
-        free(out_ros_data.status_message.data);
-      }
       out_ros_data.status_message.data =
           (decltype(out_ros_data.status_message.data))malloc(
               (strLength + 1) *

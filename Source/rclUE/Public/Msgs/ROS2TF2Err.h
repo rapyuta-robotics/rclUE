@@ -45,9 +45,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*ErrorString);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.error_string.data != nullptr) {
-        free(out_ros_data.error_string.data);
-      }
       out_ros_data.error_string.data =
           (decltype(out_ros_data.error_string.data))malloc(
               (strLength + 1) *

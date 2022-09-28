@@ -42,9 +42,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Key);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.key.data != nullptr) {
-        free(out_ros_data.key.data);
-      }
       out_ros_data.key.data = (decltype(out_ros_data.key.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.key.data)));
       memcpy(out_ros_data.key.data, TCHAR_TO_UTF8(*Key),
@@ -56,9 +53,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Value);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.value.data != nullptr) {
-        free(out_ros_data.value.data);
-      }
       out_ros_data.value.data = (decltype(out_ros_data.value.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.value.data)));
       memcpy(out_ros_data.value.data, TCHAR_TO_UTF8(*Value),

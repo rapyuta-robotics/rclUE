@@ -51,9 +51,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*FrameYaml);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.frame_yaml.data != nullptr) {
-        free(out_ros_data.frame_yaml.data);
-      }
       out_ros_data.frame_yaml.data =
           (decltype(out_ros_data.frame_yaml.data))malloc(
               (strLength + 1) *

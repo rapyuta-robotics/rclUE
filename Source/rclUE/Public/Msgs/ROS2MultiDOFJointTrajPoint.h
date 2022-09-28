@@ -60,9 +60,6 @@ public:
 
   void SetROS2(
       trajectory_msgs__msg__MultiDOFJointTrajectoryPoint &out_ros_data) const {
-    if (out_ros_data.transforms.data != nullptr) {
-      free(out_ros_data.transforms.data);
-    }
     out_ros_data.transforms.data =
         (decltype(out_ros_data.transforms.data))malloc(
             (Transforms.Num()) *
@@ -75,9 +72,6 @@ public:
     out_ros_data.transforms.size = Transforms.Num();
     out_ros_data.transforms.capacity = Transforms.Num();
 
-    if (out_ros_data.velocities.data != nullptr) {
-      free(out_ros_data.velocities.data);
-    }
     out_ros_data.velocities.data =
         (decltype(out_ros_data.velocities.data))malloc(
             (Velocities.Num()) *
@@ -90,9 +84,6 @@ public:
     out_ros_data.velocities.size = Velocities.Num();
     out_ros_data.velocities.capacity = Velocities.Num();
 
-    if (out_ros_data.accelerations.data != nullptr) {
-      free(out_ros_data.accelerations.data);
-    }
     out_ros_data.accelerations.data =
         (decltype(out_ros_data.accelerations.data))malloc(
             (Accelerations.Num()) *

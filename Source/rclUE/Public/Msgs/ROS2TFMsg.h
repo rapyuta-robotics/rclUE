@@ -37,9 +37,6 @@ public:
   }
 
   void SetROS2(tf2_msgs__msg__TFMessage &out_ros_data) const {
-    if (out_ros_data.transforms.data != nullptr) {
-      free(out_ros_data.transforms.data);
-    }
     out_ros_data.transforms.data =
         (decltype(out_ros_data.transforms.data))malloc(
             (Transforms.Num()) *

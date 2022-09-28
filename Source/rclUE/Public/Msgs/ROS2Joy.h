@@ -50,9 +50,6 @@ public:
   void SetROS2(sensor_msgs__msg__Joy &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.axes.data != nullptr) {
-      free(out_ros_data.axes.data);
-    }
     out_ros_data.axes.data = (decltype(out_ros_data.axes.data))malloc(
         (Axes.Num()) * sizeof(decltype(*out_ros_data.axes.data)));
 
@@ -63,9 +60,6 @@ public:
     out_ros_data.axes.size = Axes.Num();
     out_ros_data.axes.capacity = Axes.Num();
 
-    if (out_ros_data.buttons.data != nullptr) {
-      free(out_ros_data.buttons.data);
-    }
     out_ros_data.buttons.data = (decltype(out_ros_data.buttons.data))malloc(
         (Buttons.Num()) * sizeof(decltype(*out_ros_data.buttons.data)));
 

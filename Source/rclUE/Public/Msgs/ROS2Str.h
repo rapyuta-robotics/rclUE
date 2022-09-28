@@ -37,9 +37,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Data);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.data.data != nullptr) {
-        free(out_ros_data.data.data);
-      }
       out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.data.data)));
       memcpy(out_ros_data.data.data, TCHAR_TO_UTF8(*Data),

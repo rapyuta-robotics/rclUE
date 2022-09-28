@@ -45,9 +45,6 @@ public:
   void SetROS2(actionlib_msgs__msg__GoalStatusArray &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.status_list.data != nullptr) {
-      free(out_ros_data.status_list.data);
-    }
     out_ros_data.status_list.data =
         (decltype(out_ros_data.status_list.data))malloc(
             (StatusList.Num()) *

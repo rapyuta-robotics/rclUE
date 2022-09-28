@@ -43,9 +43,6 @@ public:
   }
 
   void SetROS2(example_interfaces__msg__MultiArrayLayout &out_ros_data) const {
-    if (out_ros_data.dim.data != nullptr) {
-      free(out_ros_data.dim.data);
-    }
     out_ros_data.dim.data = (decltype(out_ros_data.dim.data))malloc(
         (Dim.Num()) * sizeof(decltype(*out_ros_data.dim.data)));
 

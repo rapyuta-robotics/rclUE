@@ -59,9 +59,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Xml);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.xml.data != nullptr) {
-        free(out_ros_data.xml.data);
-      }
       out_ros_data.xml.data = (decltype(out_ros_data.xml.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.xml.data)));
       memcpy(out_ros_data.xml.data, TCHAR_TO_UTF8(*Xml),
@@ -73,9 +70,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*RobotNamespace);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.robot_namespace.data != nullptr) {
-        free(out_ros_data.robot_namespace.data);
-      }
       out_ros_data.robot_namespace.data =
           (decltype(out_ros_data.robot_namespace.data))malloc(
               (strLength + 1) *
@@ -88,9 +82,6 @@ public:
 
     State.SetROS2(out_ros_data.state);
 
-    if (out_ros_data.tags.data != nullptr) {
-      free(out_ros_data.tags.data);
-    }
     out_ros_data.tags.data = (decltype(out_ros_data.tags.data))malloc(
         (Tags.Num()) * sizeof(decltype(*out_ros_data.tags.data)));
     for (auto i = 0; i < Tags.Num(); ++i) {
@@ -137,9 +128,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*StatusMessage);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.status_message.data != nullptr) {
-        free(out_ros_data.status_message.data);
-      }
       out_ros_data.status_message.data =
           (decltype(out_ros_data.status_message.data))malloc(
               (strLength + 1) *

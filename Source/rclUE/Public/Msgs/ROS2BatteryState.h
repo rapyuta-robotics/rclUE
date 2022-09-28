@@ -139,9 +139,6 @@ public:
 
     out_ros_data.present = bPresent;
 
-    if (out_ros_data.cell_voltage.data != nullptr) {
-      free(out_ros_data.cell_voltage.data);
-    }
     out_ros_data.cell_voltage.data =
         (decltype(out_ros_data.cell_voltage.data))malloc(
             (CellVoltage.Num()) *
@@ -154,9 +151,6 @@ public:
     out_ros_data.cell_voltage.size = CellVoltage.Num();
     out_ros_data.cell_voltage.capacity = CellVoltage.Num();
 
-    if (out_ros_data.cell_temperature.data != nullptr) {
-      free(out_ros_data.cell_temperature.data);
-    }
     out_ros_data.cell_temperature.data =
         (decltype(out_ros_data.cell_temperature.data))malloc(
             (CellTemperature.Num()) *
@@ -172,9 +166,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Location);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.location.data != nullptr) {
-        free(out_ros_data.location.data);
-      }
       out_ros_data.location.data = (decltype(out_ros_data.location.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.location.data)));
       memcpy(out_ros_data.location.data, TCHAR_TO_UTF8(*Location),
@@ -186,9 +177,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*SerialNumber);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.serial_number.data != nullptr) {
-        free(out_ros_data.serial_number.data);
-      }
       out_ros_data.serial_number.data =
           (decltype(out_ros_data.serial_number.data))malloc(
               (strLength + 1) *

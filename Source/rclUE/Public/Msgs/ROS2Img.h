@@ -76,9 +76,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Encoding);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.encoding.data != nullptr) {
-        free(out_ros_data.encoding.data);
-      }
       out_ros_data.encoding.data = (decltype(out_ros_data.encoding.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.encoding.data)));
       memcpy(out_ros_data.encoding.data, TCHAR_TO_UTF8(*Encoding),
@@ -91,9 +88,6 @@ public:
 
     out_ros_data.step = Step;
 
-    if (out_ros_data.data.data != nullptr) {
-      free(out_ros_data.data.data);
-    }
     out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
         (Data.Num()) * sizeof(decltype(*out_ros_data.data.data)));
 

@@ -36,9 +36,6 @@ public:
   }
 
   void SetROS2(sensor_msgs__msg__LaserEcho &out_ros_data) const {
-    if (out_ros_data.echoes.data != nullptr) {
-      free(out_ros_data.echoes.data);
-    }
     out_ros_data.echoes.data = (decltype(out_ros_data.echoes.data))malloc(
         (Echoes.Num()) * sizeof(decltype(*out_ros_data.echoes.data)));
 

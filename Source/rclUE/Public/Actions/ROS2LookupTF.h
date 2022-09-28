@@ -89,9 +89,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*TargetFrame);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.goal.target_frame.data != nullptr) {
-        free(out_ros_data.goal.target_frame.data);
-      }
       out_ros_data.goal.target_frame.data =
           (decltype(out_ros_data.goal.target_frame.data))malloc(
               (strLength + 1) *
@@ -105,9 +102,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*SourceFrame);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.goal.source_frame.data != nullptr) {
-        free(out_ros_data.goal.source_frame.data);
-      }
       out_ros_data.goal.source_frame.data =
           (decltype(out_ros_data.goal.source_frame.data))malloc(
               (strLength + 1) *
@@ -127,9 +121,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*FixedFrame);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.goal.fixed_frame.data != nullptr) {
-        free(out_ros_data.goal.fixed_frame.data);
-      }
       out_ros_data.goal.fixed_frame.data =
           (decltype(out_ros_data.goal.fixed_frame.data))malloc(
               (strLength + 1) *

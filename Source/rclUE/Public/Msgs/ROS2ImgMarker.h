@@ -111,9 +111,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Ns);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.ns.data != nullptr) {
-        free(out_ros_data.ns.data);
-      }
       out_ros_data.ns.data = (decltype(out_ros_data.ns.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.ns.data)));
       memcpy(out_ros_data.ns.data, TCHAR_TO_UTF8(*Ns),
@@ -142,9 +139,6 @@ public:
 
     Lifetime.SetROS2(out_ros_data.lifetime);
 
-    if (out_ros_data.points.data != nullptr) {
-      free(out_ros_data.points.data);
-    }
     out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
         (Points.Num() * 3) * sizeof(decltype(*out_ros_data.points.data)));
 
@@ -157,9 +151,6 @@ public:
     out_ros_data.points.size = Points.Num();
     out_ros_data.points.capacity = Points.Num();
 
-    if (out_ros_data.outline_colors.data != nullptr) {
-      free(out_ros_data.outline_colors.data);
-    }
     out_ros_data.outline_colors.data =
         (decltype(out_ros_data.outline_colors.data))malloc(
             (OutlineColors.Num()) *

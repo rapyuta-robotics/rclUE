@@ -62,9 +62,6 @@ public:
                    &out_ros_data) const {
     out_ros_data.sequence_number = SequenceNumber;
 
-    if (out_ros_data.markers.data != nullptr) {
-      free(out_ros_data.markers.data);
-    }
     out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
         (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
 

@@ -54,9 +54,6 @@ public:
   void SetROS2(trajectory_msgs__msg__JointTrajectory &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.joint_names.data != nullptr) {
-      free(out_ros_data.joint_names.data);
-    }
     out_ros_data.joint_names.data =
         (decltype(out_ros_data.joint_names.data))malloc(
             (JointNames.Num()) *
@@ -77,9 +74,6 @@ public:
       }
     }
 
-    if (out_ros_data.points.data != nullptr) {
-      free(out_ros_data.points.data);
-    }
     out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
         (Points.Num()) * sizeof(decltype(*out_ros_data.points.data)));
 

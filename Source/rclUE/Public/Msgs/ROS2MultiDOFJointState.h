@@ -70,9 +70,6 @@ public:
   void SetROS2(sensor_msgs__msg__MultiDOFJointState &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    if (out_ros_data.joint_names.data != nullptr) {
-      free(out_ros_data.joint_names.data);
-    }
     out_ros_data.joint_names.data =
         (decltype(out_ros_data.joint_names.data))malloc(
             (JointNames.Num()) *
@@ -93,9 +90,6 @@ public:
       }
     }
 
-    if (out_ros_data.transforms.data != nullptr) {
-      free(out_ros_data.transforms.data);
-    }
     out_ros_data.transforms.data =
         (decltype(out_ros_data.transforms.data))malloc(
             (Transforms.Num()) *
@@ -108,9 +102,6 @@ public:
     out_ros_data.transforms.size = Transforms.Num();
     out_ros_data.transforms.capacity = Transforms.Num();
 
-    if (out_ros_data.twist.data != nullptr) {
-      free(out_ros_data.twist.data);
-    }
     out_ros_data.twist.data = (decltype(out_ros_data.twist.data))malloc(
         (Twist.Num()) * sizeof(decltype(*out_ros_data.twist.data)));
 
@@ -121,9 +112,6 @@ public:
     out_ros_data.twist.size = Twist.Num();
     out_ros_data.twist.capacity = Twist.Num();
 
-    if (out_ros_data.wrench.data != nullptr) {
-      free(out_ros_data.wrench.data);
-    }
     out_ros_data.wrench.data = (decltype(out_ros_data.wrench.data))malloc(
         (Wrench.Num()) * sizeof(decltype(*out_ros_data.wrench.data)));
 

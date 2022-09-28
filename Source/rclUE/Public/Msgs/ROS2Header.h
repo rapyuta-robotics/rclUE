@@ -44,9 +44,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*FrameId);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.frame_id.data != nullptr) {
-        free(out_ros_data.frame_id.data);
-      }
       out_ros_data.frame_id.data = (decltype(out_ros_data.frame_id.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.frame_id.data)));
       memcpy(out_ros_data.frame_id.data, TCHAR_TO_UTF8(*FrameId),

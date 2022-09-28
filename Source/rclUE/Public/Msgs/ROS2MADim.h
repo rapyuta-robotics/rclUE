@@ -49,9 +49,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*Label);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.label.data != nullptr) {
-        free(out_ros_data.label.data);
-      }
       out_ros_data.label.data = (decltype(out_ros_data.label.data))malloc(
           (strLength + 1) * sizeof(decltype(*out_ros_data.label.data)));
       memcpy(out_ros_data.label.data, TCHAR_TO_UTF8(*Label),

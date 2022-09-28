@@ -45,9 +45,6 @@ public:
   void SetROS2(example_interfaces__msg__UInt32MultiArray &out_ros_data) const {
     Layout.SetROS2(out_ros_data.layout);
 
-    if (out_ros_data.data.data != nullptr) {
-      free(out_ros_data.data.data);
-    }
     out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
         (Data.Num()) * sizeof(decltype(*out_ros_data.data.data)));
 

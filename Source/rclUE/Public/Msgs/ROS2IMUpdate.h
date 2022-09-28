@@ -75,9 +75,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*ServerId);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.server_id.data != nullptr) {
-        free(out_ros_data.server_id.data);
-      }
       out_ros_data.server_id.data =
           (decltype(out_ros_data.server_id.data))malloc(
               (strLength + 1) * sizeof(decltype(*out_ros_data.server_id.data)));
@@ -91,9 +88,6 @@ public:
 
     out_ros_data.type = Type;
 
-    if (out_ros_data.markers.data != nullptr) {
-      free(out_ros_data.markers.data);
-    }
     out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
         (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
 
@@ -104,9 +98,6 @@ public:
     out_ros_data.markers.size = Markers.Num();
     out_ros_data.markers.capacity = Markers.Num();
 
-    if (out_ros_data.poses.data != nullptr) {
-      free(out_ros_data.poses.data);
-    }
     out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc(
         (Poses.Num()) * sizeof(decltype(*out_ros_data.poses.data)));
 
@@ -117,9 +108,6 @@ public:
     out_ros_data.poses.size = Poses.Num();
     out_ros_data.poses.capacity = Poses.Num();
 
-    if (out_ros_data.erases.data != nullptr) {
-      free(out_ros_data.erases.data);
-    }
     out_ros_data.erases.data = (decltype(out_ros_data.erases.data))malloc(
         (Erases.Num()) * sizeof(decltype(*out_ros_data.erases.data)));
     for (auto i = 0; i < Erases.Num(); ++i) {

@@ -46,9 +46,6 @@ public:
   }
 
   void SetROS2(shape_msgs__msg__Mesh &out_ros_data) const {
-    if (out_ros_data.triangles.data != nullptr) {
-      free(out_ros_data.triangles.data);
-    }
     out_ros_data.triangles.data = (decltype(out_ros_data.triangles.data))malloc(
         (Triangles.Num()) * sizeof(decltype(*out_ros_data.triangles.data)));
 
@@ -59,9 +56,6 @@ public:
     out_ros_data.triangles.size = Triangles.Num();
     out_ros_data.triangles.capacity = Triangles.Num();
 
-    if (out_ros_data.vertices.data != nullptr) {
-      free(out_ros_data.vertices.data);
-    }
     out_ros_data.vertices.data = (decltype(out_ros_data.vertices.data))malloc(
         (Vertices.Num() * 3) * sizeof(decltype(*out_ros_data.vertices.data)));
 

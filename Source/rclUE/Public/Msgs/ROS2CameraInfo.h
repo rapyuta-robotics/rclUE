@@ -116,9 +116,6 @@ public:
     {
       FTCHARToUTF8 strUtf8(*DistortionModel);
       int32 strLength = strUtf8.Length();
-      if (out_ros_data.distortion_model.data != nullptr) {
-        free(out_ros_data.distortion_model.data);
-      }
       out_ros_data.distortion_model.data =
           (decltype(out_ros_data.distortion_model.data))malloc(
               (strLength + 1) *
@@ -129,9 +126,6 @@ public:
       out_ros_data.distortion_model.capacity = strLength + 1;
     }
 
-    if (out_ros_data.d.data != nullptr) {
-      free(out_ros_data.d.data);
-    }
     out_ros_data.d.data = (decltype(out_ros_data.d.data))malloc(
         (D.Num()) * sizeof(decltype(*out_ros_data.d.data)));
 
