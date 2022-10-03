@@ -27,6 +27,14 @@ struct RCLUE_API FROSImgMarker {
   GENERATED_BODY()
 
 public:
+  static constexpr int CIRCLE = 0;
+  static constexpr int LINE_STRIP = 1;
+  static constexpr int LINE_LIST = 2;
+  static constexpr int POLYGON = 3;
+  static constexpr int POINTS = 4;
+  static constexpr int ADD = 0;
+  static constexpr int REMOVE = 1;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSHeader Header;
 
@@ -182,6 +190,21 @@ public:
   void GetMsg(FROSImgMarker &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static int CONST_CIRCLE() { return FROSImgMarker::CIRCLE; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_LINE_STRIP() { return FROSImgMarker::LINE_STRIP; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_LINE_LIST() { return FROSImgMarker::LINE_LIST; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_POLYGON() { return FROSImgMarker::POLYGON; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_POINTS() { return FROSImgMarker::POINTS; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_ADD() { return FROSImgMarker::ADD; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_REMOVE() { return FROSImgMarker::REMOVE; }
 
 private:
   virtual FString MsgToString() const override;

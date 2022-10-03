@@ -25,6 +25,11 @@ struct RCLUE_API FROSDiagnosticStatus {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 OK = 0;
+  static constexpr uint8 WARN = 1;
+  static constexpr uint8 ERROR = 2;
+  static constexpr uint8 STALE = 3;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   uint8 Level = 0;
 
@@ -124,6 +129,15 @@ public:
   void GetMsg(FROSDiagnosticStatus &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_OK() { return FROSDiagnosticStatus::OK; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_WARN() { return FROSDiagnosticStatus::WARN; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ERROR() { return FROSDiagnosticStatus::ERROR; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_STALE() { return FROSDiagnosticStatus::STALE; }
 
 private:
   virtual FString MsgToString() const override;

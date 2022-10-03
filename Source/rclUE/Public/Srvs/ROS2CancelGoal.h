@@ -47,6 +47,11 @@ struct RCLUE_API FROSCancelGoalRes {
   GENERATED_BODY()
 
 public:
+  static constexpr int8 ERROR_NONE = 0;
+  static constexpr int8 ERROR_REJECTED = 1;
+  static constexpr int8 ERROR_UNKNOWN_GOAL_ID = 2;
+  static constexpr int8 ERROR_GOAL_TERMINATED = 3;
+
   UPROPERTY(EditAnywhere)
   int8 ReturnCode = 0;
 
@@ -111,6 +116,17 @@ public:
 
   virtual void *GetRequest() override;
   virtual void *GetResponse() override;
+
+  static int8 CONST_ERROR_NONE() { return FROSCancelGoalRes::ERROR_NONE; }
+  static int8 CONST_ERROR_REJECTED() {
+    return FROSCancelGoalRes::ERROR_REJECTED;
+  }
+  static int8 CONST_ERROR_UNKNOWN_GOAL_ID() {
+    return FROSCancelGoalRes::ERROR_UNKNOWN_GOAL_ID;
+  }
+  static int8 CONST_ERROR_GOAL_TERMINATED() {
+    return FROSCancelGoalRes::ERROR_GOAL_TERMINATED;
+  }
 
 private:
   virtual FString SrvRequestToString() const override;

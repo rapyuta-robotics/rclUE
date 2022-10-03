@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "rcutils/allocator.h"
+
 
 // Include directives for member types
 // Member `stamp`
@@ -154,14 +156,15 @@ rcl_interfaces__msg__ParameterEvent__copy(
 rcl_interfaces__msg__ParameterEvent *
 rcl_interfaces__msg__ParameterEvent__create()
 {
-  rcl_interfaces__msg__ParameterEvent * msg = (rcl_interfaces__msg__ParameterEvent *)malloc(sizeof(rcl_interfaces__msg__ParameterEvent));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  rcl_interfaces__msg__ParameterEvent * msg = (rcl_interfaces__msg__ParameterEvent *)allocator.allocate(sizeof(rcl_interfaces__msg__ParameterEvent), allocator.state);
   if (!msg) {
     return NULL;
   }
   memset(msg, 0, sizeof(rcl_interfaces__msg__ParameterEvent));
   bool success = rcl_interfaces__msg__ParameterEvent__init(msg);
   if (!success) {
-    free(msg);
+    allocator.deallocate(msg, allocator.state);
     return NULL;
   }
   return msg;
@@ -170,10 +173,11 @@ rcl_interfaces__msg__ParameterEvent__create()
 void
 rcl_interfaces__msg__ParameterEvent__destroy(rcl_interfaces__msg__ParameterEvent * msg)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (msg) {
     rcl_interfaces__msg__ParameterEvent__fini(msg);
   }
-  free(msg);
+  allocator.deallocate(msg, allocator.state);
 }
 
 
@@ -183,9 +187,11 @@ rcl_interfaces__msg__ParameterEvent__Sequence__init(rcl_interfaces__msg__Paramet
   if (!array) {
     return false;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rcl_interfaces__msg__ParameterEvent * data = NULL;
+
   if (size) {
-    data = (rcl_interfaces__msg__ParameterEvent *)calloc(size, sizeof(rcl_interfaces__msg__ParameterEvent));
+    data = (rcl_interfaces__msg__ParameterEvent *)allocator.zero_allocate(size, sizeof(rcl_interfaces__msg__ParameterEvent), allocator.state);
     if (!data) {
       return false;
     }
@@ -202,7 +208,7 @@ rcl_interfaces__msg__ParameterEvent__Sequence__init(rcl_interfaces__msg__Paramet
       for (; i > 0; --i) {
         rcl_interfaces__msg__ParameterEvent__fini(&data[i - 1]);
       }
-      free(data);
+      allocator.deallocate(data, allocator.state);
       return false;
     }
   }
@@ -218,6 +224,8 @@ rcl_interfaces__msg__ParameterEvent__Sequence__fini(rcl_interfaces__msg__Paramet
   if (!array) {
     return;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
   if (array->data) {
     // ensure that data and capacity values are consistent
     assert(array->capacity > 0);
@@ -225,7 +233,7 @@ rcl_interfaces__msg__ParameterEvent__Sequence__fini(rcl_interfaces__msg__Paramet
     for (size_t i = 0; i < array->capacity; ++i) {
       rcl_interfaces__msg__ParameterEvent__fini(&array->data[i]);
     }
-    free(array->data);
+    allocator.deallocate(array->data, allocator.state);
     array->data = NULL;
     array->size = 0;
     array->capacity = 0;
@@ -239,13 +247,14 @@ rcl_interfaces__msg__ParameterEvent__Sequence__fini(rcl_interfaces__msg__Paramet
 rcl_interfaces__msg__ParameterEvent__Sequence *
 rcl_interfaces__msg__ParameterEvent__Sequence__create(size_t size)
 {
-  rcl_interfaces__msg__ParameterEvent__Sequence * array = (rcl_interfaces__msg__ParameterEvent__Sequence *)malloc(sizeof(rcl_interfaces__msg__ParameterEvent__Sequence));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  rcl_interfaces__msg__ParameterEvent__Sequence * array = (rcl_interfaces__msg__ParameterEvent__Sequence *)allocator.allocate(sizeof(rcl_interfaces__msg__ParameterEvent__Sequence), allocator.state);
   if (!array) {
     return NULL;
   }
   bool success = rcl_interfaces__msg__ParameterEvent__Sequence__init(array, size);
   if (!success) {
-    free(array);
+    allocator.deallocate(array, allocator.state);
     return NULL;
   }
   return array;
@@ -254,10 +263,11 @@ rcl_interfaces__msg__ParameterEvent__Sequence__create(size_t size)
 void
 rcl_interfaces__msg__ParameterEvent__Sequence__destroy(rcl_interfaces__msg__ParameterEvent__Sequence * array)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (array) {
     rcl_interfaces__msg__ParameterEvent__Sequence__fini(array);
   }
-  free(array);
+  allocator.deallocate(array, allocator.state);
 }
 
 bool

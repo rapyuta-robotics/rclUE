@@ -25,6 +25,20 @@ struct RCLUE_API FROSIMCtrl {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 INHERIT = 0;
+  static constexpr uint8 FIXED = 1;
+  static constexpr uint8 VIEW_FACING = 2;
+  static constexpr uint8 NONE = 0;
+  static constexpr uint8 MENU = 1;
+  static constexpr uint8 BUTTON = 2;
+  static constexpr uint8 MOVE_AXIS = 3;
+  static constexpr uint8 MOVE_PLANE = 4;
+  static constexpr uint8 ROTATE_AXIS = 5;
+  static constexpr uint8 MOVE_ROTATE = 6;
+  static constexpr uint8 MOVE_3D = 7;
+  static constexpr uint8 ROTATE_3D = 8;
+  static constexpr uint8 MOVE_ROTATE_3D = 9;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FString Name;
 
@@ -144,6 +158,33 @@ public:
   void GetMsg(FROSIMCtrl &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_INHERIT() { return FROSIMCtrl::INHERIT; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_FIXED() { return FROSIMCtrl::FIXED; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_VIEW_FACING() { return FROSIMCtrl::VIEW_FACING; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_NONE() { return FROSIMCtrl::NONE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MENU() { return FROSIMCtrl::MENU; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_BUTTON() { return FROSIMCtrl::BUTTON; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MOVE_AXIS() { return FROSIMCtrl::MOVE_AXIS; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MOVE_PLANE() { return FROSIMCtrl::MOVE_PLANE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ROTATE_AXIS() { return FROSIMCtrl::ROTATE_AXIS; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MOVE_ROTATE() { return FROSIMCtrl::MOVE_ROTATE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MOVE_3D() { return FROSIMCtrl::MOVE_3D; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ROTATE_3D() { return FROSIMCtrl::ROTATE_3D; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MOVE_ROTATE_3D() { return FROSIMCtrl::MOVE_ROTATE_3D; }
 
 private:
   virtual FString MsgToString() const override;

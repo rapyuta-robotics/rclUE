@@ -28,6 +28,23 @@ struct RCLUE_API FROSMarker {
   GENERATED_BODY()
 
 public:
+  static constexpr int ARROW = 0;
+  static constexpr int CUBE = 1;
+  static constexpr int SPHERE = 2;
+  static constexpr int CYLINDER = 3;
+  static constexpr int LINE_STRIP = 4;
+  static constexpr int LINE_LIST = 5;
+  static constexpr int CUBE_LIST = 6;
+  static constexpr int SPHERE_LIST = 7;
+  static constexpr int POINTS = 8;
+  static constexpr int TEXT_VIEW_FACING = 9;
+  static constexpr int MESH_RESOURCE = 10;
+  static constexpr int TRIANGLE_LIST = 11;
+  static constexpr int ADD = 0;
+  static constexpr int MODIFY = 0;
+  static constexpr int DELETE = 2;
+  static constexpr int DELETEALL = 3;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSHeader Header;
 
@@ -216,6 +233,39 @@ public:
   void GetMsg(FROSMarker &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static int CONST_ARROW() { return FROSMarker::ARROW; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_CUBE() { return FROSMarker::CUBE; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_SPHERE() { return FROSMarker::SPHERE; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_CYLINDER() { return FROSMarker::CYLINDER; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_LINE_STRIP() { return FROSMarker::LINE_STRIP; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_LINE_LIST() { return FROSMarker::LINE_LIST; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_CUBE_LIST() { return FROSMarker::CUBE_LIST; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_SPHERE_LIST() { return FROSMarker::SPHERE_LIST; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_POINTS() { return FROSMarker::POINTS; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_TEXT_VIEW_FACING() { return FROSMarker::TEXT_VIEW_FACING; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_MESH_RESOURCE() { return FROSMarker::MESH_RESOURCE; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_TRIANGLE_LIST() { return FROSMarker::TRIANGLE_LIST; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_ADD() { return FROSMarker::ADD; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_MODIFY() { return FROSMarker::MODIFY; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_DELETE() { return FROSMarker::DELETE; }
+  UFUNCTION(BlueprintCallable)
+  static int CONST_DELETEALL() { return FROSMarker::DELETEALL; }
 
 private:
   virtual FString MsgToString() const override;

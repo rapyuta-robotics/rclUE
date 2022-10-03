@@ -24,6 +24,14 @@ struct RCLUE_API FROSTF2Err {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 NO_ERROR = 0;
+  static constexpr uint8 LOOKUP_ERROR = 1;
+  static constexpr uint8 CONNECTIVITY_ERROR = 2;
+  static constexpr uint8 EXTRAPOLATION_ERROR = 3;
+  static constexpr uint8 INVALID_ARGUMENT_ERROR = 4;
+  static constexpr uint8 TIMEOUT_ERROR = 5;
+  static constexpr uint8 TRANSFORM_ERROR = 6;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   uint8 Error = 0;
 
@@ -74,6 +82,27 @@ public:
   void GetMsg(FROSTF2Err &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_NO_ERROR() { return FROSTF2Err::NO_ERROR; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_LOOKUP_ERROR() { return FROSTF2Err::LOOKUP_ERROR; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_CONNECTIVITY_ERROR() {
+    return FROSTF2Err::CONNECTIVITY_ERROR;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_EXTRAPOLATION_ERROR() {
+    return FROSTF2Err::EXTRAPOLATION_ERROR;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_INVALID_ARGUMENT_ERROR() {
+    return FROSTF2Err::INVALID_ARGUMENT_ERROR;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_TIMEOUT_ERROR() { return FROSTF2Err::TIMEOUT_ERROR; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_TRANSFORM_ERROR() { return FROSTF2Err::TRANSFORM_ERROR; }
 
 private:
   virtual FString MsgToString() const override;

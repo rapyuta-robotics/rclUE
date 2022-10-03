@@ -25,6 +25,17 @@ struct RCLUE_API FROSGoalStatus {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 PENDING = 0;
+  static constexpr uint8 ACTIVE = 1;
+  static constexpr uint8 PREEMPTED = 2;
+  static constexpr uint8 SUCCEEDED = 3;
+  static constexpr uint8 ABORTED = 4;
+  static constexpr uint8 REJECTED = 5;
+  static constexpr uint8 PREEMPTING = 6;
+  static constexpr uint8 RECALLING = 7;
+  static constexpr uint8 RECALLED = 8;
+  static constexpr uint8 LOST = 9;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSGoalID GoalId;
 
@@ -79,6 +90,27 @@ public:
   void GetMsg(FROSGoalStatus &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_PENDING() { return FROSGoalStatus::PENDING; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ACTIVE() { return FROSGoalStatus::ACTIVE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_PREEMPTED() { return FROSGoalStatus::PREEMPTED; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_SUCCEEDED() { return FROSGoalStatus::SUCCEEDED; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ABORTED() { return FROSGoalStatus::ABORTED; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_REJECTED() { return FROSGoalStatus::REJECTED; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_PREEMPTING() { return FROSGoalStatus::PREEMPTING; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_RECALLING() { return FROSGoalStatus::RECALLING; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_RECALLED() { return FROSGoalStatus::RECALLED; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_LOST() { return FROSGoalStatus::LOST; }
 
 private:
   virtual FString MsgToString() const override;

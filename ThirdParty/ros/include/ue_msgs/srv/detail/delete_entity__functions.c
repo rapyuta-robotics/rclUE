@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "rcutils/allocator.h"
+
 // Include directives for member types
 // Member `name`
 #include "rosidl_runtime_c/string_functions.h"
@@ -71,14 +73,15 @@ ue_msgs__srv__DeleteEntity_Request__copy(
 ue_msgs__srv__DeleteEntity_Request *
 ue_msgs__srv__DeleteEntity_Request__create()
 {
-  ue_msgs__srv__DeleteEntity_Request * msg = (ue_msgs__srv__DeleteEntity_Request *)malloc(sizeof(ue_msgs__srv__DeleteEntity_Request));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  ue_msgs__srv__DeleteEntity_Request * msg = (ue_msgs__srv__DeleteEntity_Request *)allocator.allocate(sizeof(ue_msgs__srv__DeleteEntity_Request), allocator.state);
   if (!msg) {
     return NULL;
   }
   memset(msg, 0, sizeof(ue_msgs__srv__DeleteEntity_Request));
   bool success = ue_msgs__srv__DeleteEntity_Request__init(msg);
   if (!success) {
-    free(msg);
+    allocator.deallocate(msg, allocator.state);
     return NULL;
   }
   return msg;
@@ -87,10 +90,11 @@ ue_msgs__srv__DeleteEntity_Request__create()
 void
 ue_msgs__srv__DeleteEntity_Request__destroy(ue_msgs__srv__DeleteEntity_Request * msg)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (msg) {
     ue_msgs__srv__DeleteEntity_Request__fini(msg);
   }
-  free(msg);
+  allocator.deallocate(msg, allocator.state);
 }
 
 
@@ -100,9 +104,11 @@ ue_msgs__srv__DeleteEntity_Request__Sequence__init(ue_msgs__srv__DeleteEntity_Re
   if (!array) {
     return false;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   ue_msgs__srv__DeleteEntity_Request * data = NULL;
+
   if (size) {
-    data = (ue_msgs__srv__DeleteEntity_Request *)calloc(size, sizeof(ue_msgs__srv__DeleteEntity_Request));
+    data = (ue_msgs__srv__DeleteEntity_Request *)allocator.zero_allocate(size, sizeof(ue_msgs__srv__DeleteEntity_Request), allocator.state);
     if (!data) {
       return false;
     }
@@ -119,7 +125,7 @@ ue_msgs__srv__DeleteEntity_Request__Sequence__init(ue_msgs__srv__DeleteEntity_Re
       for (; i > 0; --i) {
         ue_msgs__srv__DeleteEntity_Request__fini(&data[i - 1]);
       }
-      free(data);
+      allocator.deallocate(data, allocator.state);
       return false;
     }
   }
@@ -135,6 +141,8 @@ ue_msgs__srv__DeleteEntity_Request__Sequence__fini(ue_msgs__srv__DeleteEntity_Re
   if (!array) {
     return;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
   if (array->data) {
     // ensure that data and capacity values are consistent
     assert(array->capacity > 0);
@@ -142,7 +150,7 @@ ue_msgs__srv__DeleteEntity_Request__Sequence__fini(ue_msgs__srv__DeleteEntity_Re
     for (size_t i = 0; i < array->capacity; ++i) {
       ue_msgs__srv__DeleteEntity_Request__fini(&array->data[i]);
     }
-    free(array->data);
+    allocator.deallocate(array->data, allocator.state);
     array->data = NULL;
     array->size = 0;
     array->capacity = 0;
@@ -156,13 +164,14 @@ ue_msgs__srv__DeleteEntity_Request__Sequence__fini(ue_msgs__srv__DeleteEntity_Re
 ue_msgs__srv__DeleteEntity_Request__Sequence *
 ue_msgs__srv__DeleteEntity_Request__Sequence__create(size_t size)
 {
-  ue_msgs__srv__DeleteEntity_Request__Sequence * array = (ue_msgs__srv__DeleteEntity_Request__Sequence *)malloc(sizeof(ue_msgs__srv__DeleteEntity_Request__Sequence));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  ue_msgs__srv__DeleteEntity_Request__Sequence * array = (ue_msgs__srv__DeleteEntity_Request__Sequence *)allocator.allocate(sizeof(ue_msgs__srv__DeleteEntity_Request__Sequence), allocator.state);
   if (!array) {
     return NULL;
   }
   bool success = ue_msgs__srv__DeleteEntity_Request__Sequence__init(array, size);
   if (!success) {
-    free(array);
+    allocator.deallocate(array, allocator.state);
     return NULL;
   }
   return array;
@@ -171,10 +180,11 @@ ue_msgs__srv__DeleteEntity_Request__Sequence__create(size_t size)
 void
 ue_msgs__srv__DeleteEntity_Request__Sequence__destroy(ue_msgs__srv__DeleteEntity_Request__Sequence * array)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (array) {
     ue_msgs__srv__DeleteEntity_Request__Sequence__fini(array);
   }
-  free(array);
+  allocator.deallocate(array, allocator.state);
 }
 
 bool
@@ -307,14 +317,15 @@ ue_msgs__srv__DeleteEntity_Response__copy(
 ue_msgs__srv__DeleteEntity_Response *
 ue_msgs__srv__DeleteEntity_Response__create()
 {
-  ue_msgs__srv__DeleteEntity_Response * msg = (ue_msgs__srv__DeleteEntity_Response *)malloc(sizeof(ue_msgs__srv__DeleteEntity_Response));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  ue_msgs__srv__DeleteEntity_Response * msg = (ue_msgs__srv__DeleteEntity_Response *)allocator.allocate(sizeof(ue_msgs__srv__DeleteEntity_Response), allocator.state);
   if (!msg) {
     return NULL;
   }
   memset(msg, 0, sizeof(ue_msgs__srv__DeleteEntity_Response));
   bool success = ue_msgs__srv__DeleteEntity_Response__init(msg);
   if (!success) {
-    free(msg);
+    allocator.deallocate(msg, allocator.state);
     return NULL;
   }
   return msg;
@@ -323,10 +334,11 @@ ue_msgs__srv__DeleteEntity_Response__create()
 void
 ue_msgs__srv__DeleteEntity_Response__destroy(ue_msgs__srv__DeleteEntity_Response * msg)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (msg) {
     ue_msgs__srv__DeleteEntity_Response__fini(msg);
   }
-  free(msg);
+  allocator.deallocate(msg, allocator.state);
 }
 
 
@@ -336,9 +348,11 @@ ue_msgs__srv__DeleteEntity_Response__Sequence__init(ue_msgs__srv__DeleteEntity_R
   if (!array) {
     return false;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   ue_msgs__srv__DeleteEntity_Response * data = NULL;
+
   if (size) {
-    data = (ue_msgs__srv__DeleteEntity_Response *)calloc(size, sizeof(ue_msgs__srv__DeleteEntity_Response));
+    data = (ue_msgs__srv__DeleteEntity_Response *)allocator.zero_allocate(size, sizeof(ue_msgs__srv__DeleteEntity_Response), allocator.state);
     if (!data) {
       return false;
     }
@@ -355,7 +369,7 @@ ue_msgs__srv__DeleteEntity_Response__Sequence__init(ue_msgs__srv__DeleteEntity_R
       for (; i > 0; --i) {
         ue_msgs__srv__DeleteEntity_Response__fini(&data[i - 1]);
       }
-      free(data);
+      allocator.deallocate(data, allocator.state);
       return false;
     }
   }
@@ -371,6 +385,8 @@ ue_msgs__srv__DeleteEntity_Response__Sequence__fini(ue_msgs__srv__DeleteEntity_R
   if (!array) {
     return;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
   if (array->data) {
     // ensure that data and capacity values are consistent
     assert(array->capacity > 0);
@@ -378,7 +394,7 @@ ue_msgs__srv__DeleteEntity_Response__Sequence__fini(ue_msgs__srv__DeleteEntity_R
     for (size_t i = 0; i < array->capacity; ++i) {
       ue_msgs__srv__DeleteEntity_Response__fini(&array->data[i]);
     }
-    free(array->data);
+    allocator.deallocate(array->data, allocator.state);
     array->data = NULL;
     array->size = 0;
     array->capacity = 0;
@@ -392,13 +408,14 @@ ue_msgs__srv__DeleteEntity_Response__Sequence__fini(ue_msgs__srv__DeleteEntity_R
 ue_msgs__srv__DeleteEntity_Response__Sequence *
 ue_msgs__srv__DeleteEntity_Response__Sequence__create(size_t size)
 {
-  ue_msgs__srv__DeleteEntity_Response__Sequence * array = (ue_msgs__srv__DeleteEntity_Response__Sequence *)malloc(sizeof(ue_msgs__srv__DeleteEntity_Response__Sequence));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  ue_msgs__srv__DeleteEntity_Response__Sequence * array = (ue_msgs__srv__DeleteEntity_Response__Sequence *)allocator.allocate(sizeof(ue_msgs__srv__DeleteEntity_Response__Sequence), allocator.state);
   if (!array) {
     return NULL;
   }
   bool success = ue_msgs__srv__DeleteEntity_Response__Sequence__init(array, size);
   if (!success) {
-    free(array);
+    allocator.deallocate(array, allocator.state);
     return NULL;
   }
   return array;
@@ -407,10 +424,11 @@ ue_msgs__srv__DeleteEntity_Response__Sequence__create(size_t size)
 void
 ue_msgs__srv__DeleteEntity_Response__Sequence__destroy(ue_msgs__srv__DeleteEntity_Response__Sequence * array)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (array) {
     ue_msgs__srv__DeleteEntity_Response__Sequence__fini(array);
   }
-  free(array);
+  allocator.deallocate(array, allocator.state);
 }
 
 bool

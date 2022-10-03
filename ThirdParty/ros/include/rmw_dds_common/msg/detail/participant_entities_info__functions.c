@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "rcutils/allocator.h"
+
 
 // Include directives for member types
 // Member `gid`
@@ -93,14 +95,15 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__copy(
 rmw_dds_common__msg__ParticipantEntitiesInfo *
 rmw_dds_common__msg__ParticipantEntitiesInfo__create()
 {
-  rmw_dds_common__msg__ParticipantEntitiesInfo * msg = (rmw_dds_common__msg__ParticipantEntitiesInfo *)malloc(sizeof(rmw_dds_common__msg__ParticipantEntitiesInfo));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  rmw_dds_common__msg__ParticipantEntitiesInfo * msg = (rmw_dds_common__msg__ParticipantEntitiesInfo *)allocator.allocate(sizeof(rmw_dds_common__msg__ParticipantEntitiesInfo), allocator.state);
   if (!msg) {
     return NULL;
   }
   memset(msg, 0, sizeof(rmw_dds_common__msg__ParticipantEntitiesInfo));
   bool success = rmw_dds_common__msg__ParticipantEntitiesInfo__init(msg);
   if (!success) {
-    free(msg);
+    allocator.deallocate(msg, allocator.state);
     return NULL;
   }
   return msg;
@@ -109,10 +112,11 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__create()
 void
 rmw_dds_common__msg__ParticipantEntitiesInfo__destroy(rmw_dds_common__msg__ParticipantEntitiesInfo * msg)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (msg) {
     rmw_dds_common__msg__ParticipantEntitiesInfo__fini(msg);
   }
-  free(msg);
+  allocator.deallocate(msg, allocator.state);
 }
 
 
@@ -122,9 +126,11 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__init(rmw_dds_common__msg
   if (!array) {
     return false;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rmw_dds_common__msg__ParticipantEntitiesInfo * data = NULL;
+
   if (size) {
-    data = (rmw_dds_common__msg__ParticipantEntitiesInfo *)calloc(size, sizeof(rmw_dds_common__msg__ParticipantEntitiesInfo));
+    data = (rmw_dds_common__msg__ParticipantEntitiesInfo *)allocator.zero_allocate(size, sizeof(rmw_dds_common__msg__ParticipantEntitiesInfo), allocator.state);
     if (!data) {
       return false;
     }
@@ -141,7 +147,7 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__init(rmw_dds_common__msg
       for (; i > 0; --i) {
         rmw_dds_common__msg__ParticipantEntitiesInfo__fini(&data[i - 1]);
       }
-      free(data);
+      allocator.deallocate(data, allocator.state);
       return false;
     }
   }
@@ -157,6 +163,8 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__fini(rmw_dds_common__msg
   if (!array) {
     return;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
   if (array->data) {
     // ensure that data and capacity values are consistent
     assert(array->capacity > 0);
@@ -164,7 +172,7 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__fini(rmw_dds_common__msg
     for (size_t i = 0; i < array->capacity; ++i) {
       rmw_dds_common__msg__ParticipantEntitiesInfo__fini(&array->data[i]);
     }
-    free(array->data);
+    allocator.deallocate(array->data, allocator.state);
     array->data = NULL;
     array->size = 0;
     array->capacity = 0;
@@ -178,13 +186,14 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__fini(rmw_dds_common__msg
 rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence *
 rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__create(size_t size)
 {
-  rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence * array = (rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence *)malloc(sizeof(rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence * array = (rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence *)allocator.allocate(sizeof(rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence), allocator.state);
   if (!array) {
     return NULL;
   }
   bool success = rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__init(array, size);
   if (!success) {
-    free(array);
+    allocator.deallocate(array, allocator.state);
     return NULL;
   }
   return array;
@@ -193,10 +202,11 @@ rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__create(size_t size)
 void
 rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__destroy(rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence * array)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (array) {
     rmw_dds_common__msg__ParticipantEntitiesInfo__Sequence__fini(array);
   }
-  free(array);
+  allocator.deallocate(array, allocator.state);
 }
 
 bool

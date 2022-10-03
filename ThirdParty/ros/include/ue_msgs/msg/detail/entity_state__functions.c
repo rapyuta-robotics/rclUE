@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "rcutils/allocator.h"
+
 
 // Include directives for member types
 // Member `name`
@@ -134,14 +136,15 @@ ue_msgs__msg__EntityState__copy(
 ue_msgs__msg__EntityState *
 ue_msgs__msg__EntityState__create()
 {
-  ue_msgs__msg__EntityState * msg = (ue_msgs__msg__EntityState *)malloc(sizeof(ue_msgs__msg__EntityState));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  ue_msgs__msg__EntityState * msg = (ue_msgs__msg__EntityState *)allocator.allocate(sizeof(ue_msgs__msg__EntityState), allocator.state);
   if (!msg) {
     return NULL;
   }
   memset(msg, 0, sizeof(ue_msgs__msg__EntityState));
   bool success = ue_msgs__msg__EntityState__init(msg);
   if (!success) {
-    free(msg);
+    allocator.deallocate(msg, allocator.state);
     return NULL;
   }
   return msg;
@@ -150,10 +153,11 @@ ue_msgs__msg__EntityState__create()
 void
 ue_msgs__msg__EntityState__destroy(ue_msgs__msg__EntityState * msg)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (msg) {
     ue_msgs__msg__EntityState__fini(msg);
   }
-  free(msg);
+  allocator.deallocate(msg, allocator.state);
 }
 
 
@@ -163,9 +167,11 @@ ue_msgs__msg__EntityState__Sequence__init(ue_msgs__msg__EntityState__Sequence * 
   if (!array) {
     return false;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   ue_msgs__msg__EntityState * data = NULL;
+
   if (size) {
-    data = (ue_msgs__msg__EntityState *)calloc(size, sizeof(ue_msgs__msg__EntityState));
+    data = (ue_msgs__msg__EntityState *)allocator.zero_allocate(size, sizeof(ue_msgs__msg__EntityState), allocator.state);
     if (!data) {
       return false;
     }
@@ -182,7 +188,7 @@ ue_msgs__msg__EntityState__Sequence__init(ue_msgs__msg__EntityState__Sequence * 
       for (; i > 0; --i) {
         ue_msgs__msg__EntityState__fini(&data[i - 1]);
       }
-      free(data);
+      allocator.deallocate(data, allocator.state);
       return false;
     }
   }
@@ -198,6 +204,8 @@ ue_msgs__msg__EntityState__Sequence__fini(ue_msgs__msg__EntityState__Sequence * 
   if (!array) {
     return;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
   if (array->data) {
     // ensure that data and capacity values are consistent
     assert(array->capacity > 0);
@@ -205,7 +213,7 @@ ue_msgs__msg__EntityState__Sequence__fini(ue_msgs__msg__EntityState__Sequence * 
     for (size_t i = 0; i < array->capacity; ++i) {
       ue_msgs__msg__EntityState__fini(&array->data[i]);
     }
-    free(array->data);
+    allocator.deallocate(array->data, allocator.state);
     array->data = NULL;
     array->size = 0;
     array->capacity = 0;
@@ -219,13 +227,14 @@ ue_msgs__msg__EntityState__Sequence__fini(ue_msgs__msg__EntityState__Sequence * 
 ue_msgs__msg__EntityState__Sequence *
 ue_msgs__msg__EntityState__Sequence__create(size_t size)
 {
-  ue_msgs__msg__EntityState__Sequence * array = (ue_msgs__msg__EntityState__Sequence *)malloc(sizeof(ue_msgs__msg__EntityState__Sequence));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  ue_msgs__msg__EntityState__Sequence * array = (ue_msgs__msg__EntityState__Sequence *)allocator.allocate(sizeof(ue_msgs__msg__EntityState__Sequence), allocator.state);
   if (!array) {
     return NULL;
   }
   bool success = ue_msgs__msg__EntityState__Sequence__init(array, size);
   if (!success) {
-    free(array);
+    allocator.deallocate(array, allocator.state);
     return NULL;
   }
   return array;
@@ -234,10 +243,11 @@ ue_msgs__msg__EntityState__Sequence__create(size_t size)
 void
 ue_msgs__msg__EntityState__Sequence__destroy(ue_msgs__msg__EntityState__Sequence * array)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (array) {
     ue_msgs__msg__EntityState__Sequence__fini(array);
   }
-  free(array);
+  allocator.deallocate(array, allocator.state);
 }
 
 bool

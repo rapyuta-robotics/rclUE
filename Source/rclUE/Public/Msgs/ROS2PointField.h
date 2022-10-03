@@ -24,6 +24,15 @@ struct RCLUE_API FROSPointField {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 INT8 = 1;
+  static constexpr uint8 UINT8 = 2;
+  static constexpr uint8 INT16 = 3;
+  static constexpr uint8 UINT16 = 4;
+  static constexpr uint8 INT32 = 5;
+  static constexpr uint8 UINT32 = 6;
+  static constexpr uint8 FLOAT32 = 7;
+  static constexpr uint8 FLOAT64 = 8;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FString Name;
 
@@ -85,6 +94,23 @@ public:
   void GetMsg(FROSPointField &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_INT8() { return FROSPointField::INT8; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_UINT8() { return FROSPointField::UINT8; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_INT16() { return FROSPointField::INT16; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_UINT16() { return FROSPointField::UINT16; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_INT32() { return FROSPointField::INT32; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_UINT32() { return FROSPointField::UINT32; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_FLOAT32() { return FROSPointField::FLOAT32; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_FLOAT64() { return FROSPointField::FLOAT64; }
 
 private:
   virtual FString MsgToString() const override;

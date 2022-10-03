@@ -25,6 +25,9 @@ struct RCLUE_API FROSRange {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 ULTRASOUND = 0;
+  static constexpr uint8 INFRARED = 1;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSHeader Header;
 
@@ -91,6 +94,11 @@ public:
   void GetMsg(FROSRange &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ULTRASOUND() { return FROSRange::ULTRASOUND; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_INFRARED() { return FROSRange::INFRARED; }
 
 private:
   virtual FString MsgToString() const override;

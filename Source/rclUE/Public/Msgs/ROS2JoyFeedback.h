@@ -24,6 +24,10 @@ struct RCLUE_API FROSJoyFeedback {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 TYPE_LED = 0;
+  static constexpr uint8 TYPE_RUMBLE = 1;
+  static constexpr uint8 TYPE_BUZZER = 2;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   uint8 Type = 0;
 
@@ -69,6 +73,13 @@ public:
   void GetMsg(FROSJoyFeedback &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_TYPE_LED() { return FROSJoyFeedback::TYPE_LED; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_TYPE_RUMBLE() { return FROSJoyFeedback::TYPE_RUMBLE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_TYPE_BUZZER() { return FROSJoyFeedback::TYPE_BUZZER; }
 
 private:
   virtual FString MsgToString() const override;

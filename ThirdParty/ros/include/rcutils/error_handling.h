@@ -88,7 +88,7 @@ typedef struct rcutils_error_state_t
 } rcutils_error_state_t;
 
 // make sure our math is right...
-#if __STDC_VERSION__ >= 201112L
+//#if __STDC_VERSION__ >= 201112L
 static_assert(
   sizeof(rcutils_error_string_t) == (
     RCUTILS_ERROR_STATE_MESSAGE_MAX_LENGTH +
@@ -97,7 +97,7 @@ static_assert(
     RCUTILS_ERROR_FORMATTING_CHARACTERS +
     1 /* null terminating character */),
   "Maximum length calculations incorrect");
-#endif
+//#endif
 
 /// Forces initialization of thread-local storage if called in a newly created thread.
 /**

@@ -26,6 +26,11 @@ struct RCLUE_API FROSNavSatFix {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 COVARIANCE_TYPE_UNKNOWN = 0;
+  static constexpr uint8 COVARIANCE_TYPE_APPROXIMATED = 1;
+  static constexpr uint8 COVARIANCE_TYPE_DIAGONAL_KNOWN = 2;
+  static constexpr uint8 COVARIANCE_TYPE_KNOWN = 3;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSHeader Header;
 
@@ -107,6 +112,23 @@ public:
   void GetMsg(FROSNavSatFix &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_COVARIANCE_TYPE_UNKNOWN() {
+    return FROSNavSatFix::COVARIANCE_TYPE_UNKNOWN;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_COVARIANCE_TYPE_APPROXIMATED() {
+    return FROSNavSatFix::COVARIANCE_TYPE_APPROXIMATED;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_COVARIANCE_TYPE_DIAGONAL_KNOWN() {
+    return FROSNavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_COVARIANCE_TYPE_KNOWN() {
+    return FROSNavSatFix::COVARIANCE_TYPE_KNOWN;
+  }
 
 private:
   virtual FString MsgToString() const override;

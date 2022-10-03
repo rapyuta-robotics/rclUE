@@ -24,6 +24,10 @@ struct RCLUE_API FROSMenuEntry {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 FEEDBACK = 0;
+  static constexpr uint8 ROSRUN = 1;
+  static constexpr uint8 ROSLAUNCH = 2;
+
   UPROPERTY(EditAnywhere)
   unsigned int Id = 0;
 
@@ -101,6 +105,13 @@ public:
   void GetMsg(FROSMenuEntry &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_FEEDBACK() { return FROSMenuEntry::FEEDBACK; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ROSRUN() { return FROSMenuEntry::ROSRUN; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_ROSLAUNCH() { return FROSMenuEntry::ROSLAUNCH; }
 
 private:
   virtual FString MsgToString() const override;

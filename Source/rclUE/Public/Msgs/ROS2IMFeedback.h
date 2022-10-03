@@ -26,6 +26,13 @@ struct RCLUE_API FROSIMFeedback {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 KEEP_ALIVE = 0;
+  static constexpr uint8 POSE_UPDATE = 1;
+  static constexpr uint8 MENU_SELECT = 2;
+  static constexpr uint8 BUTTON_CLICK = 3;
+  static constexpr uint8 MOUSE_DOWN = 4;
+  static constexpr uint8 MOUSE_UP = 5;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSHeader Header;
 
@@ -154,6 +161,19 @@ public:
   void GetMsg(FROSIMFeedback &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_KEEP_ALIVE() { return FROSIMFeedback::KEEP_ALIVE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POSE_UPDATE() { return FROSIMFeedback::POSE_UPDATE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MENU_SELECT() { return FROSIMFeedback::MENU_SELECT; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_BUTTON_CLICK() { return FROSIMFeedback::BUTTON_CLICK; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MOUSE_DOWN() { return FROSIMFeedback::MOUSE_DOWN; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_MOUSE_UP() { return FROSIMFeedback::MOUSE_UP; }
 
 private:
   virtual FString MsgToString() const override;

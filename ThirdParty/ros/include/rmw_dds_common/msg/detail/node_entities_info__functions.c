@@ -8,6 +8,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "rcutils/allocator.h"
+
 
 // Include directives for member types
 // Member `node_namespace`
@@ -133,14 +135,15 @@ rmw_dds_common__msg__NodeEntitiesInfo__copy(
 rmw_dds_common__msg__NodeEntitiesInfo *
 rmw_dds_common__msg__NodeEntitiesInfo__create()
 {
-  rmw_dds_common__msg__NodeEntitiesInfo * msg = (rmw_dds_common__msg__NodeEntitiesInfo *)malloc(sizeof(rmw_dds_common__msg__NodeEntitiesInfo));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  rmw_dds_common__msg__NodeEntitiesInfo * msg = (rmw_dds_common__msg__NodeEntitiesInfo *)allocator.allocate(sizeof(rmw_dds_common__msg__NodeEntitiesInfo), allocator.state);
   if (!msg) {
     return NULL;
   }
   memset(msg, 0, sizeof(rmw_dds_common__msg__NodeEntitiesInfo));
   bool success = rmw_dds_common__msg__NodeEntitiesInfo__init(msg);
   if (!success) {
-    free(msg);
+    allocator.deallocate(msg, allocator.state);
     return NULL;
   }
   return msg;
@@ -149,10 +152,11 @@ rmw_dds_common__msg__NodeEntitiesInfo__create()
 void
 rmw_dds_common__msg__NodeEntitiesInfo__destroy(rmw_dds_common__msg__NodeEntitiesInfo * msg)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (msg) {
     rmw_dds_common__msg__NodeEntitiesInfo__fini(msg);
   }
-  free(msg);
+  allocator.deallocate(msg, allocator.state);
 }
 
 
@@ -162,9 +166,11 @@ rmw_dds_common__msg__NodeEntitiesInfo__Sequence__init(rmw_dds_common__msg__NodeE
   if (!array) {
     return false;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   rmw_dds_common__msg__NodeEntitiesInfo * data = NULL;
+
   if (size) {
-    data = (rmw_dds_common__msg__NodeEntitiesInfo *)calloc(size, sizeof(rmw_dds_common__msg__NodeEntitiesInfo));
+    data = (rmw_dds_common__msg__NodeEntitiesInfo *)allocator.zero_allocate(size, sizeof(rmw_dds_common__msg__NodeEntitiesInfo), allocator.state);
     if (!data) {
       return false;
     }
@@ -181,7 +187,7 @@ rmw_dds_common__msg__NodeEntitiesInfo__Sequence__init(rmw_dds_common__msg__NodeE
       for (; i > 0; --i) {
         rmw_dds_common__msg__NodeEntitiesInfo__fini(&data[i - 1]);
       }
-      free(data);
+      allocator.deallocate(data, allocator.state);
       return false;
     }
   }
@@ -197,6 +203,8 @@ rmw_dds_common__msg__NodeEntitiesInfo__Sequence__fini(rmw_dds_common__msg__NodeE
   if (!array) {
     return;
   }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
   if (array->data) {
     // ensure that data and capacity values are consistent
     assert(array->capacity > 0);
@@ -204,7 +212,7 @@ rmw_dds_common__msg__NodeEntitiesInfo__Sequence__fini(rmw_dds_common__msg__NodeE
     for (size_t i = 0; i < array->capacity; ++i) {
       rmw_dds_common__msg__NodeEntitiesInfo__fini(&array->data[i]);
     }
-    free(array->data);
+    allocator.deallocate(array->data, allocator.state);
     array->data = NULL;
     array->size = 0;
     array->capacity = 0;
@@ -218,13 +226,14 @@ rmw_dds_common__msg__NodeEntitiesInfo__Sequence__fini(rmw_dds_common__msg__NodeE
 rmw_dds_common__msg__NodeEntitiesInfo__Sequence *
 rmw_dds_common__msg__NodeEntitiesInfo__Sequence__create(size_t size)
 {
-  rmw_dds_common__msg__NodeEntitiesInfo__Sequence * array = (rmw_dds_common__msg__NodeEntitiesInfo__Sequence *)malloc(sizeof(rmw_dds_common__msg__NodeEntitiesInfo__Sequence));
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  rmw_dds_common__msg__NodeEntitiesInfo__Sequence * array = (rmw_dds_common__msg__NodeEntitiesInfo__Sequence *)allocator.allocate(sizeof(rmw_dds_common__msg__NodeEntitiesInfo__Sequence), allocator.state);
   if (!array) {
     return NULL;
   }
   bool success = rmw_dds_common__msg__NodeEntitiesInfo__Sequence__init(array, size);
   if (!success) {
-    free(array);
+    allocator.deallocate(array, allocator.state);
     return NULL;
   }
   return array;
@@ -233,10 +242,11 @@ rmw_dds_common__msg__NodeEntitiesInfo__Sequence__create(size_t size)
 void
 rmw_dds_common__msg__NodeEntitiesInfo__Sequence__destroy(rmw_dds_common__msg__NodeEntitiesInfo__Sequence * array)
 {
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
   if (array) {
     rmw_dds_common__msg__NodeEntitiesInfo__Sequence__fini(array);
   }
-  free(array);
+  allocator.deallocate(array, allocator.state);
 }
 
 bool

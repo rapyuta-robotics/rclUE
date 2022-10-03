@@ -26,6 +26,9 @@ struct RCLUE_API FROSIMUpdate {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 KEEP_ALIVE = 0;
+  static constexpr uint8 UPDATE = 1;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FString ServerId;
 
@@ -145,6 +148,11 @@ public:
   void GetMsg(FROSIMUpdate &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_KEEP_ALIVE() { return FROSIMUpdate::KEEP_ALIVE; }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_UPDATE() { return FROSIMUpdate::UPDATE; }
 
 private:
   virtual FString MsgToString() const override;

@@ -25,6 +25,28 @@ struct RCLUE_API FROSBatteryState {
   GENERATED_BODY()
 
 public:
+  static constexpr uint8 POWER_SUPPLY_STATUS_UNKNOWN = 0;
+  static constexpr uint8 POWER_SUPPLY_STATUS_CHARGING = 1;
+  static constexpr uint8 POWER_SUPPLY_STATUS_DISCHARGING = 2;
+  static constexpr uint8 POWER_SUPPLY_STATUS_NOT_CHARGING = 3;
+  static constexpr uint8 POWER_SUPPLY_STATUS_FULL = 4;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_UNKNOWN = 0;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_GOOD = 1;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_OVERHEAT = 2;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_DEAD = 3;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_OVERVOLTAGE = 4;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_UNSPEC_FAILURE = 5;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_COLD = 6;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE = 7;
+  static constexpr uint8 POWER_SUPPLY_HEALTH_SAFETY_TIMER_EXPIRE = 8;
+  static constexpr uint8 POWER_SUPPLY_TECHNOLOGY_UNKNOWN = 0;
+  static constexpr uint8 POWER_SUPPLY_TECHNOLOGY_NIMH = 1;
+  static constexpr uint8 POWER_SUPPLY_TECHNOLOGY_LION = 2;
+  static constexpr uint8 POWER_SUPPLY_TECHNOLOGY_LIPO = 3;
+  static constexpr uint8 POWER_SUPPLY_TECHNOLOGY_LIFE = 4;
+  static constexpr uint8 POWER_SUPPLY_TECHNOLOGY_NICD = 5;
+  static constexpr uint8 POWER_SUPPLY_TECHNOLOGY_LIMN = 6;
+
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSHeader Header;
 
@@ -206,6 +228,91 @@ public:
   void GetMsg(FROSBatteryState &Output) const;
 
   virtual void *Get() override;
+
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_STATUS_UNKNOWN() {
+    return FROSBatteryState::POWER_SUPPLY_STATUS_UNKNOWN;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_STATUS_CHARGING() {
+    return FROSBatteryState::POWER_SUPPLY_STATUS_CHARGING;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_STATUS_DISCHARGING() {
+    return FROSBatteryState::POWER_SUPPLY_STATUS_DISCHARGING;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_STATUS_NOT_CHARGING() {
+    return FROSBatteryState::POWER_SUPPLY_STATUS_NOT_CHARGING;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_STATUS_FULL() {
+    return FROSBatteryState::POWER_SUPPLY_STATUS_FULL;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_UNKNOWN() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_UNKNOWN;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_GOOD() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_GOOD;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_OVERHEAT() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_OVERHEAT;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_DEAD() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_DEAD;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_OVERVOLTAGE() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_OVERVOLTAGE;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_UNSPEC_FAILURE() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_UNSPEC_FAILURE;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_COLD() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_COLD;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_HEALTH_SAFETY_TIMER_EXPIRE() {
+    return FROSBatteryState::POWER_SUPPLY_HEALTH_SAFETY_TIMER_EXPIRE;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_TECHNOLOGY_UNKNOWN() {
+    return FROSBatteryState::POWER_SUPPLY_TECHNOLOGY_UNKNOWN;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_TECHNOLOGY_NIMH() {
+    return FROSBatteryState::POWER_SUPPLY_TECHNOLOGY_NIMH;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_TECHNOLOGY_LION() {
+    return FROSBatteryState::POWER_SUPPLY_TECHNOLOGY_LION;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_TECHNOLOGY_LIPO() {
+    return FROSBatteryState::POWER_SUPPLY_TECHNOLOGY_LIPO;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_TECHNOLOGY_LIFE() {
+    return FROSBatteryState::POWER_SUPPLY_TECHNOLOGY_LIFE;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_TECHNOLOGY_NICD() {
+    return FROSBatteryState::POWER_SUPPLY_TECHNOLOGY_NICD;
+  }
+  UFUNCTION(BlueprintCallable)
+  static uint8 CONST_POWER_SUPPLY_TECHNOLOGY_LIMN() {
+    return FROSBatteryState::POWER_SUPPLY_TECHNOLOGY_LIMN;
+  }
 
 private:
   virtual FString MsgToString() const override;

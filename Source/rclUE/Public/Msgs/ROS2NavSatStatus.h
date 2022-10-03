@@ -24,6 +24,15 @@ struct RCLUE_API FROSNavSatStatus {
   GENERATED_BODY()
 
 public:
+  static constexpr int8 STATUS_NO_FIX = -1;
+  static constexpr int8 STATUS_FIX = 0;
+  static constexpr int8 STATUS_SBAS_FIX = 1;
+  static constexpr int8 STATUS_GBAS_FIX = 2;
+  static constexpr uint16 SERVICE_GPS = 1;
+  static constexpr uint16 SERVICE_GLONASS = 2;
+  static constexpr uint16 SERVICE_COMPASS = 4;
+  static constexpr uint16 SERVICE_GALILEO = 8;
+
   UPROPERTY(EditAnywhere)
   int8 Status = 0;
 
@@ -62,6 +71,25 @@ public:
   void GetMsg(FROSNavSatStatus &Output) const;
 
   virtual void *Get() override;
+
+  static int8 CONST_STATUS_NO_FIX() { return FROSNavSatStatus::STATUS_NO_FIX; }
+  static int8 CONST_STATUS_FIX() { return FROSNavSatStatus::STATUS_FIX; }
+  static int8 CONST_STATUS_SBAS_FIX() {
+    return FROSNavSatStatus::STATUS_SBAS_FIX;
+  }
+  static int8 CONST_STATUS_GBAS_FIX() {
+    return FROSNavSatStatus::STATUS_GBAS_FIX;
+  }
+  static uint16 CONST_SERVICE_GPS() { return FROSNavSatStatus::SERVICE_GPS; }
+  static uint16 CONST_SERVICE_GLONASS() {
+    return FROSNavSatStatus::SERVICE_GLONASS;
+  }
+  static uint16 CONST_SERVICE_COMPASS() {
+    return FROSNavSatStatus::SERVICE_COMPASS;
+  }
+  static uint16 CONST_SERVICE_GALILEO() {
+    return FROSNavSatStatus::SERVICE_GALILEO;
+  }
 
 private:
   virtual FString MsgToString() const override;
