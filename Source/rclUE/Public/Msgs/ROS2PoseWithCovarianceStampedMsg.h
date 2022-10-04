@@ -3,124 +3,96 @@
 
 #pragma once
 
-#include <CoreMinimal.h>
-
-#include "geometry_msgs/msg/pose_with_covariance_stamped.h"
-
 #include "Msgs/ROS2GenericMsg.h"
+#include "Msgs/ROS2HeaderMsg.h"
+#include "geometry_msgs/msg/pose_with_covariance_stamped.h"
 #include "rclcUtilities.h"
+
+#include <CoreMinimal.h>
 
 #include "ROS2PoseWithCovarianceStampedMsg.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSPoseWithCovarianceStamped
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	int HeaderStampSec = 0;
+    FROSPoseWithCovarianceStamped()
+    {
+        PoseCovariance.SetNumZeroed(36);
+    }
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSHeader Header;
 
-	UPROPERTY(EditAnywhere)
-	unsigned int HeaderStampNanosec = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FVector PosePosePosition = FVector::ZeroVector;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FString HeaderFrameId;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FQuat PosePoseOrientation = FQuat::Identity;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FVector PosePosePosition = FVector::ZeroVector;
+    UPROPERTY(EditAnywhere)
+    TArray<double> PoseCovariance;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FQuat PosePoseOrientation = FQuat::Identity;
+    void SetFromROS2(const geometry_msgs__msg__PoseWithCovarianceStamped& in_ros_data)
+    {
+        Header.SetFromROS2(in_ros_data.header);
 
-	UPROPERTY(EditAnywhere)
-	TArray<double> PoseCovariance;
+        PosePosePosition.X = in_ros_data.pose.pose.position.x;
+        PosePosePosition.Y = in_ros_data.pose.pose.position.y;
+        PosePosePosition.Z = in_ros_data.pose.pose.position.z;
 
-	
+        PosePoseOrientation.X = in_ros_data.pose.pose.orientation.x;
+        PosePoseOrientation.Y = in_ros_data.pose.pose.orientation.y;
+        PosePoseOrientation.Z = in_ros_data.pose.pose.orientation.z;
+        PosePoseOrientation.W = in_ros_data.pose.pose.orientation.w;
 
-	void SetFromROS2(const geometry_msgs__msg__PoseWithCovarianceStamped& in_ros_data)
-	{
-    	HeaderStampSec = in_ros_data.header.stamp.sec;
+        for (auto i = 0; i < 36; ++i)
+        {
+            PoseCovariance[i] = in_ros_data.pose.covariance[i];
+        }
+    }
 
-		HeaderStampNanosec = in_ros_data.header.stamp.nanosec;
+    void SetROS2(geometry_msgs__msg__PoseWithCovarianceStamped& out_ros_data) const
+    {
+        Header.SetROS2(out_ros_data.header);
+        out_ros_data.pose.pose.position.x = PosePosePosition.X;
+        out_ros_data.pose.pose.position.y = PosePosePosition.Y;
+        out_ros_data.pose.pose.position.z = PosePosePosition.Z;
 
-		HeaderFrameId.AppendChars(in_ros_data.header.frame_id.data, in_ros_data.header.frame_id.size);
+        out_ros_data.pose.pose.orientation.x = PosePoseOrientation.X;
+        out_ros_data.pose.pose.orientation.y = PosePoseOrientation.Y;
+        out_ros_data.pose.pose.orientation.z = PosePoseOrientation.Z;
+        out_ros_data.pose.pose.orientation.w = PosePoseOrientation.W;
 
-		PosePosePosition.X = in_ros_data.pose.pose.position.x;
-		PosePosePosition.Y = in_ros_data.pose.pose.position.y;
-		PosePosePosition.Z = in_ros_data.pose.pose.position.z;
-
-		PosePoseOrientation.X = in_ros_data.pose.pose.orientation.x;
-		PosePoseOrientation.Y = in_ros_data.pose.pose.orientation.y;
-		PosePoseOrientation.Z = in_ros_data.pose.pose.orientation.z;
-		PosePoseOrientation.W = in_ros_data.pose.pose.orientation.w;
-
-		for (auto i = 0; i < 36; ++i)
-		{
-			PoseCovariance.Emplace(in_ros_data.pose.covariance[i]);
-		}
-
-		
-	}
-
-	void SetROS2(geometry_msgs__msg__PoseWithCovarianceStamped& out_ros_data) const
-	{
-    	out_ros_data.header.stamp.sec = HeaderStampSec;
-
-		out_ros_data.header.stamp.nanosec = HeaderStampNanosec;
-
-		{
-			FTCHARToUTF8 strUtf8( *HeaderFrameId );
-			int32 strLength = strUtf8.Length();
-			if (out_ros_data.header.frame_id.data != nullptr)
-		{
-			free(out_ros_data.header.frame_id.data);
-		}
-		out_ros_data.header.frame_id.data = (decltype(out_ros_data.header.frame_id.data))malloc((strLength+1)*sizeof(decltype(*out_ros_data.header.frame_id.data)));
-		memcpy(out_ros_data.header.frame_id.data, TCHAR_TO_UTF8(*HeaderFrameId), (strLength+1)*sizeof(char));
-			out_ros_data.header.frame_id.size = strLength;
-			out_ros_data.header.frame_id.capacity = strLength + 1;
-		}
-
-		out_ros_data.pose.pose.position.x = PosePosePosition.X;
-		out_ros_data.pose.pose.position.y = PosePosePosition.Y;
-		out_ros_data.pose.pose.position.z = PosePosePosition.Z;
-
-		out_ros_data.pose.pose.orientation.x = PosePoseOrientation.X;
-		out_ros_data.pose.pose.orientation.y = PosePoseOrientation.Y;
-		out_ros_data.pose.pose.orientation.z = PosePoseOrientation.Z;
-		out_ros_data.pose.pose.orientation.w = PosePoseOrientation.W;
-
-		for (auto i = 0; i < 36; ++i)
-		{
-			out_ros_data.pose.covariance[i] = PoseCovariance[i];
-		}
-
-		
-	}
+        for (auto i = 0; i < 36; ++i)
+        {
+            out_ros_data.pose.covariance[i] = PoseCovariance[i];
+        }
+    }
 };
 
 UCLASS()
 class RCLUE_API UROS2PoseWithCovarianceStampedMsg : public UROS2GenericMsg
 {
-	GENERATED_BODY()
+    GENERATED_BODY()
 
 public:
-	virtual void Init() override;
-	virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
-	
-  	UFUNCTION(BlueprintCallable)
-	void SetMsg(const FROSPoseWithCovarianceStamped& Input);
-	
-  	UFUNCTION(BlueprintCallable)
-	void GetMsg(FROSPoseWithCovarianceStamped& Output) const;
-	
-	virtual void* Get() override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSPoseWithCovarianceStamped& Input);
+
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSPoseWithCovarianceStamped& Output) const;
+
+    virtual void* Get() override;
 
 private:
-	virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-	geometry_msgs__msg__PoseWithCovarianceStamped pose_with_covariance_stamped_msg;
+    geometry_msgs__msg__PoseWithCovarianceStamped pose_with_covariance_stamped_msg;
 };

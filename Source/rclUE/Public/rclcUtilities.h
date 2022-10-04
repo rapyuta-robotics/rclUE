@@ -7,20 +7,25 @@
 #pragma once
 
 // std
+
 #include <cstdlib>
 #include <cstring>
 #include <random>
 
 // UE
-#include <HAL/UnrealMemory.h>
-#include <Kismet/KismetSystemLibrary.h>
+#include "HAL/UnrealMemory.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "UObject/Object.h"
 
 // rclUE
+#include "builtin_interfaces/msg/detail/time__struct.h"
 #include "rcl/graph.h"
 #include "rcl/wait.h"
 #include "rcl_action/wait.h"
 #include "rclc/rclc.h"
 #include "rosidl_runtime_c/string.h"
+#include "std_msgs/msg/string.h"
 
 #include "rclcUtilities.generated.h"
 
@@ -155,10 +160,40 @@ class UROS2Utils : public UBlueprintFunctionLibrary
     GENERATED_BODY()
 
 public:
+    static builtin_interfaces__msg__Time FloatToROSStamp(const float InTimeSec)
+    {
+        builtin_interfaces__msg__Time stamp;
+        stamp.sec = static_cast<int32>(InTimeSec);
+        stamp.nanosec = uint32((InTimeSec - stamp.sec) * 1e+09f);
+        return stamp;
+    }
+
+    static builtin_interfaces__msg__Time GetCurrentROS2Time(const UObject* InContextObject)
+    {
+        return FloatToROSStamp(UGameplayStatics::GetTimeSeconds(InContextObject->GetWorld()));
+    }
+
+    static float ROSStampToFloat(const builtin_interfaces__msg__Time& InTimeStamp)
+    {
+        return InTimeStamp.sec + InTimeStamp.nanosec * 1e-09f;
+    }
+
+    static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& OutUUID)
+    {
+        OutUUID.Reset();
+        for (int8 i = 0; i < 16; i++)
+        {
+            OutUUID.Add(std::random_device{}());
+        }
+    }
+
     static FString StringROSToUE(const rosidl_runtime_c__String& InStr)
     {
         FString outStr;
-        outStr.AppendChars(InStr.data, InStr.size);
+        if (InStr.data)
+        {
+            outStr.AppendChars(InStr.data, InStr.size);
+        }
         return outStr;
     }
     static TArray<FString> StringSequenceROSToUE(const rosidl_runtime_c__String__Sequence& InStrSequence)
@@ -167,7 +202,11 @@ public:
         for (size_t i = 0; i < InStrSequence.size; ++i)
         {
             FString outStr;
-            outStr.AppendChars(InStrSequence.data[i].data, InStrSequence.data[i].size);
+            auto& str = InStrSequence.data[i];
+            if (str.data)
+            {
+                outStr.AppendChars(str.data, str.size);
+            }
             outStrArray.Emplace(MoveTemp(outStr));
         }
         return outStrArray;
@@ -187,6 +226,19 @@ public:
             totalCapacity += GetStringRequiredCapacity(str);
         }
         return totalCapacity;
+    }
+
+    static void StringUEToStdMsg(const FString& InStr, std_msgs__msg__String& OutStdMsg)
+    {
+        const unsigned int msgStringCapacity = InStr.Len() + 1;
+        if (OutStdMsg.data.data != nullptr)
+        {
+            free(OutStdMsg.data.data);
+        }
+        OutStdMsg.data.data = (char*)malloc(msgStringCapacity);
+        OutStdMsg.data.capacity = msgStringCapacity;
+        snprintf(OutStdMsg.data.data, OutStdMsg.data.capacity, "%s", TCHAR_TO_UTF8(*InStr));
+        OutStdMsg.data.size = strlen(OutStdMsg.data.data);
     }
 
     static void StringUEToROS(const FString& InStr, rosidl_runtime_c__String& OutStr)
@@ -252,31 +304,33 @@ public:
         const auto arrayNum = InArray.Num();
         for (auto i = 0; i < arrayNum; ++i)
         {
-            OutSequence.data[i] = InArray[i];
+            if constexpr (TIsArithmetic<T>::Value)
+            {
+                OutSequence.data[i] = InArray[i];
+            }
+            else
+            {
+                InArray[i].SetROS2(OutSequence.data[i]);
+            }
         }
         OutSequence.size = arrayNum;
         OutSequence.capacity = arrayNum;
     }
 
-    static builtin_interfaces__msg__Time FloatToROSStamp(const float& InTimeSec)
+    template<typename TSequence, typename T>
+    static void ROSSequenceToUEArray(const TSequence& InSequence, TArray<T>& OutArray)
     {
-        builtin_interfaces__msg__Time stamp;
-        stamp.sec = static_cast<int32>(InTimeSec);
-        stamp.nanosec = (uint32)((InTimeSec - stamp.sec) * 1e+09f);
-        return stamp;
-    }
-
-    static float ROSStampToFloat(const builtin_interfaces__msg__Time& InTimeStamp)
-    {
-        return InTimeStamp.sec + InTimeStamp.nanosec * 1e-09f;
-    }
-
-    static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& InUUID)
-    {
-        InUUID.Empty();
-        for (int i = 0; i < 16; i++)
+        OutArray.SetNum(InSequence.size);
+        for (auto i = 0; i < InSequence.size; ++i)
         {
-            InUUID.Add(std::random_device{}());
+            if constexpr (TIsArithmetic<T>::Value)
+            {
+                OutArray[i] = InSequence.data[i];
+            }
+            else
+            {
+                OutArray[i].SetFromROS2(InSequence.data[i]);
+            }
         }
     }
 };
