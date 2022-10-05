@@ -18,14 +18,19 @@
 #include "Kismet/KismetSystemLibrary.h"
 #include "UObject/Object.h"
 
-// rclUE
+// rclUE msgs
 #include "builtin_interfaces/msg/detail/time__struct.h"
+#include "geometry_msgs/msg/quaternion.h"
+#include "geometry_msgs/msg/transform.h"
+#include "geometry_msgs/msg/vector3.h"
+#include "rosidl_runtime_c/string.h"
+#include "std_msgs/msg/string.h"
+
+// rclUE others
 #include "rcl/graph.h"
 #include "rcl/wait.h"
 #include "rcl_action/wait.h"
 #include "rclc/rclc.h"
-#include "rosidl_runtime_c/string.h"
-#include "std_msgs/msg/string.h"
 
 #include "rclcUtilities.generated.h"
 
@@ -201,13 +206,7 @@ public:
         TArray<FString> outStrArray;
         for (size_t i = 0; i < InStrSequence.size; ++i)
         {
-            FString outStr;
-            auto& str = InStrSequence.data[i];
-            if (str.data)
-            {
-                outStr.AppendChars(str.data, str.size);
-            }
-            outStrArray.Emplace(MoveTemp(outStr));
+            outStrArray.Emplace(StringROSToUE(InStrSequence.data[i]));
         }
         return outStrArray;
     }
@@ -258,32 +257,34 @@ public:
 
     static void StringArrayUEToROS(const TArray<FString>& InStrList, rosidl_runtime_c__String__Sequence& OutStrSequence)
     {
-        if (OutStrSequence.data->data != nullptr)
-        {
-            free(OutStrSequence.data->data);
-        }
-        if (OutStrSequence.data != nullptr)
-        {
-            free(OutStrSequence.data);
-        }
+        // if (OutStrSequence.data->data != nullptr)
+        // {
+        //     free(OutStrSequence.data->data);
+        // }
+        // if (OutStrSequence.data != nullptr)
+        // {
+        //     free(OutStrSequence.data);
+        // }
 
-        int32 sequenceItemsNum = InStrList.Num();
-        int32 sequenceTotalCapacity = 0;
-        for (auto i = 0; i < sequenceItemsNum; ++i)
-        {
-            sequenceTotalCapacity += GetStringRequiredCapacity(InStrList[i]) + sizeof(size_t) + sizeof(size_t);
-        }
-        OutStrSequence.data = (decltype(OutStrSequence.data))malloc(sequenceTotalCapacity);
-        OutStrSequence.size = sequenceItemsNum;
-        OutStrSequence.capacity = sequenceItemsNum;
+        // int32 sequenceItemsNum = InStrList.Num();
+        // int32 sequenceTotalCapacity = 0;
+        // for (auto i = 0; i < sequenceItemsNum; ++i)
+        // {
+        //     sequenceTotalCapacity += GetStringRequiredCapacity(InStrList[i]) + sizeof(size_t) + sizeof(size_t);
+        // }
+        // OutStrSequence.data = (decltype(OutStrSequence.data))malloc(sequenceTotalCapacity);
+        // OutStrSequence.size = sequenceItemsNum;
+        // OutStrSequence.capacity = sequenceItemsNum;
 
         for (auto i = 0; i < InStrList.Num(); ++i)
         {
-            FTCHARToUTF8 strUtf8(*InStrList[i]);
-            const int32 strCapacity = strUtf8.Length() + 1;
-            memcpy(OutStrSequence.data[i].data, TCHAR_TO_UTF8(*InStrList[i]), strCapacity * sizeof(char));
-            OutStrSequence.data[i].size = strUtf8.Length();
-            OutStrSequence.data[i].capacity = strCapacity;
+            // FTCHARToUTF8 strUtf8(*InStrList[i]);
+            // const int32 strCapacity = strUtf8.Length() + 1;
+            // memcpy(OutStrSequence.data[i].data,
+            //     TCHAR_TO_UTF8(*InStrList[i]), strCapacity * sizeof(char));
+            // OutStrSequence.data[i].size = strUtf8.Length();
+            // OutStrSequence.data[i].capacity = strCapacity;
+            StringUEToROS(InStrList[i], OutStrSequence.data[i]);
         }
     }
 
@@ -332,5 +333,99 @@ public:
                 OutArray[i].SetFromROS2(InSequence.data[i]);
             }
         }
+    }
+
+    /**
+     * @brief Convert ROS geometry_msgs__msg__Vector3 or geometry_msgs__msg__Point to UE FVector.
+     *
+     * @tparam TVector geometry_msgs__msg__Vector3 or geometry_msgs__msg__Point.
+     * @param InROSVector
+     */
+    template<typename TVector>
+    static FVector VectorROSToUE(const TVector& InROSVector)
+    {
+        FVector OutUEVector;
+        OutUEVector.X = InROSVector.x;
+        OutUEVector.Y = InROSVector.y;
+        OutUEVector.Z = InROSVector.z;
+
+        return OutUEVector;
+    }
+
+    /**
+     * @brief Convert UE FVector to ROS geometry_msgs__msg__Vector3 or geometry_msgs__msg__Point.
+     *
+     * @tparam TVector geometry_msgs__msg__Vector3 or geometry_msgs__msg__Point.
+     * @param InUEVector
+     */
+    template<typename TVector>
+    static TVector VectorUEToROS(const FVector& InUEVector)
+    {
+        TVector OutROSVector;
+        OutROSVector.x = InUEVector.X;
+        OutROSVector.y = InUEVector.Y;
+        OutROSVector.x = InUEVector.Z;
+
+        return OutROSVector;
+    }
+
+    /**
+     * @brief Convert ROS geometry_msgs__msg__Quaternion to UE FQuat.
+     *
+     * @param InROSQuat
+     */
+    static FQuat QuatROSToUE(const geometry_msgs__msg__Quaternion& InROSQuat)
+    {
+        FQuat OutUEQuat;
+        OutUEQuat.X = InROSQuat.x;
+        OutUEQuat.Y = InROSQuat.y;
+        OutUEQuat.Z = InROSQuat.z;
+        OutUEQuat.W = InROSQuat.w;
+
+        return OutUEQuat;
+    }
+
+    /**
+     * @brief Convert UE FQuat to ROS geometry_msgs__msg__Quaternion.
+     *
+     * @param InUEQuat
+     */
+    static geometry_msgs__msg__Quaternion QuatUEToROS(const FQuat& InUEQuat)
+    {
+        geometry_msgs__msg__Quaternion OutROSQuat;
+        OutROSQuat.x = InUEQuat.X;
+        OutROSQuat.y = InUEQuat.Y;
+        OutROSQuat.z = InUEQuat.Z;
+        OutROSQuat.w = InUEQuat.W;
+
+        return OutROSQuat;
+    }
+
+    /**
+     * @brief Convert ROS geometry_msgs__msg__Transform to UE FTransform.
+     *
+     * @param InROSTF
+     */
+    static FTransform TFROSToUE(const geometry_msgs__msg__Transform& InROSTF)
+    {
+        FTransform OutUETF;
+        OutUETF.SetTranslation(VectorROSToUE(InROSTF.translation));
+        OutUETF.SetRotation(QuatROSToUE(InROSTF.rotation));
+
+        return OutUETF;
+    }
+
+    /**
+     * @brief Convert UE FTransform to ROS geometry_msgs__msg__Transform.
+     *
+     * @param InUETF
+     */
+    static geometry_msgs__msg__Transform TFUEToROS(const FTransform& InUETF)
+    {
+        geometry_msgs__msg__Transform OutROSTF;
+        OutROSTF.translation = VectorUEToROS<geometry_msgs__msg__Vector3>(InUETF.GetTranslation());
+        OutROSTF.rotation = QuatUEToROS(InUETF.GetRotation());
+
+        return OutROSTF;
     }
 };
