@@ -38,41 +38,27 @@ public:
 
   void SetFromROS2(
       const visualization_msgs__msg__InteractiveMarkerInit &in_ros_data) {
-    ServerId.AppendChars(in_ros_data.server_id.data,
-                         in_ros_data.server_id.size);
+    ServerId = UROS2Utils::StringROSToUE(in_ros_data.server_id);
 
     SeqNum = in_ros_data.seq_num;
 
-    for (auto i = 0; i < in_ros_data.markers.size; ++i) {
-      Markers[i].SetFromROS2(in_ros_data.markers.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarker,
+                                     FROSIM>(in_ros_data.markers.data, Markers,
+                                             in_ros_data.markers.size);
   }
 
   void
   SetROS2(visualization_msgs__msg__InteractiveMarkerInit &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*ServerId);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.server_id.data =
-          (decltype(out_ros_data.server_id.data))malloc(
-              (strLength + 1) * sizeof(decltype(*out_ros_data.server_id.data)));
-      memcpy(out_ros_data.server_id.data, TCHAR_TO_UTF8(*ServerId),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.server_id.size = strLength;
-      out_ros_data.server_id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(ServerId, out_ros_data.server_id);
 
     out_ros_data.seq_num = SeqNum;
 
-    out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
-        (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
-
-    for (auto i = 0; i < Markers.Num(); ++i) {
-      Markers[i].SetROS2(out_ros_data.markers.data[i]);
-    }
-
-    out_ros_data.markers.size = Markers.Num();
-    out_ros_data.markers.capacity = Markers.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        visualization_msgs__msg__InteractiveMarker__Sequence>(
+        out_ros_data.markers, Markers.Num());
+    UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarker,
+                                     FROSIM>(Markers, out_ros_data.markers.data,
+                                             Markers.Num());
   }
 };
 

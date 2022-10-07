@@ -66,14 +66,11 @@ public:
       const visualization_msgs__msg__InteractiveMarkerFeedback &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    ClientId.AppendChars(in_ros_data.client_id.data,
-                         in_ros_data.client_id.size);
+    ClientId = UROS2Utils::StringROSToUE(in_ros_data.client_id);
 
-    MarkerName.AppendChars(in_ros_data.marker_name.data,
-                           in_ros_data.marker_name.size);
+    MarkerName = UROS2Utils::StringROSToUE(in_ros_data.marker_name);
 
-    ControlName.AppendChars(in_ros_data.control_name.data,
-                            in_ros_data.control_name.size);
+    ControlName = UROS2Utils::StringROSToUE(in_ros_data.control_name);
 
     EventType = in_ros_data.event_type;
 
@@ -81,9 +78,8 @@ public:
 
     MenuEntryId = in_ros_data.menu_entry_id;
 
-    MousePoint.X = in_ros_data.mouse_point.x;
-    MousePoint.Y = in_ros_data.mouse_point.y;
-    MousePoint.Z = in_ros_data.mouse_point.z;
+    MousePoint = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Point>(
+        in_ros_data.mouse_point);
 
     bMousePointValid = in_ros_data.mouse_point_valid;
   }
@@ -92,43 +88,11 @@ public:
       visualization_msgs__msg__InteractiveMarkerFeedback &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    {
-      FTCHARToUTF8 strUtf8(*ClientId);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.client_id.data =
-          (decltype(out_ros_data.client_id.data))malloc(
-              (strLength + 1) * sizeof(decltype(*out_ros_data.client_id.data)));
-      memcpy(out_ros_data.client_id.data, TCHAR_TO_UTF8(*ClientId),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.client_id.size = strLength;
-      out_ros_data.client_id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(ClientId, out_ros_data.client_id);
 
-    {
-      FTCHARToUTF8 strUtf8(*MarkerName);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.marker_name.data =
-          (decltype(out_ros_data.marker_name.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.marker_name.data)));
-      memcpy(out_ros_data.marker_name.data, TCHAR_TO_UTF8(*MarkerName),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.marker_name.size = strLength;
-      out_ros_data.marker_name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(MarkerName, out_ros_data.marker_name);
 
-    {
-      FTCHARToUTF8 strUtf8(*ControlName);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.control_name.data =
-          (decltype(out_ros_data.control_name.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.control_name.data)));
-      memcpy(out_ros_data.control_name.data, TCHAR_TO_UTF8(*ControlName),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.control_name.size = strLength;
-      out_ros_data.control_name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(ControlName, out_ros_data.control_name);
 
     out_ros_data.event_type = EventType;
 
@@ -136,9 +100,8 @@ public:
 
     out_ros_data.menu_entry_id = MenuEntryId;
 
-    out_ros_data.mouse_point.x = MousePoint.X;
-    out_ros_data.mouse_point.y = MousePoint.Y;
-    out_ros_data.mouse_point.z = MousePoint.Z;
+    out_ros_data.mouse_point =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Point>(MousePoint);
 
     out_ros_data.mouse_point_valid = bMousePointValid;
   }

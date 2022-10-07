@@ -33,33 +33,15 @@ public:
   FROSAttachReq() {}
 
   void SetFromROS2(const ue_msgs__srv__Attach_Request &in_ros_data) {
-    Name1.AppendChars(in_ros_data.name1.data, in_ros_data.name1.size);
+    Name1 = UROS2Utils::StringROSToUE(in_ros_data.name1);
 
-    Name2.AppendChars(in_ros_data.name2.data, in_ros_data.name2.size);
+    Name2 = UROS2Utils::StringROSToUE(in_ros_data.name2);
   }
 
   void SetROS2(ue_msgs__srv__Attach_Request &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Name1);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name1.data = (decltype(out_ros_data.name1.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name1.data)));
-      memcpy(out_ros_data.name1.data, TCHAR_TO_UTF8(*Name1),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name1.size = strLength;
-      out_ros_data.name1.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name1, out_ros_data.name1);
 
-    {
-      FTCHARToUTF8 strUtf8(*Name2);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name2.data = (decltype(out_ros_data.name2.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name2.data)));
-      memcpy(out_ros_data.name2.data, TCHAR_TO_UTF8(*Name2),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name2.size = strLength;
-      out_ros_data.name2.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name2, out_ros_data.name2);
   }
 };
 

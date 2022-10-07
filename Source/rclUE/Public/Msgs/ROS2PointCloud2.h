@@ -62,9 +62,9 @@ public:
 
     Width = in_ros_data.width;
 
-    for (auto i = 0; i < in_ros_data.fields.size; ++i) {
-      Fields[i].SetFromROS2(in_ros_data.fields.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__PointField,
+                                     FROSPointField>(
+        in_ros_data.fields.data, Fields, in_ros_data.fields.size);
 
     bIsBigendian = in_ros_data.is_bigendian;
 
@@ -72,9 +72,8 @@ public:
 
     RowStep = in_ros_data.row_step;
 
-    for (auto i = 0; i < in_ros_data.data.size; ++i) {
-      Data.Emplace(in_ros_data.data.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.data.data, Data,
+                                                   in_ros_data.data.size);
 
     bIsDense = in_ros_data.is_dense;
   }
@@ -86,15 +85,12 @@ public:
 
     out_ros_data.width = Width;
 
-    out_ros_data.fields.data = (decltype(out_ros_data.fields.data))malloc(
-        (Fields.Num()) * sizeof(decltype(*out_ros_data.fields.data)));
-
-    for (auto i = 0; i < Fields.Num(); ++i) {
-      Fields[i].SetROS2(out_ros_data.fields.data[i]);
-    }
-
-    out_ros_data.fields.size = Fields.Num();
-    out_ros_data.fields.capacity = Fields.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        sensor_msgs__msg__PointField__Sequence>(out_ros_data.fields,
+                                                Fields.Num());
+    UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__PointField,
+                                     FROSPointField>(
+        Fields, out_ros_data.fields.data, Fields.Num());
 
     out_ros_data.is_bigendian = bIsBigendian;
 
@@ -102,15 +98,10 @@ public:
 
     out_ros_data.row_step = RowStep;
 
-    out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
-        (Data.Num()) * sizeof(decltype(*out_ros_data.data.data)));
-
-    for (auto i = 0; i < Data.Num(); ++i) {
-      out_ros_data.data.data[i] = Data[i];
-    }
-
-    out_ros_data.data.size = Data.Num();
-    out_ros_data.data.capacity = Data.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__uint8__Sequence>(out_ros_data.data, Data.Num());
+    UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Data, out_ros_data.data.data,
+                                                   Data.Num());
 
     out_ros_data.is_dense = bIsDense;
   }

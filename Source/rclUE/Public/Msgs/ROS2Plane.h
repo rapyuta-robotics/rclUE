@@ -34,15 +34,12 @@ public:
   }
 
   void SetFromROS2(const shape_msgs__msg__Plane &in_ros_data) {
-    for (auto i = 0; i < 4; ++i) {
-      Coef.Emplace(in_ros_data.coef[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.coef, Coef, 4);
   }
 
   void SetROS2(shape_msgs__msg__Plane &out_ros_data) const {
-    for (auto i = 0; i < 4; ++i) {
-      out_ros_data.coef[i] = Coef[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(Coef, out_ros_data.coef,
+                                                     4);
   }
 };
 

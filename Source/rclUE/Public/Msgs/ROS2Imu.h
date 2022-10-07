@@ -62,63 +62,46 @@ public:
   void SetFromROS2(const sensor_msgs__msg__Imu &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Orientation.X = in_ros_data.orientation.x;
-    Orientation.Y = in_ros_data.orientation.y;
-    Orientation.Z = in_ros_data.orientation.z;
-    Orientation.W = in_ros_data.orientation.w;
+    Orientation = UROS2Utils::QuatROSToUE(in_ros_data.orientation);
 
-    for (auto i = 0; i < 9; ++i) {
-      OrientationCovariance.Emplace(in_ros_data.orientation_covariance[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.orientation_covariance, OrientationCovariance, 9);
 
-    AngularVelocity.X = in_ros_data.angular_velocity.x;
-    AngularVelocity.Y = in_ros_data.angular_velocity.y;
-    AngularVelocity.Z = in_ros_data.angular_velocity.z;
+    AngularVelocity = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.angular_velocity);
 
-    for (auto i = 0; i < 9; ++i) {
-      AngularVelocityCovariance.Emplace(
-          in_ros_data.angular_velocity_covariance[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.angular_velocity_covariance, AngularVelocityCovariance, 9);
 
-    LinearAcceleration.X = in_ros_data.linear_acceleration.x;
-    LinearAcceleration.Y = in_ros_data.linear_acceleration.y;
-    LinearAcceleration.Z = in_ros_data.linear_acceleration.z;
+    LinearAcceleration = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.linear_acceleration);
 
-    for (auto i = 0; i < 9; ++i) {
-      LinearAccelerationCovariance.Emplace(
-          in_ros_data.linear_acceleration_covariance[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.linear_acceleration_covariance,
+        LinearAccelerationCovariance, 9);
   }
 
   void SetROS2(sensor_msgs__msg__Imu &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.orientation.x = Orientation.X;
-    out_ros_data.orientation.y = Orientation.Y;
-    out_ros_data.orientation.z = Orientation.Z;
-    out_ros_data.orientation.w = Orientation.W;
+    out_ros_data.orientation = UROS2Utils::QuatUEToROS(Orientation);
 
-    for (auto i = 0; i < 9; ++i) {
-      out_ros_data.orientation_covariance[i] = OrientationCovariance[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        OrientationCovariance, out_ros_data.orientation_covariance, 9);
 
-    out_ros_data.angular_velocity.x = AngularVelocity.X;
-    out_ros_data.angular_velocity.y = AngularVelocity.Y;
-    out_ros_data.angular_velocity.z = AngularVelocity.Z;
+    out_ros_data.angular_velocity =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(AngularVelocity);
 
-    for (auto i = 0; i < 9; ++i) {
-      out_ros_data.angular_velocity_covariance[i] =
-          AngularVelocityCovariance[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        AngularVelocityCovariance, out_ros_data.angular_velocity_covariance, 9);
 
-    out_ros_data.linear_acceleration.x = LinearAcceleration.X;
-    out_ros_data.linear_acceleration.y = LinearAcceleration.Y;
-    out_ros_data.linear_acceleration.z = LinearAcceleration.Z;
+    out_ros_data.linear_acceleration =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(
+            LinearAcceleration);
 
-    for (auto i = 0; i < 9; ++i) {
-      out_ros_data.linear_acceleration_covariance[i] =
-          LinearAccelerationCovariance[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        LinearAccelerationCovariance,
+        out_ros_data.linear_acceleration_covariance, 9);
   }
 };
 

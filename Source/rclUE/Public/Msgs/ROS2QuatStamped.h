@@ -36,19 +36,13 @@ public:
   void SetFromROS2(const geometry_msgs__msg__QuaternionStamped &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Quaternion.X = in_ros_data.quaternion.x;
-    Quaternion.Y = in_ros_data.quaternion.y;
-    Quaternion.Z = in_ros_data.quaternion.z;
-    Quaternion.W = in_ros_data.quaternion.w;
+    Quaternion = UROS2Utils::QuatROSToUE(in_ros_data.quaternion);
   }
 
   void SetROS2(geometry_msgs__msg__QuaternionStamped &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.quaternion.x = Quaternion.X;
-    out_ros_data.quaternion.y = Quaternion.Y;
-    out_ros_data.quaternion.z = Quaternion.Z;
-    out_ros_data.quaternion.w = Quaternion.W;
+    out_ros_data.quaternion = UROS2Utils::QuatUEToROS(Quaternion);
   }
 };
 

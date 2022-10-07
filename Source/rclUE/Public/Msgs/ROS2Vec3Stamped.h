@@ -36,17 +36,15 @@ public:
   void SetFromROS2(const geometry_msgs__msg__Vector3Stamped &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Vector.X = in_ros_data.vector.x;
-    Vector.Y = in_ros_data.vector.y;
-    Vector.Z = in_ros_data.vector.z;
+    Vector = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.vector);
   }
 
   void SetROS2(geometry_msgs__msg__Vector3Stamped &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.vector.x = Vector.X;
-    out_ros_data.vector.y = Vector.Y;
-    out_ros_data.vector.z = Vector.Z;
+    out_ros_data.vector =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Vector);
   }
 };
 

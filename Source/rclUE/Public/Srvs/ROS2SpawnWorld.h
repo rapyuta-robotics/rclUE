@@ -38,41 +38,19 @@ public:
   FROSSpawnWorldReq() {}
 
   void SetFromROS2(const ue_msgs__srv__SpawnWorld_Request &in_ros_data) {
-    WorldModel.AppendChars(in_ros_data.world_model.data,
-                           in_ros_data.world_model.size);
+    WorldModel = UROS2Utils::StringROSToUE(in_ros_data.world_model);
 
-    WorldInstanceName.AppendChars(in_ros_data.world_instance_name.data,
-                                  in_ros_data.world_instance_name.size);
+    WorldInstanceName =
+        UROS2Utils::StringROSToUE(in_ros_data.world_instance_name);
 
     Pose.SetFromROS2(in_ros_data.pose);
   }
 
   void SetROS2(ue_msgs__srv__SpawnWorld_Request &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*WorldModel);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.world_model.data =
-          (decltype(out_ros_data.world_model.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.world_model.data)));
-      memcpy(out_ros_data.world_model.data, TCHAR_TO_UTF8(*WorldModel),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.world_model.size = strLength;
-      out_ros_data.world_model.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(WorldModel, out_ros_data.world_model);
 
-    {
-      FTCHARToUTF8 strUtf8(*WorldInstanceName);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.world_instance_name.data =
-          (decltype(out_ros_data.world_instance_name.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.world_instance_name.data)));
-      memcpy(out_ros_data.world_instance_name.data,
-             TCHAR_TO_UTF8(*WorldInstanceName), (strLength + 1) * sizeof(char));
-      out_ros_data.world_instance_name.size = strLength;
-      out_ros_data.world_instance_name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(WorldInstanceName,
+                              out_ros_data.world_instance_name);
 
     Pose.SetROS2(out_ros_data.pose);
   }
@@ -94,25 +72,13 @@ public:
   void SetFromROS2(const ue_msgs__srv__SpawnWorld_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage.AppendChars(in_ros_data.status_message.data,
-                              in_ros_data.status_message.size);
+    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
   }
 
   void SetROS2(ue_msgs__srv__SpawnWorld_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    {
-      FTCHARToUTF8 strUtf8(*StatusMessage);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.status_message.data =
-          (decltype(out_ros_data.status_message.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.status_message.data)));
-      memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*StatusMessage),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.status_message.size = strLength;
-      out_ros_data.status_message.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
   }
 };
 

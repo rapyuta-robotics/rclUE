@@ -51,38 +51,26 @@ public:
   FROSSelfTestRes() {}
 
   void SetFromROS2(const diagnostic_msgs__srv__SelfTest_Response &in_ros_data) {
-    Id.AppendChars(in_ros_data.id.data, in_ros_data.id.size);
+    Id = UROS2Utils::StringROSToUE(in_ros_data.id);
 
     Passed = in_ros_data.passed;
 
-    for (auto i = 0; i < in_ros_data.status.size; ++i) {
-      Status[i].SetFromROS2(in_ros_data.status.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<diagnostic_msgs__msg__DiagnosticStatus,
+                                     FROSDiagnosticStatus>(
+        in_ros_data.status.data, Status, in_ros_data.status.size);
   }
 
   void SetROS2(diagnostic_msgs__srv__SelfTest_Response &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Id);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.id.data = (decltype(out_ros_data.id.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.id.data)));
-      memcpy(out_ros_data.id.data, TCHAR_TO_UTF8(*Id),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.id.size = strLength;
-      out_ros_data.id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Id, out_ros_data.id);
 
     out_ros_data.passed = Passed;
 
-    out_ros_data.status.data = (decltype(out_ros_data.status.data))malloc(
-        (Status.Num()) * sizeof(decltype(*out_ros_data.status.data)));
-
-    for (auto i = 0; i < Status.Num(); ++i) {
-      Status[i].SetROS2(out_ros_data.status.data[i]);
-    }
-
-    out_ros_data.status.size = Status.Num();
-    out_ros_data.status.capacity = Status.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        diagnostic_msgs__msg__DiagnosticStatus__Sequence>(out_ros_data.status,
+                                                          Status.Num());
+    UROS2Utils::ArrayUEToROSSequence<diagnostic_msgs__msg__DiagnosticStatus,
+                                     FROSDiagnosticStatus>(
+        Status, out_ros_data.status.data, Status.Num());
   }
 };
 

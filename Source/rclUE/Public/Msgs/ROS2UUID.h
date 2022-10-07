@@ -34,15 +34,11 @@ public:
   }
 
   void SetFromROS2(const unique_identifier_msgs__msg__UUID &in_ros_data) {
-    for (auto i = 0; i < 16; ++i) {
-      Uuid.Emplace(in_ros_data.uuid[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.uuid, Uuid, 16);
   }
 
   void SetROS2(unique_identifier_msgs__msg__UUID &out_ros_data) const {
-    for (auto i = 0; i < 16; ++i) {
-      out_ros_data.uuid[i] = Uuid[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Uuid, out_ros_data.uuid, 16);
   }
 };
 

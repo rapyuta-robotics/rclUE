@@ -31,23 +31,18 @@ public:
   FROSTFMsg() {}
 
   void SetFromROS2(const tf2_msgs__msg__TFMessage &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.transforms.size; ++i) {
-      Transforms[i].SetFromROS2(in_ros_data.transforms.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__TransformStamped,
+                                     FROSTFStamped>(
+        in_ros_data.transforms.data, Transforms, in_ros_data.transforms.size);
   }
 
   void SetROS2(tf2_msgs__msg__TFMessage &out_ros_data) const {
-    out_ros_data.transforms.data =
-        (decltype(out_ros_data.transforms.data))malloc(
-            (Transforms.Num()) *
-            sizeof(decltype(*out_ros_data.transforms.data)));
-
-    for (auto i = 0; i < Transforms.Num(); ++i) {
-      Transforms[i].SetROS2(out_ros_data.transforms.data[i]);
-    }
-
-    out_ros_data.transforms.size = Transforms.Num();
-    out_ros_data.transforms.capacity = Transforms.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__TransformStamped__Sequence>(out_ros_data.transforms,
+                                                        Transforms.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__TransformStamped,
+                                     FROSTFStamped>(
+        Transforms, out_ros_data.transforms.data, Transforms.Num());
   }
 };
 

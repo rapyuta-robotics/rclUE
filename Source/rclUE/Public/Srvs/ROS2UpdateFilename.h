@@ -31,20 +31,11 @@ public:
   FROSUpdateFilenameReq() {}
 
   void SetFromROS2(const pcl_msgs__srv__UpdateFilename_Request &in_ros_data) {
-    Filename.AppendChars(in_ros_data.filename.data, in_ros_data.filename.size);
+    Filename = UROS2Utils::StringROSToUE(in_ros_data.filename);
   }
 
   void SetROS2(pcl_msgs__srv__UpdateFilename_Request &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Filename);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.filename.data = (decltype(out_ros_data.filename.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.filename.data)));
-      memcpy(out_ros_data.filename.data, TCHAR_TO_UTF8(*Filename),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.filename.size = strLength;
-      out_ros_data.filename.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Filename, out_ros_data.filename);
   }
 };
 

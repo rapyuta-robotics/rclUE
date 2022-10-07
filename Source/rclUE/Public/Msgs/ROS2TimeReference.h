@@ -42,7 +42,7 @@ public:
 
     TimeRef.SetFromROS2(in_ros_data.time_ref);
 
-    Source.AppendChars(in_ros_data.source.data, in_ros_data.source.size);
+    Source = UROS2Utils::StringROSToUE(in_ros_data.source);
   }
 
   void SetROS2(sensor_msgs__msg__TimeReference &out_ros_data) const {
@@ -50,16 +50,7 @@ public:
 
     TimeRef.SetROS2(out_ros_data.time_ref);
 
-    {
-      FTCHARToUTF8 strUtf8(*Source);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.source.data = (decltype(out_ros_data.source.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.source.data)));
-      memcpy(out_ros_data.source.data, TCHAR_TO_UTF8(*Source),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.source.size = strLength;
-      out_ros_data.source.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Source, out_ros_data.source);
   }
 };
 

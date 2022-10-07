@@ -51,83 +51,50 @@ public:
 
   void SetFromROS2(
       const visualization_msgs__msg__InteractiveMarkerUpdate &in_ros_data) {
-    ServerId.AppendChars(in_ros_data.server_id.data,
-                         in_ros_data.server_id.size);
+    ServerId = UROS2Utils::StringROSToUE(in_ros_data.server_id);
 
     SeqNum = in_ros_data.seq_num;
 
     Type = in_ros_data.type;
 
-    for (auto i = 0; i < in_ros_data.markers.size; ++i) {
-      Markers[i].SetFromROS2(in_ros_data.markers.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarker,
+                                     FROSIM>(in_ros_data.markers.data, Markers,
+                                             in_ros_data.markers.size);
 
-    for (auto i = 0; i < in_ros_data.poses.size; ++i) {
-      Poses[i].SetFromROS2(in_ros_data.poses.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<
+        visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
+        in_ros_data.poses.data, Poses, in_ros_data.poses.size);
 
-    for (auto i = 0; i < in_ros_data.erases.size; ++i) {
-      Erases.Emplace("");
-      Erases[i].AppendChars(in_ros_data.erases.data[i].data,
-                            in_ros_data.erases.data[i].size);
-    }
+    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.erases.data, Erases,
+                                           in_ros_data.erases.size);
   }
 
   void SetROS2(
       visualization_msgs__msg__InteractiveMarkerUpdate &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*ServerId);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.server_id.data =
-          (decltype(out_ros_data.server_id.data))malloc(
-              (strLength + 1) * sizeof(decltype(*out_ros_data.server_id.data)));
-      memcpy(out_ros_data.server_id.data, TCHAR_TO_UTF8(*ServerId),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.server_id.size = strLength;
-      out_ros_data.server_id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(ServerId, out_ros_data.server_id);
 
     out_ros_data.seq_num = SeqNum;
 
     out_ros_data.type = Type;
 
-    out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
-        (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        visualization_msgs__msg__InteractiveMarker__Sequence>(
+        out_ros_data.markers, Markers.Num());
+    UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarker,
+                                     FROSIM>(Markers, out_ros_data.markers.data,
+                                             Markers.Num());
 
-    for (auto i = 0; i < Markers.Num(); ++i) {
-      Markers[i].SetROS2(out_ros_data.markers.data[i]);
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        visualization_msgs__msg__InteractiveMarkerPose__Sequence>(
+        out_ros_data.poses, Poses.Num());
+    UROS2Utils::ArrayUEToROSSequence<
+        visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
+        Poses, out_ros_data.poses.data, Poses.Num());
 
-    out_ros_data.markers.size = Markers.Num();
-    out_ros_data.markers.capacity = Markers.Num();
-
-    out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc(
-        (Poses.Num()) * sizeof(decltype(*out_ros_data.poses.data)));
-
-    for (auto i = 0; i < Poses.Num(); ++i) {
-      Poses[i].SetROS2(out_ros_data.poses.data[i]);
-    }
-
-    out_ros_data.poses.size = Poses.Num();
-    out_ros_data.poses.capacity = Poses.Num();
-
-    out_ros_data.erases.data = (decltype(out_ros_data.erases.data))malloc(
-        (Erases.Num()) * sizeof(decltype(*out_ros_data.erases.data)));
-    for (auto i = 0; i < Erases.Num(); ++i) {
-      {
-        FTCHARToUTF8 strUtf8(*Erases[i]);
-        int32 strLength = strUtf8.Length();
-        if (out_ros_data.erases.data[i].data != nullptr) {
-          free(out_ros_data.erases.data[i].data);
-        }
-        out_ros_data.erases.data[i].data =
-            (char *)malloc((strLength + 1) * sizeof(char));
-        memcpy(out_ros_data.erases.data[i].data, TCHAR_TO_UTF8(*Erases[i]),
-               (strLength + 1) * sizeof(char));
-        out_ros_data.erases.data[i].size = strLength;
-        out_ros_data.erases.data[i].capacity = strLength + 1;
-      }
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__String__Sequence>(out_ros_data.erases, Erases.Num());
+    UROS2Utils::StringArrayUEToROSSequence(Erases, out_ros_data.erases.data,
+                                           Erases.Num());
   }
 };
 

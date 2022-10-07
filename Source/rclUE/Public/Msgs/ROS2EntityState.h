@@ -41,44 +41,23 @@ public:
   FROSEntityState() {}
 
   void SetFromROS2(const ue_msgs__msg__EntityState &in_ros_data) {
-    Name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
+    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
 
     Pose.SetFromROS2(in_ros_data.pose);
 
     Twist.SetFromROS2(in_ros_data.twist);
 
-    ReferenceFrame.AppendChars(in_ros_data.reference_frame.data,
-                               in_ros_data.reference_frame.size);
+    ReferenceFrame = UROS2Utils::StringROSToUE(in_ros_data.reference_frame);
   }
 
   void SetROS2(ue_msgs__msg__EntityState &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Name);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
-      memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name.size = strLength;
-      out_ros_data.name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
 
     Pose.SetROS2(out_ros_data.pose);
 
     Twist.SetROS2(out_ros_data.twist);
 
-    {
-      FTCHARToUTF8 strUtf8(*ReferenceFrame);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.reference_frame.data =
-          (decltype(out_ros_data.reference_frame.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.reference_frame.data)));
-      memcpy(out_ros_data.reference_frame.data, TCHAR_TO_UTF8(*ReferenceFrame),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.reference_frame.size = strLength;
-      out_ros_data.reference_frame.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(ReferenceFrame, out_ros_data.reference_frame);
   }
 };
 

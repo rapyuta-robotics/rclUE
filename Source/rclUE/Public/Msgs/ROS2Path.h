@@ -36,23 +36,20 @@ public:
   void SetFromROS2(const nav_msgs__msg__Path &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.poses.size; ++i) {
-      Poses[i].SetFromROS2(in_ros_data.poses.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__PoseStamped,
+                                     FROSPoseStamped>(
+        in_ros_data.poses.data, Poses, in_ros_data.poses.size);
   }
 
   void SetROS2(nav_msgs__msg__Path &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.poses.data = (decltype(out_ros_data.poses.data))malloc(
-        (Poses.Num()) * sizeof(decltype(*out_ros_data.poses.data)));
-
-    for (auto i = 0; i < Poses.Num(); ++i) {
-      Poses[i].SetROS2(out_ros_data.poses.data[i]);
-    }
-
-    out_ros_data.poses.size = Poses.Num();
-    out_ros_data.poses.capacity = Poses.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__PoseStamped__Sequence>(out_ros_data.poses,
+                                                   Poses.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__PoseStamped,
+                                     FROSPoseStamped>(
+        Poses, out_ros_data.poses.data, Poses.Num());
   }
 };
 

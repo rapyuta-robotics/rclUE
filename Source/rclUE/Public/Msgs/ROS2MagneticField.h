@@ -43,25 +43,21 @@ public:
   void SetFromROS2(const sensor_msgs__msg__MagneticField &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    MagneticField.X = in_ros_data.magnetic_field.x;
-    MagneticField.Y = in_ros_data.magnetic_field.y;
-    MagneticField.Z = in_ros_data.magnetic_field.z;
+    MagneticField = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.magnetic_field);
 
-    for (auto i = 0; i < 9; ++i) {
-      MagneticFieldCovariance.Emplace(in_ros_data.magnetic_field_covariance[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.magnetic_field_covariance, MagneticFieldCovariance, 9);
   }
 
   void SetROS2(sensor_msgs__msg__MagneticField &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.magnetic_field.x = MagneticField.X;
-    out_ros_data.magnetic_field.y = MagneticField.Y;
-    out_ros_data.magnetic_field.z = MagneticField.Z;
+    out_ros_data.magnetic_field =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(MagneticField);
 
-    for (auto i = 0; i < 9; ++i) {
-      out_ros_data.magnetic_field_covariance[i] = MagneticFieldCovariance[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        MagneticFieldCovariance, out_ros_data.magnetic_field_covariance, 9);
   }
 };
 

@@ -50,65 +50,32 @@ public:
   void SetFromROS2(const diagnostic_msgs__msg__DiagnosticStatus &in_ros_data) {
     Level = in_ros_data.level;
 
-    Name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
+    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
 
-    Message.AppendChars(in_ros_data.message.data, in_ros_data.message.size);
+    Message = UROS2Utils::StringROSToUE(in_ros_data.message);
 
-    HardwareId.AppendChars(in_ros_data.hardware_id.data,
-                           in_ros_data.hardware_id.size);
+    HardwareId = UROS2Utils::StringROSToUE(in_ros_data.hardware_id);
 
-    for (auto i = 0; i < in_ros_data.values.size; ++i) {
-      Values[i].SetFromROS2(in_ros_data.values.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<diagnostic_msgs__msg__KeyValue,
+                                     FROSKeyValue>(
+        in_ros_data.values.data, Values, in_ros_data.values.size);
   }
 
   void SetROS2(diagnostic_msgs__msg__DiagnosticStatus &out_ros_data) const {
     out_ros_data.level = Level;
 
-    {
-      FTCHARToUTF8 strUtf8(*Name);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
-      memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name.size = strLength;
-      out_ros_data.name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
 
-    {
-      FTCHARToUTF8 strUtf8(*Message);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.message.data = (decltype(out_ros_data.message.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.message.data)));
-      memcpy(out_ros_data.message.data, TCHAR_TO_UTF8(*Message),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.message.size = strLength;
-      out_ros_data.message.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Message, out_ros_data.message);
 
-    {
-      FTCHARToUTF8 strUtf8(*HardwareId);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.hardware_id.data =
-          (decltype(out_ros_data.hardware_id.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.hardware_id.data)));
-      memcpy(out_ros_data.hardware_id.data, TCHAR_TO_UTF8(*HardwareId),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.hardware_id.size = strLength;
-      out_ros_data.hardware_id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(HardwareId, out_ros_data.hardware_id);
 
-    out_ros_data.values.data = (decltype(out_ros_data.values.data))malloc(
-        (Values.Num()) * sizeof(decltype(*out_ros_data.values.data)));
-
-    for (auto i = 0; i < Values.Num(); ++i) {
-      Values[i].SetROS2(out_ros_data.values.data[i]);
-    }
-
-    out_ros_data.values.size = Values.Num();
-    out_ros_data.values.capacity = Values.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        diagnostic_msgs__msg__KeyValue__Sequence>(out_ros_data.values,
+                                                  Values.Num());
+    UROS2Utils::ArrayUEToROSSequence<diagnostic_msgs__msg__KeyValue,
+                                     FROSKeyValue>(
+        Values, out_ros_data.values.data, Values.Num());
   }
 };
 

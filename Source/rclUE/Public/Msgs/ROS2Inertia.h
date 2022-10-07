@@ -53,9 +53,8 @@ public:
   void SetFromROS2(const geometry_msgs__msg__Inertia &in_ros_data) {
     M = in_ros_data.m;
 
-    Com.X = in_ros_data.com.x;
-    Com.Y = in_ros_data.com.y;
-    Com.Z = in_ros_data.com.z;
+    Com =
+        UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(in_ros_data.com);
 
     Ixx = in_ros_data.ixx;
 
@@ -73,9 +72,8 @@ public:
   void SetROS2(geometry_msgs__msg__Inertia &out_ros_data) const {
     out_ros_data.m = M;
 
-    out_ros_data.com.x = Com.X;
-    out_ros_data.com.y = Com.Y;
-    out_ros_data.com.z = Com.Z;
+    out_ros_data.com =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Com);
 
     out_ros_data.ixx = Ixx;
 

@@ -33,23 +33,19 @@ public:
   FROSTwist() {}
 
   void SetFromROS2(const geometry_msgs__msg__Twist &in_ros_data) {
-    Linear.X = in_ros_data.linear.x;
-    Linear.Y = in_ros_data.linear.y;
-    Linear.Z = in_ros_data.linear.z;
+    Linear = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.linear);
 
-    Angular.X = in_ros_data.angular.x;
-    Angular.Y = in_ros_data.angular.y;
-    Angular.Z = in_ros_data.angular.z;
+    Angular = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.angular);
   }
 
   void SetROS2(geometry_msgs__msg__Twist &out_ros_data) const {
-    out_ros_data.linear.x = Linear.X;
-    out_ros_data.linear.y = Linear.Y;
-    out_ros_data.linear.z = Linear.Z;
+    out_ros_data.linear =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Linear);
 
-    out_ros_data.angular.x = Angular.X;
-    out_ros_data.angular.y = Angular.Y;
-    out_ros_data.angular.z = Angular.Z;
+    out_ros_data.angular =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Angular);
   }
 };
 

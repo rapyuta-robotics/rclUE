@@ -33,33 +33,15 @@ public:
   FROSKeyValue() {}
 
   void SetFromROS2(const diagnostic_msgs__msg__KeyValue &in_ros_data) {
-    Key.AppendChars(in_ros_data.key.data, in_ros_data.key.size);
+    Key = UROS2Utils::StringROSToUE(in_ros_data.key);
 
-    Value.AppendChars(in_ros_data.value.data, in_ros_data.value.size);
+    Value = UROS2Utils::StringROSToUE(in_ros_data.value);
   }
 
   void SetROS2(diagnostic_msgs__msg__KeyValue &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Key);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.key.data = (decltype(out_ros_data.key.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.key.data)));
-      memcpy(out_ros_data.key.data, TCHAR_TO_UTF8(*Key),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.key.size = strLength;
-      out_ros_data.key.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Key, out_ros_data.key);
 
-    {
-      FTCHARToUTF8 strUtf8(*Value);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.value.data = (decltype(out_ros_data.value.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.value.data)));
-      memcpy(out_ros_data.value.data, TCHAR_TO_UTF8(*Value),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.value.size = strLength;
-      out_ros_data.value.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Value, out_ros_data.value);
   }
 };
 

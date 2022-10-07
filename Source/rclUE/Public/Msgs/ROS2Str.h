@@ -30,20 +30,11 @@ public:
   FROSStr() {}
 
   void SetFromROS2(const example_interfaces__msg__String &in_ros_data) {
-    Data.AppendChars(in_ros_data.data.data, in_ros_data.data.size);
+    Data = UROS2Utils::StringROSToUE(in_ros_data.data);
   }
 
   void SetROS2(example_interfaces__msg__String &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Data);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.data.data)));
-      memcpy(out_ros_data.data.data, TCHAR_TO_UTF8(*Data),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.data.size = strLength;
-      out_ros_data.data.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Data, out_ros_data.data);
   }
 };
 

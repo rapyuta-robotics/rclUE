@@ -53,24 +53,21 @@ public:
                        &in_ros_data) {
     SequenceNumber = in_ros_data.sequence_number;
 
-    for (auto i = 0; i < in_ros_data.markers.size; ++i) {
-      Markers[i].SetFromROS2(in_ros_data.markers.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarker,
+                                     FROSIM>(in_ros_data.markers.data, Markers,
+                                             in_ros_data.markers.size);
   }
 
   void SetROS2(visualization_msgs__srv__GetInteractiveMarkers_Response
                    &out_ros_data) const {
     out_ros_data.sequence_number = SequenceNumber;
 
-    out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
-        (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
-
-    for (auto i = 0; i < Markers.Num(); ++i) {
-      Markers[i].SetROS2(out_ros_data.markers.data[i]);
-    }
-
-    out_ros_data.markers.size = Markers.Num();
-    out_ros_data.markers.capacity = Markers.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        visualization_msgs__msg__InteractiveMarker__Sequence>(
+        out_ros_data.markers, Markers.Num());
+    UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarker,
+                                     FROSIM>(Markers, out_ros_data.markers.data,
+                                             Markers.Num());
   }
 };
 

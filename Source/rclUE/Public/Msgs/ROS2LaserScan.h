@@ -74,13 +74,12 @@ public:
 
     RangeMax = in_ros_data.range_max;
 
-    for (auto i = 0; i < in_ros_data.ranges.size; ++i) {
-      Ranges.Emplace(in_ros_data.ranges.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(
+        in_ros_data.ranges.data, Ranges, in_ros_data.ranges.size);
 
-    for (auto i = 0; i < in_ros_data.intensities.size; ++i) {
-      Intensities.Emplace(in_ros_data.intensities.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(
+        in_ros_data.intensities.data, Intensities,
+        in_ros_data.intensities.size);
   }
 
   void SetROS2(sensor_msgs__msg__LaserScan &out_ros_data) const {
@@ -100,27 +99,16 @@ public:
 
     out_ros_data.range_max = RangeMax;
 
-    out_ros_data.ranges.data = (decltype(out_ros_data.ranges.data))malloc(
-        (Ranges.Num()) * sizeof(decltype(*out_ros_data.ranges.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.ranges, Ranges.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(
+        Ranges, out_ros_data.ranges.data, Ranges.Num());
 
-    for (auto i = 0; i < Ranges.Num(); ++i) {
-      out_ros_data.ranges.data[i] = Ranges[i];
-    }
-
-    out_ros_data.ranges.size = Ranges.Num();
-    out_ros_data.ranges.capacity = Ranges.Num();
-
-    out_ros_data.intensities.data =
-        (decltype(out_ros_data.intensities.data))malloc(
-            (Intensities.Num()) *
-            sizeof(decltype(*out_ros_data.intensities.data)));
-
-    for (auto i = 0; i < Intensities.Num(); ++i) {
-      out_ros_data.intensities.data[i] = Intensities[i];
-    }
-
-    out_ros_data.intensities.size = Intensities.Num();
-    out_ros_data.intensities.capacity = Intensities.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.intensities,
+                                             Intensities.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(
+        Intensities, out_ros_data.intensities.data, Intensities.Num());
   }
 };
 

@@ -75,13 +75,14 @@ public:
 
     RangeMax = in_ros_data.range_max;
 
-    for (auto i = 0; i < in_ros_data.ranges.size; ++i) {
-      Ranges[i].SetFromROS2(in_ros_data.ranges.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__LaserEcho,
+                                     FROSLaserEcho>(
+        in_ros_data.ranges.data, Ranges, in_ros_data.ranges.size);
 
-    for (auto i = 0; i < in_ros_data.intensities.size; ++i) {
-      Intensities[i].SetFromROS2(in_ros_data.intensities.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__LaserEcho,
+                                     FROSLaserEcho>(
+        in_ros_data.intensities.data, Intensities,
+        in_ros_data.intensities.size);
   }
 
   void SetROS2(sensor_msgs__msg__MultiEchoLaserScan &out_ros_data) const {
@@ -101,27 +102,19 @@ public:
 
     out_ros_data.range_max = RangeMax;
 
-    out_ros_data.ranges.data = (decltype(out_ros_data.ranges.data))malloc(
-        (Ranges.Num()) * sizeof(decltype(*out_ros_data.ranges.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        sensor_msgs__msg__LaserEcho__Sequence>(out_ros_data.ranges,
+                                               Ranges.Num());
+    UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__LaserEcho,
+                                     FROSLaserEcho>(
+        Ranges, out_ros_data.ranges.data, Ranges.Num());
 
-    for (auto i = 0; i < Ranges.Num(); ++i) {
-      Ranges[i].SetROS2(out_ros_data.ranges.data[i]);
-    }
-
-    out_ros_data.ranges.size = Ranges.Num();
-    out_ros_data.ranges.capacity = Ranges.Num();
-
-    out_ros_data.intensities.data =
-        (decltype(out_ros_data.intensities.data))malloc(
-            (Intensities.Num()) *
-            sizeof(decltype(*out_ros_data.intensities.data)));
-
-    for (auto i = 0; i < Intensities.Num(); ++i) {
-      Intensities[i].SetROS2(out_ros_data.intensities.data[i]);
-    }
-
-    out_ros_data.intensities.size = Intensities.Num();
-    out_ros_data.intensities.capacity = Intensities.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        sensor_msgs__msg__LaserEcho__Sequence>(out_ros_data.intensities,
+                                               Intensities.Num());
+    UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__LaserEcho,
+                                     FROSLaserEcho>(
+        Intensities, out_ros_data.intensities.data, Intensities.Num());
   }
 };
 

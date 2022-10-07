@@ -31,21 +31,18 @@ public:
   FROSJoyFeedbackArray() {}
 
   void SetFromROS2(const sensor_msgs__msg__JoyFeedbackArray &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.array.size; ++i) {
-      Array[i].SetFromROS2(in_ros_data.array.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__JoyFeedback,
+                                     FROSJoyFeedback>(
+        in_ros_data.array.data, Array, in_ros_data.array.size);
   }
 
   void SetROS2(sensor_msgs__msg__JoyFeedbackArray &out_ros_data) const {
-    out_ros_data.array.data = (decltype(out_ros_data.array.data))malloc(
-        (Array.Num()) * sizeof(decltype(*out_ros_data.array.data)));
-
-    for (auto i = 0; i < Array.Num(); ++i) {
-      Array[i].SetROS2(out_ros_data.array.data[i]);
-    }
-
-    out_ros_data.array.size = Array.Num();
-    out_ros_data.array.capacity = Array.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        sensor_msgs__msg__JoyFeedback__Sequence>(out_ros_data.array,
+                                                 Array.Num());
+    UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__JoyFeedback,
+                                     FROSJoyFeedback>(
+        Array, out_ros_data.array.data, Array.Num());
   }
 };
 

@@ -80,24 +80,16 @@ public:
 
     Width = in_ros_data.width;
 
-    DistortionModel.AppendChars(in_ros_data.distortion_model.data,
-                                in_ros_data.distortion_model.size);
+    DistortionModel = UROS2Utils::StringROSToUE(in_ros_data.distortion_model);
 
-    for (auto i = 0; i < in_ros_data.d.size; ++i) {
-      D.Emplace(in_ros_data.d.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.d.data, D,
+                                                     in_ros_data.d.size);
 
-    for (auto i = 0; i < 9; ++i) {
-      K.Emplace(in_ros_data.k[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.k, K, 9);
 
-    for (auto i = 0; i < 9; ++i) {
-      R.Emplace(in_ros_data.r[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.r, R, 9);
 
-    for (auto i = 0; i < 12; ++i) {
-      P.Emplace(in_ros_data.p[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.p, P, 12);
 
     BinningX = in_ros_data.binning_x;
 
@@ -113,40 +105,18 @@ public:
 
     out_ros_data.width = Width;
 
-    {
-      FTCHARToUTF8 strUtf8(*DistortionModel);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.distortion_model.data =
-          (decltype(out_ros_data.distortion_model.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.distortion_model.data)));
-      memcpy(out_ros_data.distortion_model.data,
-             TCHAR_TO_UTF8(*DistortionModel), (strLength + 1) * sizeof(char));
-      out_ros_data.distortion_model.size = strLength;
-      out_ros_data.distortion_model.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(DistortionModel, out_ros_data.distortion_model);
 
-    out_ros_data.d.data = (decltype(out_ros_data.d.data))malloc(
-        (D.Num()) * sizeof(decltype(*out_ros_data.d.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.d, D.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(D, out_ros_data.d.data,
+                                                     D.Num());
 
-    for (auto i = 0; i < D.Num(); ++i) {
-      out_ros_data.d.data[i] = D[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(K, out_ros_data.k, 9);
 
-    out_ros_data.d.size = D.Num();
-    out_ros_data.d.capacity = D.Num();
+    UROS2Utils::ArrayUEToROSSequence<double, double>(R, out_ros_data.r, 9);
 
-    for (auto i = 0; i < 9; ++i) {
-      out_ros_data.k[i] = K[i];
-    }
-
-    for (auto i = 0; i < 9; ++i) {
-      out_ros_data.r[i] = R[i];
-    }
-
-    for (auto i = 0; i < 12; ++i) {
-      out_ros_data.p[i] = P[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(P, out_ros_data.p, 12);
 
     out_ros_data.binning_x = BinningX;
 

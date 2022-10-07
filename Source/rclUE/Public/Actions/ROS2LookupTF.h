@@ -62,11 +62,9 @@ public:
       GoalId[i] = in_ros_data.goal_id.uuid[i];
     }
 
-    TargetFrame.AppendChars(in_ros_data.goal.target_frame.data,
-                            in_ros_data.goal.target_frame.size);
+    TargetFrame = UROS2Utils::StringROSToUE(in_ros_data.goal.target_frame);
 
-    SourceFrame.AppendChars(in_ros_data.goal.source_frame.data,
-                            in_ros_data.goal.source_frame.size);
+    SourceFrame = UROS2Utils::StringROSToUE(in_ros_data.goal.source_frame);
 
     SourceTime.SetFromROS2(in_ros_data.goal.source_time);
 
@@ -74,8 +72,7 @@ public:
 
     TargetTime.SetFromROS2(in_ros_data.goal.target_time);
 
-    FixedFrame.AppendChars(in_ros_data.goal.fixed_frame.data,
-                           in_ros_data.goal.fixed_frame.size);
+    FixedFrame = UROS2Utils::StringROSToUE(in_ros_data.goal.fixed_frame);
 
     bAdvanced = in_ros_data.goal.advanced;
   }
@@ -86,31 +83,9 @@ public:
       out_ros_data.goal_id.uuid[i] = GoalId[i];
     }
 
-    {
-      FTCHARToUTF8 strUtf8(*TargetFrame);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.goal.target_frame.data =
-          (decltype(out_ros_data.goal.target_frame.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.goal.target_frame.data)));
-      memcpy(out_ros_data.goal.target_frame.data, TCHAR_TO_UTF8(*TargetFrame),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.goal.target_frame.size = strLength;
-      out_ros_data.goal.target_frame.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(TargetFrame, out_ros_data.goal.target_frame);
 
-    {
-      FTCHARToUTF8 strUtf8(*SourceFrame);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.goal.source_frame.data =
-          (decltype(out_ros_data.goal.source_frame.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.goal.source_frame.data)));
-      memcpy(out_ros_data.goal.source_frame.data, TCHAR_TO_UTF8(*SourceFrame),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.goal.source_frame.size = strLength;
-      out_ros_data.goal.source_frame.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(SourceFrame, out_ros_data.goal.source_frame);
 
     SourceTime.SetROS2(out_ros_data.goal.source_time);
 
@@ -118,18 +93,7 @@ public:
 
     TargetTime.SetROS2(out_ros_data.goal.target_time);
 
-    {
-      FTCHARToUTF8 strUtf8(*FixedFrame);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.goal.fixed_frame.data =
-          (decltype(out_ros_data.goal.fixed_frame.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.goal.fixed_frame.data)));
-      memcpy(out_ros_data.goal.fixed_frame.data, TCHAR_TO_UTF8(*FixedFrame),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.goal.fixed_frame.size = strLength;
-      out_ros_data.goal.fixed_frame.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(FixedFrame, out_ros_data.goal.fixed_frame);
 
     out_ros_data.goal.advanced = bAdvanced;
   }

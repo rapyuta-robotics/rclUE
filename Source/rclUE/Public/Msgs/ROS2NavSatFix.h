@@ -69,9 +69,8 @@ public:
 
     Altitude = in_ros_data.altitude;
 
-    for (auto i = 0; i < 9; ++i) {
-      PositionCovariance.Emplace(in_ros_data.position_covariance[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.position_covariance, PositionCovariance, 9);
 
     PositionCovarianceType = in_ros_data.position_covariance_type;
   }
@@ -87,9 +86,8 @@ public:
 
     out_ros_data.altitude = Altitude;
 
-    for (auto i = 0; i < 9; ++i) {
-      out_ros_data.position_covariance[i] = PositionCovariance[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        PositionCovariance, out_ros_data.position_covariance, 9);
 
     out_ros_data.position_covariance_type = PositionCovarianceType;
   }

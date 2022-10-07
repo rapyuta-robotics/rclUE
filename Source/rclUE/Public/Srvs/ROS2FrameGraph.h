@@ -43,23 +43,11 @@ public:
   FROSFrameGraphRes() {}
 
   void SetFromROS2(const tf2_msgs__srv__FrameGraph_Response &in_ros_data) {
-    FrameYaml.AppendChars(in_ros_data.frame_yaml.data,
-                          in_ros_data.frame_yaml.size);
+    FrameYaml = UROS2Utils::StringROSToUE(in_ros_data.frame_yaml);
   }
 
   void SetROS2(tf2_msgs__srv__FrameGraph_Response &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*FrameYaml);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.frame_yaml.data =
-          (decltype(out_ros_data.frame_yaml.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.frame_yaml.data)));
-      memcpy(out_ros_data.frame_yaml.data, TCHAR_TO_UTF8(*FrameYaml),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.frame_yaml.size = strLength;
-      out_ros_data.frame_yaml.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(FrameYaml, out_ros_data.frame_yaml);
   }
 };
 

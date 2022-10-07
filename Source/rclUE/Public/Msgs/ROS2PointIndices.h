@@ -36,23 +36,17 @@ public:
   void SetFromROS2(const pcl_msgs__msg__PointIndices &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.indices.size; ++i) {
-      Indices.Emplace(in_ros_data.indices.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<int, int>(
+        in_ros_data.indices.data, Indices, in_ros_data.indices.size);
   }
 
   void SetROS2(pcl_msgs__msg__PointIndices &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.indices.data = (decltype(out_ros_data.indices.data))malloc(
-        (Indices.Num()) * sizeof(decltype(*out_ros_data.indices.data)));
-
-    for (auto i = 0; i < Indices.Num(); ++i) {
-      out_ros_data.indices.data[i] = Indices[i];
-    }
-
-    out_ros_data.indices.size = Indices.Num();
-    out_ros_data.indices.capacity = Indices.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__int32__Sequence>(out_ros_data.indices, Indices.Num());
+    UROS2Utils::ArrayUEToROSSequence<int, int>(
+        Indices, out_ros_data.indices.data, Indices.Num());
   }
 };
 

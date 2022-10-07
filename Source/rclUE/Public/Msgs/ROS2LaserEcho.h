@@ -30,21 +30,15 @@ public:
   FROSLaserEcho() {}
 
   void SetFromROS2(const sensor_msgs__msg__LaserEcho &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.echoes.size; ++i) {
-      Echoes.Emplace(in_ros_data.echoes.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(
+        in_ros_data.echoes.data, Echoes, in_ros_data.echoes.size);
   }
 
   void SetROS2(sensor_msgs__msg__LaserEcho &out_ros_data) const {
-    out_ros_data.echoes.data = (decltype(out_ros_data.echoes.data))malloc(
-        (Echoes.Num()) * sizeof(decltype(*out_ros_data.echoes.data)));
-
-    for (auto i = 0; i < Echoes.Num(); ++i) {
-      out_ros_data.echoes.data[i] = Echoes[i];
-    }
-
-    out_ros_data.echoes.size = Echoes.Num();
-    out_ros_data.echoes.capacity = Echoes.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.echoes, Echoes.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(
+        Echoes, out_ros_data.echoes.data, Echoes.Num());
   }
 };
 

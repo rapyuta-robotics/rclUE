@@ -31,21 +31,16 @@ public:
   FROSPolygon() {}
 
   void SetFromROS2(const geometry_msgs__msg__Polygon &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.points.size; ++i) {
-      Points[i].SetFromROS2(in_ros_data.points.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Point32, FROSPoint32>(
+        in_ros_data.points.data, Points, in_ros_data.points.size);
   }
 
   void SetROS2(geometry_msgs__msg__Polygon &out_ros_data) const {
-    out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
-        (Points.Num()) * sizeof(decltype(*out_ros_data.points.data)));
-
-    for (auto i = 0; i < Points.Num(); ++i) {
-      Points[i].SetROS2(out_ros_data.points.data[i]);
-    }
-
-    out_ros_data.points.size = Points.Num();
-    out_ros_data.points.capacity = Points.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Point32__Sequence>(out_ros_data.points,
+                                               Points.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Point32, FROSPoint32>(
+        Points, out_ros_data.points.data, Points.Num());
   }
 };
 

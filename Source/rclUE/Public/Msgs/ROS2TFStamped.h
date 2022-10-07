@@ -16,7 +16,6 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Header.h"
-#include "Msgs/ROS2TF.h"
 
 // Generated
 #include "ROS2TFStamped.generated.h"
@@ -33,36 +32,24 @@ public:
   FString ChildFrameId;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSTF Transform;
+  FTransform Transform = FTransform::Identity;
 
   FROSTFStamped() {}
 
   void SetFromROS2(const geometry_msgs__msg__TransformStamped &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    ChildFrameId.AppendChars(in_ros_data.child_frame_id.data,
-                             in_ros_data.child_frame_id.size);
+    ChildFrameId = UROS2Utils::StringROSToUE(in_ros_data.child_frame_id);
 
-    Transform.SetFromROS2(in_ros_data.transform);
+    Transform = UROS2Utils::TransformROSToUE(in_ros_data.transform);
   }
 
   void SetROS2(geometry_msgs__msg__TransformStamped &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    {
-      FTCHARToUTF8 strUtf8(*ChildFrameId);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.child_frame_id.data =
-          (decltype(out_ros_data.child_frame_id.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.child_frame_id.data)));
-      memcpy(out_ros_data.child_frame_id.data, TCHAR_TO_UTF8(*ChildFrameId),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.child_frame_id.size = strLength;
-      out_ros_data.child_frame_id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(ChildFrameId, out_ros_data.child_frame_id);
 
-    Transform.SetROS2(out_ros_data.transform);
+    out_ros_data.transform = UROS2Utils::TransformUEToROS(Transform);
   }
 };
 

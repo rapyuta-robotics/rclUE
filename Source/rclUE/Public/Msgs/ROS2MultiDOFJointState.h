@@ -16,7 +16,6 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Header.h"
-#include "Msgs/ROS2TF.h"
 #include "Msgs/ROS2Twist.h"
 #include "Msgs/ROS2Wrench.h"
 
@@ -35,7 +34,7 @@ public:
   TArray<FString> JointNames;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FROSTF> Transforms;
+  TArray<FTransform> Transforms;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   TArray<FROSTwist> Twist;
@@ -48,79 +47,44 @@ public:
   void SetFromROS2(const sensor_msgs__msg__MultiDOFJointState &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.joint_names.size; ++i) {
-      JointNames.Emplace("");
-      JointNames[i].AppendChars(in_ros_data.joint_names.data[i].data,
-                                in_ros_data.joint_names.data[i].size);
-    }
+    UROS2Utils::StringSequenceROSToUEArray(
+        in_ros_data.joint_names.data, JointNames, in_ros_data.joint_names.size);
 
-    for (auto i = 0; i < in_ros_data.transforms.size; ++i) {
-      Transforms[i].SetFromROS2(in_ros_data.transforms.data[i]);
-    }
+    UROS2Utils::TransformSequenceROSToUEArray(
+        in_ros_data.transforms.data, Transforms, in_ros_data.transforms.size);
 
-    for (auto i = 0; i < in_ros_data.twist.size; ++i) {
-      Twist[i].SetFromROS2(in_ros_data.twist.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Twist, FROSTwist>(
+        in_ros_data.twist.data, Twist, in_ros_data.twist.size);
 
-    for (auto i = 0; i < in_ros_data.wrench.size; ++i) {
-      Wrench[i].SetFromROS2(in_ros_data.wrench.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Wrench, FROSWrench>(
+        in_ros_data.wrench.data, Wrench, in_ros_data.wrench.size);
   }
 
   void SetROS2(sensor_msgs__msg__MultiDOFJointState &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.joint_names.data =
-        (decltype(out_ros_data.joint_names.data))malloc(
-            (JointNames.Num()) *
-            sizeof(decltype(*out_ros_data.joint_names.data)));
-    for (auto i = 0; i < JointNames.Num(); ++i) {
-      {
-        FTCHARToUTF8 strUtf8(*JointNames[i]);
-        int32 strLength = strUtf8.Length();
-        if (out_ros_data.joint_names.data[i].data != nullptr) {
-          free(out_ros_data.joint_names.data[i].data);
-        }
-        out_ros_data.joint_names.data[i].data =
-            (char *)malloc((strLength + 1) * sizeof(char));
-        memcpy(out_ros_data.joint_names.data[i].data,
-               TCHAR_TO_UTF8(*JointNames[i]), (strLength + 1) * sizeof(char));
-        out_ros_data.joint_names.data[i].size = strLength;
-        out_ros_data.joint_names.data[i].capacity = strLength + 1;
-      }
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__String__Sequence>(out_ros_data.joint_names,
+                                            JointNames.Num());
+    UROS2Utils::StringArrayUEToROSSequence(
+        JointNames, out_ros_data.joint_names.data, JointNames.Num());
 
-    out_ros_data.transforms.data =
-        (decltype(out_ros_data.transforms.data))malloc(
-            (Transforms.Num()) *
-            sizeof(decltype(*out_ros_data.transforms.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Transform__Sequence>(out_ros_data.transforms,
+                                                 Transforms.Num());
+    UROS2Utils::TransformArrayUEToROSSequence(
+        Transforms, out_ros_data.transforms.data, Transforms.Num());
 
-    for (auto i = 0; i < Transforms.Num(); ++i) {
-      Transforms[i].SetROS2(out_ros_data.transforms.data[i]);
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Twist__Sequence>(out_ros_data.twist, Twist.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Twist, FROSTwist>(
+        Twist, out_ros_data.twist.data, Twist.Num());
 
-    out_ros_data.transforms.size = Transforms.Num();
-    out_ros_data.transforms.capacity = Transforms.Num();
-
-    out_ros_data.twist.data = (decltype(out_ros_data.twist.data))malloc(
-        (Twist.Num()) * sizeof(decltype(*out_ros_data.twist.data)));
-
-    for (auto i = 0; i < Twist.Num(); ++i) {
-      Twist[i].SetROS2(out_ros_data.twist.data[i]);
-    }
-
-    out_ros_data.twist.size = Twist.Num();
-    out_ros_data.twist.capacity = Twist.Num();
-
-    out_ros_data.wrench.data = (decltype(out_ros_data.wrench.data))malloc(
-        (Wrench.Num()) * sizeof(decltype(*out_ros_data.wrench.data)));
-
-    for (auto i = 0; i < Wrench.Num(); ++i) {
-      Wrench[i].SetROS2(out_ros_data.wrench.data[i]);
-    }
-
-    out_ros_data.wrench.size = Wrench.Num();
-    out_ros_data.wrench.capacity = Wrench.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Wrench__Sequence>(out_ros_data.wrench,
+                                              Wrench.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Wrench, FROSWrench>(
+        Wrench, out_ros_data.wrench.data, Wrench.Num());
   }
 };
 

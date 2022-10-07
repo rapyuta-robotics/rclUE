@@ -33,34 +33,19 @@ public:
   FROSChannelFloat32() {}
 
   void SetFromROS2(const sensor_msgs__msg__ChannelFloat32 &in_ros_data) {
-    Name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
+    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
 
-    for (auto i = 0; i < in_ros_data.values.size; ++i) {
-      Values.Emplace(in_ros_data.values.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(
+        in_ros_data.values.data, Values, in_ros_data.values.size);
   }
 
   void SetROS2(sensor_msgs__msg__ChannelFloat32 &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Name);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
-      memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name.size = strLength;
-      out_ros_data.name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
 
-    out_ros_data.values.data = (decltype(out_ros_data.values.data))malloc(
-        (Values.Num()) * sizeof(decltype(*out_ros_data.values.data)));
-
-    for (auto i = 0; i < Values.Num(); ++i) {
-      out_ros_data.values.data[i] = Values[i];
-    }
-
-    out_ros_data.values.size = Values.Num();
-    out_ros_data.values.capacity = Values.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.values, Values.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(
+        Values, out_ros_data.values.data, Values.Num());
   }
 };
 

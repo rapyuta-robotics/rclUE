@@ -95,7 +95,7 @@ public:
   void SetFromROS2(const visualization_msgs__msg__Marker &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Ns.AppendChars(in_ros_data.ns.data, in_ros_data.ns.size);
+    Ns = UROS2Utils::StringROSToUE(in_ros_data.ns);
 
     Id = in_ros_data.id;
 
@@ -105,9 +105,8 @@ public:
 
     Pose.SetFromROS2(in_ros_data.pose);
 
-    Scale.X = in_ros_data.scale.x;
-    Scale.Y = in_ros_data.scale.y;
-    Scale.Z = in_ros_data.scale.z;
+    Scale = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.scale);
 
     Color.SetFromROS2(in_ros_data.color);
 
@@ -115,21 +114,15 @@ public:
 
     bFrameLocked = in_ros_data.frame_locked;
 
-    for (auto i = 0; i < in_ros_data.points.size; ++i) {
-      Points.Emplace(FVector::ZeroVector);
-      Points[i].X = in_ros_data.points.data[i].x;
-      Points[i].Y = in_ros_data.points.data[i].y;
-      Points[i].Z = in_ros_data.points.data[i].z;
-    }
+    UROS2Utils::VectorSequenceROSToUEArray<geometry_msgs__msg__Point>(
+        in_ros_data.points.data, Points, in_ros_data.points.size);
 
-    for (auto i = 0; i < in_ros_data.colors.size; ++i) {
-      Colors[i].SetFromROS2(in_ros_data.colors.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<std_msgs__msg__ColorRGBA, FROSColorRGBA>(
+        in_ros_data.colors.data, Colors, in_ros_data.colors.size);
 
-    Text.AppendChars(in_ros_data.text.data, in_ros_data.text.size);
+    Text = UROS2Utils::StringROSToUE(in_ros_data.text);
 
-    MeshResource.AppendChars(in_ros_data.mesh_resource.data,
-                             in_ros_data.mesh_resource.size);
+    MeshResource = UROS2Utils::StringROSToUE(in_ros_data.mesh_resource);
 
     bMeshUseEmbeddedMaterials = in_ros_data.mesh_use_embedded_materials;
   }
@@ -137,16 +130,7 @@ public:
   void SetROS2(visualization_msgs__msg__Marker &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    {
-      FTCHARToUTF8 strUtf8(*Ns);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.ns.data = (decltype(out_ros_data.ns.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.ns.data)));
-      memcpy(out_ros_data.ns.data, TCHAR_TO_UTF8(*Ns),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.ns.size = strLength;
-      out_ros_data.ns.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Ns, out_ros_data.ns);
 
     out_ros_data.id = Id;
 
@@ -156,9 +140,8 @@ public:
 
     Pose.SetROS2(out_ros_data.pose);
 
-    out_ros_data.scale.x = Scale.X;
-    out_ros_data.scale.y = Scale.Y;
-    out_ros_data.scale.z = Scale.Z;
+    out_ros_data.scale =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Scale);
 
     Color.SetROS2(out_ros_data.color);
 
@@ -166,51 +149,19 @@ public:
 
     out_ros_data.frame_locked = bFrameLocked;
 
-    out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
-        (Points.Num() * 3) * sizeof(decltype(*out_ros_data.points.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Point__Sequence>(out_ros_data.points, Points.Num());
+    UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(
+        Points, out_ros_data.points.data, Points.Num());
 
-    for (auto i = 0; i < Points.Num(); ++i) {
-      out_ros_data.points.data[i].x = Points[i].X;
-      out_ros_data.points.data[i].y = Points[i].Y;
-      out_ros_data.points.data[i].z = Points[i].Z;
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        std_msgs__msg__ColorRGBA__Sequence>(out_ros_data.colors, Colors.Num());
+    UROS2Utils::ArrayUEToROSSequence<std_msgs__msg__ColorRGBA, FROSColorRGBA>(
+        Colors, out_ros_data.colors.data, Colors.Num());
 
-    out_ros_data.points.size = Points.Num();
-    out_ros_data.points.capacity = Points.Num();
+    UROS2Utils::StringUEToROS(Text, out_ros_data.text);
 
-    out_ros_data.colors.data = (decltype(out_ros_data.colors.data))malloc(
-        (Colors.Num()) * sizeof(decltype(*out_ros_data.colors.data)));
-
-    for (auto i = 0; i < Colors.Num(); ++i) {
-      Colors[i].SetROS2(out_ros_data.colors.data[i]);
-    }
-
-    out_ros_data.colors.size = Colors.Num();
-    out_ros_data.colors.capacity = Colors.Num();
-
-    {
-      FTCHARToUTF8 strUtf8(*Text);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.text.data = (decltype(out_ros_data.text.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.text.data)));
-      memcpy(out_ros_data.text.data, TCHAR_TO_UTF8(*Text),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.text.size = strLength;
-      out_ros_data.text.capacity = strLength + 1;
-    }
-
-    {
-      FTCHARToUTF8 strUtf8(*MeshResource);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.mesh_resource.data =
-          (decltype(out_ros_data.mesh_resource.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.mesh_resource.data)));
-      memcpy(out_ros_data.mesh_resource.data, TCHAR_TO_UTF8(*MeshResource),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.mesh_resource.size = strLength;
-      out_ros_data.mesh_resource.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(MeshResource, out_ros_data.mesh_resource);
 
     out_ros_data.mesh_use_embedded_materials = bMeshUseEmbeddedMaterials;
   }

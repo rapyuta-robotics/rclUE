@@ -37,25 +37,20 @@ public:
   void SetFromROS2(const actionlib_msgs__msg__GoalStatusArray &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.status_list.size; ++i) {
-      StatusList[i].SetFromROS2(in_ros_data.status_list.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<actionlib_msgs__msg__GoalStatus,
+                                     FROSGoalStatus>(
+        in_ros_data.status_list.data, StatusList, in_ros_data.status_list.size);
   }
 
   void SetROS2(actionlib_msgs__msg__GoalStatusArray &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.status_list.data =
-        (decltype(out_ros_data.status_list.data))malloc(
-            (StatusList.Num()) *
-            sizeof(decltype(*out_ros_data.status_list.data)));
-
-    for (auto i = 0; i < StatusList.Num(); ++i) {
-      StatusList[i].SetROS2(out_ros_data.status_list.data[i]);
-    }
-
-    out_ros_data.status_list.size = StatusList.Num();
-    out_ros_data.status_list.capacity = StatusList.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        actionlib_msgs__msg__GoalStatus__Sequence>(out_ros_data.status_list,
+                                                   StatusList.Num());
+    UROS2Utils::ArrayUEToROSSequence<actionlib_msgs__msg__GoalStatus,
+                                     FROSGoalStatus>(
+        StatusList, out_ros_data.status_list.data, StatusList.Num());
   }
 };
 

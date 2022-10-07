@@ -43,25 +43,13 @@ public:
   void SetFromROS2(const tf2_msgs__msg__TF2Error &in_ros_data) {
     Error = in_ros_data.error;
 
-    ErrorString.AppendChars(in_ros_data.error_string.data,
-                            in_ros_data.error_string.size);
+    ErrorString = UROS2Utils::StringROSToUE(in_ros_data.error_string);
   }
 
   void SetROS2(tf2_msgs__msg__TF2Error &out_ros_data) const {
     out_ros_data.error = Error;
 
-    {
-      FTCHARToUTF8 strUtf8(*ErrorString);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.error_string.data =
-          (decltype(out_ros_data.error_string.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.error_string.data)));
-      memcpy(out_ros_data.error_string.data, TCHAR_TO_UTF8(*ErrorString),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.error_string.size = strLength;
-      out_ros_data.error_string.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(ErrorString, out_ros_data.error_string);
   }
 };
 

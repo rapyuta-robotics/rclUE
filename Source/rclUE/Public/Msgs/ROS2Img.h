@@ -55,15 +55,14 @@ public:
 
     Width = in_ros_data.width;
 
-    Encoding.AppendChars(in_ros_data.encoding.data, in_ros_data.encoding.size);
+    Encoding = UROS2Utils::StringROSToUE(in_ros_data.encoding);
 
     IsBigendian = in_ros_data.is_bigendian;
 
     Step = in_ros_data.step;
 
-    for (auto i = 0; i < in_ros_data.data.size; ++i) {
-      Data.Emplace(in_ros_data.data.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.data.data, Data,
+                                                   in_ros_data.data.size);
   }
 
   void SetROS2(sensor_msgs__msg__Image &out_ros_data) const {
@@ -73,30 +72,16 @@ public:
 
     out_ros_data.width = Width;
 
-    {
-      FTCHARToUTF8 strUtf8(*Encoding);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.encoding.data = (decltype(out_ros_data.encoding.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.encoding.data)));
-      memcpy(out_ros_data.encoding.data, TCHAR_TO_UTF8(*Encoding),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.encoding.size = strLength;
-      out_ros_data.encoding.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Encoding, out_ros_data.encoding);
 
     out_ros_data.is_bigendian = IsBigendian;
 
     out_ros_data.step = Step;
 
-    out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
-        (Data.Num()) * sizeof(decltype(*out_ros_data.data.data)));
-
-    for (auto i = 0; i < Data.Num(); ++i) {
-      out_ros_data.data.data[i] = Data[i];
-    }
-
-    out_ros_data.data.size = Data.Num();
-    out_ros_data.data.capacity = Data.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__uint8__Sequence>(out_ros_data.data, Data.Num());
+    UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Data, out_ros_data.data.data,
+                                                   Data.Num());
   }
 };
 

@@ -36,22 +36,13 @@ public:
   void SetFromROS2(const actionlib_msgs__msg__GoalID &in_ros_data) {
     Stamp.SetFromROS2(in_ros_data.stamp);
 
-    Id.AppendChars(in_ros_data.id.data, in_ros_data.id.size);
+    Id = UROS2Utils::StringROSToUE(in_ros_data.id);
   }
 
   void SetROS2(actionlib_msgs__msg__GoalID &out_ros_data) const {
     Stamp.SetROS2(out_ros_data.stamp);
 
-    {
-      FTCHARToUTF8 strUtf8(*Id);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.id.data = (decltype(out_ros_data.id.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.id.data)));
-      memcpy(out_ros_data.id.data, TCHAR_TO_UTF8(*Id),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.id.size = strLength;
-      out_ros_data.id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Id, out_ros_data.id);
   }
 };
 

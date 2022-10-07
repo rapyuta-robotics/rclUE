@@ -57,20 +57,20 @@ public:
 
     Pose.SetFromROS2(in_ros_data.pose);
 
-    Name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
+    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
 
-    Description.AppendChars(in_ros_data.description.data,
-                            in_ros_data.description.size);
+    Description = UROS2Utils::StringROSToUE(in_ros_data.description);
 
     Scale = in_ros_data.scale;
 
-    for (auto i = 0; i < in_ros_data.menu_entries.size; ++i) {
-      MenuEntries[i].SetFromROS2(in_ros_data.menu_entries.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__MenuEntry,
+                                     FROSMenuEntry>(
+        in_ros_data.menu_entries.data, MenuEntries,
+        in_ros_data.menu_entries.size);
 
-    for (auto i = 0; i < in_ros_data.controls.size; ++i) {
-      Controls[i].SetFromROS2(in_ros_data.controls.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<
+        visualization_msgs__msg__InteractiveMarkerControl, FROSIMCtrl>(
+        in_ros_data.controls.data, Controls, in_ros_data.controls.size);
   }
 
   void SetROS2(visualization_msgs__msg__InteractiveMarker &out_ros_data) const {
@@ -78,53 +78,25 @@ public:
 
     Pose.SetROS2(out_ros_data.pose);
 
-    {
-      FTCHARToUTF8 strUtf8(*Name);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
-      memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name.size = strLength;
-      out_ros_data.name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
 
-    {
-      FTCHARToUTF8 strUtf8(*Description);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.description.data =
-          (decltype(out_ros_data.description.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.description.data)));
-      memcpy(out_ros_data.description.data, TCHAR_TO_UTF8(*Description),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.description.size = strLength;
-      out_ros_data.description.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Description, out_ros_data.description);
 
     out_ros_data.scale = Scale;
 
-    out_ros_data.menu_entries.data =
-        (decltype(out_ros_data.menu_entries.data))malloc(
-            (MenuEntries.Num()) *
-            sizeof(decltype(*out_ros_data.menu_entries.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        visualization_msgs__msg__MenuEntry__Sequence>(out_ros_data.menu_entries,
+                                                      MenuEntries.Num());
+    UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__MenuEntry,
+                                     FROSMenuEntry>(
+        MenuEntries, out_ros_data.menu_entries.data, MenuEntries.Num());
 
-    for (auto i = 0; i < MenuEntries.Num(); ++i) {
-      MenuEntries[i].SetROS2(out_ros_data.menu_entries.data[i]);
-    }
-
-    out_ros_data.menu_entries.size = MenuEntries.Num();
-    out_ros_data.menu_entries.capacity = MenuEntries.Num();
-
-    out_ros_data.controls.data = (decltype(out_ros_data.controls.data))malloc(
-        (Controls.Num()) * sizeof(decltype(*out_ros_data.controls.data)));
-
-    for (auto i = 0; i < Controls.Num(); ++i) {
-      Controls[i].SetROS2(out_ros_data.controls.data[i]);
-    }
-
-    out_ros_data.controls.size = Controls.Num();
-    out_ros_data.controls.capacity = Controls.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        visualization_msgs__msg__InteractiveMarkerControl__Sequence>(
+        out_ros_data.controls, Controls.Num());
+    UROS2Utils::ArrayUEToROSSequence<
+        visualization_msgs__msg__InteractiveMarkerControl, FROSIMCtrl>(
+        Controls, out_ros_data.controls.data, Controls.Num());
   }
 };
 

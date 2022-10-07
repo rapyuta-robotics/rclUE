@@ -44,69 +44,45 @@ public:
 
   void
   SetFromROS2(const trajectory_msgs__msg__JointTrajectoryPoint &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.positions.size; ++i) {
-      Positions.Emplace(in_ros_data.positions.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.positions.data, Positions, in_ros_data.positions.size);
 
-    for (auto i = 0; i < in_ros_data.velocities.size; ++i) {
-      Velocities.Emplace(in_ros_data.velocities.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.velocities.data, Velocities, in_ros_data.velocities.size);
 
-    for (auto i = 0; i < in_ros_data.accelerations.size; ++i) {
-      Accelerations.Emplace(in_ros_data.accelerations.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.accelerations.data, Accelerations,
+        in_ros_data.accelerations.size);
 
-    for (auto i = 0; i < in_ros_data.effort.size; ++i) {
-      Effort.Emplace(in_ros_data.effort.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.effort.data, Effort, in_ros_data.effort.size);
 
     TimeFromStart.SetFromROS2(in_ros_data.time_from_start);
   }
 
   void SetROS2(trajectory_msgs__msg__JointTrajectoryPoint &out_ros_data) const {
-    out_ros_data.positions.data = (decltype(out_ros_data.positions.data))malloc(
-        (Positions.Num()) * sizeof(decltype(*out_ros_data.positions.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.positions,
+                                             Positions.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Positions, out_ros_data.positions.data, Positions.Num());
 
-    for (auto i = 0; i < Positions.Num(); ++i) {
-      out_ros_data.positions.data[i] = Positions[i];
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.velocities,
+                                             Velocities.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Velocities, out_ros_data.velocities.data, Velocities.Num());
 
-    out_ros_data.positions.size = Positions.Num();
-    out_ros_data.positions.capacity = Positions.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.accelerations,
+                                             Accelerations.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Accelerations, out_ros_data.accelerations.data, Accelerations.Num());
 
-    out_ros_data.velocities.data =
-        (decltype(out_ros_data.velocities.data))malloc(
-            (Velocities.Num()) *
-            sizeof(decltype(*out_ros_data.velocities.data)));
-
-    for (auto i = 0; i < Velocities.Num(); ++i) {
-      out_ros_data.velocities.data[i] = Velocities[i];
-    }
-
-    out_ros_data.velocities.size = Velocities.Num();
-    out_ros_data.velocities.capacity = Velocities.Num();
-
-    out_ros_data.accelerations.data =
-        (decltype(out_ros_data.accelerations.data))malloc(
-            (Accelerations.Num()) *
-            sizeof(decltype(*out_ros_data.accelerations.data)));
-
-    for (auto i = 0; i < Accelerations.Num(); ++i) {
-      out_ros_data.accelerations.data[i] = Accelerations[i];
-    }
-
-    out_ros_data.accelerations.size = Accelerations.Num();
-    out_ros_data.accelerations.capacity = Accelerations.Num();
-
-    out_ros_data.effort.data = (decltype(out_ros_data.effort.data))malloc(
-        (Effort.Num()) * sizeof(decltype(*out_ros_data.effort.data)));
-
-    for (auto i = 0; i < Effort.Num(); ++i) {
-      out_ros_data.effort.data[i] = Effort[i];
-    }
-
-    out_ros_data.effort.size = Effort.Num();
-    out_ros_data.effort.capacity = Effort.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.effort, Effort.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Effort, out_ros_data.effort.data, Effort.Num());
 
     TimeFromStart.SetROS2(out_ros_data.time_from_start);
   }

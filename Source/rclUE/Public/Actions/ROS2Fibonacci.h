@@ -117,25 +117,19 @@ public:
   SetFromROS2(const example_interfaces__action__Fibonacci_GetResult_Response
                   &in_ros_data) {
     Status = in_ros_data.status;
-    for (auto i = 0; i < in_ros_data.result.sequence.size; ++i) {
-      Sequence.Emplace(in_ros_data.result.sequence.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<int, int>(
+        in_ros_data.result.sequence.data, Sequence,
+        in_ros_data.result.sequence.size);
   }
 
   void SetROS2(example_interfaces__action__Fibonacci_GetResult_Response
                    &out_ros_data) const {
     out_ros_data.status = Status;
-    out_ros_data.result.sequence.data =
-        (decltype(out_ros_data.result.sequence.data))malloc(
-            (Sequence.Num()) *
-            sizeof(decltype(*out_ros_data.result.sequence.data)));
-
-    for (auto i = 0; i < Sequence.Num(); ++i) {
-      out_ros_data.result.sequence.data[i] = Sequence[i];
-    }
-
-    out_ros_data.result.sequence.size = Sequence.Num();
-    out_ros_data.result.sequence.capacity = Sequence.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__int32__Sequence>(out_ros_data.result.sequence,
+                                           Sequence.Num());
+    UROS2Utils::ArrayUEToROSSequence<int, int>(
+        Sequence, out_ros_data.result.sequence.data, Sequence.Num());
   }
 };
 
@@ -157,9 +151,9 @@ public:
       GoalId[i] = in_ros_data.goal_id.uuid[i];
     }
 
-    for (auto i = 0; i < in_ros_data.feedback.sequence.size; ++i) {
-      Sequence.Emplace(in_ros_data.feedback.sequence.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<int, int>(
+        in_ros_data.feedback.sequence.data, Sequence,
+        in_ros_data.feedback.sequence.size);
   }
 
   void SetROS2(example_interfaces__action__Fibonacci_FeedbackMessage
@@ -168,17 +162,11 @@ public:
       out_ros_data.goal_id.uuid[i] = GoalId[i];
     }
 
-    out_ros_data.feedback.sequence.data =
-        (decltype(out_ros_data.feedback.sequence.data))malloc(
-            (Sequence.Num()) *
-            sizeof(decltype(*out_ros_data.feedback.sequence.data)));
-
-    for (auto i = 0; i < Sequence.Num(); ++i) {
-      out_ros_data.feedback.sequence.data[i] = Sequence[i];
-    }
-
-    out_ros_data.feedback.sequence.size = Sequence.Num();
-    out_ros_data.feedback.sequence.capacity = Sequence.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__int32__Sequence>(out_ros_data.feedback.sequence,
+                                           Sequence.Num());
+    UROS2Utils::ArrayUEToROSSequence<int, int>(
+        Sequence, out_ros_data.feedback.sequence.data, Sequence.Num());
   }
 };
 

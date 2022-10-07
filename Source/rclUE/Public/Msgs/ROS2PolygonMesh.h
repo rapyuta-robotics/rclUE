@@ -43,9 +43,8 @@ public:
 
     Cloud.SetFromROS2(in_ros_data.cloud);
 
-    for (auto i = 0; i < in_ros_data.polygons.size; ++i) {
-      Polygons[i].SetFromROS2(in_ros_data.polygons.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<pcl_msgs__msg__Vertices, FROSVertices>(
+        in_ros_data.polygons.data, Polygons, in_ros_data.polygons.size);
   }
 
   void SetROS2(pcl_msgs__msg__PolygonMesh &out_ros_data) const {
@@ -53,15 +52,11 @@ public:
 
     Cloud.SetROS2(out_ros_data.cloud);
 
-    out_ros_data.polygons.data = (decltype(out_ros_data.polygons.data))malloc(
-        (Polygons.Num()) * sizeof(decltype(*out_ros_data.polygons.data)));
-
-    for (auto i = 0; i < Polygons.Num(); ++i) {
-      Polygons[i].SetROS2(out_ros_data.polygons.data[i]);
-    }
-
-    out_ros_data.polygons.size = Polygons.Num();
-    out_ros_data.polygons.capacity = Polygons.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        pcl_msgs__msg__Vertices__Sequence>(out_ros_data.polygons,
+                                           Polygons.Num());
+    UROS2Utils::ArrayUEToROSSequence<pcl_msgs__msg__Vertices, FROSVertices>(
+        Polygons, out_ros_data.polygons.data, Polygons.Num());
   }
 };
 

@@ -48,7 +48,7 @@ public:
   FROSPointField() {}
 
   void SetFromROS2(const sensor_msgs__msg__PointField &in_ros_data) {
-    Name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
+    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
 
     Offset = in_ros_data.offset;
 
@@ -58,16 +58,7 @@ public:
   }
 
   void SetROS2(sensor_msgs__msg__PointField &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Name);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
-      memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name.size = strLength;
-      out_ros_data.name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
 
     out_ros_data.offset = Offset;
 

@@ -58,7 +58,7 @@ public:
   void SetFromROS2(const ue_msgs__srv__GetInt32FromId_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    Remarks.AppendChars(in_ros_data.remarks.data, in_ros_data.remarks.size);
+    Remarks = UROS2Utils::StringROSToUE(in_ros_data.remarks);
 
     Data = in_ros_data.data;
   }
@@ -66,16 +66,7 @@ public:
   void SetROS2(ue_msgs__srv__GetInt32FromId_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    {
-      FTCHARToUTF8 strUtf8(*Remarks);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.remarks.data = (decltype(out_ros_data.remarks.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.remarks.data)));
-      memcpy(out_ros_data.remarks.data, TCHAR_TO_UTF8(*Remarks),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.remarks.size = strLength;
-      out_ros_data.remarks.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Remarks, out_ros_data.remarks);
 
     out_ros_data.data = Data;
   }

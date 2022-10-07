@@ -31,20 +31,11 @@ public:
   FROSDeleteEntityReq() {}
 
   void SetFromROS2(const ue_msgs__srv__DeleteEntity_Request &in_ros_data) {
-    Name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
+    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
   }
 
   void SetROS2(ue_msgs__srv__DeleteEntity_Request &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Name);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
-      memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name.size = strLength;
-      out_ros_data.name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
   }
 };
 
@@ -64,25 +55,13 @@ public:
   void SetFromROS2(const ue_msgs__srv__DeleteEntity_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage.AppendChars(in_ros_data.status_message.data,
-                              in_ros_data.status_message.size);
+    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
   }
 
   void SetROS2(ue_msgs__srv__DeleteEntity_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    {
-      FTCHARToUTF8 strUtf8(*StatusMessage);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.status_message.data =
-          (decltype(out_ros_data.status_message.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.status_message.data)));
-      memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*StatusMessage),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.status_message.size = strLength;
-      out_ros_data.status_message.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
   }
 };
 

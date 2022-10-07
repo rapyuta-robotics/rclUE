@@ -35,22 +35,13 @@ public:
   void SetFromROS2(const std_msgs__msg__Header &in_ros_data) {
     Stamp.SetFromROS2(in_ros_data.stamp);
 
-    FrameId.AppendChars(in_ros_data.frame_id.data, in_ros_data.frame_id.size);
+    FrameId = UROS2Utils::StringROSToUE(in_ros_data.frame_id);
   }
 
   void SetROS2(std_msgs__msg__Header &out_ros_data) const {
     Stamp.SetROS2(out_ros_data.stamp);
 
-    {
-      FTCHARToUTF8 strUtf8(*FrameId);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.frame_id.data = (decltype(out_ros_data.frame_id.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.frame_id.data)));
-      memcpy(out_ros_data.frame_id.data, TCHAR_TO_UTF8(*FrameId),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.frame_id.size = strLength;
-      out_ros_data.frame_id.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(FrameId, out_ros_data.frame_id);
   }
 };
 

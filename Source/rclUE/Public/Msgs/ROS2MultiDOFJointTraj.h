@@ -41,50 +41,32 @@ public:
       const trajectory_msgs__msg__MultiDOFJointTrajectory &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.joint_names.size; ++i) {
-      JointNames.Emplace("");
-      JointNames[i].AppendChars(in_ros_data.joint_names.data[i].data,
-                                in_ros_data.joint_names.data[i].size);
-    }
+    UROS2Utils::StringSequenceROSToUEArray(
+        in_ros_data.joint_names.data, JointNames, in_ros_data.joint_names.size);
 
-    for (auto i = 0; i < in_ros_data.points.size; ++i) {
-      Points[i].SetFromROS2(in_ros_data.points.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<
+        trajectory_msgs__msg__MultiDOFJointTrajectoryPoint,
+        FROSMultiDOFJointTrajPoint>(in_ros_data.points.data, Points,
+                                    in_ros_data.points.size);
   }
 
   void
   SetROS2(trajectory_msgs__msg__MultiDOFJointTrajectory &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.joint_names.data =
-        (decltype(out_ros_data.joint_names.data))malloc(
-            (JointNames.Num()) *
-            sizeof(decltype(*out_ros_data.joint_names.data)));
-    for (auto i = 0; i < JointNames.Num(); ++i) {
-      {
-        FTCHARToUTF8 strUtf8(*JointNames[i]);
-        int32 strLength = strUtf8.Length();
-        if (out_ros_data.joint_names.data[i].data != nullptr) {
-          free(out_ros_data.joint_names.data[i].data);
-        }
-        out_ros_data.joint_names.data[i].data =
-            (char *)malloc((strLength + 1) * sizeof(char));
-        memcpy(out_ros_data.joint_names.data[i].data,
-               TCHAR_TO_UTF8(*JointNames[i]), (strLength + 1) * sizeof(char));
-        out_ros_data.joint_names.data[i].size = strLength;
-        out_ros_data.joint_names.data[i].capacity = strLength + 1;
-      }
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__String__Sequence>(out_ros_data.joint_names,
+                                            JointNames.Num());
+    UROS2Utils::StringArrayUEToROSSequence(
+        JointNames, out_ros_data.joint_names.data, JointNames.Num());
 
-    out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
-        (Points.Num()) * sizeof(decltype(*out_ros_data.points.data)));
-
-    for (auto i = 0; i < Points.Num(); ++i) {
-      Points[i].SetROS2(out_ros_data.points.data[i]);
-    }
-
-    out_ros_data.points.size = Points.Num();
-    out_ros_data.points.capacity = Points.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        trajectory_msgs__msg__MultiDOFJointTrajectoryPoint__Sequence>(
+        out_ros_data.points, Points.Num());
+    UROS2Utils::ArrayUEToROSSequence<
+        trajectory_msgs__msg__MultiDOFJointTrajectoryPoint,
+        FROSMultiDOFJointTrajPoint>(Points, out_ros_data.points.data,
+                                    Points.Num());
   }
 };
 

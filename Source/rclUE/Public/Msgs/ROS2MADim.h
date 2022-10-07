@@ -37,7 +37,7 @@ public:
 
   void
   SetFromROS2(const example_interfaces__msg__MultiArrayDimension &in_ros_data) {
-    Label.AppendChars(in_ros_data.label.data, in_ros_data.label.size);
+    Label = UROS2Utils::StringROSToUE(in_ros_data.label);
 
     Size = in_ros_data.size;
 
@@ -46,16 +46,7 @@ public:
 
   void
   SetROS2(example_interfaces__msg__MultiArrayDimension &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Label);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.label.data = (decltype(out_ros_data.label.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.label.data)));
-      memcpy(out_ros_data.label.data, TCHAR_TO_UTF8(*Label),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.label.size = strLength;
-      out_ros_data.label.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Label, out_ros_data.label);
 
     out_ros_data.size = Size;
 

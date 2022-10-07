@@ -37,23 +37,17 @@ public:
   SetFromROS2(const example_interfaces__msg__UInt16MultiArray &in_ros_data) {
     Layout.SetFromROS2(in_ros_data.layout);
 
-    for (auto i = 0; i < in_ros_data.data.size; ++i) {
-      Data.Emplace(in_ros_data.data.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<uint16, uint16>(
+        in_ros_data.data.data, Data, in_ros_data.data.size);
   }
 
   void SetROS2(example_interfaces__msg__UInt16MultiArray &out_ros_data) const {
     Layout.SetROS2(out_ros_data.layout);
 
-    out_ros_data.data.data = (decltype(out_ros_data.data.data))malloc(
-        (Data.Num()) * sizeof(decltype(*out_ros_data.data.data)));
-
-    for (auto i = 0; i < Data.Num(); ++i) {
-      out_ros_data.data.data[i] = Data[i];
-    }
-
-    out_ros_data.data.size = Data.Num();
-    out_ros_data.data.capacity = Data.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__uint16__Sequence>(out_ros_data.data, Data.Num());
+    UROS2Utils::ArrayUEToROSSequence<uint16, uint16>(
+        Data, out_ros_data.data.data, Data.Num());
   }
 };
 

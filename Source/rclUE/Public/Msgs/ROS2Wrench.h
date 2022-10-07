@@ -33,23 +33,19 @@ public:
   FROSWrench() {}
 
   void SetFromROS2(const geometry_msgs__msg__Wrench &in_ros_data) {
-    Force.X = in_ros_data.force.x;
-    Force.Y = in_ros_data.force.y;
-    Force.Z = in_ros_data.force.z;
+    Force = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.force);
 
-    Torque.X = in_ros_data.torque.x;
-    Torque.Y = in_ros_data.torque.y;
-    Torque.Z = in_ros_data.torque.z;
+    Torque = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.torque);
   }
 
   void SetROS2(geometry_msgs__msg__Wrench &out_ros_data) const {
-    out_ros_data.force.x = Force.X;
-    out_ros_data.force.y = Force.Y;
-    out_ros_data.force.z = Force.Z;
+    out_ros_data.force =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Force);
 
-    out_ros_data.torque.x = Torque.X;
-    out_ros_data.torque.y = Torque.Y;
-    out_ros_data.torque.z = Torque.Z;
+    out_ros_data.torque =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Torque);
   }
 };
 

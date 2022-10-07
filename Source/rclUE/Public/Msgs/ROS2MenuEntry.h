@@ -50,9 +50,9 @@ public:
 
     ParentId = in_ros_data.parent_id;
 
-    Title.AppendChars(in_ros_data.title.data, in_ros_data.title.size);
+    Title = UROS2Utils::StringROSToUE(in_ros_data.title);
 
-    Command.AppendChars(in_ros_data.command.data, in_ros_data.command.size);
+    Command = UROS2Utils::StringROSToUE(in_ros_data.command);
 
     CommandType = in_ros_data.command_type;
   }
@@ -62,27 +62,9 @@ public:
 
     out_ros_data.parent_id = ParentId;
 
-    {
-      FTCHARToUTF8 strUtf8(*Title);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.title.data = (decltype(out_ros_data.title.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.title.data)));
-      memcpy(out_ros_data.title.data, TCHAR_TO_UTF8(*Title),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.title.size = strLength;
-      out_ros_data.title.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Title, out_ros_data.title);
 
-    {
-      FTCHARToUTF8 strUtf8(*Command);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.command.data = (decltype(out_ros_data.command.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.command.data)));
-      memcpy(out_ros_data.command.data, TCHAR_TO_UTF8(*Command),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.command.size = strLength;
-      out_ros_data.command.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Command, out_ros_data.command);
 
     out_ros_data.command_type = CommandType;
   }

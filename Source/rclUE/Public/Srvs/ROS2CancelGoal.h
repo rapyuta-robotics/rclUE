@@ -63,25 +63,20 @@ public:
   void SetFromROS2(const action_msgs__srv__CancelGoal_Response &in_ros_data) {
     ReturnCode = in_ros_data.return_code;
 
-    for (auto i = 0; i < in_ros_data.goals_canceling.size; ++i) {
-      GoalsCanceling[i].SetFromROS2(in_ros_data.goals_canceling.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<action_msgs__msg__GoalInfo, FROSGoalInfo>(
+        in_ros_data.goals_canceling.data, GoalsCanceling,
+        in_ros_data.goals_canceling.size);
   }
 
   void SetROS2(action_msgs__srv__CancelGoal_Response &out_ros_data) const {
     out_ros_data.return_code = ReturnCode;
 
-    out_ros_data.goals_canceling.data =
-        (decltype(out_ros_data.goals_canceling.data))malloc(
-            (GoalsCanceling.Num()) *
-            sizeof(decltype(*out_ros_data.goals_canceling.data)));
-
-    for (auto i = 0; i < GoalsCanceling.Num(); ++i) {
-      GoalsCanceling[i].SetROS2(out_ros_data.goals_canceling.data[i]);
-    }
-
-    out_ros_data.goals_canceling.size = GoalsCanceling.Num();
-    out_ros_data.goals_canceling.capacity = GoalsCanceling.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        action_msgs__msg__GoalInfo__Sequence>(out_ros_data.goals_canceling,
+                                              GoalsCanceling.Num());
+    UROS2Utils::ArrayUEToROSSequence<action_msgs__msg__GoalInfo, FROSGoalInfo>(
+        GoalsCanceling, out_ros_data.goals_canceling.data,
+        GoalsCanceling.Num());
   }
 };
 

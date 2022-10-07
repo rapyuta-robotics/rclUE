@@ -36,23 +36,17 @@ public:
   void SetFromROS2(const pcl_msgs__msg__ModelCoefficients &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.values.size; ++i) {
-      Values.Emplace(in_ros_data.values.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(
+        in_ros_data.values.data, Values, in_ros_data.values.size);
   }
 
   void SetROS2(pcl_msgs__msg__ModelCoefficients &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.values.data = (decltype(out_ros_data.values.data))malloc(
-        (Values.Num()) * sizeof(decltype(*out_ros_data.values.data)));
-
-    for (auto i = 0; i < Values.Num(); ++i) {
-      out_ros_data.values.data[i] = Values[i];
-    }
-
-    out_ros_data.values.size = Values.Num();
-    out_ros_data.values.capacity = Values.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.values, Values.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(
+        Values, out_ros_data.values.data, Values.Num());
   }
 };
 

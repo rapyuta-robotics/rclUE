@@ -52,17 +52,15 @@ public:
   void SetFromROS2(const shape_msgs__msg__SolidPrimitive &in_ros_data) {
     Type = in_ros_data.type;
 
-    for (auto i = 0; i < 3; ++i) {
-      Dimensions.Emplace(in_ros_data.dimensions.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.dimensions.data, Dimensions, 3);
   }
 
   void SetROS2(shape_msgs__msg__SolidPrimitive &out_ros_data) const {
     out_ros_data.type = Type;
 
-    for (auto i = 0; i < 3; ++i) {
-      out_ros_data.dimensions.data[i] = Dimensions[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Dimensions, out_ros_data.dimensions.data, 3);
   }
 };
 

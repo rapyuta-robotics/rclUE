@@ -37,23 +37,20 @@ public:
   void SetFromROS2(const diagnostic_msgs__msg__DiagnosticArray &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.status.size; ++i) {
-      Status[i].SetFromROS2(in_ros_data.status.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<diagnostic_msgs__msg__DiagnosticStatus,
+                                     FROSDiagnosticStatus>(
+        in_ros_data.status.data, Status, in_ros_data.status.size);
   }
 
   void SetROS2(diagnostic_msgs__msg__DiagnosticArray &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.status.data = (decltype(out_ros_data.status.data))malloc(
-        (Status.Num()) * sizeof(decltype(*out_ros_data.status.data)));
-
-    for (auto i = 0; i < Status.Num(); ++i) {
-      Status[i].SetROS2(out_ros_data.status.data[i]);
-    }
-
-    out_ros_data.status.size = Status.Num();
-    out_ros_data.status.capacity = Status.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        diagnostic_msgs__msg__DiagnosticStatus__Sequence>(out_ros_data.status,
+                                                          Status.Num());
+    UROS2Utils::ArrayUEToROSSequence<diagnostic_msgs__msg__DiagnosticStatus,
+                                     FROSDiagnosticStatus>(
+        Status, out_ros_data.status.data, Status.Num());
   }
 };
 

@@ -52,7 +52,7 @@ public:
 
     Status = in_ros_data.status;
 
-    Text.AppendChars(in_ros_data.text.data, in_ros_data.text.size);
+    Text = UROS2Utils::StringROSToUE(in_ros_data.text);
   }
 
   void SetROS2(actionlib_msgs__msg__GoalStatus &out_ros_data) const {
@@ -60,16 +60,7 @@ public:
 
     out_ros_data.status = Status;
 
-    {
-      FTCHARToUTF8 strUtf8(*Text);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.text.data = (decltype(out_ros_data.text.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.text.data)));
-      memcpy(out_ros_data.text.data, TCHAR_TO_UTF8(*Text),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.text.size = strLength;
-      out_ros_data.text.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Text, out_ros_data.text);
   }
 };
 

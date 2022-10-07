@@ -38,37 +38,25 @@ public:
   void SetFromROS2(const sensor_msgs__msg__Joy &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.axes.size; ++i) {
-      Axes.Emplace(in_ros_data.axes.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(in_ros_data.axes.data, Axes,
+                                                   in_ros_data.axes.size);
 
-    for (auto i = 0; i < in_ros_data.buttons.size; ++i) {
-      Buttons.Emplace(in_ros_data.buttons.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<int, int>(
+        in_ros_data.buttons.data, Buttons, in_ros_data.buttons.size);
   }
 
   void SetROS2(sensor_msgs__msg__Joy &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.axes.data = (decltype(out_ros_data.axes.data))malloc(
-        (Axes.Num()) * sizeof(decltype(*out_ros_data.axes.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.axes, Axes.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(Axes, out_ros_data.axes.data,
+                                                   Axes.Num());
 
-    for (auto i = 0; i < Axes.Num(); ++i) {
-      out_ros_data.axes.data[i] = Axes[i];
-    }
-
-    out_ros_data.axes.size = Axes.Num();
-    out_ros_data.axes.capacity = Axes.Num();
-
-    out_ros_data.buttons.data = (decltype(out_ros_data.buttons.data))malloc(
-        (Buttons.Num()) * sizeof(decltype(*out_ros_data.buttons.data)));
-
-    for (auto i = 0; i < Buttons.Num(); ++i) {
-      out_ros_data.buttons.data[i] = Buttons[i];
-    }
-
-    out_ros_data.buttons.size = Buttons.Num();
-    out_ros_data.buttons.capacity = Buttons.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__int32__Sequence>(out_ros_data.buttons, Buttons.Num());
+    UROS2Utils::ArrayUEToROSSequence<int, int>(
+        Buttons, out_ros_data.buttons.data, Buttons.Num());
   }
 };
 

@@ -16,7 +16,6 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Duration.h"
-#include "Msgs/ROS2TF.h"
 #include "Msgs/ROS2Twist.h"
 
 // Generated
@@ -28,7 +27,7 @@ struct RCLUE_API FROSMultiDOFJointTrajPoint {
 
 public:
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FROSTF> Transforms;
+  TArray<FTransform> Transforms;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   TArray<FROSTwist> Velocities;
@@ -43,58 +42,38 @@ public:
 
   void SetFromROS2(
       const trajectory_msgs__msg__MultiDOFJointTrajectoryPoint &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.transforms.size; ++i) {
-      Transforms[i].SetFromROS2(in_ros_data.transforms.data[i]);
-    }
+    UROS2Utils::TransformSequenceROSToUEArray(
+        in_ros_data.transforms.data, Transforms, in_ros_data.transforms.size);
 
-    for (auto i = 0; i < in_ros_data.velocities.size; ++i) {
-      Velocities[i].SetFromROS2(in_ros_data.velocities.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Twist, FROSTwist>(
+        in_ros_data.velocities.data, Velocities, in_ros_data.velocities.size);
 
-    for (auto i = 0; i < in_ros_data.accelerations.size; ++i) {
-      Accelerations[i].SetFromROS2(in_ros_data.accelerations.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Twist, FROSTwist>(
+        in_ros_data.accelerations.data, Accelerations,
+        in_ros_data.accelerations.size);
 
     TimeFromStart.SetFromROS2(in_ros_data.time_from_start);
   }
 
   void SetROS2(
       trajectory_msgs__msg__MultiDOFJointTrajectoryPoint &out_ros_data) const {
-    out_ros_data.transforms.data =
-        (decltype(out_ros_data.transforms.data))malloc(
-            (Transforms.Num()) *
-            sizeof(decltype(*out_ros_data.transforms.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Transform__Sequence>(out_ros_data.transforms,
+                                                 Transforms.Num());
+    UROS2Utils::TransformArrayUEToROSSequence(
+        Transforms, out_ros_data.transforms.data, Transforms.Num());
 
-    for (auto i = 0; i < Transforms.Num(); ++i) {
-      Transforms[i].SetROS2(out_ros_data.transforms.data[i]);
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Twist__Sequence>(out_ros_data.velocities,
+                                             Velocities.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Twist, FROSTwist>(
+        Velocities, out_ros_data.velocities.data, Velocities.Num());
 
-    out_ros_data.transforms.size = Transforms.Num();
-    out_ros_data.transforms.capacity = Transforms.Num();
-
-    out_ros_data.velocities.data =
-        (decltype(out_ros_data.velocities.data))malloc(
-            (Velocities.Num()) *
-            sizeof(decltype(*out_ros_data.velocities.data)));
-
-    for (auto i = 0; i < Velocities.Num(); ++i) {
-      Velocities[i].SetROS2(out_ros_data.velocities.data[i]);
-    }
-
-    out_ros_data.velocities.size = Velocities.Num();
-    out_ros_data.velocities.capacity = Velocities.Num();
-
-    out_ros_data.accelerations.data =
-        (decltype(out_ros_data.accelerations.data))malloc(
-            (Accelerations.Num()) *
-            sizeof(decltype(*out_ros_data.accelerations.data)));
-
-    for (auto i = 0; i < Accelerations.Num(); ++i) {
-      Accelerations[i].SetROS2(out_ros_data.accelerations.data[i]);
-    }
-
-    out_ros_data.accelerations.size = Accelerations.Num();
-    out_ros_data.accelerations.capacity = Accelerations.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Twist__Sequence>(out_ros_data.accelerations,
+                                             Accelerations.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Twist, FROSTwist>(
+        Accelerations, out_ros_data.accelerations.data, Accelerations.Num());
 
     TimeFromStart.SetROS2(out_ros_data.time_from_start);
   }

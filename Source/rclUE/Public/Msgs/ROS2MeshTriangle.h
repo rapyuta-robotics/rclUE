@@ -34,15 +34,13 @@ public:
   }
 
   void SetFromROS2(const shape_msgs__msg__MeshTriangle &in_ros_data) {
-    for (auto i = 0; i < 3; ++i) {
-      VertexIndices.Emplace(in_ros_data.vertex_indices[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<unsigned int, unsigned int>(
+        in_ros_data.vertex_indices, VertexIndices, 3);
   }
 
   void SetROS2(shape_msgs__msg__MeshTriangle &out_ros_data) const {
-    for (auto i = 0; i < 3; ++i) {
-      out_ros_data.vertex_indices[i] = VertexIndices[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<unsigned int, unsigned int>(
+        VertexIndices, out_ros_data.vertex_indices, 3);
   }
 };
 

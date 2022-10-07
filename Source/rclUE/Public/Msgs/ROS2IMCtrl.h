@@ -67,12 +67,9 @@ public:
 
   void SetFromROS2(
       const visualization_msgs__msg__InteractiveMarkerControl &in_ros_data) {
-    Name.AppendChars(in_ros_data.name.data, in_ros_data.name.size);
+    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
 
-    Orientation.X = in_ros_data.orientation.x;
-    Orientation.Y = in_ros_data.orientation.y;
-    Orientation.Z = in_ros_data.orientation.z;
-    Orientation.W = in_ros_data.orientation.w;
+    Orientation = UROS2Utils::QuatROSToUE(in_ros_data.orientation);
 
     OrientationMode = in_ros_data.orientation_mode;
 
@@ -80,33 +77,20 @@ public:
 
     bAlwaysVisible = in_ros_data.always_visible;
 
-    for (auto i = 0; i < in_ros_data.markers.size; ++i) {
-      Markers[i].SetFromROS2(in_ros_data.markers.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__Marker,
+                                     FROSMarker>(
+        in_ros_data.markers.data, Markers, in_ros_data.markers.size);
 
     bIndependentMarkerOrientation = in_ros_data.independent_marker_orientation;
 
-    Description.AppendChars(in_ros_data.description.data,
-                            in_ros_data.description.size);
+    Description = UROS2Utils::StringROSToUE(in_ros_data.description);
   }
 
   void SetROS2(
       visualization_msgs__msg__InteractiveMarkerControl &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Name);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.name.data)));
-      memcpy(out_ros_data.name.data, TCHAR_TO_UTF8(*Name),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.name.size = strLength;
-      out_ros_data.name.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
 
-    out_ros_data.orientation.x = Orientation.X;
-    out_ros_data.orientation.y = Orientation.Y;
-    out_ros_data.orientation.z = Orientation.Z;
-    out_ros_data.orientation.w = Orientation.W;
+    out_ros_data.orientation = UROS2Utils::QuatUEToROS(Orientation);
 
     out_ros_data.orientation_mode = OrientationMode;
 
@@ -114,30 +98,16 @@ public:
 
     out_ros_data.always_visible = bAlwaysVisible;
 
-    out_ros_data.markers.data = (decltype(out_ros_data.markers.data))malloc(
-        (Markers.Num()) * sizeof(decltype(*out_ros_data.markers.data)));
-
-    for (auto i = 0; i < Markers.Num(); ++i) {
-      Markers[i].SetROS2(out_ros_data.markers.data[i]);
-    }
-
-    out_ros_data.markers.size = Markers.Num();
-    out_ros_data.markers.capacity = Markers.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        visualization_msgs__msg__Marker__Sequence>(out_ros_data.markers,
+                                                   Markers.Num());
+    UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__Marker,
+                                     FROSMarker>(
+        Markers, out_ros_data.markers.data, Markers.Num());
 
     out_ros_data.independent_marker_orientation = bIndependentMarkerOrientation;
 
-    {
-      FTCHARToUTF8 strUtf8(*Description);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.description.data =
-          (decltype(out_ros_data.description.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.description.data)));
-      memcpy(out_ros_data.description.data, TCHAR_TO_UTF8(*Description),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.description.size = strLength;
-      out_ros_data.description.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Description, out_ros_data.description);
   }
 };
 

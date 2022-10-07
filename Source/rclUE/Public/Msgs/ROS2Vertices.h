@@ -30,21 +30,16 @@ public:
   FROSVertices() {}
 
   void SetFromROS2(const pcl_msgs__msg__Vertices &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.vertices.size; ++i) {
-      Vertices.Emplace(in_ros_data.vertices.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<unsigned int, unsigned int>(
+        in_ros_data.vertices.data, Vertices, in_ros_data.vertices.size);
   }
 
   void SetROS2(pcl_msgs__msg__Vertices &out_ros_data) const {
-    out_ros_data.vertices.data = (decltype(out_ros_data.vertices.data))malloc(
-        (Vertices.Num()) * sizeof(decltype(*out_ros_data.vertices.data)));
-
-    for (auto i = 0; i < Vertices.Num(); ++i) {
-      out_ros_data.vertices.data[i] = Vertices[i];
-    }
-
-    out_ros_data.vertices.size = Vertices.Num();
-    out_ros_data.vertices.capacity = Vertices.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__uint32__Sequence>(out_ros_data.vertices,
+                                            Vertices.Num());
+    UROS2Utils::ArrayUEToROSSequence<unsigned int, unsigned int>(
+        Vertices, out_ros_data.vertices.data, Vertices.Num());
   }
 };
 

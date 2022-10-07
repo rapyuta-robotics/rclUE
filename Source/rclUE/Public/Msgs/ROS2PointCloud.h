@@ -41,37 +41,29 @@ public:
   void SetFromROS2(const sensor_msgs__msg__PointCloud &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.points.size; ++i) {
-      Points[i].SetFromROS2(in_ros_data.points.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Point32, FROSPoint32>(
+        in_ros_data.points.data, Points, in_ros_data.points.size);
 
-    for (auto i = 0; i < in_ros_data.channels.size; ++i) {
-      Channels[i].SetFromROS2(in_ros_data.channels.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__ChannelFloat32,
+                                     FROSChannelFloat32>(
+        in_ros_data.channels.data, Channels, in_ros_data.channels.size);
   }
 
   void SetROS2(sensor_msgs__msg__PointCloud &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.points.data = (decltype(out_ros_data.points.data))malloc(
-        (Points.Num()) * sizeof(decltype(*out_ros_data.points.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Point32__Sequence>(out_ros_data.points,
+                                               Points.Num());
+    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Point32, FROSPoint32>(
+        Points, out_ros_data.points.data, Points.Num());
 
-    for (auto i = 0; i < Points.Num(); ++i) {
-      Points[i].SetROS2(out_ros_data.points.data[i]);
-    }
-
-    out_ros_data.points.size = Points.Num();
-    out_ros_data.points.capacity = Points.Num();
-
-    out_ros_data.channels.data = (decltype(out_ros_data.channels.data))malloc(
-        (Channels.Num()) * sizeof(decltype(*out_ros_data.channels.data)));
-
-    for (auto i = 0; i < Channels.Num(); ++i) {
-      Channels[i].SetROS2(out_ros_data.channels.data[i]);
-    }
-
-    out_ros_data.channels.size = Channels.Num();
-    out_ros_data.channels.capacity = Channels.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        sensor_msgs__msg__ChannelFloat32__Sequence>(out_ros_data.channels,
+                                                    Channels.Num());
+    UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__ChannelFloat32,
+                                     FROSChannelFloat32>(
+        Channels, out_ros_data.channels.data, Channels.Num());
   }
 };
 

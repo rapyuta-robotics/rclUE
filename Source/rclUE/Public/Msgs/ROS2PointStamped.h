@@ -36,17 +36,15 @@ public:
   void SetFromROS2(const geometry_msgs__msg__PointStamped &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Point.X = in_ros_data.point.x;
-    Point.Y = in_ros_data.point.y;
-    Point.Z = in_ros_data.point.z;
+    Point =
+        UROS2Utils::VectorROSToUE<geometry_msgs__msg__Point>(in_ros_data.point);
   }
 
   void SetROS2(geometry_msgs__msg__PointStamped &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.point.x = Point.X;
-    out_ros_data.point.y = Point.Y;
-    out_ros_data.point.z = Point.Z;
+    out_ros_data.point =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Point>(Point);
   }
 };
 

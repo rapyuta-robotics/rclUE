@@ -41,64 +41,27 @@ public:
   FROSSpawnEntityReq() {}
 
   void SetFromROS2(const ue_msgs__srv__SpawnEntity_Request &in_ros_data) {
-    Xml.AppendChars(in_ros_data.xml.data, in_ros_data.xml.size);
+    Xml = UROS2Utils::StringROSToUE(in_ros_data.xml);
 
-    RobotNamespace.AppendChars(in_ros_data.robot_namespace.data,
-                               in_ros_data.robot_namespace.size);
+    RobotNamespace = UROS2Utils::StringROSToUE(in_ros_data.robot_namespace);
 
     State.SetFromROS2(in_ros_data.state);
 
-    for (auto i = 0; i < in_ros_data.tags.size; ++i) {
-      Tags.Emplace("");
-      Tags[i].AppendChars(in_ros_data.tags.data[i].data,
-                          in_ros_data.tags.data[i].size);
-    }
+    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.tags.data, Tags,
+                                           in_ros_data.tags.size);
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntity_Request &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*Xml);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.xml.data = (decltype(out_ros_data.xml.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.xml.data)));
-      memcpy(out_ros_data.xml.data, TCHAR_TO_UTF8(*Xml),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.xml.size = strLength;
-      out_ros_data.xml.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Xml, out_ros_data.xml);
 
-    {
-      FTCHARToUTF8 strUtf8(*RobotNamespace);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.robot_namespace.data =
-          (decltype(out_ros_data.robot_namespace.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.robot_namespace.data)));
-      memcpy(out_ros_data.robot_namespace.data, TCHAR_TO_UTF8(*RobotNamespace),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.robot_namespace.size = strLength;
-      out_ros_data.robot_namespace.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(RobotNamespace, out_ros_data.robot_namespace);
 
     State.SetROS2(out_ros_data.state);
 
-    out_ros_data.tags.data = (decltype(out_ros_data.tags.data))malloc(
-        (Tags.Num()) * sizeof(decltype(*out_ros_data.tags.data)));
-    for (auto i = 0; i < Tags.Num(); ++i) {
-      {
-        FTCHARToUTF8 strUtf8(*Tags[i]);
-        int32 strLength = strUtf8.Length();
-        if (out_ros_data.tags.data[i].data != nullptr) {
-          free(out_ros_data.tags.data[i].data);
-        }
-        out_ros_data.tags.data[i].data =
-            (char *)malloc((strLength + 1) * sizeof(char));
-        memcpy(out_ros_data.tags.data[i].data, TCHAR_TO_UTF8(*Tags[i]),
-               (strLength + 1) * sizeof(char));
-        out_ros_data.tags.data[i].size = strLength;
-        out_ros_data.tags.data[i].capacity = strLength + 1;
-      }
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__String__Sequence>(out_ros_data.tags, Tags.Num());
+    UROS2Utils::StringArrayUEToROSSequence(Tags, out_ros_data.tags.data,
+                                           Tags.Num());
   }
 };
 
@@ -118,25 +81,13 @@ public:
   void SetFromROS2(const ue_msgs__srv__SpawnEntity_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage.AppendChars(in_ros_data.status_message.data,
-                              in_ros_data.status_message.size);
+    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntity_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    {
-      FTCHARToUTF8 strUtf8(*StatusMessage);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.status_message.data =
-          (decltype(out_ros_data.status_message.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.status_message.data)));
-      memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*StatusMessage),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.status_message.size = strLength;
-      out_ros_data.status_message.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
   }
 };
 

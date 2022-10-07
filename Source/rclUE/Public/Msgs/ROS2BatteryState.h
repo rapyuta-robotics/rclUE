@@ -122,18 +122,17 @@ public:
 
     bPresent = in_ros_data.present;
 
-    for (auto i = 0; i < in_ros_data.cell_voltage.size; ++i) {
-      CellVoltage.Emplace(in_ros_data.cell_voltage.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(
+        in_ros_data.cell_voltage.data, CellVoltage,
+        in_ros_data.cell_voltage.size);
 
-    for (auto i = 0; i < in_ros_data.cell_temperature.size; ++i) {
-      CellTemperature.Emplace(in_ros_data.cell_temperature.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<float, float>(
+        in_ros_data.cell_temperature.data, CellTemperature,
+        in_ros_data.cell_temperature.size);
 
-    Location.AppendChars(in_ros_data.location.data, in_ros_data.location.size);
+    Location = UROS2Utils::StringROSToUE(in_ros_data.location);
 
-    SerialNumber.AppendChars(in_ros_data.serial_number.data,
-                             in_ros_data.serial_number.size);
+    SerialNumber = UROS2Utils::StringROSToUE(in_ros_data.serial_number);
   }
 
   void SetROS2(sensor_msgs__msg__BatteryState &out_ros_data) const {
@@ -161,53 +160,22 @@ public:
 
     out_ros_data.present = bPresent;
 
-    out_ros_data.cell_voltage.data =
-        (decltype(out_ros_data.cell_voltage.data))malloc(
-            (CellVoltage.Num()) *
-            sizeof(decltype(*out_ros_data.cell_voltage.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.cell_voltage,
+                                             CellVoltage.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(
+        CellVoltage, out_ros_data.cell_voltage.data, CellVoltage.Num());
 
-    for (auto i = 0; i < CellVoltage.Num(); ++i) {
-      out_ros_data.cell_voltage.data[i] = CellVoltage[i];
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float32__Sequence>(out_ros_data.cell_temperature,
+                                             CellTemperature.Num());
+    UROS2Utils::ArrayUEToROSSequence<float, float>(
+        CellTemperature, out_ros_data.cell_temperature.data,
+        CellTemperature.Num());
 
-    out_ros_data.cell_voltage.size = CellVoltage.Num();
-    out_ros_data.cell_voltage.capacity = CellVoltage.Num();
+    UROS2Utils::StringUEToROS(Location, out_ros_data.location);
 
-    out_ros_data.cell_temperature.data =
-        (decltype(out_ros_data.cell_temperature.data))malloc(
-            (CellTemperature.Num()) *
-            sizeof(decltype(*out_ros_data.cell_temperature.data)));
-
-    for (auto i = 0; i < CellTemperature.Num(); ++i) {
-      out_ros_data.cell_temperature.data[i] = CellTemperature[i];
-    }
-
-    out_ros_data.cell_temperature.size = CellTemperature.Num();
-    out_ros_data.cell_temperature.capacity = CellTemperature.Num();
-
-    {
-      FTCHARToUTF8 strUtf8(*Location);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.location.data = (decltype(out_ros_data.location.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.location.data)));
-      memcpy(out_ros_data.location.data, TCHAR_TO_UTF8(*Location),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.location.size = strLength;
-      out_ros_data.location.capacity = strLength + 1;
-    }
-
-    {
-      FTCHARToUTF8 strUtf8(*SerialNumber);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.serial_number.data =
-          (decltype(out_ros_data.serial_number.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.serial_number.data)));
-      memcpy(out_ros_data.serial_number.data, TCHAR_TO_UTF8(*SerialNumber),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.serial_number.size = strLength;
-      out_ros_data.serial_number.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(SerialNumber, out_ros_data.serial_number);
   }
 };
 

@@ -33,40 +33,27 @@ public:
   FROSMesh() {}
 
   void SetFromROS2(const shape_msgs__msg__Mesh &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.triangles.size; ++i) {
-      Triangles[i].SetFromROS2(in_ros_data.triangles.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<shape_msgs__msg__MeshTriangle,
+                                     FROSMeshTriangle>(
+        in_ros_data.triangles.data, Triangles, in_ros_data.triangles.size);
 
-    for (auto i = 0; i < in_ros_data.vertices.size; ++i) {
-      Vertices.Emplace(FVector::ZeroVector);
-      Vertices[i].X = in_ros_data.vertices.data[i].x;
-      Vertices[i].Y = in_ros_data.vertices.data[i].y;
-      Vertices[i].Z = in_ros_data.vertices.data[i].z;
-    }
+    UROS2Utils::VectorSequenceROSToUEArray<geometry_msgs__msg__Point>(
+        in_ros_data.vertices.data, Vertices, in_ros_data.vertices.size);
   }
 
   void SetROS2(shape_msgs__msg__Mesh &out_ros_data) const {
-    out_ros_data.triangles.data = (decltype(out_ros_data.triangles.data))malloc(
-        (Triangles.Num()) * sizeof(decltype(*out_ros_data.triangles.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        shape_msgs__msg__MeshTriangle__Sequence>(out_ros_data.triangles,
+                                                 Triangles.Num());
+    UROS2Utils::ArrayUEToROSSequence<shape_msgs__msg__MeshTriangle,
+                                     FROSMeshTriangle>(
+        Triangles, out_ros_data.triangles.data, Triangles.Num());
 
-    for (auto i = 0; i < Triangles.Num(); ++i) {
-      Triangles[i].SetROS2(out_ros_data.triangles.data[i]);
-    }
-
-    out_ros_data.triangles.size = Triangles.Num();
-    out_ros_data.triangles.capacity = Triangles.Num();
-
-    out_ros_data.vertices.data = (decltype(out_ros_data.vertices.data))malloc(
-        (Vertices.Num() * 3) * sizeof(decltype(*out_ros_data.vertices.data)));
-
-    for (auto i = 0; i < Vertices.Num(); ++i) {
-      out_ros_data.vertices.data[i].x = Vertices[i].X;
-      out_ros_data.vertices.data[i].y = Vertices[i].Y;
-      out_ros_data.vertices.data[i].z = Vertices[i].Z;
-    }
-
-    out_ros_data.vertices.size = Vertices.Num();
-    out_ros_data.vertices.capacity = Vertices.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Point__Sequence>(out_ros_data.vertices,
+                                             Vertices.Num());
+    UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(
+        Vertices, out_ros_data.vertices.data, Vertices.Num());
   }
 };
 

@@ -46,12 +46,8 @@ public:
 
     CellHeight = in_ros_data.cell_height;
 
-    for (auto i = 0; i < in_ros_data.cells.size; ++i) {
-      Cells.Emplace(FVector::ZeroVector);
-      Cells[i].X = in_ros_data.cells.data[i].x;
-      Cells[i].Y = in_ros_data.cells.data[i].y;
-      Cells[i].Z = in_ros_data.cells.data[i].z;
-    }
+    UROS2Utils::VectorSequenceROSToUEArray<geometry_msgs__msg__Point>(
+        in_ros_data.cells.data, Cells, in_ros_data.cells.size);
   }
 
   void SetROS2(nav_msgs__msg__GridCells &out_ros_data) const {
@@ -61,17 +57,10 @@ public:
 
     out_ros_data.cell_height = CellHeight;
 
-    out_ros_data.cells.data = (decltype(out_ros_data.cells.data))malloc(
-        (Cells.Num() * 3) * sizeof(decltype(*out_ros_data.cells.data)));
-
-    for (auto i = 0; i < Cells.Num(); ++i) {
-      out_ros_data.cells.data[i].x = Cells[i].X;
-      out_ros_data.cells.data[i].y = Cells[i].Y;
-      out_ros_data.cells.data[i].z = Cells[i].Z;
-    }
-
-    out_ros_data.cells.size = Cells.Num();
-    out_ros_data.cells.capacity = Cells.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        geometry_msgs__msg__Point__Sequence>(out_ros_data.cells, Cells.Num());
+    UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(
+        Cells, out_ros_data.cells.data, Cells.Num());
   }
 };
 

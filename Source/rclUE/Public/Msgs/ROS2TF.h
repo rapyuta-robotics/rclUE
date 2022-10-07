@@ -33,25 +33,17 @@ public:
   FROSTF() {}
 
   void SetFromROS2(const geometry_msgs__msg__Transform &in_ros_data) {
-    Translation.X = in_ros_data.translation.x;
-    Translation.Y = in_ros_data.translation.y;
-    Translation.Z = in_ros_data.translation.z;
+    Translation = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Vector3>(
+        in_ros_data.translation);
 
-    Rotation.X = in_ros_data.rotation.x;
-    Rotation.Y = in_ros_data.rotation.y;
-    Rotation.Z = in_ros_data.rotation.z;
-    Rotation.W = in_ros_data.rotation.w;
+    Rotation = UROS2Utils::QuatROSToUE(in_ros_data.rotation);
   }
 
   void SetROS2(geometry_msgs__msg__Transform &out_ros_data) const {
-    out_ros_data.translation.x = Translation.X;
-    out_ros_data.translation.y = Translation.Y;
-    out_ros_data.translation.z = Translation.Z;
+    out_ros_data.translation =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Vector3>(Translation);
 
-    out_ros_data.rotation.x = Rotation.X;
-    out_ros_data.rotation.y = Rotation.Y;
-    out_ros_data.rotation.z = Rotation.Z;
-    out_ros_data.rotation.w = Rotation.W;
+    out_ros_data.rotation = UROS2Utils::QuatUEToROS(Rotation);
   }
 };
 

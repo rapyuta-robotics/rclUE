@@ -40,17 +40,15 @@ public:
   void SetFromROS2(const geometry_msgs__msg__PoseWithCovariance &in_ros_data) {
     Pose.SetFromROS2(in_ros_data.pose);
 
-    for (auto i = 0; i < 36; ++i) {
-      Covariance.Emplace(in_ros_data.covariance[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.covariance,
+                                                     Covariance, 36);
   }
 
   void SetROS2(geometry_msgs__msg__PoseWithCovariance &out_ros_data) const {
     Pose.SetROS2(out_ros_data.pose);
 
-    for (auto i = 0; i < 36; ++i) {
-      out_ros_data.covariance[i] = Covariance[i];
-    }
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Covariance, out_ros_data.covariance, 36);
   }
 };
 

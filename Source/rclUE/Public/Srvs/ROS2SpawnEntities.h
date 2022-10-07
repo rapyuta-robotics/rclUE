@@ -38,69 +38,33 @@ public:
   FROSSpawnEntitiesReq() {}
 
   void SetFromROS2(const ue_msgs__srv__SpawnEntities_Request &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.type.size; ++i) {
-      Type.Emplace("");
-      Type[i].AppendChars(in_ros_data.type.data[i].data,
-                          in_ros_data.type.data[i].size);
-    }
+    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.type.data, Type,
+                                           in_ros_data.type.size);
 
-    for (auto i = 0; i < in_ros_data.state.size; ++i) {
-      State[i].SetFromROS2(in_ros_data.state.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<ue_msgs__msg__EntityState,
+                                     FROSEntityState>(
+        in_ros_data.state.data, State, in_ros_data.state.size);
 
-    for (auto i = 0; i < in_ros_data.tags.size; ++i) {
-      Tags.Emplace("");
-      Tags[i].AppendChars(in_ros_data.tags.data[i].data,
-                          in_ros_data.tags.data[i].size);
-    }
+    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.tags.data, Tags,
+                                           in_ros_data.tags.size);
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntities_Request &out_ros_data) const {
-    out_ros_data.type.data = (decltype(out_ros_data.type.data))malloc(
-        (Type.Num()) * sizeof(decltype(*out_ros_data.type.data)));
-    for (auto i = 0; i < Type.Num(); ++i) {
-      {
-        FTCHARToUTF8 strUtf8(*Type[i]);
-        int32 strLength = strUtf8.Length();
-        if (out_ros_data.type.data[i].data != nullptr) {
-          free(out_ros_data.type.data[i].data);
-        }
-        out_ros_data.type.data[i].data =
-            (char *)malloc((strLength + 1) * sizeof(char));
-        memcpy(out_ros_data.type.data[i].data, TCHAR_TO_UTF8(*Type[i]),
-               (strLength + 1) * sizeof(char));
-        out_ros_data.type.data[i].size = strLength;
-        out_ros_data.type.data[i].capacity = strLength + 1;
-      }
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__String__Sequence>(out_ros_data.type, Type.Num());
+    UROS2Utils::StringArrayUEToROSSequence(Type, out_ros_data.type.data,
+                                           Type.Num());
 
-    out_ros_data.state.data = (decltype(out_ros_data.state.data))malloc(
-        (State.Num()) * sizeof(decltype(*out_ros_data.state.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        ue_msgs__msg__EntityState__Sequence>(out_ros_data.state, State.Num());
+    UROS2Utils::ArrayUEToROSSequence<ue_msgs__msg__EntityState,
+                                     FROSEntityState>(
+        State, out_ros_data.state.data, State.Num());
 
-    for (auto i = 0; i < State.Num(); ++i) {
-      State[i].SetROS2(out_ros_data.state.data[i]);
-    }
-
-    out_ros_data.state.size = State.Num();
-    out_ros_data.state.capacity = State.Num();
-
-    out_ros_data.tags.data = (decltype(out_ros_data.tags.data))malloc(
-        (Tags.Num()) * sizeof(decltype(*out_ros_data.tags.data)));
-    for (auto i = 0; i < Tags.Num(); ++i) {
-      {
-        FTCHARToUTF8 strUtf8(*Tags[i]);
-        int32 strLength = strUtf8.Length();
-        if (out_ros_data.tags.data[i].data != nullptr) {
-          free(out_ros_data.tags.data[i].data);
-        }
-        out_ros_data.tags.data[i].data =
-            (char *)malloc((strLength + 1) * sizeof(char));
-        memcpy(out_ros_data.tags.data[i].data, TCHAR_TO_UTF8(*Tags[i]),
-               (strLength + 1) * sizeof(char));
-        out_ros_data.tags.data[i].size = strLength;
-        out_ros_data.tags.data[i].capacity = strLength + 1;
-      }
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__String__Sequence>(out_ros_data.tags, Tags.Num());
+    UROS2Utils::StringArrayUEToROSSequence(Tags, out_ros_data.tags.data,
+                                           Tags.Num());
   }
 };
 
@@ -120,25 +84,13 @@ public:
   void SetFromROS2(const ue_msgs__srv__SpawnEntities_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage.AppendChars(in_ros_data.status_message.data,
-                              in_ros_data.status_message.size);
+    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntities_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    {
-      FTCHARToUTF8 strUtf8(*StatusMessage);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.status_message.data =
-          (decltype(out_ros_data.status_message.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.status_message.data)));
-      memcpy(out_ros_data.status_message.data, TCHAR_TO_UTF8(*StatusMessage),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.status_message.size = strLength;
-      out_ros_data.status_message.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
   }
 };
 

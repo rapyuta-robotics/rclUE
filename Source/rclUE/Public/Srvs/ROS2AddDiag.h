@@ -32,24 +32,12 @@ public:
 
   void
   SetFromROS2(const diagnostic_msgs__srv__AddDiagnostics_Request &in_ros_data) {
-    LoadNamespace.AppendChars(in_ros_data.load_namespace.data,
-                              in_ros_data.load_namespace.size);
+    LoadNamespace = UROS2Utils::StringROSToUE(in_ros_data.load_namespace);
   }
 
   void
   SetROS2(diagnostic_msgs__srv__AddDiagnostics_Request &out_ros_data) const {
-    {
-      FTCHARToUTF8 strUtf8(*LoadNamespace);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.load_namespace.data =
-          (decltype(out_ros_data.load_namespace.data))malloc(
-              (strLength + 1) *
-              sizeof(decltype(*out_ros_data.load_namespace.data)));
-      memcpy(out_ros_data.load_namespace.data, TCHAR_TO_UTF8(*LoadNamespace),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.load_namespace.size = strLength;
-      out_ros_data.load_namespace.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(LoadNamespace, out_ros_data.load_namespace);
   }
 };
 
@@ -70,23 +58,14 @@ public:
       const diagnostic_msgs__srv__AddDiagnostics_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    Message.AppendChars(in_ros_data.message.data, in_ros_data.message.size);
+    Message = UROS2Utils::StringROSToUE(in_ros_data.message);
   }
 
   void
   SetROS2(diagnostic_msgs__srv__AddDiagnostics_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    {
-      FTCHARToUTF8 strUtf8(*Message);
-      int32 strLength = strUtf8.Length();
-      out_ros_data.message.data = (decltype(out_ros_data.message.data))malloc(
-          (strLength + 1) * sizeof(decltype(*out_ros_data.message.data)));
-      memcpy(out_ros_data.message.data, TCHAR_TO_UTF8(*Message),
-             (strLength + 1) * sizeof(char));
-      out_ros_data.message.size = strLength;
-      out_ros_data.message.capacity = strLength + 1;
-    }
+    UROS2Utils::StringUEToROS(Message, out_ros_data.message);
   }
 };
 

@@ -35,23 +35,20 @@ public:
 
   void
   SetFromROS2(const example_interfaces__msg__MultiArrayLayout &in_ros_data) {
-    for (auto i = 0; i < in_ros_data.dim.size; ++i) {
-      Dim[i].SetFromROS2(in_ros_data.dim.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<
+        example_interfaces__msg__MultiArrayDimension, FROSMADim>(
+        in_ros_data.dim.data, Dim, in_ros_data.dim.size);
 
     DataOffset = in_ros_data.data_offset;
   }
 
   void SetROS2(example_interfaces__msg__MultiArrayLayout &out_ros_data) const {
-    out_ros_data.dim.data = (decltype(out_ros_data.dim.data))malloc(
-        (Dim.Num()) * sizeof(decltype(*out_ros_data.dim.data)));
-
-    for (auto i = 0; i < Dim.Num(); ++i) {
-      Dim[i].SetROS2(out_ros_data.dim.data[i]);
-    }
-
-    out_ros_data.dim.size = Dim.Num();
-    out_ros_data.dim.capacity = Dim.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        example_interfaces__msg__MultiArrayDimension__Sequence>(
+        out_ros_data.dim, Dim.Num());
+    UROS2Utils::ArrayUEToROSSequence<
+        example_interfaces__msg__MultiArrayDimension, FROSMADim>(
+        Dim, out_ros_data.dim.data, Dim.Num());
 
     out_ros_data.data_offset = DataOffset;
   }

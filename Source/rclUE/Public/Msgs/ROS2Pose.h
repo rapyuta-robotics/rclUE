@@ -33,25 +33,17 @@ public:
   FROSPose() {}
 
   void SetFromROS2(const geometry_msgs__msg__Pose &in_ros_data) {
-    Position.X = in_ros_data.position.x;
-    Position.Y = in_ros_data.position.y;
-    Position.Z = in_ros_data.position.z;
+    Position = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Point>(
+        in_ros_data.position);
 
-    Orientation.X = in_ros_data.orientation.x;
-    Orientation.Y = in_ros_data.orientation.y;
-    Orientation.Z = in_ros_data.orientation.z;
-    Orientation.W = in_ros_data.orientation.w;
+    Orientation = UROS2Utils::QuatROSToUE(in_ros_data.orientation);
   }
 
   void SetROS2(geometry_msgs__msg__Pose &out_ros_data) const {
-    out_ros_data.position.x = Position.X;
-    out_ros_data.position.y = Position.Y;
-    out_ros_data.position.z = Position.Z;
+    out_ros_data.position =
+        UROS2Utils::VectorUEToROS<geometry_msgs__msg__Point>(Position);
 
-    out_ros_data.orientation.x = Orientation.X;
-    out_ros_data.orientation.y = Orientation.Y;
-    out_ros_data.orientation.z = Orientation.Z;
-    out_ros_data.orientation.w = Orientation.W;
+    out_ros_data.orientation = UROS2Utils::QuatUEToROS(Orientation);
   }
 };
 

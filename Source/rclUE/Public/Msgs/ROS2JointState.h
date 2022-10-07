@@ -45,75 +45,43 @@ public:
   void SetFromROS2(const sensor_msgs__msg__JointState &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    for (auto i = 0; i < in_ros_data.name.size; ++i) {
-      Name.Emplace("");
-      Name[i].AppendChars(in_ros_data.name.data[i].data,
-                          in_ros_data.name.data[i].size);
-    }
+    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.name.data, Name,
+                                           in_ros_data.name.size);
 
-    for (auto i = 0; i < in_ros_data.position.size; ++i) {
-      Position.Emplace(in_ros_data.position.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.position.data, Position, in_ros_data.position.size);
 
-    for (auto i = 0; i < in_ros_data.velocity.size; ++i) {
-      Velocity.Emplace(in_ros_data.velocity.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.velocity.data, Velocity, in_ros_data.velocity.size);
 
-    for (auto i = 0; i < in_ros_data.effort.size; ++i) {
-      Effort.Emplace(in_ros_data.effort.data[i]);
-    }
+    UROS2Utils::SequenceROSToUEArray<double, double>(
+        in_ros_data.effort.data, Effort, in_ros_data.effort.size);
   }
 
   void SetROS2(sensor_msgs__msg__JointState &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    out_ros_data.name.data = (decltype(out_ros_data.name.data))malloc(
-        (Name.Num()) * sizeof(decltype(*out_ros_data.name.data)));
-    for (auto i = 0; i < Name.Num(); ++i) {
-      {
-        FTCHARToUTF8 strUtf8(*Name[i]);
-        int32 strLength = strUtf8.Length();
-        if (out_ros_data.name.data[i].data != nullptr) {
-          free(out_ros_data.name.data[i].data);
-        }
-        out_ros_data.name.data[i].data =
-            (char *)malloc((strLength + 1) * sizeof(char));
-        memcpy(out_ros_data.name.data[i].data, TCHAR_TO_UTF8(*Name[i]),
-               (strLength + 1) * sizeof(char));
-        out_ros_data.name.data[i].size = strLength;
-        out_ros_data.name.data[i].capacity = strLength + 1;
-      }
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__String__Sequence>(out_ros_data.name, Name.Num());
+    UROS2Utils::StringArrayUEToROSSequence(Name, out_ros_data.name.data,
+                                           Name.Num());
 
-    out_ros_data.position.data = (decltype(out_ros_data.position.data))malloc(
-        (Position.Num()) * sizeof(decltype(*out_ros_data.position.data)));
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.position,
+                                             Position.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Position, out_ros_data.position.data, Position.Num());
 
-    for (auto i = 0; i < Position.Num(); ++i) {
-      out_ros_data.position.data[i] = Position[i];
-    }
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.velocity,
+                                             Velocity.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Velocity, out_ros_data.velocity.data, Velocity.Num());
 
-    out_ros_data.position.size = Position.Num();
-    out_ros_data.position.capacity = Position.Num();
-
-    out_ros_data.velocity.data = (decltype(out_ros_data.velocity.data))malloc(
-        (Velocity.Num()) * sizeof(decltype(*out_ros_data.velocity.data)));
-
-    for (auto i = 0; i < Velocity.Num(); ++i) {
-      out_ros_data.velocity.data[i] = Velocity[i];
-    }
-
-    out_ros_data.velocity.size = Velocity.Num();
-    out_ros_data.velocity.capacity = Velocity.Num();
-
-    out_ros_data.effort.data = (decltype(out_ros_data.effort.data))malloc(
-        (Effort.Num()) * sizeof(decltype(*out_ros_data.effort.data)));
-
-    for (auto i = 0; i < Effort.Num(); ++i) {
-      out_ros_data.effort.data[i] = Effort[i];
-    }
-
-    out_ros_data.effort.size = Effort.Num();
-    out_ros_data.effort.capacity = Effort.Num();
+    UROS2Utils::ROSSequenceResourceAllocation<
+        rosidl_runtime_c__float64__Sequence>(out_ros_data.effort, Effort.Num());
+    UROS2Utils::ArrayUEToROSSequence<double, double>(
+        Effort, out_ros_data.effort.data, Effort.Num());
   }
 };
 
