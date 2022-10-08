@@ -47,7 +47,7 @@ Binaries/*
 Intermediate/*
 
 # Whitelist Linux plugin libs
-!*/ThirdParty/**/*.so
+!ThirdParty/**/*.so
 
 *_BuiltData.uasset
 
