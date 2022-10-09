@@ -322,7 +322,7 @@ public:
                                            TArray<FString>& OutStrArray,
                                            const int size)
     {
-        OutStrArray.SetNum(size);
+        OutStrArray.Empty();
         for (size_t i = 0; i < size; ++i)
         {
             OutStrArray.Emplace(StringROSToUE(InStrSequence[i]));
@@ -394,7 +394,7 @@ public:
     template<typename TVector>
     static void VectorSequenceROSToUEArray(const TVector* InROSVector, TArray<FVector>& OutUEVector, const int size)
     {
-        OutUEVector.SetNum(size);
+        OutUEVector.Empty();
         for (auto i = 0; i < size; ++i)
         {
             OutUEVector.Emplace(InROSVector[i].x, InROSVector[i].y, InROSVector[i].z);
@@ -459,7 +459,7 @@ public:
      */
     static void QuatSequenceROSToUEArray(const geometry_msgs__msg__Quaternion* InROSQuat, TArray<FQuat> OutUEQuat, const int size)
     {
-        OutUEQuat.SetNum(size);
+        OutUEQuat.Empty();
         for (auto i = 0; i < size; ++i)
         {
             OutUEQuat.Emplace(InROSQuat[i].x, InROSQuat[i].y, InROSQuat[i].z, InROSQuat[i].w);
@@ -524,7 +524,7 @@ public:
                                               TArray<FTransform>& OutUETF,
                                               const int size)
     {
-        OutUETF.SetNum(size);
+        OutUETF.Empty();
         for (auto i = 0; i < size; ++i)
         {
             OutUETF.Emplace(QuatROSToUE(InROSTF[i].rotation), VectorROSToUE<geometry_msgs__msg__Vector3>(InROSTF[i].translation));
