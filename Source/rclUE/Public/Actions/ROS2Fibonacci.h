@@ -106,7 +106,7 @@ struct RCLUE_API FROSFibonacciGRRes {
 
 public:
   UPROPERTY()
-  int8 Status = 0;
+  int8 GRResStatus = 0;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   TArray<int> Sequence;
@@ -116,7 +116,7 @@ public:
   void
   SetFromROS2(const example_interfaces__action__Fibonacci_GetResult_Response
                   &in_ros_data) {
-    Status = in_ros_data.status;
+    GRResStatus = in_ros_data.status;
     UROS2Utils::SequenceROSToUEArray<int, int>(
         in_ros_data.result.sequence.data, Sequence,
         in_ros_data.result.sequence.size);
@@ -124,7 +124,7 @@ public:
 
   void SetROS2(example_interfaces__action__Fibonacci_GetResult_Response
                    &out_ros_data) const {
-    out_ros_data.status = Status;
+    out_ros_data.status = GRResStatus;
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__int32__Sequence>(out_ros_data.result.sequence,
                                            Sequence.Num());

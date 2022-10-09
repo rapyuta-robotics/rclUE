@@ -153,7 +153,7 @@ struct RCLUE_API FROSLookupTFGRRes {
 
 public:
   UPROPERTY()
-  int8 Status = 0;
+  int8 GRResStatus = 0;
 
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSTFStamped Transform;
@@ -165,7 +165,7 @@ public:
 
   void SetFromROS2(
       const tf2_msgs__action__LookupTransform_GetResult_Response &in_ros_data) {
-    Status = in_ros_data.status;
+    GRResStatus = in_ros_data.status;
     Transform.SetFromROS2(in_ros_data.result.transform);
 
     Error.SetFromROS2(in_ros_data.result.error);
@@ -173,7 +173,7 @@ public:
 
   void SetROS2(tf2_msgs__action__LookupTransform_GetResult_Response
                    &out_ros_data) const {
-    out_ros_data.status = Status;
+    out_ros_data.status = GRResStatus;
     Transform.SetROS2(out_ros_data.result.transform);
 
     Error.SetROS2(out_ros_data.result.error);
