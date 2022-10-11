@@ -95,7 +95,7 @@ public:
   void SetFromROS2(const visualization_msgs__msg__Marker &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Ns = UROS2Utils::StringROSToUE(in_ros_data.ns);
+    Ns = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.ns);
 
     Id = in_ros_data.id;
 
@@ -120,9 +120,11 @@ public:
     UROS2Utils::SequenceROSToUEArray<std_msgs__msg__ColorRGBA, FROSColorRGBA>(
         in_ros_data.colors.data, Colors, in_ros_data.colors.size);
 
-    Text = UROS2Utils::StringROSToUE(in_ros_data.text);
+    Text =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.text);
 
-    MeshResource = UROS2Utils::StringROSToUE(in_ros_data.mesh_resource);
+    MeshResource = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.mesh_resource);
 
     bMeshUseEmbeddedMaterials = in_ros_data.mesh_use_embedded_materials;
   }
@@ -130,7 +132,7 @@ public:
   void SetROS2(visualization_msgs__msg__Marker &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    UROS2Utils::StringUEToROS(Ns, out_ros_data.ns);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Ns, out_ros_data.ns);
 
     out_ros_data.id = Id;
 
@@ -159,9 +161,11 @@ public:
     UROS2Utils::ArrayUEToROSSequence<std_msgs__msg__ColorRGBA, FROSColorRGBA>(
         Colors, out_ros_data.colors.data, Colors.Num());
 
-    UROS2Utils::StringUEToROS(Text, out_ros_data.text);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Text,
+                                                        out_ros_data.text);
 
-    UROS2Utils::StringUEToROS(MeshResource, out_ros_data.mesh_resource);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        MeshResource, out_ros_data.mesh_resource);
 
     out_ros_data.mesh_use_embedded_materials = bMeshUseEmbeddedMaterials;
   }

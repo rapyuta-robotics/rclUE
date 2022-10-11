@@ -39,7 +39,8 @@ public:
   void SetFromROS2(const sensor_msgs__msg__CompressedImage &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Format = UROS2Utils::StringROSToUE(in_ros_data.format);
+    Format =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.format);
 
     UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.data.data, Data,
                                                    in_ros_data.data.size);
@@ -48,7 +49,8 @@ public:
   void SetROS2(sensor_msgs__msg__CompressedImage &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    UROS2Utils::StringUEToROS(Format, out_ros_data.format);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Format,
+                                                        out_ros_data.format);
 
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__uint8__Sequence>(out_ros_data.data, Data.Num());

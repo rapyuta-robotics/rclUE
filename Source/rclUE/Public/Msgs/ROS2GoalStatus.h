@@ -52,7 +52,8 @@ public:
 
     Status = in_ros_data.status;
 
-    Text = UROS2Utils::StringROSToUE(in_ros_data.text);
+    Text =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.text);
   }
 
   void SetROS2(actionlib_msgs__msg__GoalStatus &out_ros_data) const {
@@ -60,7 +61,8 @@ public:
 
     out_ros_data.status = Status;
 
-    UROS2Utils::StringUEToROS(Text, out_ros_data.text);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Text,
+                                                        out_ros_data.text);
   }
 };
 

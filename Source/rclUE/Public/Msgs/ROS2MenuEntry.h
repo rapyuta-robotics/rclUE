@@ -50,9 +50,11 @@ public:
 
     ParentId = in_ros_data.parent_id;
 
-    Title = UROS2Utils::StringROSToUE(in_ros_data.title);
+    Title =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.title);
 
-    Command = UROS2Utils::StringROSToUE(in_ros_data.command);
+    Command = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.command);
 
     CommandType = in_ros_data.command_type;
   }
@@ -62,9 +64,11 @@ public:
 
     out_ros_data.parent_id = ParentId;
 
-    UROS2Utils::StringUEToROS(Title, out_ros_data.title);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Title,
+                                                        out_ros_data.title);
 
-    UROS2Utils::StringUEToROS(Command, out_ros_data.command);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Command,
+                                                        out_ros_data.command);
 
     out_ros_data.command_type = CommandType;
   }

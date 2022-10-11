@@ -36,15 +36,19 @@ public:
   FROSGetEntityStateReq() {}
 
   void SetFromROS2(const ue_msgs__srv__GetEntityState_Request &in_ros_data) {
-    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
+    Name =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
-    ReferenceFrame = UROS2Utils::StringROSToUE(in_ros_data.reference_frame);
+    ReferenceFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.reference_frame);
   }
 
   void SetROS2(ue_msgs__srv__GetEntityState_Request &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name,
+                                                        out_ros_data.name);
 
-    UROS2Utils::StringUEToROS(ReferenceFrame, out_ros_data.reference_frame);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        ReferenceFrame, out_ros_data.reference_frame);
   }
 };
 

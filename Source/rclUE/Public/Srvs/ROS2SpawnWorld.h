@@ -38,19 +38,21 @@ public:
   FROSSpawnWorldReq() {}
 
   void SetFromROS2(const ue_msgs__srv__SpawnWorld_Request &in_ros_data) {
-    WorldModel = UROS2Utils::StringROSToUE(in_ros_data.world_model);
+    WorldModel = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.world_model);
 
-    WorldInstanceName =
-        UROS2Utils::StringROSToUE(in_ros_data.world_instance_name);
+    WorldInstanceName = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.world_instance_name);
 
     Pose.SetFromROS2(in_ros_data.pose);
   }
 
   void SetROS2(ue_msgs__srv__SpawnWorld_Request &out_ros_data) const {
-    UROS2Utils::StringUEToROS(WorldModel, out_ros_data.world_model);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        WorldModel, out_ros_data.world_model);
 
-    UROS2Utils::StringUEToROS(WorldInstanceName,
-                              out_ros_data.world_instance_name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        WorldInstanceName, out_ros_data.world_instance_name);
 
     Pose.SetROS2(out_ros_data.pose);
   }
@@ -72,13 +74,15 @@ public:
   void SetFromROS2(const ue_msgs__srv__SpawnWorld_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
+    StatusMessage = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.status_message);
   }
 
   void SetROS2(ue_msgs__srv__SpawnWorld_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        StatusMessage, out_ros_data.status_message);
   }
 };
 

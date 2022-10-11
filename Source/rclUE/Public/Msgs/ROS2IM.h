@@ -57,9 +57,11 @@ public:
 
     Pose.SetFromROS2(in_ros_data.pose);
 
-    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
+    Name =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
-    Description = UROS2Utils::StringROSToUE(in_ros_data.description);
+    Description = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.description);
 
     Scale = in_ros_data.scale;
 
@@ -78,9 +80,11 @@ public:
 
     Pose.SetROS2(out_ros_data.pose);
 
-    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name,
+                                                        out_ros_data.name);
 
-    UROS2Utils::StringUEToROS(Description, out_ros_data.description);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        Description, out_ros_data.description);
 
     out_ros_data.scale = Scale;
 

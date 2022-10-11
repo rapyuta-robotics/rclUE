@@ -55,13 +55,15 @@ public:
   void SetFromROS2(const std_srvs__srv__SetBool_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    Message = UROS2Utils::StringROSToUE(in_ros_data.message);
+    Message = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.message);
   }
 
   void SetROS2(std_srvs__srv__SetBool_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    UROS2Utils::StringUEToROS(Message, out_ros_data.message);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Message,
+                                                        out_ros_data.message);
   }
 };
 

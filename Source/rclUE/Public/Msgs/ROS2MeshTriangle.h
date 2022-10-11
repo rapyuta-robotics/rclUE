@@ -27,11 +27,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<unsigned int> VertexIndices;
 
-  FROSMeshTriangle() {
-    for (auto i = 0; i < 3; ++i) {
-      VertexIndices.SetNumZeroed(3);
-    }
-  }
+  FROSMeshTriangle() { VertexIndices.SetNumZeroed(3); }
 
   void SetFromROS2(const shape_msgs__msg__MeshTriangle &in_ros_data) {
     UROS2Utils::SequenceROSToUEArray<unsigned int, unsigned int>(

@@ -43,11 +43,13 @@ public:
   FROSFrameGraphRes() {}
 
   void SetFromROS2(const tf2_msgs__srv__FrameGraph_Response &in_ros_data) {
-    FrameYaml = UROS2Utils::StringROSToUE(in_ros_data.frame_yaml);
+    FrameYaml = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.frame_yaml);
   }
 
   void SetROS2(tf2_msgs__srv__FrameGraph_Response &out_ros_data) const {
-    UROS2Utils::StringUEToROS(FrameYaml, out_ros_data.frame_yaml);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        FrameYaml, out_ros_data.frame_yaml);
   }
 };
 

@@ -46,17 +46,11 @@ public:
   TArray<double> LinearAccelerationCovariance;
 
   FROSImu() {
-    for (auto i = 0; i < 9; ++i) {
-      OrientationCovariance.SetNumZeroed(9);
-    }
+    OrientationCovariance.SetNumZeroed(9);
 
-    for (auto i = 0; i < 9; ++i) {
-      AngularVelocityCovariance.SetNumZeroed(9);
-    }
+    AngularVelocityCovariance.SetNumZeroed(9);
 
-    for (auto i = 0; i < 9; ++i) {
-      LinearAccelerationCovariance.SetNumZeroed(9);
-    }
+    LinearAccelerationCovariance.SetNumZeroed(9);
   }
 
   void SetFromROS2(const sensor_msgs__msg__Imu &in_ros_data) {

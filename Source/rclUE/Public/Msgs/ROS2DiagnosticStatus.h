@@ -50,11 +50,14 @@ public:
   void SetFromROS2(const diagnostic_msgs__msg__DiagnosticStatus &in_ros_data) {
     Level = in_ros_data.level;
 
-    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
+    Name =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
-    Message = UROS2Utils::StringROSToUE(in_ros_data.message);
+    Message = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.message);
 
-    HardwareId = UROS2Utils::StringROSToUE(in_ros_data.hardware_id);
+    HardwareId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.hardware_id);
 
     UROS2Utils::SequenceROSToUEArray<diagnostic_msgs__msg__KeyValue,
                                      FROSKeyValue>(
@@ -64,11 +67,14 @@ public:
   void SetROS2(diagnostic_msgs__msg__DiagnosticStatus &out_ros_data) const {
     out_ros_data.level = Level;
 
-    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name,
+                                                        out_ros_data.name);
 
-    UROS2Utils::StringUEToROS(Message, out_ros_data.message);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Message,
+                                                        out_ros_data.message);
 
-    UROS2Utils::StringUEToROS(HardwareId, out_ros_data.hardware_id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        HardwareId, out_ros_data.hardware_id);
 
     UROS2Utils::ROSSequenceResourceAllocation<
         diagnostic_msgs__msg__KeyValue__Sequence>(out_ros_data.values,

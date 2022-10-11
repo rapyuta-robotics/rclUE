@@ -36,13 +36,13 @@ public:
   void SetFromROS2(const actionlib_msgs__msg__GoalID &in_ros_data) {
     Stamp.SetFromROS2(in_ros_data.stamp);
 
-    Id = UROS2Utils::StringROSToUE(in_ros_data.id);
+    Id = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.id);
   }
 
   void SetROS2(actionlib_msgs__msg__GoalID &out_ros_data) const {
     Stamp.SetROS2(out_ros_data.stamp);
 
-    UROS2Utils::StringUEToROS(Id, out_ros_data.id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Id, out_ros_data.id);
   }
 };
 

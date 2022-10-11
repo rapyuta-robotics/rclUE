@@ -57,13 +57,15 @@ public:
   SetFromROS2(const sensor_msgs__srv__SetCameraInfo_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
+    StatusMessage = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.status_message);
   }
 
   void SetROS2(sensor_msgs__srv__SetCameraInfo_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        StatusMessage, out_ros_data.status_message);
   }
 };
 

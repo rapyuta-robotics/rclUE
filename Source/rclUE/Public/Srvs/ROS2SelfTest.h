@@ -51,7 +51,7 @@ public:
   FROSSelfTestRes() {}
 
   void SetFromROS2(const diagnostic_msgs__srv__SelfTest_Response &in_ros_data) {
-    Id = UROS2Utils::StringROSToUE(in_ros_data.id);
+    Id = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.id);
 
     Passed = in_ros_data.passed;
 
@@ -61,7 +61,7 @@ public:
   }
 
   void SetROS2(diagnostic_msgs__srv__SelfTest_Response &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Id, out_ros_data.id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Id, out_ros_data.id);
 
     out_ros_data.passed = Passed;
 

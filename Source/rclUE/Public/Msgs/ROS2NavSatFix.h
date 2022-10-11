@@ -52,11 +52,7 @@ public:
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   uint8 PositionCovarianceType = 0;
 
-  FROSNavSatFix() {
-    for (auto i = 0; i < 9; ++i) {
-      PositionCovariance.SetNumZeroed(9);
-    }
-  }
+  FROSNavSatFix() { PositionCovariance.SetNumZeroed(9); }
 
   void SetFromROS2(const sensor_msgs__msg__NavSatFix &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);

@@ -33,15 +33,17 @@ public:
   FROSKeyValue() {}
 
   void SetFromROS2(const diagnostic_msgs__msg__KeyValue &in_ros_data) {
-    Key = UROS2Utils::StringROSToUE(in_ros_data.key);
+    Key = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.key);
 
-    Value = UROS2Utils::StringROSToUE(in_ros_data.value);
+    Value =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.value);
   }
 
   void SetROS2(diagnostic_msgs__msg__KeyValue &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Key, out_ros_data.key);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Key, out_ros_data.key);
 
-    UROS2Utils::StringUEToROS(Value, out_ros_data.value);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Value,
+                                                        out_ros_data.value);
   }
 };
 

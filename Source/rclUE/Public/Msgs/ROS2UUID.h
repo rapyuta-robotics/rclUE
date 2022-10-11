@@ -27,11 +27,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<uint8> Uuid;
 
-  FROSUUID() {
-    for (auto i = 0; i < 16; ++i) {
-      Uuid.SetNumZeroed(16);
-    }
-  }
+  FROSUUID() { Uuid.SetNumZeroed(16); }
 
   void SetFromROS2(const unique_identifier_msgs__msg__UUID &in_ros_data) {
     UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.uuid, Uuid, 16);

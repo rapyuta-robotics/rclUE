@@ -42,7 +42,8 @@ public:
 
     TimeRef.SetFromROS2(in_ros_data.time_ref);
 
-    Source = UROS2Utils::StringROSToUE(in_ros_data.source);
+    Source =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.source);
   }
 
   void SetROS2(sensor_msgs__msg__TimeReference &out_ros_data) const {
@@ -50,7 +51,8 @@ public:
 
     TimeRef.SetROS2(out_ros_data.time_ref);
 
-    UROS2Utils::StringUEToROS(Source, out_ros_data.source);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Source,
+                                                        out_ros_data.source);
   }
 };
 

@@ -41,7 +41,7 @@ public:
       const trajectory_msgs__msg__MultiDOFJointTrajectory &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    UROS2Utils::StringSequenceROSToUEArray(
+    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
         in_ros_data.joint_names.data, JointNames, in_ros_data.joint_names.size);
 
     UROS2Utils::SequenceROSToUEArray<
@@ -57,7 +57,7 @@ public:
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__String__Sequence>(out_ros_data.joint_names,
                                             JointNames.Num());
-    UROS2Utils::StringArrayUEToROSSequence(
+    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
         JointNames, out_ros_data.joint_names.data, JointNames.Num());
 
     UROS2Utils::ROSSequenceResourceAllocation<

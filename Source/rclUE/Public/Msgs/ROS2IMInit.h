@@ -38,7 +38,8 @@ public:
 
   void SetFromROS2(
       const visualization_msgs__msg__InteractiveMarkerInit &in_ros_data) {
-    ServerId = UROS2Utils::StringROSToUE(in_ros_data.server_id);
+    ServerId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.server_id);
 
     SeqNum = in_ros_data.seq_num;
 
@@ -49,7 +50,8 @@ public:
 
   void
   SetROS2(visualization_msgs__msg__InteractiveMarkerInit &out_ros_data) const {
-    UROS2Utils::StringUEToROS(ServerId, out_ros_data.server_id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(ServerId,
+                                                        out_ros_data.server_id);
 
     out_ros_data.seq_num = SeqNum;
 

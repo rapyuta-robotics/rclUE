@@ -43,11 +43,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<double> Dimensions;
 
-  FROSSolidPrimitive() {
-    for (auto i = 0; i < 3; ++i) {
-      Dimensions.SetNumZeroed(3);
-    }
-  }
+  FROSSolidPrimitive() { Dimensions.SetNumZeroed(3); }
 
   void SetFromROS2(const shape_msgs__msg__SolidPrimitive &in_ros_data) {
     Type = in_ros_data.type;

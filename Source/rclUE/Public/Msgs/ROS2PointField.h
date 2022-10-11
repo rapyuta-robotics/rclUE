@@ -48,7 +48,8 @@ public:
   FROSPointField() {}
 
   void SetFromROS2(const sensor_msgs__msg__PointField &in_ros_data) {
-    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
+    Name =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
     Offset = in_ros_data.offset;
 
@@ -58,7 +59,8 @@ public:
   }
 
   void SetROS2(sensor_msgs__msg__PointField &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name,
+                                                        out_ros_data.name);
 
     out_ros_data.offset = Offset;
 

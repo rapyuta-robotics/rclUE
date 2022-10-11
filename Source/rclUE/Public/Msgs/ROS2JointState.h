@@ -45,8 +45,8 @@ public:
   void SetFromROS2(const sensor_msgs__msg__JointState &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.name.data, Name,
-                                           in_ros_data.name.size);
+    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
+        in_ros_data.name.data, Name, in_ros_data.name.size);
 
     UROS2Utils::SequenceROSToUEArray<double, double>(
         in_ros_data.position.data, Position, in_ros_data.position.size);
@@ -63,8 +63,8 @@ public:
 
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__String__Sequence>(out_ros_data.name, Name.Num());
-    UROS2Utils::StringArrayUEToROSSequence(Name, out_ros_data.name.data,
-                                           Name.Num());
+    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
+        Name, out_ros_data.name.data, Name.Num());
 
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__float64__Sequence>(out_ros_data.position,

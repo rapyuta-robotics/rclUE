@@ -66,11 +66,14 @@ public:
       const visualization_msgs__msg__InteractiveMarkerFeedback &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    ClientId = UROS2Utils::StringROSToUE(in_ros_data.client_id);
+    ClientId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.client_id);
 
-    MarkerName = UROS2Utils::StringROSToUE(in_ros_data.marker_name);
+    MarkerName = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.marker_name);
 
-    ControlName = UROS2Utils::StringROSToUE(in_ros_data.control_name);
+    ControlName = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.control_name);
 
     EventType = in_ros_data.event_type;
 
@@ -88,11 +91,14 @@ public:
       visualization_msgs__msg__InteractiveMarkerFeedback &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    UROS2Utils::StringUEToROS(ClientId, out_ros_data.client_id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(ClientId,
+                                                        out_ros_data.client_id);
 
-    UROS2Utils::StringUEToROS(MarkerName, out_ros_data.marker_name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        MarkerName, out_ros_data.marker_name);
 
-    UROS2Utils::StringUEToROS(ControlName, out_ros_data.control_name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        ControlName, out_ros_data.control_name);
 
     out_ros_data.event_type = EventType;
 

@@ -41,27 +41,29 @@ public:
   FROSSpawnEntityReq() {}
 
   void SetFromROS2(const ue_msgs__srv__SpawnEntity_Request &in_ros_data) {
-    Xml = UROS2Utils::StringROSToUE(in_ros_data.xml);
+    Xml = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.xml);
 
-    RobotNamespace = UROS2Utils::StringROSToUE(in_ros_data.robot_namespace);
+    RobotNamespace = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.robot_namespace);
 
     State.SetFromROS2(in_ros_data.state);
 
-    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.tags.data, Tags,
-                                           in_ros_data.tags.size);
+    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
+        in_ros_data.tags.data, Tags, in_ros_data.tags.size);
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntity_Request &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Xml, out_ros_data.xml);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Xml, out_ros_data.xml);
 
-    UROS2Utils::StringUEToROS(RobotNamespace, out_ros_data.robot_namespace);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        RobotNamespace, out_ros_data.robot_namespace);
 
     State.SetROS2(out_ros_data.state);
 
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__String__Sequence>(out_ros_data.tags, Tags.Num());
-    UROS2Utils::StringArrayUEToROSSequence(Tags, out_ros_data.tags.data,
-                                           Tags.Num());
+    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
+        Tags, out_ros_data.tags.data, Tags.Num());
   }
 };
 
@@ -81,13 +83,15 @@ public:
   void SetFromROS2(const ue_msgs__srv__SpawnEntity_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
+    StatusMessage = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.status_message);
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntity_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        StatusMessage, out_ros_data.status_message);
   }
 };
 

@@ -55,7 +55,8 @@ public:
 
     Width = in_ros_data.width;
 
-    Encoding = UROS2Utils::StringROSToUE(in_ros_data.encoding);
+    Encoding = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.encoding);
 
     IsBigendian = in_ros_data.is_bigendian;
 
@@ -72,7 +73,8 @@ public:
 
     out_ros_data.width = Width;
 
-    UROS2Utils::StringUEToROS(Encoding, out_ros_data.encoding);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Encoding,
+                                                        out_ros_data.encoding);
 
     out_ros_data.is_bigendian = IsBigendian;
 

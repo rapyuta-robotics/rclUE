@@ -39,7 +39,8 @@ public:
   void SetFromROS2(const geometry_msgs__msg__TransformStamped &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    ChildFrameId = UROS2Utils::StringROSToUE(in_ros_data.child_frame_id);
+    ChildFrameId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.child_frame_id);
 
     Transform = UROS2Utils::TransformROSToUE(in_ros_data.transform);
   }
@@ -47,7 +48,8 @@ public:
   void SetROS2(geometry_msgs__msg__TransformStamped &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    UROS2Utils::StringUEToROS(ChildFrameId, out_ros_data.child_frame_id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        ChildFrameId, out_ros_data.child_frame_id);
 
     out_ros_data.transform = UROS2Utils::TransformUEToROS(Transform);
   }

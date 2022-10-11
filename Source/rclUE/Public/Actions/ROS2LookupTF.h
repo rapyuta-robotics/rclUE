@@ -62,9 +62,11 @@ public:
       GoalId[i] = in_ros_data.goal_id.uuid[i];
     }
 
-    TargetFrame = UROS2Utils::StringROSToUE(in_ros_data.goal.target_frame);
+    TargetFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.goal.target_frame);
 
-    SourceFrame = UROS2Utils::StringROSToUE(in_ros_data.goal.source_frame);
+    SourceFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.goal.source_frame);
 
     SourceTime.SetFromROS2(in_ros_data.goal.source_time);
 
@@ -72,7 +74,8 @@ public:
 
     TargetTime.SetFromROS2(in_ros_data.goal.target_time);
 
-    FixedFrame = UROS2Utils::StringROSToUE(in_ros_data.goal.fixed_frame);
+    FixedFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.goal.fixed_frame);
 
     bAdvanced = in_ros_data.goal.advanced;
   }
@@ -83,9 +86,11 @@ public:
       out_ros_data.goal_id.uuid[i] = GoalId[i];
     }
 
-    UROS2Utils::StringUEToROS(TargetFrame, out_ros_data.goal.target_frame);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        TargetFrame, out_ros_data.goal.target_frame);
 
-    UROS2Utils::StringUEToROS(SourceFrame, out_ros_data.goal.source_frame);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        SourceFrame, out_ros_data.goal.source_frame);
 
     SourceTime.SetROS2(out_ros_data.goal.source_time);
 
@@ -93,7 +98,8 @@ public:
 
     TargetTime.SetROS2(out_ros_data.goal.target_time);
 
-    UROS2Utils::StringUEToROS(FixedFrame, out_ros_data.goal.fixed_frame);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        FixedFrame, out_ros_data.goal.fixed_frame);
 
     out_ros_data.goal.advanced = bAdvanced;
   }

@@ -67,7 +67,8 @@ public:
 
   void SetFromROS2(
       const visualization_msgs__msg__InteractiveMarkerControl &in_ros_data) {
-    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
+    Name =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
     Orientation = UROS2Utils::QuatROSToUE(in_ros_data.orientation);
 
@@ -83,12 +84,14 @@ public:
 
     bIndependentMarkerOrientation = in_ros_data.independent_marker_orientation;
 
-    Description = UROS2Utils::StringROSToUE(in_ros_data.description);
+    Description = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.description);
   }
 
   void SetROS2(
       visualization_msgs__msg__InteractiveMarkerControl &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name,
+                                                        out_ros_data.name);
 
     out_ros_data.orientation = UROS2Utils::QuatUEToROS(Orientation);
 
@@ -107,7 +110,8 @@ public:
 
     out_ros_data.independent_marker_orientation = bIndependentMarkerOrientation;
 
-    UROS2Utils::StringUEToROS(Description, out_ros_data.description);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        Description, out_ros_data.description);
   }
 };
 

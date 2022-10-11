@@ -37,7 +37,8 @@ public:
 
   void
   SetFromROS2(const example_interfaces__msg__MultiArrayDimension &in_ros_data) {
-    Label = UROS2Utils::StringROSToUE(in_ros_data.label);
+    Label =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.label);
 
     Size = in_ros_data.size;
 
@@ -46,7 +47,8 @@ public:
 
   void
   SetROS2(example_interfaces__msg__MultiArrayDimension &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Label, out_ros_data.label);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Label,
+                                                        out_ros_data.label);
 
     out_ros_data.size = Size;
 

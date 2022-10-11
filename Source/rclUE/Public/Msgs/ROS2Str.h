@@ -30,11 +30,13 @@ public:
   FROSStr() {}
 
   void SetFromROS2(const example_interfaces__msg__String &in_ros_data) {
-    Data = UROS2Utils::StringROSToUE(in_ros_data.data);
+    Data =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.data);
   }
 
   void SetROS2(example_interfaces__msg__String &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Data, out_ros_data.data);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Data,
+                                                        out_ros_data.data);
   }
 };
 

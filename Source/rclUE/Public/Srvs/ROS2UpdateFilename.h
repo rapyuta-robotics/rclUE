@@ -31,11 +31,13 @@ public:
   FROSUpdateFilenameReq() {}
 
   void SetFromROS2(const pcl_msgs__srv__UpdateFilename_Request &in_ros_data) {
-    Filename = UROS2Utils::StringROSToUE(in_ros_data.filename);
+    Filename = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.filename);
   }
 
   void SetROS2(pcl_msgs__srv__UpdateFilename_Request &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Filename, out_ros_data.filename);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Filename,
+                                                        out_ros_data.filename);
   }
 };
 

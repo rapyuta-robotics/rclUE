@@ -33,15 +33,19 @@ public:
   FROSAttachReq() {}
 
   void SetFromROS2(const ue_msgs__srv__Attach_Request &in_ros_data) {
-    Name1 = UROS2Utils::StringROSToUE(in_ros_data.name1);
+    Name1 =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name1);
 
-    Name2 = UROS2Utils::StringROSToUE(in_ros_data.name2);
+    Name2 =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name2);
   }
 
   void SetROS2(ue_msgs__srv__Attach_Request &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Name1, out_ros_data.name1);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name1,
+                                                        out_ros_data.name1);
 
-    UROS2Utils::StringUEToROS(Name2, out_ros_data.name2);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name2,
+                                                        out_ros_data.name2);
   }
 };
 

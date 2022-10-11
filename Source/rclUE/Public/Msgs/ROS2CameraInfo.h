@@ -60,17 +60,11 @@ public:
   FROSRegionOfInterest Roi;
 
   FROSCameraInfo() {
-    for (auto i = 0; i < 9; ++i) {
-      K.SetNumZeroed(9);
-    }
+    K.SetNumZeroed(9);
 
-    for (auto i = 0; i < 9; ++i) {
-      R.SetNumZeroed(9);
-    }
+    R.SetNumZeroed(9);
 
-    for (auto i = 0; i < 12; ++i) {
-      P.SetNumZeroed(12);
-    }
+    P.SetNumZeroed(12);
   }
 
   void SetFromROS2(const sensor_msgs__msg__CameraInfo &in_ros_data) {
@@ -80,7 +74,8 @@ public:
 
     Width = in_ros_data.width;
 
-    DistortionModel = UROS2Utils::StringROSToUE(in_ros_data.distortion_model);
+    DistortionModel = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.distortion_model);
 
     UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.d.data, D,
                                                      in_ros_data.d.size);
@@ -105,7 +100,8 @@ public:
 
     out_ros_data.width = Width;
 
-    UROS2Utils::StringUEToROS(DistortionModel, out_ros_data.distortion_model);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        DistortionModel, out_ros_data.distortion_model);
 
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__float64__Sequence>(out_ros_data.d, D.Num());

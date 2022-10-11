@@ -51,7 +51,8 @@ public:
 
   void SetFromROS2(
       const visualization_msgs__msg__InteractiveMarkerUpdate &in_ros_data) {
-    ServerId = UROS2Utils::StringROSToUE(in_ros_data.server_id);
+    ServerId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.server_id);
 
     SeqNum = in_ros_data.seq_num;
 
@@ -65,13 +66,14 @@ public:
         visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
         in_ros_data.poses.data, Poses, in_ros_data.poses.size);
 
-    UROS2Utils::StringSequenceROSToUEArray(in_ros_data.erases.data, Erases,
-                                           in_ros_data.erases.size);
+    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
+        in_ros_data.erases.data, Erases, in_ros_data.erases.size);
   }
 
   void SetROS2(
       visualization_msgs__msg__InteractiveMarkerUpdate &out_ros_data) const {
-    UROS2Utils::StringUEToROS(ServerId, out_ros_data.server_id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(ServerId,
+                                                        out_ros_data.server_id);
 
     out_ros_data.seq_num = SeqNum;
 
@@ -93,8 +95,8 @@ public:
 
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__String__Sequence>(out_ros_data.erases, Erases.Num());
-    UROS2Utils::StringArrayUEToROSSequence(Erases, out_ros_data.erases.data,
-                                           Erases.Num());
+    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
+        Erases, out_ros_data.erases.data, Erases.Num());
   }
 };
 

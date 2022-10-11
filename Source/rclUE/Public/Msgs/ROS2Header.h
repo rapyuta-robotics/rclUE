@@ -35,13 +35,15 @@ public:
   void SetFromROS2(const std_msgs__msg__Header &in_ros_data) {
     Stamp.SetFromROS2(in_ros_data.stamp);
 
-    FrameId = UROS2Utils::StringROSToUE(in_ros_data.frame_id);
+    FrameId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.frame_id);
   }
 
   void SetROS2(std_msgs__msg__Header &out_ros_data) const {
     Stamp.SetROS2(out_ros_data.stamp);
 
-    UROS2Utils::StringUEToROS(FrameId, out_ros_data.frame_id);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(FrameId,
+                                                        out_ros_data.frame_id);
   }
 };
 

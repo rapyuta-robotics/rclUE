@@ -130,9 +130,11 @@ public:
         in_ros_data.cell_temperature.data, CellTemperature,
         in_ros_data.cell_temperature.size);
 
-    Location = UROS2Utils::StringROSToUE(in_ros_data.location);
+    Location = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.location);
 
-    SerialNumber = UROS2Utils::StringROSToUE(in_ros_data.serial_number);
+    SerialNumber = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.serial_number);
   }
 
   void SetROS2(sensor_msgs__msg__BatteryState &out_ros_data) const {
@@ -173,9 +175,11 @@ public:
         CellTemperature, out_ros_data.cell_temperature.data,
         CellTemperature.Num());
 
-    UROS2Utils::StringUEToROS(Location, out_ros_data.location);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Location,
+                                                        out_ros_data.location);
 
-    UROS2Utils::StringUEToROS(SerialNumber, out_ros_data.serial_number);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        SerialNumber, out_ros_data.serial_number);
   }
 };
 

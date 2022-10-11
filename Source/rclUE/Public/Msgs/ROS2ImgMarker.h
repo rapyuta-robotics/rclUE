@@ -79,7 +79,7 @@ public:
   void SetFromROS2(const visualization_msgs__msg__ImageMarker &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);
 
-    Ns = UROS2Utils::StringROSToUE(in_ros_data.ns);
+    Ns = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.ns);
 
     Id = in_ros_data.id;
 
@@ -111,7 +111,7 @@ public:
   void SetROS2(visualization_msgs__msg__ImageMarker &out_ros_data) const {
     Header.SetROS2(out_ros_data.header);
 
-    UROS2Utils::StringUEToROS(Ns, out_ros_data.ns);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Ns, out_ros_data.ns);
 
     out_ros_data.id = Id;
 

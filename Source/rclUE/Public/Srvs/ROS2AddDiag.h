@@ -32,12 +32,14 @@ public:
 
   void
   SetFromROS2(const diagnostic_msgs__srv__AddDiagnostics_Request &in_ros_data) {
-    LoadNamespace = UROS2Utils::StringROSToUE(in_ros_data.load_namespace);
+    LoadNamespace = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.load_namespace);
   }
 
   void
   SetROS2(diagnostic_msgs__srv__AddDiagnostics_Request &out_ros_data) const {
-    UROS2Utils::StringUEToROS(LoadNamespace, out_ros_data.load_namespace);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        LoadNamespace, out_ros_data.load_namespace);
   }
 };
 
@@ -58,14 +60,16 @@ public:
       const diagnostic_msgs__srv__AddDiagnostics_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    Message = UROS2Utils::StringROSToUE(in_ros_data.message);
+    Message = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.message);
   }
 
   void
   SetROS2(diagnostic_msgs__srv__AddDiagnostics_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    UROS2Utils::StringUEToROS(Message, out_ros_data.message);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Message,
+                                                        out_ros_data.message);
   }
 };
 

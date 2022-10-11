@@ -31,11 +31,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<double> Covariance;
 
-  FROSTwistCov() {
-    for (auto i = 0; i < 36; ++i) {
-      Covariance.SetNumZeroed(36);
-    }
-  }
+  FROSTwistCov() { Covariance.SetNumZeroed(36); }
 
   void SetFromROS2(const geometry_msgs__msg__TwistWithCovariance &in_ros_data) {
     Twist.SetFromROS2(in_ros_data.twist);

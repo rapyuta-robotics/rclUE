@@ -31,11 +31,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<double> Covariance;
 
-  FROSPoseCov() {
-    for (auto i = 0; i < 36; ++i) {
-      Covariance.SetNumZeroed(36);
-    }
-  }
+  FROSPoseCov() { Covariance.SetNumZeroed(36); }
 
   void SetFromROS2(const geometry_msgs__msg__PoseWithCovariance &in_ros_data) {
     Pose.SetFromROS2(in_ros_data.pose);

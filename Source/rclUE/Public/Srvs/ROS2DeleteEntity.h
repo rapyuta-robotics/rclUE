@@ -31,11 +31,13 @@ public:
   FROSDeleteEntityReq() {}
 
   void SetFromROS2(const ue_msgs__srv__DeleteEntity_Request &in_ros_data) {
-    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
+    Name =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
   }
 
   void SetROS2(ue_msgs__srv__DeleteEntity_Request &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name,
+                                                        out_ros_data.name);
   }
 };
 
@@ -55,13 +57,15 @@ public:
   void SetFromROS2(const ue_msgs__srv__DeleteEntity_Response &in_ros_data) {
     bSuccess = in_ros_data.success;
 
-    StatusMessage = UROS2Utils::StringROSToUE(in_ros_data.status_message);
+    StatusMessage = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.status_message);
   }
 
   void SetROS2(ue_msgs__srv__DeleteEntity_Response &out_ros_data) const {
     out_ros_data.success = bSuccess;
 
-    UROS2Utils::StringUEToROS(StatusMessage, out_ros_data.status_message);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        StatusMessage, out_ros_data.status_message);
   }
 };
 

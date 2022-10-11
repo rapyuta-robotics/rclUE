@@ -34,11 +34,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<double> MagneticFieldCovariance;
 
-  FROSMagneticField() {
-    for (auto i = 0; i < 9; ++i) {
-      MagneticFieldCovariance.SetNumZeroed(9);
-    }
-  }
+  FROSMagneticField() { MagneticFieldCovariance.SetNumZeroed(9); }
 
   void SetFromROS2(const sensor_msgs__msg__MagneticField &in_ros_data) {
     Header.SetFromROS2(in_ros_data.header);

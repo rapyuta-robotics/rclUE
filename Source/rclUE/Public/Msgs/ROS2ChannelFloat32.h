@@ -33,14 +33,16 @@ public:
   FROSChannelFloat32() {}
 
   void SetFromROS2(const sensor_msgs__msg__ChannelFloat32 &in_ros_data) {
-    Name = UROS2Utils::StringROSToUE(in_ros_data.name);
+    Name =
+        UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
     UROS2Utils::SequenceROSToUEArray<float, float>(
         in_ros_data.values.data, Values, in_ros_data.values.size);
   }
 
   void SetROS2(sensor_msgs__msg__ChannelFloat32 &out_ros_data) const {
-    UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(Name,
+                                                        out_ros_data.name);
 
     UROS2Utils::ROSSequenceResourceAllocation<
         rosidl_runtime_c__float32__Sequence>(out_ros_data.values, Values.Num());

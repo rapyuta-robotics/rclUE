@@ -27,11 +27,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<double> Coef;
 
-  FROSPlane() {
-    for (auto i = 0; i < 4; ++i) {
-      Coef.SetNumZeroed(4);
-    }
-  }
+  FROSPlane() { Coef.SetNumZeroed(4); }
 
   void SetFromROS2(const shape_msgs__msg__Plane &in_ros_data) {
     UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.coef, Coef, 4);

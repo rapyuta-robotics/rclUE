@@ -31,11 +31,7 @@ public:
   UPROPERTY(EditAnywhere)
   TArray<double> Covariance;
 
-  FROSAccCov() {
-    for (auto i = 0; i < 36; ++i) {
-      Covariance.SetNumZeroed(36);
-    }
-  }
+  FROSAccCov() { Covariance.SetNumZeroed(36); }
 
   void SetFromROS2(const geometry_msgs__msg__AccelWithCovariance &in_ros_data) {
     Accel.SetFromROS2(in_ros_data.accel);

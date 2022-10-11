@@ -298,10 +298,12 @@ public:
     /**
      * @brief Convert ROS string to UE FString
      *
+     * @tparam T rosidl_runtime_c__String or rosidl_runtime_c__U16String
      * @param InStr
      * @return FString
      */
-    static FString StringROSToUE(const rosidl_runtime_c__String& InStr)
+    template<typename T>
+    static FString StringROSToUE(const T& InStr)
     {
         FString outStr;
         if (InStr.data)
@@ -314,28 +316,32 @@ public:
     /**
      * @brief Convert ROS string sequence to UE FString array
      *
+     * @tparam T rosidl_runtime_c__String or rosidl_runtime_c__U16String
      * @param InStrSequence
      * @param OutStrArray
      * @param size
      */
-    static void StringSequenceROSToUEArray(const rosidl_runtime_c__String* InStrSequence,
+    template<typename T>
+    static void StringSequenceROSToUEArray(const T* InStrSequence,
                                            TArray<FString>& OutStrArray,
                                            const int size)
     {
         OutStrArray.Empty();
         for (size_t i = 0; i < size; ++i)
         {
-            OutStrArray.Emplace(StringROSToUE(InStrSequence[i]));
+            OutStrArray.Emplace(StringROSToUE<T>(InStrSequence[i]));
         }
     }
 
     /**
      * @brief Convert UE FString to ros string
      *
+     * @tparam T rosidl_runtime_c__String or rosidl_runtime_c__U16String
      * @param InStr
      * @param OutStr
      */
-    static void StringUEToROS(const FString& InStr, rosidl_runtime_c__String& OutStr)
+    template<typename T>
+    static void StringUEToROS(const FString& InStr, T& OutStr)
     {
         FTCHARToUTF8 strUtf8(*InStr);
         const int32 strSize = strUtf8.Length();
@@ -355,12 +361,14 @@ public:
     /**
      * @brief Convert UE FString array to ROS sequence
      *
+     * @tparam T rosidl_runtime_c__String or rosidl_runtime_c__U16String
      * @param InStrList
      * @param OutStrSequence
      * @param size
      */
+    template<typename T>
     static void StringArrayUEToROSSequence(const TArray<FString>& InStrList,
-                                           rosidl_runtime_c__String* OutStrSequence,
+                                           T* OutStrSequence,
                                            const int size)
     {
         for (auto i = 0; i < size; ++i)

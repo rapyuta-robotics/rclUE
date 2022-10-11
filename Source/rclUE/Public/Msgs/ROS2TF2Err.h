@@ -43,13 +43,15 @@ public:
   void SetFromROS2(const tf2_msgs__msg__TF2Error &in_ros_data) {
     Error = in_ros_data.error;
 
-    ErrorString = UROS2Utils::StringROSToUE(in_ros_data.error_string);
+    ErrorString = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.error_string);
   }
 
   void SetROS2(tf2_msgs__msg__TF2Error &out_ros_data) const {
     out_ros_data.error = Error;
 
-    UROS2Utils::StringUEToROS(ErrorString, out_ros_data.error_string);
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        ErrorString, out_ros_data.error_string);
   }
 };
 
