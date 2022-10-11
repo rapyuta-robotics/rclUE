@@ -50,6 +50,21 @@ DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
         InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
     }
 
+#define RR_ROS2_CREATE_SERVICE_CLIENT(                                                                        \
+    InROS2Node, InUserObject, InFullServiceName, InServiceClass, InServiceResponseCallback, OutServiceClient) \
+    OutServiceClient = NewObject<UROS2ServiceClient>(InUserObject);                                           \
+    OutServiceClient->RegisterComponent();                                                                    \
+    OutServiceClient->ServiceName = InFullServiceName;                                                        \
+    OutServiceClient->SrvClass = InServiceClass;                                                              \
+                                                                                                              \
+    /* Bounded method will be called when receive response*/                                                  \
+    OutServiceClient->ResponseDelegate.BindDynamic(InUserObject, InServiceResponseCallback);                  \
+                                                                                                              \
+    /* Register service to InROS2Node*/                                                                       \
+    InROS2Node->AddServiceClient(OutServiceClient);
+
+#define RR_ROS2_STOP_SERVICE_CLIENT(InServiceClient) InServiceClient->RevokeRequestResponseCallbacks();
+
 /**
  * @brief Helper structs which is components of the node and should register to
  * the node with the appropriate methods (AddSubscription).
