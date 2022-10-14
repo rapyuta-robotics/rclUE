@@ -10,7 +10,7 @@ public class rclUE : ModuleRules
 {
 	private string RosPath
 	{
-		get { return Path.Combine(ModuleDirectory, "..", "ThirdParty", "ros"); }
+		get { return Path.Combine(ModuleDirectory, "../../", "ThirdParty", "ros"); }
 	}
 
 	private void AddModule(string InModulePath, bool bInCopySharedLibsToOutputDir = false)
