@@ -104,6 +104,27 @@ public:
 
     //! Service is ready or not
     bool Ready;
+    template<typename TService, typename TServiceRequest>
+    void SendRequest(TService* InService, const TServiceRequest& InServiceRequest)
+    {
+        check(State == UROS2State::Initialized);
+        check(OwnerNode != nullptr);
+
+        InService->SetRequest(InServiceRequest);
+        int64_t Seq;
+        RCSOFTCHECK(rcl_send_request(&client, InService->GetRequest(), &Seq));
+    }
+
+    /**
+     * @brief Unbind #RequestDelegate & #ResponseDelegate
+     *
+     */
+    UFUNCTION(BlueprintCallable)
+    virtual void RevokeRequestResponseCallbacks()
+    {
+        RequestDelegate.Unbind();
+        ResponseDelegate.Unbind();
+    }
 
 protected:
     /**
@@ -112,7 +133,6 @@ protected:
      */
     UFUNCTION()
     void SendRequest();
-
     const void* req;
     const void* res;
 };
