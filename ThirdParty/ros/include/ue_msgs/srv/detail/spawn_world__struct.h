@@ -20,6 +20,7 @@ extern "C"
 // Include directives for member types
 // Member 'world_model'
 // Member 'world_instance_name'
+// Member 'json_parameters'
 #include "rosidl_runtime_c/string.h"
 // Member 'pose'
 #include "geometry_msgs/msg/detail/pose__struct.h"
@@ -30,6 +31,7 @@ typedef struct ue_msgs__srv__SpawnWorld_Request
   rosidl_runtime_c__String world_model;
   rosidl_runtime_c__String world_instance_name;
   geometry_msgs__msg__Pose pose;
+  rosidl_runtime_c__String json_parameters;
 } ue_msgs__srv__SpawnWorld_Request;
 
 // Struct for a sequence of ue_msgs__srv__SpawnWorld_Request.

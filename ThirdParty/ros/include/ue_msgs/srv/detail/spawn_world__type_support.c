@@ -15,6 +15,7 @@
 // Include directives for member types
 // Member `world_model`
 // Member `world_instance_name`
+// Member `json_parameters`
 #include "rosidl_runtime_c/string_functions.h"
 // Member `pose`
 #include "geometry_msgs/msg/pose.h"
@@ -40,7 +41,7 @@ void SpawnWorld_Request__rosidl_typesupport_introspection_c__SpawnWorld_Request_
   ue_msgs__srv__SpawnWorld_Request__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember SpawnWorld_Request__rosidl_typesupport_introspection_c__SpawnWorld_Request_message_member_array[3] = {
+static rosidl_typesupport_introspection_c__MessageMember SpawnWorld_Request__rosidl_typesupport_introspection_c__SpawnWorld_Request_message_member_array[4] = {
   {
     "world_model",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -85,13 +86,28 @@ static rosidl_typesupport_introspection_c__MessageMember SpawnWorld_Request__ros
     NULL,  // get_const(index) function pointer
     NULL,  // get(index) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "json_parameters",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ue_msgs__srv__SpawnWorld_Request, json_parameters),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers SpawnWorld_Request__rosidl_typesupport_introspection_c__SpawnWorld_Request_message_members = {
   "ue_msgs__srv",  // message namespace
   "SpawnWorld_Request",  // message name
-  3,  // number of fields
+  4,  // number of fields
   sizeof(ue_msgs__srv__SpawnWorld_Request),
   SpawnWorld_Request__rosidl_typesupport_introspection_c__SpawnWorld_Request_message_member_array,  // message members
   SpawnWorld_Request__rosidl_typesupport_introspection_c__SpawnWorld_Request_init_function,  // function to initialize message memory (memory has to be allocated)

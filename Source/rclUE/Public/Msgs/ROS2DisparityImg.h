@@ -5,7 +5,7 @@
 #pragma once
 
 // UE
-#include <CoreMinimal.h>
+#include "CoreMinimal.h"
 
 // ROS
 #include "stereo_msgs/msg/disparity_image.h"

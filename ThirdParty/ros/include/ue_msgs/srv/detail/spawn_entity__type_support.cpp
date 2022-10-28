@@ -64,7 +64,7 @@ void resize_function__SpawnEntity_Request__tags(void * untyped_member, size_t si
   member->resize(size);
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember SpawnEntity_Request_message_member_array[4] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember SpawnEntity_Request_message_member_array[5] = {
   {
     "xml",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
@@ -124,13 +124,28 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember SpawnEntity_R
     get_const_function__SpawnEntity_Request__tags,  // get_const(index) function pointer
     get_function__SpawnEntity_Request__tags,  // get(index) function pointer
     resize_function__SpawnEntity_Request__tags  // resize(index) function pointer
+  },
+  {
+    "json_parameters",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ue_msgs::srv::SpawnEntity_Request, json_parameters),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers SpawnEntity_Request_message_members = {
   "ue_msgs::srv",  // message namespace
   "SpawnEntity_Request",  // message name
-  4,  // number of fields
+  5,  // number of fields
   sizeof(ue_msgs::srv::SpawnEntity_Request),
   SpawnEntity_Request_message_member_array,  // message members
   SpawnEntity_Request_init_function,  // function to initialize message memory (memory has to be allocated)

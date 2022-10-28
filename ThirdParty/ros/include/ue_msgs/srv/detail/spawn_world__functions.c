@@ -13,6 +13,7 @@
 // Include directives for member types
 // Member `world_model`
 // Member `world_instance_name`
+// Member `json_parameters`
 #include "rosidl_runtime_c/string_functions.h"
 // Member `pose`
 #include "geometry_msgs/msg/detail/pose__functions.h"
@@ -38,6 +39,11 @@ ue_msgs__srv__SpawnWorld_Request__init(ue_msgs__srv__SpawnWorld_Request * msg)
     ue_msgs__srv__SpawnWorld_Request__fini(msg);
     return false;
   }
+  // json_parameters
+  if (!rosidl_runtime_c__String__init(&msg->json_parameters)) {
+    ue_msgs__srv__SpawnWorld_Request__fini(msg);
+    return false;
+  }
   return true;
 }
 
@@ -53,6 +59,8 @@ ue_msgs__srv__SpawnWorld_Request__fini(ue_msgs__srv__SpawnWorld_Request * msg)
   rosidl_runtime_c__String__fini(&msg->world_instance_name);
   // pose
   geometry_msgs__msg__Pose__fini(&msg->pose);
+  // json_parameters
+  rosidl_runtime_c__String__fini(&msg->json_parameters);
 }
 
 bool
@@ -76,6 +84,12 @@ ue_msgs__srv__SpawnWorld_Request__are_equal(const ue_msgs__srv__SpawnWorld_Reque
   // pose
   if (!geometry_msgs__msg__Pose__are_equal(
       &(lhs->pose), &(rhs->pose)))
+  {
+    return false;
+  }
+  // json_parameters
+  if (!rosidl_runtime_c__String__are_equal(
+      &(lhs->json_parameters), &(rhs->json_parameters)))
   {
     return false;
   }
@@ -105,6 +119,12 @@ ue_msgs__srv__SpawnWorld_Request__copy(
   // pose
   if (!geometry_msgs__msg__Pose__copy(
       &(input->pose), &(output->pose)))
+  {
+    return false;
+  }
+  // json_parameters
+  if (!rosidl_runtime_c__String__copy(
+      &(input->json_parameters), &(output->json_parameters)))
   {
     return false;
   }

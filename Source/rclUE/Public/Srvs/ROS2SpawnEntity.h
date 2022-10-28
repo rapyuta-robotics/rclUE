@@ -5,7 +5,7 @@
 #pragma once
 
 // UE
-#include <CoreMinimal.h>
+#include "CoreMinimal.h"
 
 // ROS
 #include "ue_msgs/srv/spawn_entity.h"
@@ -38,6 +38,9 @@ public:
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   TArray<FString> Tags;
 
+  UPROPERTY(EditAnywhere, BlueprintReadWrite)
+  FString JsonParameters;
+
   FROSSpawnEntityReq() {}
 
   void SetFromROS2(const ue_msgs__srv__SpawnEntity_Request &in_ros_data) {
@@ -50,6 +53,9 @@ public:
 
     UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
         in_ros_data.tags.data, Tags, in_ros_data.tags.size);
+
+    JsonParameters = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.json_parameters);
   }
 
   void SetROS2(ue_msgs__srv__SpawnEntity_Request &out_ros_data) const {
@@ -64,6 +70,9 @@ public:
         rosidl_runtime_c__String__Sequence>(out_ros_data.tags, Tags.Num());
     UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
         Tags, out_ros_data.tags.data, Tags.Num());
+
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        JsonParameters, out_ros_data.json_parameters);
   }
 };
 

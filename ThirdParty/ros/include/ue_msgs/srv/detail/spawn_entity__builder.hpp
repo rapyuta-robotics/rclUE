@@ -20,16 +20,32 @@ namespace srv
 namespace builder
 {
 
+class Init_SpawnEntity_Request_json_parameters
+{
+public:
+  explicit Init_SpawnEntity_Request_json_parameters(::ue_msgs::srv::SpawnEntity_Request & msg)
+  : msg_(msg)
+  {}
+  ::ue_msgs::srv::SpawnEntity_Request json_parameters(::ue_msgs::srv::SpawnEntity_Request::_json_parameters_type arg)
+  {
+    msg_.json_parameters = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::ue_msgs::srv::SpawnEntity_Request msg_;
+};
+
 class Init_SpawnEntity_Request_tags
 {
 public:
   explicit Init_SpawnEntity_Request_tags(::ue_msgs::srv::SpawnEntity_Request & msg)
   : msg_(msg)
   {}
-  ::ue_msgs::srv::SpawnEntity_Request tags(::ue_msgs::srv::SpawnEntity_Request::_tags_type arg)
+  Init_SpawnEntity_Request_json_parameters tags(::ue_msgs::srv::SpawnEntity_Request::_tags_type arg)
   {
     msg_.tags = std::move(arg);
-    return std::move(msg_);
+    return Init_SpawnEntity_Request_json_parameters(msg_);
   }
 
 private:

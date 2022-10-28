@@ -20,16 +20,32 @@ namespace srv
 namespace builder
 {
 
+class Init_SpawnWorld_Request_json_parameters
+{
+public:
+  explicit Init_SpawnWorld_Request_json_parameters(::ue_msgs::srv::SpawnWorld_Request & msg)
+  : msg_(msg)
+  {}
+  ::ue_msgs::srv::SpawnWorld_Request json_parameters(::ue_msgs::srv::SpawnWorld_Request::_json_parameters_type arg)
+  {
+    msg_.json_parameters = std::move(arg);
+    return std::move(msg_);
+  }
+
+private:
+  ::ue_msgs::srv::SpawnWorld_Request msg_;
+};
+
 class Init_SpawnWorld_Request_pose
 {
 public:
   explicit Init_SpawnWorld_Request_pose(::ue_msgs::srv::SpawnWorld_Request & msg)
   : msg_(msg)
   {}
-  ::ue_msgs::srv::SpawnWorld_Request pose(::ue_msgs::srv::SpawnWorld_Request::_pose_type arg)
+  Init_SpawnWorld_Request_json_parameters pose(::ue_msgs::srv::SpawnWorld_Request::_pose_type arg)
   {
     msg_.pose = std::move(arg);
-    return std::move(msg_);
+    return Init_SpawnWorld_Request_json_parameters(msg_);
   }
 
 private:

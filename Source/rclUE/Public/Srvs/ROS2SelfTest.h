@@ -5,7 +5,7 @@
 #pragma once
 
 // UE
-#include <CoreMinimal.h>
+#include "CoreMinimal.h"
 
 // ROS
 #include "diagnostic_msgs/srv/self_test.h"

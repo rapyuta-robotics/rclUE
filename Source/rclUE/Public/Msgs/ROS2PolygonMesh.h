@@ -5,7 +5,7 @@
 #pragma once
 
 // UE
-#include <CoreMinimal.h>
+#include "CoreMinimal.h"
 
 // ROS
 #include "pcl_msgs/msg/polygon_mesh.h"

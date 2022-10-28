@@ -44,19 +44,22 @@ struct SpawnEntity_Request_
     {
       this->xml = "";
       this->robot_namespace = "";
+      this->json_parameters = "";
     }
   }
 
   explicit SpawnEntity_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : xml(_alloc),
     robot_namespace(_alloc),
-    state(_alloc, _init)
+    state(_alloc, _init),
+    json_parameters(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->xml = "";
       this->robot_namespace = "";
+      this->json_parameters = "";
     }
   }
 
@@ -73,6 +76,9 @@ struct SpawnEntity_Request_
   using _tags_type =
     std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other>;
   _tags_type tags;
+  using _json_parameters_type =
+    std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>;
+  _json_parameters_type json_parameters;
 
   // setters for named parameter idiom
   Type & set__xml(
@@ -97,6 +103,12 @@ struct SpawnEntity_Request_
     const std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other> & _arg)
   {
     this->tags = _arg;
+    return *this;
+  }
+  Type & set__json_parameters(
+    const std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other> & _arg)
+  {
+    this->json_parameters = _arg;
     return *this;
   }
 
@@ -152,6 +164,9 @@ struct SpawnEntity_Request_
       return false;
     }
     if (this->tags != other.tags) {
+      return false;
+    }
+    if (this->json_parameters != other.json_parameters) {
       return false;
     }
     return true;

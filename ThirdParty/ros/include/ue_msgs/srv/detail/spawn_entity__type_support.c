@@ -16,6 +16,7 @@
 // Member `xml`
 // Member `robot_namespace`
 // Member `tags`
+// Member `json_parameters`
 #include "rosidl_runtime_c/string_functions.h"
 // Member `state`
 #include "ue_msgs/msg/entity_state.h"
@@ -41,7 +42,7 @@ void SpawnEntity_Request__rosidl_typesupport_introspection_c__SpawnEntity_Reques
   ue_msgs__srv__SpawnEntity_Request__fini(message_memory);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember SpawnEntity_Request__rosidl_typesupport_introspection_c__SpawnEntity_Request_message_member_array[4] = {
+static rosidl_typesupport_introspection_c__MessageMember SpawnEntity_Request__rosidl_typesupport_introspection_c__SpawnEntity_Request_message_member_array[5] = {
   {
     "xml",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -101,13 +102,28 @@ static rosidl_typesupport_introspection_c__MessageMember SpawnEntity_Request__ro
     NULL,  // get_const(index) function pointer
     NULL,  // get(index) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "json_parameters",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ue_msgs__srv__SpawnEntity_Request, json_parameters),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers SpawnEntity_Request__rosidl_typesupport_introspection_c__SpawnEntity_Request_message_members = {
   "ue_msgs__srv",  // message namespace
   "SpawnEntity_Request",  // message name
-  4,  // number of fields
+  5,  // number of fields
   sizeof(ue_msgs__srv__SpawnEntity_Request),
   SpawnEntity_Request__rosidl_typesupport_introspection_c__SpawnEntity_Request_message_member_array,  // message members
   SpawnEntity_Request__rosidl_typesupport_introspection_c__SpawnEntity_Request_init_function,  // function to initialize message memory (memory has to be allocated)

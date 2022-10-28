@@ -57,6 +57,9 @@ struct SpawnEntities_Request_
   using _tags_type =
     std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other>;
   _tags_type tags;
+  using _json_parameters_type =
+    std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other>;
+  _json_parameters_type json_parameters;
 
   // setters for named parameter idiom
   Type & set__type(
@@ -75,6 +78,12 @@ struct SpawnEntities_Request_
     const std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other> & _arg)
   {
     this->tags = _arg;
+    return *this;
+  }
+  Type & set__json_parameters(
+    const std::vector<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>, typename ContainerAllocator::template rebind<std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>>::other> & _arg)
+  {
+    this->json_parameters = _arg;
     return *this;
   }
 
@@ -127,6 +136,9 @@ struct SpawnEntities_Request_
       return false;
     }
     if (this->tags != other.tags) {
+      return false;
+    }
+    if (this->json_parameters != other.json_parameters) {
       return false;
     }
     return true;
