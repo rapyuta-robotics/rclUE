@@ -20,6 +20,7 @@ extern "C"
 // Include directives for member types
 // Member 'type'
 // Member 'tags'
+// Member 'json_parameters'
 #include "rosidl_runtime_c/string.h"
 // Member 'state'
 #include "ue_msgs/msg/detail/entity_state__struct.h"
@@ -30,6 +31,7 @@ typedef struct ue_msgs__srv__SpawnEntities_Request
   rosidl_runtime_c__String__Sequence type;
   ue_msgs__msg__EntityState__Sequence state;
   rosidl_runtime_c__String__Sequence tags;
+  rosidl_runtime_c__String__Sequence json_parameters;
 } ue_msgs__srv__SpawnEntities_Request;
 
 // Struct for a sequence of ue_msgs__srv__SpawnEntities_Request.

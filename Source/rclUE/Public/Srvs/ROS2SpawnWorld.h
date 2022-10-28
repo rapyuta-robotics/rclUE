@@ -5,7 +5,7 @@
 #pragma once
 
 // UE
-#include <CoreMinimal.h>
+#include "CoreMinimal.h"
 
 // ROS
 #include "ue_msgs/srv/spawn_world.h"
@@ -35,6 +35,9 @@ public:
   UPROPERTY(EditAnywhere, BlueprintReadWrite)
   FROSPose Pose;
 
+  UPROPERTY(EditAnywhere, BlueprintReadWrite)
+  FString JsonParameters;
+
   FROSSpawnWorldReq() {}
 
   void SetFromROS2(const ue_msgs__srv__SpawnWorld_Request &in_ros_data) {
@@ -45,6 +48,9 @@ public:
         in_ros_data.world_instance_name);
 
     Pose.SetFromROS2(in_ros_data.pose);
+
+    JsonParameters = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
+        in_ros_data.json_parameters);
   }
 
   void SetROS2(ue_msgs__srv__SpawnWorld_Request &out_ros_data) const {
@@ -55,6 +61,9 @@ public:
         WorldInstanceName, out_ros_data.world_instance_name);
 
     Pose.SetROS2(out_ros_data.pose);
+
+    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
+        JsonParameters, out_ros_data.json_parameters);
   }
 };
 

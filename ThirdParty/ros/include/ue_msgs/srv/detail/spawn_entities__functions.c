@@ -13,6 +13,7 @@
 // Include directives for member types
 // Member `type`
 // Member `tags`
+// Member `json_parameters`
 #include "rosidl_runtime_c/string_functions.h"
 // Member `state`
 #include "ue_msgs/msg/detail/entity_state__functions.h"
@@ -38,6 +39,11 @@ ue_msgs__srv__SpawnEntities_Request__init(ue_msgs__srv__SpawnEntities_Request * 
     ue_msgs__srv__SpawnEntities_Request__fini(msg);
     return false;
   }
+  // json_parameters
+  if (!rosidl_runtime_c__String__Sequence__init(&msg->json_parameters, 0)) {
+    ue_msgs__srv__SpawnEntities_Request__fini(msg);
+    return false;
+  }
   return true;
 }
 
@@ -53,6 +59,8 @@ ue_msgs__srv__SpawnEntities_Request__fini(ue_msgs__srv__SpawnEntities_Request * 
   ue_msgs__msg__EntityState__Sequence__fini(&msg->state);
   // tags
   rosidl_runtime_c__String__Sequence__fini(&msg->tags);
+  // json_parameters
+  rosidl_runtime_c__String__Sequence__fini(&msg->json_parameters);
 }
 
 bool
@@ -76,6 +84,12 @@ ue_msgs__srv__SpawnEntities_Request__are_equal(const ue_msgs__srv__SpawnEntities
   // tags
   if (!rosidl_runtime_c__String__Sequence__are_equal(
       &(lhs->tags), &(rhs->tags)))
+  {
+    return false;
+  }
+  // json_parameters
+  if (!rosidl_runtime_c__String__Sequence__are_equal(
+      &(lhs->json_parameters), &(rhs->json_parameters)))
   {
     return false;
   }
@@ -105,6 +119,12 @@ ue_msgs__srv__SpawnEntities_Request__copy(
   // tags
   if (!rosidl_runtime_c__String__Sequence__copy(
       &(input->tags), &(output->tags)))
+  {
+    return false;
+  }
+  // json_parameters
+  if (!rosidl_runtime_c__String__Sequence__copy(
+      &(input->json_parameters), &(output->json_parameters)))
   {
     return false;
   }

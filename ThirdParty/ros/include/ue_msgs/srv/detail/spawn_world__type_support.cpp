@@ -37,7 +37,7 @@ void SpawnWorld_Request_fini_function(void * message_memory)
   typed_message->~SpawnWorld_Request();
 }
 
-static const ::rosidl_typesupport_introspection_cpp::MessageMember SpawnWorld_Request_message_member_array[3] = {
+static const ::rosidl_typesupport_introspection_cpp::MessageMember SpawnWorld_Request_message_member_array[4] = {
   {
     "world_model",  // name
     ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
@@ -82,13 +82,28 @@ static const ::rosidl_typesupport_introspection_cpp::MessageMember SpawnWorld_Re
     nullptr,  // get_const(index) function pointer
     nullptr,  // get(index) function pointer
     nullptr  // resize(index) function pointer
+  },
+  {
+    "json_parameters",  // name
+    ::rosidl_typesupport_introspection_cpp::ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    nullptr,  // members of sub message
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ue_msgs::srv::SpawnWorld_Request, json_parameters),  // bytes offset in struct
+    nullptr,  // default value
+    nullptr,  // size() function pointer
+    nullptr,  // get_const(index) function pointer
+    nullptr,  // get(index) function pointer
+    nullptr  // resize(index) function pointer
   }
 };
 
 static const ::rosidl_typesupport_introspection_cpp::MessageMembers SpawnWorld_Request_message_members = {
   "ue_msgs::srv",  // message namespace
   "SpawnWorld_Request",  // message name
-  3,  // number of fields
+  4,  // number of fields
   sizeof(ue_msgs::srv::SpawnWorld_Request),
   SpawnWorld_Request_message_member_array,  // message members
   SpawnWorld_Request_init_function,  // function to initialize message memory (memory has to be allocated)

@@ -44,19 +44,22 @@ struct SpawnWorld_Request_
     {
       this->world_model = "";
       this->world_instance_name = "";
+      this->json_parameters = "";
     }
   }
 
   explicit SpawnWorld_Request_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : world_model(_alloc),
     world_instance_name(_alloc),
-    pose(_alloc, _init)
+    pose(_alloc, _init),
+    json_parameters(_alloc)
   {
     if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
       rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
       this->world_model = "";
       this->world_instance_name = "";
+      this->json_parameters = "";
     }
   }
 
@@ -70,6 +73,9 @@ struct SpawnWorld_Request_
   using _pose_type =
     geometry_msgs::msg::Pose_<ContainerAllocator>;
   _pose_type pose;
+  using _json_parameters_type =
+    std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other>;
+  _json_parameters_type json_parameters;
 
   // setters for named parameter idiom
   Type & set__world_model(
@@ -88,6 +94,12 @@ struct SpawnWorld_Request_
     const geometry_msgs::msg::Pose_<ContainerAllocator> & _arg)
   {
     this->pose = _arg;
+    return *this;
+  }
+  Type & set__json_parameters(
+    const std::basic_string<char, std::char_traits<char>, typename ContainerAllocator::template rebind<char>::other> & _arg)
+  {
+    this->json_parameters = _arg;
     return *this;
   }
 
@@ -140,6 +152,9 @@ struct SpawnWorld_Request_
       return false;
     }
     if (this->pose != other.pose) {
+      return false;
+    }
+    if (this->json_parameters != other.json_parameters) {
       return false;
     }
     return true;

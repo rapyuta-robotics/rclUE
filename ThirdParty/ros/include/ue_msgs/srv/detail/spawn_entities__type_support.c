@@ -15,6 +15,7 @@
 // Include directives for member types
 // Member `type`
 // Member `tags`
+// Member `json_parameters`
 #include "rosidl_runtime_c/string_functions.h"
 // Member `state`
 #include "ue_msgs/msg/entity_state.h"
@@ -73,7 +74,7 @@ bool SpawnEntities_Request__rosidl_typesupport_introspection_c__resize_function_
   return ue_msgs__msg__EntityState__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_member_array[3] = {
+static rosidl_typesupport_introspection_c__MessageMember SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_member_array[4] = {
   {
     "type",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
@@ -118,13 +119,28 @@ static rosidl_typesupport_introspection_c__MessageMember SpawnEntities_Request__
     NULL,  // get_const(index) function pointer
     NULL,  // get(index) function pointer
     NULL  // resize(index) function pointer
+  },
+  {
+    "json_parameters",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_STRING,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message
+    true,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(ue_msgs__srv__SpawnEntities_Request, json_parameters),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL  // resize(index) function pointer
   }
 };
 
 static const rosidl_typesupport_introspection_c__MessageMembers SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_members = {
   "ue_msgs__srv",  // message namespace
   "SpawnEntities_Request",  // message name
-  3,  // number of fields
+  4,  // number of fields
   sizeof(ue_msgs__srv__SpawnEntities_Request),
   SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_message_member_array,  // message members
   SpawnEntities_Request__rosidl_typesupport_introspection_c__SpawnEntities_Request_init_function,  // function to initialize message memory (memory has to be allocated)
