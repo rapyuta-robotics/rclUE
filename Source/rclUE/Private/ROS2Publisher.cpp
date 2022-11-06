@@ -58,11 +58,11 @@ void UROS2Publisher::StartPublishTimer()
     }
 }
 
-void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
-{
-    SetupUpdateCallback();
-    InROS2Node->AddPublisher(this);
-}
+// void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
+// {
+//     SetupUpdateCallback();
+//     InROS2Node->AddPublisher(this);
+// }
 
 void UROS2Publisher::Destroy()
 {

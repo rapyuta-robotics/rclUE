@@ -40,13 +40,13 @@ class UROS2ActionClient;
  * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
  * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
  */
-#define RR_ROS2_SUBSCRIBE_TO_TOPIC(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
-    if (ensure(IsValid(InROS2Node)))                                                              \
-    {                                                                                             \
-        FSubscriptionCallback cb;                                                                 \
-        cb.BindDynamic(InUserObject, InCallback);                                                 \
-        InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
-    }
+// #define RR_ROS2_SUBSCRIBE_TO_TOPIC(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
+//     if (ensure(IsValid(InROS2Node)))                                                              \
+//     {                                                                                             \
+//         FSubscriptionCallback cb;                                                                 \
+//         cb.BindDynamic(InUserObject, InCallback);                                                 \
+//         InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
+//     }
 
 #define RR_ROS2_CREATE_SERVICE_CLIENT(                                                                        \
     InROS2Node, InUserObject, InFullServiceName, InServiceClass, InServiceResponseCallback, OutServiceClient) \
