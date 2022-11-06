@@ -16,8 +16,8 @@
 
 // rclUE
 #include "Msgs/ROS2GenericMsg.h"
-#include "ROS2Node.h"
 #include "Srvs/ROS2GenericSrv.h"
+#include "ROS2NodeComponent.h"
 
 #include "ROS2ServiceClient.generated.h"
 
@@ -89,7 +89,7 @@ public:
 
     //! ROS2Node which own this service client.
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    AROS2Node* OwnerNode;
+    UROS2NodeComponent* OwnerNode;
 
     //! Service client state
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

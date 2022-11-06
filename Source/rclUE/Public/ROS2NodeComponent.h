@@ -18,9 +18,12 @@
 #include "GameFramework/Actor.h"
 
 // rclUE
-#include "ROS2NodeComponent.h"
+#include "Actions/ROS2GenericAction.h"
+#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2Support.h"
+#include "Srvs/ROS2GenericSrv.h"
 
-#include "ROS2Node.generated.h"
+#include "ROS2NodeComponent.generated.h"
 
 class UROS2Publisher;
 class UROS2ServiceClient;
@@ -46,21 +49,6 @@ DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
         cb.BindDynamic(InUserObject, InCallback);                                                 \
         InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
     }
-
-#define RR_ROS2_CREATE_SERVICE_CLIENT(                                                                        \
-    InROS2Node, InUserObject, InFullServiceName, InServiceClass, InServiceResponseCallback, OutServiceClient) \
-    OutServiceClient = NewObject<UROS2ServiceClient>(InUserObject);                                           \
-    OutServiceClient->RegisterComponent();                                                                    \
-    OutServiceClient->ServiceName = InFullServiceName;                                                        \
-    OutServiceClient->SrvClass = InServiceClass;                                                              \
-                                                                                                              \
-    /* Bounded method will be called when receive response*/                                                  \
-    OutServiceClient->ResponseDelegate.BindDynamic(InUserObject, InServiceResponseCallback);                  \
-                                                                                                              \
-    /* Register service to InROS2Node*/                                                                       \
-    InROS2Node->AddServiceClient(OutServiceClient);
-
-#define RR_ROS2_STOP_SERVICE_CLIENT(InServiceClient) InServiceClient->RevokeRequestResponseCallbacks();
 
 /**
  * @brief Helper structs which is components of the node and should register to
@@ -124,7 +112,7 @@ public:
  * and action clients should register to the node with the appropriate methods (Add*).
  */
 UCLASS(Blueprintable)
-class RCLUE_API AROS2Node : public AActor
+class RCLUE_API UROS2NodeComponent : public UActorComponent
 {
     GENERATED_BODY()
 
@@ -133,36 +121,35 @@ public:
     /*!
       Constructor
     */
-    AROS2Node();
+    UROS2NodeComponent();
 
 protected:
     /**
      * @brief Overridable function called whenever this actor is being removed from a level
      * @param EndPlayReason
-     * \sa [AActor::EndPlay](https://docs.unrealengine.com/5.1/en-US/API/Runtime/Engine/GameFramework/AActor/EndPlay/)
+     * \sa [AActor::EndPlay](https://docs.unrealengine.com/4.27/en-US/API/Runtime/Engine/GameFramework/AActor/EndPlay/)
      */
     virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
 public:
     /**
-     * @brief Called every frame
+     * @brief Called every frame.
      *
      * @param DeltaTime
-     * @sa [Actor Ticking](https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Actors/Ticking/)
+     * @param TickType
+     * @param ThisTickFunction
      */
-    virtual void Tick(float DeltaTime) override;
-
+    virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 public:
-    UROS2NodeComponent* ActorComponent = nullptr;
-
     /**
      * @brief Initilize rosnode with rclc_node_init_default
-     * This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be different/relevant in
-     * each of Child classes
+     * This can't be pre-placed in UROS2NodeComponent::BeginPlay() as the order of rcl(c) instructions could be different/relevant in each of
+     * Child classes
      *
      */
-    UFUNCTION(BlueprintCallable) void Init();
+    UFUNCTION(BlueprintCallable)
+    void Init();
 
     rcl_node_t* GetNode();
 
@@ -220,12 +207,81 @@ public:
     UFUNCTION(BlueprintCallable)
     void AddActionServer(UROS2ActionServer* InActionServer);
 
+    //! Node state
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    TEnumAsByte<UROS2State> State = UROS2State::Created;
+
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString Name = TEXT("node");
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Namespace = TEXT("");
+    FString Namespace = TEXT("ros_global");
+
+    //! wait_set quantities - currently unused
+    UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
+    int NGuardConditions = 0;
+
+    UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
+    int NTimers = 0;
+
+    UPROPERTY(VisibleAnywhere, Category = "Diagnostics")
+    int NEvents = 0;
+
+protected:
+    /**
+     * @brief method used to wait on communication and call delegates when appropriate modeled after executor + actions
+     *
+     */
+    UFUNCTION()
+    void SpinSome();
+
+    rcl_wait_set_t wait_set;
+
+    UPROPERTY()
+    UROS2Support* Support;
+
+    rcl_node_t node;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FSubscription> Subscriptions;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FService> Services;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<UROS2Publisher*> Publishers;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<UROS2ServiceClient*> Clients;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<UROS2ActionClient*> ActionClients;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<UROS2ActionServer*> ActionServers;
 
 private:
+    /**
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take to get topic and execute Callback.
+     *
+     */
+    UFUNCTION()
+    void HandleSubscriptions();
 
+    /**
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take_request_with_info to get request, execute Callback and rcl_send_response to send response
+     *
+     */
+    UFUNCTION()
+    void HandleServices();
+
+    /**
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take_response_with_info to get response and execute Callback.
+     *
+     */
+    UFUNCTION()
+    void HandleClients();
 };

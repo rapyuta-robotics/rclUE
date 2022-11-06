@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include "ROS2Node.h"
+#include "ROS2NodeComponent.h"
 
 #include <Actions/ROS2GenericAction.h>
 #include <Components/ActorComponent.h>
@@ -77,7 +77,7 @@ public:
 
     //! ROS2Node which own this action.
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-    AROS2Node* OwnerNode;
+    UROS2NodeComponent* OwnerNode;
 
     //! Action state 
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
