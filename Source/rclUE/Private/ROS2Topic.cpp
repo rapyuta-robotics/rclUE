@@ -10,7 +10,7 @@ UROS2Topic::UROS2Topic()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2Topic::InitializeWithROS2(AROS2Node* InROS2Node)
+void UROS2Topic::InitializeWithROS2(UROS2NodeComponent* InROS2Node)
 {
     OwnerNode = InROS2Node;
     Init();
@@ -27,7 +27,7 @@ void UROS2Topic::Init()
 
         check(IsValid(TopicMessage));
 
-        InitializeServiceComponent();
+        InitializeTopicComponent();
 
         State = UROS2State::Initialized;
     }

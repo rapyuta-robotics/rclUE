@@ -20,6 +20,7 @@
 // rclUE
 #include "ROS2NodeComponent.h"
 #include "ROS2Service.h"
+#include "ROS2Subscriber.h"
 
 #include "ROS2Node.generated.h"
 
@@ -29,10 +30,9 @@ class UROS2ActionServer;
 class UROS2ActionClient;
 
 // Reminder: functions bound to delegates must be UFUNCTION
-DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
-DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
+// DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
+// DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
+// DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 
 /**
  * @brief RR_ROS2_SUBSCRIBE_TO_TOPIC

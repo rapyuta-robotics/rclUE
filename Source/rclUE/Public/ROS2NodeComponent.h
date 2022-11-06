@@ -32,23 +32,8 @@ class UROS2ActionServer;
 class UROS2ActionClient;
 
 // Reminder: functions bound to delegates must be UFUNCTION
-DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
-
-/**
- * @brief RR_ROS2_SUBSCRIBE_TO_TOPIC
- * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
- * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
- * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
- */
-#define RR_ROS2_SUBSCRIBE_TO_TOPIC(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
-    if (ensure(IsValid(InROS2Node)))                                                              \
-    {                                                                                             \
-        FSubscriptionCallback cb;                                                                 \
-        cb.BindDynamic(InUserObject, InCallback);                                                 \
-        InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
-    }
 
 /**
  * Class implementing ROS2 node.
@@ -106,7 +91,7 @@ public:
      * @param Callback
      */
     UFUNCTION(BlueprintCallable)
-    void AddSubscription(const FString& TopicName, TSubclassOf<UROS2GenericMsg> MsgClass, const FSubscriptionCallback& Callback);
+    void AddSubscription(UROS2Subscriber* InSubscriber);
 
     /**
      * @brief Set this node to UROS2Publisher::OwnerNode of InPublisher and add to #Publishers.

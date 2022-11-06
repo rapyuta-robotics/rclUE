@@ -18,7 +18,22 @@
 #include "ROS2Topic.generated.h"
 
 //! BP requires a custom-made callback thus it must be Dynamic
+DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessage);
+
+/**
+ * @brief RR_ROS2_SUBSCRIBE_TO_TOPIC
+ * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
+ * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define RR_ROS2_SUBSCRIBE_TO_TOPIC(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
+    if (ensure(IsValid(InROS2Node)))                                                              \
+    {                                                                                             \
+        FSubscriptionCallback cb;                                                                 \
+        cb.BindDynamic(InUserObject, InCallback);                                                 \
+        InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
+    }
 
 /**
  * @brief ROS2 Publisher class.
@@ -42,21 +57,21 @@ public:
      *
      * @param InROS2Node ROS2Node which this publisher belongs to
      */
-    InitializeWithROS2(AROS2Node* InROS2Node);
+    virtual void InitializeWithROS2(UROS2NodeComponent* InROS2Node);
 
     /**
      * @brief Initialize publisher with rcl_publisher_init, initialize message and start timer and
      *
      */
     UFUNCTION(BlueprintCallable)
-    void Init();
+    virtual void Init();
 
     /**
      * @brief Create #UROS2GenericMsg instance and initialize it.
      *
      */
     UFUNCTION(BlueprintCallable)
-    void InitializeMessage();
+    virtual void InitializeMessage();
 
     /**
      * @brief Destroy publisher with rcl_publisher_fini
@@ -86,11 +101,11 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Default;
 
-protected:
-
     //! Message Instance
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     UROS2GenericMsg* TopicMessage;
+
+protected:
 
     /**
      * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient

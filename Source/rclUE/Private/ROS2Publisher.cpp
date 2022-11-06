@@ -35,18 +35,9 @@ void UROS2Publisher::InitializeTopicComponent()
 
     RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
-        RclPublisher = rcl_get_zero_initialized_publisher();
-        rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
+    StartPublishTimer();
 
-        pub_opt.qos = QoS_LUT[QoS];
-
-        RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
-
-        State = UROS2State::Initialized;
-
-        UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher initialization (%s)"), *TopicName);
-        StartPublishTimer();
-    }
+    State = UROS2State::Initialized;
 }
 
 void UROS2Publisher::StopPublishTimer()

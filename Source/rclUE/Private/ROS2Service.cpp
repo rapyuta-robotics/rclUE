@@ -8,7 +8,7 @@ UROS2Service::UROS2Service()
     PrimaryComponentTick.bCanEverTick = true;
 }
 
-void UROS2Topic::InitializeWithROS2(AROS2Node* InROS2Node)
+void UROS2Service::InitializeWithROS2(UROS2NodeComponent* InROS2Node)
 {
     OwnerNode = InROS2Node;
     Init();
