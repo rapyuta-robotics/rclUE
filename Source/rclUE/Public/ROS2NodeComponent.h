@@ -51,34 +51,6 @@ DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
     }
 
 /**
- * @brief Helper structs which is components of the node and should register to
- * the node with the appropriate methods (AddSubscription).
- *
- */
-USTRUCT(Blueprintable)
-struct RCLUE_API FSubscription
-{
-    GENERATED_BODY()
-
-public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString TopicName;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TSubclassOf<UROS2GenericMsg> TopicType;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    UROS2GenericMsg* TopicMsg = nullptr;
-
-    rcl_subscription_t rcl_subscription;
-
-    FSubscriptionCallback Callback;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool Ready;
-};
-
-/**
  * Class implementing ROS2 node.
  * This class also handles tasks performed by the executor in rclc.
  * Components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers
@@ -214,7 +186,7 @@ protected:
     rcl_node_t node;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FSubscription> Subscriptions;
+    TArray<UROS2Subscriber*> Subscriptions;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<UROS2ServiceServer*> ServiceServers;

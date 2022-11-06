@@ -4,7 +4,7 @@
 
 #include "rclcUtilities.h"
 
-void UROS2ActionClient::InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS)
+void UROS2ActionClient::InitializeActionComponent()
 {
     const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();
 

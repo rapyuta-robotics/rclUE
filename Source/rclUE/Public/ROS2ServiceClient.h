@@ -111,8 +111,6 @@ protected:
      * @brief Initialize ROS2 action client with rcl_action_client_init.
      * Set QOS for all goal, result, cancel, feedback and status
      *
-     * @param QoS Quality of Service
-     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */
-    virtual void InitializeServiceComponent(const TEnumAsByte<UROS2QoS> QoS) override;
+    virtual void InitializeServiceComponent() override;
 };
