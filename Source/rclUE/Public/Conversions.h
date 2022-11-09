@@ -2,17 +2,17 @@
 
 #include <iterator>
 
+#include "rosidl_runtime_c/string_functions.h"
 #include "geometry_msgs/msg/vector3.h"
 #include "geometry_msgs/msg/quaternion.h"
 #include "geographic_msgs/msg/geo_point.h"
+#include "geometry_msgs/msg/point.h"
 #include "geometry_msgs/msg/point32.h"
 #include "geometry_msgs/msg/polygon.h"
 #include "builtin_interfaces/msg/time.h"
 
 #include "GeographicCoordinates.h"
 #include "Engine/Polys.h"
-#include "Msgs/ROS2OdometryMsg.h"
-#include "Msgs/ROS2TimeMsg.h"
 
 namespace ArrayInitialisers
 {
@@ -26,17 +26,17 @@ namespace ArrayInitialisers
 
 namespace ROS2MsgToUE
 {
-	inline FGeographicCoordinates FromGeoPoint(const geographic_msgs__msg__GeoPoint& in)
+	inline FGeographicCoordinates From(const geographic_msgs__msg__GeoPoint& in)
 	{
 		return FGeographicCoordinates(in.longitude, in.latitude, in.altitude);
 	}
 
-	inline FVector FromVector3(const geometry_msgs__msg__Vector3& in)
+	inline FVector From(const geometry_msgs__msg__Vector3& in)
 	{
 		return FVector(in.x, in.y, in.z);
 	}
 
-	inline FVector FromPoint(const geometry_msgs__msg__Point& in)
+	inline FVector From(const geometry_msgs__msg__Point& in)
 	{
 		return FVector(in.x, in.y, in.z);
 	}
@@ -51,7 +51,7 @@ namespace ROS2MsgToUE
 		return FString(in.size, in.data);
 	}
 
-	inline FQuat FromQuaternion(const geometry_msgs__msg__Quaternion& in)
+	inline FQuat From(const geometry_msgs__msg__Quaternion& in)
 	{
 		return FQuat(in.x, in.y, in.z, in.w);
 	}
@@ -62,6 +62,11 @@ namespace ROS2MsgToUE
 		return FGuid(uuid[0], uuid[1], uuid[2], uuid[3]);
 	}
 	
+	inline FDateTime From(const builtin_interfaces__msg__Time &in)
+	{
+		return FDateTime::FromUnixTimestamp(in.sec) + FTimespan(0,0,0,0, in.nanosec);
+	}
+
 	template <size_t N>
 	inline TArray<float> FromArray(const double (&in)[N])
 	{
@@ -99,30 +104,25 @@ namespace ROS2MsgToUE
 		
 		return Out;
 	}
-	
-	inline FDateTime FromTime(const builtin_interfaces__msg__Time &in)
-	{
-		return FDateTime::FromUnixTimestamp(in.sec) + FTimespan(0,0,0,0, in.nanosec);
-	}
 }
 
 namespace UEToROS2Msg
 {
-	inline void SetGeoPoint(const FGeographicCoordinates& in, geographic_msgs__msg__GeoPoint& out)
+	inline void Set(const FGeographicCoordinates& in, geographic_msgs__msg__GeoPoint& out)
 	{
 		out.longitude = in.Longitude;
 		out.latitude = in.Latitude;
 		out.altitude = in.Altitude;
 	}
 
-	inline void SetVector3(const FVector& in, geometry_msgs__msg__Vector3& out)
+	inline void Set(const FVector& in, geometry_msgs__msg__Vector3& out)
 	{
 		out.x = in.X;
 		out.y = in.Y;
 		out.z = in.Z;
 	}
 
-	inline void SetPoint(const FVector& in, geometry_msgs__msg__Point& out)
+	inline void Set(const FVector& in, geometry_msgs__msg__Point& out)
 	{
 		out.x = in.X;
 		out.y = in.Y;
@@ -155,7 +155,7 @@ namespace UEToROS2Msg
 		out.capacity = Str.Length() + 1;
 	}
 	
-	inline void SetQuaternion(const FQuat& in, geometry_msgs__msg__Quaternion& out)
+	inline void Set(const FQuat& in, geometry_msgs__msg__Quaternion& out)
 	{
 		out.x = in.X;
 		out.y = in.Y;
@@ -220,19 +220,12 @@ namespace UEToROS2Msg
 		}
 	}
 
-	inline void SetPolygon(const FPoly& in, geometry_msgs__msg__Polygon& out)
+	inline void Set(const FPoly& in, geometry_msgs__msg__Polygon& out)
 	{
 		SetSequence(in.Vertices, out.points);
 	}
 
-	inline void SetTime(const FDateTime& in, builtin_interfaces__msg__Time& out)
-	{
-		FTimespan delta = in - FDateTime(1970, 1, 1);
-		out.sec = delta.GetTotalSeconds();
-		out.nanosec = delta.GetFractionNano();
-	}
-
-	inline void SetTime(const FDateTime& in, FROSTime& out)
+	inline void Set(const FDateTime& in, builtin_interfaces__msg__Time& out)
 	{
 		FTimespan delta = in - FDateTime(1970, 1, 1);
 		out.sec = delta.GetTotalSeconds();

@@ -67,7 +67,17 @@ public:
     static FROSTime ToROSTime(const FDateTime DateTime)
     {
         FROSTime timemsg;
-        UEToROS2Msg::SetTime(DateTime, timemsg);
+        FTimespan delta = DateTime - FDateTime(1970, 1, 1);
+        timemsg.sec = delta.GetTotalSeconds();
+        timemsg.nanosec = delta.GetFractionNano();
         return timemsg;
+    }
+
+    UFUNCTION(BlueprintPure, Category="ROS2|Utilities")
+    static void SetROSTime(const FDateTime DateTime, FROSTime& timemsg)
+    {
+        FTimespan delta = DateTime - FDateTime(1970, 1, 1);
+        timemsg.sec = delta.GetTotalSeconds();
+        timemsg.nanosec = delta.GetFractionNano();
     }
 };

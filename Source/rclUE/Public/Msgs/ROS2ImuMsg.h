@@ -42,22 +42,22 @@ public:
 	void SetFromROS2(const sensor_msgs__msg__Imu& in_ros_data)
 	{
     	header.SetFromROS2(in_ros_data.header);
-		orientation = ROS2MsgToUE::FromQuaternion(in_ros_data.orientation);
+		orientation = ROS2MsgToUE::From(in_ros_data.orientation);
 		orientation_covariance = ROS2MsgToUE::FromArray(in_ros_data.orientation_covariance);
-		angular_velocity = ROS2MsgToUE::FromVector3(in_ros_data.angular_velocity);
+		angular_velocity = ROS2MsgToUE::From(in_ros_data.angular_velocity);
 		angular_velocity_covariance = ROS2MsgToUE::FromArray(in_ros_data.angular_velocity_covariance);
-		linear_acceleration = ROS2MsgToUE::FromVector3(in_ros_data.linear_acceleration);
+		linear_acceleration = ROS2MsgToUE::From(in_ros_data.linear_acceleration);
 		linear_acceleration_covariance = ROS2MsgToUE::FromArray(in_ros_data.linear_acceleration_covariance);
 	}
 
 	void SetROS2(sensor_msgs__msg__Imu& out_ros_data) const
 	{
 		header.SetROS2(out_ros_data.header);
-		UEToROS2Msg::SetQuaternion(orientation, out_ros_data.orientation);
+		UEToROS2Msg::Set(orientation, out_ros_data.orientation);
 		UEToROS2Msg::SetSequence(orientation_covariance, out_ros_data.orientation_covariance);
-		UEToROS2Msg::SetVector3(angular_velocity, out_ros_data.angular_velocity);
+		UEToROS2Msg::Set(angular_velocity, out_ros_data.angular_velocity);
 		UEToROS2Msg::SetSequence(angular_velocity_covariance, out_ros_data.angular_velocity_covariance);
-		UEToROS2Msg::SetVector3(linear_acceleration, out_ros_data.linear_acceleration);
+		UEToROS2Msg::Set(linear_acceleration, out_ros_data.linear_acceleration);
 		UEToROS2Msg::SetSequence(linear_acceleration_covariance, out_ros_data.linear_acceleration_covariance);
 	}
 };
