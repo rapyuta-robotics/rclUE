@@ -7,7 +7,7 @@
 
 #include "geometry_msgs/msg/polygon.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2PolygonMsg.generated.h"

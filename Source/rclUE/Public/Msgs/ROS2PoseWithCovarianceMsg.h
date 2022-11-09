@@ -7,7 +7,7 @@
 
 #include "geometry_msgs/msg/pose_with_covariance.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2PoseWithCovarianceMsg.generated.h"

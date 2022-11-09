@@ -7,7 +7,7 @@
 
 #include "example_interfaces/msg/int64.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2Int64Msg.generated.h"

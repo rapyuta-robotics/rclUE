@@ -7,7 +7,7 @@
 
 #include "geometry_msgs/msg/pose2_d.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2Pose2DMsg.generated.h"

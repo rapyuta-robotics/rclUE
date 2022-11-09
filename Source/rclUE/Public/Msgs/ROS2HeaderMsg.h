@@ -8,7 +8,7 @@
 #include "Conversions.h"
 #include "std_msgs/msg/header.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "Msgs/ROS2TimeMsg.h"
 #include "rclcUtilities.h"
 

@@ -13,7 +13,7 @@
 
 #include "ROS2Subsystem.h"
 #include "Actions/ROS2GenericAction.h"
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "Srvs/ROS2GenericSrv.h"
 #include "ROS2Node.generated.h"
 

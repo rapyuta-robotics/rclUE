@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/range.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2RangeMsg.generated.h"

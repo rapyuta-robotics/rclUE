@@ -7,7 +7,7 @@
 
 #include "geometry_msgs/msg/vector3_stamped.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2Vector3StampedMsg.generated.h"

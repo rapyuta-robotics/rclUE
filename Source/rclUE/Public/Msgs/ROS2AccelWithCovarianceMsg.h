@@ -8,7 +8,7 @@
 #include "Conversions.h"
 #include "geometry_msgs/msg/accel_with_covariance.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "ROS2AccelMsg.h"
 
 #include "ROS2AccelWithCovarianceMsg.generated.h"

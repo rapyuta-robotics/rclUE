@@ -10,7 +10,7 @@
 #include "CoreMinimal.h"
 
 // rclUE
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "ROS2Node.h"
 #include "Srvs/ROS2GenericSrv.h"
 

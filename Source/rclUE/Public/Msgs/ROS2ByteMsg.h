@@ -7,7 +7,7 @@
 
 #include "example_interfaces/msg/byte.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2ByteMsg.generated.h"

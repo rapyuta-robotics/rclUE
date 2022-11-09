@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/magnetic_field.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2MagneticFieldMsg.generated.h"

@@ -7,7 +7,7 @@
 
 #include "geometry_msgs/msg/accel_with_covariance_stamped.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2AccelWithCovarianceStampedMsg.generated.h"

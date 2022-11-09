@@ -4,7 +4,7 @@
 
 #include "builtin_interfaces/msg/time.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2TimeMsg.generated.h"

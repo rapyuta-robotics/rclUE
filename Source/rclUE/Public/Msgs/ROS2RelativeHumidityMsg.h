@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/relative_humidity.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2RelativeHumidityMsg.generated.h"

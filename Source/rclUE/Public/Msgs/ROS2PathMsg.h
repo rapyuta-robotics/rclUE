@@ -7,7 +7,7 @@
 
 #include "nav_msgs/msg/path.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2PathMsg.generated.h"

@@ -4,7 +4,7 @@
 
 #include "Conversions.h"
 #include "sensor_msgs/msg/imu.h"
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "Msgs/ROS2HeaderMsg.h"
 
 #include "ROS2ImuMsg.generated.h"

@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/joint_state.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2JointStateMsg.generated.h"

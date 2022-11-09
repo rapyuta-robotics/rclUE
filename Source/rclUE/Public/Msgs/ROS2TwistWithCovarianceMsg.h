@@ -8,7 +8,7 @@
 #include "Conversions.h"
 #include "geometry_msgs/msg/twist_with_covariance.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "ROS2TwistMsg.h"
 
 #include "ROS2TwistWithCovarianceMsg.generated.h"

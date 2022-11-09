@@ -7,7 +7,7 @@
 
 #include "example_interfaces/msg/multi_array_dimension.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2MultiArrayDimensionMsg.generated.h"

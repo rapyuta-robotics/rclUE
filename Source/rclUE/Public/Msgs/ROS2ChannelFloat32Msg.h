@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/channel_float32.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2ChannelFloat32Msg.generated.h"

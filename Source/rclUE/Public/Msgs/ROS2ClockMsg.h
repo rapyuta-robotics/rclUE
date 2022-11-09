@@ -3,7 +3,7 @@
 #pragma once
 
 #include <CoreMinimal.h>
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 #include <rosgraph_msgs/msg/clock.h>
 

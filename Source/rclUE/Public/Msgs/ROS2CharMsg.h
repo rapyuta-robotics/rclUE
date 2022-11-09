@@ -7,7 +7,7 @@
 
 #include "example_interfaces/msg/char.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2CharMsg.generated.h"

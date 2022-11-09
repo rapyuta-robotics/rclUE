@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/camera_info.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "Msgs/ROS2HeaderMsg.h"
 #include "rclcUtilities.h"
 

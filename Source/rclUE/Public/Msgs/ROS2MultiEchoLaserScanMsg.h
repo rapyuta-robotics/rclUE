@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/multi_echo_laser_scan.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2MultiEchoLaserScanMsg.generated.h"

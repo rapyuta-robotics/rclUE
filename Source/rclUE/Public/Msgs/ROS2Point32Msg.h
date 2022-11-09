@@ -7,7 +7,7 @@
 
 #include "geometry_msgs/msg/point32.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2Point32Msg.generated.h"

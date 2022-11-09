@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/nav_sat_fix.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "Msgs/ROS2HeaderMsg.h"
 #include "Msgs/ROS2NavSatStatusMsg.h"
 #include "rclcUtilities.h"

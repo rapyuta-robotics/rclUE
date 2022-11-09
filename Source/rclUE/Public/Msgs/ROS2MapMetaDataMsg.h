@@ -7,7 +7,7 @@
 
 #include "nav_msgs/msg/map_meta_data.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2MapMetaDataMsg.generated.h"

@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/joy_feedback.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2JoyFeedbackMsg.generated.h"

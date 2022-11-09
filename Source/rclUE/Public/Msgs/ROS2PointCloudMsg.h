@@ -7,7 +7,7 @@
 
 #include "sensor_msgs/msg/point_cloud.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2PointCloudMsg.generated.h"

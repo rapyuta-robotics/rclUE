@@ -7,7 +7,7 @@
 
 #include "example_interfaces/msg/byte_multi_array.h"
 
-#include "Msgs/ROS2GenericMsg.h"
+#include "ROS2GenericMsg.h"
 #include "rclcUtilities.h"
 
 #include "ROS2ByteMultiArrayMsg.generated.h"
