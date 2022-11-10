@@ -22,6 +22,14 @@ namespace ArrayInitialisers
 		a.Init(0.0, elems);
 		return a;
 	}
+
+	template <typename T>
+	inline TArray<T> IntArray(ssize_t elems)
+	{
+		TArray<T> a;
+		a.Init(0, elems);
+		return a;
+	}
 }
 
 namespace ROS2MsgToUE
