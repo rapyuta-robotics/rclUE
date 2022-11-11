@@ -10,7 +10,7 @@
 #include <CoreMinimal.h>
 
 #include "Conversions.h"
-#include "Msgs/ROS2TimeMsg.h"
+#include "Msgs/ROS2Time.h"
 #include "ROS2Support.generated.h"
 
 class AROS2Node;

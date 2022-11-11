@@ -32,7 +32,7 @@ public:
 	virtual const rosidl_message_type_support_t* GetTypeSupport() const;
 
 	UFUNCTION(BlueprintCallable)
-	virtual FString MsgToString() const;
+	virtual FString ToString() const;
 	// UFUNCTION(BlueprintCallable)
 	// virtual FString ToString() const;
 };

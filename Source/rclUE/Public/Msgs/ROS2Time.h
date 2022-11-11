@@ -1,61 +1,94 @@
 #pragma once
 
 #include <CoreMinimal.h>
+#include "Conversions.h"
+#include "ROS2GenericMsg.h"
 
 #include "builtin_interfaces/msg/time.h"
 
-#include "ROS2GenericMsg.h"
-#include "rclcUtilities.h"
 
-#include "ROS2TimeMsg.generated.h"
 
-USTRUCT(Blueprintable, meta=(DisplayName="builtin_interfaces/msg/Time")) // TODO how do I escape this?
+#include "ROS2Time.generated.h"
+
+
+USTRUCT(Blueprintable)
 struct RCLUE_API FROSTime
 {
     GENERATED_BODY()
 
+    using ros_msg_c_typename = builtin_interfaces__msg__Time;
+
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int32 sec;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int64 nanosec; // original uint32
+    int sec;
+    // rclc type: int32_t sec
 
-    void SetFromROS2(const builtin_interfaces__msg__Time& in_ros_data)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    int nanosec;
+    // rclc type: uint32_t nanosec
+
+    void SetFromROS2(const ros_msg_c_typename& in_ros_data)
     {
         sec = in_ros_data.sec;
         nanosec = in_ros_data.nanosec;
     }
 
-    void SetROS2(builtin_interfaces__msg__Time& out_ros_data) const
+    void SetROS2(ros_msg_c_typename& out_ros_data) const
     {
         out_ros_data.sec = sec;
-        out_ros_data.nanosec = static_cast<uint32_t>(nanosec);
+        out_ros_data.nanosec = nanosec;
     }
 };
 
-// Does there need to be a class as well as the struct?
 UCLASS()
-class RCLUE_API UROS2TimeMsg : public UROS2GenericMsg
+class RCLUE_API UROS2Time : public UROS2GenericMsg
 {
     GENERATED_BODY()
 
-public:
-    virtual void Init() override;
-    virtual void Fini() override;
+    using ros_msg_c_typename = builtin_interfaces__msg__Time;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
-    
-      UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSTime& Input);
-    
-      UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSTime& Output) const;
-    
-    virtual void* Get() override;
+public:
+    virtual void Init() override
+    {
+        builtin_interfaces__msg__Time__init(&time_msg);
+    }
+
+    virtual void Fini() override
+    {
+        builtin_interfaces__msg__Time__fini(&time_msg);
+    }
+
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override
+    {
+        return ROSIDL_GET_MSG_TYPE_SUPPORT(builtin_interfaces, msg, Time);
+    }
+
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSTime& Input)
+    {
+        Input.SetROS2(time_msg);
+    }
+
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSTime& Output) const
+    {
+        Output.SetFromROS2(time_msg);
+    }
+
+    virtual void* Get() override
+    {
+        return &time_msg;
+    }
 
 private:
-    virtual FString MsgToString() const override;
+    virtual FString ToString() const override
+    {
+        /* TODO: Fill here */
 
-    builtin_interfaces__msg__Time time_msg;
+        checkNoEntry();
+        return FString();
+    }
+
+    ros_msg_c_typename time_msg;
 };

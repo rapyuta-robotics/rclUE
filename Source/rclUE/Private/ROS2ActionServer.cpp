@@ -2,6 +2,8 @@
 
 #include "ROS2ActionServer.h"
 
+#include "Kismet/GameplayStatics.h" 
+
 void UROS2ActionServer::InitializeActionComponent(const UROS2QoS QoS)
 {
     const rosidl_action_type_support_t* action_type_support = Action->GetTypeSupport();

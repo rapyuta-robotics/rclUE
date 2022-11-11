@@ -10,6 +10,7 @@
 #include "geometry_msgs/msg/point32.h"
 #include "geometry_msgs/msg/polygon.h"
 #include "builtin_interfaces/msg/time.h"
+#include "unique_identifier_msgs/msg/uuid.h"
 
 #include "GeographicCoordinates.h"
 #include "Engine/Polys.h"
@@ -34,6 +35,57 @@ namespace ArrayInitialisers
 
 namespace ROS2MsgToUE
 {
+	inline float From(const float& in)
+	{
+		return in;
+	}
+
+	inline float From(const double& in)
+	{
+		return static_cast<float>(in);
+	}
+
+	// forgive me father for I have sinned
+	inline int From(const int64_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
+	inline int From(const int32_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
+	inline int From(const int16_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
+	inline int From(const int8_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
+	inline int From(const uint64_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
+	inline int From(const uint32_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
+	inline int From(const uint16_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
+	inline int From(const uint8_t& in)
+	{
+		return static_cast<int>(in);
+	}
+
 	inline FGeographicCoordinates From(const geographic_msgs__msg__GeoPoint& in)
 	{
 		return FGeographicCoordinates(in.longitude, in.latitude, in.altitude);
@@ -75,6 +127,17 @@ namespace ROS2MsgToUE
 		return FDateTime::FromUnixTimestamp(in.sec) + FTimespan(0,0,0,0, in.nanosec);
 	}
 
+	template <typename T, size_t N>
+	inline TArray<int> FromArray(const T (&in)[N])
+	{
+		TArray<int> out;
+		for (int i = 0; i < N; i++)
+		{
+			out.Add(in[i]);
+		}
+		return out;
+	}
+
 	template <size_t N>
 	inline TArray<float> FromArray(const double (&in)[N])
 	{
@@ -102,9 +165,10 @@ namespace ROS2MsgToUE
 	}
 	
 	template <typename T, typename ROSSequenceT>
-	inline T FromSequence(const ROSSequenceT& in) // TODO: change to be template param of TArray
+	inline TArray<T> FromSequence(const ROSSequenceT& in)
 	{
-		T Out;
+		TArray<T> Out;
+		
 		for (int i = 0; i < in.size; i++)
 		{
 			Out.Add(From(in.data[i]));
@@ -153,6 +217,56 @@ namespace UEToROS2Msg
 		uuid[3] = in.D;
 	}
 
+	inline void Set(const float& in, float& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const float& in, double& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, int64_t& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, int32_t& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, int16_t& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, int8_t& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, uint64_t& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, uint32_t& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, uint16_t& out)
+	{
+		out = in;
+	}
+
+	inline void Set(const int& in, uint8_t& out)
+	{
+		out = in;
+	}
+
 	inline void Set(const FString& in, rosidl_runtime_c__String& out)
 	{
 		auto Str = StringCast<ANSICHAR>(*in);
@@ -194,8 +308,8 @@ namespace UEToROS2Msg
 		out.capacity = in.Num();
 	}
 
-	template <typename T, typename ROSSequenceT>
-	inline void SetSequence(const T& in, ROSSequenceT &out) // TODO: change to be template param of TArray
+	template <typename T, typename TAlloc, typename ROSSequenceT>
+	inline void SetSequence(const TArray<T, TAlloc>& in, ROSSequenceT &out)
 	{
 		if (out.data != nullptr)
 		{
@@ -217,8 +331,8 @@ namespace UEToROS2Msg
 		out.capacity = in.Num();
 	}
 
-	template <size_t N>
-	inline void SetSequence(const TArray<float>& in, double (&out)[N])
+	template <typename InT, typename OutT, size_t N>
+	inline void SetSequence(const TArray<InT>& in, OutT (&out)[N])
 	{
 		ensure(std::distance(std::begin(out), std::end(out)) == in.Num()); // SetSequence called when arrays lengths are different.
 
