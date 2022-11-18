@@ -53,13 +53,23 @@ Currently there is a scripts in [UE_tools](https://github.com/rapyuta-robotics/U
    ```
    git clone https://github.com/rapyuta-robotics/UE_tools
    cd UE_tools
-   
+
    # build and copy ros2 base libraries
    python3 build_install_codegen.py -b --remove --type base
-   
+
    # Generate msg classes to access msg from UE
    python3 build_install_codegen.py -bc --type pkgs
    ```
+
+# Install pre-commit
+Please install pre-commit before commiting your changes.
+Follow this instruction https://pre-commit.com/
+
+then run
+
+```bash
+pre-commit install
+```
 
 # Documentation
 
