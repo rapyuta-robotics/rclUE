@@ -15,68 +15,71 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2MeshTriangle.h"
+#include "geometry_msgs/msg/detail/point__functions.h"
+#include "shape_msgs/msg/detail/mesh_triangle__functions.h"
 
 // Generated
 #include "ROS2Mesh.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSMesh {
-  GENERATED_BODY()
+struct RCLUE_API FROSMesh
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FROSMeshTriangle> Triangles;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FROSMeshTriangle> Triangles;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FVector> Vertices;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FVector> Vertices;
 
-  FROSMesh() {}
+    FROSMesh()
+    {
+    }
 
-  void SetFromROS2(const shape_msgs__msg__Mesh &in_ros_data) {
-    UROS2Utils::SequenceROSToUEArray<shape_msgs__msg__MeshTriangle,
-                                     FROSMeshTriangle>(
-        in_ros_data.triangles.data, Triangles, in_ros_data.triangles.size);
+    void SetFromROS2(const shape_msgs__msg__Mesh& in_ros_data)
+    {
+        UROS2Utils::SequenceROSToUEArray<shape_msgs__msg__MeshTriangle, FROSMeshTriangle>(
+            in_ros_data.triangles.data, Triangles, in_ros_data.triangles.size);
 
-    UROS2Utils::VectorSequenceROSToUEArray<geometry_msgs__msg__Point>(
-        in_ros_data.vertices.data, Vertices, in_ros_data.vertices.size);
-  }
+        UROS2Utils::VectorSequenceROSToUEArray<geometry_msgs__msg__Point>(
+            in_ros_data.vertices.data, Vertices, in_ros_data.vertices.size);
+    }
 
-  void SetROS2(shape_msgs__msg__Mesh &out_ros_data) const {
-    UROS2Utils::ROSSequenceResourceAllocation<
-        shape_msgs__msg__MeshTriangle__Sequence>(out_ros_data.triangles,
-                                                 Triangles.Num());
-    UROS2Utils::ArrayUEToROSSequence<shape_msgs__msg__MeshTriangle,
-                                     FROSMeshTriangle>(
-        Triangles, out_ros_data.triangles.data, Triangles.Num());
+    void SetROS2(shape_msgs__msg__Mesh& out_ros_data) const
+    {
+        shape_msgs__msg__MeshTriangle__Sequence__fini(&out_ros_data.triangles);
+        shape_msgs__msg__MeshTriangle__Sequence__init(&out_ros_data.triangles, Triangles.Num());
+        UROS2Utils::ArrayUEToROSSequence<shape_msgs__msg__MeshTriangle, FROSMeshTriangle>(
+            Triangles, out_ros_data.triangles.data, Triangles.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        geometry_msgs__msg__Point__Sequence>(out_ros_data.vertices,
-                                             Vertices.Num());
-    UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(
-        Vertices, out_ros_data.vertices.data, Vertices.Num());
-  }
+        geometry_msgs__msg__Point__Sequence__fini(&out_ros_data.vertices);
+        geometry_msgs__msg__Point__Sequence__init(&out_ros_data.vertices, Vertices.Num());
+        UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(Vertices, out_ros_data.vertices.data, Vertices.Num());
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2MeshMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2MeshMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSMesh &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSMesh& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSMesh &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSMesh& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  shape_msgs__msg__Mesh mesh_msg;
+    shape_msgs__msg__Mesh mesh_msg;
 };

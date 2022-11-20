@@ -16,63 +16,67 @@
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Header.h"
 #include "Msgs/ROS2PoseStamped.h"
+#include "geometry_msgs/msg/detail/pose_stamped__functions.h"
 
 // Generated
 #include "ROS2Path.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSPath {
-  GENERATED_BODY()
+struct RCLUE_API FROSPath
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSHeader Header;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSHeader Header;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FROSPoseStamped> Poses;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FROSPoseStamped> Poses;
 
-  FROSPath() {}
+    FROSPath()
+    {
+    }
 
-  void SetFromROS2(const nav_msgs__msg__Path &in_ros_data) {
-    Header.SetFromROS2(in_ros_data.header);
+    void SetFromROS2(const nav_msgs__msg__Path& in_ros_data)
+    {
+        Header.SetFromROS2(in_ros_data.header);
 
-    UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__PoseStamped,
-                                     FROSPoseStamped>(
-        in_ros_data.poses.data, Poses, in_ros_data.poses.size);
-  }
+        UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__PoseStamped, FROSPoseStamped>(
+            in_ros_data.poses.data, Poses, in_ros_data.poses.size);
+    }
 
-  void SetROS2(nav_msgs__msg__Path &out_ros_data) const {
-    Header.SetROS2(out_ros_data.header);
+    void SetROS2(nav_msgs__msg__Path& out_ros_data) const
+    {
+        Header.SetROS2(out_ros_data.header);
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        geometry_msgs__msg__PoseStamped__Sequence>(out_ros_data.poses,
-                                                   Poses.Num());
-    UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__PoseStamped,
-                                     FROSPoseStamped>(
-        Poses, out_ros_data.poses.data, Poses.Num());
-  }
+        geometry_msgs__msg__PoseStamped__Sequence__fini(&out_ros_data.poses);
+        geometry_msgs__msg__PoseStamped__Sequence__init(&out_ros_data.poses, Poses.Num());
+        UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__PoseStamped, FROSPoseStamped>(
+            Poses, out_ros_data.poses.data, Poses.Num());
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2PathMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2PathMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSPath &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSPath& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSPath &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSPath& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  nav_msgs__msg__Path path_msg;
+    nav_msgs__msg__Path path_msg;
 };

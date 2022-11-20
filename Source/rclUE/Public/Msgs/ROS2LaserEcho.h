@@ -15,53 +15,58 @@
 #include "rclcUtilities.h"
 
 // Generated Msg/Srv/Action(can be empty)
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
 #include "ROS2LaserEcho.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSLaserEcho {
-  GENERATED_BODY()
+struct RCLUE_API FROSLaserEcho
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<float> Echoes;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<float> Echoes;
 
-  FROSLaserEcho() {}
+    FROSLaserEcho()
+    {
+    }
 
-  void SetFromROS2(const sensor_msgs__msg__LaserEcho &in_ros_data) {
-    UROS2Utils::SequenceROSToUEArray<float, float>(
-        in_ros_data.echoes.data, Echoes, in_ros_data.echoes.size);
-  }
+    void SetFromROS2(const sensor_msgs__msg__LaserEcho& in_ros_data)
+    {
+        UROS2Utils::SequenceROSToUEArray<float, float>(in_ros_data.echoes.data, Echoes, in_ros_data.echoes.size);
+    }
 
-  void SetROS2(sensor_msgs__msg__LaserEcho &out_ros_data) const {
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float32__Sequence>(out_ros_data.echoes, Echoes.Num());
-    UROS2Utils::ArrayUEToROSSequence<float, float>(
-        Echoes, out_ros_data.echoes.data, Echoes.Num());
-  }
+    void SetROS2(sensor_msgs__msg__LaserEcho& out_ros_data) const
+    {
+        rosidl_runtime_c__float32__Sequence__fini(&out_ros_data.echoes);
+        rosidl_runtime_c__float32__Sequence__init(&out_ros_data.echoes, Echoes.Num());
+        UROS2Utils::ArrayUEToROSSequence<float, float>(Echoes, out_ros_data.echoes.data, Echoes.Num());
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2LaserEchoMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2LaserEchoMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSLaserEcho &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSLaserEcho& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSLaserEcho &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSLaserEcho& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  sensor_msgs__msg__LaserEcho laser_echo_msg;
+    sensor_msgs__msg__LaserEcho laser_echo_msg;
 };

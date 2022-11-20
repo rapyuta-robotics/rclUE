@@ -16,61 +16,65 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2MALayout.h"
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
 #include "ROS2UInt32MA.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSUInt32MA {
-  GENERATED_BODY()
+struct RCLUE_API FROSUInt32MA
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSMALayout Layout;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSMALayout Layout;
 
-  UPROPERTY(EditAnywhere)
-  TArray<unsigned int> Data;
+    UPROPERTY(EditAnywhere)
+    TArray<unsigned int> Data;
 
-  FROSUInt32MA() {}
+    FROSUInt32MA()
+    {
+    }
 
-  void
-  SetFromROS2(const example_interfaces__msg__UInt32MultiArray &in_ros_data) {
-    Layout.SetFromROS2(in_ros_data.layout);
+    void SetFromROS2(const example_interfaces__msg__UInt32MultiArray& in_ros_data)
+    {
+        Layout.SetFromROS2(in_ros_data.layout);
 
-    UROS2Utils::SequenceROSToUEArray<unsigned int, unsigned int>(
-        in_ros_data.data.data, Data, in_ros_data.data.size);
-  }
+        UROS2Utils::SequenceROSToUEArray<unsigned int, unsigned int>(in_ros_data.data.data, Data, in_ros_data.data.size);
+    }
 
-  void SetROS2(example_interfaces__msg__UInt32MultiArray &out_ros_data) const {
-    Layout.SetROS2(out_ros_data.layout);
+    void SetROS2(example_interfaces__msg__UInt32MultiArray& out_ros_data) const
+    {
+        Layout.SetROS2(out_ros_data.layout);
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__uint32__Sequence>(out_ros_data.data, Data.Num());
-    UROS2Utils::ArrayUEToROSSequence<unsigned int, unsigned int>(
-        Data, out_ros_data.data.data, Data.Num());
-  }
+        rosidl_runtime_c__uint32__Sequence__fini(&out_ros_data.data);
+        rosidl_runtime_c__uint32__Sequence__init(&out_ros_data.data, Data.Num());
+        UROS2Utils::ArrayUEToROSSequence<unsigned int, unsigned int>(Data, out_ros_data.data.data, Data.Num());
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2UInt32MAMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2UInt32MAMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSUInt32MA &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSUInt32MA& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSUInt32MA &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSUInt32MA& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  example_interfaces__msg__UInt32MultiArray u_int32_multi_array_msg;
+    example_interfaces__msg__UInt32MultiArray u_int32_multi_array_msg;
 };

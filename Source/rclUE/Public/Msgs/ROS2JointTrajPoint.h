@@ -16,98 +16,93 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Duration.h"
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
 #include "ROS2JointTrajPoint.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSJointTrajPoint {
-  GENERATED_BODY()
+struct RCLUE_API FROSJointTrajPoint
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere)
-  TArray<double> Positions;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Positions;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Velocities;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Velocities;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Accelerations;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Accelerations;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Effort;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Effort;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSDuration TimeFromStart;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSDuration TimeFromStart;
 
-  FROSJointTrajPoint() {}
+    FROSJointTrajPoint()
+    {
+    }
 
-  void
-  SetFromROS2(const trajectory_msgs__msg__JointTrajectoryPoint &in_ros_data) {
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.positions.data, Positions, in_ros_data.positions.size);
+    void SetFromROS2(const trajectory_msgs__msg__JointTrajectoryPoint& in_ros_data)
+    {
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.positions.data, Positions, in_ros_data.positions.size);
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.velocities.data, Velocities, in_ros_data.velocities.size);
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.velocities.data, Velocities, in_ros_data.velocities.size);
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.accelerations.data, Accelerations,
-        in_ros_data.accelerations.size);
+        UROS2Utils::SequenceROSToUEArray<double, double>(
+            in_ros_data.accelerations.data, Accelerations, in_ros_data.accelerations.size);
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.effort.data, Effort, in_ros_data.effort.size);
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.effort.data, Effort, in_ros_data.effort.size);
 
-    TimeFromStart.SetFromROS2(in_ros_data.time_from_start);
-  }
+        TimeFromStart.SetFromROS2(in_ros_data.time_from_start);
+    }
 
-  void SetROS2(trajectory_msgs__msg__JointTrajectoryPoint &out_ros_data) const {
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float64__Sequence>(out_ros_data.positions,
-                                             Positions.Num());
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Positions, out_ros_data.positions.data, Positions.Num());
+    void SetROS2(trajectory_msgs__msg__JointTrajectoryPoint& out_ros_data) const
+    {
+        rosidl_runtime_c__float64__Sequence__fini(&out_ros_data.positions);
+        rosidl_runtime_c__float64__Sequence__init(&out_ros_data.positions, Positions.Num());
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Positions, out_ros_data.positions.data, Positions.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float64__Sequence>(out_ros_data.velocities,
-                                             Velocities.Num());
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Velocities, out_ros_data.velocities.data, Velocities.Num());
+        rosidl_runtime_c__float64__Sequence__fini(&out_ros_data.velocities);
+        rosidl_runtime_c__float64__Sequence__init(&out_ros_data.velocities, Velocities.Num());
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Velocities, out_ros_data.velocities.data, Velocities.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float64__Sequence>(out_ros_data.accelerations,
-                                             Accelerations.Num());
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Accelerations, out_ros_data.accelerations.data, Accelerations.Num());
+        rosidl_runtime_c__float64__Sequence__fini(&out_ros_data.accelerations);
+        rosidl_runtime_c__float64__Sequence__init(&out_ros_data.accelerations, Accelerations.Num());
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Accelerations, out_ros_data.accelerations.data, Accelerations.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float64__Sequence>(out_ros_data.effort, Effort.Num());
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Effort, out_ros_data.effort.data, Effort.Num());
+        rosidl_runtime_c__float64__Sequence__fini(&out_ros_data.effort);
+        rosidl_runtime_c__float64__Sequence__init(&out_ros_data.effort, Effort.Num());
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Effort, out_ros_data.effort.data, Effort.Num());
 
-    TimeFromStart.SetROS2(out_ros_data.time_from_start);
-  }
+        TimeFromStart.SetROS2(out_ros_data.time_from_start);
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2JointTrajPointMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2JointTrajPointMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSJointTrajPoint &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSJointTrajPoint& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSJointTrajPoint &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSJointTrajPoint& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  trajectory_msgs__msg__JointTrajectoryPoint joint_trajectory_point_msg;
+    trajectory_msgs__msg__JointTrajectoryPoint joint_trajectory_point_msg;
 };

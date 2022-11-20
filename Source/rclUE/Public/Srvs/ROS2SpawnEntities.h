@@ -16,136 +16,137 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2EntityState.h"
+#include "rosidl_runtime_c/string_functions.h"
+#include "ue_msgs/msg/detail/entity_state__functions.h"
 
 // Generated
 #include "ROS2SpawnEntities.generated.h"
 
 // potential problem: if this struct is defined multiple times!
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSSpawnEntitiesReq {
-  GENERATED_BODY()
+struct RCLUE_API FROSSpawnEntitiesReq
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FString> Type;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FString> Type;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FROSEntityState> State;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FROSEntityState> State;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FString> Tags;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FString> Tags;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FString> JsonParameters;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FString> JsonParameters;
 
-  FROSSpawnEntitiesReq() {}
+    FROSSpawnEntitiesReq()
+    {
+    }
 
-  void SetFromROS2(const ue_msgs__srv__SpawnEntities_Request &in_ros_data) {
-    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
-        in_ros_data.type.data, Type, in_ros_data.type.size);
+    void SetFromROS2(const ue_msgs__srv__SpawnEntities_Request& in_ros_data)
+    {
+        UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(in_ros_data.type.data, Type, in_ros_data.type.size);
 
-    UROS2Utils::SequenceROSToUEArray<ue_msgs__msg__EntityState,
-                                     FROSEntityState>(
-        in_ros_data.state.data, State, in_ros_data.state.size);
+        UROS2Utils::SequenceROSToUEArray<ue_msgs__msg__EntityState, FROSEntityState>(
+            in_ros_data.state.data, State, in_ros_data.state.size);
 
-    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
-        in_ros_data.tags.data, Tags, in_ros_data.tags.size);
+        UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(in_ros_data.tags.data, Tags, in_ros_data.tags.size);
 
-    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
-        in_ros_data.json_parameters.data, JsonParameters,
-        in_ros_data.json_parameters.size);
-  }
+        UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
+            in_ros_data.json_parameters.data, JsonParameters, in_ros_data.json_parameters.size);
+    }
 
-  void SetROS2(ue_msgs__srv__SpawnEntities_Request &out_ros_data) const {
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__String__Sequence>(out_ros_data.type, Type.Num());
-    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
-        Type, out_ros_data.type.data, Type.Num());
+    void SetROS2(ue_msgs__srv__SpawnEntities_Request& out_ros_data) const
+    {
+        rosidl_runtime_c__String__Sequence__fini(&out_ros_data.type);
+        rosidl_runtime_c__String__Sequence__init(&out_ros_data.type, Type.Num());
+        UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(Type, out_ros_data.type.data, Type.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        ue_msgs__msg__EntityState__Sequence>(out_ros_data.state, State.Num());
-    UROS2Utils::ArrayUEToROSSequence<ue_msgs__msg__EntityState,
-                                     FROSEntityState>(
-        State, out_ros_data.state.data, State.Num());
+        ue_msgs__msg__EntityState__Sequence__fini(&out_ros_data.state);
+        ue_msgs__msg__EntityState__Sequence__init(&out_ros_data.state, State.Num());
+        UROS2Utils::ArrayUEToROSSequence<ue_msgs__msg__EntityState, FROSEntityState>(State, out_ros_data.state.data, State.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__String__Sequence>(out_ros_data.tags, Tags.Num());
-    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
-        Tags, out_ros_data.tags.data, Tags.Num());
+        rosidl_runtime_c__String__Sequence__fini(&out_ros_data.tags);
+        rosidl_runtime_c__String__Sequence__init(&out_ros_data.tags, Tags.Num());
+        UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(Tags, out_ros_data.tags.data, Tags.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__String__Sequence>(out_ros_data.json_parameters,
-                                            JsonParameters.Num());
-    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
-        JsonParameters, out_ros_data.json_parameters.data,
-        JsonParameters.Num());
-  }
+        rosidl_runtime_c__String__Sequence__fini(&out_ros_data.json_parameters);
+        rosidl_runtime_c__String__Sequence__init(&out_ros_data.json_parameters, JsonParameters.Num());
+        UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
+            JsonParameters, out_ros_data.json_parameters.data, JsonParameters.Num());
+    }
 };
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSSpawnEntitiesRes {
-  GENERATED_BODY()
+struct RCLUE_API FROSSpawnEntitiesRes
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  bool bSuccess = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool bSuccess = false;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FString StatusMessage;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString StatusMessage;
 
-  FROSSpawnEntitiesRes() {}
+    FROSSpawnEntitiesRes()
+    {
+    }
 
-  void SetFromROS2(const ue_msgs__srv__SpawnEntities_Response &in_ros_data) {
-    bSuccess = in_ros_data.success;
+    void SetFromROS2(const ue_msgs__srv__SpawnEntities_Response& in_ros_data)
+    {
+        bSuccess = in_ros_data.success;
 
-    StatusMessage = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
-        in_ros_data.status_message);
-  }
+        StatusMessage = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.status_message);
+    }
 
-  void SetROS2(ue_msgs__srv__SpawnEntities_Response &out_ros_data) const {
-    out_ros_data.success = bSuccess;
+    void SetROS2(ue_msgs__srv__SpawnEntities_Response& out_ros_data) const
+    {
+        out_ros_data.success = bSuccess;
 
-    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(
-        StatusMessage, out_ros_data.status_message);
-  }
+        UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(StatusMessage, out_ros_data.status_message);
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2SpawnEntitiesSrv : public UROS2GenericSrv {
-  GENERATED_BODY()
+class RCLUE_API UROS2SpawnEntitiesSrv : public UROS2GenericSrv
+{
+    GENERATED_BODY()
 
 public:
-  UFUNCTION(BlueprintCallable)
-  virtual void Init() override;
+    UFUNCTION(BlueprintCallable)
+    virtual void Init() override;
 
-  UFUNCTION(BlueprintCallable)
-  virtual void Fini() override;
+    UFUNCTION(BlueprintCallable)
+    virtual void Fini() override;
 
-  virtual const rosidl_service_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
 
-  // used by client
-  UFUNCTION(BlueprintCallable)
-  void SetRequest(const FROSSpawnEntitiesReq &Request);
+    // used by client
+    UFUNCTION(BlueprintCallable)
+    void SetRequest(const FROSSpawnEntitiesReq& Request);
 
-  // used by service
-  UFUNCTION(BlueprintCallable)
-  void GetRequest(FROSSpawnEntitiesReq &Request) const;
+    // used by service
+    UFUNCTION(BlueprintCallable)
+    void GetRequest(FROSSpawnEntitiesReq& Request) const;
 
-  // used by service
-  UFUNCTION(BlueprintCallable)
-  void SetResponse(const FROSSpawnEntitiesRes &Response);
+    // used by service
+    UFUNCTION(BlueprintCallable)
+    void SetResponse(const FROSSpawnEntitiesRes& Response);
 
-  // used by client
-  UFUNCTION(BlueprintCallable)
-  void GetResponse(FROSSpawnEntitiesRes &Response) const;
+    // used by client
+    UFUNCTION(BlueprintCallable)
+    void GetResponse(FROSSpawnEntitiesRes& Response) const;
 
-  virtual void *GetRequest() override;
-  virtual void *GetResponse() override;
+    virtual void* GetRequest() override;
+    virtual void* GetResponse() override;
 
 private:
-  virtual FString SrvRequestToString() const override;
-  virtual FString SrvResponseToString() const override;
+    virtual FString SrvRequestToString() const override;
+    virtual FString SrvResponseToString() const override;
 
-  ue_msgs__srv__SpawnEntities_Request SpawnEntities_req;
-  ue_msgs__srv__SpawnEntities_Response SpawnEntities_res;
+    ue_msgs__srv__SpawnEntities_Request SpawnEntities_req;
+    ue_msgs__srv__SpawnEntities_Response SpawnEntities_res;
 };

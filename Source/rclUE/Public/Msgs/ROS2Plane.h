@@ -15,50 +15,57 @@
 #include "rclcUtilities.h"
 
 // Generated Msg/Srv/Action(can be empty)
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
 #include "ROS2Plane.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSPlane {
-  GENERATED_BODY()
+struct RCLUE_API FROSPlane
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere)
-  TArray<double> Coef;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Coef;
 
-  FROSPlane() { Coef.SetNumZeroed(4); }
+    FROSPlane()
+    {
+        Coef.SetNumZeroed(4);
+    }
 
-  void SetFromROS2(const shape_msgs__msg__Plane &in_ros_data) {
-    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.coef, Coef, 4);
-  }
+    void SetFromROS2(const shape_msgs__msg__Plane& in_ros_data)
+    {
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.coef, Coef, 4);
+    }
 
-  void SetROS2(shape_msgs__msg__Plane &out_ros_data) const {
-    UROS2Utils::ArrayUEToROSSequence<double, double>(Coef, out_ros_data.coef,
-                                                     4);
-  }
+    void SetROS2(shape_msgs__msg__Plane& out_ros_data) const
+    {
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Coef, out_ros_data.coef, 4);
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2PlaneMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2PlaneMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSPlane &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSPlane& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSPlane &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSPlane& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  shape_msgs__msg__Plane plane_msg;
+    shape_msgs__msg__Plane plane_msg;
 };
