@@ -16,95 +16,93 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Header.h"
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
+#include "rosidl_runtime_c/string_functions.h"
 
 // Generated
 #include "ROS2JointState.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSJointState {
-  GENERATED_BODY()
+struct RCLUE_API FROSJointState
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSHeader Header;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSHeader Header;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FString> Name;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FString> Name;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Position;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Position;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Velocity;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Velocity;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Effort;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Effort;
 
-  FROSJointState() {}
+    FROSJointState()
+    {
+    }
 
-  void SetFromROS2(const sensor_msgs__msg__JointState &in_ros_data) {
-    Header.SetFromROS2(in_ros_data.header);
+    void SetFromROS2(const sensor_msgs__msg__JointState& in_ros_data)
+    {
+        Header.SetFromROS2(in_ros_data.header);
 
-    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
-        in_ros_data.name.data, Name, in_ros_data.name.size);
+        UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(in_ros_data.name.data, Name, in_ros_data.name.size);
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.position.data, Position, in_ros_data.position.size);
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.position.data, Position, in_ros_data.position.size);
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.velocity.data, Velocity, in_ros_data.velocity.size);
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.velocity.data, Velocity, in_ros_data.velocity.size);
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.effort.data, Effort, in_ros_data.effort.size);
-  }
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.effort.data, Effort, in_ros_data.effort.size);
+    }
 
-  void SetROS2(sensor_msgs__msg__JointState &out_ros_data) const {
-    Header.SetROS2(out_ros_data.header);
+    void SetROS2(sensor_msgs__msg__JointState& out_ros_data) const
+    {
+        Header.SetROS2(out_ros_data.header);
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__String__Sequence>(out_ros_data.name, Name.Num());
-    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
-        Name, out_ros_data.name.data, Name.Num());
+        rosidl_runtime_c__String__Sequence__fini(&out_ros_data.name);
+        rosidl_runtime_c__String__Sequence__init(&out_ros_data.name, Name.Num());
+        UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(Name, out_ros_data.name.data, Name.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float64__Sequence>(out_ros_data.position,
-                                             Position.Num());
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Position, out_ros_data.position.data, Position.Num());
+        rosidl_runtime_c__float64__Sequence__fini(&out_ros_data.position);
+        rosidl_runtime_c__float64__Sequence__init(&out_ros_data.position, Position.Num());
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Position, out_ros_data.position.data, Position.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float64__Sequence>(out_ros_data.velocity,
-                                             Velocity.Num());
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Velocity, out_ros_data.velocity.data, Velocity.Num());
+        rosidl_runtime_c__float64__Sequence__fini(&out_ros_data.velocity);
+        rosidl_runtime_c__float64__Sequence__init(&out_ros_data.velocity, Velocity.Num());
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Velocity, out_ros_data.velocity.data, Velocity.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__float64__Sequence>(out_ros_data.effort, Effort.Num());
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Effort, out_ros_data.effort.data, Effort.Num());
-  }
+        rosidl_runtime_c__float64__Sequence__fini(&out_ros_data.effort);
+        rosidl_runtime_c__float64__Sequence__init(&out_ros_data.effort, Effort.Num());
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Effort, out_ros_data.effort.data, Effort.Num());
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2JointStateMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2JointStateMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSJointState &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSJointState& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSJointState &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSJointState& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  sensor_msgs__msg__JointState joint_state_msg;
+    sensor_msgs__msg__JointState joint_state_msg;
 };

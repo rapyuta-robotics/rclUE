@@ -16,58 +16,64 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Acc.h"
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
 #include "ROS2AccCov.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSAccCov {
-  GENERATED_BODY()
+struct RCLUE_API FROSAccCov
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSAcc Accel;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSAcc Accel;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Covariance;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Covariance;
 
-  FROSAccCov() { Covariance.SetNumZeroed(36); }
+    FROSAccCov()
+    {
+        Covariance.SetNumZeroed(36);
+    }
 
-  void SetFromROS2(const geometry_msgs__msg__AccelWithCovariance &in_ros_data) {
-    Accel.SetFromROS2(in_ros_data.accel);
+    void SetFromROS2(const geometry_msgs__msg__AccelWithCovariance& in_ros_data)
+    {
+        Accel.SetFromROS2(in_ros_data.accel);
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.covariance,
-                                                     Covariance, 36);
-  }
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.covariance, Covariance, 36);
+    }
 
-  void SetROS2(geometry_msgs__msg__AccelWithCovariance &out_ros_data) const {
-    Accel.SetROS2(out_ros_data.accel);
+    void SetROS2(geometry_msgs__msg__AccelWithCovariance& out_ros_data) const
+    {
+        Accel.SetROS2(out_ros_data.accel);
 
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Covariance, out_ros_data.covariance, 36);
-  }
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Covariance, out_ros_data.covariance, 36);
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2AccCovMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2AccCovMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSAccCov &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSAccCov& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSAccCov &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSAccCov& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  geometry_msgs__msg__AccelWithCovariance accel_with_covariance_msg;
+    geometry_msgs__msg__AccelWithCovariance accel_with_covariance_msg;
 };

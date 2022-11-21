@@ -15,54 +15,59 @@
 #include "rclcUtilities.h"
 
 // Generated Msg/Srv/Action(can be empty)
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
 #include "ROS2Vertices.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSVertices {
-  GENERATED_BODY()
+struct RCLUE_API FROSVertices
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere)
-  TArray<unsigned int> Vertices;
+    UPROPERTY(EditAnywhere)
+    TArray<unsigned int> Vertices;
 
-  FROSVertices() {}
+    FROSVertices()
+    {
+    }
 
-  void SetFromROS2(const pcl_msgs__msg__Vertices &in_ros_data) {
-    UROS2Utils::SequenceROSToUEArray<unsigned int, unsigned int>(
-        in_ros_data.vertices.data, Vertices, in_ros_data.vertices.size);
-  }
+    void SetFromROS2(const pcl_msgs__msg__Vertices& in_ros_data)
+    {
+        UROS2Utils::SequenceROSToUEArray<unsigned int, unsigned int>(
+            in_ros_data.vertices.data, Vertices, in_ros_data.vertices.size);
+    }
 
-  void SetROS2(pcl_msgs__msg__Vertices &out_ros_data) const {
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__uint32__Sequence>(out_ros_data.vertices,
-                                            Vertices.Num());
-    UROS2Utils::ArrayUEToROSSequence<unsigned int, unsigned int>(
-        Vertices, out_ros_data.vertices.data, Vertices.Num());
-  }
+    void SetROS2(pcl_msgs__msg__Vertices& out_ros_data) const
+    {
+        rosidl_runtime_c__uint32__Sequence__fini(&out_ros_data.vertices);
+        rosidl_runtime_c__uint32__Sequence__init(&out_ros_data.vertices, Vertices.Num());
+        UROS2Utils::ArrayUEToROSSequence<unsigned int, unsigned int>(Vertices, out_ros_data.vertices.data, Vertices.Num());
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2VerticesMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2VerticesMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSVertices &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSVertices& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSVertices &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSVertices& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  pcl_msgs__msg__Vertices vertices_msg;
+    pcl_msgs__msg__Vertices vertices_msg;
 };

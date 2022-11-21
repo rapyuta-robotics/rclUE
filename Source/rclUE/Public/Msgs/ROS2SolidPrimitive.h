@@ -15,102 +15,138 @@
 #include "rclcUtilities.h"
 
 // Generated Msg/Srv/Action(can be empty)
+#include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
 #include "ROS2SolidPrimitive.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSSolidPrimitive {
-  GENERATED_BODY()
+struct RCLUE_API FROSSolidPrimitive
+{
+    GENERATED_BODY()
 
 public:
-  static constexpr uint8 BOX = 1;
-  static constexpr uint8 SPHERE = 2;
-  static constexpr uint8 CYLINDER = 3;
-  static constexpr uint8 CONE = 4;
-  static constexpr uint8 BOX_X = 0;
-  static constexpr uint8 BOX_Y = 1;
-  static constexpr uint8 BOX_Z = 2;
-  static constexpr uint8 SPHERE_RADIUS = 0;
-  static constexpr uint8 CYLINDER_HEIGHT = 0;
-  static constexpr uint8 CYLINDER_RADIUS = 1;
-  static constexpr uint8 CONE_HEIGHT = 0;
-  static constexpr uint8 CONE_RADIUS = 1;
+    static constexpr uint8 BOX = 1;
+    static constexpr uint8 SPHERE = 2;
+    static constexpr uint8 CYLINDER = 3;
+    static constexpr uint8 CONE = 4;
+    static constexpr uint8 BOX_X = 0;
+    static constexpr uint8 BOX_Y = 1;
+    static constexpr uint8 BOX_Z = 2;
+    static constexpr uint8 SPHERE_RADIUS = 0;
+    static constexpr uint8 CYLINDER_HEIGHT = 0;
+    static constexpr uint8 CYLINDER_RADIUS = 1;
+    static constexpr uint8 CONE_HEIGHT = 0;
+    static constexpr uint8 CONE_RADIUS = 1;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  uint8 Type = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    uint8 Type = 0;
 
-  UPROPERTY(EditAnywhere)
-  TArray<double> Dimensions;
+    UPROPERTY(EditAnywhere)
+    TArray<double> Dimensions;
 
-  FROSSolidPrimitive() { Dimensions.SetNumZeroed(3); }
+    FROSSolidPrimitive()
+    {
+        Dimensions.SetNumZeroed(3);
+    }
 
-  void SetFromROS2(const shape_msgs__msg__SolidPrimitive &in_ros_data) {
-    Type = in_ros_data.type;
+    void SetFromROS2(const shape_msgs__msg__SolidPrimitive& in_ros_data)
+    {
+        Type = in_ros_data.type;
 
-    UROS2Utils::SequenceROSToUEArray<double, double>(
-        in_ros_data.dimensions.data, Dimensions, 3);
-  }
+        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.dimensions.data, Dimensions, 3);
+    }
 
-  void SetROS2(shape_msgs__msg__SolidPrimitive &out_ros_data) const {
-    out_ros_data.type = Type;
+    void SetROS2(shape_msgs__msg__SolidPrimitive& out_ros_data) const
+    {
+        out_ros_data.type = Type;
 
-    UROS2Utils::ArrayUEToROSSequence<double, double>(
-        Dimensions, out_ros_data.dimensions.data, 3);
-  }
+        UROS2Utils::ArrayUEToROSSequence<double, double>(Dimensions, out_ros_data.dimensions.data, 3);
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2SolidPrimitiveMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2SolidPrimitiveMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSSolidPrimitive &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSSolidPrimitive& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSSolidPrimitive &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSSolidPrimitive& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_BOX() { return FROSSolidPrimitive::BOX; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_SPHERE() { return FROSSolidPrimitive::SPHERE; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_CYLINDER() { return FROSSolidPrimitive::CYLINDER; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_CONE() { return FROSSolidPrimitive::CONE; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_BOX_X() { return FROSSolidPrimitive::BOX_X; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_BOX_Y() { return FROSSolidPrimitive::BOX_Y; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_BOX_Z() { return FROSSolidPrimitive::BOX_Z; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_SPHERE_RADIUS() {
-    return FROSSolidPrimitive::SPHERE_RADIUS;
-  }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_CYLINDER_HEIGHT() {
-    return FROSSolidPrimitive::CYLINDER_HEIGHT;
-  }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_CYLINDER_RADIUS() {
-    return FROSSolidPrimitive::CYLINDER_RADIUS;
-  }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_CONE_HEIGHT() { return FROSSolidPrimitive::CONE_HEIGHT; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_CONE_RADIUS() { return FROSSolidPrimitive::CONE_RADIUS; }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_BOX()
+    {
+        return FROSSolidPrimitive::BOX;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_SPHERE()
+    {
+        return FROSSolidPrimitive::SPHERE;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_CYLINDER()
+    {
+        return FROSSolidPrimitive::CYLINDER;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_CONE()
+    {
+        return FROSSolidPrimitive::CONE;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_BOX_X()
+    {
+        return FROSSolidPrimitive::BOX_X;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_BOX_Y()
+    {
+        return FROSSolidPrimitive::BOX_Y;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_BOX_Z()
+    {
+        return FROSSolidPrimitive::BOX_Z;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_SPHERE_RADIUS()
+    {
+        return FROSSolidPrimitive::SPHERE_RADIUS;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_CYLINDER_HEIGHT()
+    {
+        return FROSSolidPrimitive::CYLINDER_HEIGHT;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_CYLINDER_RADIUS()
+    {
+        return FROSSolidPrimitive::CYLINDER_RADIUS;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_CONE_HEIGHT()
+    {
+        return FROSSolidPrimitive::CONE_HEIGHT;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_CONE_RADIUS()
+    {
+        return FROSSolidPrimitive::CONE_RADIUS;
+    }
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  shape_msgs__msg__SolidPrimitive solid_primitive_msg;
+    shape_msgs__msg__SolidPrimitive solid_primitive_msg;
 };

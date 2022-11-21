@@ -17,115 +17,117 @@
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2IM.h"
 #include "Msgs/ROS2IMPose.h"
+#include "rosidl_runtime_c/string_functions.h"
+#include "visualization_msgs/msg/detail/interactive_marker__functions.h"
+#include "visualization_msgs/msg/detail/interactive_marker_pose__functions.h"
 
 // Generated
 #include "ROS2IMUpdate.generated.h"
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSIMUpdate {
-  GENERATED_BODY()
+struct RCLUE_API FROSIMUpdate
+{
+    GENERATED_BODY()
 
 public:
-  static constexpr uint8 KEEP_ALIVE = 0;
-  static constexpr uint8 UPDATE = 1;
+    static constexpr uint8 KEEP_ALIVE = 0;
+    static constexpr uint8 UPDATE = 1;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FString ServerId;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString ServerId;
 
-  UPROPERTY(EditAnywhere)
-  uint64 SeqNum = 0;
+    UPROPERTY(EditAnywhere)
+    uint64 SeqNum = 0;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  uint8 Type = 0;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    uint8 Type = 0;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FROSIM> Markers;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FROSIM> Markers;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FROSIMPose> Poses;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FROSIMPose> Poses;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  TArray<FString> Erases;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FString> Erases;
 
-  FROSIMUpdate() {}
+    FROSIMUpdate()
+    {
+    }
 
-  void SetFromROS2(
-      const visualization_msgs__msg__InteractiveMarkerUpdate &in_ros_data) {
-    ServerId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(
-        in_ros_data.server_id);
+    void SetFromROS2(const visualization_msgs__msg__InteractiveMarkerUpdate& in_ros_data)
+    {
+        ServerId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.server_id);
 
-    SeqNum = in_ros_data.seq_num;
+        SeqNum = in_ros_data.seq_num;
 
-    Type = in_ros_data.type;
+        Type = in_ros_data.type;
 
-    UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarker,
-                                     FROSIM>(in_ros_data.markers.data, Markers,
-                                             in_ros_data.markers.size);
+        UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarker, FROSIM>(
+            in_ros_data.markers.data, Markers, in_ros_data.markers.size);
 
-    UROS2Utils::SequenceROSToUEArray<
-        visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
-        in_ros_data.poses.data, Poses, in_ros_data.poses.size);
+        UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
+            in_ros_data.poses.data, Poses, in_ros_data.poses.size);
 
-    UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(
-        in_ros_data.erases.data, Erases, in_ros_data.erases.size);
-  }
+        UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(in_ros_data.erases.data, Erases, in_ros_data.erases.size);
+    }
 
-  void SetROS2(
-      visualization_msgs__msg__InteractiveMarkerUpdate &out_ros_data) const {
-    UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(ServerId,
-                                                        out_ros_data.server_id);
+    void SetROS2(visualization_msgs__msg__InteractiveMarkerUpdate& out_ros_data) const
+    {
+        UROS2Utils::StringUEToROS<rosidl_runtime_c__String>(ServerId, out_ros_data.server_id);
 
-    out_ros_data.seq_num = SeqNum;
+        out_ros_data.seq_num = SeqNum;
 
-    out_ros_data.type = Type;
+        out_ros_data.type = Type;
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        visualization_msgs__msg__InteractiveMarker__Sequence>(
-        out_ros_data.markers, Markers.Num());
-    UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarker,
-                                     FROSIM>(Markers, out_ros_data.markers.data,
-                                             Markers.Num());
+        visualization_msgs__msg__InteractiveMarker__Sequence__fini(&out_ros_data.markers);
+        visualization_msgs__msg__InteractiveMarker__Sequence__init(&out_ros_data.markers, Markers.Num());
+        UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarker, FROSIM>(
+            Markers, out_ros_data.markers.data, Markers.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        visualization_msgs__msg__InteractiveMarkerPose__Sequence>(
-        out_ros_data.poses, Poses.Num());
-    UROS2Utils::ArrayUEToROSSequence<
-        visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
-        Poses, out_ros_data.poses.data, Poses.Num());
+        visualization_msgs__msg__InteractiveMarkerPose__Sequence__fini(&out_ros_data.poses);
+        visualization_msgs__msg__InteractiveMarkerPose__Sequence__init(&out_ros_data.poses, Poses.Num());
+        UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
+            Poses, out_ros_data.poses.data, Poses.Num());
 
-    UROS2Utils::ROSSequenceResourceAllocation<
-        rosidl_runtime_c__String__Sequence>(out_ros_data.erases, Erases.Num());
-    UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(
-        Erases, out_ros_data.erases.data, Erases.Num());
-  }
+        rosidl_runtime_c__String__Sequence__fini(&out_ros_data.erases);
+        rosidl_runtime_c__String__Sequence__init(&out_ros_data.erases, Erases.Num());
+        UROS2Utils::StringArrayUEToROSSequence<rosidl_runtime_c__String>(Erases, out_ros_data.erases.data, Erases.Num());
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2IMUpdateMsg : public UROS2GenericMsg {
-  GENERATED_BODY()
+class RCLUE_API UROS2IMUpdateMsg : public UROS2GenericMsg
+{
+    GENERATED_BODY()
 
 public:
-  virtual void Init() override;
-  virtual void Fini() override;
+    virtual void Init() override;
+    virtual void Fini() override;
 
-  virtual const rosidl_message_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
 
-  UFUNCTION(BlueprintCallable)
-  void SetMsg(const FROSIMUpdate &Input);
+    UFUNCTION(BlueprintCallable)
+    void SetMsg(const FROSIMUpdate& Input);
 
-  UFUNCTION(BlueprintCallable)
-  void GetMsg(FROSIMUpdate &Output) const;
+    UFUNCTION(BlueprintCallable)
+    void GetMsg(FROSIMUpdate& Output) const;
 
-  virtual void *Get() override;
+    virtual void* Get() override;
 
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_KEEP_ALIVE() { return FROSIMUpdate::KEEP_ALIVE; }
-  UFUNCTION(BlueprintCallable)
-  static uint8 CONST_UPDATE() { return FROSIMUpdate::UPDATE; }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_KEEP_ALIVE()
+    {
+        return FROSIMUpdate::KEEP_ALIVE;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_UPDATE()
+    {
+        return FROSIMUpdate::UPDATE;
+    }
 
 private:
-  virtual FString MsgToString() const override;
+    virtual FString MsgToString() const override;
 
-  visualization_msgs__msg__InteractiveMarkerUpdate
-      interactive_marker_update_msg;
+    visualization_msgs__msg__InteractiveMarkerUpdate interactive_marker_update_msg;
 };

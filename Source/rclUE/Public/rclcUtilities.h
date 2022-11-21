@@ -237,6 +237,7 @@ public:
         if (InSequence.data != nullptr)
         {
             free(InSequence.data);
+            InSequence.data = nullptr;
         }
         InSequence.data = (decltype(InSequence.data))malloc(size * sizeof(decltype(*(InSequence.data))));
         InSequence.size = size;
@@ -322,9 +323,7 @@ public:
      * @param size
      */
     template<typename T>
-    static void StringSequenceROSToUEArray(const T* InStrSequence,
-                                           TArray<FString>& OutStrArray,
-                                           const int size)
+    static void StringSequenceROSToUEArray(const T* InStrSequence, TArray<FString>& OutStrArray, const int size)
     {
         OutStrArray.Empty();
         for (size_t i = 0; i < size; ++i)
@@ -367,9 +366,7 @@ public:
      * @param size
      */
     template<typename T>
-    static void StringArrayUEToROSSequence(const TArray<FString>& InStrList,
-                                           T* OutStrSequence,
-                                           const int size)
+    static void StringArrayUEToROSSequence(const TArray<FString>& InStrList, T* OutStrSequence, const int size)
     {
         for (auto i = 0; i < size; ++i)
         {
