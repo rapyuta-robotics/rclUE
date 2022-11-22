@@ -126,6 +126,13 @@ public:
         ResponseDelegate.Unbind();
     }
 
+    /**
+     * @brief Return true if service is available.
+     * @sa https://github.com/ros2/rclcpp/blob/11edf82c7d960e76a00a470033b99cc88a5eb082/rclcpp/src/rclcpp/client.cpp#L107
+     */
+    UFUNCTION(BlueprintCallable)
+    bool IsServiceReady();
+
 protected:
     /**
      * @brief Send service request

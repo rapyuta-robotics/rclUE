@@ -66,7 +66,11 @@ void UROS2ServiceClient::UpdateAndSendRequest()
     UE_LOG(LogROS2Service, Log, TEXT("%s"), *__LOG_INFO__);
     check(State == UROS2State::Initialized);
     check(IsValid(OwnerNode));
-
+    if (!IsServiceReady())
+    {
+        UE_LOG(LogROS2Service, Error, TEXT("Service named %s is not ready yet (%s)"), *ServiceName, *__LOG_INFO__);
+        return;
+    }
     RequestDelegate.ExecuteIfBound(Service);
     SendRequest();
 }
@@ -81,4 +85,24 @@ void UROS2ServiceClient::SendRequest()
 
     int64_t Seq;
     RCSOFTCHECK(rcl_send_request(&client, req, &Seq));
+}
+
+bool UROS2ServiceClient::IsServiceReady()
+{
+    bool is_ready;
+    rcl_ret_t ret = rcl_service_server_is_available(OwnerNode->GetNode(), &client, &is_ready);
+    if (RCL_RET_NODE_INVALID == ret)
+    {
+        const rcl_node_t* node_handle = OwnerNode->GetNode();
+        if (node_handle && !rcl_context_is_valid(node_handle->context))
+        {
+            // context is shutdown, do a soft failure
+            return false;
+        }
+    }
+    if (ret != RCL_RET_OK)
+    {
+        UE_LOG(LogROS2Service, Error, TEXT("rcl_service_server_is_available failed (%s)"), *__LOG_INFO__);
+    }
+    return is_ready;
 }
