@@ -49,7 +49,6 @@ public:
     {
         Header.SetROS2(out_ros_data.header);
 
-        geometry_msgs__msg__PoseStamped__Sequence__fini(&out_ros_data.poses);
         geometry_msgs__msg__PoseStamped__Sequence__init(&out_ros_data.poses, Poses.Num());
         UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__PoseStamped, FROSPoseStamped>(
             Poses, out_ros_data.poses.data, Poses.Num());

@@ -3,48 +3,63 @@
 
 #include "Srvs/ROS2SetMap.h"
 
-const rosidl_service_type_support_t *UROS2SetMapSrv::GetTypeSupport() const {
-  return ROSIDL_GET_SRV_TYPE_SUPPORT(nav_msgs, srv, SetMap);
+const rosidl_service_type_support_t* UROS2SetMapSrv::GetTypeSupport() const
+{
+    return ROSIDL_GET_SRV_TYPE_SUPPORT(nav_msgs, srv, SetMap);
 }
 
-void UROS2SetMapSrv::Init() {
-  nav_msgs__srv__SetMap_Request__init(&SetMap_req);
-  nav_msgs__srv__SetMap_Response__init(&SetMap_res);
+void UROS2SetMapSrv::Init()
+{
+    nav_msgs__srv__SetMap_Request__init(&SetMap_req);
+    nav_msgs__srv__SetMap_Response__init(&SetMap_res);
 }
 
-void UROS2SetMapSrv::Fini() {
-  nav_msgs__srv__SetMap_Request__fini(&SetMap_req);
-  nav_msgs__srv__SetMap_Response__fini(&SetMap_res);
+void UROS2SetMapSrv::Fini()
+{
+    nav_msgs__srv__SetMap_Request__fini(&SetMap_req);
+    nav_msgs__srv__SetMap_Response__fini(&SetMap_res);
 }
 
-void UROS2SetMapSrv::SetRequest(const FROSSetMapReq &Request) {
-  Request.SetROS2(SetMap_req);
+void UROS2SetMapSrv::SetRequest(const FROSSetMapReq& Request)
+{
+    Request.SetROS2(SetMap_req);
 }
 
-void UROS2SetMapSrv::GetRequest(FROSSetMapReq &Request) const {
-  Request.SetFromROS2(SetMap_req);
+void UROS2SetMapSrv::GetRequest(FROSSetMapReq& Request) const
+{
+    Request.SetFromROS2(SetMap_req);
 }
 
-void UROS2SetMapSrv::SetResponse(const FROSSetMapRes &Response) {
-  Response.SetROS2(SetMap_res);
+void UROS2SetMapSrv::SetResponse(const FROSSetMapRes& Response)
+{
+    Response.SetROS2(SetMap_res);
 }
 
-void UROS2SetMapSrv::GetResponse(FROSSetMapRes &Response) const {
-  Response.SetFromROS2(SetMap_res);
+void UROS2SetMapSrv::GetResponse(FROSSetMapRes& Response) const
+{
+    Response.SetFromROS2(SetMap_res);
 }
 
-void *UROS2SetMapSrv::GetRequest() { return &SetMap_req; }
-
-void *UROS2SetMapSrv::GetResponse() { return &SetMap_res; }
-
-FString UROS2SetMapSrv::SrvRequestToString() const {
-  /* TODO: Fill here */
-  checkNoEntry();
-  return FString();
+void* UROS2SetMapSrv::GetRequest()
+{
+    return &SetMap_req;
 }
 
-FString UROS2SetMapSrv::SrvResponseToString() const {
-  /* TODO: Fill here */
-  checkNoEntry();
-  return FString();
+void* UROS2SetMapSrv::GetResponse()
+{
+    return &SetMap_res;
+}
+
+FString UROS2SetMapSrv::SrvRequestToString() const
+{
+    /* TODO: Fill here */
+    checkNoEntry();
+    return FString();
+}
+
+FString UROS2SetMapSrv::SrvResponseToString() const
+{
+    /* TODO: Fill here */
+    checkNoEntry();
+    return FString();
 }
