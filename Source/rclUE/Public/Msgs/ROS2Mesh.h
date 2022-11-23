@@ -48,13 +48,25 @@ public:
 
     void SetROS2(shape_msgs__msg__Mesh& out_ros_data) const
     {
-        shape_msgs__msg__MeshTriangle__Sequence__fini(&out_ros_data.triangles);
-        shape_msgs__msg__MeshTriangle__Sequence__init(&out_ros_data.triangles, Triangles.Num());
+        if (out_ros_data.triangles.data)
+        {
+            shape_msgs__msg__MeshTriangle__Sequence__fini(&out_ros_data.triangles);
+        }
+        if (!shape_msgs__msg__MeshTriangle__Sequence__init(&out_ros_data.triangles, Triangles.Num()))
+        {
+            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.triangles  "));
+        }
         UROS2Utils::ArrayUEToROSSequence<shape_msgs__msg__MeshTriangle, FROSMeshTriangle>(
             Triangles, out_ros_data.triangles.data, Triangles.Num());
 
-        geometry_msgs__msg__Point__Sequence__fini(&out_ros_data.vertices);
-        geometry_msgs__msg__Point__Sequence__init(&out_ros_data.vertices, Vertices.Num());
+        if (out_ros_data.vertices.data)
+        {
+            geometry_msgs__msg__Point__Sequence__fini(&out_ros_data.vertices);
+        }
+        if (!geometry_msgs__msg__Point__Sequence__init(&out_ros_data.vertices, Vertices.Num()))
+        {
+            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.vertices  "));
+        }
         UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(Vertices, out_ros_data.vertices.data, Vertices.Num());
     }
 };

@@ -52,12 +52,24 @@ public:
     {
         Header.SetROS2(out_ros_data.header);
 
-        rosidl_runtime_c__float32__Sequence__fini(&out_ros_data.axes);
-        rosidl_runtime_c__float32__Sequence__init(&out_ros_data.axes, Axes.Num());
+        if (out_ros_data.axes.data)
+        {
+            rosidl_runtime_c__float32__Sequence__fini(&out_ros_data.axes);
+        }
+        if (!rosidl_runtime_c__float32__Sequence__init(&out_ros_data.axes, Axes.Num()))
+        {
+            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.axes  "));
+        }
         UROS2Utils::ArrayUEToROSSequence<float, float>(Axes, out_ros_data.axes.data, Axes.Num());
 
-        rosidl_runtime_c__int32__Sequence__fini(&out_ros_data.buttons);
-        rosidl_runtime_c__int32__Sequence__init(&out_ros_data.buttons, Buttons.Num());
+        if (out_ros_data.buttons.data)
+        {
+            rosidl_runtime_c__int32__Sequence__fini(&out_ros_data.buttons);
+        }
+        if (!rosidl_runtime_c__int32__Sequence__init(&out_ros_data.buttons, Buttons.Num()))
+        {
+            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.buttons  "));
+        }
         UROS2Utils::ArrayUEToROSSequence<int, int>(Buttons, out_ros_data.buttons.data, Buttons.Num());
     }
 };
