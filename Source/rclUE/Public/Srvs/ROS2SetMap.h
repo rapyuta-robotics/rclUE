@@ -22,86 +22,97 @@
 
 // potential problem: if this struct is defined multiple times!
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSSetMapReq {
-  GENERATED_BODY()
+struct RCLUE_API FROSSetMapReq
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSOccupancyGrid Map;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSOccupancyGrid Map;
 
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  FROSPoseCovStamped InitialPose;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSPoseCovStamped InitialPose;
 
-  FROSSetMapReq() {}
+    FROSSetMapReq()
+    {
+    }
 
-  void SetFromROS2(const nav_msgs__srv__SetMap_Request &in_ros_data) {
-    Map.SetFromROS2(in_ros_data.map);
+    void SetFromROS2(const nav_msgs__srv__SetMap_Request& in_ros_data)
+    {
+        Map.SetFromROS2(in_ros_data.map);
 
-    InitialPose.SetFromROS2(in_ros_data.initial_pose);
-  }
+        InitialPose.SetFromROS2(in_ros_data.initial_pose);
+    }
 
-  void SetROS2(nav_msgs__srv__SetMap_Request &out_ros_data) const {
-    Map.SetROS2(out_ros_data.map);
+    void SetROS2(nav_msgs__srv__SetMap_Request& out_ros_data) const
+    {
+        Map.SetROS2(out_ros_data.map);
 
-    InitialPose.SetROS2(out_ros_data.initial_pose);
-  }
+        InitialPose.SetROS2(out_ros_data.initial_pose);
+    }
 };
 
 USTRUCT(Blueprintable)
-struct RCLUE_API FROSSetMapRes {
-  GENERATED_BODY()
+struct RCLUE_API FROSSetMapRes
+{
+    GENERATED_BODY()
 
 public:
-  UPROPERTY(EditAnywhere, BlueprintReadWrite)
-  bool bSuccess = false;
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool bSuccess = false;
 
-  FROSSetMapRes() {}
+    FROSSetMapRes()
+    {
+    }
 
-  void SetFromROS2(const nav_msgs__srv__SetMap_Response &in_ros_data) {
-    bSuccess = in_ros_data.success;
-  }
+    void SetFromROS2(const nav_msgs__srv__SetMap_Response& in_ros_data)
+    {
+        bSuccess = in_ros_data.success;
+    }
 
-  void SetROS2(nav_msgs__srv__SetMap_Response &out_ros_data) const {
-    out_ros_data.success = bSuccess;
-  }
+    void SetROS2(nav_msgs__srv__SetMap_Response& out_ros_data) const
+    {
+        out_ros_data.success = bSuccess;
+    }
 };
 
 UCLASS()
-class RCLUE_API UROS2SetMapSrv : public UROS2GenericSrv {
-  GENERATED_BODY()
+class RCLUE_API UROS2SetMapSrv : public UROS2GenericSrv
+{
+    GENERATED_BODY()
 
 public:
-  UFUNCTION(BlueprintCallable)
-  virtual void Init() override;
+    UFUNCTION(BlueprintCallable)
+    virtual void Init() override;
 
-  UFUNCTION(BlueprintCallable)
-  virtual void Fini() override;
+    UFUNCTION(BlueprintCallable)
+    virtual void Fini() override;
 
-  virtual const rosidl_service_type_support_t *GetTypeSupport() const override;
+    virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
 
-  // used by client
-  UFUNCTION(BlueprintCallable)
-  void SetRequest(const FROSSetMapReq &Request);
+    // used by client
+    UFUNCTION(BlueprintCallable)
+    void SetRequest(const FROSSetMapReq& Request);
 
-  // used by service
-  UFUNCTION(BlueprintCallable)
-  void GetRequest(FROSSetMapReq &Request) const;
+    // used by service
+    UFUNCTION(BlueprintCallable)
+    void GetRequest(FROSSetMapReq& Request) const;
 
-  // used by service
-  UFUNCTION(BlueprintCallable)
-  void SetResponse(const FROSSetMapRes &Response);
+    // used by service
+    UFUNCTION(BlueprintCallable)
+    void SetResponse(const FROSSetMapRes& Response);
 
-  // used by client
-  UFUNCTION(BlueprintCallable)
-  void GetResponse(FROSSetMapRes &Response) const;
+    // used by client
+    UFUNCTION(BlueprintCallable)
+    void GetResponse(FROSSetMapRes& Response) const;
 
-  virtual void *GetRequest() override;
-  virtual void *GetResponse() override;
+    virtual void* GetRequest() override;
+    virtual void* GetResponse() override;
 
 private:
-  virtual FString SrvRequestToString() const override;
-  virtual FString SrvResponseToString() const override;
+    virtual FString SrvRequestToString() const override;
+    virtual FString SrvResponseToString() const override;
 
-  nav_msgs__srv__SetMap_Request SetMap_req;
-  nav_msgs__srv__SetMap_Response SetMap_res;
+    nav_msgs__srv__SetMap_Request SetMap_req;
+    nav_msgs__srv__SetMap_Response SetMap_res;
 };

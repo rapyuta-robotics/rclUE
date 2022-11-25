@@ -24,6 +24,8 @@
 #include "geometry_msgs/msg/transform.h"
 #include "geometry_msgs/msg/vector3.h"
 #include "rosidl_runtime_c/string.h"
+#include "rosidl_runtime_c/string_functions.h"
+#include "rosidl_runtime_c/u16string_functions.h"
 #include "std_msgs/msg/string.h"
 
 // rclUE others
@@ -335,42 +337,82 @@ public:
     /**
      * @brief Convert UE FString to ros string
      *
-     * @tparam T rosidl_runtime_c__String or rosidl_runtime_c__U16String
      * @param InStr
      * @param OutStr
+     * @sa
+     * https://github.com/ros2/rosidl_typesupport_opensplice/blob/master/rosidl_typesupport_opensplice_c/resource/msg__type_support_c.cpp.em
      */
-    template<typename T>
-    static void StringUEToROS(const FString& InStr, T& OutStr)
+    static bool StringUEToROS(const FString& InStr, rosidl_runtime_c__String& OutStr)
     {
-        FTCHARToUTF8 strUtf8(*InStr);
-        const int32 strSize = strUtf8.Length();
-        const int32 strCapacity = strSize + 1;
+        if (!OutStr.data)
+        {
+            rosidl_runtime_c__String__init(&OutStr);
+        }
+        bool succeeded = rosidl_runtime_c__String__assign(&OutStr, TCHAR_TO_ANSI(*InStr));
+        if (!succeeded)
+        {
+            UE_LOG(LogTemp, Error, TEXT("failed to assign string : %s"), *InStr);
+            return false;
+        }
 
-        // why this cause segfault?
-        // if (OutStr.data != nullptr)
-        // {
-        //     free(OutStr.data);
-        // }
-        OutStr.data = (decltype(OutStr.data))malloc(strCapacity * sizeof(decltype(*OutStr.data)));
-        memcpy(OutStr.data, TCHAR_TO_UTF8(*InStr), strCapacity * sizeof(char));
-        OutStr.size = strSize;
-        OutStr.capacity = strCapacity;
+        return true;
+    }
+
+    /**
+     * @brief Convert UE FString to ros string
+     *
+     * @param InStr
+     * @param OutStr
+     * @sa
+     * https://github.com/ros2/rosidl_typesupport_opensplice/blob/master/rosidl_typesupport_opensplice_c/resource/msg__type_support_c.cpp.em
+     */
+    static bool U16StringUEToROS(const FString& InStr, rosidl_runtime_c__U16String& OutStr)
+    {
+        if (!OutStr.data)
+        {
+            rosidl_runtime_c__U16String__init(&OutStr);
+        }
+        bool succeeded = rosidl_runtime_c__U16String__assignn_from_char(&OutStr, TCHAR_TO_ANSI(*InStr), InStr.Len());
+        if (!succeeded)
+        {
+            UE_LOG(LogTemp, Error, TEXT("failed to assign u16string : %s"), *InStr);
+            return false;
+        }
+
+        return true;
     }
 
     /**
      * @brief Convert UE FString array to ROS sequence
      *
-     * @tparam T rosidl_runtime_c__String or rosidl_runtime_c__U16String
      * @param InStrList
      * @param OutStrSequence
      * @param size
      */
-    template<typename T>
-    static void StringArrayUEToROSSequence(const TArray<FString>& InStrList, T* OutStrSequence, const int size)
+    static void StringArrayUEToROSSequence(const TArray<FString>& InStrList,
+                                           rosidl_runtime_c__String* OutStrSequence,
+                                           const int size)
     {
         for (auto i = 0; i < size; ++i)
         {
             StringUEToROS(InStrList[i], OutStrSequence[i]);
+        }
+    }
+
+    /**
+     * @brief Convert UE FString array to ROS sequence
+     *
+     * @param InStrList
+     * @param OutStrSequence
+     * @param size
+     */
+    static void U16StringArrayUEToROSSequence(const TArray<FString>& InStrList,
+                                              rosidl_runtime_c__U16String* OutStrSequence,
+                                              const int size)
+    {
+        for (auto i = 0; i < size; ++i)
+        {
+            U16StringUEToROS(InStrList[i], OutStrSequence[i]);
         }
     }
 
