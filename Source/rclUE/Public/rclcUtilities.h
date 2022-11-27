@@ -162,38 +162,84 @@ static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
 
 UCLASS()
+class URRTimerManager : public UObject
+{
+    GENERATED_BODY()
+protected:
+    bool bEnabled = true;
+
+    //! Timer handler for periodic publisher
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    FTimerHandle TimerHandle;
+
+    FTimerDelegate Delegate;
+
+    FTimerDelegate TimerDelegate;
+
+    UWorld* World;
+
+    float Rate;
+
+    float desiredTime;
+
+public:
+    void StopTimer()
+    {
+        bEnabled = false;
+    }
+
+    void SetTimer(FTimerDelegate const& InDelegate, float InRate, UWorld* InWorld)
+    {
+        Rate = InRate;
+        World = InWorld;
+        Delegate = InDelegate;
+        bEnabled = true;
+        desiredTime = UGameplayStatics::GetTimeSeconds(World) + Rate;
+        // TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
+        World->GetTimerManager().SetTimer(TimerHandle, FTimerDelegate::CreateLambda([this] { SetTimerImple(); }), Rate, false);
+    }
+    void SetTimerImple()
+    {
+        if (!bEnabled)
+        {
+            bEnabled = true;
+            return;
+        }
+
+        // function call
+        if (Delegate.IsBound())
+        {
+            Delegate.ExecuteIfBound();
+        }
+        else
+        {
+            UE_LOG(LogTemp, Error, TEXT("Delegate is not bound"));
+        }
+
+        // update desiredTime
+        desiredTime += Rate;
+
+        float wt = desiredTime - UGameplayStatics::GetTimeSeconds(World);
+        while (wt <= 0)
+        {
+            wt += Rate;
+            desiredTime += Rate;
+        }
+
+        UE_LOG(LogTemp, Error, TEXT("SetTimerImpl %f, %f, %f"), desiredTime, Rate, wt);
+
+        // define lambda
+        // TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
+        World->GetTimerManager().SetTimer(TimerHandle, FTimerDelegate::CreateLambda([this] { SetTimerImple(); }), wt, false);
+    }
+};
+
+UCLASS()
 class UROS2Utils : public UBlueprintFunctionLibrary
 {
     GENERATED_BODY()
 
 public:
-    static void SetTimer(FTimerHandle& InOutHandle,
-                         FTimerDelegate const& InDelegate,
-                         float InRate,
-                         UWorld* world,
-                         bool init = true,
-                         float desiredTime = 0.0)
-    {
-        // function call
-        InDelegate.ExecuteIfBound();
-
-        // update desiredTime
-        float now = UGameplayStatics::GetTimeSeconds(world);
-        if (init)
-        {
-            desiredTime = now;
-        }
-        desiredTime += InRate;
-
-        // define lambda
-        world->GetTimerManager().SetTimer(
-            InOutHandle,
-            FTimerDelegate::CreateLambda([&InOutHandle, InDelegate, InRate, world, desiredTime]
-                                         { UROS2Utils::SetTimer(InOutHandle, InDelegate, InRate, world, false, desiredTime); }),
-            desiredTime - now,
-            false);
-    }
-
     static builtin_interfaces__msg__Time FloatToROSStamp(const float InTimeSec)
     {
         builtin_interfaces__msg__Time stamp;

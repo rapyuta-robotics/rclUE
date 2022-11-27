@@ -211,4 +211,7 @@ protected:
 
     //! ROS2 publisher
     rcl_publisher_t RclPublisher;
+
+    //! Timer Manager
+    URRTimerManager* TimerManager;
 };

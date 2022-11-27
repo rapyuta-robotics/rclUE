@@ -23,6 +23,7 @@ UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
 
 UROS2Publisher::UROS2Publisher()
 {
+    TimerManager = CreateDefaultSubobject<URRTimerManager>(TEXT("%sTimerManager"), *GetName());
     PrimaryComponentTick.bCanEverTick = true;
 }
 
@@ -58,6 +59,7 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 
 void UROS2Publisher::StopPublishTimer()
 {
+    TimerManager->StopTimer();
     // GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 }
 
@@ -67,12 +69,11 @@ void UROS2Publisher::StartPublishTimer()
     {
         // GetWorld()->GetTimerManager().SetTimer(
         //     TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / PublicationFrequencyHz, true);
-        TimerManager.SetTimer(TimerHandle,
-                              FTimerDelegate::CreateLambda([this] { UpdateAndPublishMessage(); }),
-                              1.f / PublicationFrequencyHz,
-                              GetWorld());
-        // UROS2Utils::SetTimer(TimerHandle, FTimerDelegate::CreateLambda([this] {UpdateAndPublishMessage();}), 1.f /
-        // PublicationFrequencyHz, GetWorld());
+        // TimerManager->SetTimer(FTimerDelegate::CreateLambda([this] { UpdateAndPublishMessage(); }),
+        //                       1.f / PublicationFrequencyHz,
+        //                       GetWorld());
+        FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &UROS2Publisher::UpdateAndPublishMessage);
+        TimerManager->SetTimer(TimerDelegate, 1.f / PublicationFrequencyHz, GetWorld());
     }
 }
 
