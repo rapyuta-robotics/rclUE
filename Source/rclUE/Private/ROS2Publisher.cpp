@@ -49,24 +49,30 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 
         RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 
-        StartPublishTimer();
-
         State = UROS2State::Initialized;
+
+        UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher initialization (%s)"), *TopicName);
+        StartPublishTimer();
     }
 }
 
-
 void UROS2Publisher::StopPublishTimer()
 {
-    GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+    // GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
 }
 
 void UROS2Publisher::StartPublishTimer()
 {
     if (PublicationFrequencyHz > 0)
     {
-        GetWorld()->GetTimerManager().SetTimer(
-            TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / PublicationFrequencyHz, true);
+        // GetWorld()->GetTimerManager().SetTimer(
+        //     TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / PublicationFrequencyHz, true);
+        TimerManager.SetTimer(TimerHandle,
+                              FTimerDelegate::CreateLambda([this] { UpdateAndPublishMessage(); }),
+                              1.f / PublicationFrequencyHz,
+                              GetWorld());
+        // UROS2Utils::SetTimer(TimerHandle, FTimerDelegate::CreateLambda([this] {UpdateAndPublishMessage();}), 1.f /
+        // PublicationFrequencyHz, GetWorld());
     }
 }
 
@@ -106,7 +112,11 @@ void UROS2Publisher::InitializeMessage()
 
 void UROS2Publisher::UpdateAndPublishMessage()
 {
-    check(State == UROS2State::Initialized);
+    if (State != UROS2State::Initialized)
+    {
+        UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher is not initialized yet (%s)"), *__LOG_INFO__);
+        return;
+    }
     check(IsValid(OwnerNode));
 
     UpdateDelegate.ExecuteIfBound(TopicMessage);

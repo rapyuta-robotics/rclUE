@@ -167,6 +167,33 @@ class UROS2Utils : public UBlueprintFunctionLibrary
     GENERATED_BODY()
 
 public:
+    static void SetTimer(FTimerHandle& InOutHandle,
+                         FTimerDelegate const& InDelegate,
+                         float InRate,
+                         UWorld* world,
+                         bool init = true,
+                         float desiredTime = 0.0)
+    {
+        // function call
+        InDelegate.ExecuteIfBound();
+
+        // update desiredTime
+        float now = UGameplayStatics::GetTimeSeconds(world);
+        if (init)
+        {
+            desiredTime = now;
+        }
+        desiredTime += InRate;
+
+        // define lambda
+        world->GetTimerManager().SetTimer(
+            InOutHandle,
+            FTimerDelegate::CreateLambda([&InOutHandle, InDelegate, InRate, world, desiredTime]
+                                         { UROS2Utils::SetTimer(InOutHandle, InDelegate, InRate, world, false, desiredTime); }),
+            desiredTime - now,
+            false);
+    }
+
     static builtin_interfaces__msg__Time FloatToROSStamp(const float InTimeSec)
     {
         builtin_interfaces__msg__Time stamp;
