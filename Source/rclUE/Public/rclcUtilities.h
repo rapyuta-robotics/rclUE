@@ -178,7 +178,8 @@ protected:
 
     UWorld* World;
 
-    float Rate;
+    UPROPERTY()
+    float Rate = 0.f;
 
     float desiredTime;
 
