@@ -166,6 +166,7 @@ class URRTimerManager : public UObject
 {
     GENERATED_BODY()
 protected:
+    UPROPERTY()
     bool bEnabled = true;
 
     //! Timer handler for periodic publisher
