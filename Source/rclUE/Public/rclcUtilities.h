@@ -169,6 +169,12 @@ protected:
     UPROPERTY()
     bool bEnabled = true;
 
+    UPROPERTY()
+    float Rate = 0.f;
+
+    UPROPERTY()
+    float desiredTime = 0.f;
+
     //! Timer handler for periodic publisher
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     FTimerHandle TimerHandle;
@@ -177,30 +183,23 @@ protected:
 
     FTimerDelegate TimerDelegate;
 
-    UWorld* World;
-
-    UPROPERTY()
-    float Rate = 0.f;
-
-    UPROPERTY()
-    float desiredTime = 0.f;
-
 public:
     void StopTimer()
     {
         bEnabled = false;
     }
 
-    void SetTimer(FTimerDelegate const& InDelegate, float InRate, UWorld* InWorld)
+    void SetTimer(FTimerDelegate const& InDelegate, float InRate)
     {
         Rate = InRate;
-        World = InWorld;
         Delegate = InDelegate;
         bEnabled = true;
-        desiredTime = UGameplayStatics::GetTimeSeconds(World) + Rate;
-        // TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
-        World->GetTimerManager().SetTimer(TimerHandle, FTimerDelegate::CreateLambda([this] { SetTimerImple(); }), Rate, false);
+        desiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
+
+        TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
+        GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, Rate, false);
     }
+
     void SetTimerImple()
     {
         if (!bEnabled)
@@ -209,7 +208,7 @@ public:
             return;
         }
 
-        // function call
+        // function call. Make sure delegate is bound.
         if (Delegate.IsBound())
         {
             Delegate.ExecuteIfBound();
@@ -222,18 +221,15 @@ public:
         // update desiredTime
         desiredTime += Rate;
 
-        float wt = desiredTime - UGameplayStatics::GetTimeSeconds(World);
+        float wt = desiredTime - UGameplayStatics::GetTimeSeconds(GetWorld());
         while (wt <= 0)
         {
             wt += Rate;
             desiredTime += Rate;
         }
 
-        UE_LOG(LogTemp, Error, TEXT("SetTimerImpl %f, %f, %f"), desiredTime, Rate, wt);
-
         // define lambda
-        // TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
-        World->GetTimerManager().SetTimer(TimerHandle, FTimerDelegate::CreateLambda([this] { SetTimerImple(); }), wt, false);
+        GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, wt, false);
     }
 };
 

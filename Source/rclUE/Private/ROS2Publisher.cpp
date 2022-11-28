@@ -59,21 +59,18 @@ void UROS2Publisher::Init(const TEnumAsByte<UROS2QoS> QoS)
 
 void UROS2Publisher::StopPublishTimer()
 {
-    TimerManager->StopTimer();
-    // GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+    if (TimerManager != nullptr)
+    {
+        TimerManager->StopTimer();
+    }
 }
 
 void UROS2Publisher::StartPublishTimer()
 {
     if (PublicationFrequencyHz > 0)
     {
-        // GetWorld()->GetTimerManager().SetTimer(
-        //     TimerHandle, this, &UROS2Publisher::UpdateAndPublishMessage, 1.f / PublicationFrequencyHz, true);
-        // TimerManager->SetTimer(FTimerDelegate::CreateLambda([this] { UpdateAndPublishMessage(); }),
-        //                       1.f / PublicationFrequencyHz,
-        //                       GetWorld());
         FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &UROS2Publisher::UpdateAndPublishMessage);
-        TimerManager->SetTimer(TimerDelegate, 1.f / PublicationFrequencyHz, GetWorld());
+        TimerManager->SetTimer(TimerDelegate, 1.f / PublicationFrequencyHz);
     }
 }
 
