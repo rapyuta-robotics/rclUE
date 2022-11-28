@@ -213,5 +213,6 @@ protected:
     rcl_publisher_t RclPublisher;
 
     //! Timer Manager
-    URRTimerManager* TimerManager;
+    UPROPERTY()
+    URRTimerManager* TimerManager = nullptr;
 };
