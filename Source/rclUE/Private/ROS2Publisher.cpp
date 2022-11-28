@@ -115,7 +115,7 @@ void UROS2Publisher::UpdateAndPublishMessage()
 {
     if (State != UROS2State::Initialized)
     {
-        UE_LOG(LogROS2Publisher, Warning, TEXT("Publisher is not initialized yet (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Publisher, Error, TEXT("Publisher is not initialized yet (%s)"), *__LOG_INFO__);
         return;
     }
     check(IsValid(OwnerNode));
