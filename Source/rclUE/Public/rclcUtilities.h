@@ -181,7 +181,8 @@ protected:
     UPROPERTY()
     float Rate = 0.f;
 
-    float desiredTime;
+    UPROPERTY()
+    float desiredTime = 0.f;
 
 public:
     void StopTimer()
