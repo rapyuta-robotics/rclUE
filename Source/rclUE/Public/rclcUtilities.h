@@ -187,6 +187,7 @@ public:
     void StopTimer()
     {
         bEnabled = false;
+        GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
     }
 
     void SetTimer(FTimerDelegate const& InDelegate, float InRate)
@@ -196,6 +197,7 @@ public:
         bEnabled = true;
         desiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
 
+        GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
         TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, Rate, false);
     }
@@ -224,8 +226,16 @@ public:
         float wt = desiredTime - UGameplayStatics::GetTimeSeconds(GetWorld());
         while (wt <= 0)
         {
-            wt += Rate;
-            desiredTime += Rate;
+            UE_LOG(LogTemp,
+                   Warning,
+                   TEXT("Delegate function call take longer than Rate or StepSize is not small enough to meet target Rate=%f, "
+                        "StepSize=%f."),
+                   Rate,
+                   FApp::GetFixedDeltaTime());
+
+            // Make sure that function call happens at next tick.
+            wt = FApp::GetFixedDeltaTime() * 0.5;
+            desiredTime += wt;
         }
 
         // define lambda
