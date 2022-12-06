@@ -22,16 +22,18 @@
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS_PUBLIC
 
-#include <fastrtps/utils/TimedMutex.hpp>
-#include <fastrtps/utils/TimedConditionVariable.hpp>
-
-#include <thread>
 #include <atomic>
+#include <fastrtps/utils/TimedConditionVariable.hpp>
+#include <fastrtps/utils/TimedMutex.hpp>
+#include <thread>
 #include <vector>
 
-namespace eprosima {
-namespace fastrtps {
-namespace rtps {
+namespace eprosima
+{
+namespace fastrtps
+{
+namespace rtps
+{
 
 class TimedEventImpl;
 
@@ -42,7 +44,6 @@ class TimedEventImpl;
 class ResourceEvent
 {
 public:
-
     ResourceEvent() = default;
 
     ~ResourceEvent();
@@ -58,8 +59,7 @@ public:
      * This method has to be called when creating a TimedEventImpl object.
      * @param event TimedEventImpl object that has been created.
      */
-    void register_timer(
-            TimedEventImpl* event);
+    void register_timer(TimedEventImpl* event);
 
     /*!
      * @brief This method removes a TimedEventImpl object in case it is waiting to be processed by ResourceEvent's
@@ -70,8 +70,7 @@ public:
      * Then it avoids the situation of the execution thread calling the event handler when it was previously removed.
      * @param event TimedEventImpl object that will be deleted and we have to be sure all its operations are cancelled.
      */
-    void unregister_timer(
-            TimedEventImpl* event);
+    void unregister_timer(TimedEventImpl* event);
 
     /*!
      * @brief This method notifies to ResourceEvent that the TimedEventImpl object has operations to be scheduled.
@@ -79,8 +78,7 @@ public:
      * These operations can be the cancellation of the timer or starting another async_wait.
      * @param event TimedEventImpl object that has operations to be scheduled.
      */
-    void notify(
-            TimedEventImpl* event);
+    void notify(TimedEventImpl* event);
 
     /*!
      * @brief This method notifies to ResourceEvent that the TimedEventImpl object has operations to be scheduled.
@@ -90,14 +88,11 @@ public:
      * @param event TimedEventImpl object that has operations to be scheduled.
      * @param timeout Maximum blocking time of the method.
      */
-    void notify(
-            TimedEventImpl* event,
-            const std::chrono::steady_clock::time_point& timeout);
+    void notify(TimedEventImpl* event, const std::chrono::steady_clock::time_point& timeout);
 
 private:
-
     //! Warns the internal thread can stop.
-    std::atomic<bool> stop_{ false };
+    std::atomic<bool> stop_{false};
 
     //! Protects internal data.
     TimedMutex mutex_;
@@ -120,6 +115,9 @@ private:
     //! Collection of registered events waiting completion.
     std::vector<TimedEventImpl*> active_timers_;
 
+    //! Prevents iterator invalidation when active_timers are manipulated inside loops
+    std::atomic<bool> skip_checking_active_timers_;
+
     //! Current time as seen by the execution thread.
     std::chrono::steady_clock::time_point current_time_;
 
@@ -132,8 +130,7 @@ private:
      * @param event Event to be added in the queue.
      * @return True value if the insertion was successful. In other case, it return False.
      */
-    bool register_timer_nts(
-            TimedEventImpl* event);
+    bool register_timer_nts(TimedEventImpl* event);
 
     //! Method called by the internal thread.
     void event_service();
@@ -153,13 +150,12 @@ private:
         pending_timers_.reserve(timers_count_);
         active_timers_.reserve(timers_count_);
     }
-
 };
 
 } /* namespace rtps */
 } /* namespace fastrtps */
 } /* namespace eprosima */
 
-#endif //DOXYGEN_SHOULD_SKIP_THIS_PUBLIC
+#endif    // DOXYGEN_SHOULD_SKIP_THIS_PUBLIC
 
-#endif //_FASTDDS_RTPS_RESOURCES_RESOURCEEVENT_H_
+#endif    //_FASTDDS_RTPS_RESOURCES_RESOURCEEVENT_H_
