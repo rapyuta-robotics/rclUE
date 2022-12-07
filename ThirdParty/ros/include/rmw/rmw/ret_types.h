@@ -22,8 +22,8 @@ extern "C"
 
 #include <stdint.h>
 
-    /// Return code for rmw functions
-    typedef int32_t rmw_ret_t;
+/// Return code for rmw functions
+typedef int32_t rmw_ret_t;
 /// The operation ran as expected
 #define RMW_RET_OK 0
 /// Generic error to indicate operation could not complete successfully
@@ -49,4 +49,4 @@ extern "C"
 }
 #endif
 
-#endif    // RMW__RET_TYPES_H_
+#endif  // RMW__RET_TYPES_H_

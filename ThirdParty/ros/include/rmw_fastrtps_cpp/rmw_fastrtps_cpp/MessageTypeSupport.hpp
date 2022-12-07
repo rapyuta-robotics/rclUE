@@ -15,8 +15,9 @@
 #ifndef RMW_FASTRTPS_CPP__MESSAGETYPESUPPORT_HPP_
 #define RMW_FASTRTPS_CPP__MESSAGETYPESUPPORT_HPP_
 
-#include "TypeSupport.hpp"
 #include "rosidl_typesupport_fastrtps_cpp/message_type_support.h"
+
+#include "TypeSupport.hpp"
 
 namespace rmw_fastrtps_cpp
 {
@@ -24,9 +25,9 @@ namespace rmw_fastrtps_cpp
 class MessageTypeSupport : public TypeSupport
 {
 public:
-    explicit MessageTypeSupport(const message_type_support_callbacks_t* members);
+  explicit MessageTypeSupport(const message_type_support_callbacks_t * members);
 };
 
-}    // namespace rmw_fastrtps_cpp
+}  // namespace rmw_fastrtps_cpp
 
-#endif    // RMW_FASTRTPS_CPP__MESSAGETYPESUPPORT_HPP_
+#endif  // RMW_FASTRTPS_CPP__MESSAGETYPESUPPORT_HPP_

@@ -5,8 +5,8 @@
 #ifndef EXAMPLE_INTERFACES__ACTION__FIBONACCI_H_
 #define EXAMPLE_INTERFACES__ACTION__FIBONACCI_H_
 
-#include "example_interfaces/action/detail/fibonacci__functions.h"
 #include "example_interfaces/action/detail/fibonacci__struct.h"
+#include "example_interfaces/action/detail/fibonacci__functions.h"
 #include "example_interfaces/action/detail/fibonacci__type_support.h"
 
-#endif    // EXAMPLE_INTERFACES__ACTION__FIBONACCI_H_
+#endif  // EXAMPLE_INTERFACES__ACTION__FIBONACCI_H_

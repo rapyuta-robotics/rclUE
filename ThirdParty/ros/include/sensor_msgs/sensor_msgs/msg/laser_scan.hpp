@@ -4,8 +4,8 @@
 #ifndef SENSOR_MSGS__MSG__LASER_SCAN_HPP_
 #define SENSOR_MSGS__MSG__LASER_SCAN_HPP_
 
-#include "sensor_msgs/msg/detail/laser_scan__builder.hpp"
 #include "sensor_msgs/msg/detail/laser_scan__struct.hpp"
+#include "sensor_msgs/msg/detail/laser_scan__builder.hpp"
 #include "sensor_msgs/msg/detail/laser_scan__traits.hpp"
 
-#endif    // SENSOR_MSGS__MSG__LASER_SCAN_HPP_
+#endif  // SENSOR_MSGS__MSG__LASER_SCAN_HPP_

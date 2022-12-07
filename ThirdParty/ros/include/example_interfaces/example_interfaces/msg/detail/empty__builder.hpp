@@ -5,11 +5,12 @@
 #ifndef EXAMPLE_INTERFACES__MSG__DETAIL__EMPTY__BUILDER_HPP_
 #define EXAMPLE_INTERFACES__MSG__DETAIL__EMPTY__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "example_interfaces/msg/detail/empty__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace example_interfaces
 {
@@ -17,17 +18,19 @@ namespace example_interfaces
 namespace msg
 {
 
-}    // namespace msg
+
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::example_interfaces::msg::Empty>()
+inline
+auto build<::example_interfaces::msg::Empty>()
 {
-    return ::example_interfaces::msg::Empty(rosidl_runtime_cpp::MessageInitialization::ZERO);
+  return ::example_interfaces::msg::Empty(rosidl_runtime_cpp::MessageInitialization::ZERO);
 }
 
-}    // namespace example_interfaces
+}  // namespace example_interfaces
 
-#endif    // EXAMPLE_INTERFACES__MSG__DETAIL__EMPTY__BUILDER_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__DETAIL__EMPTY__BUILDER_HPP_

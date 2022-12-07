@@ -40,7 +40,7 @@ namespace distortion_models
 const char PLUMB_BOB[] = "plumb_bob";
 const char RATIONAL_POLYNOMIAL[] = "rational_polynomial";
 const char EQUIDISTANT[] = "equidistant";
-}    // namespace distortion_models
-}    // namespace sensor_msgs
+}
+}
 
-#endif    // SENSOR_MSGS__DISTORTION_MODELS_HPP_
+#endif  // SENSOR_MSGS__DISTORTION_MODELS_HPP_

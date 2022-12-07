@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__FLOAT32_HPP_
 #define EXAMPLE_INTERFACES__MSG__FLOAT32_HPP_
 
-#include "example_interfaces/msg/detail/float32__builder.hpp"
 #include "example_interfaces/msg/detail/float32__struct.hpp"
+#include "example_interfaces/msg/detail/float32__builder.hpp"
 #include "example_interfaces/msg/detail/float32__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__MSG__FLOAT32_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__FLOAT32_HPP_

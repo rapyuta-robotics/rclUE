@@ -5,11 +5,12 @@
 #ifndef SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__BUILDER_HPP_
 #define SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "shape_msgs/msg/detail/mesh_triangle__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "shape_msgs/msg/detail/mesh_triangle__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace shape_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_MeshTriangle_vertex_indices
 {
 public:
-    Init_MeshTriangle_vertex_indices() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::shape_msgs::msg::MeshTriangle vertex_indices(::shape_msgs::msg::MeshTriangle::_vertex_indices_type arg)
-    {
-        msg_.vertex_indices = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_MeshTriangle_vertex_indices()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::shape_msgs::msg::MeshTriangle vertex_indices(::shape_msgs::msg::MeshTriangle::_vertex_indices_type arg)
+  {
+    msg_.vertex_indices = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::shape_msgs::msg::MeshTriangle msg_;
+  ::shape_msgs::msg::MeshTriangle msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::shape_msgs::msg::MeshTriangle>()
+inline
+auto build<::shape_msgs::msg::MeshTriangle>()
 {
-    return shape_msgs::msg::builder::Init_MeshTriangle_vertex_indices();
+  return shape_msgs::msg::builder::Init_MeshTriangle_vertex_indices();
 }
 
-}    // namespace shape_msgs
+}  // namespace shape_msgs
 
-#endif    // SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__BUILDER_HPP_
+#endif  // SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__BUILDER_HPP_

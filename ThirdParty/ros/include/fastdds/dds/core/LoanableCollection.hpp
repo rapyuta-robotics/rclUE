@@ -21,12 +21,9 @@
 
 #include <cstdint>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * A collection of generic opaque pointers that can receive the buffer from outside (loan).
@@ -36,6 +33,7 @@ namespace dds
 class LoanableCollection
 {
 public:
+
     using size_type = int32_t;
     using element_type = void*;
 
@@ -100,7 +98,8 @@ public:
      * @post length() == new_length
      * @post maximum() >= new_length
      */
-    bool length(size_type new_length)
+    bool length(
+            size_type new_length)
     {
         if (new_length < 0)
         {
@@ -143,7 +142,10 @@ public:
      * @post maximum() == new_maximum
      * @post length() == new_length
      */
-    bool loan(element_type* buffer, size_type new_maximum, size_type new_length)
+    bool loan(
+            element_type* buffer,
+            size_type new_maximum,
+            size_type new_length)
     {
         if (has_ownership_ && maximum_ > 0)
         {
@@ -178,7 +180,9 @@ public:
      * @post length() == 0
      * @post maximum() == 0
      */
-    element_type* unloan(size_type& maximum, size_type& length)
+    element_type* unloan(
+            size_type& maximum,
+            size_type& length)
     {
         if (has_ownership_)
         {
@@ -217,6 +221,7 @@ public:
     }
 
 protected:
+
     /**
      * Default constructor.
      *
@@ -229,7 +234,8 @@ protected:
      */
     LoanableCollection() = default;
 
-    virtual void resize(size_type new_length) = 0;
+    virtual void resize(
+            size_type new_length) = 0;
 
     size_type maximum_ = 0;
     size_type length_ = 0;
@@ -237,8 +243,8 @@ protected:
     bool has_ownership_ = true;
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_CORE_LOANABLECOLLECTION_HPP_
+#endif // _FASTDDS_DDS_CORE_LOANABLECOLLECTION_HPP_

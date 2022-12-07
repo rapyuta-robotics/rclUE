@@ -22,17 +22,21 @@
 typedef rcutils_error_state_t rcl_error_state_t;
 typedef rcutils_error_string_t rcl_error_string_t;
 
-#define rcl_initialize_error_handling_thread_local_storage rcutils_initialize_error_handling_thread_local_storage
+#define rcl_initialize_error_handling_thread_local_storage \
+  rcutils_initialize_error_handling_thread_local_storage
 
 #define rcl_set_error_state rcutils_set_error_state
 
-#define RCL_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type) RCUTILS_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type)
+#define RCL_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type) \
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type)
 
-#define RCL_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement) RCUTILS_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement)
+#define RCL_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement) \
+  RCUTILS_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement)
 
 #define RCL_SET_ERROR_MSG(msg) RCUTILS_SET_ERROR_MSG(msg)
 
-#define RCL_SET_ERROR_MSG_WITH_FORMAT_STRING(fmt_str, ...) RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(fmt_str, __VA_ARGS__)
+#define RCL_SET_ERROR_MSG_WITH_FORMAT_STRING(fmt_str, ...) \
+  RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(fmt_str, __VA_ARGS__)
 
 #define rcl_error_is_set rcutils_error_is_set
 
@@ -42,4 +46,4 @@ typedef rcutils_error_string_t rcl_error_string_t;
 
 #define rcl_reset_error rcutils_reset_error
 
-#endif    // RCL__ERROR_HANDLING_H_
+#endif  // RCL__ERROR_HANDLING_H_

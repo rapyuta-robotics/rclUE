@@ -23,14 +23,10 @@
 #include <fastdds/dds/builtin/topic/BuiltinTopicKey.hpp>
 #include <fastdds/dds/core/policy/QosPolicies.hpp>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
-namespace builtin
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
+namespace builtin {
 
 struct PublicationBuiltinTopicData
 {
@@ -48,57 +44,57 @@ struct PublicationBuiltinTopicData
 
     // DataWriter Qos
 
-    //! Durability Qos, implemented in the library.
+    //!Durability Qos, implemented in the library.
     DurabilityQosPolicy durability;
 
-    //! Durability Service Qos, NOT implemented in the library.
+    //!Durability Service Qos, NOT implemented in the library.
     DurabilityServiceQosPolicy durability_service;
 
-    //! Deadline Qos, implemented in the library.
+    //!Deadline Qos, implemented in the library.
     DeadlineQosPolicy deadline;
 
-    //! Latency Budget Qos, NOT implemented in the library.
+    //!Latency Budget Qos, NOT implemented in the library.
     LatencyBudgetQosPolicy latency_budget;
 
-    //! Liveliness Qos, implemented in the library.
+    //!Liveliness Qos, implemented in the library.
     LivelinessQosPolicy liveliness;
 
-    //! Reliability Qos, implemented in the library.
+    //!Reliability Qos, implemented in the library.
     ReliabilityQosPolicy reliability;
 
-    //! Lifespan Qos, implemented in the library.
+    //!Lifespan Qos, implemented in the library.
     LifespanQosPolicy lifespan;
 
-    //! User Data Qos, implemented in the library.
+    //!User Data Qos, implemented in the library.
     UserDataQosPolicy user_data;
 
-    //! Ownership Qos, implemented in the library.
+    //!Ownership Qos, implemented in the library.
     OwnershipQosPolicy ownership;
 
-    //! Ownership Strength Qos, implemented in the library.
+    //!Ownership Strength Qos, implemented in the library.
     OwnershipStrengthQosPolicy ownership_strength;
 
-    //! Destination Order Qos, NOT implemented in the library.
+    //!Destination Order Qos, NOT implemented in the library.
     DestinationOrderQosPolicy destination_order;
 
     // Publisher Qos
 
-    //! Presentation Qos, NOT implemented in the library.
+    //!Presentation Qos, NOT implemented in the library.
     PresentationQosPolicy presentation;
 
-    //! Partition Qos, implemented in the library.
+    //!Partition Qos, implemented in the library.
     PartitionQosPolicy partition;
 
-    //! Topic Data Qos, NOT implemented in the library.
+    //!Topic Data Qos, NOT implemented in the library.
     TopicDataQosPolicy topic_data;
 
-    //! Group Data Qos, implemented in the library.
+    //!Group Data Qos, implemented in the library.
     GroupDataQosPolicy group_data;
 };
 
-}    // namespace builtin
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // builtin
+} // dds
+} // fastdds
+} // eprosima
 
-#endif    // FASTDDS_DDS_BUILTIN_TOPIC_PUBLICATIONBUILTINTOPICDATA_HPP
+#endif // FASTDDS_DDS_BUILTIN_TOPIC_PUBLICATIONBUILTINTOPICDATA_HPP

@@ -26,31 +26,31 @@
 //     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define TRACETOOLS_EXPORT __attribute__((dllexport))
-#define TRACETOOLS_IMPORT __attribute__((dllimport))
+  #ifdef __GNUC__
+    #define TRACETOOLS_EXPORT __attribute__ ((dllexport))
+    #define TRACETOOLS_IMPORT __attribute__ ((dllimport))
+  #else
+    #define TRACETOOLS_EXPORT __declspec(dllexport)
+    #define TRACETOOLS_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef TRACETOOLS_BUILDING_DLL
+    #define TRACETOOLS_PUBLIC TRACETOOLS_EXPORT
+  #else
+    #define TRACETOOLS_PUBLIC TRACETOOLS_IMPORT
+  #endif
+  #define TRACETOOLS_PUBLIC_TYPE TRACETOOLS_PUBLIC
+  #define TRACETOOLS_LOCAL
 #else
-#define TRACETOOLS_EXPORT __declspec(dllexport)
-#define TRACETOOLS_IMPORT __declspec(dllimport)
-#endif
-#ifdef TRACETOOLS_BUILDING_DLL
-#define TRACETOOLS_PUBLIC TRACETOOLS_EXPORT
-#else
-#define TRACETOOLS_PUBLIC TRACETOOLS_IMPORT
-#endif
-#define TRACETOOLS_PUBLIC_TYPE TRACETOOLS_PUBLIC
-#define TRACETOOLS_LOCAL
-#else
-#define TRACETOOLS_EXPORT __attribute__((visibility("default")))
-#define TRACETOOLS_IMPORT
-#if __GNUC__ >= 4
-#define TRACETOOLS_PUBLIC __attribute__((visibility("default")))
-#define TRACETOOLS_LOCAL __attribute__((visibility("hidden")))
-#else
-#define TRACETOOLS_PUBLIC
-#define TRACETOOLS_LOCAL
-#endif
-#define TRACETOOLS_PUBLIC_TYPE
+  #define TRACETOOLS_EXPORT __attribute__ ((visibility("default")))
+  #define TRACETOOLS_IMPORT
+  #if __GNUC__ >= 4
+    #define TRACETOOLS_PUBLIC __attribute__ ((visibility("default")))
+    #define TRACETOOLS_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define TRACETOOLS_PUBLIC
+    #define TRACETOOLS_LOCAL
+  #endif
+  #define TRACETOOLS_PUBLIC_TYPE
 #endif
 
-#endif    // TRACETOOLS__VISIBILITY_CONTROL_HPP_
+#endif  // TRACETOOLS__VISIBILITY_CONTROL_HPP_

@@ -15,8 +15,9 @@
 #ifndef TYPES_TYPE_DESCRIPTOR_H
 #define TYPES_TYPE_DESCRIPTOR_H
 
-#include <fastrtps/types/TypesBase.h>
+#include <fastrtps/types/AnnotationDescriptor.h>
 #include <fastrtps/types/DynamicTypePtr.h>
+#include <fastrtps/types/TypesBase.h>
 
 class MemberDescriptor;
 class DynamicType;
@@ -53,14 +54,14 @@ public:
 
     TypeDescriptor();
 
-    TypeDescriptor(
+    RTPS_DllAPI TypeDescriptor(
             const TypeDescriptor* other);
 
-    TypeDescriptor(
+    RTPS_DllAPI TypeDescriptor(
             const std::string& name,
             TypeKind kind);
 
-    ~TypeDescriptor();
+    RTPS_DllAPI ~TypeDescriptor();
 
     ReturnCode_t copy_from(
             const TypeDescriptor* descriptor);

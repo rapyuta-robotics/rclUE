@@ -5,8 +5,8 @@
 #ifndef ACTIONLIB_MSGS__MSG__GOAL_STATUS_H_
 #define ACTIONLIB_MSGS__MSG__GOAL_STATUS_H_
 
-#include "actionlib_msgs/msg/detail/goal_status__functions.h"
 #include "actionlib_msgs/msg/detail/goal_status__struct.h"
+#include "actionlib_msgs/msg/detail/goal_status__functions.h"
 #include "actionlib_msgs/msg/detail/goal_status__type_support.h"
 
-#endif    // ACTIONLIB_MSGS__MSG__GOAL_STATUS_H_
+#endif  // ACTIONLIB_MSGS__MSG__GOAL_STATUS_H_

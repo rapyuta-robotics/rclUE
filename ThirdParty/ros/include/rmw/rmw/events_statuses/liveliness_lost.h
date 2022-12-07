@@ -15,31 +15,31 @@
 #ifndef RMW__EVENTS_STATUSES__LIVELINESS_LOST_H_
 #define RMW__EVENTS_STATUSES__LIVELINESS_LOST_H_
 
-#include "rmw/visibility_control.h"
-
 #include <stdint.h>
+
+#include "rmw/visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-    /// QoS Liveliness Lost information provided by a publisher.
-    typedef struct RMW_PUBLIC_TYPE rmw_liveliness_lost_status_s
-    {
-        /**
-         * Lifetime cumulative number of times that a previously-alive Publisher became not alive due to
-         * a failure to actively signal its liveliness within its offered liveliness period.
-         * This count does not change when an already not alive Publisher simply remains not alive for
-         * another liveliness period.
-         */
-        int32_t total_count;
-        /// The change in total_count since the last time the status was last read.
-        int32_t total_count_change;
-    } rmw_liveliness_lost_status_t;
+/// QoS Liveliness Lost information provided by a publisher.
+typedef struct RMW_PUBLIC_TYPE rmw_liveliness_lost_status_s
+{
+  /**
+   * Lifetime cumulative number of times that a previously-alive Publisher became not alive due to
+   * a failure to actively signal its liveliness within its offered liveliness period.
+   * This count does not change when an already not alive Publisher simply remains not alive for
+   * another liveliness period.
+   */
+  int32_t total_count;
+  /// The change in total_count since the last time the status was last read.
+  int32_t total_count_change;
+} rmw_liveliness_lost_status_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__EVENTS_STATUSES__LIVELINESS_LOST_H_
+#endif  // RMW__EVENTS_STATUSES__LIVELINESS_LOST_H_

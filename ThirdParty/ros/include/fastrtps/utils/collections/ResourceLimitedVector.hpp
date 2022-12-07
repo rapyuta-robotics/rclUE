@@ -120,6 +120,48 @@ public:
     }
 
     /**
+     * Insert value before pos.
+     *
+     * @param pos   iterator before which the content will be inserted. pos may be the end() iterator.
+     * @param value element value to insert.
+     *
+     * @return Iterator pointing to the inserted value. end() if insertion couldn't be done due to collection limits.
+     */
+    iterator insert(
+            const_iterator pos,
+            const value_type& value)
+    {
+        auto dist = std::distance(collection_.cbegin(), pos);
+        if (!ensure_capacity())
+        {
+            return end();
+        }
+
+        return collection_.insert(collection_.cbegin() + dist, value);
+    }
+
+    /**
+     * Insert value before pos.
+     *
+     * @param pos   iterator before which the content will be inserted. pos may be the end() iterator.
+     * @param value element value to insert.
+     *
+     * @return Iterator pointing to the inserted value. end() if insertion couldn't be done due to collection limits.
+     */
+    iterator insert(
+            const_iterator pos,
+            value_type&& value)
+    {
+        auto dist = std::distance(collection_.cbegin(), pos);
+        if (!ensure_capacity())
+        {
+            return end();
+        }
+
+        return collection_.insert(collection_.cbegin() + dist, std::move(value));
+    }
+
+    /**
      * Add element at the end.
      *
      * Adds a new element at the end of the vector, after its current last element.
@@ -148,7 +190,17 @@ public:
     pointer push_back(
             value_type&& val)
     {
-        return emplace_back(std::move(val));
+        if (!ensure_capacity())
+        {
+            // Indicate error by returning null pointer
+            return nullptr;
+        }
+
+        // Move the element at the end of the collection
+        collection_.push_back(std::move(val));
+
+        // Return pointer to newly created element
+        return &collection_.back();
     }
 
     /**
@@ -506,7 +558,7 @@ protected:
      * Remove element.
      *
      * Removes the element pointed to by it.
-     * All iterators may become invalidated if this method returns true.
+     * All iterators may become invalidated.
      * This version doesn't keep the order of insertion, optimizing the number of copies performed.
      *
      * @param it   Iterator pointing to the item to be removed.
@@ -529,7 +581,7 @@ protected:
      * Remove element.
      *
      * Removes the element pointed to by it.
-     * All iterators may become invalidated if this method returns true.
+     * All iterators may become invalidated.
      * This version keeps the order of insertion, so when removing an item different from the last one,
      * part of the collection will be copied.
      *

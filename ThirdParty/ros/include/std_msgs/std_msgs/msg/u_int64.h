@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__U_INT64_H_
 #define STD_MSGS__MSG__U_INT64_H_
 
-#include "std_msgs/msg/detail/u_int64__functions.h"
 #include "std_msgs/msg/detail/u_int64__struct.h"
+#include "std_msgs/msg/detail/u_int64__functions.h"
 #include "std_msgs/msg/detail/u_int64__type_support.h"
 
-#endif    // STD_MSGS__MSG__U_INT64_H_
+#endif  // STD_MSGS__MSG__U_INT64_H_

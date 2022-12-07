@@ -14,48 +14,50 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
 // Member 'filename'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in srv/UpdateFilename in the package pcl_msgs.
-    typedef struct pcl_msgs__srv__UpdateFilename_Request
-    {
-        rosidl_runtime_c__String filename;
-    } pcl_msgs__srv__UpdateFilename_Request;
+/// Struct defined in srv/UpdateFilename in the package pcl_msgs.
+typedef struct pcl_msgs__srv__UpdateFilename_Request
+{
+  rosidl_runtime_c__String filename;
+} pcl_msgs__srv__UpdateFilename_Request;
 
-    // Struct for a sequence of pcl_msgs__srv__UpdateFilename_Request.
-    typedef struct pcl_msgs__srv__UpdateFilename_Request__Sequence
-    {
-        pcl_msgs__srv__UpdateFilename_Request* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } pcl_msgs__srv__UpdateFilename_Request__Sequence;
+// Struct for a sequence of pcl_msgs__srv__UpdateFilename_Request.
+typedef struct pcl_msgs__srv__UpdateFilename_Request__Sequence
+{
+  pcl_msgs__srv__UpdateFilename_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} pcl_msgs__srv__UpdateFilename_Request__Sequence;
 
-    // Constants defined in the message
 
-    /// Struct defined in srv/UpdateFilename in the package pcl_msgs.
-    typedef struct pcl_msgs__srv__UpdateFilename_Response
-    {
-        bool success;
-    } pcl_msgs__srv__UpdateFilename_Response;
+// Constants defined in the message
 
-    // Struct for a sequence of pcl_msgs__srv__UpdateFilename_Response.
-    typedef struct pcl_msgs__srv__UpdateFilename_Response__Sequence
-    {
-        pcl_msgs__srv__UpdateFilename_Response* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } pcl_msgs__srv__UpdateFilename_Response__Sequence;
+/// Struct defined in srv/UpdateFilename in the package pcl_msgs.
+typedef struct pcl_msgs__srv__UpdateFilename_Response
+{
+  bool success;
+} pcl_msgs__srv__UpdateFilename_Response;
+
+// Struct for a sequence of pcl_msgs__srv__UpdateFilename_Response.
+typedef struct pcl_msgs__srv__UpdateFilename_Response__Sequence
+{
+  pcl_msgs__srv__UpdateFilename_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} pcl_msgs__srv__UpdateFilename_Response__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // PCL_MSGS__SRV__DETAIL__UPDATE_FILENAME__STRUCT_H_
+#endif  // PCL_MSGS__SRV__DETAIL__UPDATE_FILENAME__STRUCT_H_

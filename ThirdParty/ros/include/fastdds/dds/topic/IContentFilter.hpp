@@ -19,21 +19,20 @@
 #ifndef _FASTDDS_DDS_TOPIC_ICONTENTFILTER_HPP_
 #define _FASTDDS_DDS_TOPIC_ICONTENTFILTER_HPP_
 
-#include <fastdds/rtps/common/Guid.h>
-#include <fastdds/rtps/common/SampleIdentity.h>
-#include <fastdds/rtps/common/SerializedPayload.h>
 #include <fastrtps/fastrtps_dll.h>
-#include <fastrtps/types/TypeDescriptor.h>
-#include <fastrtps/types/TypesBase.h>
 
 #include <fastdds/dds/core/LoanableTypedCollection.hpp>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+#include <fastdds/rtps/common/Guid.h>
+#include <fastdds/rtps/common/SampleIdentity.h>
+#include <fastdds/rtps/common/SerializedPayload.h>
+
+#include <fastrtps/types/TypesBase.h>
+#include <fastrtps/types/TypeDescriptor.h>
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * The interface that content filter objects should implement.
@@ -66,13 +65,14 @@ struct IContentFilter
      *
      * @return whether the sample should be accepted for the specified reader.
      */
-    virtual bool evaluate(const SerializedPayload& payload,
-                          const FilterSampleInfo& sample_info,
-                          const GUID_t& reader_guid) const = 0;
+    virtual bool evaluate(
+            const SerializedPayload& payload,
+            const FilterSampleInfo& sample_info,
+            const GUID_t& reader_guid) const = 0;
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_TOPIC_ICONTENTFILTER_HPP_
+#endif  // _FASTDDS_DDS_TOPIC_ICONTENTFILTER_HPP_

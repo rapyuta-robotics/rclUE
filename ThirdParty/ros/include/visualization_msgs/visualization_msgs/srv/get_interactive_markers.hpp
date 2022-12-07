@@ -4,8 +4,8 @@
 #ifndef VISUALIZATION_MSGS__SRV__GET_INTERACTIVE_MARKERS_HPP_
 #define VISUALIZATION_MSGS__SRV__GET_INTERACTIVE_MARKERS_HPP_
 
-#include "visualization_msgs/srv/detail/get_interactive_markers__builder.hpp"
 #include "visualization_msgs/srv/detail/get_interactive_markers__struct.hpp"
+#include "visualization_msgs/srv/detail/get_interactive_markers__builder.hpp"
 #include "visualization_msgs/srv/detail/get_interactive_markers__traits.hpp"
 
-#endif    // VISUALIZATION_MSGS__SRV__GET_INTERACTIVE_MARKERS_HPP_
+#endif  // VISUALIZATION_MSGS__SRV__GET_INTERACTIVE_MARKERS_HPP_

@@ -22,15 +22,16 @@ extern "C"
 
 #include "rmw/types.h"
 
-    // For now, the rmw_publisher_options_t type is still defined in "rmw/types.h".
+// For now, the rmw_publisher_options_t type is still defined in "rmw/types.h".
 
-    /// Return a rmw_publisher_options_t initialized with default values.
-    RMW_PUBLIC
-    RMW_WARN_UNUSED
-    rmw_publisher_options_t rmw_get_default_publisher_options(void);
+/// Return a rmw_publisher_options_t initialized with default values.
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_publisher_options_t
+rmw_get_default_publisher_options(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__PUBLISHER_OPTIONS_H_
+#endif  // RMW__PUBLISHER_OPTIONS_H_

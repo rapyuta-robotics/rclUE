@@ -5,8 +5,8 @@
 #ifndef STEREO_MSGS__MSG__DISPARITY_IMAGE_H_
 #define STEREO_MSGS__MSG__DISPARITY_IMAGE_H_
 
-#include "stereo_msgs/msg/detail/disparity_image__functions.h"
 #include "stereo_msgs/msg/detail/disparity_image__struct.h"
+#include "stereo_msgs/msg/detail/disparity_image__functions.h"
 #include "stereo_msgs/msg/detail/disparity_image__type_support.h"
 
-#endif    // STEREO_MSGS__MSG__DISPARITY_IMAGE_H_
+#endif  // STEREO_MSGS__MSG__DISPARITY_IMAGE_H_

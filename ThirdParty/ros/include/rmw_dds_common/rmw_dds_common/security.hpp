@@ -15,10 +15,10 @@
 #ifndef RMW_DDS_COMMON__SECURITY_HPP_
 #define RMW_DDS_COMMON__SECURITY_HPP_
 
-#include "rmw_dds_common/visibility_control.h"
-
 #include <string>
 #include <unordered_map>
+
+#include "rmw_dds_common/visibility_control.h"
 
 namespace rmw_dds_common
 {
@@ -48,10 +48,10 @@ namespace rmw_dds_common
  * \return `true` if all required files exist in the security enclave, `false` otherwise.
  */
 RMW_DDS_COMMON_PUBLIC
-bool get_security_files(const std::string& prefix,
-                        const std::string& secure_root,
-                        std::unordered_map<std::string, std::string>& result);
+bool get_security_files(
+  const std::string & prefix, const std::string & secure_root,
+  std::unordered_map<std::string, std::string> & result);
 
-}    // namespace rmw_dds_common
+}  // namespace rmw_dds_common
 
-#endif    // RMW_DDS_COMMON__SECURITY_HPP_
+#endif  // RMW_DDS_COMMON__SECURITY_HPP_

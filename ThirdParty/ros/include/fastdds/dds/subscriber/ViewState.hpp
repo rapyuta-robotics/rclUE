@@ -21,12 +21,9 @@
 
 #include <cstdint>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * Indicates whether or not an instance is new.
@@ -67,8 +64,8 @@ using ViewStateMask = uint16_t;
 /// Any view state
 constexpr ViewStateMask ANY_VIEW_STATE = NEW_VIEW_STATE | NOT_NEW_VIEW_STATE;
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+}  // namespace dds
+}  // namespace fastdds
+}  // namespace eprosima
 
-#endif    // _FASTDDS_DDS_SUBSCRIBER_VIEWSTATE_HPP_
+#endif  // _FASTDDS_DDS_SUBSCRIBER_VIEWSTATE_HPP_

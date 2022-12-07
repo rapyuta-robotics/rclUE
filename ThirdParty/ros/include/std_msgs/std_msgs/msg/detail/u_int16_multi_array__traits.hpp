@@ -5,14 +5,14 @@
 #ifndef STD_MSGS__MSG__DETAIL__U_INT16_MULTI_ARRAY__TRAITS_HPP_
 #define STD_MSGS__MSG__DETAIL__U_INT16_MULTI_ARRAY__TRAITS_HPP_
 
-#include "rosidl_runtime_cpp/traits.hpp"
-#include "std_msgs/msg/detail/u_int16_multi_array__struct.hpp"
-
 #include <stdint.h>
 
 #include <sstream>
 #include <string>
 #include <type_traits>
+
+#include "std_msgs/msg/detail/u_int16_multi_array__struct.hpp"
+#include "rosidl_runtime_cpp/traits.hpp"
 
 // Include directives for member types
 // Member 'layout'
@@ -24,139 +24,127 @@ namespace std_msgs
 namespace msg
 {
 
-inline void to_flow_style_yaml(const UInt16MultiArray& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const UInt16MultiArray & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: layout
-    {
-        out << "layout: ";
-        to_flow_style_yaml(msg.layout, out);
-        out << ", ";
-    }
+  out << "{";
+  // member: layout
+  {
+    out << "layout: ";
+    to_flow_style_yaml(msg.layout, out);
+    out << ", ";
+  }
 
-    // member: data
-    {
-        if (msg.data.size() == 0)
-        {
-            out << "data: []";
+  // member: data
+  {
+    if (msg.data.size() == 0) {
+      out << "data: []";
+    } else {
+      out << "data: [";
+      size_t pending_items = msg.data.size();
+      for (auto item : msg.data) {
+        rosidl_generator_traits::value_to_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
         }
-        else
-        {
-            out << "data: [";
-            size_t pending_items = msg.data.size();
-            for (auto item : msg.data)
-            {
-                rosidl_generator_traits::value_to_yaml(item, out);
-                if (--pending_items > 0)
-                {
-                    out << ", ";
-                }
-            }
-            out << "]";
-        }
+      }
+      out << "]";
     }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const UInt16MultiArray& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const UInt16MultiArray & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: layout
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "layout:\n";
-        to_block_style_yaml(msg.layout, out, indentation + 2);
+  // member: layout
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
+    out << "layout:\n";
+    to_block_style_yaml(msg.layout, out, indentation + 2);
+  }
 
-    // member: data
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        if (msg.data.size() == 0)
-        {
-            out << "data: []\n";
-        }
-        else
-        {
-            out << "data:\n";
-            for (auto item : msg.data)
-            {
-                if (indentation > 0)
-                {
-                    out << std::string(indentation, ' ');
-                }
-                out << "- ";
-                rosidl_generator_traits::value_to_yaml(item, out);
-                out << "\n";
-            }
-        }
+  // member: data
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-}    // NOLINT(readability/fn_size)
+    if (msg.data.size() == 0) {
+      out << "data: []\n";
+    } else {
+      out << "data:\n";
+      for (auto item : msg.data) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "- ";
+        rosidl_generator_traits::value_to_yaml(item, out);
+        out << "\n";
+      }
+    }
+  }
+}  // NOLINT(readability/fn_size)
 
-inline std::string to_yaml(const UInt16MultiArray& msg, bool use_flow_style = false)
+inline std::string to_yaml(const UInt16MultiArray & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace msg
+}  // namespace msg
 
-}    // namespace std_msgs
+}  // namespace std_msgs
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use std_msgs::msg::to_block_style_yaml() instead")]] inline void to_yaml(const std_msgs::msg::UInt16MultiArray& msg,
-                                                                                       std::ostream& out,
-                                                                                       size_t indentation = 0)
+[[deprecated("use std_msgs::msg::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const std_msgs::msg::UInt16MultiArray & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    std_msgs::msg::to_block_style_yaml(msg, out, indentation);
+  std_msgs::msg::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use std_msgs::msg::to_yaml() instead")]] inline std::string to_yaml(const std_msgs::msg::UInt16MultiArray& msg)
+[[deprecated("use std_msgs::msg::to_yaml() instead")]]
+inline std::string to_yaml(const std_msgs::msg::UInt16MultiArray & msg)
 {
-    return std_msgs::msg::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<std_msgs::msg::UInt16MultiArray>()
-{
-    return "std_msgs::msg::UInt16MultiArray";
+  return std_msgs::msg::to_yaml(msg);
 }
 
 template<>
-inline const char* name<std_msgs::msg::UInt16MultiArray>()
+inline const char * data_type<std_msgs::msg::UInt16MultiArray>()
 {
-    return "std_msgs/msg/UInt16MultiArray";
+  return "std_msgs::msg::UInt16MultiArray";
 }
 
 template<>
-struct has_fixed_size<std_msgs::msg::UInt16MultiArray> : std::integral_constant<bool, false>
+inline const char * name<std_msgs::msg::UInt16MultiArray>()
 {
-};
+  return "std_msgs/msg/UInt16MultiArray";
+}
 
 template<>
-struct has_bounded_size<std_msgs::msg::UInt16MultiArray> : std::integral_constant<bool, false>
-{
-};
+struct has_fixed_size<std_msgs::msg::UInt16MultiArray>
+  : std::integral_constant<bool, false> {};
 
 template<>
-struct is_message<std_msgs::msg::UInt16MultiArray> : std::true_type
-{
-};
+struct has_bounded_size<std_msgs::msg::UInt16MultiArray>
+  : std::integral_constant<bool, false> {};
 
-}    // namespace rosidl_generator_traits
+template<>
+struct is_message<std_msgs::msg::UInt16MultiArray>
+  : std::true_type {};
 
-#endif    // STD_MSGS__MSG__DETAIL__U_INT16_MULTI_ARRAY__TRAITS_HPP_
+}  // namespace rosidl_generator_traits
+
+#endif  // STD_MSGS__MSG__DETAIL__U_INT16_MULTI_ARRAY__TRAITS_HPP_

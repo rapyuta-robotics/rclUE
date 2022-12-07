@@ -15,9 +15,9 @@
 #ifndef AMENT_INDEX_CPP__GET_PACKAGE_SHARE_DIRECTORY_HPP_
 #define AMENT_INDEX_CPP__GET_PACKAGE_SHARE_DIRECTORY_HPP_
 
-#include "ament_index_cpp/visibility_control.h"
-
 #include <string>
+
+#include "ament_index_cpp/visibility_control.h"
 
 namespace ament_index_cpp
 {
@@ -29,8 +29,9 @@ namespace ament_index_cpp
  * \throws PackageNotFoundError when the given package is not found.
  */
 AMENT_INDEX_CPP_PUBLIC
-std::string get_package_share_directory(const std::string& package_name);
+std::string
+get_package_share_directory(const std::string & package_name);
 
-}    // namespace ament_index_cpp
+}  // namespace ament_index_cpp
 
-#endif    // AMENT_INDEX_CPP__GET_PACKAGE_SHARE_DIRECTORY_HPP_
+#endif  // AMENT_INDEX_CPP__GET_PACKAGE_SHARE_DIRECTORY_HPP_

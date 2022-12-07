@@ -34,17 +34,16 @@ namespace rcpputils
  */
 std::string get_executable_name()
 {
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    char* executable_name = rcutils_get_executable_name(allocator);
-    if (nullptr == executable_name)
-    {
-        throw std::runtime_error("Failed to get executable name");
-    }
-    std::string ret(executable_name);
-    allocator.deallocate(executable_name, allocator.state);
-    return ret;
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  char * executable_name = rcutils_get_executable_name(allocator);
+  if (nullptr == executable_name) {
+    throw std::runtime_error("Failed to get executable name");
+  }
+  std::string ret(executable_name);
+  allocator.deallocate(executable_name, allocator.state);
+  return ret;
 }
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__PROCESS_HPP_
+#endif  // RCPPUTILS__PROCESS_HPP_

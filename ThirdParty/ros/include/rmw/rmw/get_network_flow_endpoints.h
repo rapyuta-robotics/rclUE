@@ -24,46 +24,50 @@ extern "C"
 #include "rmw/types.h"
 #include "rmw/visibility_control.h"
 
-    /// Get network flow endpoints of a publisher
-    /**
-     * Query the underlying middleware for a given publisher's network flow endpoints
-     *
-     * \param[in] publisher the publisher instance to inspect
-     * \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
-     * \param[out] network_flow_endpoint_array the network flow endpoints
-     * \return `RMW_RET_OK` if successful, or
-     * \return `RMW_RET_INVALID_ARGUMENT` if any argument is null,
-     * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
-     * \return `RMW_RET_UNSUPPORTED` if not supported, or
-     * \return `RMW_RET_ERROR` if an unexpected error occurs.
-     */
-    RMW_PUBLIC
-    RMW_WARN_UNUSED
-    rmw_ret_t rmw_publisher_get_network_flow_endpoints(const rmw_publisher_t* publisher,
-                                                       rcutils_allocator_t* allocator,
-                                                       rmw_network_flow_endpoint_array_t* network_flow_endpoint_array);
+/// Get network flow endpoints of a publisher
+/**
+ * Query the underlying middleware for a given publisher's network flow endpoints
+ *
+ * \param[in] publisher the publisher instance to inspect
+ * \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
+ * \param[out] network_flow_endpoint_array the network flow endpoints
+ * \return `RMW_RET_OK` if successful, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if any argument is null,
+ * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
+ * \return `RMW_RET_UNSUPPORTED` if not supported, or
+ * \return `RMW_RET_ERROR` if an unexpected error occurs.
+ */
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_ret_t
+rmw_publisher_get_network_flow_endpoints(
+  const rmw_publisher_t * publisher,
+  rcutils_allocator_t * allocator,
+  rmw_network_flow_endpoint_array_t * network_flow_endpoint_array);
 
-    /// Get network flow endpoints of a subscription
-    /**
-     * Query the underlying middleware for a given subscription's network flow endpoints
-     *
-     * \param[in] subscription the subscription instance to inspect
-     * \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
-     * \param[out] network_flow_endpoint_array the network flow endpoints
-     * \return `RMW_RET_OK` if successful, or
-     * \return `RMW_RET_INVALID_ARGUMENT` if any argument is null, or
-     * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
-     * \return `RMW_RET_UNSUPPORTED` if not supported, or
-     * \return `RMW_RET_ERROR` if an unexpected error occurs.
-     */
-    RMW_PUBLIC
-    RMW_WARN_UNUSED
-    rmw_ret_t rmw_subscription_get_network_flow_endpoints(const rmw_subscription_t* subscription,
-                                                          rcutils_allocator_t* allocator,
-                                                          rmw_network_flow_endpoint_array_t* network_flow_endpoint_array);
+/// Get network flow endpoints of a subscription
+/**
+ * Query the underlying middleware for a given subscription's network flow endpoints
+ *
+ * \param[in] subscription the subscription instance to inspect
+ * \param[in] allocator allocator to be used when allocating space for network_flow_endpoint_array_t
+ * \param[out] network_flow_endpoint_array the network flow endpoints
+ * \return `RMW_RET_OK` if successful, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if any argument is null, or
+ * \return `RMW_RET_BAD_ALLOC` if memory allocation fails, or
+ * \return `RMW_RET_UNSUPPORTED` if not supported, or
+ * \return `RMW_RET_ERROR` if an unexpected error occurs.
+ */
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_ret_t
+rmw_subscription_get_network_flow_endpoints(
+  const rmw_subscription_t * subscription,
+  rcutils_allocator_t * allocator,
+  rmw_network_flow_endpoint_array_t * network_flow_endpoint_array);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__GET_NETWORK_FLOW_ENDPOINTS_H_
+#endif  // RMW__GET_NETWORK_FLOW_ENDPOINTS_H_

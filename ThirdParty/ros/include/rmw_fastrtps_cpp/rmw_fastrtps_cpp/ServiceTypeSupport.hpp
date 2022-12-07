@@ -15,13 +15,15 @@
 #ifndef RMW_FASTRTPS_CPP__SERVICETYPESUPPORT_HPP_
 #define RMW_FASTRTPS_CPP__SERVICETYPESUPPORT_HPP_
 
-#include "TypeSupport.hpp"
-#include "fastcdr/Cdr.h"
+#include <cassert>
+
 #include "fastcdr/FastBuffer.h"
+#include "fastcdr/Cdr.h"
+
 #include "rosidl_typesupport_fastrtps_cpp/message_type_support.h"
 #include "rosidl_typesupport_fastrtps_cpp/service_type_support.h"
 
-#include <cassert>
+#include "TypeSupport.hpp"
 
 namespace rmw_fastrtps_cpp
 {
@@ -29,21 +31,21 @@ namespace rmw_fastrtps_cpp
 class ServiceTypeSupport : public TypeSupport
 {
 protected:
-    ServiceTypeSupport();
+  ServiceTypeSupport();
 };
 
 class RequestTypeSupport : public ServiceTypeSupport
 {
 public:
-    explicit RequestTypeSupport(const service_type_support_callbacks_t* members);
+  explicit RequestTypeSupport(const service_type_support_callbacks_t * members);
 };
 
 class ResponseTypeSupport : public ServiceTypeSupport
 {
 public:
-    explicit ResponseTypeSupport(const service_type_support_callbacks_t* members);
+  explicit ResponseTypeSupport(const service_type_support_callbacks_t * members);
 };
 
-}    // namespace rmw_fastrtps_cpp
+}  // namespace rmw_fastrtps_cpp
 
-#endif    // RMW_FASTRTPS_CPP__SERVICETYPESUPPORT_HPP_
+#endif  // RMW_FASTRTPS_CPP__SERVICETYPESUPPORT_HPP_

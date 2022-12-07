@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_H_
 #define RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_H_
 
-#include "rcl_interfaces/msg/detail/floating_point_range__functions.h"
 #include "rcl_interfaces/msg/detail/floating_point_range__struct.h"
+#include "rcl_interfaces/msg/detail/floating_point_range__functions.h"
 #include "rcl_interfaces/msg/detail/floating_point_range__type_support.h"
 
-#endif    // RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_H_
+#endif  // RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_H_

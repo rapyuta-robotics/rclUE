@@ -16,25 +16,35 @@
 #define ROSIDL_TYPESUPPORT_INTERFACE__MACROS_H_
 
 /// Declare the typesupport library name.
-#define ROSIDL_TYPESUPPORT_INTERFACE__LIBRARY_NAME(typesupport_name, package_name) package_name##__##typesupport_name
+#define ROSIDL_TYPESUPPORT_INTERFACE__LIBRARY_NAME( \
+    typesupport_name, package_name) \
+  package_name ## __ ## typesupport_name
 
 /// Declare the typesupport symbol name. Note: this should not be called directly.
-#define ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME(typesupport_name, function_name, package_name, interface_type, interface_name) \
-    typesupport_name##__##function_name##__##package_name##__##interface_type##__##interface_name
+#define ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME( \
+    typesupport_name, function_name, package_name, interface_type, interface_name) \
+  typesupport_name ## __ ## function_name ## __ ## \
+  package_name ## __ ## interface_type ## __ ## interface_name
 
 /// Declare a typesupport symbol name for a rosidl message definition.
-#define ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(typesupport_name, package_name, interface_type, message_name) \
-    ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME(                                                                          \
-        typesupport_name, get_message_type_support_handle, package_name, interface_type, message_name)
+#define ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME( \
+    typesupport_name, package_name, interface_type, message_name) \
+  ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME( \
+    typesupport_name, get_message_type_support_handle, \
+    package_name, interface_type, message_name)
 
 /// Declare a typesupport symbol name for a rosidl service definition.
-#define ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(typesupport_name, package_name, interface_type, service_name) \
-    ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME(                                                                          \
-        typesupport_name, get_service_type_support_handle, package_name, interface_type, service_name)
+#define ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME( \
+    typesupport_name, package_name, interface_type, service_name) \
+  ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME( \
+    typesupport_name, get_service_type_support_handle, \
+    package_name, interface_type, service_name)
 
 /// Declare a typesupport symbol name for a rosidl action definition.
-#define ROSIDL_TYPESUPPORT_INTERFACE__ACTION_SYMBOL_NAME(typesupport_name, package_name, interface_type, action_name) \
-    ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME(                                                                        \
-        typesupport_name, get_action_type_support_handle, package_name, interface_type, action_name)
+#define ROSIDL_TYPESUPPORT_INTERFACE__ACTION_SYMBOL_NAME( \
+    typesupport_name, package_name, interface_type, action_name) \
+  ROSIDL_TYPESUPPORT_INTERFACE__SYMBOL_NAME( \
+    typesupport_name, get_action_type_support_handle, \
+    package_name, interface_type, action_name)
 
-#endif    // ROSIDL_TYPESUPPORT_INTERFACE__MACROS_H_
+#endif  // ROSIDL_TYPESUPPORT_INTERFACE__MACROS_H_

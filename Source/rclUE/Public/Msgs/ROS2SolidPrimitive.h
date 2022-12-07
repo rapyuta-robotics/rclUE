@@ -14,6 +14,7 @@
 #include "rclcUtilities.h"
 
 // Generated Msg/Srv/Action(can be empty)
+#include "Msgs/ROS2Polygon.h"
 #include "rosidl_runtime_c/primitives_sequence_functions.h"
 
 // Generated
@@ -29,6 +30,7 @@ public:
     static constexpr uint8 SPHERE = 2;
     static constexpr uint8 CYLINDER = 3;
     static constexpr uint8 CONE = 4;
+    static constexpr uint8 PRISM = 5;
     static constexpr uint8 BOX_X = 0;
     static constexpr uint8 BOX_Y = 1;
     static constexpr uint8 BOX_Z = 2;
@@ -37,12 +39,16 @@ public:
     static constexpr uint8 CYLINDER_RADIUS = 1;
     static constexpr uint8 CONE_HEIGHT = 0;
     static constexpr uint8 CONE_RADIUS = 1;
+    static constexpr uint8 PRISM_HEIGHT = 0;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     uint8 Type = 0;
 
     UPROPERTY(EditAnywhere)
     TArray<double> Dimensions;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSPolygon Polygon;
 
     FROSSolidPrimitive()
     {
@@ -54,6 +60,8 @@ public:
         Type = in_ros_data.type;
 
         UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.dimensions.data, Dimensions, 3);
+
+        Polygon.SetFromROS2(in_ros_data.polygon);
     }
 
     void SetROS2(shape_msgs__msg__SolidPrimitive& out_ros_data) const
@@ -61,6 +69,8 @@ public:
         out_ros_data.type = Type;
 
         UROS2Utils::ArrayUEToROSSequence<double, double>(Dimensions, out_ros_data.dimensions.data, 3);
+
+        Polygon.SetROS2(out_ros_data.polygon);
     }
 };
 
@@ -104,6 +114,11 @@ public:
         return FROSSolidPrimitive::CONE;
     }
     UFUNCTION(BlueprintCallable)
+    static uint8 CONST_PRISM()
+    {
+        return FROSSolidPrimitive::PRISM;
+    }
+    UFUNCTION(BlueprintCallable)
     static uint8 CONST_BOX_X()
     {
         return FROSSolidPrimitive::BOX_X;
@@ -142,6 +157,11 @@ public:
     static uint8 CONST_CONE_RADIUS()
     {
         return FROSSolidPrimitive::CONE_RADIUS;
+    }
+    UFUNCTION(BlueprintCallable)
+    static uint8 CONST_PRISM_HEIGHT()
+    {
+        return FROSSolidPrimitive::PRISM_HEIGHT;
     }
 
 private:

@@ -4,8 +4,8 @@
 #ifndef STD_MSGS__MSG__BOOL_HPP_
 #define STD_MSGS__MSG__BOOL_HPP_
 
-#include "std_msgs/msg/detail/bool__builder.hpp"
 #include "std_msgs/msg/detail/bool__struct.hpp"
+#include "std_msgs/msg/detail/bool__builder.hpp"
 #include "std_msgs/msg/detail/bool__traits.hpp"
 
-#endif    // STD_MSGS__MSG__BOOL_HPP_
+#endif  // STD_MSGS__MSG__BOOL_HPP_

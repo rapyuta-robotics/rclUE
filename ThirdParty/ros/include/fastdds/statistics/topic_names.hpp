@@ -19,12 +19,9 @@
 #ifndef _FASTDDS_STATISTICS_TOPIC_NAMES_HPP_
 #define _FASTDDS_STATISTICS_TOPIC_NAMES_HPP_
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace statistics
-{
+namespace eprosima {
+namespace fastdds {
+namespace statistics {
 
 //! Statistic topic that reports the write-to-notification latency between any two pairs of matched
 //! DataWriter-DataReader histories
@@ -63,8 +60,8 @@ constexpr const char* SAMPLE_DATAS_TOPIC = "_fastdds_statistics_sample_datas";
 //! Statistics topic that reports the host, user and process where the module is running
 constexpr const char* PHYSICAL_DATA_TOPIC = "_fastdds_statistics_physical_data";
 
-}    // namespace statistics
-}    // namespace fastdds
-}    // namespace eprosima
+} // statistics
+} // fastdds
+} // eprosima
 
 #endif /* _FASTDDS_STATISTICS_TOPIC_NAMES_HPP_ */

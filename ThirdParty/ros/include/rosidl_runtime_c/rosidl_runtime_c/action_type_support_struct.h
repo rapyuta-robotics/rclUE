@@ -25,20 +25,20 @@ extern "C"
 {
 #endif
 
-    typedef struct rosidl_action_type_support_t rosidl_action_type_support_t;
+typedef struct rosidl_action_type_support_t rosidl_action_type_support_t;
 
-    /// Contains rosidl action type support data.
-    /*
-     * Actions are built based on services(goal, result and cancel) and message (feedback and status).
-     */
-    struct rosidl_action_type_support_t
-    {
-        const rosidl_service_type_support_t* goal_service_type_support;
-        const rosidl_service_type_support_t* result_service_type_support;
-        const rosidl_service_type_support_t* cancel_service_type_support;
-        const rosidl_message_type_support_t* feedback_message_type_support;
-        const rosidl_message_type_support_t* status_message_type_support;
-    };
+/// Contains rosidl action type support data.
+/*
+ * Actions are built based on services(goal, result and cancel) and message (feedback and status).
+ */
+struct rosidl_action_type_support_t
+{
+  const rosidl_service_type_support_t * goal_service_type_support;
+  const rosidl_service_type_support_t * result_service_type_support;
+  const rosidl_service_type_support_t * cancel_service_type_support;
+  const rosidl_message_type_support_t * feedback_message_type_support;
+  const rosidl_message_type_support_t * status_message_type_support;
+};
 
 /// Get the action type support given a provided action and package.
 /*
@@ -47,10 +47,11 @@ extern "C"
  * \return a rosidl_action_type_support_t struct if found, otherwise NULL.
  */
 #define ROSIDL_GET_ACTION_TYPE_SUPPORT(PkgName, Name) \
-    ROSIDL_TYPESUPPORT_INTERFACE__ACTION_SYMBOL_NAME(rosidl_typesupport_c, PkgName, action, Name)()
+  ROSIDL_TYPESUPPORT_INTERFACE__ACTION_SYMBOL_NAME( \
+    rosidl_typesupport_c, PkgName, action, Name)()
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ROSIDL_RUNTIME_C__ACTION_TYPE_SUPPORT_STRUCT_H_
+#endif  // ROSIDL_RUNTIME_C__ACTION_TYPE_SUPPORT_STRUCT_H_

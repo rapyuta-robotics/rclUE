@@ -15,21 +15,21 @@
 #ifndef ROSIDL_RUNTIME_C__STRING_H_
 #define ROSIDL_RUNTIME_C__STRING_H_
 
-#include "rosidl_runtime_c/primitives_sequence.h"
-
 #include <stddef.h>
+
+#include "rosidl_runtime_c/primitives_sequence.h"
 
 /// An array of 8-bit characters terminated by a null byte.
 typedef struct rosidl_runtime_c__String
 {
-    /// The pointer to the first character, the sequence ends with a null byte.
-    char* data;
-    /// The length of the string (excluding the null byte).
-    size_t size;
-    /// The capacity represents the number of allocated bytes (including the null byte).
-    size_t capacity;
+  /// The pointer to the first character, the sequence ends with a null byte.
+  char * data;
+  /// The length of the string (excluding the null byte).
+  size_t size;
+  /// The capacity represents the number of allocated bytes (including the null byte).
+  size_t capacity;
 } rosidl_runtime_c__String;
 
 ROSIDL_RUNTIME_C__PRIMITIVE_SEQUENCE(String, rosidl_runtime_c__String)
 
-#endif    // ROSIDL_RUNTIME_C__STRING_H_
+#endif  // ROSIDL_RUNTIME_C__STRING_H_

@@ -5,14 +5,14 @@
 #ifndef SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__TRAITS_HPP_
 #define SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__TRAITS_HPP_
 
-#include "rosidl_runtime_cpp/traits.hpp"
-#include "shape_msgs/msg/detail/mesh_triangle__struct.hpp"
-
 #include <stdint.h>
 
 #include <sstream>
 #include <string>
 #include <type_traits>
+
+#include "shape_msgs/msg/detail/mesh_triangle__struct.hpp"
+#include "rosidl_runtime_cpp/traits.hpp"
 
 namespace shape_msgs
 {
@@ -20,122 +20,111 @@ namespace shape_msgs
 namespace msg
 {
 
-inline void to_flow_style_yaml(const MeshTriangle& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const MeshTriangle & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: vertex_indices
-    {
-        if (msg.vertex_indices.size() == 0)
-        {
-            out << "vertex_indices: []";
+  out << "{";
+  // member: vertex_indices
+  {
+    if (msg.vertex_indices.size() == 0) {
+      out << "vertex_indices: []";
+    } else {
+      out << "vertex_indices: [";
+      size_t pending_items = msg.vertex_indices.size();
+      for (auto item : msg.vertex_indices) {
+        rosidl_generator_traits::value_to_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
         }
-        else
-        {
-            out << "vertex_indices: [";
-            size_t pending_items = msg.vertex_indices.size();
-            for (auto item : msg.vertex_indices)
-            {
-                rosidl_generator_traits::value_to_yaml(item, out);
-                if (--pending_items > 0)
-                {
-                    out << ", ";
-                }
-            }
-            out << "]";
-        }
+      }
+      out << "]";
     }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const MeshTriangle& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const MeshTriangle & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: vertex_indices
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        if (msg.vertex_indices.size() == 0)
-        {
-            out << "vertex_indices: []\n";
-        }
-        else
-        {
-            out << "vertex_indices:\n";
-            for (auto item : msg.vertex_indices)
-            {
-                if (indentation > 0)
-                {
-                    out << std::string(indentation, ' ');
-                }
-                out << "- ";
-                rosidl_generator_traits::value_to_yaml(item, out);
-                out << "\n";
-            }
-        }
+  // member: vertex_indices
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-}    // NOLINT(readability/fn_size)
+    if (msg.vertex_indices.size() == 0) {
+      out << "vertex_indices: []\n";
+    } else {
+      out << "vertex_indices:\n";
+      for (auto item : msg.vertex_indices) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "- ";
+        rosidl_generator_traits::value_to_yaml(item, out);
+        out << "\n";
+      }
+    }
+  }
+}  // NOLINT(readability/fn_size)
 
-inline std::string to_yaml(const MeshTriangle& msg, bool use_flow_style = false)
+inline std::string to_yaml(const MeshTriangle & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace msg
+}  // namespace msg
 
-}    // namespace shape_msgs
+}  // namespace shape_msgs
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use shape_msgs::msg::to_block_style_yaml() instead")]] inline void to_yaml(const shape_msgs::msg::MeshTriangle& msg,
-                                                                                         std::ostream& out,
-                                                                                         size_t indentation = 0)
+[[deprecated("use shape_msgs::msg::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const shape_msgs::msg::MeshTriangle & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    shape_msgs::msg::to_block_style_yaml(msg, out, indentation);
+  shape_msgs::msg::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use shape_msgs::msg::to_yaml() instead")]] inline std::string to_yaml(const shape_msgs::msg::MeshTriangle& msg)
+[[deprecated("use shape_msgs::msg::to_yaml() instead")]]
+inline std::string to_yaml(const shape_msgs::msg::MeshTriangle & msg)
 {
-    return shape_msgs::msg::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<shape_msgs::msg::MeshTriangle>()
-{
-    return "shape_msgs::msg::MeshTriangle";
+  return shape_msgs::msg::to_yaml(msg);
 }
 
 template<>
-inline const char* name<shape_msgs::msg::MeshTriangle>()
+inline const char * data_type<shape_msgs::msg::MeshTriangle>()
 {
-    return "shape_msgs/msg/MeshTriangle";
+  return "shape_msgs::msg::MeshTriangle";
 }
 
 template<>
-struct has_fixed_size<shape_msgs::msg::MeshTriangle> : std::integral_constant<bool, true>
+inline const char * name<shape_msgs::msg::MeshTriangle>()
 {
-};
+  return "shape_msgs/msg/MeshTriangle";
+}
 
 template<>
-struct has_bounded_size<shape_msgs::msg::MeshTriangle> : std::integral_constant<bool, true>
-{
-};
+struct has_fixed_size<shape_msgs::msg::MeshTriangle>
+  : std::integral_constant<bool, true> {};
 
 template<>
-struct is_message<shape_msgs::msg::MeshTriangle> : std::true_type
-{
-};
+struct has_bounded_size<shape_msgs::msg::MeshTriangle>
+  : std::integral_constant<bool, true> {};
 
-}    // namespace rosidl_generator_traits
+template<>
+struct is_message<shape_msgs::msg::MeshTriangle>
+  : std::true_type {};
 
-#endif    // SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__TRAITS_HPP_
+}  // namespace rosidl_generator_traits
+
+#endif  // SHAPE_MSGS__MSG__DETAIL__MESH_TRIANGLE__TRAITS_HPP_

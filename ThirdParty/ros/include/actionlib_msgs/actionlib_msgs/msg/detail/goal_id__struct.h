@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,31 +23,31 @@ extern "C"
 // Member 'id'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in msg/GoalID in the package actionlib_msgs.
-    typedef struct actionlib_msgs__msg__GoalID
-    {
-        /// The stamp should store the time at which this goal was requested.
-        /// It is used by an action server when it tries to preempt all
-        /// goals that were requested before a certain time
-        builtin_interfaces__msg__Time stamp;
-        /// The id provides a way to associate feedback and
-        /// result message with specific goal requests. The id
-        /// specified must be unique.
-        rosidl_runtime_c__String id;
-    } actionlib_msgs__msg__GoalID;
+/// Struct defined in msg/GoalID in the package actionlib_msgs.
+typedef struct actionlib_msgs__msg__GoalID
+{
+  /// The stamp should store the time at which this goal was requested.
+  /// It is used by an action server when it tries to preempt all
+  /// goals that were requested before a certain time
+  builtin_interfaces__msg__Time stamp;
+  /// The id provides a way to associate feedback and
+  /// result message with specific goal requests. The id
+  /// specified must be unique.
+  rosidl_runtime_c__String id;
+} actionlib_msgs__msg__GoalID;
 
-    // Struct for a sequence of actionlib_msgs__msg__GoalID.
-    typedef struct actionlib_msgs__msg__GoalID__Sequence
-    {
-        actionlib_msgs__msg__GoalID* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } actionlib_msgs__msg__GoalID__Sequence;
+// Struct for a sequence of actionlib_msgs__msg__GoalID.
+typedef struct actionlib_msgs__msg__GoalID__Sequence
+{
+  actionlib_msgs__msg__GoalID * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} actionlib_msgs__msg__GoalID__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ACTIONLIB_MSGS__MSG__DETAIL__GOAL_ID__STRUCT_H_
+#endif  // ACTIONLIB_MSGS__MSG__DETAIL__GOAL_ID__STRUCT_H_

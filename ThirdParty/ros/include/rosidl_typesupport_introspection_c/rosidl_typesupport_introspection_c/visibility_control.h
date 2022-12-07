@@ -20,37 +20,37 @@ extern "C"
 {
 #endif
 
-    // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-    //     https://gcc.gnu.org/wiki/Visibility
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT __attribute__((dllexport))
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT __attribute__((dllimport))
+  #ifdef __GNUC__
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT __attribute__ ((dllexport))
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT __attribute__ ((dllimport))
+  #else
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT __declspec(dllexport)
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef ROSIDL_TYPESUPPORT_INTROSPECTION_C_BUILDING_DLL
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT
+  #else
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT
+  #endif
+  #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_LOCAL
 #else
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT __declspec(dllexport)
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT __declspec(dllimport)
-#endif
-#ifdef ROSIDL_TYPESUPPORT_INTROSPECTION_C_BUILDING_DLL
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT
-#else
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT
-#endif
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_LOCAL
-#else
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT __attribute__((visibility("default")))
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT
-#if __GNUC__ >= 4
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC __attribute__((visibility("default")))
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_LOCAL __attribute__((visibility("hidden")))
-#else
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC
-#define ROSIDL_TYPESUPPORT_INTROSPECTION_C_LOCAL
-#endif
+  #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_EXPORT __attribute__ ((visibility("default")))
+  #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_IMPORT
+  #if __GNUC__ >= 4
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC __attribute__ ((visibility("default")))
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC
+    #define ROSIDL_TYPESUPPORT_INTROSPECTION_C_LOCAL
+  #endif
 #endif
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ROSIDL_TYPESUPPORT_INTROSPECTION_C__VISIBILITY_CONTROL_H_
+#endif  // ROSIDL_TYPESUPPORT_INTROSPECTION_C__VISIBILITY_CONTROL_H_

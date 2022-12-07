@@ -19,17 +19,15 @@
 #ifndef FASTDDS_RTPS_BUILTIN_DATA_CONTENTFILTERPROPERTY_HPP_
 #define FASTDDS_RTPS_BUILTIN_DATA_CONTENTFILTERPROPERTY_HPP_
 
-#include <fastrtps/utils/collections/ResourceLimitedContainerConfig.hpp>
-#include <fastrtps/utils/collections/ResourceLimitedVector.hpp>
-#include <fastrtps/utils/fixed_size_string.hpp>
 #include <string>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace rtps
-{
+#include <fastrtps/utils/fixed_size_string.hpp>
+#include <fastrtps/utils/collections/ResourceLimitedContainerConfig.hpp>
+#include <fastrtps/utils/collections/ResourceLimitedVector.hpp>
+
+namespace eprosima {
+namespace fastdds {
+namespace rtps {
 
 /**
  * Information about the content filter being applied by a reader.
@@ -38,6 +36,7 @@ namespace rtps
 class ContentFilterProperty
 {
 public:
+
     /**
      * Allocation configuration for a ContentFilterProperty.
      * @ingroup BUILTIN_MODULE
@@ -47,7 +46,7 @@ public:
         /// Preallocated size of the filter expression
         size_t expression_initial_size = 0;
         /// Allocation configuration for the list of expression parameters
-        fastrtps::ResourceLimitedContainerConfig expression_parameters{0, 100, 1};
+        fastrtps::ResourceLimitedContainerConfig expression_parameters{ 0, 100, 1 };
     };
 
     /**
@@ -55,7 +54,9 @@ public:
      *
      * @param config  Allocation configuration for the new object.
      */
-    explicit ContentFilterProperty(const AllocationConfiguration& config) : expression_parameters(config.expression_parameters)
+    explicit ContentFilterProperty(
+            const AllocationConfiguration& config)
+        : expression_parameters(config.expression_parameters)
     {
         filter_expression.reserve(config.expression_initial_size);
     }
@@ -74,8 +75,8 @@ public:
     fastrtps::ResourceLimitedVector<fastrtps::string_255, std::true_type> expression_parameters;
 };
 
-}    // namespace rtps
-}    // namespace fastdds
-}    // namespace eprosima
+}  // namespace rtps
+}  // namespace fastdds
+}  // namespace eprosima
 
-#endif    // FASTDDS_RTPS_BUILTIN_DATA_CONTENTFILTERPROPERTY_HPP_
+#endif // FASTDDS_RTPS_BUILTIN_DATA_CONTENTFILTERPROPERTY_HPP_

@@ -23,14 +23,10 @@
 #include <fastdds/dds/builtin/topic/BuiltinTopicKey.hpp>
 #include <fastdds/dds/core/policy/QosPolicies.hpp>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
-namespace builtin
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
+namespace builtin {
 
 struct ParticipantBuiltinTopicData
 {
@@ -41,9 +37,9 @@ struct ParticipantBuiltinTopicData
     UserDataQosPolicy user_data;
 };
 
-}    // namespace builtin
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // builtin
+} // dds
+} // fastdds
+} // eprosima
 
-#endif    // FASTDDS_DDS_BUILTIN_TOPIC_PARTICIPANTBUILTINTOPICDATA_HPP
+#endif // FASTDDS_DDS_BUILTIN_TOPIC_PARTICIPANTBUILTINTOPICDATA_HPP

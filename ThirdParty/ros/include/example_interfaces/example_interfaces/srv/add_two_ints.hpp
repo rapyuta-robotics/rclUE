@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__SRV__ADD_TWO_INTS_HPP_
 #define EXAMPLE_INTERFACES__SRV__ADD_TWO_INTS_HPP_
 
-#include "example_interfaces/srv/detail/add_two_ints__builder.hpp"
 #include "example_interfaces/srv/detail/add_two_ints__struct.hpp"
+#include "example_interfaces/srv/detail/add_two_ints__builder.hpp"
 #include "example_interfaces/srv/detail/add_two_ints__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__SRV__ADD_TWO_INTS_HPP_
+#endif  // EXAMPLE_INTERFACES__SRV__ADD_TWO_INTS_HPP_

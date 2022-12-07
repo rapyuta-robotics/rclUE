@@ -4,8 +4,8 @@
 #ifndef SHAPE_MSGS__MSG__SOLID_PRIMITIVE_HPP_
 #define SHAPE_MSGS__MSG__SOLID_PRIMITIVE_HPP_
 
-#include "shape_msgs/msg/detail/solid_primitive__builder.hpp"
 #include "shape_msgs/msg/detail/solid_primitive__struct.hpp"
+#include "shape_msgs/msg/detail/solid_primitive__builder.hpp"
 #include "shape_msgs/msg/detail/solid_primitive__traits.hpp"
 
-#endif    // SHAPE_MSGS__MSG__SOLID_PRIMITIVE_HPP_
+#endif  // SHAPE_MSGS__MSG__SOLID_PRIMITIVE_HPP_

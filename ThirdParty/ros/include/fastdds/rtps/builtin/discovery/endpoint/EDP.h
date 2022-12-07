@@ -21,13 +21,15 @@
 #define _FASTDDS_RTPS_EDP_H_
 #ifndef DOXYGEN_SHOULD_SKIP_THIS_PUBLIC
 
+#include <fastdds/dds/core/status/IncompatibleQosStatus.hpp>
+#include <fastdds/dds/core/status/PublicationMatchedStatus.hpp>
+#include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
 #include <fastdds/rtps/attributes/RTPSParticipantAttributes.h>
+#include <fastdds/rtps/builtin/data/ContentFilterProperty.hpp>
 #include <fastdds/rtps/builtin/data/ReaderProxyData.h>
 #include <fastdds/rtps/builtin/data/WriterProxyData.h>
 #include <fastdds/rtps/common/Guid.h>
-#include <fastdds/dds/core/status/PublicationMatchedStatus.hpp>
-#include <fastdds/dds/core/status/SubscriptionMatchedStatus.hpp>
-#include <fastdds/dds/core/status/IncompatibleQosStatus.hpp>
+#include <fastrtps/utils/ProxyPool.hpp>
 
 #include <foonathan/memory/container.hpp>
 #include <foonathan/memory/memory_pool.hpp>
@@ -114,9 +116,9 @@ public:
         (void) pdata;
     }
 
-    //! Verify if the given participant EDP enpoints are matched with us
+    //! Verify whether the given participant EDP endpoints are matched with us
     virtual bool areRemoteEndpointsMatched(
-            const ParticipantProxyData* )
+            const ParticipantProxyData*)
     {
         return false;
     }
@@ -158,15 +160,17 @@ public:
 
     /**
      * Create a new ReaderPD for a local Reader.
-     * @param R Pointer to the RTPSReader.
-     * @param att Attributes of the associated topic
-     * @param qos QoS policies dictated by the subscriber
+     * @param R               Pointer to the RTPSReader.
+     * @param att             Attributes of the associated topic
+     * @param qos             QoS policies dictated by the subscriber
+     * @param content_filter  Optional content filtering information.
      * @return True if correct.
      */
     bool newLocalReaderProxyData(
             RTPSReader* R,
             const TopicAttributes& att,
-            const ReaderQos& qos);
+            const ReaderQos& qos,
+            const fastdds::rtps::ContentFilterProperty* content_filter = nullptr);
     /**
      * Create a new ReaderPD for a local Writer.
      * @param W Pointer to the RTPSWriter.
@@ -180,15 +184,17 @@ public:
             const WriterQos& qos);
     /**
      * A previously created Reader has been updated
-     * @param R Pointer to the reader;
-     * @param att Attributes of the associated topic
-     * @param qos QoS policies dictated by the subscriber
+     * @param R               Pointer to the reader
+     * @param att             Attributes of the associated topic
+     * @param qos             QoS policies dictated by the subscriber
+     * @param content_filter  Optional content filtering information.
      * @return True if correctly updated
      */
     bool updatedLocalReader(
             RTPSReader* R,
             const TopicAttributes& att,
-            const ReaderQos& qos);
+            const ReaderQos& qos,
+            const fastdds::rtps::ContentFilterProperty* content_filter = nullptr);
     /**
      * A previously created Writer has been updated
      * @param W Pointer to the Writer
@@ -225,8 +231,8 @@ public:
      * Check the validity of a matching between a local RTPSWriter and a ReaderProxyData object.
      * @param wdata Pointer to the WriterProxyData object of the local RTPSWriter.
      * @param rdata Pointer to the ReaderProxyData object.
-     * @param reason[out] On return will specify the reason of failed matching (if any).
-     * @param incompatible_qos[out] On return will specify all the QoS values that were incompatible (if any).
+     * @param [out] reason On return will specify the reason of failed matching (if any).
+     * @param [out] incompatible_qos On return will specify all the QoS values that were incompatible (if any).
      * @return True if the two can be matched.
      */
     bool valid_matching(
@@ -239,8 +245,8 @@ public:
      * Check the validity of a matching between a local RTPSReader and a WriterProxyData object.
      * @param rdata Pointer to the ReaderProxyData object of the local RTPSReader.
      * @param wdata Pointer to the WriterProxyData object.
-     * @param error_mask[out] On return will specify the reason of failed matching (if any).
-     * @param incompatible_qos[out] On return will specify all the QoS values that were incompatible (if any).
+     * @param [out] reason On return will specify the reason of failed matching (if any).
+     * @param [out] incompatible_qos On return will specify all the QoS values that were incompatible (if any).
      * @return True if the two can be matched.
      */
     bool valid_matching(
@@ -342,6 +348,18 @@ public:
     //! Pointer to the RTPSParticipant.
     RTPSParticipantImpl* mp_RTPSParticipant;
 
+    /**
+     * Access the temporary proxy pool for reader proxies
+     * @return pool reference
+     */
+    ProxyPool<ReaderProxyData>& get_temporary_reader_proxies_pool();
+
+    /**
+     * Access the temporary proxy pool for writer proxies
+     * @return pool reference
+     */
+    ProxyPool<WriterProxyData>& get_temporary_writer_proxies_pool();
+
 private:
 
     /**
@@ -390,9 +408,6 @@ private:
     bool hasTypeObject(
             const WriterProxyData* wdata,
             const ReaderProxyData* rdata) const;
-
-    ReaderProxyData temp_reader_proxy_data_;
-    WriterProxyData temp_writer_proxy_data_;
 
     using pool_allocator_t =
             foonathan::memory::memory_pool<foonathan::memory::node_pool, foonathan::memory::heap_allocator>;

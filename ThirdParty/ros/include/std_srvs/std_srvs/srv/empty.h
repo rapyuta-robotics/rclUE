@@ -5,8 +5,8 @@
 #ifndef STD_SRVS__SRV__EMPTY_H_
 #define STD_SRVS__SRV__EMPTY_H_
 
-#include "std_srvs/srv/detail/empty__functions.h"
 #include "std_srvs/srv/detail/empty__struct.h"
+#include "std_srvs/srv/detail/empty__functions.h"
 #include "std_srvs/srv/detail/empty__type_support.h"
 
-#endif    // STD_SRVS__SRV__EMPTY_H_
+#endif  // STD_SRVS__SRV__EMPTY_H_

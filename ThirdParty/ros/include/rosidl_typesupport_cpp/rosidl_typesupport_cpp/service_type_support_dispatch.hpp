@@ -17,6 +17,7 @@
 
 #include "rosidl_runtime_c/service_type_support_struct.h"
 #include "rosidl_runtime_c/visibility_control.h"
+
 #include "rosidl_typesupport_cpp/visibility_control.h"
 
 namespace rosidl_typesupport_cpp
@@ -32,9 +33,10 @@ namespace rosidl_typesupport_cpp
  * \return The associated service typesupport handle if found, otherwise NULL
  */
 ROSIDL_TYPESUPPORT_CPP_PUBLIC
-const rosidl_service_type_support_t* get_service_typesupport_handle_function(const rosidl_service_type_support_t* handle,
-                                                                             const char* identifier) noexcept;
+const rosidl_service_type_support_t *
+get_service_typesupport_handle_function(
+  const rosidl_service_type_support_t * handle, const char * identifier) noexcept;
 
-}    // namespace rosidl_typesupport_cpp
+}  // namespace rosidl_typesupport_cpp
 
-#endif    // ROSIDL_TYPESUPPORT_CPP__SERVICE_TYPE_SUPPORT_DISPATCH_HPP_
+#endif  // ROSIDL_TYPESUPPORT_CPP__SERVICE_TYPE_SUPPORT_DISPATCH_HPP_

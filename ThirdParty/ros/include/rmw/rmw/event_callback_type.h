@@ -22,31 +22,31 @@ extern "C"
 {
 #endif
 
-    /// Common event callback type signature.
-    /**
-     * Event callbacks of this type can be called in various scenarios, e.g.
-     * data becomes available on a subscription, a QoS event has occurred, or
-     * something similar.
-     *
-     * The user_data argument is given by the user when registering the callback,
-     * and is given back to the callback each time so it can have associated,
-     * user-defined state.
-     *
-     * The number_of_events argument indicates the number of events since the
-     * callback was called.
-     * This is most often 1, but can be > 1 when events occur before the callback
-     * is registered.
-     * It should never be 0.
-     *
-     * \sa rmw_subscription_set_on_new_message_callback()
-     * \sa rmw_service_set_on_new_request_callback()
-     * \sa rmw_client_set_on_new_response_callback()
-     * \sa rmw_event_set_callback()
-     */
-    typedef void (*rmw_event_callback_t)(const void* user_data, size_t number_of_events);
+/// Common event callback type signature.
+/**
+ * Event callbacks of this type can be called in various scenarios, e.g.
+ * data becomes available on a subscription, a QoS event has occurred, or
+ * something similar.
+ *
+ * The user_data argument is given by the user when registering the callback,
+ * and is given back to the callback each time so it can have associated,
+ * user-defined state.
+ *
+ * The number_of_events argument indicates the number of events since the
+ * callback was called.
+ * This is most often 1, but can be > 1 when events occur before the callback
+ * is registered.
+ * It should never be 0.
+ *
+ * \sa rmw_subscription_set_on_new_message_callback()
+ * \sa rmw_service_set_on_new_request_callback()
+ * \sa rmw_client_set_on_new_response_callback()
+ * \sa rmw_event_set_callback()
+ */
+typedef void (* rmw_event_callback_t)(const void * user_data, size_t number_of_events);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__EVENT_CALLBACK_TYPE_H_
+#endif  // RMW__EVENT_CALLBACK_TYPE_H_

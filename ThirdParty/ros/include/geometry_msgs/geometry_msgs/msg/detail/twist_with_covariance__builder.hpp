@@ -5,11 +5,12 @@
 #ifndef GEOMETRY_MSGS__MSG__DETAIL__TWIST_WITH_COVARIANCE__BUILDER_HPP_
 #define GEOMETRY_MSGS__MSG__DETAIL__TWIST_WITH_COVARIANCE__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "geometry_msgs/msg/detail/twist_with_covariance__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace geometry_msgs
 {
@@ -23,48 +24,49 @@ namespace builder
 class Init_TwistWithCovariance_covariance
 {
 public:
-    explicit Init_TwistWithCovariance_covariance(::geometry_msgs::msg::TwistWithCovariance& msg) : msg_(msg)
-    {
-    }
-    ::geometry_msgs::msg::TwistWithCovariance covariance(::geometry_msgs::msg::TwistWithCovariance::_covariance_type arg)
-    {
-        msg_.covariance = std::move(arg);
-        return std::move(msg_);
-    }
+  explicit Init_TwistWithCovariance_covariance(::geometry_msgs::msg::TwistWithCovariance & msg)
+  : msg_(msg)
+  {}
+  ::geometry_msgs::msg::TwistWithCovariance covariance(::geometry_msgs::msg::TwistWithCovariance::_covariance_type arg)
+  {
+    msg_.covariance = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::geometry_msgs::msg::TwistWithCovariance msg_;
+  ::geometry_msgs::msg::TwistWithCovariance msg_;
 };
 
 class Init_TwistWithCovariance_twist
 {
 public:
-    Init_TwistWithCovariance_twist() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    Init_TwistWithCovariance_covariance twist(::geometry_msgs::msg::TwistWithCovariance::_twist_type arg)
-    {
-        msg_.twist = std::move(arg);
-        return Init_TwistWithCovariance_covariance(msg_);
-    }
+  Init_TwistWithCovariance_twist()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_TwistWithCovariance_covariance twist(::geometry_msgs::msg::TwistWithCovariance::_twist_type arg)
+  {
+    msg_.twist = std::move(arg);
+    return Init_TwistWithCovariance_covariance(msg_);
+  }
 
 private:
-    ::geometry_msgs::msg::TwistWithCovariance msg_;
+  ::geometry_msgs::msg::TwistWithCovariance msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::geometry_msgs::msg::TwistWithCovariance>()
+inline
+auto build<::geometry_msgs::msg::TwistWithCovariance>()
 {
-    return geometry_msgs::msg::builder::Init_TwistWithCovariance_twist();
+  return geometry_msgs::msg::builder::Init_TwistWithCovariance_twist();
 }
 
-}    // namespace geometry_msgs
+}  // namespace geometry_msgs
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__TWIST_WITH_COVARIANCE__BUILDER_HPP_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__TWIST_WITH_COVARIANCE__BUILDER_HPP_

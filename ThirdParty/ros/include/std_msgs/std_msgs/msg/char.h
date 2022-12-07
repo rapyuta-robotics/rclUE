@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__CHAR_H_
 #define STD_MSGS__MSG__CHAR_H_
 
-#include "std_msgs/msg/detail/char__functions.h"
 #include "std_msgs/msg/detail/char__struct.h"
+#include "std_msgs/msg/detail/char__functions.h"
 #include "std_msgs/msg/detail/char__type_support.h"
 
-#endif    // STD_MSGS__MSG__CHAR_H_
+#endif  // STD_MSGS__MSG__CHAR_H_

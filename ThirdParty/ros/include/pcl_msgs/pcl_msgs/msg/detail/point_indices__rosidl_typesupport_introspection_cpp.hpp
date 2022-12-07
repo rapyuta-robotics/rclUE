@@ -5,6 +5,7 @@
 #ifndef PCL_MSGS__MSG__DETAIL__POINT_INDICES__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
 #define PCL_MSGS__MSG__DETAIL__POINT_INDICES__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
 
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "rosidl_typesupport_introspection_cpp/visibility_control.h"
@@ -14,15 +15,13 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           pcl_msgs,
-                                                                                           msg,
-                                                                                           PointIndices)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, pcl_msgs, msg, PointIndices)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // PCL_MSGS__MSG__DETAIL__POINT_INDICES__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
+#endif  // PCL_MSGS__MSG__DETAIL__POINT_INDICES__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_

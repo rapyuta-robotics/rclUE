@@ -5,8 +5,8 @@
 #ifndef UE_MSGS__SRV__ATTACH_H_
 #define UE_MSGS__SRV__ATTACH_H_
 
-#include "ue_msgs/srv/detail/attach__functions.h"
 #include "ue_msgs/srv/detail/attach__struct.h"
+#include "ue_msgs/srv/detail/attach__functions.h"
 #include "ue_msgs/srv/detail/attach__type_support.h"
 
-#endif    // UE_MSGS__SRV__ATTACH_H_
+#endif  // UE_MSGS__SRV__ATTACH_H_

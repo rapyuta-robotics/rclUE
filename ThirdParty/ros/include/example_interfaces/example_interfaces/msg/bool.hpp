@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__BOOL_HPP_
 #define EXAMPLE_INTERFACES__MSG__BOOL_HPP_
 
-#include "example_interfaces/msg/detail/bool__builder.hpp"
 #include "example_interfaces/msg/detail/bool__struct.hpp"
+#include "example_interfaces/msg/detail/bool__builder.hpp"
 #include "example_interfaces/msg/detail/bool__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__MSG__BOOL_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__BOOL_HPP_

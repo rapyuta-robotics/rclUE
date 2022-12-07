@@ -30,11 +30,12 @@
 #define RCPPUTILS__GET_ENV_HPP_
 
 #ifdef _MSC_VER
-#pragma message("rcpputils/get_env.hpp has been deprecated, please include rcpputils/env.hpp instead")
+#pragma message \
+  ("rcpputils/get_env.hpp has been deprecated, please include rcpputils/env.hpp instead")
 #else
 #warning rcpputils/get_env.hpp has been deprecated, please include rcpputils/env.hpp instead
 #endif
 
 #include "rcpputils/env.hpp"
 
-#endif    // RCPPUTILS__GET_ENV_HPP_
+#endif  // RCPPUTILS__GET_ENV_HPP_

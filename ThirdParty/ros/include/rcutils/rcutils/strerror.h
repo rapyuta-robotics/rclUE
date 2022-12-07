@@ -24,24 +24,25 @@ extern "C"
 
 #include "rcutils/visibility_control.h"
 
-    /// Retrieve the string corresponding to the last system error.
-    /**
-     * This function retrieves the value of errno, and calls the system-specific
-     * equivalent of `strerror` on it, storing the output in the provided buffer.
-     * If the error message is longer than the buffer, it will be truncated.
-     * The memory for the c-string buffer that is passed in must be managed by the
-     * caller.
-     *
-     * This function is thread-safe.
-     *
-     * \param[inout] buffer The buffer in which to store the data
-     * \param[in] buffer_length the maximum length of the buffer
-     */
-    RCUTILS_PUBLIC
-    void rcutils_strerror(char* buffer, size_t buffer_length);
+/// Retrieve the string corresponding to the last system error.
+/**
+ * This function retrieves the value of errno, and calls the system-specific
+ * equivalent of `strerror` on it, storing the output in the provided buffer.
+ * If the error message is longer than the buffer, it will be truncated.
+ * The memory for the c-string buffer that is passed in must be managed by the
+ * caller.
+ *
+ * This function is thread-safe.
+ *
+ * \param[inout] buffer The buffer in which to store the data
+ * \param[in] buffer_length the maximum length of the buffer
+ */
+RCUTILS_PUBLIC
+void
+rcutils_strerror(char * buffer, size_t buffer_length);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCUTILS__STRERROR_H_
+#endif  // RCUTILS__STRERROR_H_

@@ -5,11 +5,12 @@
 #ifndef STD_MSGS__MSG__DETAIL__BOOL__BUILDER_HPP_
 #define STD_MSGS__MSG__DETAIL__BOOL__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "std_msgs/msg/detail/bool__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "std_msgs/msg/detail/bool__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace std_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_Bool_data
 {
 public:
-    Init_Bool_data() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::std_msgs::msg::Bool data(::std_msgs::msg::Bool::_data_type arg)
-    {
-        msg_.data = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_Bool_data()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::std_msgs::msg::Bool data(::std_msgs::msg::Bool::_data_type arg)
+  {
+    msg_.data = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::std_msgs::msg::Bool msg_;
+  ::std_msgs::msg::Bool msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::std_msgs::msg::Bool>()
+inline
+auto build<::std_msgs::msg::Bool>()
 {
-    return std_msgs::msg::builder::Init_Bool_data();
+  return std_msgs::msg::builder::Init_Bool_data();
 }
 
-}    // namespace std_msgs
+}  // namespace std_msgs
 
-#endif    // STD_MSGS__MSG__DETAIL__BOOL__BUILDER_HPP_
+#endif  // STD_MSGS__MSG__DETAIL__BOOL__BUILDER_HPP_

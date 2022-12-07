@@ -15,15 +15,18 @@
 #ifndef RMW_FASTRTPS_CPP__TYPESUPPORT_HPP_
 #define RMW_FASTRTPS_CPP__TYPESUPPORT_HPP_
 
-#include "fastcdr/Cdr.h"
-#include "fastcdr/FastBuffer.h"
-#include "rmw_fastrtps_shared_cpp/TypeSupport.hpp"
-#include "rosidl_runtime_c/string.h"
-#include "rosidl_runtime_c/string_functions.h"
-#include "rosidl_typesupport_fastrtps_cpp/message_type_support.h"
-
 #include <cassert>
 #include <string>
+
+#include "rosidl_runtime_c/string.h"
+#include "rosidl_runtime_c/string_functions.h"
+
+#include "fastcdr/Cdr.h"
+#include "fastcdr/FastBuffer.h"
+
+#include "rosidl_typesupport_fastrtps_cpp/message_type_support.h"
+
+#include "rmw_fastrtps_shared_cpp/TypeSupport.hpp"
 
 namespace rmw_fastrtps_cpp
 {
@@ -31,22 +34,24 @@ namespace rmw_fastrtps_cpp
 class TypeSupport : public rmw_fastrtps_shared_cpp::TypeSupport
 {
 public:
-    size_t getEstimatedSerializedSize(const void* ros_message, const void* impl) const override;
+  size_t getEstimatedSerializedSize(const void * ros_message, const void * impl) const override;
 
-    bool serializeROSmessage(const void* ros_message, eprosima::fastcdr::Cdr& ser, const void* impl) const override;
+  bool serializeROSmessage(
+    const void * ros_message, eprosima::fastcdr::Cdr & ser, const void * impl) const override;
 
-    bool deserializeROSmessage(eprosima::fastcdr::Cdr& deser, void* ros_message, const void* impl) const override;
+  bool deserializeROSmessage(
+    eprosima::fastcdr::Cdr & deser, void * ros_message, const void * impl) const override;
 
 protected:
-    TypeSupport();
+  TypeSupport();
 
-    void set_members(const message_type_support_callbacks_t* members);
+  void set_members(const message_type_support_callbacks_t * members);
 
 private:
-    const message_type_support_callbacks_t* members_;
-    bool has_data_;
+  const message_type_support_callbacks_t * members_;
+  bool has_data_;
 };
 
-}    // namespace rmw_fastrtps_cpp
+}  // namespace rmw_fastrtps_cpp
 
-#endif    // RMW_FASTRTPS_CPP__TYPESUPPORT_HPP_
+#endif  // RMW_FASTRTPS_CPP__TYPESUPPORT_HPP_

@@ -5,8 +5,9 @@
 #ifndef GEOMETRY_MSGS__MSG__DETAIL__POSE__TYPE_SUPPORT_H_
 #define GEOMETRY_MSGS__MSG__DETAIL__POSE__TYPE_SUPPORT_H_
 
-#include "geometry_msgs/msg/rosidl_generator_c__visibility_control.h"
 #include "rosidl_typesupport_interface/macros.h"
+
+#include "geometry_msgs/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -15,12 +16,18 @@ extern "C"
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_geometry_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, geometry_msgs, msg, Pose)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_geometry_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  geometry_msgs,
+  msg,
+  Pose
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__POSE__TYPE_SUPPORT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__POSE__TYPE_SUPPORT_H_

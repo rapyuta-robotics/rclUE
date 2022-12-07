@@ -4,8 +4,8 @@
 #ifndef GEOMETRY_MSGS__MSG__POSE_ARRAY_HPP_
 #define GEOMETRY_MSGS__MSG__POSE_ARRAY_HPP_
 
-#include "geometry_msgs/msg/detail/pose_array__builder.hpp"
 #include "geometry_msgs/msg/detail/pose_array__struct.hpp"
+#include "geometry_msgs/msg/detail/pose_array__builder.hpp"
 #include "geometry_msgs/msg/detail/pose_array__traits.hpp"
 
-#endif    // GEOMETRY_MSGS__MSG__POSE_ARRAY_HPP_
+#endif  // GEOMETRY_MSGS__MSG__POSE_ARRAY_HPP_

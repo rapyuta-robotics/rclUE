@@ -16,7 +16,9 @@
 #define RMW_FASTRTPS_SHARED_CPP__PARTICIPANT_HPP_
 
 #include "rmw/types.h"
+
 #include "rmw_dds_common/context.hpp"
+
 #include "rmw_fastrtps_shared_cpp/custom_participant_info.hpp"
 #include "rmw_fastrtps_shared_cpp/visibility_control.h"
 
@@ -30,16 +32,19 @@ namespace rmw_fastrtps_shared_cpp
 // Note that ROS 2 Publishers and Subscriptions correspond with DDS DataWriters
 // and DataReaders respectively and not with DDS Publishers and Subscribers.
 RMW_FASTRTPS_SHARED_CPP_PUBLIC
-CustomParticipantInfo* create_participant(const char* identifier,
-                                          size_t domain_id,
-                                          const rmw_security_options_t* security_options,
-                                          bool localhost_only,
-                                          const char* enclave,
-                                          rmw_dds_common::Context* common_context);
+CustomParticipantInfo *
+create_participant(
+  const char * identifier,
+  size_t domain_id,
+  const rmw_security_options_t * security_options,
+  bool localhost_only,
+  const char * enclave,
+  rmw_dds_common::Context * common_context);
 
 RMW_FASTRTPS_SHARED_CPP_PUBLIC
-rmw_ret_t destroy_participant(CustomParticipantInfo* info);
+rmw_ret_t
+destroy_participant(CustomParticipantInfo * info);
 
-}    // namespace rmw_fastrtps_shared_cpp
+}  // namespace rmw_fastrtps_shared_cpp
 
-#endif    // RMW_FASTRTPS_SHARED_CPP__PARTICIPANT_HPP_
+#endif  // RMW_FASTRTPS_SHARED_CPP__PARTICIPANT_HPP_

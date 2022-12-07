@@ -4,8 +4,8 @@
 #ifndef GEOMETRY_MSGS__MSG__POINT32_HPP_
 #define GEOMETRY_MSGS__MSG__POINT32_HPP_
 
-#include "geometry_msgs/msg/detail/point32__builder.hpp"
 #include "geometry_msgs/msg/detail/point32__struct.hpp"
+#include "geometry_msgs/msg/detail/point32__builder.hpp"
 #include "geometry_msgs/msg/detail/point32__traits.hpp"
 
-#endif    // GEOMETRY_MSGS__MSG__POINT32_HPP_
+#endif  // GEOMETRY_MSGS__MSG__POINT32_HPP_

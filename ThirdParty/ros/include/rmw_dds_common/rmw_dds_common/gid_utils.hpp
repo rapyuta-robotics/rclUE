@@ -16,8 +16,9 @@
 #define RMW_DDS_COMMON__GID_UTILS_HPP_
 
 #include "rmw/types.h"
-#include "rmw_dds_common/msg/gid.hpp"
+
 #include "rmw_dds_common/visibility_control.h"
+#include "rmw_dds_common/msg/gid.hpp"
 
 namespace rmw_dds_common
 {
@@ -25,32 +26,40 @@ namespace rmw_dds_common
 /// Comparator for rmw_gid_t, in order to use them as a key of a map
 struct RMW_DDS_COMMON_PUBLIC_TYPE Compare_rmw_gid_t
 {
-    /// Compare lhs with rhs.
-    bool operator()(const rmw_gid_t& lhs, const rmw_gid_t& rhs) const;
+  /// Compare lhs with rhs.
+  bool operator()(const rmw_gid_t & lhs, const rmw_gid_t & rhs) const;
 };
 
 /// Stream operator for rmw_gid_t
 RMW_DDS_COMMON_PUBLIC
-std::ostream& operator<<(std::ostream& ostream, const rmw_gid_t& gid);
+std::ostream &
+operator<<(std::ostream & ostream, const rmw_gid_t & gid);
 
 /// operator== for rmw_gid_t
 RMW_DDS_COMMON_PUBLIC
-bool operator==(const rmw_gid_t& lhs, const rmw_gid_t& rhs);
+bool
+operator==(const rmw_gid_t & lhs, const rmw_gid_t & rhs);
 
 /// \internal Converts from rmw_gid_t to rmw_dds_common::msg::Gid
 /**
  * For internal usage, both pointers are assumed to be valid.
  */
 RMW_DDS_COMMON_PUBLIC
-void convert_gid_to_msg(const rmw_gid_t* gid, rmw_dds_common::msg::Gid* msg_gid);
+void
+convert_gid_to_msg(
+  const rmw_gid_t * gid,
+  rmw_dds_common::msg::Gid * msg_gid);
 
 /// \internal Converts from rmw_dds_common::msg::Gid to rmw_gid_t
 /**
  * For internal usage, both pointers are supposed to be valid.
  */
 RMW_DDS_COMMON_PUBLIC
-void convert_msg_to_gid(const rmw_dds_common::msg::Gid* msg_gid, rmw_gid_t* gid);
+void
+convert_msg_to_gid(
+  const rmw_dds_common::msg::Gid * msg_gid,
+  rmw_gid_t * gid);
 
-}    // namespace rmw_dds_common
+}  // namespace rmw_dds_common
 
-#endif    // RMW_DDS_COMMON__GID_UTILS_HPP_
+#endif  // RMW_DDS_COMMON__GID_UTILS_HPP_

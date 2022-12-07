@@ -20,27 +20,23 @@
 #ifndef _FASTDDS_WAIT_SET_HPP_
 #define _FASTDDS_WAIT_SET_HPP_
 
+#include <memory>
+
+#include <fastdds/dds/core/condition/Condition.hpp>
 #include <fastdds/rtps/common/Time_t.h>
 #include <fastrtps/fastrtps_dll.h>
 #include <fastrtps/types/TypesBase.h>
 
-#include <fastdds/dds/core/condition/Condition.hpp>
-#include <memory>
-
 using eprosima::fastrtps::types::ReturnCode_t;
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 // Forward declaration of implementation details
-namespace detail
-{
+namespace detail {
 struct WaitSetImpl;
-}    // namespace detail
+} // namespace detail
 
 /**
  * @brief The WaitSet class allows an application to wait until one or more of the attached Condition objects
@@ -50,28 +46,36 @@ struct WaitSetImpl;
 class WaitSet
 {
 public:
+
     RTPS_DllAPI WaitSet();
 
     RTPS_DllAPI ~WaitSet();
 
-    WaitSet(const WaitSet&) = delete;
-    WaitSet(WaitSet&&) = delete;
-    WaitSet& operator=(const WaitSet&) = delete;
-    WaitSet& operator=(WaitSet&&) = delete;
+    WaitSet(
+            const WaitSet&) = delete;
+    WaitSet(
+            WaitSet&&) = delete;
+    WaitSet& operator = (
+            const WaitSet&) = delete;
+    WaitSet& operator = (
+            WaitSet&&) = delete;
 
     /**
      * @brief Attaches a Condition to the Wait Set.
      * @param cond Condition
      * @return RETCODE_OK if attached correctly, error code otherwise
      */
-    RTPS_DllAPI ReturnCode_t attach_condition(const Condition& cond);
+    RTPS_DllAPI ReturnCode_t attach_condition(
+            const Condition& cond);
+
 
     /**
      * @brief Detaches a Condition from the WaitSet
      * @param cond Condition
      * @return RETCODE_OK if detached correctly, PRECONDITION_NOT_MET if condition was not attached
      */
-    RTPS_DllAPI ReturnCode_t detach_condition(const Condition& cond);
+    RTPS_DllAPI ReturnCode_t detach_condition(
+            const Condition& cond);
 
     /**
      * @brief Allows an application thread to wait for the occurrence of certain conditions.
@@ -82,21 +86,25 @@ public:
      * @return RETCODE_OK if everything correct, PRECONDITION_NOT_MET if WaitSet already waiting, TIMEOUT if maximum
      * time expired, error code otherwise
      */
-    RTPS_DllAPI ReturnCode_t wait(ConditionSeq& active_conditions, const fastrtps::Duration_t timeout) const;
+    RTPS_DllAPI ReturnCode_t wait(
+            ConditionSeq& active_conditions,
+            const fastrtps::Duration_t timeout) const;
 
     /**
      * @brief Retrieves the list of attached conditions
      * @param attached_conditions Reference to the collection of attached conditions
      * @return RETCODE_OK if everything correct, error code otherwise
      */
-    RTPS_DllAPI ReturnCode_t get_conditions(ConditionSeq& attached_conditions) const;
+    RTPS_DllAPI ReturnCode_t get_conditions(
+            ConditionSeq& attached_conditions) const;
 
 private:
+
     std::unique_ptr<detail::WaitSetImpl> impl_;
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_WAIT_SET_HPP_
+#endif // _FASTDDS_WAIT_SET_HPP_

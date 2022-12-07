@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__U_INT16_H_
 #define STD_MSGS__MSG__U_INT16_H_
 
-#include "std_msgs/msg/detail/u_int16__functions.h"
 #include "std_msgs/msg/detail/u_int16__struct.h"
+#include "std_msgs/msg/detail/u_int16__functions.h"
 #include "std_msgs/msg/detail/u_int16__type_support.h"
 
-#endif    // STD_MSGS__MSG__U_INT16_H_
+#endif  // STD_MSGS__MSG__U_INT16_H_

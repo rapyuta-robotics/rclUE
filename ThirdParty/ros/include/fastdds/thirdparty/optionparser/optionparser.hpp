@@ -20,8 +20,7 @@
 #ifndef FASTDDS_OPTIONPARSER_HPP_
 #define FASTDDS_OPTIONPARSER_HPP_
 
-namespace eprosima
-{
+namespace eprosima {
 
 #ifdef OPTIONPARSER_H_
 #define NESTED_OPTIONPARSER_H_INCLUDED_
@@ -38,6 +37,6 @@ namespace eprosima
 #undef NESTED_OPTIONPARSER_H_INCLUDED_
 #endif
 
-}    // namespace eprosima
+} // namespace eprosima
 
-#endif    // FASTDDS_OPTIONPARSER_HPP_
+#endif // FASTDDS_OPTIONPARSER_HPP_

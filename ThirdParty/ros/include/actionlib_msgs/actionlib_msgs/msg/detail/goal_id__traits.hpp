@@ -5,14 +5,14 @@
 #ifndef ACTIONLIB_MSGS__MSG__DETAIL__GOAL_ID__TRAITS_HPP_
 #define ACTIONLIB_MSGS__MSG__DETAIL__GOAL_ID__TRAITS_HPP_
 
-#include "actionlib_msgs/msg/detail/goal_id__struct.hpp"
-#include "rosidl_runtime_cpp/traits.hpp"
-
 #include <stdint.h>
 
 #include <sstream>
 #include <string>
 #include <type_traits>
+
+#include "actionlib_msgs/msg/detail/goal_id__struct.hpp"
+#include "rosidl_runtime_cpp/traits.hpp"
 
 // Include directives for member types
 // Member 'stamp'
@@ -24,108 +24,106 @@ namespace actionlib_msgs
 namespace msg
 {
 
-inline void to_flow_style_yaml(const GoalID& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const GoalID & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: stamp
-    {
-        out << "stamp: ";
-        to_flow_style_yaml(msg.stamp, out);
-        out << ", ";
-    }
+  out << "{";
+  // member: stamp
+  {
+    out << "stamp: ";
+    to_flow_style_yaml(msg.stamp, out);
+    out << ", ";
+  }
 
-    // member: id
-    {
-        out << "id: ";
-        rosidl_generator_traits::value_to_yaml(msg.id, out);
-    }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  // member: id
+  {
+    out << "id: ";
+    rosidl_generator_traits::value_to_yaml(msg.id, out);
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const GoalID& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const GoalID & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: stamp
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "stamp:\n";
-        to_block_style_yaml(msg.stamp, out, indentation + 2);
+  // member: stamp
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
+    out << "stamp:\n";
+    to_block_style_yaml(msg.stamp, out, indentation + 2);
+  }
 
-    // member: id
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "id: ";
-        rosidl_generator_traits::value_to_yaml(msg.id, out);
-        out << "\n";
+  // member: id
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-}    // NOLINT(readability/fn_size)
+    out << "id: ";
+    rosidl_generator_traits::value_to_yaml(msg.id, out);
+    out << "\n";
+  }
+}  // NOLINT(readability/fn_size)
 
-inline std::string to_yaml(const GoalID& msg, bool use_flow_style = false)
+inline std::string to_yaml(const GoalID & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace msg
+}  // namespace msg
 
-}    // namespace actionlib_msgs
+}  // namespace actionlib_msgs
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use actionlib_msgs::msg::to_block_style_yaml() instead")]] inline void to_yaml(const actionlib_msgs::msg::GoalID& msg,
-                                                                                             std::ostream& out,
-                                                                                             size_t indentation = 0)
+[[deprecated("use actionlib_msgs::msg::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const actionlib_msgs::msg::GoalID & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    actionlib_msgs::msg::to_block_style_yaml(msg, out, indentation);
+  actionlib_msgs::msg::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use actionlib_msgs::msg::to_yaml() instead")]] inline std::string to_yaml(const actionlib_msgs::msg::GoalID& msg)
+[[deprecated("use actionlib_msgs::msg::to_yaml() instead")]]
+inline std::string to_yaml(const actionlib_msgs::msg::GoalID & msg)
 {
-    return actionlib_msgs::msg::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<actionlib_msgs::msg::GoalID>()
-{
-    return "actionlib_msgs::msg::GoalID";
+  return actionlib_msgs::msg::to_yaml(msg);
 }
 
 template<>
-inline const char* name<actionlib_msgs::msg::GoalID>()
+inline const char * data_type<actionlib_msgs::msg::GoalID>()
 {
-    return "actionlib_msgs/msg/GoalID";
+  return "actionlib_msgs::msg::GoalID";
 }
 
 template<>
-struct has_fixed_size<actionlib_msgs::msg::GoalID> : std::integral_constant<bool, false>
+inline const char * name<actionlib_msgs::msg::GoalID>()
 {
-};
+  return "actionlib_msgs/msg/GoalID";
+}
 
 template<>
-struct has_bounded_size<actionlib_msgs::msg::GoalID> : std::integral_constant<bool, false>
-{
-};
+struct has_fixed_size<actionlib_msgs::msg::GoalID>
+  : std::integral_constant<bool, false> {};
 
 template<>
-struct is_message<actionlib_msgs::msg::GoalID> : std::true_type
-{
-};
+struct has_bounded_size<actionlib_msgs::msg::GoalID>
+  : std::integral_constant<bool, false> {};
 
-}    // namespace rosidl_generator_traits
+template<>
+struct is_message<actionlib_msgs::msg::GoalID>
+  : std::true_type {};
 
-#endif    // ACTIONLIB_MSGS__MSG__DETAIL__GOAL_ID__TRAITS_HPP_
+}  // namespace rosidl_generator_traits
+
+#endif  // ACTIONLIB_MSGS__MSG__DETAIL__GOAL_ID__TRAITS_HPP_

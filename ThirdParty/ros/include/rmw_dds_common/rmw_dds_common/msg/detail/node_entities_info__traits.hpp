@@ -5,14 +5,14 @@
 #ifndef RMW_DDS_COMMON__MSG__DETAIL__NODE_ENTITIES_INFO__TRAITS_HPP_
 #define RMW_DDS_COMMON__MSG__DETAIL__NODE_ENTITIES_INFO__TRAITS_HPP_
 
-#include "rmw_dds_common/msg/detail/node_entities_info__struct.hpp"
-#include "rosidl_runtime_cpp/traits.hpp"
-
 #include <stdint.h>
 
 #include <sstream>
 #include <string>
 #include <type_traits>
+
+#include "rmw_dds_common/msg/detail/node_entities_info__struct.hpp"
+#include "rosidl_runtime_cpp/traits.hpp"
 
 // Include directives for member types
 // Member 'reader_gid_seq'
@@ -25,205 +25,181 @@ namespace rmw_dds_common
 namespace msg
 {
 
-inline void to_flow_style_yaml(const NodeEntitiesInfo& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const NodeEntitiesInfo & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: node_namespace
-    {
-        out << "node_namespace: ";
-        rosidl_generator_traits::value_to_yaml(msg.node_namespace, out);
-        out << ", ";
-    }
+  out << "{";
+  // member: node_namespace
+  {
+    out << "node_namespace: ";
+    rosidl_generator_traits::value_to_yaml(msg.node_namespace, out);
+    out << ", ";
+  }
 
-    // member: node_name
-    {
-        out << "node_name: ";
-        rosidl_generator_traits::value_to_yaml(msg.node_name, out);
-        out << ", ";
-    }
+  // member: node_name
+  {
+    out << "node_name: ";
+    rosidl_generator_traits::value_to_yaml(msg.node_name, out);
+    out << ", ";
+  }
 
-    // member: reader_gid_seq
-    {
-        if (msg.reader_gid_seq.size() == 0)
-        {
-            out << "reader_gid_seq: []";
+  // member: reader_gid_seq
+  {
+    if (msg.reader_gid_seq.size() == 0) {
+      out << "reader_gid_seq: []";
+    } else {
+      out << "reader_gid_seq: [";
+      size_t pending_items = msg.reader_gid_seq.size();
+      for (auto item : msg.reader_gid_seq) {
+        to_flow_style_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
         }
-        else
-        {
-            out << "reader_gid_seq: [";
-            size_t pending_items = msg.reader_gid_seq.size();
-            for (auto item : msg.reader_gid_seq)
-            {
-                to_flow_style_yaml(item, out);
-                if (--pending_items > 0)
-                {
-                    out << ", ";
-                }
-            }
-            out << "]";
-        }
-        out << ", ";
+      }
+      out << "]";
     }
+    out << ", ";
+  }
 
-    // member: writer_gid_seq
-    {
-        if (msg.writer_gid_seq.size() == 0)
-        {
-            out << "writer_gid_seq: []";
+  // member: writer_gid_seq
+  {
+    if (msg.writer_gid_seq.size() == 0) {
+      out << "writer_gid_seq: []";
+    } else {
+      out << "writer_gid_seq: [";
+      size_t pending_items = msg.writer_gid_seq.size();
+      for (auto item : msg.writer_gid_seq) {
+        to_flow_style_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
         }
-        else
-        {
-            out << "writer_gid_seq: [";
-            size_t pending_items = msg.writer_gid_seq.size();
-            for (auto item : msg.writer_gid_seq)
-            {
-                to_flow_style_yaml(item, out);
-                if (--pending_items > 0)
-                {
-                    out << ", ";
-                }
-            }
-            out << "]";
-        }
+      }
+      out << "]";
     }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const NodeEntitiesInfo& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const NodeEntitiesInfo & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: node_namespace
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "node_namespace: ";
-        rosidl_generator_traits::value_to_yaml(msg.node_namespace, out);
-        out << "\n";
+  // member: node_namespace
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
+    out << "node_namespace: ";
+    rosidl_generator_traits::value_to_yaml(msg.node_namespace, out);
+    out << "\n";
+  }
 
-    // member: node_name
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "node_name: ";
-        rosidl_generator_traits::value_to_yaml(msg.node_name, out);
-        out << "\n";
+  // member: node_name
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
+    out << "node_name: ";
+    rosidl_generator_traits::value_to_yaml(msg.node_name, out);
+    out << "\n";
+  }
 
-    // member: reader_gid_seq
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        if (msg.reader_gid_seq.size() == 0)
-        {
-            out << "reader_gid_seq: []\n";
-        }
-        else
-        {
-            out << "reader_gid_seq:\n";
-            for (auto item : msg.reader_gid_seq)
-            {
-                if (indentation > 0)
-                {
-                    out << std::string(indentation, ' ');
-                }
-                out << "-\n";
-                to_block_style_yaml(item, out, indentation + 2);
-            }
-        }
+  // member: reader_gid_seq
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-
-    // member: writer_gid_seq
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
+    if (msg.reader_gid_seq.size() == 0) {
+      out << "reader_gid_seq: []\n";
+    } else {
+      out << "reader_gid_seq:\n";
+      for (auto item : msg.reader_gid_seq) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
         }
-        if (msg.writer_gid_seq.size() == 0)
-        {
-            out << "writer_gid_seq: []\n";
-        }
-        else
-        {
-            out << "writer_gid_seq:\n";
-            for (auto item : msg.writer_gid_seq)
-            {
-                if (indentation > 0)
-                {
-                    out << std::string(indentation, ' ');
-                }
-                out << "-\n";
-                to_block_style_yaml(item, out, indentation + 2);
-            }
-        }
+        out << "-\n";
+        to_block_style_yaml(item, out, indentation + 2);
+      }
     }
-}    // NOLINT(readability/fn_size)
+  }
 
-inline std::string to_yaml(const NodeEntitiesInfo& msg, bool use_flow_style = false)
+  // member: writer_gid_seq
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    if (msg.writer_gid_seq.size() == 0) {
+      out << "writer_gid_seq: []\n";
+    } else {
+      out << "writer_gid_seq:\n";
+      for (auto item : msg.writer_gid_seq) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "-\n";
+        to_block_style_yaml(item, out, indentation + 2);
+      }
+    }
+  }
+}  // NOLINT(readability/fn_size)
+
+inline std::string to_yaml(const NodeEntitiesInfo & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace msg
+}  // namespace msg
 
-}    // namespace rmw_dds_common
+}  // namespace rmw_dds_common
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use rmw_dds_common::msg::to_block_style_yaml() instead")]] inline void
-to_yaml(const rmw_dds_common::msg::NodeEntitiesInfo& msg, std::ostream& out, size_t indentation = 0)
+[[deprecated("use rmw_dds_common::msg::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const rmw_dds_common::msg::NodeEntitiesInfo & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    rmw_dds_common::msg::to_block_style_yaml(msg, out, indentation);
+  rmw_dds_common::msg::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use rmw_dds_common::msg::to_yaml() instead")]] inline std::string to_yaml(
-    const rmw_dds_common::msg::NodeEntitiesInfo& msg)
+[[deprecated("use rmw_dds_common::msg::to_yaml() instead")]]
+inline std::string to_yaml(const rmw_dds_common::msg::NodeEntitiesInfo & msg)
 {
-    return rmw_dds_common::msg::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<rmw_dds_common::msg::NodeEntitiesInfo>()
-{
-    return "rmw_dds_common::msg::NodeEntitiesInfo";
+  return rmw_dds_common::msg::to_yaml(msg);
 }
 
 template<>
-inline const char* name<rmw_dds_common::msg::NodeEntitiesInfo>()
+inline const char * data_type<rmw_dds_common::msg::NodeEntitiesInfo>()
 {
-    return "rmw_dds_common/msg/NodeEntitiesInfo";
+  return "rmw_dds_common::msg::NodeEntitiesInfo";
 }
 
 template<>
-struct has_fixed_size<rmw_dds_common::msg::NodeEntitiesInfo> : std::integral_constant<bool, false>
+inline const char * name<rmw_dds_common::msg::NodeEntitiesInfo>()
 {
-};
+  return "rmw_dds_common/msg/NodeEntitiesInfo";
+}
 
 template<>
-struct has_bounded_size<rmw_dds_common::msg::NodeEntitiesInfo> : std::integral_constant<bool, false>
-{
-};
+struct has_fixed_size<rmw_dds_common::msg::NodeEntitiesInfo>
+  : std::integral_constant<bool, false> {};
 
 template<>
-struct is_message<rmw_dds_common::msg::NodeEntitiesInfo> : std::true_type
-{
-};
+struct has_bounded_size<rmw_dds_common::msg::NodeEntitiesInfo>
+  : std::integral_constant<bool, false> {};
 
-}    // namespace rosidl_generator_traits
+template<>
+struct is_message<rmw_dds_common::msg::NodeEntitiesInfo>
+  : std::true_type {};
 
-#endif    // RMW_DDS_COMMON__MSG__DETAIL__NODE_ENTITIES_INFO__TRAITS_HPP_
+}  // namespace rosidl_generator_traits
+
+#endif  // RMW_DDS_COMMON__MSG__DETAIL__NODE_ENTITIES_INFO__TRAITS_HPP_

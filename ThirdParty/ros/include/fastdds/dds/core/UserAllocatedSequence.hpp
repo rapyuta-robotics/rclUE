@@ -21,15 +21,13 @@
 
 #include <cassert>
 #include <cstdint>
-#include <fastdds/dds/core/LoanableCollection.hpp>
 #include <stdexcept>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+#include <fastdds/dds/core/LoanableCollection.hpp>
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * A collection of generic opaque pointers allocated by the user.
@@ -55,7 +53,9 @@ struct UserAllocatedSequence : public LoanableCollection
      * @post length() == 0
      * @post maximum() == num_items
      */
-    UserAllocatedSequence(element_type* items, size_type num_items)
+    UserAllocatedSequence(
+            element_type* items,
+            size_type num_items)
     {
         has_ownership_ = true;
         maximum_ = num_items;
@@ -66,20 +66,26 @@ struct UserAllocatedSequence : public LoanableCollection
     ~UserAllocatedSequence() = default;
 
     // Non-copyable
-    UserAllocatedSequence(const UserAllocatedSequence&) = delete;
-    UserAllocatedSequence& operator=(const UserAllocatedSequence&) = delete;
+    UserAllocatedSequence(
+            const UserAllocatedSequence&) = delete;
+    UserAllocatedSequence& operator = (
+            const UserAllocatedSequence&) = delete;
 
     // Non-moveable
-    UserAllocatedSequence(UserAllocatedSequence&&) = delete;
-    UserAllocatedSequence& operator=(UserAllocatedSequence&&) = delete;
+    UserAllocatedSequence(
+            UserAllocatedSequence&&) = delete;
+    UserAllocatedSequence& operator = (
+            UserAllocatedSequence&&) = delete;
 
 protected:
+
+    using LoanableCollection::maximum_;
+    using LoanableCollection::length_;
     using LoanableCollection::elements_;
     using LoanableCollection::has_ownership_;
-    using LoanableCollection::length_;
-    using LoanableCollection::maximum_;
 
-    void resize(size_type new_length) override
+    void resize(
+            size_type new_length) override
     {
         // This kind of collection cannot grow above its stack-allocated size
         if (new_length > maximum_)
@@ -87,10 +93,11 @@ protected:
             throw std::bad_alloc();
         }
     }
+
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_CORE_USERALLOCATEDSEQUENCE_HPP_
+#endif // _FASTDDS_DDS_CORE_USERALLOCATEDSEQUENCE_HPP_

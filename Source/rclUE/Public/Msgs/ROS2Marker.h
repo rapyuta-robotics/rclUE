@@ -15,11 +15,15 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2ColorRGBA.h"
+#include "Msgs/ROS2CompImg.h"
 #include "Msgs/ROS2Duration.h"
 #include "Msgs/ROS2Header.h"
+#include "Msgs/ROS2MeshFile.h"
 #include "Msgs/ROS2Pose.h"
+#include "Msgs/ROS2UVCoordinate.h"
 #include "geometry_msgs/msg/detail/point__functions.h"
 #include "std_msgs/msg/detail/color_rgba__functions.h"
+#include "visualization_msgs/msg/detail/uv_coordinate__functions.h"
 
 // Generated
 #include "ROS2Marker.generated.h"
@@ -84,10 +88,22 @@ public:
     TArray<FROSColorRGBA> Colors;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString TextureResource;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSCompImg Texture;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TArray<FROSUVCoordinate> UvCoordinates;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString Text;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString MeshResource;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FROSMeshFile MeshFile;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     bool bMeshUseEmbeddedMaterials = false;
@@ -123,9 +139,18 @@ public:
         UROS2Utils::SequenceROSToUEArray<std_msgs__msg__ColorRGBA, FROSColorRGBA>(
             in_ros_data.colors.data, Colors, in_ros_data.colors.size);
 
+        TextureResource = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.texture_resource);
+
+        Texture.SetFromROS2(in_ros_data.texture);
+
+        UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__UVCoordinate, FROSUVCoordinate>(
+            in_ros_data.uv_coordinates.data, UvCoordinates, in_ros_data.uv_coordinates.size);
+
         Text = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.text);
 
         MeshResource = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.mesh_resource);
+
+        MeshFile.SetFromROS2(in_ros_data.mesh_file);
 
         bMeshUseEmbeddedMaterials = in_ros_data.mesh_use_embedded_materials;
     }
@@ -172,9 +197,26 @@ public:
         }
         UROS2Utils::ArrayUEToROSSequence<std_msgs__msg__ColorRGBA, FROSColorRGBA>(Colors, out_ros_data.colors.data, Colors.Num());
 
+        UROS2Utils::StringUEToROS(TextureResource, out_ros_data.texture_resource);
+
+        Texture.SetROS2(out_ros_data.texture);
+
+        if (out_ros_data.uv_coordinates.data)
+        {
+            visualization_msgs__msg__UVCoordinate__Sequence__fini(&out_ros_data.uv_coordinates);
+        }
+        if (!visualization_msgs__msg__UVCoordinate__Sequence__init(&out_ros_data.uv_coordinates, UvCoordinates.Num()))
+        {
+            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.uv_coordinates  "));
+        }
+        UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__UVCoordinate, FROSUVCoordinate>(
+            UvCoordinates, out_ros_data.uv_coordinates.data, UvCoordinates.Num());
+
         UROS2Utils::StringUEToROS(Text, out_ros_data.text);
 
         UROS2Utils::StringUEToROS(MeshResource, out_ros_data.mesh_resource);
+
+        MeshFile.SetROS2(out_ros_data.mesh_file);
 
         out_ros_data.mesh_use_embedded_materials = bMeshUseEmbeddedMaterials;
     }

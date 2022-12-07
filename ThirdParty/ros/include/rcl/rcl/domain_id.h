@@ -22,29 +22,30 @@ extern "C"
 {
 #endif
 
+#include <stddef.h>
+
 #include "rcl/types.h"
 #include "rcl/visibility_control.h"
 #include "rmw/domain_id.h"
 
-#include <stddef.h>
-
 /// The default domain ID used by RCL.
 #define RCL_DEFAULT_DOMAIN_ID RMW_DEFAULT_DOMAIN_ID
 
-    extern const char* const RCL_DOMAIN_ID_ENV_VAR;
+extern const char * const RCL_DOMAIN_ID_ENV_VAR;
 
-    /// Determine the default domain ID, based on the environment.
-    /**
-     * \param[out] domain_id Must not be NULL.
-     * \returns #RCL_RET_INVALID_ARGUMENT if an argument is invalid, or,
-     * \returns #RCL_RET_ERROR in case of an unexpected error, or,
-     * \returns #RCL_RET_OK.
-     */
-    RCL_PUBLIC
-    rcl_ret_t rcl_get_default_domain_id(size_t* domain_id);
+/// Determine the default domain ID, based on the environment.
+/**
+ * \param[out] domain_id Must not be NULL.
+ * \returns #RCL_RET_INVALID_ARGUMENT if an argument is invalid, or,
+ * \returns #RCL_RET_ERROR in case of an unexpected error, or,
+ * \returns #RCL_RET_OK.
+ */
+RCL_PUBLIC
+rcl_ret_t
+rcl_get_default_domain_id(size_t * domain_id);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL__DOMAIN_ID_H_
+#endif  // RCL__DOMAIN_ID_H_

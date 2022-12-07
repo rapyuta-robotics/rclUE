@@ -27,70 +27,82 @@
 #include <mutex>
 
 #if defined(__has_include) && __has_include(<version>)
-#include <version>
-#endif    // if defined(__has_include) && __has_include(<version>)
+#   include <version>
+#endif // if defined(__has_include) && __has_include(<version>)
 
-namespace eprosima
-{
+namespace eprosima {
 
 // unnamed namespace for isolation
-namespace
-{
+namespace {
 
 // Detect if integer_sequence is availalbe
-#if defined(__cpp_lib_integer_sequence) && \
-    ((__cpp_lib_integer_sequence <= _MSVC_LANG) || (__cpp_lib_integer_sequence <= __cplusplus))
+#if defined(__cpp_lib_integer_sequence) \
+    && ((__cpp_lib_integer_sequence <= _MSVC_LANG) \
+    || (__cpp_lib_integer_sequence <= __cplusplus))
 
 // Array initialization usin C++14
 template<class P, size_t... Ints>
-std::array<P, sizeof...(Ints)> make_array(P&& i, std::index_sequence<Ints...> is)
+std::array<P, sizeof...(Ints)> make_array(
+        P&& i,
+        std::index_sequence<Ints...> is)
 {
-    return {(Ints == is.size() - 1 ? std::move(i) : i)...};
+    return { (Ints == is.size() - 1 ? std::move(i) : i)...};
 }
 
 template<size_t N, class P>
-std::array<P, N> make_array(P&& i)
+std::array<P, N> make_array(
+        P&& i)
 {
     return make_array<P>(std::move(i), std::make_index_sequence<N>{});
 }
 
-#else    // C++11 fallback
+#else // C++11 fallback
 
-template<size_t N, class P, class... Ts>
-std::array<P, N> make_array(P&& i, Ts&&... args);
+template<size_t N, class P, class ... Ts>
+std::array<P, N> make_array(
+        P&& i,
+        Ts&&... args);
 
-template<bool, size_t N, class... Ts>
+template<bool, size_t N, class ... Ts>
 struct make_array_choice
 {
     template<class P>
-    static std::array<P, N> res(P&& i, Ts&&... args)
+    static std::array<P, N> res(
+            P&& i,
+            Ts&&... args)
     {
         P tmp(i);
         return make_array<N>(std::move(i), std::move(tmp), std::move(args)...);
     }
+
 };
 
-template<size_t N, class... Ts>
+template<size_t N, class ... Ts>
 struct make_array_choice<true, N, Ts...>
 {
     template<class P>
-    static std::array<P, N> res(P&& i, Ts&&... args)
+    static std::array<P, N> res(
+            P&& i,
+            Ts&&... args)
     {
         return {std::move(i), std::move(args)...};
     }
+
 };
 
-template<size_t N, class P, class... Ts>
-std::array<P, N> make_array(P&& i, Ts&&... args)
+template<size_t N, class P, class ... Ts>
+std::array<P, N> make_array(
+        P&& i,
+        Ts&&... args)
 {
-    return make_array_choice<N == (sizeof...(Ts) + 1), N, Ts...>::res(std::move(i), std::move(args)...);
+    return make_array_choice < N == (sizeof...(Ts) + 1), N, Ts ... > ::res(std::move(i), std::move(args)...);
 }
 
-#endif    // defined(__cpp_lib_integer_sequence)
+#endif // defined(__cpp_lib_integer_sequence)
 
-}    // namespace
+} // namespace
 
-template<class Proxy, std::size_t N = 4>
+template< class Proxy, std::size_t N = 4>
 class ProxyPool
 {
     mutable std::mutex mtx_;
@@ -107,17 +119,22 @@ class ProxyPool
 
         friend class ProxyPool;
 
-        D(ProxyPool* pool) : pool_(*pool)
+        D(
+                ProxyPool* pool)
+            : pool_(*pool)
         {
         }
 
     public:
-        void operator()(Proxy* p) const
+
+        void operator ()(
+                Proxy* p) const
         {
             pool_.set_back(p);
         }
 
-    } deleter_;
+    }
+    deleter_;
 
     friend class D;
 
@@ -125,7 +142,8 @@ class ProxyPool
      * Return an available proxy to the pool.
      * @param p pointer to the proxy.
      */
-    void set_back(Proxy* p) noexcept
+    void set_back(
+            Proxy* p) noexcept
     {
         std::size_t idx = p - heap_.data();
 
@@ -142,13 +160,17 @@ class ProxyPool
     }
 
 public:
+
     using smart_ptr = std::unique_ptr<Proxy, D&>;
 
     /*
      * Constructor of the pool object.
      * @param init Initialization value for all the proxies.
      */
-    ProxyPool(Proxy&& init) : heap_(make_array<N>(std::move(init))), deleter_(this)
+    ProxyPool(
+            Proxy&& init)
+        : heap_(make_array<N>(std::move(init)))
+        , deleter_(this)
     {
         // make all resources available
         mask_.set();
@@ -161,7 +183,10 @@ public:
     ~ProxyPool()
     {
         std::unique_lock<std::mutex> lock(mtx_);
-        cv_.wait(lock, [&]() { return mask_.all(); });
+        cv_.wait(lock, [&]()
+                {
+                    return mask_.all();
+                });
     }
 
     /*
@@ -194,7 +219,10 @@ public:
         std::unique_lock<std::mutex> lock(mtx_);
 
         // wait for available resources
-        cv_.wait(lock, [&]() { return mask_.any(); });
+        cv_.wait(lock, [&]()
+                {
+                    return mask_.any();
+                });
 
         // find the first available
         std::size_t idx = 0;
@@ -207,8 +235,9 @@ public:
         mask_.reset(idx);
         return std::unique_ptr<Proxy, D&>(&heap_[idx], deleter_);
     }
+
 };
 
-}    // namespace eprosima
+} // eprosima namespace
 
 #endif /* FASTRTPS_UTILS_PROXY_POOL_HPP_ */

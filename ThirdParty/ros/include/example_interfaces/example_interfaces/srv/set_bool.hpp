@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__SRV__SET_BOOL_HPP_
 #define EXAMPLE_INTERFACES__SRV__SET_BOOL_HPP_
 
-#include "example_interfaces/srv/detail/set_bool__builder.hpp"
 #include "example_interfaces/srv/detail/set_bool__struct.hpp"
+#include "example_interfaces/srv/detail/set_bool__builder.hpp"
 #include "example_interfaces/srv/detail/set_bool__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__SRV__SET_BOOL_HPP_
+#endif  // EXAMPLE_INTERFACES__SRV__SET_BOOL_HPP_

@@ -5,8 +5,8 @@
 #ifndef TF2_MSGS__SRV__FRAME_GRAPH_H_
 #define TF2_MSGS__SRV__FRAME_GRAPH_H_
 
-#include "tf2_msgs/srv/detail/frame_graph__functions.h"
 #include "tf2_msgs/srv/detail/frame_graph__struct.h"
+#include "tf2_msgs/srv/detail/frame_graph__functions.h"
 #include "tf2_msgs/srv/detail/frame_graph__type_support.h"
 
-#endif    // TF2_MSGS__SRV__FRAME_GRAPH_H_
+#endif  // TF2_MSGS__SRV__FRAME_GRAPH_H_

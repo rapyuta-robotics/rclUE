@@ -6,6 +6,7 @@
 #define TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__TYPE_SUPPORT_H_
 
 #include "rosidl_typesupport_interface/macros.h"
+
 #include "tf2_msgs/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
@@ -15,95 +16,146 @@ extern "C"
 
 #include "rosidl_runtime_c/action_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_action_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__ACTION_SYMBOL_NAME(rosidl_typesupport_c, tf2_msgs, action, LookupTransform)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_action_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__ACTION_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform
+)();
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, tf2_msgs, action, LookupTransform_Goal)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_Goal
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, tf2_msgs, action, LookupTransform_Result)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_Result
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, tf2_msgs, action, LookupTransform_Feedback)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_Feedback
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
-        rosidl_typesupport_c,
-        tf2_msgs,
-        action,
-        LookupTransform_SendGoal_Request)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_SendGoal_Request
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
-        rosidl_typesupport_c,
-        tf2_msgs,
-        action,
-        LookupTransform_SendGoal_Response)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_SendGoal_Response
+)();
 
 #include "rosidl_runtime_c/service_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_c, tf2_msgs, action, LookupTransform_SendGoal)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_SendGoal
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
-        rosidl_typesupport_c,
-        tf2_msgs,
-        action,
-        LookupTransform_GetResult_Request)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_GetResult_Request
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
-        rosidl_typesupport_c,
-        tf2_msgs,
-        action,
-        LookupTransform_GetResult_Response)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_GetResult_Response
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/service_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/service_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_c, tf2_msgs, action, LookupTransform_GetResult)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_GetResult
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
-        rosidl_typesupport_c,
-        tf2_msgs,
-        action,
-        LookupTransform_FeedbackMessage)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  tf2_msgs,
+  action,
+  LookupTransform_FeedbackMessage
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__TYPE_SUPPORT_H_
+#endif  // TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__TYPE_SUPPORT_H_

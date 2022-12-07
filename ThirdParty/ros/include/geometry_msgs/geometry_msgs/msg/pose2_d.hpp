@@ -4,8 +4,8 @@
 #ifndef GEOMETRY_MSGS__MSG__POSE2_D_HPP_
 #define GEOMETRY_MSGS__MSG__POSE2_D_HPP_
 
-#include "geometry_msgs/msg/detail/pose2_d__builder.hpp"
 #include "geometry_msgs/msg/detail/pose2_d__struct.hpp"
+#include "geometry_msgs/msg/detail/pose2_d__builder.hpp"
 #include "geometry_msgs/msg/detail/pose2_d__traits.hpp"
 
-#endif    // GEOMETRY_MSGS__MSG__POSE2_D_HPP_
+#endif  // GEOMETRY_MSGS__MSG__POSE2_D_HPP_

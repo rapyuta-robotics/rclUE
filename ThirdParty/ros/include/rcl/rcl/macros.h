@@ -31,4 +31,4 @@ extern "C"
 }
 #endif
 
-#endif    // RCL__MACROS_H_
+#endif  // RCL__MACROS_H_

@@ -22,10 +22,10 @@ extern "C"
 {
 #endif
 
-    typedef rmw_event_callback_t rcl_event_callback_t;
+typedef rmw_event_callback_t rcl_event_callback_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL__EVENT_CALLBACK_H_
+#endif  // RCL__EVENT_CALLBACK_H_

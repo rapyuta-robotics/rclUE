@@ -20,11 +20,11 @@ extern "C"
 {
 #endif
 
+#include <string.h>
+
 #include "rcutils/allocator.h"
 #include "rcutils/macros.h"
 #include "rcutils/visibility_control.h"
-
-#include <string.h>
 
 /// Return a newly allocated string, created with a format string.
 /**
@@ -33,46 +33,51 @@ extern "C"
  * For longer format strings, see rcutils_format_string_limit().
  */
 #define rcutils_format_string(allocator, format_string, ...) \
-    rcutils_format_string_limit(allocator, 2048, format_string, __VA_ARGS__)
+  rcutils_format_string_limit(allocator, 2048, format_string, __VA_ARGS__)
 
-    /// Return a newly allocated string, created with a format string up to a limit.
-    /**
-     * This function uses snprintf_s to determine the length of the resulting
-     * string and allocates storage for the resulting string, formats it, and
-     * then returns the result.
-     *
-     * This function can fail and therefore return null if the format_string is
-     * null or if memory allocation fails or if snprintf_s fails.
-     * An error message is not set in any case.
-     *
-     * Output strings that would be longer than the given limit are truncated.
-     *
-     * All returned strings are null terminated.
-     *
-     * The format string is passed to snprintf_s(), see its documentation for
-     * how to use the format string.
-     *
-     * The returned string must be deallocated using the same allocator given once
-     * it is no longer needed.
-     *
-     * \see rcutils_snprintf()
-     *
-     * \param[in] allocator the allocator to use for allocation
-     * \param[in] limit maximum length of the output string
-     * \param[in] format_string format of the output, must be null terminated
-     * \return The newly allocated and format output string, or
-     * \return `NULL` if there was an error.
-     */
-    RCUTILS_PUBLIC
-    RCUTILS_WARN_UNUSED
-    char* rcutils_format_string_limit(rcutils_allocator_t allocator, size_t limit, const char* format_string, ...)
-        /// @cond Doxygen_Suppress
-        RCUTILS_ATTRIBUTE_PRINTF_FORMAT(3, 4)
-        /// @endcond
-        ;
+/// Return a newly allocated string, created with a format string up to a limit.
+/**
+ * This function uses snprintf_s to determine the length of the resulting
+ * string and allocates storage for the resulting string, formats it, and
+ * then returns the result.
+ *
+ * This function can fail and therefore return null if the format_string is
+ * null or if memory allocation fails or if snprintf_s fails.
+ * An error message is not set in any case.
+ *
+ * Output strings that would be longer than the given limit are truncated.
+ *
+ * All returned strings are null terminated.
+ *
+ * The format string is passed to snprintf_s(), see its documentation for
+ * how to use the format string.
+ *
+ * The returned string must be deallocated using the same allocator given once
+ * it is no longer needed.
+ *
+ * \see rcutils_snprintf()
+ *
+ * \param[in] allocator the allocator to use for allocation
+ * \param[in] limit maximum length of the output string
+ * \param[in] format_string format of the output, must be null terminated
+ * \return The newly allocated and format output string, or
+ * \return `NULL` if there was an error.
+ */
+RCUTILS_PUBLIC
+RCUTILS_WARN_UNUSED
+char *
+rcutils_format_string_limit(
+  rcutils_allocator_t allocator,
+  size_t limit,
+  const char * format_string,
+  ...)
+/// @cond Doxygen_Suppress
+RCUTILS_ATTRIBUTE_PRINTF_FORMAT(3, 4)
+/// @endcond
+;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCUTILS__FORMAT_STRING_H_
+#endif  // RCUTILS__FORMAT_STRING_H_

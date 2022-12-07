@@ -5,11 +5,12 @@
 #ifndef RCL_INTERFACES__MSG__DETAIL__PARAMETER_EVENT__BUILDER_HPP_
 #define RCL_INTERFACES__MSG__DETAIL__PARAMETER_EVENT__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "rcl_interfaces/msg/detail/parameter_event__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace rcl_interfaces
 {
@@ -23,96 +24,97 @@ namespace builder
 class Init_ParameterEvent_deleted_parameters
 {
 public:
-    explicit Init_ParameterEvent_deleted_parameters(::rcl_interfaces::msg::ParameterEvent& msg) : msg_(msg)
-    {
-    }
-    ::rcl_interfaces::msg::ParameterEvent deleted_parameters(::rcl_interfaces::msg::ParameterEvent::_deleted_parameters_type arg)
-    {
-        msg_.deleted_parameters = std::move(arg);
-        return std::move(msg_);
-    }
+  explicit Init_ParameterEvent_deleted_parameters(::rcl_interfaces::msg::ParameterEvent & msg)
+  : msg_(msg)
+  {}
+  ::rcl_interfaces::msg::ParameterEvent deleted_parameters(::rcl_interfaces::msg::ParameterEvent::_deleted_parameters_type arg)
+  {
+    msg_.deleted_parameters = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::rcl_interfaces::msg::ParameterEvent msg_;
+  ::rcl_interfaces::msg::ParameterEvent msg_;
 };
 
 class Init_ParameterEvent_changed_parameters
 {
 public:
-    explicit Init_ParameterEvent_changed_parameters(::rcl_interfaces::msg::ParameterEvent& msg) : msg_(msg)
-    {
-    }
-    Init_ParameterEvent_deleted_parameters changed_parameters(::rcl_interfaces::msg::ParameterEvent::_changed_parameters_type arg)
-    {
-        msg_.changed_parameters = std::move(arg);
-        return Init_ParameterEvent_deleted_parameters(msg_);
-    }
+  explicit Init_ParameterEvent_changed_parameters(::rcl_interfaces::msg::ParameterEvent & msg)
+  : msg_(msg)
+  {}
+  Init_ParameterEvent_deleted_parameters changed_parameters(::rcl_interfaces::msg::ParameterEvent::_changed_parameters_type arg)
+  {
+    msg_.changed_parameters = std::move(arg);
+    return Init_ParameterEvent_deleted_parameters(msg_);
+  }
 
 private:
-    ::rcl_interfaces::msg::ParameterEvent msg_;
+  ::rcl_interfaces::msg::ParameterEvent msg_;
 };
 
 class Init_ParameterEvent_new_parameters
 {
 public:
-    explicit Init_ParameterEvent_new_parameters(::rcl_interfaces::msg::ParameterEvent& msg) : msg_(msg)
-    {
-    }
-    Init_ParameterEvent_changed_parameters new_parameters(::rcl_interfaces::msg::ParameterEvent::_new_parameters_type arg)
-    {
-        msg_.new_parameters = std::move(arg);
-        return Init_ParameterEvent_changed_parameters(msg_);
-    }
+  explicit Init_ParameterEvent_new_parameters(::rcl_interfaces::msg::ParameterEvent & msg)
+  : msg_(msg)
+  {}
+  Init_ParameterEvent_changed_parameters new_parameters(::rcl_interfaces::msg::ParameterEvent::_new_parameters_type arg)
+  {
+    msg_.new_parameters = std::move(arg);
+    return Init_ParameterEvent_changed_parameters(msg_);
+  }
 
 private:
-    ::rcl_interfaces::msg::ParameterEvent msg_;
+  ::rcl_interfaces::msg::ParameterEvent msg_;
 };
 
 class Init_ParameterEvent_node
 {
 public:
-    explicit Init_ParameterEvent_node(::rcl_interfaces::msg::ParameterEvent& msg) : msg_(msg)
-    {
-    }
-    Init_ParameterEvent_new_parameters node(::rcl_interfaces::msg::ParameterEvent::_node_type arg)
-    {
-        msg_.node = std::move(arg);
-        return Init_ParameterEvent_new_parameters(msg_);
-    }
+  explicit Init_ParameterEvent_node(::rcl_interfaces::msg::ParameterEvent & msg)
+  : msg_(msg)
+  {}
+  Init_ParameterEvent_new_parameters node(::rcl_interfaces::msg::ParameterEvent::_node_type arg)
+  {
+    msg_.node = std::move(arg);
+    return Init_ParameterEvent_new_parameters(msg_);
+  }
 
 private:
-    ::rcl_interfaces::msg::ParameterEvent msg_;
+  ::rcl_interfaces::msg::ParameterEvent msg_;
 };
 
 class Init_ParameterEvent_stamp
 {
 public:
-    Init_ParameterEvent_stamp() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    Init_ParameterEvent_node stamp(::rcl_interfaces::msg::ParameterEvent::_stamp_type arg)
-    {
-        msg_.stamp = std::move(arg);
-        return Init_ParameterEvent_node(msg_);
-    }
+  Init_ParameterEvent_stamp()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_ParameterEvent_node stamp(::rcl_interfaces::msg::ParameterEvent::_stamp_type arg)
+  {
+    msg_.stamp = std::move(arg);
+    return Init_ParameterEvent_node(msg_);
+  }
 
 private:
-    ::rcl_interfaces::msg::ParameterEvent msg_;
+  ::rcl_interfaces::msg::ParameterEvent msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::rcl_interfaces::msg::ParameterEvent>()
+inline
+auto build<::rcl_interfaces::msg::ParameterEvent>()
 {
-    return rcl_interfaces::msg::builder::Init_ParameterEvent_stamp();
+  return rcl_interfaces::msg::builder::Init_ParameterEvent_stamp();
 }
 
-}    // namespace rcl_interfaces
+}  // namespace rcl_interfaces
 
-#endif    // RCL_INTERFACES__MSG__DETAIL__PARAMETER_EVENT__BUILDER_HPP_
+#endif  // RCL_INTERFACES__MSG__DETAIL__PARAMETER_EVENT__BUILDER_HPP_

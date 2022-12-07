@@ -15,11 +15,11 @@
 #ifndef RCPPUTILS__SHARED_LIBRARY_HPP_
 #define RCPPUTILS__SHARED_LIBRARY_HPP_
 
-#include "rcpputils/visibility_control.hpp"
-#include "rcutils/shared_library.h"
-
-#include <stdexcept>
 #include <string>
+#include <stdexcept>
+
+#include "rcutils/shared_library.h"
+#include "rcpputils/visibility_control.hpp"
 
 namespace rcpputils
 {
@@ -31,72 +31,78 @@ namespace rcpputils
 class SharedLibrary
 {
 public:
-    /// The library is loaded in the constructor.
-    /**
-     * \param[in] library_path The library string path.
-     * \throws std::bad_alloc if allocating storage for the callback fails
-     * \throws std::runtime_error if there are some invalid arguments or the library
-     * was not load properly
-     */
-    RCPPUTILS_PUBLIC
-    explicit SharedLibrary(const std::string& library_path);
+  /// The library is loaded in the constructor.
+  /**
+   * \param[in] library_path The library string path.
+   * \throws std::bad_alloc if allocating storage for the callback fails
+   * \throws std::runtime_error if there are some invalid arguments or the library
+   * was not load properly
+   */
+  RCPPUTILS_PUBLIC
+  explicit SharedLibrary(const std::string & library_path);
 
-    /// The library is unloaded in the deconstructor
-    RCPPUTILS_PUBLIC
-    virtual ~SharedLibrary();
+  /// The library is unloaded in the deconstructor
+  RCPPUTILS_PUBLIC
+  virtual ~SharedLibrary();
 
-    /// Unload library
-    /**
-     * \throws std::runtime_error if the library is not unloaded properly
-     */
-    RCPPUTILS_PUBLIC
-    void unload_library();
+  /// Unload library
+  /**
+  * \throws std::runtime_error if the library is not unloaded properly
+   */
+  RCPPUTILS_PUBLIC
+  void
+  unload_library();
 
-    /// Return true if the shared library contains a specific symbol name otherwise returns false.
-    /**
-     * \param[in] symbol_name name of the symbol inside the shared library
-     * \return if symbols exists returns true, otherwise returns false.
-     */
-    RCPPUTILS_PUBLIC
-    bool has_symbol(const char* symbol_name);
+  /// Return true if the shared library contains a specific symbol name otherwise returns false.
+  /**
+   * \param[in] symbol_name name of the symbol inside the shared library
+   * \return if symbols exists returns true, otherwise returns false.
+   */
+  RCPPUTILS_PUBLIC
+  bool
+  has_symbol(const char * symbol_name);
 
-    /**
-     * \param[in] symbol_name name of the symbol inside the shared library
-     * \return if symbols exists returns true, otherwise returns false.
-     */
-    RCPPUTILS_PUBLIC
-    bool has_symbol(const std::string& symbol_name);
+  /**
+   * \param[in] symbol_name name of the symbol inside the shared library
+   * \return if symbols exists returns true, otherwise returns false.
+   */
+  RCPPUTILS_PUBLIC
+  bool
+  has_symbol(const std::string & symbol_name);
 
-    /// Return shared library symbol pointer.
-    /**
-     * \param[in] symbol_name name of the symbol inside the shared library
-     * \return shared library symbol pointer, if the symbol doesn't exist then throws a
-     * runtime_error exception
-     * \throws std::runtime_error if the symbol doesn't exist in the shared library
-     */
-    RCPPUTILS_PUBLIC
-    void* get_symbol(const char* symbol_name);
+  /// Return shared library symbol pointer.
+  /**
+   * \param[in] symbol_name name of the symbol inside the shared library
+   * \return shared library symbol pointer, if the symbol doesn't exist then throws a
+   * runtime_error exception
+   * \throws std::runtime_error if the symbol doesn't exist in the shared library
+   */
+  RCPPUTILS_PUBLIC
+  void *
+  get_symbol(const char * symbol_name);
 
-    /// Return shared library symbol pointer.
-    /**
-     * \param[in] symbol_name name of the symbol inside the shared library
-     * \return shared library symbol pointer, if the symbol doesn't exist then throws a
-     * runtime_error exception
-     * \throws std::runtime_error if the symbol doesn't exist in the shared library
-     */
-    RCPPUTILS_PUBLIC
-    void* get_symbol(const std::string& symbol_name);
+  /// Return shared library symbol pointer.
+  /**
+   * \param[in] symbol_name name of the symbol inside the shared library
+   * \return shared library symbol pointer, if the symbol doesn't exist then throws a
+   * runtime_error exception
+   * \throws std::runtime_error if the symbol doesn't exist in the shared library
+   */
+  RCPPUTILS_PUBLIC
+  void *
+  get_symbol(const std::string & symbol_name);
 
-    /// Return shared library path
-    /**
-     * \return shared library path or it throws an std::runtime_error if it's not defined
-     * \throws std::runtime_error if the path is NULL
-     */
-    RCPPUTILS_PUBLIC
-    std::string get_library_path();
+  /// Return shared library path
+  /**
+   * \return shared library path or it throws an std::runtime_error if it's not defined
+   * \throws std::runtime_error if the path is NULL
+   */
+  RCPPUTILS_PUBLIC
+  std::string
+  get_library_path();
 
 private:
-    rcutils_shared_library_t lib;
+  rcutils_shared_library_t lib;
 };
 
 /// Get the platform specific library name
@@ -113,6 +119,6 @@ private:
 RCPPUTILS_PUBLIC
 std::string get_platform_library_name(std::string library_name, bool debug = false);
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__SHARED_LIBRARY_HPP_
+#endif  // RCPPUTILS__SHARED_LIBRARY_HPP_

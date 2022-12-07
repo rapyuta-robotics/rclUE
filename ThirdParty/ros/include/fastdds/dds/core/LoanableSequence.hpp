@@ -21,17 +21,15 @@
 
 #include <cassert>
 #include <cstdint>
+#include <vector>
+#include <type_traits>
+
 #include <fastdds/dds/core/LoanableTypedCollection.hpp>
 #include <fastdds/dds/log/Log.hpp>
-#include <type_traits>
-#include <vector>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * A type-safe, ordered collection of elements that can receive the buffer from outside (loan).
@@ -64,6 +62,7 @@ template<typename T, typename _NonConstEnabler = std::true_type>
 class LoanableSequence : public LoanableTypedCollection<T, _NonConstEnabler>
 {
 public:
+
     using size_type = LoanableCollection::size_type;
     using element_type = LoanableCollection::element_type;
 
@@ -93,7 +92,8 @@ public:
      * @post length() == 0
      * @post maximum() == max
      */
-    LoanableSequence(size_type max)
+    LoanableSequence(
+            size_type max)
     {
         if (max <= 0)
         {
@@ -134,7 +134,8 @@ public:
      * @post length() == other.length()
      * @post buffer() != nullptr when other.length() > 0
      */
-    LoanableSequence(const LoanableSequence& other)
+    LoanableSequence(
+            const LoanableSequence& other)
     {
         *this = other;
     }
@@ -155,7 +156,8 @@ public:
      * @post length() == other.length()
      * @post buffer() != nullptr when other.length() > 0
      */
-    LoanableSequence& operator=(const LoanableSequence& other)
+    LoanableSequence& operator =(
+            const LoanableSequence& other)
     {
         if (!has_ownership_)
         {
@@ -173,13 +175,16 @@ public:
     }
 
 protected:
+
+    using LoanableCollection::maximum_;
+    using LoanableCollection::length_;
     using LoanableCollection::elements_;
     using LoanableCollection::has_ownership_;
-    using LoanableCollection::length_;
-    using LoanableCollection::maximum_;
 
 private:
-    void resize(size_type maximum) override
+
+    void resize(
+            size_type maximum) override
     {
         assert(has_ownership_);
 
@@ -216,12 +221,13 @@ private:
     std::vector<T*> data_;
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
 // Macro to easily declare a LoanableSequence for a data type
 #define FASTDDS_SEQUENCE(FooSeq, Foo) using FooSeq = eprosima::fastdds::dds::LoanableSequence<Foo>
-#define FASTDDS_CONST_SEQUENCE(FooSeq, Foo) using FooSeq = eprosima::fastdds::dds::LoanableSequence<Foo, std::false_type>
+#define FASTDDS_CONST_SEQUENCE(FooSeq, Foo) using FooSeq = eprosima::fastdds::dds::LoanableSequence<Foo, \
+                    std::false_type>
 
-#endif    // _FASTDDS_DDS_CORE_LOANABLESEQUENCE_HPP_
+#endif // _FASTDDS_DDS_CORE_LOANABLESEQUENCE_HPP_

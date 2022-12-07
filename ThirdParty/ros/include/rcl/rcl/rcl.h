@@ -83,4 +83,4 @@ extern "C"
 }
 #endif
 
-#endif    // RCL__RCL_H_
+#endif  // RCL__RCL_H_

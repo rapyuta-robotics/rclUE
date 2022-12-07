@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -24,30 +25,30 @@ extern "C"
 // Member 'name'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in msg/InteractiveMarkerPose in the package visualization_msgs.
-    typedef struct visualization_msgs__msg__InteractiveMarkerPose
-    {
-        /// Time/frame info.
-        std_msgs__msg__Header header;
-        /// Initial pose. Also, defines the pivot point for rotations.
-        geometry_msgs__msg__Pose pose;
-        /// Identifying string. Must be globally unique in
-        /// the topic that this message is sent through.
-        rosidl_runtime_c__String name;
-    } visualization_msgs__msg__InteractiveMarkerPose;
+/// Struct defined in msg/InteractiveMarkerPose in the package visualization_msgs.
+typedef struct visualization_msgs__msg__InteractiveMarkerPose
+{
+  /// Time/frame info.
+  std_msgs__msg__Header header;
+  /// Initial pose. Also, defines the pivot point for rotations.
+  geometry_msgs__msg__Pose pose;
+  /// Identifying string. Must be globally unique in
+  /// the topic that this message is sent through.
+  rosidl_runtime_c__String name;
+} visualization_msgs__msg__InteractiveMarkerPose;
 
-    // Struct for a sequence of visualization_msgs__msg__InteractiveMarkerPose.
-    typedef struct visualization_msgs__msg__InteractiveMarkerPose__Sequence
-    {
-        visualization_msgs__msg__InteractiveMarkerPose* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } visualization_msgs__msg__InteractiveMarkerPose__Sequence;
+// Struct for a sequence of visualization_msgs__msg__InteractiveMarkerPose.
+typedef struct visualization_msgs__msg__InteractiveMarkerPose__Sequence
+{
+  visualization_msgs__msg__InteractiveMarkerPose * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} visualization_msgs__msg__InteractiveMarkerPose__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // VISUALIZATION_MSGS__MSG__DETAIL__INTERACTIVE_MARKER_POSE__STRUCT_H_
+#endif  // VISUALIZATION_MSGS__MSG__DETAIL__INTERACTIVE_MARKER_POSE__STRUCT_H_

@@ -20,11 +20,11 @@
 // TODO(christophebedard) remove this header completely in I-turtle
 
 #ifdef _MSC_VER
-#pragma message("rcutils/get_env.h has been deprecated, please include rcutils/env.h instead")
+#pragma message ("rcutils/get_env.h has been deprecated, please include rcutils/env.h instead")
 #else
 #warning rcutils/get_env.h has been deprecated, please include rcutils/env.h instead
 #endif
 
 #include "rcutils/env.h"
 
-#endif    // RCUTILS__GET_ENV_H_
+#endif  // RCUTILS__GET_ENV_H_

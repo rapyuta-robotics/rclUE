@@ -14,23 +14,25 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-    // Constants defined in the message
 
-    /// Struct defined in srv/SetInt32 in the package ue_msgs.
-    typedef struct ue_msgs__srv__SetInt32_Request
-    {
-        int32_t data;
-    } ue_msgs__srv__SetInt32_Request;
+// Constants defined in the message
 
-    // Struct for a sequence of ue_msgs__srv__SetInt32_Request.
-    typedef struct ue_msgs__srv__SetInt32_Request__Sequence
-    {
-        ue_msgs__srv__SetInt32_Request* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } ue_msgs__srv__SetInt32_Request__Sequence;
+/// Struct defined in srv/SetInt32 in the package ue_msgs.
+typedef struct ue_msgs__srv__SetInt32_Request
+{
+  int32_t data;
+} ue_msgs__srv__SetInt32_Request;
+
+// Struct for a sequence of ue_msgs__srv__SetInt32_Request.
+typedef struct ue_msgs__srv__SetInt32_Request__Sequence
+{
+  ue_msgs__srv__SetInt32_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} ue_msgs__srv__SetInt32_Request__Sequence;
+
 
 // Constants defined in the message
 
@@ -38,25 +40,25 @@ extern "C"
 // Member 'remarks'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in srv/SetInt32 in the package ue_msgs.
-    typedef struct ue_msgs__srv__SetInt32_Response
-    {
-        bool success;
-        rosidl_runtime_c__String remarks;
-    } ue_msgs__srv__SetInt32_Response;
+/// Struct defined in srv/SetInt32 in the package ue_msgs.
+typedef struct ue_msgs__srv__SetInt32_Response
+{
+  bool success;
+  rosidl_runtime_c__String remarks;
+} ue_msgs__srv__SetInt32_Response;
 
-    // Struct for a sequence of ue_msgs__srv__SetInt32_Response.
-    typedef struct ue_msgs__srv__SetInt32_Response__Sequence
-    {
-        ue_msgs__srv__SetInt32_Response* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } ue_msgs__srv__SetInt32_Response__Sequence;
+// Struct for a sequence of ue_msgs__srv__SetInt32_Response.
+typedef struct ue_msgs__srv__SetInt32_Response__Sequence
+{
+  ue_msgs__srv__SetInt32_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} ue_msgs__srv__SetInt32_Response__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // UE_MSGS__SRV__DETAIL__SET_INT32__STRUCT_H_
+#endif  // UE_MSGS__SRV__DETAIL__SET_INT32__STRUCT_H_

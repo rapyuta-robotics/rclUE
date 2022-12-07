@@ -10,150 +10,168 @@ extern "C"
 {
 #endif
 
-#include "rosidl_runtime_c/visibility_control.h"
-#include "sensor_msgs/msg/detail/laser_scan__struct.h"
-#include "sensor_msgs/msg/rosidl_generator_c__visibility_control.h"
-
 #include <stdbool.h>
 #include <stdlib.h>
 
-    /// Initialize msg/LaserScan message.
-    /**
-     * If the init function is called twice for the same message without
-     * calling fini inbetween previously allocated memory will be leaked.
-     * \param[in,out] msg The previously allocated message pointer.
-     * Fields without a default value will not be initialized by this function.
-     * You might want to call memset(msg, 0, sizeof(
-     * sensor_msgs__msg__LaserScan
-     * )) before or use
-     * sensor_msgs__msg__LaserScan__create()
-     * to allocate and initialize the message.
-     * \return true if initialization was successful, otherwise false
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs bool sensor_msgs__msg__LaserScan__init(sensor_msgs__msg__LaserScan* msg);
+#include "rosidl_runtime_c/visibility_control.h"
+#include "sensor_msgs/msg/rosidl_generator_c__visibility_control.h"
 
-    /// Finalize msg/LaserScan message.
-    /**
-     * \param[in,out] msg The allocated message pointer.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs void sensor_msgs__msg__LaserScan__fini(sensor_msgs__msg__LaserScan* msg);
+#include "sensor_msgs/msg/detail/laser_scan__struct.h"
 
-    /// Create msg/LaserScan message.
-    /**
-     * It allocates the memory for the message, sets the memory to zero, and
-     * calls
-     * sensor_msgs__msg__LaserScan__init().
-     * \return The pointer to the initialized message if successful,
-     * otherwise NULL
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs sensor_msgs__msg__LaserScan* sensor_msgs__msg__LaserScan__create();
+/// Initialize msg/LaserScan message.
+/**
+ * If the init function is called twice for the same message without
+ * calling fini inbetween previously allocated memory will be leaked.
+ * \param[in,out] msg The previously allocated message pointer.
+ * Fields without a default value will not be initialized by this function.
+ * You might want to call memset(msg, 0, sizeof(
+ * sensor_msgs__msg__LaserScan
+ * )) before or use
+ * sensor_msgs__msg__LaserScan__create()
+ * to allocate and initialize the message.
+ * \return true if initialization was successful, otherwise false
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+bool
+sensor_msgs__msg__LaserScan__init(sensor_msgs__msg__LaserScan * msg);
 
-    /// Destroy msg/LaserScan message.
-    /**
-     * It calls
-     * sensor_msgs__msg__LaserScan__fini()
-     * and frees the memory of the message.
-     * \param[in,out] msg The allocated message pointer.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs void sensor_msgs__msg__LaserScan__destroy(sensor_msgs__msg__LaserScan* msg);
+/// Finalize msg/LaserScan message.
+/**
+ * \param[in,out] msg The allocated message pointer.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+void
+sensor_msgs__msg__LaserScan__fini(sensor_msgs__msg__LaserScan * msg);
 
-    /// Check for msg/LaserScan message equality.
-    /**
-     * \param[in] lhs The message on the left hand size of the equality operator.
-     * \param[in] rhs The message on the right hand size of the equality operator.
-     * \return true if messages are equal, otherwise false.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs bool sensor_msgs__msg__LaserScan__are_equal(const sensor_msgs__msg__LaserScan* lhs,
-                                                                                      const sensor_msgs__msg__LaserScan* rhs);
+/// Create msg/LaserScan message.
+/**
+ * It allocates the memory for the message, sets the memory to zero, and
+ * calls
+ * sensor_msgs__msg__LaserScan__init().
+ * \return The pointer to the initialized message if successful,
+ * otherwise NULL
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+sensor_msgs__msg__LaserScan *
+sensor_msgs__msg__LaserScan__create();
 
-    /// Copy a msg/LaserScan message.
-    /**
-     * This functions performs a deep copy, as opposed to the shallow copy that
-     * plain assignment yields.
-     *
-     * \param[in] input The source message pointer.
-     * \param[out] output The target message pointer, which must
-     *   have been initialized before calling this function.
-     * \return true if successful, or false if either pointer is null
-     *   or memory allocation fails.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs bool sensor_msgs__msg__LaserScan__copy(const sensor_msgs__msg__LaserScan* input,
-                                                                                 sensor_msgs__msg__LaserScan* output);
+/// Destroy msg/LaserScan message.
+/**
+ * It calls
+ * sensor_msgs__msg__LaserScan__fini()
+ * and frees the memory of the message.
+ * \param[in,out] msg The allocated message pointer.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+void
+sensor_msgs__msg__LaserScan__destroy(sensor_msgs__msg__LaserScan * msg);
 
-    /// Initialize array of msg/LaserScan messages.
-    /**
-     * It allocates the memory for the number of elements and calls
-     * sensor_msgs__msg__LaserScan__init()
-     * for each element of the array.
-     * \param[in,out] array The allocated array pointer.
-     * \param[in] size The size / capacity of the array.
-     * \return true if initialization was successful, otherwise false
-     * If the array pointer is valid and the size is zero it is guaranteed
-     # to return true.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs bool sensor_msgs__msg__LaserScan__Sequence__init(
-        sensor_msgs__msg__LaserScan__Sequence* array,
-        size_t size);
+/// Check for msg/LaserScan message equality.
+/**
+ * \param[in] lhs The message on the left hand size of the equality operator.
+ * \param[in] rhs The message on the right hand size of the equality operator.
+ * \return true if messages are equal, otherwise false.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+bool
+sensor_msgs__msg__LaserScan__are_equal(const sensor_msgs__msg__LaserScan * lhs, const sensor_msgs__msg__LaserScan * rhs);
 
-    /// Finalize array of msg/LaserScan messages.
-    /**
-     * It calls
-     * sensor_msgs__msg__LaserScan__fini()
-     * for each element of the array and frees the memory for the number of
-     * elements.
-     * \param[in,out] array The initialized array pointer.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs void sensor_msgs__msg__LaserScan__Sequence__fini(
-        sensor_msgs__msg__LaserScan__Sequence* array);
+/// Copy a msg/LaserScan message.
+/**
+ * This functions performs a deep copy, as opposed to the shallow copy that
+ * plain assignment yields.
+ *
+ * \param[in] input The source message pointer.
+ * \param[out] output The target message pointer, which must
+ *   have been initialized before calling this function.
+ * \return true if successful, or false if either pointer is null
+ *   or memory allocation fails.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+bool
+sensor_msgs__msg__LaserScan__copy(
+  const sensor_msgs__msg__LaserScan * input,
+  sensor_msgs__msg__LaserScan * output);
 
-    /// Create array of msg/LaserScan messages.
-    /**
-     * It allocates the memory for the array and calls
-     * sensor_msgs__msg__LaserScan__Sequence__init().
-     * \param[in] size The size / capacity of the array.
-     * \return The pointer to the initialized array if successful, otherwise NULL
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs sensor_msgs__msg__LaserScan__Sequence* sensor_msgs__msg__LaserScan__Sequence__create(
-        size_t size);
+/// Initialize array of msg/LaserScan messages.
+/**
+ * It allocates the memory for the number of elements and calls
+ * sensor_msgs__msg__LaserScan__init()
+ * for each element of the array.
+ * \param[in,out] array The allocated array pointer.
+ * \param[in] size The size / capacity of the array.
+ * \return true if initialization was successful, otherwise false
+ * If the array pointer is valid and the size is zero it is guaranteed
+ # to return true.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+bool
+sensor_msgs__msg__LaserScan__Sequence__init(sensor_msgs__msg__LaserScan__Sequence * array, size_t size);
 
-    /// Destroy array of msg/LaserScan messages.
-    /**
-     * It calls
-     * sensor_msgs__msg__LaserScan__Sequence__fini()
-     * on the array,
-     * and frees the memory of the array.
-     * \param[in,out] array The initialized array pointer.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs void sensor_msgs__msg__LaserScan__Sequence__destroy(
-        sensor_msgs__msg__LaserScan__Sequence* array);
+/// Finalize array of msg/LaserScan messages.
+/**
+ * It calls
+ * sensor_msgs__msg__LaserScan__fini()
+ * for each element of the array and frees the memory for the number of
+ * elements.
+ * \param[in,out] array The initialized array pointer.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+void
+sensor_msgs__msg__LaserScan__Sequence__fini(sensor_msgs__msg__LaserScan__Sequence * array);
 
-    /// Check for msg/LaserScan message array equality.
-    /**
-     * \param[in] lhs The message array on the left hand size of the equality operator.
-     * \param[in] rhs The message array on the right hand size of the equality operator.
-     * \return true if message arrays are equal in size and content, otherwise false.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs bool sensor_msgs__msg__LaserScan__Sequence__are_equal(
-        const sensor_msgs__msg__LaserScan__Sequence* lhs,
-        const sensor_msgs__msg__LaserScan__Sequence* rhs);
+/// Create array of msg/LaserScan messages.
+/**
+ * It allocates the memory for the array and calls
+ * sensor_msgs__msg__LaserScan__Sequence__init().
+ * \param[in] size The size / capacity of the array.
+ * \return The pointer to the initialized array if successful, otherwise NULL
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+sensor_msgs__msg__LaserScan__Sequence *
+sensor_msgs__msg__LaserScan__Sequence__create(size_t size);
 
-    /// Copy an array of msg/LaserScan messages.
-    /**
-     * This functions performs a deep copy, as opposed to the shallow copy that
-     * plain assignment yields.
-     *
-     * \param[in] input The source array pointer.
-     * \param[out] output The target array pointer, which must
-     *   have been initialized before calling this function.
-     * \return true if successful, or false if either pointer
-     *   is null or memory allocation fails.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs bool sensor_msgs__msg__LaserScan__Sequence__copy(
-        const sensor_msgs__msg__LaserScan__Sequence* input,
-        sensor_msgs__msg__LaserScan__Sequence* output);
+/// Destroy array of msg/LaserScan messages.
+/**
+ * It calls
+ * sensor_msgs__msg__LaserScan__Sequence__fini()
+ * on the array,
+ * and frees the memory of the array.
+ * \param[in,out] array The initialized array pointer.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+void
+sensor_msgs__msg__LaserScan__Sequence__destroy(sensor_msgs__msg__LaserScan__Sequence * array);
+
+/// Check for msg/LaserScan message array equality.
+/**
+ * \param[in] lhs The message array on the left hand size of the equality operator.
+ * \param[in] rhs The message array on the right hand size of the equality operator.
+ * \return true if message arrays are equal in size and content, otherwise false.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+bool
+sensor_msgs__msg__LaserScan__Sequence__are_equal(const sensor_msgs__msg__LaserScan__Sequence * lhs, const sensor_msgs__msg__LaserScan__Sequence * rhs);
+
+/// Copy an array of msg/LaserScan messages.
+/**
+ * This functions performs a deep copy, as opposed to the shallow copy that
+ * plain assignment yields.
+ *
+ * \param[in] input The source array pointer.
+ * \param[out] output The target array pointer, which must
+ *   have been initialized before calling this function.
+ * \return true if successful, or false if either pointer
+ *   is null or memory allocation fails.
+ */
+ROSIDL_GENERATOR_C_PUBLIC_sensor_msgs
+bool
+sensor_msgs__msg__LaserScan__Sequence__copy(
+  const sensor_msgs__msg__LaserScan__Sequence * input,
+  sensor_msgs__msg__LaserScan__Sequence * output);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // SENSOR_MSGS__MSG__DETAIL__LASER_SCAN__FUNCTIONS_H_
+#endif  // SENSOR_MSGS__MSG__DETAIL__LASER_SCAN__FUNCTIONS_H_

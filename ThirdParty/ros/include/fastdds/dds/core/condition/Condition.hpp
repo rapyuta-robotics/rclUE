@@ -20,24 +20,20 @@
 #ifndef _FASTDDS_CONDITION_HPP_
 #define _FASTDDS_CONDITION_HPP_
 
-#include <fastrtps/fastrtps_dll.h>
-
-#include <fastdds/dds/log/Log.hpp>
 #include <memory>
 #include <vector>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+#include <fastdds/dds/log/Log.hpp>
+#include <fastrtps/fastrtps_dll.h>
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 // Forward declaration of implementation details
-namespace detail
-{
+namespace detail {
 struct ConditionNotifier;
-}    // namespace detail
+} // namespace detail
 
 /**
  * @brief The Condition class is the root base class for all the conditions that may be attached to a WaitSet.
@@ -45,6 +41,7 @@ struct ConditionNotifier;
 class Condition
 {
 public:
+
     /**
      * @brief Retrieves the trigger_value of the Condition
      * @return true if trigger_value is set to 'true', 'false' otherwise
@@ -52,7 +49,7 @@ public:
     RTPS_DllAPI virtual bool get_trigger_value() const
     {
         logWarning(CONDITION, "get_trigger_value public member function not implemented");
-        return false;    // TODO return trigger value
+        return false; // TODO return trigger value
     }
 
     detail::ConditionNotifier* get_notifier() const
@@ -61,6 +58,7 @@ public:
     }
 
 protected:
+
     Condition();
     virtual ~Condition();
 
@@ -69,8 +67,8 @@ protected:
 
 using ConditionSeq = std::vector<Condition*>;
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_CONDITION_HPP_
+#endif // _FASTDDS_CONDITION_HPP_

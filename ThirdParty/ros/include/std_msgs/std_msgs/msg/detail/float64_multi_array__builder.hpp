@@ -5,11 +5,12 @@
 #ifndef STD_MSGS__MSG__DETAIL__FLOAT64_MULTI_ARRAY__BUILDER_HPP_
 #define STD_MSGS__MSG__DETAIL__FLOAT64_MULTI_ARRAY__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "std_msgs/msg/detail/float64_multi_array__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "std_msgs/msg/detail/float64_multi_array__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace std_msgs
 {
@@ -23,48 +24,49 @@ namespace builder
 class Init_Float64MultiArray_data
 {
 public:
-    explicit Init_Float64MultiArray_data(::std_msgs::msg::Float64MultiArray& msg) : msg_(msg)
-    {
-    }
-    ::std_msgs::msg::Float64MultiArray data(::std_msgs::msg::Float64MultiArray::_data_type arg)
-    {
-        msg_.data = std::move(arg);
-        return std::move(msg_);
-    }
+  explicit Init_Float64MultiArray_data(::std_msgs::msg::Float64MultiArray & msg)
+  : msg_(msg)
+  {}
+  ::std_msgs::msg::Float64MultiArray data(::std_msgs::msg::Float64MultiArray::_data_type arg)
+  {
+    msg_.data = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::std_msgs::msg::Float64MultiArray msg_;
+  ::std_msgs::msg::Float64MultiArray msg_;
 };
 
 class Init_Float64MultiArray_layout
 {
 public:
-    Init_Float64MultiArray_layout() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    Init_Float64MultiArray_data layout(::std_msgs::msg::Float64MultiArray::_layout_type arg)
-    {
-        msg_.layout = std::move(arg);
-        return Init_Float64MultiArray_data(msg_);
-    }
+  Init_Float64MultiArray_layout()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_Float64MultiArray_data layout(::std_msgs::msg::Float64MultiArray::_layout_type arg)
+  {
+    msg_.layout = std::move(arg);
+    return Init_Float64MultiArray_data(msg_);
+  }
 
 private:
-    ::std_msgs::msg::Float64MultiArray msg_;
+  ::std_msgs::msg::Float64MultiArray msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::std_msgs::msg::Float64MultiArray>()
+inline
+auto build<::std_msgs::msg::Float64MultiArray>()
 {
-    return std_msgs::msg::builder::Init_Float64MultiArray_layout();
+  return std_msgs::msg::builder::Init_Float64MultiArray_layout();
 }
 
-}    // namespace std_msgs
+}  // namespace std_msgs
 
-#endif    // STD_MSGS__MSG__DETAIL__FLOAT64_MULTI_ARRAY__BUILDER_HPP_
+#endif  // STD_MSGS__MSG__DETAIL__FLOAT64_MULTI_ARRAY__BUILDER_HPP_

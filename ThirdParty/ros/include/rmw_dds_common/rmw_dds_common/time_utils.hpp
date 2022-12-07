@@ -16,6 +16,7 @@
 #define RMW_DDS_COMMON__TIME_UTILS_HPP_
 
 #include "rmw/types.h"
+
 #include "rmw_dds_common/visibility_control.h"
 
 namespace rmw_dds_common
@@ -39,8 +40,9 @@ namespace rmw_dds_common
  * \return converted time value
  */
 RMW_DDS_COMMON_PUBLIC
-rmw_time_t clamp_rmw_time_to_dds_time(const rmw_time_t& time);
+rmw_time_t
+clamp_rmw_time_to_dds_time(const rmw_time_t & time);
 
-}    // namespace rmw_dds_common
+}  // namespace rmw_dds_common
 
-#endif    // RMW_DDS_COMMON__TIME_UTILS_HPP_
+#endif  // RMW_DDS_COMMON__TIME_UTILS_HPP_

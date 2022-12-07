@@ -5,8 +5,8 @@
 #ifndef DIAGNOSTIC_MSGS__SRV__SELF_TEST_H_
 #define DIAGNOSTIC_MSGS__SRV__SELF_TEST_H_
 
-#include "diagnostic_msgs/srv/detail/self_test__functions.h"
 #include "diagnostic_msgs/srv/detail/self_test__struct.h"
+#include "diagnostic_msgs/srv/detail/self_test__functions.h"
 #include "diagnostic_msgs/srv/detail/self_test__type_support.h"
 
-#endif    // DIAGNOSTIC_MSGS__SRV__SELF_TEST_H_
+#endif  // DIAGNOSTIC_MSGS__SRV__SELF_TEST_H_

@@ -86,6 +86,7 @@ public:
     /**
      * Remove a WriterProxyData from the matached writers.
      * @param writer_guid GUID of the writer to remove.
+     * @param removed_by_lease true it the writer was removed due to lease duration.
      * @return True if correct.
      */
     bool matched_writer_remove(
@@ -166,11 +167,14 @@ public:
      * and depending on the implementation performs different actions.
      * @param a_change Pointer of the change to add.
      * @param prox Pointer to the WriterProxy that adds the Change.
+     * @param unknown_missing_changes_up_to The number of changes from the same writer with a lower sequence number that
+     *                                      could potentially be received in the future.
      * @return True if added.
      */
     bool change_received(
             CacheChange_t* a_change,
-            WriterProxy* prox);
+            WriterProxy* prox,
+            size_t unknown_missing_changes_up_to);
 
     /**
      * Get the RTPS participant
@@ -245,7 +249,7 @@ public:
     void send_acknack(
             const WriterProxy* writer,
             const SequenceNumberSet_t& sns,
-            const RTPSMessageSenderInterface& sender,
+            RTPSMessageSenderInterface* sender,
             bool is_final);
 
     /**
@@ -256,7 +260,7 @@ public:
      */
     void send_acknack(
             const WriterProxy* writer,
-            const RTPSMessageSenderInterface& sender,
+            RTPSMessageSenderInterface* sender,
             bool heartbeat_was_final);
 
     /**
@@ -271,6 +275,49 @@ public:
             const Locators& locators_begin,
             const Locators& locators_end,
             std::chrono::steady_clock::time_point& max_blocking_time_point);
+
+    /**
+     * Assert the livelines of a matched writer.
+     * @param writer GUID of the writer to assert.
+     */
+    void assert_writer_liveliness(
+            const GUID_t& writer) override;
+
+    /**
+     * Called just before a change is going to be deserialized.
+     * @param [in]  change            Pointer to the change being accessed.
+     * @param [out] wp                Writer proxy the @c change belongs to.
+     * @param [out] is_future_change  Whether the change is in the future (i.e. there are
+     *                                earlier unreceived changes from the same writer).
+     *
+     * @return Whether the change is still valid or not.
+     */
+    bool begin_sample_access_nts(
+            CacheChange_t* change,
+            WriterProxy*& wp,
+            bool& is_future_change) override;
+
+    /**
+     * Called after the change has been deserialized.
+     * @param [in] change        Pointer to the change being accessed.
+     * @param [in] wp            Writer proxy the @c change belongs to.
+     * @param [in] mark_as_read  Whether the @c change should be marked as read or not.
+     */
+    void end_sample_access_nts(
+            CacheChange_t* change,
+            WriterProxy*& wp,
+            bool mark_as_read) override;
+
+    /**
+     * Called when the user has retrieved a change from the history.
+     * @param change Pointer to the change to ACK
+     * @param writer Writer proxy of the \c change.
+     * @param mark_as_read Whether the \c change should be marked as read or not
+     */
+    void change_read_by_user(
+            CacheChange_t* change,
+            WriterProxy* writer,
+            bool mark_as_read = true) override;
 
 private:
 
@@ -291,6 +338,10 @@ private:
 
     void NotifyChanges(
             WriterProxy* wp);
+
+    void remove_changes_from(
+            const GUID_t& writerGUID,
+            bool is_payload_pool_lost = false);
 
     //! Acknack Count
     uint32_t acknack_count_;

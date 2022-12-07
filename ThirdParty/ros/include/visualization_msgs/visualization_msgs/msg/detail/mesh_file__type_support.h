@@ -6,6 +6,7 @@
 #define VISUALIZATION_MSGS__MSG__DETAIL__MESH_FILE__TYPE_SUPPORT_H_
 
 #include "rosidl_typesupport_interface/macros.h"
+
 #include "visualization_msgs/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
@@ -15,12 +16,18 @@ extern "C"
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_visualization_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, visualization_msgs, msg, MeshFile)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_visualization_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  visualization_msgs,
+  msg,
+  MeshFile
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // VISUALIZATION_MSGS__MSG__DETAIL__MESH_FILE__TYPE_SUPPORT_H_
+#endif  // VISUALIZATION_MSGS__MSG__DETAIL__MESH_FILE__TYPE_SUPPORT_H_

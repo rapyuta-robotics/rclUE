@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__MULTI_ARRAY_DIMENSION_HPP_
 #define EXAMPLE_INTERFACES__MSG__MULTI_ARRAY_DIMENSION_HPP_
 
-#include "example_interfaces/msg/detail/multi_array_dimension__builder.hpp"
 #include "example_interfaces/msg/detail/multi_array_dimension__struct.hpp"
+#include "example_interfaces/msg/detail/multi_array_dimension__builder.hpp"
 #include "example_interfaces/msg/detail/multi_array_dimension__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__MSG__MULTI_ARRAY_DIMENSION_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__MULTI_ARRAY_DIMENSION_HPP_

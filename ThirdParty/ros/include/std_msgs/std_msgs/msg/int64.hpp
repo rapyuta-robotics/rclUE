@@ -4,8 +4,8 @@
 #ifndef STD_MSGS__MSG__INT64_HPP_
 #define STD_MSGS__MSG__INT64_HPP_
 
-#include "std_msgs/msg/detail/int64__builder.hpp"
 #include "std_msgs/msg/detail/int64__struct.hpp"
+#include "std_msgs/msg/detail/int64__builder.hpp"
 #include "std_msgs/msg/detail/int64__traits.hpp"
 
-#endif    // STD_MSGS__MSG__INT64_HPP_
+#endif  // STD_MSGS__MSG__INT64_HPP_

@@ -24,6 +24,7 @@
 #include <list>
 
 #include <fastdds/rtps/attributes/RTPSParticipantAttributes.h>
+#include <fastdds/rtps/builtin/data/ContentFilterProperty.hpp>
 #include <fastdds/rtps/network/NetworkFactory.h>
 
 namespace eprosima {
@@ -79,6 +80,11 @@ public:
             BuiltinAttributes& attributes);
 
     /**
+     * Enable the builtin protocols
+     */
+    void enable();
+
+    /**
      * Update the metatraffic locatorlist after it was created. Because when you create
      * the EDP readers you are not sure the selected endpoints can be used.
      * @param loclist LocatorList to update
@@ -127,15 +133,18 @@ public:
             const fastdds::dds::WriterQos& wqos);
     /**
      * Add a local Reader to the BuiltinProtocols.
-     * @param R Pointer to the RTPSReader.
-     * @param topicAtt Attributes of the associated topic
-     * @param rqos QoS policies dictated by the subscriber
+     * @param R               Pointer to the RTPSReader.
+     * @param topicAtt        Attributes of the associated topic
+     * @param rqos            QoS policies dictated by the subscriber
+     * @param content_filter  Optional content filtering information.
      * @return True if correct.
      */
     bool addLocalReader(
             RTPSReader* R,
             const TopicAttributes& topicAtt,
-            const fastdds::dds::ReaderQos& rqos);
+            const fastdds::dds::ReaderQos& rqos,
+            const fastdds::rtps::ContentFilterProperty* content_filter = nullptr);
+
     /**
      * Update a local Writer QOS
      * @param W Writer to update
@@ -149,15 +158,17 @@ public:
             const fastdds::dds::WriterQos& wqos);
     /**
      * Update a local Reader QOS
-     * @param R Reader to update
-     * @param topicAtt Attributes of the associated topic
-     * @param qos New Reader QoS
+     * @param R               Reader to update
+     * @param topicAtt        Attributes of the associated topic
+     * @param qos             New Reader QoS
+     * @param content_filter  Optional content filtering information.
      * @return
      */
     bool updateLocalReader(
             RTPSReader* R,
             const TopicAttributes& topicAtt,
-            const fastdds::dds::ReaderQos& qos);
+            const fastdds::dds::ReaderQos& qos,
+            const fastdds::rtps::ContentFilterProperty* content_filter = nullptr);
     /**
      * Remove a local Writer from the builtinProtocols.
      * @param W Pointer to the writer.

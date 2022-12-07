@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,28 +23,28 @@ extern "C"
 // Member 'twist'
 #include "geometry_msgs/msg/detail/twist_with_covariance__struct.h"
 
-    /// Struct defined in msg/TwistWithCovarianceStamped in the package geometry_msgs.
-    /**
-     * This represents an estimated twist with reference coordinate frame and timestamp.
-     */
-    typedef struct geometry_msgs__msg__TwistWithCovarianceStamped
-    {
-        std_msgs__msg__Header header;
-        geometry_msgs__msg__TwistWithCovariance twist;
-    } geometry_msgs__msg__TwistWithCovarianceStamped;
+/// Struct defined in msg/TwistWithCovarianceStamped in the package geometry_msgs.
+/**
+  * This represents an estimated twist with reference coordinate frame and timestamp.
+ */
+typedef struct geometry_msgs__msg__TwistWithCovarianceStamped
+{
+  std_msgs__msg__Header header;
+  geometry_msgs__msg__TwistWithCovariance twist;
+} geometry_msgs__msg__TwistWithCovarianceStamped;
 
-    // Struct for a sequence of geometry_msgs__msg__TwistWithCovarianceStamped.
-    typedef struct geometry_msgs__msg__TwistWithCovarianceStamped__Sequence
-    {
-        geometry_msgs__msg__TwistWithCovarianceStamped* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } geometry_msgs__msg__TwistWithCovarianceStamped__Sequence;
+// Struct for a sequence of geometry_msgs__msg__TwistWithCovarianceStamped.
+typedef struct geometry_msgs__msg__TwistWithCovarianceStamped__Sequence
+{
+  geometry_msgs__msg__TwistWithCovarianceStamped * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} geometry_msgs__msg__TwistWithCovarianceStamped__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__TWIST_WITH_COVARIANCE_STAMPED__STRUCT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__TWIST_WITH_COVARIANCE_STAMPED__STRUCT_H_

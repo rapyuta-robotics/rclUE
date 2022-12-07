@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,28 +23,28 @@ extern "C"
 // Member 'wrench'
 #include "geometry_msgs/msg/detail/wrench__struct.h"
 
-    /// Struct defined in msg/WrenchStamped in the package geometry_msgs.
-    /**
-     * A wrench with reference coordinate frame and timestamp
-     */
-    typedef struct geometry_msgs__msg__WrenchStamped
-    {
-        std_msgs__msg__Header header;
-        geometry_msgs__msg__Wrench wrench;
-    } geometry_msgs__msg__WrenchStamped;
+/// Struct defined in msg/WrenchStamped in the package geometry_msgs.
+/**
+  * A wrench with reference coordinate frame and timestamp
+ */
+typedef struct geometry_msgs__msg__WrenchStamped
+{
+  std_msgs__msg__Header header;
+  geometry_msgs__msg__Wrench wrench;
+} geometry_msgs__msg__WrenchStamped;
 
-    // Struct for a sequence of geometry_msgs__msg__WrenchStamped.
-    typedef struct geometry_msgs__msg__WrenchStamped__Sequence
-    {
-        geometry_msgs__msg__WrenchStamped* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } geometry_msgs__msg__WrenchStamped__Sequence;
+// Struct for a sequence of geometry_msgs__msg__WrenchStamped.
+typedef struct geometry_msgs__msg__WrenchStamped__Sequence
+{
+  geometry_msgs__msg__WrenchStamped * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} geometry_msgs__msg__WrenchStamped__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__WRENCH_STAMPED__STRUCT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__WRENCH_STAMPED__STRUCT_H_

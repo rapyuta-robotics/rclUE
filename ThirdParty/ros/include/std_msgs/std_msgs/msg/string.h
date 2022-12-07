@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__STRING_H_
 #define STD_MSGS__MSG__STRING_H_
 
-#include "std_msgs/msg/detail/string__functions.h"
 #include "std_msgs/msg/detail/string__struct.h"
+#include "std_msgs/msg/detail/string__functions.h"
 #include "std_msgs/msg/detail/string__type_support.h"
 
-#endif    // STD_MSGS__MSG__STRING_H_
+#endif  // STD_MSGS__MSG__STRING_H_

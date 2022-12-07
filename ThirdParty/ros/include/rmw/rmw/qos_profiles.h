@@ -22,142 +22,166 @@ extern "C"
 
 #include "rmw/types.h"
 
-    static const rmw_qos_profile_t rmw_qos_profile_sensor_data = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
-                                                                  5,
-                                                                  RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT,
-                                                                  RMW_QOS_POLICY_DURABILITY_VOLATILE,
-                                                                  RMW_QOS_DEADLINE_DEFAULT,
-                                                                  RMW_QOS_LIFESPAN_DEFAULT,
-                                                                  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                                                                  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                                  false};
+static const rmw_qos_profile_t rmw_qos_profile_sensor_data =
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  5,
+  RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
-    static const rmw_qos_profile_t rmw_qos_profile_parameters = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
-                                                                 1000,
-                                                                 RMW_QOS_POLICY_RELIABILITY_RELIABLE,
-                                                                 RMW_QOS_POLICY_DURABILITY_VOLATILE,
-                                                                 RMW_QOS_DEADLINE_DEFAULT,
-                                                                 RMW_QOS_LIFESPAN_DEFAULT,
-                                                                 RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                                                                 RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                                 false};
+static const rmw_qos_profile_t rmw_qos_profile_parameters =
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  1000,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
-    static const rmw_qos_profile_t rmw_qos_profile_default = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
-                                                              10,
-                                                              RMW_QOS_POLICY_RELIABILITY_RELIABLE,
-                                                              RMW_QOS_POLICY_DURABILITY_VOLATILE,
-                                                              RMW_QOS_DEADLINE_DEFAULT,
-                                                              RMW_QOS_LIFESPAN_DEFAULT,
-                                                              RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                                                              RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                              false};
+static const rmw_qos_profile_t rmw_qos_profile_default =
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  10,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
-    static const rmw_qos_profile_t rmw_qos_profile_services_default = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
-                                                                       10,
-                                                                       RMW_QOS_POLICY_RELIABILITY_RELIABLE,
-                                                                       RMW_QOS_POLICY_DURABILITY_VOLATILE,
-                                                                       RMW_QOS_DEADLINE_DEFAULT,
-                                                                       RMW_QOS_LIFESPAN_DEFAULT,
-                                                                       RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                                                                       RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                                       false};
+static const rmw_qos_profile_t rmw_qos_profile_services_default =
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  10,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
-    static const rmw_qos_profile_t rmw_qos_profile_parameter_events = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
-                                                                       1000,
-                                                                       RMW_QOS_POLICY_RELIABILITY_RELIABLE,
-                                                                       RMW_QOS_POLICY_DURABILITY_VOLATILE,
-                                                                       RMW_QOS_DEADLINE_DEFAULT,
-                                                                       RMW_QOS_LIFESPAN_DEFAULT,
-                                                                       RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                                                                       RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                                       false};
+static const rmw_qos_profile_t rmw_qos_profile_parameter_events =
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  1000,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_VOLATILE,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
-    static const rmw_qos_profile_t rmw_qos_profile_system_default = {RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT,
-                                                                     RMW_QOS_POLICY_DEPTH_SYSTEM_DEFAULT,
-                                                                     RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT,
-                                                                     RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT,
-                                                                     RMW_QOS_DEADLINE_DEFAULT,
-                                                                     RMW_QOS_LIFESPAN_DEFAULT,
-                                                                     RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                                                                     RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                                     false};
+static const rmw_qos_profile_t rmw_qos_profile_system_default =
+{
+  RMW_QOS_POLICY_HISTORY_SYSTEM_DEFAULT,
+  RMW_QOS_POLICY_DEPTH_SYSTEM_DEFAULT,
+  RMW_QOS_POLICY_RELIABILITY_SYSTEM_DEFAULT,
+  RMW_QOS_POLICY_DURABILITY_SYSTEM_DEFAULT,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
-    static const rmw_qos_profile_t rmw_qos_profile_unknown = {RMW_QOS_POLICY_HISTORY_UNKNOWN,
-                                                              RMW_QOS_POLICY_DEPTH_SYSTEM_DEFAULT,
-                                                              RMW_QOS_POLICY_RELIABILITY_UNKNOWN,
-                                                              RMW_QOS_POLICY_DURABILITY_UNKNOWN,
-                                                              RMW_QOS_DEADLINE_DEFAULT,
-                                                              RMW_QOS_LIFESPAN_DEFAULT,
-                                                              RMW_QOS_POLICY_LIVELINESS_UNKNOWN,
-                                                              RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                              false};
+static const rmw_qos_profile_t rmw_qos_profile_unknown =
+{
+  RMW_QOS_POLICY_HISTORY_UNKNOWN,
+  RMW_QOS_POLICY_DEPTH_SYSTEM_DEFAULT,
+  RMW_QOS_POLICY_RELIABILITY_UNKNOWN,
+  RMW_QOS_POLICY_DURABILITY_UNKNOWN,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_UNKNOWN,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
-    typedef enum RMW_PUBLIC_TYPE rmw_qos_compatibility_type_e
-    {
-        /// QoS policies are compatible
-        RMW_QOS_COMPATIBILITY_OK = 0,
+typedef enum RMW_PUBLIC_TYPE rmw_qos_compatibility_type_e
+{
+  /// QoS policies are compatible
+  RMW_QOS_COMPATIBILITY_OK = 0,
 
-        /// QoS policies may not be compatible
-        RMW_QOS_COMPATIBILITY_WARNING,
+  /// QoS policies may not be compatible
+  RMW_QOS_COMPATIBILITY_WARNING,
 
-        /// QoS policies are not compatible
-        RMW_QOS_COMPATIBILITY_ERROR
-    } rmw_qos_compatibility_type_t;
+  /// QoS policies are not compatible
+  RMW_QOS_COMPATIBILITY_ERROR
+} rmw_qos_compatibility_type_t;
 
-    /// Check if two QoS profiles are compatible.
-    /**
-     * Two QoS profiles are compatible if a publisher and subcription
-     * using the QoS policies can communicate with each other.
-     *
-     * If any of the profile policies has the value "system default" or "unknown", then it may not be
-     * possible to determine the compatibilty.
-     * In this case, the output parameter `compatibility` is set to `RMW_QOS_COMPATIBILITY_WARNING`
-     * and `reason` is populated.
-     *
-     * If there is a compatibility warning or error, and a buffer is provided for `reason`, then an
-     * explanation of all warnings and errors will be populated into the buffer, separated by
-     * semi-colons (`;`).
-     * Errors will appear before warnings in the string buffer.
-     * If the provided buffer is not large enough, this function will still write to the buffer, up to
-     * the `reason_size` number of characters.
-     * Therefore, it is possible that not all errors and warnings are communicated if the buffer size limit
-     * is reached.
-     * A buffer size of 2048 should be more than enough to capture all possible errors and warnings.
-     *
-     * <hr>
-     * Attribute          | Adherence
-     * ------------------ | -------------
-     * Allocates Memory   | No
-     * Thread-Safe        | Yes
-     * Uses Atomics       | No
-     * Lock-Free          | Yes
-     *
-     * \param[in] publisher_profile: The QoS profile used for a publisher.
-     * \param[in] subscription_profile: The QoS profile used for a subscription.
-     * \param[out] compatibility: `RMW_QOS_COMPATIBILITY_OK` if the QoS profiles are compatible, or
-     *   `RMW_QOS_COMPATIBILITY_WARNING` if the QoS profiles might be compatible, or
-     *   `RMW_QOS_COMPATIBILITY_ERROR` if the QoS profiles are not compatible.
-     * \param[out] reason: A detailed reason for a QoS incompatibility or potential incompatibility.
-     *   Must be pre-allocated by the caller.
-     *   This parameter is optional and may be set to `NULL` if the reason information is not
-     *   desired.
-     * \param[in] reason_size: Size of the string buffer `reason`, if one is provided.
-     *   If `reason` is `nullptr`, then this parameter must be zero.
-     * \return `RMW_RET_OK` if the check was successful, or
-     * \return `RMW_RET_INVALID_ARGUMENT` if `compatiblity` is `nullptr`, or
-     * \return `RMW_RET_INVALID_ARGUMENT` if `reason` is `NULL` and  `reason_size` is not zero, or
-     * \return `RMW_RET_ERROR` if there is an unexpected error.
-     */
-    RMW_PUBLIC
-    RMW_WARN_UNUSED
-    rmw_ret_t rmw_qos_profile_check_compatible(const rmw_qos_profile_t publisher_profile,
-                                               const rmw_qos_profile_t subscription_profile,
-                                               rmw_qos_compatibility_type_t* compatibility,
-                                               char* reason,
-                                               size_t reason_size);
+
+/// Check if two QoS profiles are compatible.
+/**
+ * Two QoS profiles are compatible if a publisher and subcription
+ * using the QoS policies can communicate with each other.
+ *
+ * If any of the profile policies has the value "system default" or "unknown", then it may not be
+ * possible to determine the compatibilty.
+ * In this case, the output parameter `compatibility` is set to `RMW_QOS_COMPATIBILITY_WARNING`
+ * and `reason` is populated.
+ *
+ * If there is a compatibility warning or error, and a buffer is provided for `reason`, then an
+ * explanation of all warnings and errors will be populated into the buffer, separated by
+ * semi-colons (`;`).
+ * Errors will appear before warnings in the string buffer.
+ * If the provided buffer is not large enough, this function will still write to the buffer, up to
+ * the `reason_size` number of characters.
+ * Therefore, it is possible that not all errors and warnings are communicated if the buffer size limit
+ * is reached.
+ * A buffer size of 2048 should be more than enough to capture all possible errors and warnings.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | No
+ * Thread-Safe        | Yes
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param[in] publisher_profile: The QoS profile used for a publisher.
+ * \param[in] subscription_profile: The QoS profile used for a subscription.
+ * \param[out] compatibility: `RMW_QOS_COMPATIBILITY_OK` if the QoS profiles are compatible, or
+ *   `RMW_QOS_COMPATIBILITY_WARNING` if the QoS profiles might be compatible, or
+ *   `RMW_QOS_COMPATIBILITY_ERROR` if the QoS profiles are not compatible.
+ * \param[out] reason: A detailed reason for a QoS incompatibility or potential incompatibility.
+ *   Must be pre-allocated by the caller.
+ *   This parameter is optional and may be set to `NULL` if the reason information is not
+ *   desired.
+ * \param[in] reason_size: Size of the string buffer `reason`, if one is provided.
+ *   If `reason` is `nullptr`, then this parameter must be zero.
+ * \return `RMW_RET_OK` if the check was successful, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `compatiblity` is `nullptr`, or
+ * \return `RMW_RET_INVALID_ARGUMENT` if `reason` is `NULL` and  `reason_size` is not zero, or
+ * \return `RMW_RET_ERROR` if there is an unexpected error.
+ */
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_ret_t
+rmw_qos_profile_check_compatible(
+  const rmw_qos_profile_t publisher_profile,
+  const rmw_qos_profile_t subscription_profile,
+  rmw_qos_compatibility_type_t * compatibility,
+  char * reason,
+  size_t reason_size);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__QOS_PROFILES_H_
+#endif  // RMW__QOS_PROFILES_H_

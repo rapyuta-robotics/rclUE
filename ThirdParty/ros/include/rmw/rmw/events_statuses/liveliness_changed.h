@@ -15,44 +15,44 @@
 #ifndef RMW__EVENTS_STATUSES__LIVELINESS_CHANGED_H_
 #define RMW__EVENTS_STATUSES__LIVELINESS_CHANGED_H_
 
-#include "rmw/visibility_control.h"
-
 #include <stdint.h>
+
+#include "rmw/visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-    /// QoS Liveliness Changed information provided by a subscription.
-    typedef struct RMW_PUBLIC_TYPE rmw_liveliness_changed_status_s
-    {
-        /**
-         * The total number of currently active Publishers which publish to the topic associated with
-         * the Subscription.
-         * This count increases when a newly matched Publisher asserts its liveliness for the first time
-         * or when a Publisher previously considered to be not alive reasserts its liveliness.
-         * The count decreases when a Publisher considered alive fails to assert its liveliness and
-         * becomes not alive, whether because it was deleted normally or for some other reason.
-         */
-        int32_t alive_count;
-        /**
-         * The total count of current Publishers which publish to the topic associated with the
-         * Subscription that are no longer asserting their liveliness.
-         * This count increases when a Publisher considered alive fails to assert its liveliness and
-         * becomes not alive for some reason other than the normal deletion of that Publisher.
-         * It decreases when a previously not alive Publisher either reasserts its liveliness or is
-         * deleted normally.
-         */
-        int32_t not_alive_count;
-        /// The change in the alive_count since the status was last read.
-        int32_t alive_count_change;
-        /// The change in the not_alive_count since the status was last read.
-        int32_t not_alive_count_change;
-    } rmw_liveliness_changed_status_t;
+/// QoS Liveliness Changed information provided by a subscription.
+typedef struct RMW_PUBLIC_TYPE rmw_liveliness_changed_status_s
+{
+  /**
+   * The total number of currently active Publishers which publish to the topic associated with
+   * the Subscription.
+   * This count increases when a newly matched Publisher asserts its liveliness for the first time
+   * or when a Publisher previously considered to be not alive reasserts its liveliness.
+   * The count decreases when a Publisher considered alive fails to assert its liveliness and
+   * becomes not alive, whether because it was deleted normally or for some other reason.
+   */
+  int32_t alive_count;
+  /**
+   * The total count of current Publishers which publish to the topic associated with the
+   * Subscription that are no longer asserting their liveliness.
+   * This count increases when a Publisher considered alive fails to assert its liveliness and
+   * becomes not alive for some reason other than the normal deletion of that Publisher.
+   * It decreases when a previously not alive Publisher either reasserts its liveliness or is
+   * deleted normally.
+   */
+  int32_t not_alive_count;
+  /// The change in the alive_count since the status was last read.
+  int32_t alive_count_change;
+  /// The change in the not_alive_count since the status was last read.
+  int32_t not_alive_count_change;
+} rmw_liveliness_changed_status_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__EVENTS_STATUSES__LIVELINESS_CHANGED_H_
+#endif  // RMW__EVENTS_STATUSES__LIVELINESS_CHANGED_H_

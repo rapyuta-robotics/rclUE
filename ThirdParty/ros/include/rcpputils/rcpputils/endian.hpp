@@ -34,15 +34,15 @@
 namespace rcpputils
 {
 using std::endian;
-}    // namespace rcpputils
+}  // namespace rcpputils
 #define RCPPUTILS_HAVE_STD_ENDIAN 1
-#endif    // __cplusplus > 201703L
+#endif  // __cplusplus > 201703L
 
 #ifndef RCPPUTILS_HAVE_STD_ENDIAN
 #ifdef __has_include
-#if __has_include(<endian.h>)
-#include <endian.h>
-#endif
+#  if __has_include(<endian.h>)
+#    include <endian.h>
+#  endif
 #endif
 
 namespace rcpputils
@@ -58,15 +58,15 @@ namespace rcpputils
 enum class endian
 {
 #ifdef _WIN32
-    little = 0,
-    big = 1,
-    native = little
+  little = 0,
+  big    = 1,
+  native = little
 #else
-    little = __ORDER_LITTLE_ENDIAN__,
-    big = __ORDER_BIG_ENDIAN__,
-    native = __BYTE_ORDER__
+  little = __ORDER_LITTLE_ENDIAN__,
+  big    = __ORDER_BIG_ENDIAN__,
+  native = __BYTE_ORDER__
 #endif
 };
-}    // namespace rcpputils
-#endif    // RCPPUTILS_HAVE_STD_ENDIAN
-#endif    // RCPPUTILS__ENDIAN_HPP_
+}  // namespace rcpputils
+#endif  // RCPPUTILS_HAVE_STD_ENDIAN
+#endif  // RCPPUTILS__ENDIAN_HPP_

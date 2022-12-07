@@ -5,11 +5,12 @@
 #ifndef NAV_MSGS__MSG__DETAIL__PATH__BUILDER_HPP_
 #define NAV_MSGS__MSG__DETAIL__PATH__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "nav_msgs/msg/detail/path__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace nav_msgs
 {
@@ -23,48 +24,49 @@ namespace builder
 class Init_Path_poses
 {
 public:
-    explicit Init_Path_poses(::nav_msgs::msg::Path& msg) : msg_(msg)
-    {
-    }
-    ::nav_msgs::msg::Path poses(::nav_msgs::msg::Path::_poses_type arg)
-    {
-        msg_.poses = std::move(arg);
-        return std::move(msg_);
-    }
+  explicit Init_Path_poses(::nav_msgs::msg::Path & msg)
+  : msg_(msg)
+  {}
+  ::nav_msgs::msg::Path poses(::nav_msgs::msg::Path::_poses_type arg)
+  {
+    msg_.poses = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::nav_msgs::msg::Path msg_;
+  ::nav_msgs::msg::Path msg_;
 };
 
 class Init_Path_header
 {
 public:
-    Init_Path_header() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    Init_Path_poses header(::nav_msgs::msg::Path::_header_type arg)
-    {
-        msg_.header = std::move(arg);
-        return Init_Path_poses(msg_);
-    }
+  Init_Path_header()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_Path_poses header(::nav_msgs::msg::Path::_header_type arg)
+  {
+    msg_.header = std::move(arg);
+    return Init_Path_poses(msg_);
+  }
 
 private:
-    ::nav_msgs::msg::Path msg_;
+  ::nav_msgs::msg::Path msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::nav_msgs::msg::Path>()
+inline
+auto build<::nav_msgs::msg::Path>()
 {
-    return nav_msgs::msg::builder::Init_Path_header();
+  return nav_msgs::msg::builder::Init_Path_header();
 }
 
-}    // namespace nav_msgs
+}  // namespace nav_msgs
 
-#endif    // NAV_MSGS__MSG__DETAIL__PATH__BUILDER_HPP_
+#endif  // NAV_MSGS__MSG__DETAIL__PATH__BUILDER_HPP_

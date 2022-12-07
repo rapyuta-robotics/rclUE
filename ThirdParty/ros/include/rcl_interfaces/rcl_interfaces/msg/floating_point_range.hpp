@@ -4,8 +4,8 @@
 #ifndef RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_HPP_
 #define RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_HPP_
 
-#include "rcl_interfaces/msg/detail/floating_point_range__builder.hpp"
 #include "rcl_interfaces/msg/detail/floating_point_range__struct.hpp"
+#include "rcl_interfaces/msg/detail/floating_point_range__builder.hpp"
 #include "rcl_interfaces/msg/detail/floating_point_range__traits.hpp"
 
-#endif    // RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_HPP_
+#endif  // RCL_INTERFACES__MSG__FLOATING_POINT_RANGE_HPP_

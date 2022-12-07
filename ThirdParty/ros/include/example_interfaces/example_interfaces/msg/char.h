@@ -5,8 +5,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__CHAR_H_
 #define EXAMPLE_INTERFACES__MSG__CHAR_H_
 
-#include "example_interfaces/msg/detail/char__functions.h"
 #include "example_interfaces/msg/detail/char__struct.h"
+#include "example_interfaces/msg/detail/char__functions.h"
 #include "example_interfaces/msg/detail/char__type_support.h"
 
-#endif    // EXAMPLE_INTERFACES__MSG__CHAR_H_
+#endif  // EXAMPLE_INTERFACES__MSG__CHAR_H_

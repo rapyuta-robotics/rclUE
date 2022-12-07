@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+
 #ifndef RMW__FEATURES_H_
 #define RMW__FEATURES_H_
 
@@ -20,41 +21,43 @@ extern "C"
 {
 #endif
 
-#include "rcutils/allocator.h"
-#include "rmw/macros.h"
-#include "rmw/ret_types.h"
-#include "rmw/types.h"
-#include "rmw/visibility_control.h"
-
 #include <stdint.h>
 
-    /// List of optional rmw features.
-    /**
-     * Some of the features listed here might become mandatory in the feature, in which case all rmw
-     * implementations should return `true`.
-     *
-     * There might be some optional features that are not listed here, but the goal is to have all of
-     * them added.
-     */
-    typedef enum RMW_PUBLIC_TYPE rmw_feature_e
-    {
-        /// `rmw_message_info_t.publication_sequence_number` is filled correctly
-        /// by the rmw implementation.
-        RMW_FEATURE_MESSAGE_INFO_PUBLICATION_SEQUENCE_NUMBER = 0,
-        /// `rmw_message_info_t.reception_sequence_number` is filled correctly
-        /// by the rmw implementation.
-        RMW_FEATURE_MESSAGE_INFO_RECEPTION_SEQUENCE_NUMBER = 1,
-    } rmw_feature_t;
+#include "rcutils/allocator.h"
 
-    /// Query if a feature is supported by the rmw implementation.
-    /**
-     * \return `true` if the rmw implementation supports the feature, `false` if not.
-     */
-    RMW_PUBLIC
-    bool rmw_feature_supported(rmw_feature_t feature);
+#include "rmw/macros.h"
+#include "rmw/types.h"
+#include "rmw/ret_types.h"
+#include "rmw/visibility_control.h"
+
+/// List of optional rmw features.
+/**
+ * Some of the features listed here might become mandatory in the feature, in which case all rmw
+ * implementations should return `true`.
+ *
+ * There might be some optional features that are not listed here, but the goal is to have all of
+ * them added.
+ */
+typedef enum RMW_PUBLIC_TYPE rmw_feature_e
+{
+  /// `rmw_message_info_t.publication_sequence_number` is filled correctly
+  /// by the rmw implementation.
+  RMW_FEATURE_MESSAGE_INFO_PUBLICATION_SEQUENCE_NUMBER = 0,
+  /// `rmw_message_info_t.reception_sequence_number` is filled correctly
+  /// by the rmw implementation.
+  RMW_FEATURE_MESSAGE_INFO_RECEPTION_SEQUENCE_NUMBER = 1,
+} rmw_feature_t;
+
+/// Query if a feature is supported by the rmw implementation.
+/**
+ * \return `true` if the rmw implementation supports the feature, `false` if not.
+ */
+RMW_PUBLIC
+bool
+rmw_feature_supported(rmw_feature_t feature);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__FEATURES_H_
+#endif  // RMW__FEATURES_H_

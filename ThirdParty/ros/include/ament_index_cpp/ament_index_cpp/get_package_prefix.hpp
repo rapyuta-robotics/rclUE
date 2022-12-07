@@ -15,10 +15,10 @@
 #ifndef AMENT_INDEX_CPP__GET_PACKAGE_PREFIX_HPP_
 #define AMENT_INDEX_CPP__GET_PACKAGE_PREFIX_HPP_
 
-#include "ament_index_cpp/visibility_control.h"
-
 #include <stdexcept>
 #include <string>
+
+#include "ament_index_cpp/visibility_control.h"
 
 namespace ament_index_cpp
 {
@@ -27,18 +27,18 @@ namespace ament_index_cpp
 class PackageNotFoundError : public std::out_of_range
 {
 public:
-    /// Constuctor of an exception class to notify that a pacakge is not found
-    /*
-     * \param[in] package_name used in the exception message
-     */
-    AMENT_INDEX_CPP_PUBLIC
-    explicit PackageNotFoundError(const std::string& package_name);
+  /// Constuctor of an exception class to notify that a pacakge is not found
+  /*
+  * \param[in] package_name used in the exception message
+  */
+  AMENT_INDEX_CPP_PUBLIC
+  explicit PackageNotFoundError(const std::string & package_name);
 
-    AMENT_INDEX_CPP_PUBLIC
-    virtual ~PackageNotFoundError();
+  AMENT_INDEX_CPP_PUBLIC
+  virtual ~PackageNotFoundError();
 
-    /// package name used in the exception message
-    const std::string package_name;
+  /// package name used in the exception message
+  const std::string package_name;
 };
 
 /// Return the installation prefix of the given package if found.
@@ -48,8 +48,9 @@ public:
  * \throws PackageNotFoundError when the given package is not found.
  */
 AMENT_INDEX_CPP_PUBLIC
-std::string get_package_prefix(const std::string& package_name);
+std::string
+get_package_prefix(const std::string & package_name);
 
-}    // namespace ament_index_cpp
+}  // namespace ament_index_cpp
 
-#endif    // AMENT_INDEX_CPP__GET_PACKAGE_PREFIX_HPP_
+#endif  // AMENT_INDEX_CPP__GET_PACKAGE_PREFIX_HPP_

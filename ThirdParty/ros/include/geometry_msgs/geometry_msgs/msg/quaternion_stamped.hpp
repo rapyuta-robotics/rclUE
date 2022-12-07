@@ -4,8 +4,8 @@
 #ifndef GEOMETRY_MSGS__MSG__QUATERNION_STAMPED_HPP_
 #define GEOMETRY_MSGS__MSG__QUATERNION_STAMPED_HPP_
 
-#include "geometry_msgs/msg/detail/quaternion_stamped__builder.hpp"
 #include "geometry_msgs/msg/detail/quaternion_stamped__struct.hpp"
+#include "geometry_msgs/msg/detail/quaternion_stamped__builder.hpp"
 #include "geometry_msgs/msg/detail/quaternion_stamped__traits.hpp"
 
-#endif    // GEOMETRY_MSGS__MSG__QUATERNION_STAMPED_HPP_
+#endif  // GEOMETRY_MSGS__MSG__QUATERNION_STAMPED_HPP_

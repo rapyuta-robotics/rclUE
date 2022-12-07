@@ -18,15 +18,15 @@
 #include "rcutils/visibility_control_macros.h"
 
 #ifdef RCUTILS_BUILDING_DLL
-#define RCUTILS_PUBLIC RCUTILS_EXPORT
+# define RCUTILS_PUBLIC RCUTILS_EXPORT
 #else
-#define RCUTILS_PUBLIC RCUTILS_IMPORT
-#endif    // !RCUTILS_BUILDING_DLL
+# define RCUTILS_PUBLIC RCUTILS_IMPORT
+#endif  // !RCUTILS_BUILDING_DLL
 
 #if defined(_MSC_VER) || defined(__CYGWIN__)
-#define RCUTILS_PUBLIC_TYPE RCUTILS_PUBLIC
-#else    // defined(_MSC_VER) || defined(__CYGWIN__)
-#define RCUTILS_PUBLIC_TYPE
-#endif    // !defined(_MSC_VER) && !defined(__CYGWIN__)
+# define RCUTILS_PUBLIC_TYPE RCUTILS_PUBLIC
+#else  // defined(_MSC_VER) || defined(__CYGWIN__)
+# define RCUTILS_PUBLIC_TYPE
+#endif  // !defined(_MSC_VER) && !defined(__CYGWIN__)
 
-#endif    // RCUTILS__VISIBILITY_CONTROL_H_
+#endif  // RCUTILS__VISIBILITY_CONTROL_H_

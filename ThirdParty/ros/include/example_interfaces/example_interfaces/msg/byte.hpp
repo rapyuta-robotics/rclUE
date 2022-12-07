@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__BYTE_HPP_
 #define EXAMPLE_INTERFACES__MSG__BYTE_HPP_
 
-#include "example_interfaces/msg/detail/byte__builder.hpp"
 #include "example_interfaces/msg/detail/byte__struct.hpp"
+#include "example_interfaces/msg/detail/byte__builder.hpp"
 #include "example_interfaces/msg/detail/byte__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__MSG__BYTE_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__BYTE_HPP_

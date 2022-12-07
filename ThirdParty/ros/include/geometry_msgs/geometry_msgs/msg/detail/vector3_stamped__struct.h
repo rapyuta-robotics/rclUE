@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,30 +23,30 @@ extern "C"
 // Member 'vector'
 #include "geometry_msgs/msg/detail/vector3__struct.h"
 
-    /// Struct defined in msg/Vector3Stamped in the package geometry_msgs.
-    /**
-     * This represents a Vector3 with reference coordinate frame and timestamp
-     */
-    typedef struct geometry_msgs__msg__Vector3Stamped
-    {
-        /// Note that this follows vector semantics with it always anchored at the origin,
-        /// so the rotational elements of a transform are the only parts applied when transforming.
-        std_msgs__msg__Header header;
-        geometry_msgs__msg__Vector3 vector;
-    } geometry_msgs__msg__Vector3Stamped;
+/// Struct defined in msg/Vector3Stamped in the package geometry_msgs.
+/**
+  * This represents a Vector3 with reference coordinate frame and timestamp
+ */
+typedef struct geometry_msgs__msg__Vector3Stamped
+{
+  /// Note that this follows vector semantics with it always anchored at the origin,
+  /// so the rotational elements of a transform are the only parts applied when transforming.
+  std_msgs__msg__Header header;
+  geometry_msgs__msg__Vector3 vector;
+} geometry_msgs__msg__Vector3Stamped;
 
-    // Struct for a sequence of geometry_msgs__msg__Vector3Stamped.
-    typedef struct geometry_msgs__msg__Vector3Stamped__Sequence
-    {
-        geometry_msgs__msg__Vector3Stamped* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } geometry_msgs__msg__Vector3Stamped__Sequence;
+// Struct for a sequence of geometry_msgs__msg__Vector3Stamped.
+typedef struct geometry_msgs__msg__Vector3Stamped__Sequence
+{
+  geometry_msgs__msg__Vector3Stamped * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} geometry_msgs__msg__Vector3Stamped__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__VECTOR3_STAMPED__STRUCT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__VECTOR3_STAMPED__STRUCT_H_

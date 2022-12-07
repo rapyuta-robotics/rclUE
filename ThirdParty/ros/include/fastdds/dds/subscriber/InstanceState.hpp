@@ -21,12 +21,9 @@
 
 #include <cstdint>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * Indicates if the samples are from an alive @ref DataWriter or not.
@@ -78,12 +75,13 @@ enum InstanceStateKind : uint16_t
 using InstanceStateMask = uint16_t;
 
 /// Not alive instance state
-constexpr InstanceStateMask NOT_ALIVE_INSTANCE_STATE = NOT_ALIVE_DISPOSED_INSTANCE_STATE | NOT_ALIVE_NO_WRITERS_INSTANCE_STATE;
+constexpr InstanceStateMask NOT_ALIVE_INSTANCE_STATE =
+        NOT_ALIVE_DISPOSED_INSTANCE_STATE | NOT_ALIVE_NO_WRITERS_INSTANCE_STATE;
 /// Any instance state
 constexpr InstanceStateMask ANY_INSTANCE_STATE = ALIVE_INSTANCE_STATE | NOT_ALIVE_INSTANCE_STATE;
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+}  // namespace dds
+}  // namespace fastdds
+}  // namespace eprosima
 
-#endif    // _FASTDDS_DDS_SUBSCRIBER_INSTANCESTATE_HPP_
+#endif  // _FASTDDS_DDS_SUBSCRIBER_INSTANCESTATE_HPP_

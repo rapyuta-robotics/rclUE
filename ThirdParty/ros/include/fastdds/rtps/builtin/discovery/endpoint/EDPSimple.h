@@ -112,7 +112,7 @@ public:
     void removeRemoteEndpoints(
             ParticipantProxyData* pdata) override;
 
-    //! Verify if the given participant EDP enpoints are matched with us
+    //! Verify whether the given participant EDP endpoints are matched with us
     bool areRemoteEndpointsMatched(
             const ParticipantProxyData* pdata) override;
 
@@ -263,12 +263,6 @@ private:
             const GUID_t& local_writer,
             const ReaderProxyData& remote_reader_data) override;
 #endif // if HAVE_SECURITY
-
-protected:
-
-    std::mutex temp_data_lock_;
-    ReaderProxyData temp_reader_proxy_data_;
-    WriterProxyData temp_writer_proxy_data_;
 };
 
 } /* namespace rtps */

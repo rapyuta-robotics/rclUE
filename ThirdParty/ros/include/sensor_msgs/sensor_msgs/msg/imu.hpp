@@ -4,8 +4,8 @@
 #ifndef SENSOR_MSGS__MSG__IMU_HPP_
 #define SENSOR_MSGS__MSG__IMU_HPP_
 
-#include "sensor_msgs/msg/detail/imu__builder.hpp"
 #include "sensor_msgs/msg/detail/imu__struct.hpp"
+#include "sensor_msgs/msg/detail/imu__builder.hpp"
 #include "sensor_msgs/msg/detail/imu__traits.hpp"
 
-#endif    // SENSOR_MSGS__MSG__IMU_HPP_
+#endif  // SENSOR_MSGS__MSG__IMU_HPP_

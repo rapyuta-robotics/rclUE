@@ -5,8 +5,9 @@
 #ifndef EXAMPLE_INTERFACES__MSG__DETAIL__INT64_MULTI_ARRAY__TYPE_SUPPORT_H_
 #define EXAMPLE_INTERFACES__MSG__DETAIL__INT64_MULTI_ARRAY__TYPE_SUPPORT_H_
 
-#include "example_interfaces/msg/rosidl_generator_c__visibility_control.h"
 #include "rosidl_typesupport_interface/macros.h"
+
+#include "example_interfaces/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -15,12 +16,18 @@ extern "C"
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_example_interfaces const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, example_interfaces, msg, Int64MultiArray)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_example_interfaces
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  example_interfaces,
+  msg,
+  Int64MultiArray
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // EXAMPLE_INTERFACES__MSG__DETAIL__INT64_MULTI_ARRAY__TYPE_SUPPORT_H_
+#endif  // EXAMPLE_INTERFACES__MSG__DETAIL__INT64_MULTI_ARRAY__TYPE_SUPPORT_H_

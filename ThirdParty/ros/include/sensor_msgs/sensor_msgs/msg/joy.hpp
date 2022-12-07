@@ -4,8 +4,8 @@
 #ifndef SENSOR_MSGS__MSG__JOY_HPP_
 #define SENSOR_MSGS__MSG__JOY_HPP_
 
-#include "sensor_msgs/msg/detail/joy__builder.hpp"
 #include "sensor_msgs/msg/detail/joy__struct.hpp"
+#include "sensor_msgs/msg/detail/joy__builder.hpp"
 #include "sensor_msgs/msg/detail/joy__traits.hpp"
 
-#endif    // SENSOR_MSGS__MSG__JOY_HPP_
+#endif  // SENSOR_MSGS__MSG__JOY_HPP_

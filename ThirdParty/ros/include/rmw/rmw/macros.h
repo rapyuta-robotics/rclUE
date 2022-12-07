@@ -23,4 +23,4 @@
 /// Indicate that a variable is not used, and prevent compiler from issuing warnings
 #define RMW_WARN_UNUSED RCUTILS_WARN_UNUSED
 
-#endif    // RMW__MACROS_H_
+#endif  // RMW__MACROS_H_

@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__SRV__DESCRIBE_PARAMETERS_H_
 #define RCL_INTERFACES__SRV__DESCRIBE_PARAMETERS_H_
 
-#include "rcl_interfaces/srv/detail/describe_parameters__functions.h"
 #include "rcl_interfaces/srv/detail/describe_parameters__struct.h"
+#include "rcl_interfaces/srv/detail/describe_parameters__functions.h"
 #include "rcl_interfaces/srv/detail/describe_parameters__type_support.h"
 
-#endif    // RCL_INTERFACES__SRV__DESCRIBE_PARAMETERS_H_
+#endif  // RCL_INTERFACES__SRV__DESCRIBE_PARAMETERS_H_

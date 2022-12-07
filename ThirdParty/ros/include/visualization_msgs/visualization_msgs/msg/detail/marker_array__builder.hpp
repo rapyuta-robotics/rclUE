@@ -5,11 +5,12 @@
 #ifndef VISUALIZATION_MSGS__MSG__DETAIL__MARKER_ARRAY__BUILDER_HPP_
 #define VISUALIZATION_MSGS__MSG__DETAIL__MARKER_ARRAY__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "visualization_msgs/msg/detail/marker_array__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "visualization_msgs/msg/detail/marker_array__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace visualization_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_MarkerArray_markers
 {
 public:
-    Init_MarkerArray_markers() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::visualization_msgs::msg::MarkerArray markers(::visualization_msgs::msg::MarkerArray::_markers_type arg)
-    {
-        msg_.markers = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_MarkerArray_markers()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::visualization_msgs::msg::MarkerArray markers(::visualization_msgs::msg::MarkerArray::_markers_type arg)
+  {
+    msg_.markers = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::visualization_msgs::msg::MarkerArray msg_;
+  ::visualization_msgs::msg::MarkerArray msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::visualization_msgs::msg::MarkerArray>()
+inline
+auto build<::visualization_msgs::msg::MarkerArray>()
 {
-    return visualization_msgs::msg::builder::Init_MarkerArray_markers();
+  return visualization_msgs::msg::builder::Init_MarkerArray_markers();
 }
 
-}    // namespace visualization_msgs
+}  // namespace visualization_msgs
 
-#endif    // VISUALIZATION_MSGS__MSG__DETAIL__MARKER_ARRAY__BUILDER_HPP_
+#endif  // VISUALIZATION_MSGS__MSG__DETAIL__MARKER_ARRAY__BUILDER_HPP_

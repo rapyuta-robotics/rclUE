@@ -5,8 +5,8 @@
 #ifndef TF2_MSGS__ACTION__LOOKUP_TRANSFORM_H_
 #define TF2_MSGS__ACTION__LOOKUP_TRANSFORM_H_
 
-#include "tf2_msgs/action/detail/lookup_transform__functions.h"
 #include "tf2_msgs/action/detail/lookup_transform__struct.h"
+#include "tf2_msgs/action/detail/lookup_transform__functions.h"
 #include "tf2_msgs/action/detail/lookup_transform__type_support.h"
 
-#endif    // TF2_MSGS__ACTION__LOOKUP_TRANSFORM_H_
+#endif  // TF2_MSGS__ACTION__LOOKUP_TRANSFORM_H_

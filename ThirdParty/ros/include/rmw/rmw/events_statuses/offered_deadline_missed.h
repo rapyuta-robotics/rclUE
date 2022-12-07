@@ -15,31 +15,31 @@
 #ifndef RMW__EVENTS_STATUSES__OFFERED_DEADLINE_MISSED_H_
 #define RMW__EVENTS_STATUSES__OFFERED_DEADLINE_MISSED_H_
 
-#include "rmw/visibility_control.h"
-
 #include <stddef.h>
+
+#include "rmw/visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-    /// QoS Deadline Missed information provided by a publisher.
-    typedef struct RMW_PUBLIC_TYPE rmw_offered_deadline_missed_status_s
-    {
-        /**
-         * Lifetime cumulative number of offered deadline periods elapsed during which a Publisher failed
-         * to provide data.
-         * Missed deadlines accumulate; that is, each deadline period the total_count will be incremented
-         * by one.
-         */
-        int32_t total_count;
-        /// The change in total_count since the last time the status was last read.
-        int32_t total_count_change;
-    } rmw_offered_deadline_missed_status_t;
+/// QoS Deadline Missed information provided by a publisher.
+typedef struct RMW_PUBLIC_TYPE rmw_offered_deadline_missed_status_s
+{
+  /**
+   * Lifetime cumulative number of offered deadline periods elapsed during which a Publisher failed
+   * to provide data.
+   * Missed deadlines accumulate; that is, each deadline period the total_count will be incremented
+   * by one.
+   */
+  int32_t total_count;
+  /// The change in total_count since the last time the status was last read.
+  int32_t total_count_change;
+} rmw_offered_deadline_missed_status_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__EVENTS_STATUSES__OFFERED_DEADLINE_MISSED_H_
+#endif  // RMW__EVENTS_STATUSES__OFFERED_DEADLINE_MISSED_H_

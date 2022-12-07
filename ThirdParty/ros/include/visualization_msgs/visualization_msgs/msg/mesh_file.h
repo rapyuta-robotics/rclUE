@@ -5,8 +5,8 @@
 #ifndef VISUALIZATION_MSGS__MSG__MESH_FILE_H_
 #define VISUALIZATION_MSGS__MSG__MESH_FILE_H_
 
-#include "visualization_msgs/msg/detail/mesh_file__functions.h"
 #include "visualization_msgs/msg/detail/mesh_file__struct.h"
+#include "visualization_msgs/msg/detail/mesh_file__functions.h"
 #include "visualization_msgs/msg/detail/mesh_file__type_support.h"
 
-#endif    // VISUALIZATION_MSGS__MSG__MESH_FILE_H_
+#endif  // VISUALIZATION_MSGS__MSG__MESH_FILE_H_

@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__MSG__LOG_H_
 #define RCL_INTERFACES__MSG__LOG_H_
 
-#include "rcl_interfaces/msg/detail/log__functions.h"
 #include "rcl_interfaces/msg/detail/log__struct.h"
+#include "rcl_interfaces/msg/detail/log__functions.h"
 #include "rcl_interfaces/msg/detail/log__type_support.h"
 
-#endif    // RCL_INTERFACES__MSG__LOG_H_
+#endif  // RCL_INTERFACES__MSG__LOG_H_

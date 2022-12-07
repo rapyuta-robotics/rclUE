@@ -4,14 +4,12 @@
 #include <fastdds/rtps/common/LocatorSelector.hpp>
 #include <fastdds/rtps/messages/RTPSMessageSenderInterface.hpp>
 #include <fastrtps/utils/collections/ResourceLimitedVector.hpp>
+
 #include <mutex>
 
-namespace eprosima
-{
-namespace fastrtps
-{
-namespace rtps
-{
+namespace eprosima {
+namespace fastrtps {
+namespace rtps {
 
 class RTPSWriter;
 
@@ -22,11 +20,15 @@ class RTPSWriter;
 class LocatorSelectorSender : public RTPSMessageSenderInterface
 {
 public:
-    LocatorSelectorSender(RTPSWriter& writer, ResourceLimitedContainerConfig matched_readers_allocation)
-        : locator_selector(matched_readers_allocation),
-          all_remote_readers(matched_readers_allocation),
-          all_remote_participants(matched_readers_allocation),
-          writer_(writer)
+
+    LocatorSelectorSender(
+            RTPSWriter& writer,
+            ResourceLimitedContainerConfig matched_readers_allocation
+            )
+        : locator_selector(matched_readers_allocation)
+        , all_remote_readers(matched_readers_allocation)
+        , all_remote_participants(matched_readers_allocation)
+        , writer_(writer)
     {
     }
 
@@ -71,7 +73,9 @@ public:
      * @param message Pointer to the buffer with the message already serialized.
      * @param max_blocking_time_point Future timepoint where blocking send should end.
      */
-    bool send(CDRMessage_t* message, std::chrono::steady_clock::time_point max_blocking_time_point) const override;
+    bool send(
+            CDRMessage_t* message,
+            std::chrono::steady_clock::time_point max_blocking_time_point) const override;
 
     /*!
      * Lock the object.
@@ -98,12 +102,13 @@ public:
     ResourceLimitedVector<GuidPrefix_t> all_remote_participants;
 
 private:
+
     RTPSWriter& writer_;
 
     std::recursive_mutex mutex_;
 };
 
-}    // namespace rtps
-}    // namespace fastrtps
-}    // namespace eprosima
-#endif    // _FASTDDS_RTPS_WRITER_LOCATORSELECTORSENDER_HPP_
+} // namespace rtps
+} // namespace fastrtps
+} // namespace eprosima
+#endif // _FASTDDS_RTPS_WRITER_LOCATORSELECTORSENDER_HPP_

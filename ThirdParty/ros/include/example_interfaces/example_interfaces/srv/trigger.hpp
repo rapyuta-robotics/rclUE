@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__SRV__TRIGGER_HPP_
 #define EXAMPLE_INTERFACES__SRV__TRIGGER_HPP_
 
-#include "example_interfaces/srv/detail/trigger__builder.hpp"
 #include "example_interfaces/srv/detail/trigger__struct.hpp"
+#include "example_interfaces/srv/detail/trigger__builder.hpp"
 #include "example_interfaces/srv/detail/trigger__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__SRV__TRIGGER_HPP_
+#endif  // EXAMPLE_INTERFACES__SRV__TRIGGER_HPP_

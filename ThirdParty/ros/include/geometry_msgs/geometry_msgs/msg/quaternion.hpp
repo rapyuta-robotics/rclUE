@@ -4,8 +4,8 @@
 #ifndef GEOMETRY_MSGS__MSG__QUATERNION_HPP_
 #define GEOMETRY_MSGS__MSG__QUATERNION_HPP_
 
-#include "geometry_msgs/msg/detail/quaternion__builder.hpp"
 #include "geometry_msgs/msg/detail/quaternion__struct.hpp"
+#include "geometry_msgs/msg/detail/quaternion__builder.hpp"
 #include "geometry_msgs/msg/detail/quaternion__traits.hpp"
 
-#endif    // GEOMETRY_MSGS__MSG__QUATERNION_HPP_
+#endif  // GEOMETRY_MSGS__MSG__QUATERNION_HPP_

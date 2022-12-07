@@ -51,15 +51,15 @@
 // prefer using dllimport/dllexport are the semantic of those flags is closer
 // to msvc++ behavior. See GCC documentation:
 // https://gcc.gnu.org/onlinedocs/gcc/Microsoft-Windows-Function-Attributes.html
-#define RCUTILS_IMPORT __declspec(dllimport)
-#define RCUTILS_EXPORT __declspec(dllexport)
-#define RCUTILS_LOCAL
-#else    // defined(_MSC_VER) || defined(__CYGWIN__)
+# define RCUTILS_IMPORT __declspec(dllimport)
+# define RCUTILS_EXPORT __declspec(dllexport)
+# define RCUTILS_LOCAL
+#else  // defined(_MSC_VER) || defined(__CYGWIN__)
 // On Linux, use the GCC syntax. This syntax is understood by other compilers
 // such as clang, icpc, and xlc++.
-#define RCUTILS_IMPORT __attribute__((visibility("default")))
-#define RCUTILS_EXPORT __attribute__((visibility("default")))
-#define RCUTILS_LOCAL __attribute__((visibility("hidden")))
-#endif    // !defined(_MSC_VER) && !defined(__CYGWIN__)
+# define RCUTILS_IMPORT __attribute__ ((visibility("default")))
+# define RCUTILS_EXPORT __attribute__ ((visibility("default")))
+# define RCUTILS_LOCAL  __attribute__ ((visibility("hidden")))
+#endif  // !defined(_MSC_VER) && !defined(__CYGWIN__)
 
-#endif    // RCUTILS__VISIBILITY_CONTROL_MACROS_H_
+#endif  // RCUTILS__VISIBILITY_CONTROL_MACROS_H_

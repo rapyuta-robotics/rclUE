@@ -6,6 +6,7 @@
 #define TRAJECTORY_MSGS__MSG__DETAIL__JOINT_TRAJECTORY__TYPE_SUPPORT_H_
 
 #include "rosidl_typesupport_interface/macros.h"
+
 #include "trajectory_msgs/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
@@ -15,12 +16,18 @@ extern "C"
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_trajectory_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, trajectory_msgs, msg, JointTrajectory)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_trajectory_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  trajectory_msgs,
+  msg,
+  JointTrajectory
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // TRAJECTORY_MSGS__MSG__DETAIL__JOINT_TRAJECTORY__TYPE_SUPPORT_H_
+#endif  // TRAJECTORY_MSGS__MSG__DETAIL__JOINT_TRAJECTORY__TYPE_SUPPORT_H_

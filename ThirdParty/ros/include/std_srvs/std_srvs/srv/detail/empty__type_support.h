@@ -6,6 +6,7 @@
 #define STD_SRVS__SRV__DETAIL__EMPTY__TYPE_SUPPORT_H_
 
 #include "rosidl_typesupport_interface/macros.h"
+
 #include "std_srvs/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
@@ -15,25 +16,43 @@ extern "C"
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_std_srvs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, std_srvs, srv, Empty_Request)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_std_srvs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  std_srvs,
+  srv,
+  Empty_Request
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_std_srvs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, std_srvs, srv, Empty_Response)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_std_srvs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  std_srvs,
+  srv,
+  Empty_Response
+)();
 
 #include "rosidl_runtime_c/service_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_std_srvs const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_c, std_srvs, srv, Empty)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_std_srvs
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  std_srvs,
+  srv,
+  Empty
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // STD_SRVS__SRV__DETAIL__EMPTY__TYPE_SUPPORT_H_
+#endif  // STD_SRVS__SRV__DETAIL__EMPTY__TYPE_SUPPORT_H_

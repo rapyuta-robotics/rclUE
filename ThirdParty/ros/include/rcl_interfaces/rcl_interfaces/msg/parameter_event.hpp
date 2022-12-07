@@ -4,8 +4,8 @@
 #ifndef RCL_INTERFACES__MSG__PARAMETER_EVENT_HPP_
 #define RCL_INTERFACES__MSG__PARAMETER_EVENT_HPP_
 
-#include "rcl_interfaces/msg/detail/parameter_event__builder.hpp"
 #include "rcl_interfaces/msg/detail/parameter_event__struct.hpp"
+#include "rcl_interfaces/msg/detail/parameter_event__builder.hpp"
 #include "rcl_interfaces/msg/detail/parameter_event__traits.hpp"
 
-#endif    // RCL_INTERFACES__MSG__PARAMETER_EVENT_HPP_
+#endif  // RCL_INTERFACES__MSG__PARAMETER_EVENT_HPP_

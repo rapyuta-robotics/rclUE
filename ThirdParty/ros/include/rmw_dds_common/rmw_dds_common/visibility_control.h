@@ -20,39 +20,39 @@ extern "C"
 {
 #endif
 
-    // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-    //     https://gcc.gnu.org/wiki/Visibility
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define RMW_DDS_COMMON_EXPORT __attribute__((dllexport))
-#define RMW_DDS_COMMON_IMPORT __attribute__((dllimport))
+  #ifdef __GNUC__
+    #define RMW_DDS_COMMON_EXPORT __attribute__ ((dllexport))
+    #define RMW_DDS_COMMON_IMPORT __attribute__ ((dllimport))
+  #else
+    #define RMW_DDS_COMMON_EXPORT __declspec(dllexport)
+    #define RMW_DDS_COMMON_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef RMW_DDS_COMMON_BUILDING_LIBRARY
+    #define RMW_DDS_COMMON_PUBLIC RMW_DDS_COMMON_EXPORT
+  #else
+    #define RMW_DDS_COMMON_PUBLIC RMW_DDS_COMMON_IMPORT
+  #endif
+  #define RMW_DDS_COMMON_PUBLIC_TYPE RMW_DDS_COMMON_PUBLIC
+  #define RMW_DDS_COMMON_LOCAL
 #else
-#define RMW_DDS_COMMON_EXPORT __declspec(dllexport)
-#define RMW_DDS_COMMON_IMPORT __declspec(dllimport)
-#endif
-#ifdef RMW_DDS_COMMON_BUILDING_LIBRARY
-#define RMW_DDS_COMMON_PUBLIC RMW_DDS_COMMON_EXPORT
-#else
-#define RMW_DDS_COMMON_PUBLIC RMW_DDS_COMMON_IMPORT
-#endif
-#define RMW_DDS_COMMON_PUBLIC_TYPE RMW_DDS_COMMON_PUBLIC
-#define RMW_DDS_COMMON_LOCAL
-#else
-#define RMW_DDS_COMMON_EXPORT __attribute__((visibility("default")))
-#define RMW_DDS_COMMON_IMPORT
-#if __GNUC__ >= 4
-#define RMW_DDS_COMMON_PUBLIC __attribute__((visibility("default")))
-#define RMW_DDS_COMMON_LOCAL __attribute__((visibility("hidden")))
-#else
-#define RMW_DDS_COMMON_PUBLIC
-#define RMW_DDS_COMMON_LOCAL
-#endif
-#define RMW_DDS_COMMON_PUBLIC_TYPE
+  #define RMW_DDS_COMMON_EXPORT __attribute__ ((visibility("default")))
+  #define RMW_DDS_COMMON_IMPORT
+  #if __GNUC__ >= 4
+    #define RMW_DDS_COMMON_PUBLIC __attribute__ ((visibility("default")))
+    #define RMW_DDS_COMMON_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define RMW_DDS_COMMON_PUBLIC
+    #define RMW_DDS_COMMON_LOCAL
+  #endif
+  #define RMW_DDS_COMMON_PUBLIC_TYPE
 #endif
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW_DDS_COMMON__VISIBILITY_CONTROL_H_
+#endif  // RMW_DDS_COMMON__VISIBILITY_CONTROL_H_

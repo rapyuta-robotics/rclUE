@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,28 +23,28 @@ extern "C"
 // Member 'pose'
 #include "geometry_msgs/msg/detail/pose__struct.h"
 
-    /// Struct defined in msg/PoseStamped in the package geometry_msgs.
-    /**
-     * A Pose with reference coordinate frame and timestamp
-     */
-    typedef struct geometry_msgs__msg__PoseStamped
-    {
-        std_msgs__msg__Header header;
-        geometry_msgs__msg__Pose pose;
-    } geometry_msgs__msg__PoseStamped;
+/// Struct defined in msg/PoseStamped in the package geometry_msgs.
+/**
+  * A Pose with reference coordinate frame and timestamp
+ */
+typedef struct geometry_msgs__msg__PoseStamped
+{
+  std_msgs__msg__Header header;
+  geometry_msgs__msg__Pose pose;
+} geometry_msgs__msg__PoseStamped;
 
-    // Struct for a sequence of geometry_msgs__msg__PoseStamped.
-    typedef struct geometry_msgs__msg__PoseStamped__Sequence
-    {
-        geometry_msgs__msg__PoseStamped* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } geometry_msgs__msg__PoseStamped__Sequence;
+// Struct for a sequence of geometry_msgs__msg__PoseStamped.
+typedef struct geometry_msgs__msg__PoseStamped__Sequence
+{
+  geometry_msgs__msg__PoseStamped * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} geometry_msgs__msg__PoseStamped__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__POSE_STAMPED__STRUCT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__POSE_STAMPED__STRUCT_H_

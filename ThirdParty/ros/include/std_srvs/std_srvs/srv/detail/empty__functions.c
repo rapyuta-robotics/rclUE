@@ -3,494 +3,458 @@
 // generated code does not contain a copyright notice
 #include "std_srvs/srv/detail/empty__functions.h"
 
-#include "rcutils/allocator.h"
-
 #include <assert.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
-bool std_srvs__srv__Empty_Request__init(std_srvs__srv__Empty_Request* msg)
+#include "rcutils/allocator.h"
+
+bool
+std_srvs__srv__Empty_Request__init(std_srvs__srv__Empty_Request * msg)
 {
-    if (!msg)
-    {
-        return false;
-    }
-    // structure_needs_at_least_one_member
-    return true;
+  if (!msg) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  return true;
 }
 
-void std_srvs__srv__Empty_Request__fini(std_srvs__srv__Empty_Request* msg)
+void
+std_srvs__srv__Empty_Request__fini(std_srvs__srv__Empty_Request * msg)
 {
-    if (!msg)
-    {
-        return;
-    }
-    // structure_needs_at_least_one_member
+  if (!msg) {
+    return;
+  }
+  // structure_needs_at_least_one_member
 }
 
-bool std_srvs__srv__Empty_Request__are_equal(const std_srvs__srv__Empty_Request* lhs, const std_srvs__srv__Empty_Request* rhs)
+bool
+std_srvs__srv__Empty_Request__are_equal(const std_srvs__srv__Empty_Request * lhs, const std_srvs__srv__Empty_Request * rhs)
 {
-    if (!lhs || !rhs)
-    {
-        return false;
-    }
-    // structure_needs_at_least_one_member
-    if (lhs->structure_needs_at_least_one_member != rhs->structure_needs_at_least_one_member)
-    {
-        return false;
-    }
-    return true;
+  if (!lhs || !rhs) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  if (lhs->structure_needs_at_least_one_member != rhs->structure_needs_at_least_one_member) {
+    return false;
+  }
+  return true;
 }
 
-bool std_srvs__srv__Empty_Request__copy(const std_srvs__srv__Empty_Request* input, std_srvs__srv__Empty_Request* output)
+bool
+std_srvs__srv__Empty_Request__copy(
+  const std_srvs__srv__Empty_Request * input,
+  std_srvs__srv__Empty_Request * output)
 {
-    if (!input || !output)
-    {
-        return false;
-    }
-    // structure_needs_at_least_one_member
-    output->structure_needs_at_least_one_member = input->structure_needs_at_least_one_member;
-    return true;
+  if (!input || !output) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  output->structure_needs_at_least_one_member = input->structure_needs_at_least_one_member;
+  return true;
 }
 
-std_srvs__srv__Empty_Request* std_srvs__srv__Empty_Request__create()
+std_srvs__srv__Empty_Request *
+std_srvs__srv__Empty_Request__create()
 {
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    std_srvs__srv__Empty_Request* msg =
-        (std_srvs__srv__Empty_Request*)allocator.allocate(sizeof(std_srvs__srv__Empty_Request), allocator.state);
-    if (!msg)
-    {
-        return NULL;
-    }
-    memset(msg, 0, sizeof(std_srvs__srv__Empty_Request));
-    bool success = std_srvs__srv__Empty_Request__init(msg);
-    if (!success)
-    {
-        allocator.deallocate(msg, allocator.state);
-        return NULL;
-    }
-    return msg;
-}
-
-void std_srvs__srv__Empty_Request__destroy(std_srvs__srv__Empty_Request* msg)
-{
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    if (msg)
-    {
-        std_srvs__srv__Empty_Request__fini(msg);
-    }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  std_srvs__srv__Empty_Request * msg = (std_srvs__srv__Empty_Request *)allocator.allocate(sizeof(std_srvs__srv__Empty_Request), allocator.state);
+  if (!msg) {
+    return NULL;
+  }
+  memset(msg, 0, sizeof(std_srvs__srv__Empty_Request));
+  bool success = std_srvs__srv__Empty_Request__init(msg);
+  if (!success) {
     allocator.deallocate(msg, allocator.state);
+    return NULL;
+  }
+  return msg;
 }
 
-bool std_srvs__srv__Empty_Request__Sequence__init(std_srvs__srv__Empty_Request__Sequence* array, size_t size)
+void
+std_srvs__srv__Empty_Request__destroy(std_srvs__srv__Empty_Request * msg)
 {
-    if (!array)
-    {
-        return false;
-    }
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    std_srvs__srv__Empty_Request* data = NULL;
-
-    if (size)
-    {
-        data = (std_srvs__srv__Empty_Request*)allocator.zero_allocate(size, sizeof(std_srvs__srv__Empty_Request), allocator.state);
-        if (!data)
-        {
-            return false;
-        }
-        // initialize all array elements
-        size_t i;
-        for (i = 0; i < size; ++i)
-        {
-            bool success = std_srvs__srv__Empty_Request__init(&data[i]);
-            if (!success)
-            {
-                break;
-            }
-        }
-        if (i < size)
-        {
-            // if initialization failed finalize the already initialized array elements
-            for (; i > 0; --i)
-            {
-                std_srvs__srv__Empty_Request__fini(&data[i - 1]);
-            }
-            allocator.deallocate(data, allocator.state);
-            return false;
-        }
-    }
-    array->data = data;
-    array->size = size;
-    array->capacity = size;
-    return true;
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  if (msg) {
+    std_srvs__srv__Empty_Request__fini(msg);
+  }
+  allocator.deallocate(msg, allocator.state);
 }
 
-void std_srvs__srv__Empty_Request__Sequence__fini(std_srvs__srv__Empty_Request__Sequence* array)
-{
-    if (!array)
-    {
-        return;
-    }
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
 
-    if (array->data)
-    {
-        // ensure that data and capacity values are consistent
-        assert(array->capacity > 0);
-        // finalize all array elements
-        for (size_t i = 0; i < array->capacity; ++i)
-        {
-            std_srvs__srv__Empty_Request__fini(&array->data[i]);
-        }
-        allocator.deallocate(array->data, allocator.state);
-        array->data = NULL;
-        array->size = 0;
-        array->capacity = 0;
+bool
+std_srvs__srv__Empty_Request__Sequence__init(std_srvs__srv__Empty_Request__Sequence * array, size_t size)
+{
+  if (!array) {
+    return false;
+  }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  std_srvs__srv__Empty_Request * data = NULL;
+
+  if (size) {
+    data = (std_srvs__srv__Empty_Request *)allocator.zero_allocate(size, sizeof(std_srvs__srv__Empty_Request), allocator.state);
+    if (!data) {
+      return false;
     }
-    else
-    {
-        // ensure that data, size, and capacity values are consistent
-        assert(0 == array->size);
-        assert(0 == array->capacity);
+    // initialize all array elements
+    size_t i;
+    for (i = 0; i < size; ++i) {
+      bool success = std_srvs__srv__Empty_Request__init(&data[i]);
+      if (!success) {
+        break;
+      }
     }
+    if (i < size) {
+      // if initialization failed finalize the already initialized array elements
+      for (; i > 0; --i) {
+        std_srvs__srv__Empty_Request__fini(&data[i - 1]);
+      }
+      allocator.deallocate(data, allocator.state);
+      return false;
+    }
+  }
+  array->data = data;
+  array->size = size;
+  array->capacity = size;
+  return true;
 }
 
-std_srvs__srv__Empty_Request__Sequence* std_srvs__srv__Empty_Request__Sequence__create(size_t size)
+void
+std_srvs__srv__Empty_Request__Sequence__fini(std_srvs__srv__Empty_Request__Sequence * array)
 {
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    std_srvs__srv__Empty_Request__Sequence* array = (std_srvs__srv__Empty_Request__Sequence*)allocator.allocate(
-        sizeof(std_srvs__srv__Empty_Request__Sequence), allocator.state);
-    if (!array)
-    {
-        return NULL;
+  if (!array) {
+    return;
+  }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
+  if (array->data) {
+    // ensure that data and capacity values are consistent
+    assert(array->capacity > 0);
+    // finalize all array elements
+    for (size_t i = 0; i < array->capacity; ++i) {
+      std_srvs__srv__Empty_Request__fini(&array->data[i]);
     }
-    bool success = std_srvs__srv__Empty_Request__Sequence__init(array, size);
-    if (!success)
-    {
-        allocator.deallocate(array, allocator.state);
-        return NULL;
-    }
-    return array;
+    allocator.deallocate(array->data, allocator.state);
+    array->data = NULL;
+    array->size = 0;
+    array->capacity = 0;
+  } else {
+    // ensure that data, size, and capacity values are consistent
+    assert(0 == array->size);
+    assert(0 == array->capacity);
+  }
 }
 
-void std_srvs__srv__Empty_Request__Sequence__destroy(std_srvs__srv__Empty_Request__Sequence* array)
+std_srvs__srv__Empty_Request__Sequence *
+std_srvs__srv__Empty_Request__Sequence__create(size_t size)
 {
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    if (array)
-    {
-        std_srvs__srv__Empty_Request__Sequence__fini(array);
-    }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  std_srvs__srv__Empty_Request__Sequence * array = (std_srvs__srv__Empty_Request__Sequence *)allocator.allocate(sizeof(std_srvs__srv__Empty_Request__Sequence), allocator.state);
+  if (!array) {
+    return NULL;
+  }
+  bool success = std_srvs__srv__Empty_Request__Sequence__init(array, size);
+  if (!success) {
     allocator.deallocate(array, allocator.state);
+    return NULL;
+  }
+  return array;
 }
 
-bool std_srvs__srv__Empty_Request__Sequence__are_equal(const std_srvs__srv__Empty_Request__Sequence* lhs,
-                                                       const std_srvs__srv__Empty_Request__Sequence* rhs)
+void
+std_srvs__srv__Empty_Request__Sequence__destroy(std_srvs__srv__Empty_Request__Sequence * array)
 {
-    if (!lhs || !rhs)
-    {
-        return false;
-    }
-    if (lhs->size != rhs->size)
-    {
-        return false;
-    }
-    for (size_t i = 0; i < lhs->size; ++i)
-    {
-        if (!std_srvs__srv__Empty_Request__are_equal(&(lhs->data[i]), &(rhs->data[i])))
-        {
-            return false;
-        }
-    }
-    return true;
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  if (array) {
+    std_srvs__srv__Empty_Request__Sequence__fini(array);
+  }
+  allocator.deallocate(array, allocator.state);
 }
 
-bool std_srvs__srv__Empty_Request__Sequence__copy(const std_srvs__srv__Empty_Request__Sequence* input,
-                                                  std_srvs__srv__Empty_Request__Sequence* output)
+bool
+std_srvs__srv__Empty_Request__Sequence__are_equal(const std_srvs__srv__Empty_Request__Sequence * lhs, const std_srvs__srv__Empty_Request__Sequence * rhs)
 {
-    if (!input || !output)
-    {
-        return false;
+  if (!lhs || !rhs) {
+    return false;
+  }
+  if (lhs->size != rhs->size) {
+    return false;
+  }
+  for (size_t i = 0; i < lhs->size; ++i) {
+    if (!std_srvs__srv__Empty_Request__are_equal(&(lhs->data[i]), &(rhs->data[i]))) {
+      return false;
     }
-    if (output->capacity < input->size)
-    {
-        const size_t allocation_size = input->size * sizeof(std_srvs__srv__Empty_Request);
-        rcutils_allocator_t allocator = rcutils_get_default_allocator();
-        std_srvs__srv__Empty_Request* data =
-            (std_srvs__srv__Empty_Request*)allocator.reallocate(output->data, allocation_size, allocator.state);
-        if (!data)
-        {
-            return false;
-        }
-        // If reallocation succeeded, memory may or may not have been moved
-        // to fulfill the allocation request, invalidating output->data.
-        output->data = data;
-        for (size_t i = output->capacity; i < input->size; ++i)
-        {
-            if (!std_srvs__srv__Empty_Request__init(&output->data[i]))
-            {
-                // If initialization of any new item fails, roll back
-                // all previously initialized items. Existing items
-                // in output are to be left unmodified.
-                for (; i-- > output->capacity;)
-                {
-                    std_srvs__srv__Empty_Request__fini(&output->data[i]);
-                }
-                return false;
-            }
-        }
-        output->capacity = input->size;
-    }
-    output->size = input->size;
-    for (size_t i = 0; i < input->size; ++i)
-    {
-        if (!std_srvs__srv__Empty_Request__copy(&(input->data[i]), &(output->data[i])))
-        {
-            return false;
-        }
-    }
-    return true;
+  }
+  return true;
 }
 
-bool std_srvs__srv__Empty_Response__init(std_srvs__srv__Empty_Response* msg)
+bool
+std_srvs__srv__Empty_Request__Sequence__copy(
+  const std_srvs__srv__Empty_Request__Sequence * input,
+  std_srvs__srv__Empty_Request__Sequence * output)
 {
-    if (!msg)
-    {
-        return false;
-    }
-    // structure_needs_at_least_one_member
-    return true;
-}
-
-void std_srvs__srv__Empty_Response__fini(std_srvs__srv__Empty_Response* msg)
-{
-    if (!msg)
-    {
-        return;
-    }
-    // structure_needs_at_least_one_member
-}
-
-bool std_srvs__srv__Empty_Response__are_equal(const std_srvs__srv__Empty_Response* lhs, const std_srvs__srv__Empty_Response* rhs)
-{
-    if (!lhs || !rhs)
-    {
-        return false;
-    }
-    // structure_needs_at_least_one_member
-    if (lhs->structure_needs_at_least_one_member != rhs->structure_needs_at_least_one_member)
-    {
-        return false;
-    }
-    return true;
-}
-
-bool std_srvs__srv__Empty_Response__copy(const std_srvs__srv__Empty_Response* input, std_srvs__srv__Empty_Response* output)
-{
-    if (!input || !output)
-    {
-        return false;
-    }
-    // structure_needs_at_least_one_member
-    output->structure_needs_at_least_one_member = input->structure_needs_at_least_one_member;
-    return true;
-}
-
-std_srvs__srv__Empty_Response* std_srvs__srv__Empty_Response__create()
-{
+  if (!input || !output) {
+    return false;
+  }
+  if (output->capacity < input->size) {
+    const size_t allocation_size =
+      input->size * sizeof(std_srvs__srv__Empty_Request);
     rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    std_srvs__srv__Empty_Response* msg =
-        (std_srvs__srv__Empty_Response*)allocator.allocate(sizeof(std_srvs__srv__Empty_Response), allocator.state);
-    if (!msg)
-    {
-        return NULL;
+    std_srvs__srv__Empty_Request * data =
+      (std_srvs__srv__Empty_Request *)allocator.reallocate(
+      output->data, allocation_size, allocator.state);
+    if (!data) {
+      return false;
     }
-    memset(msg, 0, sizeof(std_srvs__srv__Empty_Response));
-    bool success = std_srvs__srv__Empty_Response__init(msg);
-    if (!success)
-    {
-        allocator.deallocate(msg, allocator.state);
-        return NULL;
+    // If reallocation succeeded, memory may or may not have been moved
+    // to fulfill the allocation request, invalidating output->data.
+    output->data = data;
+    for (size_t i = output->capacity; i < input->size; ++i) {
+      if (!std_srvs__srv__Empty_Request__init(&output->data[i])) {
+        // If initialization of any new item fails, roll back
+        // all previously initialized items. Existing items
+        // in output are to be left unmodified.
+        for (; i-- > output->capacity; ) {
+          std_srvs__srv__Empty_Request__fini(&output->data[i]);
+        }
+        return false;
+      }
     }
-    return msg;
+    output->capacity = input->size;
+  }
+  output->size = input->size;
+  for (size_t i = 0; i < input->size; ++i) {
+    if (!std_srvs__srv__Empty_Request__copy(
+        &(input->data[i]), &(output->data[i])))
+    {
+      return false;
+    }
+  }
+  return true;
 }
 
-void std_srvs__srv__Empty_Response__destroy(std_srvs__srv__Empty_Response* msg)
+
+bool
+std_srvs__srv__Empty_Response__init(std_srvs__srv__Empty_Response * msg)
 {
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    if (msg)
-    {
-        std_srvs__srv__Empty_Response__fini(msg);
-    }
+  if (!msg) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  return true;
+}
+
+void
+std_srvs__srv__Empty_Response__fini(std_srvs__srv__Empty_Response * msg)
+{
+  if (!msg) {
+    return;
+  }
+  // structure_needs_at_least_one_member
+}
+
+bool
+std_srvs__srv__Empty_Response__are_equal(const std_srvs__srv__Empty_Response * lhs, const std_srvs__srv__Empty_Response * rhs)
+{
+  if (!lhs || !rhs) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  if (lhs->structure_needs_at_least_one_member != rhs->structure_needs_at_least_one_member) {
+    return false;
+  }
+  return true;
+}
+
+bool
+std_srvs__srv__Empty_Response__copy(
+  const std_srvs__srv__Empty_Response * input,
+  std_srvs__srv__Empty_Response * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  // structure_needs_at_least_one_member
+  output->structure_needs_at_least_one_member = input->structure_needs_at_least_one_member;
+  return true;
+}
+
+std_srvs__srv__Empty_Response *
+std_srvs__srv__Empty_Response__create()
+{
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  std_srvs__srv__Empty_Response * msg = (std_srvs__srv__Empty_Response *)allocator.allocate(sizeof(std_srvs__srv__Empty_Response), allocator.state);
+  if (!msg) {
+    return NULL;
+  }
+  memset(msg, 0, sizeof(std_srvs__srv__Empty_Response));
+  bool success = std_srvs__srv__Empty_Response__init(msg);
+  if (!success) {
     allocator.deallocate(msg, allocator.state);
+    return NULL;
+  }
+  return msg;
 }
 
-bool std_srvs__srv__Empty_Response__Sequence__init(std_srvs__srv__Empty_Response__Sequence* array, size_t size)
+void
+std_srvs__srv__Empty_Response__destroy(std_srvs__srv__Empty_Response * msg)
 {
-    if (!array)
-    {
-        return false;
-    }
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    std_srvs__srv__Empty_Response* data = NULL;
-
-    if (size)
-    {
-        data =
-            (std_srvs__srv__Empty_Response*)allocator.zero_allocate(size, sizeof(std_srvs__srv__Empty_Response), allocator.state);
-        if (!data)
-        {
-            return false;
-        }
-        // initialize all array elements
-        size_t i;
-        for (i = 0; i < size; ++i)
-        {
-            bool success = std_srvs__srv__Empty_Response__init(&data[i]);
-            if (!success)
-            {
-                break;
-            }
-        }
-        if (i < size)
-        {
-            // if initialization failed finalize the already initialized array elements
-            for (; i > 0; --i)
-            {
-                std_srvs__srv__Empty_Response__fini(&data[i - 1]);
-            }
-            allocator.deallocate(data, allocator.state);
-            return false;
-        }
-    }
-    array->data = data;
-    array->size = size;
-    array->capacity = size;
-    return true;
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  if (msg) {
+    std_srvs__srv__Empty_Response__fini(msg);
+  }
+  allocator.deallocate(msg, allocator.state);
 }
 
-void std_srvs__srv__Empty_Response__Sequence__fini(std_srvs__srv__Empty_Response__Sequence* array)
-{
-    if (!array)
-    {
-        return;
-    }
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
 
-    if (array->data)
-    {
-        // ensure that data and capacity values are consistent
-        assert(array->capacity > 0);
-        // finalize all array elements
-        for (size_t i = 0; i < array->capacity; ++i)
-        {
-            std_srvs__srv__Empty_Response__fini(&array->data[i]);
-        }
-        allocator.deallocate(array->data, allocator.state);
-        array->data = NULL;
-        array->size = 0;
-        array->capacity = 0;
+bool
+std_srvs__srv__Empty_Response__Sequence__init(std_srvs__srv__Empty_Response__Sequence * array, size_t size)
+{
+  if (!array) {
+    return false;
+  }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  std_srvs__srv__Empty_Response * data = NULL;
+
+  if (size) {
+    data = (std_srvs__srv__Empty_Response *)allocator.zero_allocate(size, sizeof(std_srvs__srv__Empty_Response), allocator.state);
+    if (!data) {
+      return false;
     }
-    else
-    {
-        // ensure that data, size, and capacity values are consistent
-        assert(0 == array->size);
-        assert(0 == array->capacity);
+    // initialize all array elements
+    size_t i;
+    for (i = 0; i < size; ++i) {
+      bool success = std_srvs__srv__Empty_Response__init(&data[i]);
+      if (!success) {
+        break;
+      }
     }
+    if (i < size) {
+      // if initialization failed finalize the already initialized array elements
+      for (; i > 0; --i) {
+        std_srvs__srv__Empty_Response__fini(&data[i - 1]);
+      }
+      allocator.deallocate(data, allocator.state);
+      return false;
+    }
+  }
+  array->data = data;
+  array->size = size;
+  array->capacity = size;
+  return true;
 }
 
-std_srvs__srv__Empty_Response__Sequence* std_srvs__srv__Empty_Response__Sequence__create(size_t size)
+void
+std_srvs__srv__Empty_Response__Sequence__fini(std_srvs__srv__Empty_Response__Sequence * array)
 {
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    std_srvs__srv__Empty_Response__Sequence* array = (std_srvs__srv__Empty_Response__Sequence*)allocator.allocate(
-        sizeof(std_srvs__srv__Empty_Response__Sequence), allocator.state);
-    if (!array)
-    {
-        return NULL;
+  if (!array) {
+    return;
+  }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+
+  if (array->data) {
+    // ensure that data and capacity values are consistent
+    assert(array->capacity > 0);
+    // finalize all array elements
+    for (size_t i = 0; i < array->capacity; ++i) {
+      std_srvs__srv__Empty_Response__fini(&array->data[i]);
     }
-    bool success = std_srvs__srv__Empty_Response__Sequence__init(array, size);
-    if (!success)
-    {
-        allocator.deallocate(array, allocator.state);
-        return NULL;
-    }
-    return array;
+    allocator.deallocate(array->data, allocator.state);
+    array->data = NULL;
+    array->size = 0;
+    array->capacity = 0;
+  } else {
+    // ensure that data, size, and capacity values are consistent
+    assert(0 == array->size);
+    assert(0 == array->capacity);
+  }
 }
 
-void std_srvs__srv__Empty_Response__Sequence__destroy(std_srvs__srv__Empty_Response__Sequence* array)
+std_srvs__srv__Empty_Response__Sequence *
+std_srvs__srv__Empty_Response__Sequence__create(size_t size)
 {
-    rcutils_allocator_t allocator = rcutils_get_default_allocator();
-    if (array)
-    {
-        std_srvs__srv__Empty_Response__Sequence__fini(array);
-    }
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  std_srvs__srv__Empty_Response__Sequence * array = (std_srvs__srv__Empty_Response__Sequence *)allocator.allocate(sizeof(std_srvs__srv__Empty_Response__Sequence), allocator.state);
+  if (!array) {
+    return NULL;
+  }
+  bool success = std_srvs__srv__Empty_Response__Sequence__init(array, size);
+  if (!success) {
     allocator.deallocate(array, allocator.state);
+    return NULL;
+  }
+  return array;
 }
 
-bool std_srvs__srv__Empty_Response__Sequence__are_equal(const std_srvs__srv__Empty_Response__Sequence* lhs,
-                                                        const std_srvs__srv__Empty_Response__Sequence* rhs)
+void
+std_srvs__srv__Empty_Response__Sequence__destroy(std_srvs__srv__Empty_Response__Sequence * array)
 {
-    if (!lhs || !rhs)
-    {
-        return false;
-    }
-    if (lhs->size != rhs->size)
-    {
-        return false;
-    }
-    for (size_t i = 0; i < lhs->size; ++i)
-    {
-        if (!std_srvs__srv__Empty_Response__are_equal(&(lhs->data[i]), &(rhs->data[i])))
-        {
-            return false;
-        }
-    }
-    return true;
+  rcutils_allocator_t allocator = rcutils_get_default_allocator();
+  if (array) {
+    std_srvs__srv__Empty_Response__Sequence__fini(array);
+  }
+  allocator.deallocate(array, allocator.state);
 }
 
-bool std_srvs__srv__Empty_Response__Sequence__copy(const std_srvs__srv__Empty_Response__Sequence* input,
-                                                   std_srvs__srv__Empty_Response__Sequence* output)
+bool
+std_srvs__srv__Empty_Response__Sequence__are_equal(const std_srvs__srv__Empty_Response__Sequence * lhs, const std_srvs__srv__Empty_Response__Sequence * rhs)
 {
-    if (!input || !output)
-    {
+  if (!lhs || !rhs) {
+    return false;
+  }
+  if (lhs->size != rhs->size) {
+    return false;
+  }
+  for (size_t i = 0; i < lhs->size; ++i) {
+    if (!std_srvs__srv__Empty_Response__are_equal(&(lhs->data[i]), &(rhs->data[i]))) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool
+std_srvs__srv__Empty_Response__Sequence__copy(
+  const std_srvs__srv__Empty_Response__Sequence * input,
+  std_srvs__srv__Empty_Response__Sequence * output)
+{
+  if (!input || !output) {
+    return false;
+  }
+  if (output->capacity < input->size) {
+    const size_t allocation_size =
+      input->size * sizeof(std_srvs__srv__Empty_Response);
+    rcutils_allocator_t allocator = rcutils_get_default_allocator();
+    std_srvs__srv__Empty_Response * data =
+      (std_srvs__srv__Empty_Response *)allocator.reallocate(
+      output->data, allocation_size, allocator.state);
+    if (!data) {
+      return false;
+    }
+    // If reallocation succeeded, memory may or may not have been moved
+    // to fulfill the allocation request, invalidating output->data.
+    output->data = data;
+    for (size_t i = output->capacity; i < input->size; ++i) {
+      if (!std_srvs__srv__Empty_Response__init(&output->data[i])) {
+        // If initialization of any new item fails, roll back
+        // all previously initialized items. Existing items
+        // in output are to be left unmodified.
+        for (; i-- > output->capacity; ) {
+          std_srvs__srv__Empty_Response__fini(&output->data[i]);
+        }
         return false;
+      }
     }
-    if (output->capacity < input->size)
+    output->capacity = input->size;
+  }
+  output->size = input->size;
+  for (size_t i = 0; i < input->size; ++i) {
+    if (!std_srvs__srv__Empty_Response__copy(
+        &(input->data[i]), &(output->data[i])))
     {
-        const size_t allocation_size = input->size * sizeof(std_srvs__srv__Empty_Response);
-        rcutils_allocator_t allocator = rcutils_get_default_allocator();
-        std_srvs__srv__Empty_Response* data =
-            (std_srvs__srv__Empty_Response*)allocator.reallocate(output->data, allocation_size, allocator.state);
-        if (!data)
-        {
-            return false;
-        }
-        // If reallocation succeeded, memory may or may not have been moved
-        // to fulfill the allocation request, invalidating output->data.
-        output->data = data;
-        for (size_t i = output->capacity; i < input->size; ++i)
-        {
-            if (!std_srvs__srv__Empty_Response__init(&output->data[i]))
-            {
-                // If initialization of any new item fails, roll back
-                // all previously initialized items. Existing items
-                // in output are to be left unmodified.
-                for (; i-- > output->capacity;)
-                {
-                    std_srvs__srv__Empty_Response__fini(&output->data[i]);
-                }
-                return false;
-            }
-        }
-        output->capacity = input->size;
+      return false;
     }
-    output->size = input->size;
-    for (size_t i = 0; i < input->size; ++i)
-    {
-        if (!std_srvs__srv__Empty_Response__copy(&(input->data[i]), &(output->data[i])))
-        {
-            return false;
-        }
-    }
-    return true;
+  }
+  return true;
 }

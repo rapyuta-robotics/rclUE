@@ -20,27 +20,22 @@
 #ifndef _FASTDDS_STATUS_CONDITION_HPP_
 #define _FASTDDS_STATUS_CONDITION_HPP_
 
+#include <fastdds/dds/core/condition/Condition.hpp>
+#include <fastdds/dds/core/status/StatusMask.hpp>
 #include <fastrtps/fastrtps_dll.h>
 #include <fastrtps/types/TypesBase.h>
 
-#include <fastdds/dds/core/condition/Condition.hpp>
-#include <fastdds/dds/core/status/StatusMask.hpp>
-
 using eprosima::fastrtps::types::ReturnCode_t;
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
-namespace detail
-{
+namespace detail {
 
 struct StatusConditionImpl;
 
-}    // namespace detail
+} // namespace detail
 
 class Entity;
 
@@ -51,17 +46,23 @@ class Entity;
 class StatusCondition final : public Condition
 {
 public:
-    StatusCondition(Entity* parent);
+
+    StatusCondition(
+            Entity* parent);
 
     ~StatusCondition() final;
 
     // Non-copyable
-    StatusCondition(const StatusCondition&) = delete;
-    StatusCondition& operator=(const StatusCondition&) = delete;
+    StatusCondition(
+            const StatusCondition&) = delete;
+    StatusCondition& operator =(
+            const StatusCondition&) = delete;
 
     // Non-movable
-    StatusCondition(StatusCondition&&) = delete;
-    StatusCondition& operator=(StatusCondition&&) = delete;
+    StatusCondition(
+            StatusCondition&&) = delete;
+    StatusCondition& operator =(
+            StatusCondition&&) = delete;
 
     /**
      * @brief Retrieves the trigger_value of the Condition
@@ -74,7 +75,8 @@ public:
      * @param mask defines the mask for the status
      * @return RETCODE_OK with everything ok, error code otherwise
      */
-    RTPS_DllAPI ReturnCode_t set_enabled_statuses(const StatusMask& mask);
+    RTPS_DllAPI ReturnCode_t set_enabled_statuses(
+            const StatusMask& mask);
 
     /**
      * @brief Retrieves the list of communication statuses that are taken into account to determine the trigger_value
@@ -94,15 +96,17 @@ public:
     }
 
 protected:
+
     //! DDS Entity for which this condition is monitoring the status
     Entity* entity_ = nullptr;
 
     //! Class implementation
     std::unique_ptr<detail::StatusConditionImpl> impl_;
+
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_STATUS_CONDITION_HPP_
+#endif // _FASTDDS_STATUS_CONDITION_HPP_

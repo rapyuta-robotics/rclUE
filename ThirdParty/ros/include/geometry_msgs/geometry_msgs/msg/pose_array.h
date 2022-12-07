@@ -5,8 +5,8 @@
 #ifndef GEOMETRY_MSGS__MSG__POSE_ARRAY_H_
 #define GEOMETRY_MSGS__MSG__POSE_ARRAY_H_
 
-#include "geometry_msgs/msg/detail/pose_array__functions.h"
 #include "geometry_msgs/msg/detail/pose_array__struct.h"
+#include "geometry_msgs/msg/detail/pose_array__functions.h"
 #include "geometry_msgs/msg/detail/pose_array__type_support.h"
 
-#endif    // GEOMETRY_MSGS__MSG__POSE_ARRAY_H_
+#endif  // GEOMETRY_MSGS__MSG__POSE_ARRAY_H_

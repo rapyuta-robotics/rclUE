@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,29 +23,29 @@ extern "C"
 // Member 'status_list'
 #include "actionlib_msgs/msg/detail/goal_status__struct.h"
 
-    /// Struct defined in msg/GoalStatusArray in the package actionlib_msgs.
-    /**
-     * Stores the statuses for goals that are currently being tracked
-     * by an action server
-     */
-    typedef struct actionlib_msgs__msg__GoalStatusArray
-    {
-        std_msgs__msg__Header header;
-        actionlib_msgs__msg__GoalStatus__Sequence status_list;
-    } actionlib_msgs__msg__GoalStatusArray;
+/// Struct defined in msg/GoalStatusArray in the package actionlib_msgs.
+/**
+  * Stores the statuses for goals that are currently being tracked
+  * by an action server
+ */
+typedef struct actionlib_msgs__msg__GoalStatusArray
+{
+  std_msgs__msg__Header header;
+  actionlib_msgs__msg__GoalStatus__Sequence status_list;
+} actionlib_msgs__msg__GoalStatusArray;
 
-    // Struct for a sequence of actionlib_msgs__msg__GoalStatusArray.
-    typedef struct actionlib_msgs__msg__GoalStatusArray__Sequence
-    {
-        actionlib_msgs__msg__GoalStatusArray* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } actionlib_msgs__msg__GoalStatusArray__Sequence;
+// Struct for a sequence of actionlib_msgs__msg__GoalStatusArray.
+typedef struct actionlib_msgs__msg__GoalStatusArray__Sequence
+{
+  actionlib_msgs__msg__GoalStatusArray * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} actionlib_msgs__msg__GoalStatusArray__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ACTIONLIB_MSGS__MSG__DETAIL__GOAL_STATUS_ARRAY__STRUCT_H_
+#endif  // ACTIONLIB_MSGS__MSG__DETAIL__GOAL_STATUS_ARRAY__STRUCT_H_

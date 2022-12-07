@@ -19,15 +19,12 @@
 #ifndef _FASTDDS_DDS_CORE_LOANABLEARRAY_HPP_
 #define _FASTDDS_DDS_CORE_LOANABLEARRAY_HPP_
 
-#include <array>
 #include <cstdint>
+#include <array>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * A type-safe, ordered collection of elements allocated on the stack, which can be loaned to a
@@ -45,12 +42,16 @@ struct LoanableArray : public std::array<T, num_items>
     }
 
     // Non-copyable
-    LoanableArray(const LoanableArray&) = delete;
-    LoanableArray& operator=(const LoanableArray&) = delete;
+    LoanableArray(
+            const LoanableArray&) = delete;
+    LoanableArray& operator = (
+            const LoanableArray&) = delete;
 
     // Non-moveable
-    LoanableArray(LoanableArray&&) = delete;
-    LoanableArray& operator=(LoanableArray&&) = delete;
+    LoanableArray(
+            LoanableArray&&) = delete;
+    LoanableArray& operator = (
+            LoanableArray&&) = delete;
 
     /**
      * Get a buffer pointer that could be used on @ref LoanableCollection::loan.
@@ -59,15 +60,16 @@ struct LoanableArray : public std::array<T, num_items>
      */
     void** buffer_for_loans() const
     {
-        return (void**)buffer_;
+        return (void**) buffer_;
     }
 
 private:
+
     void* buffer_[num_items];
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_CORE_LOANABLEARRAY_HPP_
+#endif // _FASTDDS_DDS_CORE_LOANABLEARRAY_HPP_

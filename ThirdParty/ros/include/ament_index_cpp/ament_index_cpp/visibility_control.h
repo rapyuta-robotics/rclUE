@@ -20,37 +20,37 @@ extern "C"
 {
 #endif
 
-    // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-    //     https://gcc.gnu.org/wiki/Visibility
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define AMENT_INDEX_CPP_EXPORT __attribute__((dllexport))
-#define AMENT_INDEX_CPP_IMPORT __attribute__((dllimport))
+  #ifdef __GNUC__
+    #define AMENT_INDEX_CPP_EXPORT __attribute__ ((dllexport))
+    #define AMENT_INDEX_CPP_IMPORT __attribute__ ((dllimport))
+  #else
+    #define AMENT_INDEX_CPP_EXPORT __declspec(dllexport)
+    #define AMENT_INDEX_CPP_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef AMENT_INDEX_CPP_BUILDING_DLL
+    #define AMENT_INDEX_CPP_PUBLIC AMENT_INDEX_CPP_EXPORT
+  #else
+    #define AMENT_INDEX_CPP_PUBLIC AMENT_INDEX_CPP_IMPORT
+  #endif
+  #define AMENT_INDEX_CPP_LOCAL
 #else
-#define AMENT_INDEX_CPP_EXPORT __declspec(dllexport)
-#define AMENT_INDEX_CPP_IMPORT __declspec(dllimport)
-#endif
-#ifdef AMENT_INDEX_CPP_BUILDING_DLL
-#define AMENT_INDEX_CPP_PUBLIC AMENT_INDEX_CPP_EXPORT
-#else
-#define AMENT_INDEX_CPP_PUBLIC AMENT_INDEX_CPP_IMPORT
-#endif
-#define AMENT_INDEX_CPP_LOCAL
-#else
-#define AMENT_INDEX_CPP_EXPORT __attribute__((visibility("default")))
-#define AMENT_INDEX_CPP_IMPORT
-#if __GNUC__ >= 4
-#define AMENT_INDEX_CPP_PUBLIC __attribute__((visibility("default")))
-#define AMENT_INDEX_CPP_LOCAL __attribute__((visibility("hidden")))
-#else
-#define AMENT_INDEX_CPP_PUBLIC
-#define AMENT_INDEX_CPP_LOCAL
-#endif
+  #define AMENT_INDEX_CPP_EXPORT __attribute__ ((visibility("default")))
+  #define AMENT_INDEX_CPP_IMPORT
+  #if __GNUC__ >= 4
+    #define AMENT_INDEX_CPP_PUBLIC __attribute__ ((visibility("default")))
+    #define AMENT_INDEX_CPP_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define AMENT_INDEX_CPP_PUBLIC
+    #define AMENT_INDEX_CPP_LOCAL
+  #endif
 #endif
 
 #if __cplusplus
 }
 #endif
 
-#endif    // AMENT_INDEX_CPP__VISIBILITY_CONTROL_H_
+#endif  // AMENT_INDEX_CPP__VISIBILITY_CONTROL_H_

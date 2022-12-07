@@ -5,8 +5,8 @@
 #ifndef SENSOR_MSGS__MSG__LASER_ECHO_H_
 #define SENSOR_MSGS__MSG__LASER_ECHO_H_
 
-#include "sensor_msgs/msg/detail/laser_echo__functions.h"
 #include "sensor_msgs/msg/detail/laser_echo__struct.h"
+#include "sensor_msgs/msg/detail/laser_echo__functions.h"
 #include "sensor_msgs/msg/detail/laser_echo__type_support.h"
 
-#endif    // SENSOR_MSGS__MSG__LASER_ECHO_H_
+#endif  // SENSOR_MSGS__MSG__LASER_ECHO_H_

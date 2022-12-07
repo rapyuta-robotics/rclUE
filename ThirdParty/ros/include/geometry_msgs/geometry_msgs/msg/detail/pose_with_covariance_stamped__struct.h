@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,28 +23,28 @@ extern "C"
 // Member 'pose'
 #include "geometry_msgs/msg/detail/pose_with_covariance__struct.h"
 
-    /// Struct defined in msg/PoseWithCovarianceStamped in the package geometry_msgs.
-    /**
-     * This expresses an estimated pose with a reference coordinate frame and timestamp
-     */
-    typedef struct geometry_msgs__msg__PoseWithCovarianceStamped
-    {
-        std_msgs__msg__Header header;
-        geometry_msgs__msg__PoseWithCovariance pose;
-    } geometry_msgs__msg__PoseWithCovarianceStamped;
+/// Struct defined in msg/PoseWithCovarianceStamped in the package geometry_msgs.
+/**
+  * This expresses an estimated pose with a reference coordinate frame and timestamp
+ */
+typedef struct geometry_msgs__msg__PoseWithCovarianceStamped
+{
+  std_msgs__msg__Header header;
+  geometry_msgs__msg__PoseWithCovariance pose;
+} geometry_msgs__msg__PoseWithCovarianceStamped;
 
-    // Struct for a sequence of geometry_msgs__msg__PoseWithCovarianceStamped.
-    typedef struct geometry_msgs__msg__PoseWithCovarianceStamped__Sequence
-    {
-        geometry_msgs__msg__PoseWithCovarianceStamped* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } geometry_msgs__msg__PoseWithCovarianceStamped__Sequence;
+// Struct for a sequence of geometry_msgs__msg__PoseWithCovarianceStamped.
+typedef struct geometry_msgs__msg__PoseWithCovarianceStamped__Sequence
+{
+  geometry_msgs__msg__PoseWithCovarianceStamped * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} geometry_msgs__msg__PoseWithCovarianceStamped__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__POSE_WITH_COVARIANCE_STAMPED__STRUCT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__POSE_WITH_COVARIANCE_STAMPED__STRUCT_H_

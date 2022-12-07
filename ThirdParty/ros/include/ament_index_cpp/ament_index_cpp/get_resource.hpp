@@ -41,9 +41,9 @@
 #ifndef AMENT_INDEX_CPP__GET_RESOURCE_HPP_
 #define AMENT_INDEX_CPP__GET_RESOURCE_HPP_
 
-#include "ament_index_cpp/visibility_control.h"
-
 #include <string>
+
+#include "ament_index_cpp/visibility_control.h"
 
 namespace ament_index_cpp
 {
@@ -57,11 +57,13 @@ namespace ament_index_cpp
  * \throws std::runtime_error if resource_type or resource_name are empty.
  */
 AMENT_INDEX_CPP_PUBLIC
-bool get_resource(const std::string& resource_type,
-                  const std::string& resource_name,
-                  std::string& content,
-                  std::string* prefix_path = nullptr);
+bool
+get_resource(
+  const std::string & resource_type,
+  const std::string & resource_name,
+  std::string & content,
+  std::string * prefix_path = nullptr);
 
-}    // namespace ament_index_cpp
+}  // namespace ament_index_cpp
 
-#endif    // AMENT_INDEX_CPP__GET_RESOURCE_HPP_
+#endif  // AMENT_INDEX_CPP__GET_RESOURCE_HPP_

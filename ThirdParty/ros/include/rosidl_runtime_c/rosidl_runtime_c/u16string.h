@@ -15,21 +15,21 @@
 #ifndef ROSIDL_RUNTIME_C__U16STRING_H_
 #define ROSIDL_RUNTIME_C__U16STRING_H_
 
-#include "rosidl_runtime_c/primitives_sequence.h"
-
 #include <stddef.h>
+
+#include "rosidl_runtime_c/primitives_sequence.h"
 
 /// An array of 16-bit characters terminated by a null character.
 typedef struct rosidl_runtime_c__U16String
 {
-    /// The pointer to the first character, the sequence ends with a null character.
-    uint_least16_t* data;    // using uint_least16_t to match a C++ std::u16string
-    /// The length of the u16string (excluding the null character).
-    size_t size;
-    /// The capacity represents the number of allocated characters (including the null character).
-    size_t capacity;
+  /// The pointer to the first character, the sequence ends with a null character.
+  uint_least16_t * data;  // using uint_least16_t to match a C++ std::u16string
+  /// The length of the u16string (excluding the null character).
+  size_t size;
+  /// The capacity represents the number of allocated characters (including the null character).
+  size_t capacity;
 } rosidl_runtime_c__U16String;
 
 ROSIDL_RUNTIME_C__PRIMITIVE_SEQUENCE(U16String, rosidl_runtime_c__U16String)
 
-#endif    // ROSIDL_RUNTIME_C__U16STRING_H_
+#endif  // ROSIDL_RUNTIME_C__U16STRING_H_

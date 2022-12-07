@@ -26,27 +26,28 @@ extern "C"
 #include "rcutils/types/rcutils_ret.h"
 #include "rcutils/visibility_control.h"
 
-    /// Interface to qsort with rcutils-style argument validation.
-    /**
-     * This function changes the order of the elements in the array so that they
-     * are in ascending order according to the given comparison function.
-     *
-     * This function is thread-safe.
-     *
-     * \param[inout] ptr object whose elements should be sorted.
-     * \param[in] count number of elements present in the object.
-     * \param[in] size size of each element, in bytes.
-     * \param[in] comp function used to compare two elements.
-     * \return #RCUTILS_RET_OK if successful, or
-     * \return #RCUTILS_RET_INVALID_ARGUMENT for invalid arguments, or
-     * \return #RCUTILS_RET_ERROR if an unknown error occurs.
-     */
-    RCUTILS_PUBLIC
-    RCUTILS_WARN_UNUSED
-    rcutils_ret_t rcutils_qsort(void* ptr, size_t count, size_t size, int (*comp)(const void*, const void*));
+/// Interface to qsort with rcutils-style argument validation.
+/**
+ * This function changes the order of the elements in the array so that they
+ * are in ascending order according to the given comparison function.
+ *
+ * This function is thread-safe.
+ *
+ * \param[inout] ptr object whose elements should be sorted.
+ * \param[in] count number of elements present in the object.
+ * \param[in] size size of each element, in bytes.
+ * \param[in] comp function used to compare two elements.
+ * \return #RCUTILS_RET_OK if successful, or
+ * \return #RCUTILS_RET_INVALID_ARGUMENT for invalid arguments, or
+ * \return #RCUTILS_RET_ERROR if an unknown error occurs.
+ */
+RCUTILS_PUBLIC
+RCUTILS_WARN_UNUSED
+rcutils_ret_t
+rcutils_qsort(void * ptr, size_t count, size_t size, int (* comp)(const void *, const void *));
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCUTILS__QSORT_H_
+#endif  // RCUTILS__QSORT_H_

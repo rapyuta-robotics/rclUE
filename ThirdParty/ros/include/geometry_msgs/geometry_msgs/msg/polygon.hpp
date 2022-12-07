@@ -4,8 +4,8 @@
 #ifndef GEOMETRY_MSGS__MSG__POLYGON_HPP_
 #define GEOMETRY_MSGS__MSG__POLYGON_HPP_
 
-#include "geometry_msgs/msg/detail/polygon__builder.hpp"
 #include "geometry_msgs/msg/detail/polygon__struct.hpp"
+#include "geometry_msgs/msg/detail/polygon__builder.hpp"
 #include "geometry_msgs/msg/detail/polygon__traits.hpp"
 
-#endif    // GEOMETRY_MSGS__MSG__POLYGON_HPP_
+#endif  // GEOMETRY_MSGS__MSG__POLYGON_HPP_

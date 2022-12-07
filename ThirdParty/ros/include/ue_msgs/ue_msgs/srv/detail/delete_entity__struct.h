@@ -14,57 +14,59 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
 // Member 'name'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in srv/DeleteEntity in the package ue_msgs.
-    typedef struct ue_msgs__srv__DeleteEntity_Request
-    {
-        /// Entity name.
-        rosidl_runtime_c__String name;
-    } ue_msgs__srv__DeleteEntity_Request;
+/// Struct defined in srv/DeleteEntity in the package ue_msgs.
+typedef struct ue_msgs__srv__DeleteEntity_Request
+{
+  /// Entity name.
+  rosidl_runtime_c__String name;
+} ue_msgs__srv__DeleteEntity_Request;
 
-    // Struct for a sequence of ue_msgs__srv__DeleteEntity_Request.
-    typedef struct ue_msgs__srv__DeleteEntity_Request__Sequence
-    {
-        ue_msgs__srv__DeleteEntity_Request* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } ue_msgs__srv__DeleteEntity_Request__Sequence;
+// Struct for a sequence of ue_msgs__srv__DeleteEntity_Request.
+typedef struct ue_msgs__srv__DeleteEntity_Request__Sequence
+{
+  ue_msgs__srv__DeleteEntity_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} ue_msgs__srv__DeleteEntity_Request__Sequence;
 
-    // Constants defined in the message
 
-    // Include directives for member types
-    // Member 'status_message'
-    // already included above
-    // #include "rosidl_runtime_c/string.h"
+// Constants defined in the message
 
-    /// Struct defined in srv/DeleteEntity in the package ue_msgs.
-    typedef struct ue_msgs__srv__DeleteEntity_Response
-    {
-        /// Return true if spawned successfully.
-        bool success;
-        /// Comments if available.
-        rosidl_runtime_c__String status_message;
-    } ue_msgs__srv__DeleteEntity_Response;
+// Include directives for member types
+// Member 'status_message'
+// already included above
+// #include "rosidl_runtime_c/string.h"
 
-    // Struct for a sequence of ue_msgs__srv__DeleteEntity_Response.
-    typedef struct ue_msgs__srv__DeleteEntity_Response__Sequence
-    {
-        ue_msgs__srv__DeleteEntity_Response* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } ue_msgs__srv__DeleteEntity_Response__Sequence;
+/// Struct defined in srv/DeleteEntity in the package ue_msgs.
+typedef struct ue_msgs__srv__DeleteEntity_Response
+{
+  /// Return true if spawned successfully.
+  bool success;
+  /// Comments if available.
+  rosidl_runtime_c__String status_message;
+} ue_msgs__srv__DeleteEntity_Response;
+
+// Struct for a sequence of ue_msgs__srv__DeleteEntity_Response.
+typedef struct ue_msgs__srv__DeleteEntity_Response__Sequence
+{
+  ue_msgs__srv__DeleteEntity_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} ue_msgs__srv__DeleteEntity_Response__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // UE_MSGS__SRV__DETAIL__DELETE_ENTITY__STRUCT_H_
+#endif  // UE_MSGS__SRV__DETAIL__DELETE_ENTITY__STRUCT_H_

@@ -18,4 +18,4 @@
 /// Default domain id.
 #define RMW_DEFAULT_DOMAIN_ID SIZE_MAX
 
-#endif    // RMW__DOMAIN_ID_H_
+#endif  // RMW__DOMAIN_ID_H_

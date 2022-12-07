@@ -5,8 +5,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__INT16_H_
 #define EXAMPLE_INTERFACES__MSG__INT16_H_
 
-#include "example_interfaces/msg/detail/int16__functions.h"
 #include "example_interfaces/msg/detail/int16__struct.h"
+#include "example_interfaces/msg/detail/int16__functions.h"
 #include "example_interfaces/msg/detail/int16__type_support.h"
 
-#endif    // EXAMPLE_INTERFACES__MSG__INT16_H_
+#endif  // EXAMPLE_INTERFACES__MSG__INT16_H_

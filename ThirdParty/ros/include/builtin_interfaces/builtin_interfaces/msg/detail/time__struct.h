@@ -14,33 +14,34 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-    // Constants defined in the message
 
-    /// Struct defined in msg/Time in the package builtin_interfaces.
-    /**
-     * This message communicates ROS Time defined here:
-     * https://design.ros2.org/articles/clock_and_time.html
-     */
-    typedef struct builtin_interfaces__msg__Time
-    {
-        /// The seconds component, valid over all int32 values.
-        int32_t sec;
-        /// The nanoseconds component, valid in the range [0, 10e9).
-        uint32_t nanosec;
-    } builtin_interfaces__msg__Time;
+// Constants defined in the message
 
-    // Struct for a sequence of builtin_interfaces__msg__Time.
-    typedef struct builtin_interfaces__msg__Time__Sequence
-    {
-        builtin_interfaces__msg__Time* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } builtin_interfaces__msg__Time__Sequence;
+/// Struct defined in msg/Time in the package builtin_interfaces.
+/**
+  * This message communicates ROS Time defined here:
+  * https://design.ros2.org/articles/clock_and_time.html
+ */
+typedef struct builtin_interfaces__msg__Time
+{
+  /// The seconds component, valid over all int32 values.
+  int32_t sec;
+  /// The nanoseconds component, valid in the range [0, 10e9).
+  uint32_t nanosec;
+} builtin_interfaces__msg__Time;
+
+// Struct for a sequence of builtin_interfaces__msg__Time.
+typedef struct builtin_interfaces__msg__Time__Sequence
+{
+  builtin_interfaces__msg__Time * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} builtin_interfaces__msg__Time__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // BUILTIN_INTERFACES__MSG__DETAIL__TIME__STRUCT_H_
+#endif  // BUILTIN_INTERFACES__MSG__DETAIL__TIME__STRUCT_H_

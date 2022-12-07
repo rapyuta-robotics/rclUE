@@ -5,8 +5,8 @@
 #ifndef NAV_MSGS__MSG__ODOMETRY_H_
 #define NAV_MSGS__MSG__ODOMETRY_H_
 
-#include "nav_msgs/msg/detail/odometry__functions.h"
 #include "nav_msgs/msg/detail/odometry__struct.h"
+#include "nav_msgs/msg/detail/odometry__functions.h"
 #include "nav_msgs/msg/detail/odometry__type_support.h"
 
-#endif    // NAV_MSGS__MSG__ODOMETRY_H_
+#endif  // NAV_MSGS__MSG__ODOMETRY_H_

@@ -15,9 +15,9 @@
 #ifndef RCPPUTILS__SCOPE_EXIT_HPP_
 #define RCPPUTILS__SCOPE_EXIT_HPP_
 
-#include "rcutils/macros.h"
-
 #include <utility>
+
+#include "rcutils/macros.h"
 
 namespace rcpputils
 {
@@ -25,42 +25,44 @@ namespace rcpputils
 template<typename CallableT>
 struct scope_exit final
 {
-    explicit scope_exit(CallableT&& callable) : callable_(std::forward<CallableT>(callable))
-    {
+  explicit scope_exit(CallableT && callable)
+  : callable_(std::forward<CallableT>(callable))
+  {
+  }
+
+  scope_exit(const scope_exit &) = delete;
+  scope_exit(scope_exit &&) = default;
+
+  scope_exit & operator=(const scope_exit &) = delete;
+  scope_exit & operator=(scope_exit &&) = default;
+
+  ~scope_exit()
+  {
+    if (!cancelled_) {
+      callable_();
     }
+  }
 
-    scope_exit(const scope_exit&) = delete;
-    scope_exit(scope_exit&&) = default;
-
-    scope_exit& operator=(const scope_exit&) = delete;
-    scope_exit& operator=(scope_exit&&) = default;
-
-    ~scope_exit()
-    {
-        if (!cancelled_)
-        {
-            callable_();
-        }
-    }
-
-    void cancel()
-    {
-        cancelled_ = true;
-    }
+  void cancel()
+  {
+    cancelled_ = true;
+  }
 
 private:
-    CallableT callable_;
-    bool cancelled_{false};
+  CallableT callable_;
+  bool cancelled_{false};
 };
 
 template<typename CallableT>
-scope_exit<CallableT> make_scope_exit(CallableT&& callable)
+scope_exit<CallableT>
+make_scope_exit(CallableT && callable)
 {
-    return scope_exit<CallableT>(std::forward<CallableT>(callable));
+  return scope_exit<CallableT>(std::forward<CallableT>(callable));
 }
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#define RCPPUTILS_SCOPE_EXIT(code) auto RCUTILS_JOIN(scope_exit_, __LINE__) = rcpputils::make_scope_exit([&]() { code; })
+#define RCPPUTILS_SCOPE_EXIT(code) \
+  auto RCUTILS_JOIN(scope_exit_, __LINE__) = rcpputils::make_scope_exit([&]() {code;})
 
-#endif    // RCPPUTILS__SCOPE_EXIT_HPP_
+#endif  // RCPPUTILS__SCOPE_EXIT_HPP_

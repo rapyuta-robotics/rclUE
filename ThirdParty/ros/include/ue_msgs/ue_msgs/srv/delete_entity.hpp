@@ -4,8 +4,8 @@
 #ifndef UE_MSGS__SRV__DELETE_ENTITY_HPP_
 #define UE_MSGS__SRV__DELETE_ENTITY_HPP_
 
-#include "ue_msgs/srv/detail/delete_entity__builder.hpp"
 #include "ue_msgs/srv/detail/delete_entity__struct.hpp"
+#include "ue_msgs/srv/detail/delete_entity__builder.hpp"
 #include "ue_msgs/srv/detail/delete_entity__traits.hpp"
 
-#endif    // UE_MSGS__SRV__DELETE_ENTITY_HPP_
+#endif  // UE_MSGS__SRV__DELETE_ENTITY_HPP_

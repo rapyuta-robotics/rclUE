@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__INT32_HPP_
 #define EXAMPLE_INTERFACES__MSG__INT32_HPP_
 
-#include "example_interfaces/msg/detail/int32__builder.hpp"
 #include "example_interfaces/msg/detail/int32__struct.hpp"
+#include "example_interfaces/msg/detail/int32__builder.hpp"
 #include "example_interfaces/msg/detail/int32__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__MSG__INT32_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__INT32_HPP_

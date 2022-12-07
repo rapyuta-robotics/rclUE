@@ -22,19 +22,19 @@ extern "C"
 
 #include "rcutils/types/uint8_array.h"
 
-    /**
-     * \brief Serialized message as a string of bytes.
-     *
-     * It includes (but it is not limited to) the following members:
-     *   \e \c buffer the reference to internal storage, as a pointer
-     *   \e \c buffer_length the size of stored contents, as an unsigned integer
-     *   \e \c buffer_capacity the capacity of internal storage, as an unsigned integer
-     */
-    /* For now this is a simple aliasing from a serialized message to a uint8 array.
-     * However, in future developments this serialized message can become something
-     * more complex and is therefore aliased.
-     */
-    typedef rcutils_uint8_array_t rmw_serialized_message_t;
+/**
+ * \brief Serialized message as a string of bytes.
+ *
+ * It includes (but it is not limited to) the following members:
+ *   \e \c buffer the reference to internal storage, as a pointer
+ *   \e \c buffer_length the size of stored contents, as an unsigned integer
+ *   \e \c buffer_capacity the capacity of internal storage, as an unsigned integer
+ */
+/* For now this is a simple aliasing from a serialized message to a uint8 array.
+ * However, in future developments this serialized message can become something
+ * more complex and is therefore aliased.
+ */
+typedef rcutils_uint8_array_t rmw_serialized_message_t;
 
 /// Return a zero initialized serialized message struct.
 #define rmw_get_zero_initialized_serialized_message rcutils_get_zero_initialized_uint8_array
@@ -52,7 +52,7 @@ extern "C"
  * \return `RMW_RET_ERROR` if an unexpected error occurs
  */
 #define rmw_serialized_message_init(serialized_message, message_capacity, allocator) \
-    rcutils_uint8_array_init(serialized_message, message_capacity, allocator)
+  rcutils_uint8_array_init(serialized_message, message_capacity, allocator)
 
 /// Finalize a serialized message.
 /**
@@ -65,7 +65,8 @@ extern "C"
  * \return `RMW_RET_INVALID_ARGUMENT` if serialized_message is invalid, or
  * \return `RMW_RET_ERROR` if an unexpected error occurs
  */
-#define rmw_serialized_message_fini(serialized_message) rcutils_uint8_array_fini(serialized_message)
+#define rmw_serialized_message_fini(serialized_message) \
+  rcutils_uint8_array_fini(serialized_message)
 
 /// Resize the internal buffer of the serialized message.
 /**
@@ -91,10 +92,11 @@ extern "C"
  * \return `RMW_RET_BAD_ALLOC` if memory allocation failed, or
  * \return `RMW_RET_ERROR` if an unexpected error occurs
  */
-#define rmw_serialized_message_resize(serialized_message, new_size) rcutils_uint8_array_resize(serialized_message, new_size)
+#define rmw_serialized_message_resize(serialized_message, new_size) \
+  rcutils_uint8_array_resize(serialized_message, new_size)
 
 #if __cplusplus
 }
 #endif
 
-#endif    // RMW__SERIALIZED_MESSAGE_H_
+#endif  // RMW__SERIALIZED_MESSAGE_H_

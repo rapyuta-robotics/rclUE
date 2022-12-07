@@ -37,19 +37,21 @@ namespace rcpputils
  * \tparam ContainerT is the container template type.
  * \return joined string
  */
-template<typename CharT, typename ValueT, typename AllocatorT, template<typename T, class A> class ContainerT>
-std::basic_string<CharT> join(const ContainerT<ValueT, AllocatorT>& container, const CharT* delim)
+template<
+  typename CharT, typename ValueT, typename AllocatorT,
+  template<typename T, class A> class ContainerT>
+std::basic_string<CharT>
+join(const ContainerT<ValueT, AllocatorT> & container, const CharT * delim)
 {
-    std::basic_ostringstream<CharT> s;
-    std::copy(container.begin(), container.end(), std::ostream_iterator<ValueT, CharT>(s, delim));
-    std::basic_string<CharT> result = s.str();
-    if (delim)
-    {
-        result = result.substr(0, result.length() - strlen(delim));
-    }
-    return result;
+  std::basic_ostringstream<CharT> s;
+  std::copy(container.begin(), container.end(), std::ostream_iterator<ValueT, CharT>(s, delim));
+  std::basic_string<CharT> result = s.str();
+  if (delim) {
+    result = result.substr(0, result.length() - strlen(delim));
+  }
+  return result;
 }
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__JOIN_HPP_
+#endif  // RCPPUTILS__JOIN_HPP_
