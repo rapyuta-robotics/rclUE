@@ -32,11 +32,11 @@
 #ifndef SENSOR_MSGS__FILL_IMAGE_HPP_
 #define SENSOR_MSGS__FILL_IMAGE_HPP_
 
-#include "sensor_msgs/image_encodings.hpp"
-#include "sensor_msgs/msg/image.hpp"
-
 #include <cstring>
 #include <string>
+
+#include "sensor_msgs/msg/image.hpp"
+#include "sensor_msgs/image_encodings.hpp"
 
 namespace sensor_msgs
 {
@@ -50,23 +50,24 @@ namespace sensor_msgs
  * \param[in] data_arg Data to fill image with.
  * \return True if successful.
  */
-static inline bool fillImage(msg::Image& image,
-                             const std::string& encoding_arg,
-                             uint32_t rows_arg,
-                             uint32_t cols_arg,
-                             uint32_t step_arg,
-                             const void* data_arg)
+static inline bool fillImage(
+  msg::Image & image,
+  const std::string & encoding_arg,
+  uint32_t rows_arg,
+  uint32_t cols_arg,
+  uint32_t step_arg,
+  const void * data_arg)
 {
-    image.encoding = encoding_arg;
-    image.height = rows_arg;
-    image.width = cols_arg;
-    image.step = step_arg;
-    size_t st0 = (step_arg * rows_arg);
-    image.data.resize(st0);
-    std::memcpy(&image.data[0], data_arg, st0);
+  image.encoding = encoding_arg;
+  image.height = rows_arg;
+  image.width = cols_arg;
+  image.step = step_arg;
+  size_t st0 = (step_arg * rows_arg);
+  image.data.resize(st0);
+  std::memcpy(&image.data[0], data_arg, st0);
 
-    image.is_bigendian = 0;
-    return true;
+  image.is_bigendian = 0;
+  return true;
 }
 
 /// Clear the data of an image message.
@@ -74,10 +75,10 @@ static inline bool fillImage(msg::Image& image,
  * \details All fields but `data` are kept the same.
  * \param[out] image Image to be cleared.
  */
-static inline void clearImage(msg::Image& image)
+static inline void clearImage(msg::Image & image)
 {
-    image.data.resize(0);
+  image.data.resize(0);
 }
-}    // namespace sensor_msgs
+}  // namespace sensor_msgs
 
-#endif    // SENSOR_MSGS__FILL_IMAGE_HPP_
+#endif  // SENSOR_MSGS__FILL_IMAGE_HPP_

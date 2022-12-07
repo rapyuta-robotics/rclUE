@@ -15,25 +15,25 @@
 #ifndef RMW__EVENTS_STATUSES__MESSAGE_LOST_H_
 #define RMW__EVENTS_STATUSES__MESSAGE_LOST_H_
 
-#include "rmw/visibility_control.h"
-
 #include <stddef.h>
+
+#include "rmw/visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-    typedef struct RMW_PUBLIC_TYPE rmw_message_lost_status_s
-    {
-        /// Total number of messages lost.
-        size_t total_count;
-        /// Number of messages lost since last callback.
-        size_t total_count_change;
-    } rmw_message_lost_status_t;
+typedef struct RMW_PUBLIC_TYPE rmw_message_lost_status_s
+{
+  /// Total number of messages lost.
+  size_t total_count;
+  /// Number of messages lost since last callback.
+  size_t total_count_change;
+} rmw_message_lost_status_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__EVENTS_STATUSES__MESSAGE_LOST_H_
+#endif  // RMW__EVENTS_STATUSES__MESSAGE_LOST_H_

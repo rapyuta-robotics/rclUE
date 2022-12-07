@@ -29,9 +29,9 @@
 #ifndef RCPPUTILS__ENV_HPP_
 #define RCPPUTILS__ENV_HPP_
 
-#include "rcpputils/visibility_control.hpp"
-
 #include <string>
+
+#include "rcpputils/visibility_control.hpp"
 
 namespace rcpputils
 {
@@ -43,7 +43,7 @@ namespace rcpputils
  * \throws std::runtime_error on error
  */
 RCPPUTILS_PUBLIC
-std::string get_env_var(const char* env_var);
+std::string get_env_var(const char * env_var);
 
 /// Set/un-set a process-scoped environment variable.
 /*
@@ -56,8 +56,8 @@ std::string get_env_var(const char* env_var);
  *
  */
 RCPPUTILS_PUBLIC
-bool set_env_var(const char* env_var, const char* env_value);
+bool set_env_var(const char * env_var, const char * env_value);
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__ENV_HPP_
+#endif  // RCPPUTILS__ENV_HPP_

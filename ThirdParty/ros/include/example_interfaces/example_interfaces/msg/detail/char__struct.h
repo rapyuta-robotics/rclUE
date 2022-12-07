@@ -14,32 +14,33 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-    // Constants defined in the message
 
-    /// Struct defined in msg/Char in the package example_interfaces.
-    /**
-     * This is an example message of using a primitive datatype, char.
-     * If you want to test with this that's fine, but if you are deploying
-     * it into a system you should create a semantically meaningful message type.
-     * If you want to embed it in another message, use the primitive data type instead.
-     */
-    typedef struct example_interfaces__msg__Char
-    {
-        uint8_t data;
-    } example_interfaces__msg__Char;
+// Constants defined in the message
 
-    // Struct for a sequence of example_interfaces__msg__Char.
-    typedef struct example_interfaces__msg__Char__Sequence
-    {
-        example_interfaces__msg__Char* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } example_interfaces__msg__Char__Sequence;
+/// Struct defined in msg/Char in the package example_interfaces.
+/**
+  * This is an example message of using a primitive datatype, char.
+  * If you want to test with this that's fine, but if you are deploying
+  * it into a system you should create a semantically meaningful message type.
+  * If you want to embed it in another message, use the primitive data type instead.
+ */
+typedef struct example_interfaces__msg__Char
+{
+  uint8_t data;
+} example_interfaces__msg__Char;
+
+// Struct for a sequence of example_interfaces__msg__Char.
+typedef struct example_interfaces__msg__Char__Sequence
+{
+  example_interfaces__msg__Char * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} example_interfaces__msg__Char__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // EXAMPLE_INTERFACES__MSG__DETAIL__CHAR__STRUCT_H_
+#endif  // EXAMPLE_INTERFACES__MSG__DETAIL__CHAR__STRUCT_H_

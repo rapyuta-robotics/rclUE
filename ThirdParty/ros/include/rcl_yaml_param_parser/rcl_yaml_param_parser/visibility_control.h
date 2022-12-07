@@ -20,39 +20,39 @@ extern "C"
 {
 #endif
 
-    // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-    //     https://gcc.gnu.org/wiki/Visibility
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define RCL_YAML_PARAM_PARSER_EXPORT __attribute__((dllexport))
-#define RCL_YAML_PARAM_PARSER_IMPORT __attribute__((dllimport))
+  #ifdef __GNUC__
+    #define RCL_YAML_PARAM_PARSER_EXPORT __attribute__ ((dllexport))
+    #define RCL_YAML_PARAM_PARSER_IMPORT __attribute__ ((dllimport))
+  #else
+    #define RCL_YAML_PARAM_PARSER_EXPORT __declspec(dllexport)
+    #define RCL_YAML_PARAM_PARSER_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef RCL_YAML_PARAM_PARSER_BUILDING_DLL
+    #define RCL_YAML_PARAM_PARSER_PUBLIC RCL_YAML_PARAM_PARSER_EXPORT
+  #else
+    #define RCL_YAML_PARAM_PARSER_PUBLIC RCL_YAML_PARAM_PARSER_IMPORT
+  #endif
+  #define RCL_YAML_PARAM_PARSER_PUBLIC_TYPE RCL_YAML_PARAM_PARSER_PUBLIC
+  #define RCL_YAML_PARAM_PARSER_LOCAL
 #else
-#define RCL_YAML_PARAM_PARSER_EXPORT __declspec(dllexport)
-#define RCL_YAML_PARAM_PARSER_IMPORT __declspec(dllimport)
-#endif
-#ifdef RCL_YAML_PARAM_PARSER_BUILDING_DLL
-#define RCL_YAML_PARAM_PARSER_PUBLIC RCL_YAML_PARAM_PARSER_EXPORT
-#else
-#define RCL_YAML_PARAM_PARSER_PUBLIC RCL_YAML_PARAM_PARSER_IMPORT
-#endif
-#define RCL_YAML_PARAM_PARSER_PUBLIC_TYPE RCL_YAML_PARAM_PARSER_PUBLIC
-#define RCL_YAML_PARAM_PARSER_LOCAL
-#else
-#define RCL_YAML_PARAM_PARSER_EXPORT __attribute__((visibility("default")))
-#define RCL_YAML_PARAM_PARSER_IMPORT
-#if __GNUC__ >= 4
-#define RCL_YAML_PARAM_PARSER_PUBLIC __attribute__((visibility("default")))
-#define RCL_YAML_PARAM_PARSER_LOCAL __attribute__((visibility("hidden")))
-#else
-#define RCL_YAML_PARAM_PARSER_PUBLIC
-#define RCL_YAML_PARAM_PARSER_LOCAL
-#endif
-#define RCL_YAML_PARAM_PARSER_PUBLIC_TYPE
+  #define RCL_YAML_PARAM_PARSER_EXPORT __attribute__ ((visibility("default")))
+  #define RCL_YAML_PARAM_PARSER_IMPORT
+  #if __GNUC__ >= 4
+    #define RCL_YAML_PARAM_PARSER_PUBLIC __attribute__ ((visibility("default")))
+    #define RCL_YAML_PARAM_PARSER_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define RCL_YAML_PARAM_PARSER_PUBLIC
+    #define RCL_YAML_PARAM_PARSER_LOCAL
+  #endif
+  #define RCL_YAML_PARAM_PARSER_PUBLIC_TYPE
 #endif
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL_YAML_PARAM_PARSER__VISIBILITY_CONTROL_H_
+#endif  // RCL_YAML_PARAM_PARSER__VISIBILITY_CONTROL_H_

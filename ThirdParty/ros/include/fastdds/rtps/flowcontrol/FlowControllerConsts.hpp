@@ -17,20 +17,17 @@
 
 #include <fastrtps/fastrtps_dll.h>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace rtps
-{
+namespace eprosima {
+namespace fastdds {
+namespace rtps {
 
 //! Name of the default flow controller.
 extern RTPS_DllAPI const char* const FASTDDS_FLOW_CONTROLLER_DEFAULT;
 //! Name of the default flow controller for statistics writers.
 extern RTPS_DllAPI const char* const FASTDDS_STATISTICS_FLOW_CONTROLLER_DEFAULT;
 
-}    // namespace rtps
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace rtps
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // FASTDDS_RTPS_FLOWCONTROL_FLOWCONTROLLERCONSTS_HPP
+#endif // FASTDDS_RTPS_FLOWCONTROL_FLOWCONTROLLERCONSTS_HPP

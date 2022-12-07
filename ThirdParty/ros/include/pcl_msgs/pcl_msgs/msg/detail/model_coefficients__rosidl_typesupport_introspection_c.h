@@ -10,15 +10,17 @@ extern "C"
 {
 #endif
 
-#include "pcl_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
+#include "pcl_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_pcl_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, pcl_msgs, msg, ModelCoefficients)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_pcl_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, pcl_msgs, msg, ModelCoefficients)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // PCL_MSGS__MSG__DETAIL__MODEL_COEFFICIENTS__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_
+#endif  // PCL_MSGS__MSG__DETAIL__MODEL_COEFFICIENTS__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_

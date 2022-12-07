@@ -4,8 +4,8 @@
 #ifndef ROSGRAPH_MSGS__MSG__CLOCK_HPP_
 #define ROSGRAPH_MSGS__MSG__CLOCK_HPP_
 
-#include "rosgraph_msgs/msg/detail/clock__builder.hpp"
 #include "rosgraph_msgs/msg/detail/clock__struct.hpp"
+#include "rosgraph_msgs/msg/detail/clock__builder.hpp"
 #include "rosgraph_msgs/msg/detail/clock__traits.hpp"
 
-#endif    // ROSGRAPH_MSGS__MSG__CLOCK_HPP_
+#endif  // ROSGRAPH_MSGS__MSG__CLOCK_HPP_

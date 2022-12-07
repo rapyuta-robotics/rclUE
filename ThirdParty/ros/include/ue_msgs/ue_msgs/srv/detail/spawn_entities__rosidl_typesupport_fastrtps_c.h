@@ -4,25 +4,31 @@
 #ifndef UE_MSGS__SRV__DETAIL__SPAWN_ENTITIES__ROSIDL_TYPESUPPORT_FASTRTPS_C_H_
 #define UE_MSGS__SRV__DETAIL__SPAWN_ENTITIES__ROSIDL_TYPESUPPORT_FASTRTPS_C_H_
 
+
+#include <stddef.h>
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "ue_msgs/msg/rosidl_typesupport_fastrtps_c__visibility_control.h"
-
-#include <stddef.h>
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs size_t
-    get_serialized_size_ue_msgs__srv__SpawnEntities_Request(const void* untyped_ros_message, size_t current_alignment);
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs
+size_t get_serialized_size_ue_msgs__srv__SpawnEntities_Request(
+  const void * untyped_ros_message,
+  size_t current_alignment);
 
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs size_t
-    max_serialized_size_ue_msgs__srv__SpawnEntities_Request(bool& full_bounded, bool& is_plain, size_t current_alignment);
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs
+size_t max_serialized_size_ue_msgs__srv__SpawnEntities_Request(
+  bool & full_bounded,
+  bool & is_plain,
+  size_t current_alignment);
 
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, ue_msgs, srv, SpawnEntities_Request)();
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, ue_msgs, srv, SpawnEntities_Request)();
 
 #ifdef __cplusplus
 }
@@ -42,14 +48,20 @@ extern "C"
 {
 #endif
 
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs size_t
-    get_serialized_size_ue_msgs__srv__SpawnEntities_Response(const void* untyped_ros_message, size_t current_alignment);
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs
+size_t get_serialized_size_ue_msgs__srv__SpawnEntities_Response(
+  const void * untyped_ros_message,
+  size_t current_alignment);
 
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs size_t
-    max_serialized_size_ue_msgs__srv__SpawnEntities_Response(bool& full_bounded, bool& is_plain, size_t current_alignment);
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs
+size_t max_serialized_size_ue_msgs__srv__SpawnEntities_Response(
+  bool & full_bounded,
+  bool & is_plain,
+  size_t current_alignment);
 
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, ue_msgs, srv, SpawnEntities_Response)();
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, ue_msgs, srv, SpawnEntities_Response)();
 
 #ifdef __cplusplus
 }
@@ -66,11 +78,12 @@ extern "C"
 {
 #endif
 
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, ue_msgs, srv, SpawnEntities)();
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_ue_msgs
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_fastrtps_c, ue_msgs, srv, SpawnEntities)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // UE_MSGS__SRV__DETAIL__SPAWN_ENTITIES__ROSIDL_TYPESUPPORT_FASTRTPS_C_H_
+#endif  // UE_MSGS__SRV__DETAIL__SPAWN_ENTITIES__ROSIDL_TYPESUPPORT_FASTRTPS_C_H_

@@ -18,7 +18,7 @@
 
 #ifndef _UTILS_TIMEDCONDITIONVARIABLE_HPP_
 #define _UTILS_TIMEDCONDITIONVARIABLE_HPP_
-#include <fastrtps/config.h>
+#include <fastrtps/fastrtps_dll.h>
 
 /*
    NOTE: Windows implementation temporary disabled due to aleatory high CPU consumption when
@@ -37,20 +37,22 @@
  #define CV_T_ _Cnd_t
 
    extern int clock_gettime(int, struct timespec* tv);
- #elif HAVE_STRICT_REALTIME && defined(__linux__)
+ #elif HAVE_STRICT_REALTIME && defined(__unix__)
  */
-#if HAVE_STRICT_REALTIME && defined(__linux__)
+#if HAVE_STRICT_REALTIME && defined(__unix__)
 #include <pthread.h>
 
-#define CV_INIT_(x) pthread_cond_init(x, NULL);
+#define CV_INIT_(x) pthread_condattr_init(&cv_attr_); \
+    pthread_condattr_setclock(&cv_attr_, CLOCK_MONOTONIC); \
+    pthread_cond_init(x, &cv_attr_);
 #define CV_WAIT_(cv, x) pthread_cond_wait(&cv, x)
 #define CV_TIMEDWAIT_(cv, x, y) pthread_cond_timedwait(&cv, x, y)
 #define CV_SIGNAL_(cv) pthread_cond_signal(&cv)
 #define CV_BROADCAST_(cv) pthread_cond_broadcast(&cv)
-#define CV_T_ pthread_cond_t
+#define CV_T_ pthread_condattr_t cv_attr_; pthread_cond_t
 #else
 #include <condition_variable>
-#endif // if HAVE_STRICT_REALTIME && defined(__linux__)
+#endif // if HAVE_STRICT_REALTIME && defined(__unix__)
 
 #include <mutex>
 #include <chrono>
@@ -59,7 +61,7 @@
 namespace eprosima {
 namespace fastrtps {
 
-#if HAVE_STRICT_REALTIME && (/*defined(_WIN32) ||*/ defined(__linux__))
+#if HAVE_STRICT_REALTIME && (/*defined(_WIN32) ||*/ defined(__unix__))
 
 class TimedConditionVariable
 {
@@ -99,7 +101,7 @@ public:
         struct timespec max_wait = {
             0, 0
         };
-        clock_gettime(CLOCK_REALTIME, &max_wait);
+        clock_gettime(CLOCK_MONOTONIC, &max_wait);
         nsecs = nsecs + std::chrono::nanoseconds(max_wait.tv_nsec);
         auto secs = std::chrono::duration_cast<std::chrono::seconds>(nsecs);
         nsecs -= secs;
@@ -164,7 +166,7 @@ private:
 };
 #else
 using TimedConditionVariable = std::condition_variable_any;
-#endif // HAVE_STRICT_REALTIME && (/*defined(_WIN32)*/ || defined(__linux__))
+#endif // HAVE_STRICT_REALTIME && (/*defined(_WIN32)*/ || defined(__unix__))
 
 }  // namespace fastrtps
 }  // namespace eprosima

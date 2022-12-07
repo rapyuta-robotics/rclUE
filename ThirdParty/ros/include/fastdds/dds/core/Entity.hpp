@@ -20,8 +20,9 @@
 #ifndef _FASTDDS_ENTITY_HPP_
 #define _FASTDDS_ENTITY_HPP_
 
+#include <fastdds/dds/core/condition/StatusCondition.hpp>
 #include <fastdds/dds/core/status/StatusMask.hpp>
-#include <fastdds/rtps/common/InstanceHandle.h>
+#include <fastdds/dds/topic/TypeSupport.hpp>
 #include <fastrtps/types/TypesBase.h>
 
 namespace eprosima {
@@ -39,18 +40,20 @@ public:
 
     /**
      * @brief Constructor
+     *
      * @param mask StatusMask (default: all)
      */
     RTPS_DllAPI Entity(
             const StatusMask& mask = StatusMask::all())
         : status_mask_(mask)
-        , status_changes_(StatusMask::none())
+        , status_condition_(this)
         , enable_(false)
     {
     }
 
     /**
      * @brief This operation enables the Entity
+     *
      * @return RETCODE_OK
      */
     virtual fastrtps::types::ReturnCode_t enable()
@@ -69,6 +72,7 @@ public:
 
     /**
      * @brief Retrieves the set of relevant statuses for the Entity
+     *
      * @return Reference to the StatusMask with the relevant statuses set to 1
      */
     RTPS_DllAPI const StatusMask& get_status_mask() const
@@ -90,22 +94,21 @@ public:
      *
      * @return const reference to the StatusMask with the triggered statuses set to 1
      */
-    RTPS_DllAPI const StatusMask& get_status_changes() const
-    {
-        return status_changes_;
-    }
+    RTPS_DllAPI const StatusMask& get_status_changes() const;
 
     /**
      * @brief Retrieves the instance handler that represents the Entity
+     *
      * @return Reference to the InstanceHandle
      */
-    const fastrtps::rtps::InstanceHandle_t& get_instance_handle() const
+    const InstanceHandle_t& get_instance_handle() const
     {
         return instance_handle_;
     }
 
     /**
      * @brief Checks if the Entity is enabled
+     *
      * @return true if enabled, false if not
      */
     RTPS_DllAPI bool is_enabled() const
@@ -119,14 +122,25 @@ public:
         return (this->instance_handle_ == other.instance_handle_);
     }
 
+    /**
+     * @brief Allows access to the StatusCondition associated with the Entity
+     *
+     * @return Reference to StatusCondition object
+     */
+    RTPS_DllAPI StatusCondition& get_statuscondition()
+    {
+        return status_condition_;
+    }
+
 protected:
 
     /**
      * @brief Setter for the Instance Handle
+     *
      * @param handle Instance Handle
      */
     RTPS_DllAPI void set_instance_handle(
-            const fastrtps::rtps::InstanceHandle_t& handle)
+            const InstanceHandle_t& handle)
     {
         instance_handle_ = handle;
     }
@@ -134,15 +148,14 @@ protected:
     //! StatusMask with relevant statuses set to 1
     StatusMask status_mask_;
 
-    //! StatusMask with triggered statuses set to 1
-    StatusMask status_changes_;
+    //! Condition associated to the Entity
+    StatusCondition status_condition_;
 
     //! InstanceHandle associated to the Entity
-    fastrtps::rtps::InstanceHandle_t instance_handle_;
+    InstanceHandle_t instance_handle_;
 
     //! Boolean that states if the Entity is enabled or disabled
     bool enable_;
-
 };
 
 /**
@@ -155,9 +168,10 @@ public:
 
     /**
      * @brief Constructor
+     *
      * @param mask StatusMask (default: all)
      */
-    RTPS_DllAPI DomainEntity(
+    DomainEntity(
             const StatusMask& mask = StatusMask::all())
         : Entity(mask)
     {

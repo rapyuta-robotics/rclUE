@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,28 +23,28 @@ extern "C"
 // Member 'twist'
 #include "geometry_msgs/msg/detail/twist__struct.h"
 
-    /// Struct defined in msg/TwistStamped in the package geometry_msgs.
-    /**
-     * A twist with reference coordinate frame and timestamp
-     */
-    typedef struct geometry_msgs__msg__TwistStamped
-    {
-        std_msgs__msg__Header header;
-        geometry_msgs__msg__Twist twist;
-    } geometry_msgs__msg__TwistStamped;
+/// Struct defined in msg/TwistStamped in the package geometry_msgs.
+/**
+  * A twist with reference coordinate frame and timestamp
+ */
+typedef struct geometry_msgs__msg__TwistStamped
+{
+  std_msgs__msg__Header header;
+  geometry_msgs__msg__Twist twist;
+} geometry_msgs__msg__TwistStamped;
 
-    // Struct for a sequence of geometry_msgs__msg__TwistStamped.
-    typedef struct geometry_msgs__msg__TwistStamped__Sequence
-    {
-        geometry_msgs__msg__TwistStamped* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } geometry_msgs__msg__TwistStamped__Sequence;
+// Struct for a sequence of geometry_msgs__msg__TwistStamped.
+typedef struct geometry_msgs__msg__TwistStamped__Sequence
+{
+  geometry_msgs__msg__TwistStamped * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} geometry_msgs__msg__TwistStamped__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__TWIST_STAMPED__STRUCT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__TWIST_STAMPED__STRUCT_H_

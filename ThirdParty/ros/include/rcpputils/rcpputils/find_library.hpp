@@ -19,9 +19,9 @@
 #ifndef RCPPUTILS__FIND_LIBRARY_HPP_
 #define RCPPUTILS__FIND_LIBRARY_HPP_
 
-#include "rcpputils/visibility_control.hpp"
-
 #include <string>
+
+#include "rcpputils/visibility_control.hpp"
 
 namespace rcpputils
 {
@@ -40,7 +40,7 @@ namespace rcpputils
  * \throws std::runtime_error if an error is encountered when accessing environment variables.
  */
 RCPPUTILS_PUBLIC
-std::string find_library_path(const std::string& library_name);
+std::string find_library_path(const std::string & library_name);
 
 /// Construct the filepath for a library given its directory, and checks that it exists.
 /**
@@ -50,7 +50,7 @@ std::string find_library_path(const std::string& library_name);
  * empty string when the library does not exist.
  */
 RCPPUTILS_PUBLIC
-std::string path_for_library(const std::string& directory, const std::string& library_name);
+std::string path_for_library(const std::string & directory, const std::string & library_name);
 
 /// Create the filename corresponding to the library name.
 /**
@@ -61,8 +61,8 @@ std::string path_for_library(const std::string& directory, const std::string& li
  * \return The filename for the library.
  */
 RCPPUTILS_PUBLIC
-std::string filename_for_library(const std::string& library_name);
+std::string filename_for_library(const std::string & library_name);
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__FIND_LIBRARY_HPP_
+#endif  // RCPPUTILS__FIND_LIBRARY_HPP_

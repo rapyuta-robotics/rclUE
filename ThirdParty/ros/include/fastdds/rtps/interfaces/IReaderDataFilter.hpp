@@ -23,12 +23,10 @@
 #include <fastdds/rtps/common/CacheChange.h>
 #include <fastdds/rtps/common/Guid.h>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace rtps
-{
+
+namespace eprosima {
+namespace fastdds {
+namespace rtps {
 
 /**
  * Abstract class IReaderDataFilter that acts as virtual interface for data filters in ReaderProxy.
@@ -37,6 +35,7 @@ namespace rtps
 class IReaderDataFilter
 {
 public:
+
     /**
      * This method checks whether a CacheChange_t is relevant for the specified reader
      * This callback should return always the same result given the same arguments
@@ -44,7 +43,9 @@ public:
      * @param reader_guid remote reader GUID_t
      * @return true if relevant, false otherwise.
      */
-    virtual bool is_relevant(const fastrtps::rtps::CacheChange_t& change, const fastrtps::rtps::GUID_t& reader_guid) const = 0;
+    virtual bool is_relevant(
+            const fastrtps::rtps::CacheChange_t& change,
+            const fastrtps::rtps::GUID_t& reader_guid) const = 0;
 };
 
 } /* namespace rtps */

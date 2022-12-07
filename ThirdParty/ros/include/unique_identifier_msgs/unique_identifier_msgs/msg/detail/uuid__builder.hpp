@@ -5,11 +5,12 @@
 #ifndef UNIQUE_IDENTIFIER_MSGS__MSG__DETAIL__UUID__BUILDER_HPP_
 #define UNIQUE_IDENTIFIER_MSGS__MSG__DETAIL__UUID__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "unique_identifier_msgs/msg/detail/uuid__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "unique_identifier_msgs/msg/detail/uuid__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace unique_identifier_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_UUID_uuid
 {
 public:
-    Init_UUID_uuid() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::unique_identifier_msgs::msg::UUID uuid(::unique_identifier_msgs::msg::UUID::_uuid_type arg)
-    {
-        msg_.uuid = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_UUID_uuid()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::unique_identifier_msgs::msg::UUID uuid(::unique_identifier_msgs::msg::UUID::_uuid_type arg)
+  {
+    msg_.uuid = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::unique_identifier_msgs::msg::UUID msg_;
+  ::unique_identifier_msgs::msg::UUID msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::unique_identifier_msgs::msg::UUID>()
+inline
+auto build<::unique_identifier_msgs::msg::UUID>()
 {
-    return unique_identifier_msgs::msg::builder::Init_UUID_uuid();
+  return unique_identifier_msgs::msg::builder::Init_UUID_uuid();
 }
 
-}    // namespace unique_identifier_msgs
+}  // namespace unique_identifier_msgs
 
-#endif    // UNIQUE_IDENTIFIER_MSGS__MSG__DETAIL__UUID__BUILDER_HPP_
+#endif  // UNIQUE_IDENTIFIER_MSGS__MSG__DETAIL__UUID__BUILDER_HPP_

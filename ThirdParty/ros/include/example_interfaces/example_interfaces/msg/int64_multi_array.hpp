@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__INT64_MULTI_ARRAY_HPP_
 #define EXAMPLE_INTERFACES__MSG__INT64_MULTI_ARRAY_HPP_
 
-#include "example_interfaces/msg/detail/int64_multi_array__builder.hpp"
 #include "example_interfaces/msg/detail/int64_multi_array__struct.hpp"
+#include "example_interfaces/msg/detail/int64_multi_array__builder.hpp"
 #include "example_interfaces/msg/detail/int64_multi_array__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__MSG__INT64_MULTI_ARRAY_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__INT64_MULTI_ARRAY_HPP_

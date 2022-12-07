@@ -4,8 +4,8 @@
 #ifndef SENSOR_MSGS__MSG__JOY_FEEDBACK_ARRAY_HPP_
 #define SENSOR_MSGS__MSG__JOY_FEEDBACK_ARRAY_HPP_
 
-#include "sensor_msgs/msg/detail/joy_feedback_array__builder.hpp"
 #include "sensor_msgs/msg/detail/joy_feedback_array__struct.hpp"
+#include "sensor_msgs/msg/detail/joy_feedback_array__builder.hpp"
 #include "sensor_msgs/msg/detail/joy_feedback_array__traits.hpp"
 
-#endif    // SENSOR_MSGS__MSG__JOY_FEEDBACK_ARRAY_HPP_
+#endif  // SENSOR_MSGS__MSG__JOY_FEEDBACK_ARRAY_HPP_

@@ -4,8 +4,8 @@
 #ifndef DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_STATUS_HPP_
 #define DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_STATUS_HPP_
 
-#include "diagnostic_msgs/msg/detail/diagnostic_status__builder.hpp"
 #include "diagnostic_msgs/msg/detail/diagnostic_status__struct.hpp"
+#include "diagnostic_msgs/msg/detail/diagnostic_status__builder.hpp"
 #include "diagnostic_msgs/msg/detail/diagnostic_status__traits.hpp"
 
-#endif    // DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_STATUS_HPP_
+#endif  // DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_STATUS_HPP_

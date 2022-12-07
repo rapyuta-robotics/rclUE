@@ -4,8 +4,8 @@
 #ifndef TRAJECTORY_MSGS__MSG__MULTI_DOF_JOINT_TRAJECTORY_HPP_
 #define TRAJECTORY_MSGS__MSG__MULTI_DOF_JOINT_TRAJECTORY_HPP_
 
-#include "trajectory_msgs/msg/detail/multi_dof_joint_trajectory__builder.hpp"
 #include "trajectory_msgs/msg/detail/multi_dof_joint_trajectory__struct.hpp"
+#include "trajectory_msgs/msg/detail/multi_dof_joint_trajectory__builder.hpp"
 #include "trajectory_msgs/msg/detail/multi_dof_joint_trajectory__traits.hpp"
 
-#endif    // TRAJECTORY_MSGS__MSG__MULTI_DOF_JOINT_TRAJECTORY_HPP_
+#endif  // TRAJECTORY_MSGS__MSG__MULTI_DOF_JOINT_TRAJECTORY_HPP_

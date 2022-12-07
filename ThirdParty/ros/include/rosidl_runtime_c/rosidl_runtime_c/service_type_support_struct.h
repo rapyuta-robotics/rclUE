@@ -16,6 +16,7 @@
 #define ROSIDL_RUNTIME_C__SERVICE_TYPE_SUPPORT_STRUCT_H_
 
 #include "rosidl_runtime_c/visibility_control.h"
+
 #include "rosidl_typesupport_interface/macros.h"
 
 #ifdef __cplusplus
@@ -23,48 +24,48 @@ extern "C"
 {
 #endif
 
-    typedef struct rosidl_service_type_support_t rosidl_service_type_support_t;
+typedef struct rosidl_service_type_support_t rosidl_service_type_support_t;
 
-    typedef const rosidl_service_type_support_t* (*rosidl_service_typesupport_handle_function)(const rosidl_service_type_support_t*,
-                                                                                               const char*);
+typedef const rosidl_service_type_support_t * (* rosidl_service_typesupport_handle_function)(
+  const rosidl_service_type_support_t *, const char *);
 
-    /// Contains rosidl service type support data
-    struct rosidl_service_type_support_t
-    {
-        /// String identifier for the type_support.
-        const char* typesupport_identifier;
-        /// Pointer to the service type support library
-        const void* data;
-        /// Pointer to the service type support handler function
-        rosidl_service_typesupport_handle_function func;
-    };
+/// Contains rosidl service type support data
+struct rosidl_service_type_support_t
+{
+  /// String identifier for the type_support.
+  const char * typesupport_identifier;
+  /// Pointer to the service type support library
+  const void * data;
+  /// Pointer to the service type support handler function
+  rosidl_service_typesupport_handle_function func;
+};
 
-    /// Get the service type support handle specific to this identifier.
-    /**
-     * The handle's message typesupport identifier function is returned or if the parameters are NULL
-     * then an assert will happen.
-     *
-     * \param handle Handle to service type support
-     * \param identifier The typesupport identifier to get the handle function for
-     * \return The associated service typesupport handle function.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC
-    const rosidl_service_type_support_t* get_service_typesupport_handle(const rosidl_service_type_support_t* handle,
-                                                                        const char* identifier);
+/// Get the service type support handle specific to this identifier.
+/**
+ * The handle's message typesupport identifier function is returned or if the parameters are NULL
+ * then an assert will happen.
+ *
+ * \param handle Handle to service type support
+ * \param identifier The typesupport identifier to get the handle function for
+ * \return The associated service typesupport handle function.
+ */
+ROSIDL_GENERATOR_C_PUBLIC
+const rosidl_service_type_support_t * get_service_typesupport_handle(
+  const rosidl_service_type_support_t * handle, const char * identifier);
 
-    /// Get the service type support handle function specific to this identifier.
-    /**
-     * If the identifier is the same as this handle's typesupport_identifier the handle is simply
-     * returned or if the parameters are NULL then an assert will happen.
-     *
-     * \param handle Handle to service type support
-     * \param identifier The typesupport identifier to get the handle function for
-     * \return if the identifier match's the handle's identifier then the handle's function
-     *   is returned.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC
-    const rosidl_service_type_support_t* get_service_typesupport_handle_function(const rosidl_service_type_support_t* handle,
-                                                                                 const char* identifier);
+/// Get the service type support handle function specific to this identifier.
+/**
+* If the identifier is the same as this handle's typesupport_identifier the handle is simply
+* returned or if the parameters are NULL then an assert will happen.
+ *
+ * \param handle Handle to service type support
+ * \param identifier The typesupport identifier to get the handle function for
+ * \return if the identifier match's the handle's identifier then the handle's function
+ *   is returned.
+ */
+ROSIDL_GENERATOR_C_PUBLIC
+const rosidl_service_type_support_t * get_service_typesupport_handle_function(
+  const rosidl_service_type_support_t * handle, const char * identifier);
 
 /// Get the service type support given a provided action and package.
 /*
@@ -74,10 +75,11 @@ extern "C"
  * \return a rosidl_service_type_support_t struct if founded, otherwise NULL.
  */
 #define ROSIDL_GET_SRV_TYPE_SUPPORT(PkgName, SrvSubfolder, SrvName) \
-    ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_c, PkgName, SrvSubfolder, SrvName)()
+  ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME( \
+    rosidl_typesupport_c, PkgName, SrvSubfolder, SrvName)()
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ROSIDL_RUNTIME_C__SERVICE_TYPE_SUPPORT_STRUCT_H_
+#endif  // ROSIDL_RUNTIME_C__SERVICE_TYPE_SUPPORT_STRUCT_H_

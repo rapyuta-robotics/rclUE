@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -21,43 +22,44 @@ extern "C"
 // Member 'name2'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in srv/Attach in the package ue_msgs.
-    typedef struct ue_msgs__srv__Attach_Request
-    {
-        rosidl_runtime_c__String name1;
-        rosidl_runtime_c__String name2;
-    } ue_msgs__srv__Attach_Request;
+/// Struct defined in srv/Attach in the package ue_msgs.
+typedef struct ue_msgs__srv__Attach_Request
+{
+  rosidl_runtime_c__String name1;
+  rosidl_runtime_c__String name2;
+} ue_msgs__srv__Attach_Request;
 
-    // Struct for a sequence of ue_msgs__srv__Attach_Request.
-    typedef struct ue_msgs__srv__Attach_Request__Sequence
-    {
-        ue_msgs__srv__Attach_Request* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } ue_msgs__srv__Attach_Request__Sequence;
+// Struct for a sequence of ue_msgs__srv__Attach_Request.
+typedef struct ue_msgs__srv__Attach_Request__Sequence
+{
+  ue_msgs__srv__Attach_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} ue_msgs__srv__Attach_Request__Sequence;
 
-    // Constants defined in the message
 
-    /// Struct defined in srv/Attach in the package ue_msgs.
-    typedef struct ue_msgs__srv__Attach_Response
-    {
-        bool success;
-    } ue_msgs__srv__Attach_Response;
+// Constants defined in the message
 
-    // Struct for a sequence of ue_msgs__srv__Attach_Response.
-    typedef struct ue_msgs__srv__Attach_Response__Sequence
-    {
-        ue_msgs__srv__Attach_Response* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } ue_msgs__srv__Attach_Response__Sequence;
+/// Struct defined in srv/Attach in the package ue_msgs.
+typedef struct ue_msgs__srv__Attach_Response
+{
+  bool success;
+} ue_msgs__srv__Attach_Response;
+
+// Struct for a sequence of ue_msgs__srv__Attach_Response.
+typedef struct ue_msgs__srv__Attach_Response__Sequence
+{
+  ue_msgs__srv__Attach_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} ue_msgs__srv__Attach_Response__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // UE_MSGS__SRV__DETAIL__ATTACH__STRUCT_H_
+#endif  // UE_MSGS__SRV__DETAIL__ATTACH__STRUCT_H_

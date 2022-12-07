@@ -15,6 +15,6 @@
 #ifndef RMW_FASTRTPS_CPP__IDENTIFIER_HPP_
 #define RMW_FASTRTPS_CPP__IDENTIFIER_HPP_
 
-extern const char* const eprosima_fastrtps_identifier;
+extern const char * const eprosima_fastrtps_identifier;
 
-#endif    // RMW_FASTRTPS_CPP__IDENTIFIER_HPP_
+#endif  // RMW_FASTRTPS_CPP__IDENTIFIER_HPP_

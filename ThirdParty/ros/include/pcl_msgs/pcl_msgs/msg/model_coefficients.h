@@ -5,8 +5,8 @@
 #ifndef PCL_MSGS__MSG__MODEL_COEFFICIENTS_H_
 #define PCL_MSGS__MSG__MODEL_COEFFICIENTS_H_
 
-#include "pcl_msgs/msg/detail/model_coefficients__functions.h"
 #include "pcl_msgs/msg/detail/model_coefficients__struct.h"
+#include "pcl_msgs/msg/detail/model_coefficients__functions.h"
 #include "pcl_msgs/msg/detail/model_coefficients__type_support.h"
 
-#endif    // PCL_MSGS__MSG__MODEL_COEFFICIENTS_H_
+#endif  // PCL_MSGS__MSG__MODEL_COEFFICIENTS_H_

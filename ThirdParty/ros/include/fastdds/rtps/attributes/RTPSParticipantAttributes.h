@@ -29,11 +29,36 @@
 #include <fastrtps/utils/fixed_size_string.hpp>
 #include <fastdds/rtps/attributes/RTPSParticipantAllocationAttributes.hpp>
 #include <fastdds/rtps/attributes/ServerAttributes.h>
+#include <fastdds/rtps/flowcontrol/FlowControllerDescriptor.hpp>
 
 #include <memory>
 #include <sstream>
 
 namespace eprosima {
+
+namespace fastdds {
+
+namespace rtps {
+
+/**
+ * Struct to define participant types to set participant type parameter property
+ *@ingroup DISCOVERY_MODULE
+ */
+struct ParticipantType
+{
+    static constexpr const char* SIMPLE = "SIMPLE";
+    static constexpr const char* SERVER = "SERVER";
+    static constexpr const char* CLIENT = "CLIENT";
+    static constexpr const char* SUPER_CLIENT = "SUPER_CLIENT";
+    static constexpr const char* BACKUP = "BACKUP";
+    static constexpr const char* NONE = "NONE";
+    static constexpr const char* EXTERNAL = "EXTERNAL";
+    static constexpr const char* UNKNOWN = "UNKNOWN";
+};
+
+} /* namespace rtps */
+} /* namespace fastdds */
+
 namespace fastrtps {
 namespace rtps {
 
@@ -67,6 +92,39 @@ typedef enum DiscoveryProtocol
                      Remote servers will treat it as a server and will share every discovery information. */
 
 } DiscoveryProtocol_t;
+
+inline std::ostream& operator <<(
+        std::ostream& output,
+        const DiscoveryProtocol& discovery_protocol)
+{
+    switch (discovery_protocol)
+    {
+        case DiscoveryProtocol::NONE:
+            output << fastdds::rtps::ParticipantType::NONE;
+            break;
+        case DiscoveryProtocol::SIMPLE:
+            output << fastdds::rtps::ParticipantType::SIMPLE;
+            break;
+        case DiscoveryProtocol::EXTERNAL:
+            output << fastdds::rtps::ParticipantType::EXTERNAL;
+            break;
+        case DiscoveryProtocol::CLIENT:
+            output << fastdds::rtps::ParticipantType::CLIENT;
+            break;
+        case DiscoveryProtocol::SUPER_CLIENT:
+            output << fastdds::rtps::ParticipantType::SUPER_CLIENT;
+            break;
+        case DiscoveryProtocol::SERVER:
+            output << fastdds::rtps::ParticipantType::SERVER;
+            break;
+        case DiscoveryProtocol::BACKUP:
+            output << fastdds::rtps::ParticipantType::BACKUP;
+            break;
+        default:
+            output << fastdds::rtps::ParticipantType::UNKNOWN;
+    }
+    return output;
+}
 
 //!Filtering flags when discovering participants
 typedef enum ParticipantFilteringFlags : uint32_t
@@ -235,7 +293,7 @@ public:
                (this->leaseDuration_announcementperiod == b.leaseDuration_announcementperiod) &&
                (this->initial_announcements == b.initial_announcements) &&
                (this->m_simpleEDP == b.m_simpleEDP) &&
-               (this->m_staticEndpointXMLFilename == b.m_staticEndpointXMLFilename) &&
+               (this->static_edp_xml_config_ == b.static_edp_xml_config_) &&
                (this->m_DiscoveryServers == b.m_DiscoveryServers) &&
                (this->ignoreParticipantFlags == b.ignoreParticipantFlags);
     }
@@ -244,25 +302,50 @@ public:
      * Get the static endpoint XML filename
      * @return Static endpoint XML filename
      */
+    FASTRTPS_DEPRECATED("Use static_edp_xml_config()")
     const char* getStaticEndpointXMLFilename() const
     {
-        return m_staticEndpointXMLFilename.c_str();
+        return static_edp_xml_config();
     }
 
     /**
      * Set the static endpoint XML filename
      * @param str Static endpoint XML filename
+     * @deprecated
      */
+    FASTRTPS_DEPRECATED("Use static_edp_xml_config()")
     void setStaticEndpointXMLFilename(
             const char* str)
     {
-        m_staticEndpointXMLFilename = std::string(str);
+        static_edp_xml_config_ = "file://" + std::string(str);
+    }
+
+    /**
+     * Set the static endpoint XML configuration.
+     * @param str URI specifying the static endpoint XML configuration.
+     * The string could contain a filename (file://) or the XML content directly (data://).
+     */
+    void static_edp_xml_config(
+            const char* str)
+    {
+        static_edp_xml_config_ = str;
+    }
+
+    /**
+     * Get the static endpoint XML configuration.
+     * @return URI specifying the static endpoint XML configuration.
+     * The string could contain a filename (file://) or the XML content directly (data://).
+     */
+    const char* static_edp_xml_config() const
+    {
+        return static_edp_xml_config_.c_str();
     }
 
 private:
 
-    //! StaticEDP XML filename, only necessary if use_STATIC_EndpointDiscoveryProtocol=true
-    std::string m_staticEndpointXMLFilename = "";
+    //! URI specifying the static EDP XML configuration, only necessary if use_STATIC_EndpointDiscoveryProtocol=true
+    //! This string could contain a filename or the XML content directly.
+    std::string static_edp_xml_config_ = "";
 };
 
 /**
@@ -356,6 +439,8 @@ public:
  */
 class RTPSParticipantAttributes
 {
+    using FlowControllerDescriptorList = std::vector<std::shared_ptr<fastdds::rtps::FlowControllerDescriptor>>;
+
 public:
 
     RTPSParticipantAttributes()
@@ -385,8 +470,9 @@ public:
                (this->participantID == b.participantID) &&
                (this->throughputController == b.throughputController) &&
                (this->useBuiltinTransports == b.useBuiltinTransports) &&
-               (this->properties == b.properties &&
-               (this->prefix == b.prefix));
+               (this->properties == b.properties) &&
+               (this->prefix == b.prefix) &&
+               (this->flow_controllers == b.flow_controllers);
     }
 
     /**
@@ -459,6 +545,9 @@ public:
     {
         return name.c_str();
     }
+
+    //! Flow controllers.
+    FlowControllerDescriptorList flow_controllers;
 
 private:
 

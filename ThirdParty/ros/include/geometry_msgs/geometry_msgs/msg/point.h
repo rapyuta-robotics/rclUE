@@ -5,8 +5,8 @@
 #ifndef GEOMETRY_MSGS__MSG__POINT_H_
 #define GEOMETRY_MSGS__MSG__POINT_H_
 
-#include "geometry_msgs/msg/detail/point__functions.h"
 #include "geometry_msgs/msg/detail/point__struct.h"
+#include "geometry_msgs/msg/detail/point__functions.h"
 #include "geometry_msgs/msg/detail/point__type_support.h"
 
-#endif    // GEOMETRY_MSGS__MSG__POINT_H_
+#endif  // GEOMETRY_MSGS__MSG__POINT_H_

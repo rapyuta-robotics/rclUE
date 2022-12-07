@@ -5,8 +5,8 @@
 #ifndef TRAJECTORY_MSGS__MSG__JOINT_TRAJECTORY_POINT_H_
 #define TRAJECTORY_MSGS__MSG__JOINT_TRAJECTORY_POINT_H_
 
-#include "trajectory_msgs/msg/detail/joint_trajectory_point__functions.h"
 #include "trajectory_msgs/msg/detail/joint_trajectory_point__struct.h"
+#include "trajectory_msgs/msg/detail/joint_trajectory_point__functions.h"
 #include "trajectory_msgs/msg/detail/joint_trajectory_point__type_support.h"
 
-#endif    // TRAJECTORY_MSGS__MSG__JOINT_TRAJECTORY_POINT_H_
+#endif  // TRAJECTORY_MSGS__MSG__JOINT_TRAJECTORY_POINT_H_

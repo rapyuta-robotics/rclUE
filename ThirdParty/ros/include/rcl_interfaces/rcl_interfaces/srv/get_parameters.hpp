@@ -4,8 +4,8 @@
 #ifndef RCL_INTERFACES__SRV__GET_PARAMETERS_HPP_
 #define RCL_INTERFACES__SRV__GET_PARAMETERS_HPP_
 
-#include "rcl_interfaces/srv/detail/get_parameters__builder.hpp"
 #include "rcl_interfaces/srv/detail/get_parameters__struct.hpp"
+#include "rcl_interfaces/srv/detail/get_parameters__builder.hpp"
 #include "rcl_interfaces/srv/detail/get_parameters__traits.hpp"
 
-#endif    // RCL_INTERFACES__SRV__GET_PARAMETERS_HPP_
+#endif  // RCL_INTERFACES__SRV__GET_PARAMETERS_HPP_

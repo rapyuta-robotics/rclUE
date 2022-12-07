@@ -10,34 +10,34 @@ extern "C"
 {
 #endif
 
-    // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-    //     https://gcc.gnu.org/wiki/Visibility
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs __attribute__((dllexport))
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs __attribute__((dllimport))
+  #ifdef __GNUC__
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs __attribute__ ((dllexport))
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs __attribute__ ((dllimport))
+  #else
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs __declspec(dllexport)
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs __declspec(dllimport)
+  #endif
+  #ifdef ROSIDL_TYPESUPPORT_FASTRTPS_C_BUILDING_DLL_shape_msgs
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs
+  #else
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs
+  #endif
 #else
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs __declspec(dllexport)
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs __declspec(dllimport)
-#endif
-#ifdef ROSIDL_TYPESUPPORT_FASTRTPS_C_BUILDING_DLL_shape_msgs
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs
-#else
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs
-#endif
-#else
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs __attribute__((visibility("default")))
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs
-#if __GNUC__ >= 4
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs __attribute__((visibility("default")))
-#else
-#define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs
-#endif
+  #define ROSIDL_TYPESUPPORT_FASTRTPS_C_EXPORT_shape_msgs __attribute__ ((visibility("default")))
+  #define ROSIDL_TYPESUPPORT_FASTRTPS_C_IMPORT_shape_msgs
+  #if __GNUC__ >= 4
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs __attribute__ ((visibility("default")))
+  #else
+    #define ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC_shape_msgs
+  #endif
 #endif
 
 #if __cplusplus
 }
 #endif
 
-#endif    // SHAPE_MSGS__MSG__ROSIDL_TYPESUPPORT_FASTRTPS_C__VISIBILITY_CONTROL_H_
+#endif  // SHAPE_MSGS__MSG__ROSIDL_TYPESUPPORT_FASTRTPS_C__VISIBILITY_CONTROL_H_

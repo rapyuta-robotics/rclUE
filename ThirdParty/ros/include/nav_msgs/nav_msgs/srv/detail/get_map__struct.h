@@ -14,23 +14,25 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-    // Constants defined in the message
 
-    /// Struct defined in srv/GetMap in the package nav_msgs.
-    typedef struct nav_msgs__srv__GetMap_Request
-    {
-        uint8_t structure_needs_at_least_one_member;
-    } nav_msgs__srv__GetMap_Request;
+// Constants defined in the message
 
-    // Struct for a sequence of nav_msgs__srv__GetMap_Request.
-    typedef struct nav_msgs__srv__GetMap_Request__Sequence
-    {
-        nav_msgs__srv__GetMap_Request* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } nav_msgs__srv__GetMap_Request__Sequence;
+/// Struct defined in srv/GetMap in the package nav_msgs.
+typedef struct nav_msgs__srv__GetMap_Request
+{
+  uint8_t structure_needs_at_least_one_member;
+} nav_msgs__srv__GetMap_Request;
+
+// Struct for a sequence of nav_msgs__srv__GetMap_Request.
+typedef struct nav_msgs__srv__GetMap_Request__Sequence
+{
+  nav_msgs__srv__GetMap_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} nav_msgs__srv__GetMap_Request__Sequence;
+
 
 // Constants defined in the message
 
@@ -38,24 +40,24 @@ extern "C"
 // Member 'map'
 #include "nav_msgs/msg/detail/occupancy_grid__struct.h"
 
-    /// Struct defined in srv/GetMap in the package nav_msgs.
-    typedef struct nav_msgs__srv__GetMap_Response
-    {
-        nav_msgs__msg__OccupancyGrid map;
-    } nav_msgs__srv__GetMap_Response;
+/// Struct defined in srv/GetMap in the package nav_msgs.
+typedef struct nav_msgs__srv__GetMap_Response
+{
+  nav_msgs__msg__OccupancyGrid map;
+} nav_msgs__srv__GetMap_Response;
 
-    // Struct for a sequence of nav_msgs__srv__GetMap_Response.
-    typedef struct nav_msgs__srv__GetMap_Response__Sequence
-    {
-        nav_msgs__srv__GetMap_Response* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } nav_msgs__srv__GetMap_Response__Sequence;
+// Struct for a sequence of nav_msgs__srv__GetMap_Response.
+typedef struct nav_msgs__srv__GetMap_Response__Sequence
+{
+  nav_msgs__srv__GetMap_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} nav_msgs__srv__GetMap_Response__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // NAV_MSGS__SRV__DETAIL__GET_MAP__STRUCT_H_
+#endif  // NAV_MSGS__SRV__DETAIL__GET_MAP__STRUCT_H_

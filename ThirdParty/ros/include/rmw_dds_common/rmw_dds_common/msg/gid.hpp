@@ -4,8 +4,8 @@
 #ifndef RMW_DDS_COMMON__MSG__GID_HPP_
 #define RMW_DDS_COMMON__MSG__GID_HPP_
 
-#include "rmw_dds_common/msg/detail/gid__builder.hpp"
 #include "rmw_dds_common/msg/detail/gid__struct.hpp"
+#include "rmw_dds_common/msg/detail/gid__builder.hpp"
 #include "rmw_dds_common/msg/detail/gid__traits.hpp"
 
-#endif    // RMW_DDS_COMMON__MSG__GID_HPP_
+#endif  // RMW_DDS_COMMON__MSG__GID_HPP_

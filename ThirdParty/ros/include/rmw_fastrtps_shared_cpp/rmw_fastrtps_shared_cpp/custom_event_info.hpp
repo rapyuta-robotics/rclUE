@@ -15,52 +15,60 @@
 #ifndef RMW_FASTRTPS_SHARED_CPP__CUSTOM_EVENT_INFO_HPP_
 #define RMW_FASTRTPS_SHARED_CPP__CUSTOM_EVENT_INFO_HPP_
 
-#include "fastcdr/FastBuffer.h"
-#include "fastdds/dds/core/condition/GuardCondition.hpp"
-#include "fastdds/dds/core/condition/StatusCondition.hpp"
-#include "rmw/event.h"
-#include "rmw/event_callback_type.h"
-#include "rmw_fastrtps_shared_cpp/TypeSupport.hpp"
-
 #include <mutex>
 #include <utility>
+
+#include "fastcdr/FastBuffer.h"
+#include "fastdds/dds/core/condition/StatusCondition.hpp"
+#include "fastdds/dds/core/condition/GuardCondition.hpp"
+
+#include "rmw/event.h"
+#include "rmw/event_callback_type.h"
+
+#include "rmw_fastrtps_shared_cpp/TypeSupport.hpp"
+
 
 class EventListenerInterface
 {
 public:
-    virtual eprosima::fastdds::dds::StatusCondition& get_statuscondition() const = 0;
+  virtual eprosima::fastdds::dds::StatusCondition & get_statuscondition() const = 0;
 
-    /// Take ready data for an event type.
-    /**
-     * \param event_type The event type to get data for.
-     * \param event_info A preallocated event information (from rmw/types.h) to fill with data
-     * \return `true` if data was successfully taken.
-     * \return `false` if data was not available, in this case nothing was written to event_info.
-     */
-    virtual bool take_event(rmw_event_type_t event_type, void* event_info) = 0;
+  /// Take ready data for an event type.
+  /**
+   * \param event_type The event type to get data for.
+   * \param event_info A preallocated event information (from rmw/types.h) to fill with data
+   * \return `true` if data was successfully taken.
+   * \return `false` if data was not available, in this case nothing was written to event_info.
+   */
+  virtual bool take_event(
+    rmw_event_type_t event_type,
+    void * event_info) = 0;
 
-    // Provide handlers to perform an action when a
-    // new event from this listener has ocurred
-    virtual void set_on_new_event_callback(rmw_event_type_t event_type, const void* user_data, rmw_event_callback_t callback) = 0;
+  // Provide handlers to perform an action when a
+  // new event from this listener has ocurred
+  virtual void set_on_new_event_callback(
+    rmw_event_type_t event_type,
+    const void * user_data,
+    rmw_event_callback_t callback) = 0;
 
-    eprosima::fastdds::dds::GuardCondition& get_event_guard(rmw_event_type_t event_type)
-    {
-        return event_guard[event_type];
-    }
+  eprosima::fastdds::dds::GuardCondition & get_event_guard(rmw_event_type_t event_type)
+  {
+    return event_guard[event_type];
+  }
 
 protected:
-    eprosima::fastdds::dds::GuardCondition event_guard[RMW_EVENT_INVALID];
+  eprosima::fastdds::dds::GuardCondition event_guard[RMW_EVENT_INVALID];
 
-    rmw_event_callback_t on_new_event_cb_[RMW_EVENT_INVALID] = {nullptr};
+  rmw_event_callback_t on_new_event_cb_[RMW_EVENT_INVALID] = {nullptr};
 
-    const void* user_data_[RMW_EVENT_INVALID] = {nullptr};
+  const void * user_data_[RMW_EVENT_INVALID] = {nullptr};
 
-    std::mutex on_new_event_m_;
+  std::mutex on_new_event_m_;
 };
 
 struct CustomEventInfo
 {
-    virtual EventListenerInterface* get_listener() const = 0;
+  virtual EventListenerInterface * get_listener() const = 0;
 };
 
-#endif    // RMW_FASTRTPS_SHARED_CPP__CUSTOM_EVENT_INFO_HPP_
+#endif  // RMW_FASTRTPS_SHARED_CPP__CUSTOM_EVENT_INFO_HPP_

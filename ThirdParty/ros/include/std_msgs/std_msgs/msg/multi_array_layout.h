@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_H_
 #define STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_H_
 
-#include "std_msgs/msg/detail/multi_array_layout__functions.h"
 #include "std_msgs/msg/detail/multi_array_layout__struct.h"
+#include "std_msgs/msg/detail/multi_array_layout__functions.h"
 #include "std_msgs/msg/detail/multi_array_layout__type_support.h"
 
-#endif    // STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_H_
+#endif  // STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_H_

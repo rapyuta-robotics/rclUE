@@ -4,8 +4,8 @@
 #ifndef STD_MSGS__MSG__U_INT8_HPP_
 #define STD_MSGS__MSG__U_INT8_HPP_
 
-#include "std_msgs/msg/detail/u_int8__builder.hpp"
 #include "std_msgs/msg/detail/u_int8__struct.hpp"
+#include "std_msgs/msg/detail/u_int8__builder.hpp"
 #include "std_msgs/msg/detail/u_int8__traits.hpp"
 
-#endif    // STD_MSGS__MSG__U_INT8_HPP_
+#endif  // STD_MSGS__MSG__U_INT8_HPP_

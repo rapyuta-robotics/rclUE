@@ -23,8 +23,12 @@ namespace rmw_fastrtps_shared_cpp
 {
 
 RMW_FASTRTPS_SHARED_CPP_PUBLIC
-rmw_ret_t destroy_publisher(const char* identifier, CustomParticipantInfo* participant_info, rmw_publisher_t* publisher);
+rmw_ret_t
+destroy_publisher(
+  const char * identifier,
+  CustomParticipantInfo * participant_info,
+  rmw_publisher_t * publisher);
 
-}    // namespace rmw_fastrtps_shared_cpp
+}  // namespace rmw_fastrtps_shared_cpp
 
-#endif    // RMW_FASTRTPS_SHARED_CPP__PUBLISHER_HPP_
+#endif  // RMW_FASTRTPS_SHARED_CPP__PUBLISHER_HPP_

@@ -60,4 +60,4 @@ extern "C"
 }
 #endif
 
-#endif    // RCL_ACTION__RCL_ACTION_H_
+#endif  // RCL_ACTION__RCL_ACTION_H_

@@ -24,98 +24,104 @@ extern "C"
 
 #include "rcl/allocator.h"
 #include "rcl/arguments.h"
+
 #include "rcl/domain_id.h"
 
 /// Constant which indicates that the default domain id should be used.
 #define RCL_NODE_OPTIONS_DEFAULT_DOMAIN_ID RCL_DEFAULT_DOMAIN_ID
 
-    /// Structure which encapsulates the options for creating a rcl_node_t.
-    typedef struct rcl_node_options_s
-    {
-        // bool anonymous_name;
+/// Structure which encapsulates the options for creating a rcl_node_t.
+typedef struct rcl_node_options_s
+{
+  // bool anonymous_name;
 
-        // rmw_qos_profile_t parameter_qos;
+  // rmw_qos_profile_t parameter_qos;
 
-        /// If true, no parameter infrastructure will be setup.
-        // bool no_parameters;
+  /// If true, no parameter infrastructure will be setup.
+  // bool no_parameters;
 
-        /// Custom allocator used for internal allocations.
-        rcl_allocator_t allocator;
+  /// Custom allocator used for internal allocations.
+  rcl_allocator_t allocator;
 
-        /// If false then only use arguments in this struct, otherwise use global arguments also.
-        bool use_global_arguments;
+  /// If false then only use arguments in this struct, otherwise use global arguments also.
+  bool use_global_arguments;
 
-        /// Command line arguments that apply only to this node.
-        rcl_arguments_t arguments;
+  /// Command line arguments that apply only to this node.
+  rcl_arguments_t arguments;
 
-        /// Flag to enable rosout for this node
-        bool enable_rosout;
+  /// Flag to enable rosout for this node
+  bool enable_rosout;
 
-        /// Middleware quality of service settings for /rosout.
-        rmw_qos_profile_t rosout_qos;
-    } rcl_node_options_t;
+  /// Middleware quality of service settings for /rosout.
+  rmw_qos_profile_t rosout_qos;
+} rcl_node_options_t;
 
-    /// Return the default node options in a rcl_node_options_t.
-    /**
-     * The default values are:
-     *
-     * - allocator = rcl_get_default_allocator()
-     * - use_global_arguments = true
-     * - enable_rosout = true
-     * - arguments = rcl_get_zero_initialized_arguments()
-     * - rosout_qos = rcl_qos_profile_rosout_default
-     *
-     * \return A structure with the default node options.
-     */
-    RCL_PUBLIC
-    rcl_node_options_t rcl_node_get_default_options(void);
+/// Return the default node options in a rcl_node_options_t.
+/**
+ * The default values are:
+ *
+ * - allocator = rcl_get_default_allocator()
+ * - use_global_arguments = true
+ * - enable_rosout = true
+ * - arguments = rcl_get_zero_initialized_arguments()
+ * - rosout_qos = rcl_qos_profile_rosout_default
+ *
+ * \return A structure with the default node options.
+ */
+RCL_PUBLIC
+rcl_node_options_t
+rcl_node_get_default_options(void);
 
-    /// Copy one options structure into another.
-    /**
-     * <hr>
-     * Attribute          | Adherence
-     * ------------------ | -------------
-     * Allocates Memory   | Yes
-     * Thread-Safe        | No
-     * Uses Atomics       | No
-     * Lock-Free          | Yes
-     *
-     * \param[in] options The structure to be copied.
-     *   Its allocator is used to copy memory into the new structure.
-     * \param[out] options_out An options structure containing default values.
-     * \return #RCL_RET_OK if the structure was copied successfully, or
-     * \return #RCL_RET_INVALID_ARGUMENT if any function arguments are invalid, or
-     * \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
-     * \return #RCL_RET_ERROR if an unspecified error occurs.
-     */
-    RCL_PUBLIC
-    RCL_WARN_UNUSED
-    rcl_ret_t rcl_node_options_copy(const rcl_node_options_t* options, rcl_node_options_t* options_out);
+/// Copy one options structure into another.
+/**
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | No
+ * Lock-Free          | Yes
+ *
+ * \param[in] options The structure to be copied.
+ *   Its allocator is used to copy memory into the new structure.
+ * \param[out] options_out An options structure containing default values.
+ * \return #RCL_RET_OK if the structure was copied successfully, or
+ * \return #RCL_RET_INVALID_ARGUMENT if any function arguments are invalid, or
+ * \return #RCL_RET_BAD_ALLOC if allocating memory failed, or
+ * \return #RCL_RET_ERROR if an unspecified error occurs.
+ */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_node_options_copy(
+  const rcl_node_options_t * options,
+  rcl_node_options_t * options_out);
 
-    /// Finalize the given node_options.
-    /**
-     * The given node_options must be non-`NULL` and valid, i.e. had
-     * rcl_node_get_default_options() called on it but not this function yet.
-     *
-     * <hr>
-     * Attribute          | Adherence
-     * ------------------ | -------------
-     * Allocates Memory   | Yes
-     * Thread-Safe        | No
-     * Uses Atomics       | Yes
-     * Lock-Free          | Yes
-     *
-     * \param[inout] options object to be finalized
-     * \return #RCL_RET_OK if setup is successful, or
-     * \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
-     * \return #RCL_RET_ERROR if an unspecified error occurs.
-     */
-    RCL_PUBLIC
-    RCL_WARN_UNUSED
-    rcl_ret_t rcl_node_options_fini(rcl_node_options_t* options);
+/// Finalize the given node_options.
+/**
+ * The given node_options must be non-`NULL` and valid, i.e. had
+ * rcl_node_get_default_options() called on it but not this function yet.
+ *
+ * <hr>
+ * Attribute          | Adherence
+ * ------------------ | -------------
+ * Allocates Memory   | Yes
+ * Thread-Safe        | No
+ * Uses Atomics       | Yes
+ * Lock-Free          | Yes
+ *
+ * \param[inout] options object to be finalized
+ * \return #RCL_RET_OK if setup is successful, or
+ * \return #RCL_RET_INVALID_ARGUMENT if any arguments are invalid, or
+ * \return #RCL_RET_ERROR if an unspecified error occurs.
+ */
+RCL_PUBLIC
+RCL_WARN_UNUSED
+rcl_ret_t
+rcl_node_options_fini(rcl_node_options_t * options);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL__NODE_OPTIONS_H_
+#endif  // RCL__NODE_OPTIONS_H_

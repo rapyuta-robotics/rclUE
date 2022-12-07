@@ -4,8 +4,8 @@
 #ifndef STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_HPP_
 #define STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_HPP_
 
-#include "std_msgs/msg/detail/multi_array_layout__builder.hpp"
 #include "std_msgs/msg/detail/multi_array_layout__struct.hpp"
+#include "std_msgs/msg/detail/multi_array_layout__builder.hpp"
 #include "std_msgs/msg/detail/multi_array_layout__traits.hpp"
 
-#endif    // STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_HPP_
+#endif  // STD_MSGS__MSG__MULTI_ARRAY_LAYOUT_HPP_

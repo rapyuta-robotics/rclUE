@@ -4,8 +4,8 @@
 #ifndef STD_MSGS__MSG__FLOAT32_HPP_
 #define STD_MSGS__MSG__FLOAT32_HPP_
 
-#include "std_msgs/msg/detail/float32__builder.hpp"
 #include "std_msgs/msg/detail/float32__struct.hpp"
+#include "std_msgs/msg/detail/float32__builder.hpp"
 #include "std_msgs/msg/detail/float32__traits.hpp"
 
-#endif    // STD_MSGS__MSG__FLOAT32_HPP_
+#endif  // STD_MSGS__MSG__FLOAT32_HPP_

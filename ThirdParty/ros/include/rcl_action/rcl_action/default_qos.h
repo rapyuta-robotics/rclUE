@@ -22,18 +22,22 @@ extern "C"
 
 #include "rmw/types.h"
 
-    static const rmw_qos_profile_t rcl_action_qos_profile_status_default = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
-                                                                            1,
-                                                                            RMW_QOS_POLICY_RELIABILITY_RELIABLE,
-                                                                            RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
-                                                                            RMW_QOS_DEADLINE_DEFAULT,
-                                                                            RMW_QOS_LIFESPAN_DEFAULT,
-                                                                            RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
-                                                                            RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
-                                                                            false};
+
+static const rmw_qos_profile_t rcl_action_qos_profile_status_default =
+{
+  RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+  1,
+  RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+  RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
+  RMW_QOS_DEADLINE_DEFAULT,
+  RMW_QOS_LIFESPAN_DEFAULT,
+  RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+  RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+  false
+};
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL_ACTION__DEFAULT_QOS_H_
+#endif  // RCL_ACTION__DEFAULT_QOS_H_

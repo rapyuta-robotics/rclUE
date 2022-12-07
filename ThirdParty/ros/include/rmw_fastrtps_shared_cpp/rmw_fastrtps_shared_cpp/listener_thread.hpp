@@ -16,16 +16,19 @@
 #define RMW_FASTRTPS_SHARED_CPP__LISTENER_THREAD_HPP_
 
 #include "rmw/init.h"
+
 #include "rmw_fastrtps_shared_cpp/visibility_control.h"
 
 namespace rmw_fastrtps_shared_cpp
 {
 
 RMW_FASTRTPS_SHARED_CPP_PUBLIC
-rmw_ret_t run_listener_thread(rmw_context_t* context);
+rmw_ret_t
+run_listener_thread(rmw_context_t * context);
 
 RMW_FASTRTPS_SHARED_CPP_PUBLIC
-rmw_ret_t join_listener_thread(rmw_context_t* context);
+rmw_ret_t
+join_listener_thread(rmw_context_t * context);
 
-}    // namespace rmw_fastrtps_shared_cpp
-#endif    // RMW_FASTRTPS_SHARED_CPP__LISTENER_THREAD_HPP_
+}  // namespace rmw_fastrtps_shared_cpp
+#endif  // RMW_FASTRTPS_SHARED_CPP__LISTENER_THREAD_HPP_

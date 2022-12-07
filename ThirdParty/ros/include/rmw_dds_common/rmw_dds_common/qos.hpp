@@ -17,6 +17,7 @@
 
 #include "rmw/qos_profiles.h"
 #include "rmw/types.h"
+
 #include "rmw_dds_common/visibility_control.h"
 
 namespace rmw_dds_common
@@ -47,12 +48,14 @@ namespace rmw_dds_common
  * \return `RMW_RET_ERROR` if there is an unexpected error.
  */
 RMW_DDS_COMMON_PUBLIC
-rmw_ret_t qos_profile_check_compatible(const rmw_qos_profile_t publisher_qos,
-                                       const rmw_qos_profile_t subscription_qos,
-                                       rmw_qos_compatibility_type_t* compatibility,
-                                       char* reason,
-                                       size_t reason_size);
+rmw_ret_t
+qos_profile_check_compatible(
+  const rmw_qos_profile_t publisher_qos,
+  const rmw_qos_profile_t subscription_qos,
+  rmw_qos_compatibility_type_t * compatibility,
+  char * reason,
+  size_t reason_size);
 
-}    // namespace rmw_dds_common
+}  // namespace rmw_dds_common
 
-#endif    // RMW_DDS_COMMON__QOS_HPP_
+#endif  // RMW_DDS_COMMON__QOS_HPP_

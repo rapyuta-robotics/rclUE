@@ -4,8 +4,8 @@
 #ifndef UNIQUE_IDENTIFIER_MSGS__MSG__UUID_HPP_
 #define UNIQUE_IDENTIFIER_MSGS__MSG__UUID_HPP_
 
-#include "unique_identifier_msgs/msg/detail/uuid__builder.hpp"
 #include "unique_identifier_msgs/msg/detail/uuid__struct.hpp"
+#include "unique_identifier_msgs/msg/detail/uuid__builder.hpp"
 #include "unique_identifier_msgs/msg/detail/uuid__traits.hpp"
 
-#endif    // UNIQUE_IDENTIFIER_MSGS__MSG__UUID_HPP_
+#endif  // UNIQUE_IDENTIFIER_MSGS__MSG__UUID_HPP_

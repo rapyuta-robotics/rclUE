@@ -21,19 +21,19 @@
 #if !defined(FASTCDR_DYN_LINK) && !defined(FASTCDR_STATIC_LINK) \
     && !defined(EPROSIMA_ALL_DYN_LINK) && !defined(EPROSIMA_ALL_STATIC_LINK)
 #define FASTCDR_STATIC_LINK
-#endif
+#endif // if !defined(FASTCDR_DYN_LINK) && !defined(FASTCDR_STATIC_LINK) && !defined(EPROSIMA_ALL_DYN_LINK) && !defined(EPROSIMA_ALL_STATIC_LINK)
 
 #if defined(EPROSIMA_ALL_DYN_LINK) && !defined(FASTCDR_DYN_LINK)
 #define FASTCDR_DYN_LINK
-#endif
+#endif // if defined(EPROSIMA_ALL_DYN_LINK) && !defined(FASTCDR_DYN_LINK)
 
 #if defined(FASTCDR_DYN_LINK) && defined(FASTCDR_STATIC_LINK)
 #error Must not define both FASTCDR_DYN_LINK and FASTCDR_STATIC_LINK
-#endif
+#endif // if defined(FASTCDR_DYN_LINK) && defined(FASTCDR_STATIC_LINK)
 
 #if defined(EPROSIMA_ALL_NO_LIB) && !defined(FASTCDR_NO_LIB)
 #define FASTCDR_NO_LIB
-#endif
+#endif // if defined(EPROSIMA_ALL_NO_LIB) && !defined(FASTCDR_NO_LIB)
 
 // enable dynamic linking
 
@@ -46,7 +46,7 @@
 #endif // FASTCDR_SOURCE
 #else
 #define Cdr_DllAPI
-#endif
+#endif // if defined(EPROSIMA_ALL_DYN_LINK) || defined(FASTCDR_DYN_LINK)
 #else
 #define Cdr_DllAPI
 #endif // _WIN32
@@ -61,7 +61,7 @@
 
 #if defined(EPROSIMA_ALL_DYN_LINK) || defined(FASTCDR_DYN_LINK)
 #define EPROSIMA_DYN_LINK
-#endif
+#endif // if defined(EPROSIMA_ALL_DYN_LINK) || defined(FASTCDR_DYN_LINK)
 
 #include "eProsima_auto_link.h"
 #endif // auto-linking disabled

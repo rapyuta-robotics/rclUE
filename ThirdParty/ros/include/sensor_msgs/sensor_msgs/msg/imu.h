@@ -5,8 +5,8 @@
 #ifndef SENSOR_MSGS__MSG__IMU_H_
 #define SENSOR_MSGS__MSG__IMU_H_
 
-#include "sensor_msgs/msg/detail/imu__functions.h"
 #include "sensor_msgs/msg/detail/imu__struct.h"
+#include "sensor_msgs/msg/detail/imu__functions.h"
 #include "sensor_msgs/msg/detail/imu__type_support.h"
 
-#endif    // SENSOR_MSGS__MSG__IMU_H_
+#endif  // SENSOR_MSGS__MSG__IMU_H_

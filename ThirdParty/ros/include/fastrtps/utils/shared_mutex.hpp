@@ -39,21 +39,20 @@
 #include <system_error>
 #include <thread>
 
-namespace eprosima
-{
-namespace detail
-{
+namespace eprosima {
+namespace detail {
 
 // mimic POSIX Read-Write lock syntax
 enum class shared_mutex_type
 {
-    PTHREAD_RWLOCK_PREFER_READER_NP,
-    PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP
+    PTHREAD_RWLOCK_PREFER_READER_NP, PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP
 };
 
 class shared_mutex_base
 {
+
 protected:
+
     typedef std::mutex mutex_t;
     typedef std::condition_variable cond_t;
     typedef unsigned count_t;
@@ -66,7 +65,9 @@ protected:
     static const count_t n_readers_ = ~write_entered_;
 
 public:
-    shared_mutex_base() : state_(0)
+
+    shared_mutex_base()
+        : state_(0)
     {
     }
 
@@ -75,8 +76,10 @@ public:
         std::lock_guard<mutex_t> _(mut_);
     }
 
-    shared_mutex_base(const shared_mutex_base&) = delete;
-    shared_mutex_base& operator=(const shared_mutex_base&) = delete;
+    shared_mutex_base(
+            const shared_mutex_base&) = delete;
+    shared_mutex_base& operator =(
+            const shared_mutex_base&) = delete;
 
     // Exclusive ownership
 
@@ -125,6 +128,7 @@ public:
         }
         return false;
     }
+
 };
 
 template<shared_mutex_type>
@@ -133,11 +137,13 @@ class shared_mutex;
 // original Hinnant implementation prioritizing writers
 
 template<>
-class shared_mutex<shared_mutex_type::PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP> : public shared_mutex_base
+class shared_mutex<shared_mutex_type::PTHREAD_RWLOCK_PREFER_WRITER_NONRECURSIVE_NP>
+    : public shared_mutex_base
 {
     cond_t gate2_;
 
 public:
+
     void lock()
     {
         std::unique_lock<mutex_t> lk(mut_);
@@ -170,16 +176,19 @@ public:
             gate1_.notify_one();
         }
     }
+
 };
 
 // implementation not locking readers on behalf of writers
 
 template<>
-class shared_mutex<shared_mutex_type::PTHREAD_RWLOCK_PREFER_READER_NP> : public shared_mutex_base
+class shared_mutex<shared_mutex_type::PTHREAD_RWLOCK_PREFER_READER_NP>
+    : public shared_mutex_base
 {
     count_t writer_waiting_ = 0;
 
 public:
+
     void lock()
     {
         std::unique_lock<mutex_t> lk(mut_);
@@ -199,11 +208,13 @@ public:
         state_ &= ~n_readers_;
         state_ |= num_readers;
 
-        if ((writer_waiting_ && num_readers == 0) || (num_readers == n_readers_ - 1))
+        if ((writer_waiting_ && num_readers == 0)
+                || (num_readers == n_readers_ - 1))
         {
             gate1_.notify_one();
         }
     }
+
 };
 
 // Debugger wrapper class that provides insight
@@ -217,6 +228,7 @@ class debug_wrapper : public sm
     std::map<std::thread::id, unsigned int> shared_owners_;
 
 public:
+
     ~debug_wrapper()
     {
         std::lock_guard<std::mutex> _(wm_);
@@ -274,36 +286,38 @@ public:
         sm::unlock_shared();
         std::lock_guard<std::mutex> _(wm_);
         auto owner = shared_owners_.find(std::this_thread::get_id());
-        if (owner != shared_owners_.end() && 0 == --owner->second)
+        if ( owner != shared_owners_.end() && 0 == --owner->second )
         {
             shared_owners_.erase(owner);
         }
     }
+
 };
 
-}    // namespace detail
-}    // namespace eprosima
+} // namespace detail
+} // namespace eprosima
 
 #if defined(__has_include) && __has_include(<version>)
-#include <version>
-#endif    // if defined(__has_include) && __has_include(<version>)
+#   include <version>
+#endif // if defined(__has_include) && __has_include(<version>)
 
 // Detect if the shared_lock feature is available
-#if defined(__has_include) && \
-    __has_include(<version>) && !defined(__cpp_lib_shared_mutex) || /* deprecated procedure if the good one is not available*/ \
+#if defined(__has_include) && __has_include(<version>) && !defined(__cpp_lib_shared_mutex) || \
+    /* deprecated procedure if the good one is not available*/ \
     ( !(defined(__has_include) && __has_include(<version>)) && \
     !(defined(HAVE_CXX17) && HAVE_CXX17) &&  __cplusplus < 201703 )
 
-namespace eprosima
-{
+namespace eprosima {
 
-template<class Mutex>
+template <class Mutex>
 class shared_lock
 {
 public:
+
     typedef Mutex mutex_type;
 
 private:
+
     mutex_type* m_;
     bool owns_;
 
@@ -313,35 +327,60 @@ private:
     };
 
 public:
-    shared_lock() : m_(nullptr), owns_(false)
+
+    shared_lock()
+        : m_(nullptr)
+        , owns_(false)
     {
     }
 
-    explicit shared_lock(mutex_type& m) : m_(&m), owns_(true)
+    explicit shared_lock(
+            mutex_type& m)
+        : m_(&m)
+        , owns_(true)
     {
         m_->lock_shared();
     }
 
-    shared_lock(mutex_type& m, std::defer_lock_t) : m_(&m), owns_(false)
+    shared_lock(
+            mutex_type& m,
+            std::defer_lock_t)
+        : m_(&m)
+        , owns_(false)
     {
     }
 
-    shared_lock(mutex_type& m, std::try_to_lock_t) : m_(&m), owns_(m.try_lock_shared())
+    shared_lock(
+            mutex_type& m,
+            std::try_to_lock_t)
+        : m_(&m)
+        , owns_(m.try_lock_shared())
     {
     }
 
-    shared_lock(mutex_type& m, std::adopt_lock_t) : m_(&m), owns_(true)
+    shared_lock(
+            mutex_type& m,
+            std::adopt_lock_t)
+        : m_(&m)
+        , owns_(true)
     {
     }
 
-    template<class Clock, class Duration>
-    shared_lock(mutex_type& m, const std::chrono::time_point<Clock, Duration>& abs_time)
-        : m_(&m), owns_(m.try_lock_shared_until(abs_time))
+    template <class Clock, class Duration>
+    shared_lock(
+            mutex_type& m,
+            const std::chrono::time_point<Clock, Duration>& abs_time)
+        : m_(&m)
+        , owns_(m.try_lock_shared_until(abs_time))
     {
     }
 
-    template<class Rep, class Period>
-    shared_lock(mutex_type& m, const std::chrono::duration<Rep, Period>& rel_time) : m_(&m), owns_(m.try_lock_shared_for(rel_time))
+    template <class Rep, class Period>
+    shared_lock(
+            mutex_type& m,
+            const std::chrono::duration<Rep, Period>& rel_time)
+        : m_(&m)
+        , owns_(m.try_lock_shared_for(rel_time))
     {
     }
 
@@ -353,16 +392,21 @@ public:
         }
     }
 
-    shared_lock(shared_lock const&) = delete;
-    shared_lock& operator=(shared_lock const&) = delete;
+    shared_lock(
+            shared_lock const&) = delete;
+    shared_lock& operator =(
+            shared_lock const&) = delete;
 
-    shared_lock(shared_lock&& sl) : m_(sl.m_), owns_(sl.owns_)
+    shared_lock(
+            shared_lock&& sl)
+        : m_(sl.m_)
+        , owns_(sl.owns_)
     {
-        sl.m_ = nullptr;
-        sl.owns_ = false;
+        sl.m_ = nullptr; sl.owns_ = false;
     }
 
-    shared_lock& operator=(shared_lock&& sl)
+    shared_lock& operator =(
+            shared_lock&& sl)
     {
         if (owns_)
         {
@@ -375,7 +419,10 @@ public:
         return *this;
     }
 
-    explicit shared_lock(std::unique_lock<mutex_type>&& ul) : m_(ul.mutex()), owns_(ul.owns_lock())
+    explicit shared_lock(
+            std::unique_lock<mutex_type>&& ul)
+        : m_(ul.mutex())
+        , owns_(ul.owns_lock())
     {
         if (owns_)
         {
@@ -386,17 +433,21 @@ public:
 
     void lock();
     bool try_lock();
-    template<class Rep, class Period>
-    bool try_lock_for(const std::chrono::duration<Rep, Period>& rel_time)
+    template <class Rep, class Period>
+    bool try_lock_for(
+            const std::chrono::duration<Rep, Period>& rel_time)
     {
         return try_lock_until(std::chrono::steady_clock::now() + rel_time);
     }
 
-    template<class Clock, class Duration>
-    bool try_lock_until(const std::chrono::time_point<Clock, Duration>& abs_time);
+    template <class Clock, class Duration>
+    bool
+    try_lock_until(
+            const std::chrono::time_point<Clock, Duration>& abs_time);
     void unlock();
 
-    void swap(shared_lock&& u)
+    void swap(
+            shared_lock&& u)
     {
         std::swap(m_, u.m_);
         std::swap(owns_, u.owns_);
@@ -415,110 +466,124 @@ public:
         return owns_;
     }
 
-    operator int __nat::*() const
-    {
+    operator int __nat::* () const {
         return owns_ ? &__nat::_ : 0;
     }
     mutex_type* mutex() const
     {
         return m_;
     }
+
 };
 
-template<class Mutex>
-void shared_lock<Mutex>::lock()
+template <class Mutex>
+void
+shared_lock<Mutex>::lock()
 {
     if (m_ == nullptr)
     {
-        throw std::system_error(std::error_code(EPERM, std::system_category()), "shared_lock::lock: references null mutex");
+        throw std::system_error(std::error_code(EPERM, std::system_category()),
+                      "shared_lock::lock: references null mutex");
     }
     if (owns_)
     {
-        throw std::system_error(std::error_code(EDEADLK, std::system_category()), "shared_lock::lock: already locked");
+        throw std::system_error(std::error_code(EDEADLK, std::system_category()),
+                      "shared_lock::lock: already locked");
     }
     m_->lock_shared();
     owns_ = true;
 }
 
-template<class Mutex>
-bool shared_lock<Mutex>::try_lock()
+template <class Mutex>
+bool
+shared_lock<Mutex>::try_lock()
 {
     if (m_ == nullptr)
     {
-        throw std::system_error(std::error_code(EPERM, std::system_category()), "shared_lock::try_lock: references null mutex");
+        throw std::system_error(std::error_code(EPERM, std::system_category()),
+                      "shared_lock::try_lock: references null mutex");
     }
     if (owns_)
     {
-        throw std::system_error(std::error_code(EDEADLK, std::system_category()), "shared_lock::try_lock: already locked");
+        throw std::system_error(std::error_code(EDEADLK, std::system_category()),
+                      "shared_lock::try_lock: already locked");
     }
     owns_ = m_->try_lock_shared();
     return owns_;
 }
 
-template<class Mutex>
-template<class Clock, class Duration>
-bool shared_lock<Mutex>::try_lock_until(const std::chrono::time_point<Clock, Duration>& abs_time)
+template <class Mutex>
+template <class Clock, class Duration>
+bool
+shared_lock<Mutex>::try_lock_until(
+        const std::chrono::time_point<Clock, Duration>& abs_time)
 {
     if (m_ == nullptr)
     {
         throw std::system_error(std::error_code(EPERM, std::system_category()),
-                                "shared_lock::try_lock_until: references null mutex");
+                      "shared_lock::try_lock_until: references null mutex");
     }
     if (owns_)
     {
-        throw std::system_error(std::error_code(EDEADLK, std::system_category()), "shared_lock::try_lock_until: already locked");
+        throw std::system_error(std::error_code(EDEADLK, std::system_category()),
+                      "shared_lock::try_lock_until: already locked");
     }
     owns_ = m_->try_lock_shared_until(abs_time);
     return owns_;
 }
 
-template<class Mutex>
-void shared_lock<Mutex>::unlock()
+template <class Mutex>
+void
+shared_lock<Mutex>::unlock()
 {
     if (!owns_)
     {
-        throw std::system_error(std::error_code(EPERM, std::system_category()), "shared_lock::unlock: not locked");
+        throw std::system_error(std::error_code(EPERM, std::system_category()),
+                      "shared_lock::unlock: not locked");
     }
     m_->unlock_shared();
     owns_ = false;
 }
 
-template<class Mutex>
-inline void swap(shared_lock<Mutex>& x, shared_lock<Mutex>& y)
+template <class Mutex>
+inline
+void
+swap(
+        shared_lock<Mutex>&  x,
+        shared_lock<Mutex>&  y)
 {
     x.swap(y);
 }
 
-}    // namespace eprosima
+} //namespace eprosima
 
-#else    // fallback to STL
+#else // fallback to STL
 
 #include <shared_mutex>
 
-namespace eprosima
-{
+namespace eprosima {
 
 using std::shared_lock;
 using std::swap;
 
-}    // namespace eprosima
+} //namespace eprosima
 
-#endif    // shared_lock selection
+#endif // shared_lock selection
 
 #ifndef USE_THIRDPARTY_SHARED_MUTEX
-#if defined(_MSC_VER) && _MSVC_LANG < 202302L
-#pragma message("warning: USE_THIRDPARTY_SHARED_MUTEX not defined. By default use framework version.")
-#else
-#warning "USE_THIRDPARTY_SHARED_MUTEX not defined. By default use framework version."
-#endif    // if defined(_MSC_VER) && _MSVC_LANG < 202302L
-#define USE_THIRDPARTY_SHARED_MUTEX 0
-#endif    // ifndef USE_THIRDPARTY_SHARED_MUTEX
+#   if defined(_MSC_VER) && _MSVC_LANG < 202302L
+#       pragma message("warning: USE_THIRDPARTY_SHARED_MUTEX not defined. By default use framework version.")
+#   else
+#       warning "USE_THIRDPARTY_SHARED_MUTEX not defined. By default use framework version."
+#   endif // if defined(_MSC_VER) && _MSVC_LANG < 202302L
+#   define USE_THIRDPARTY_SHARED_MUTEX 0
+#endif // ifndef USE_THIRDPARTY_SHARED_MUTEX
 
 // Detect if the share_mutex feature is available or if the user forces it
-#if defined(__has_include) && \
-    __has_include(            \
-        <version>) && !defined(__cpp_lib_shared_mutex) || /* allow users to ignore shared_mutex framework implementation */ \
-    (~USE_THIRDPARTY_SHARED_MUTEX + 1) || /* deprecated procedure if the good one is not available*/ \
+#if defined(__has_include) && __has_include(<version>) && !defined(__cpp_lib_shared_mutex) || \
+    /* allow users to ignore shared_mutex framework implementation */ \
+    (~USE_THIRDPARTY_SHARED_MUTEX + 1) || \
+    /* deprecated procedure if the good one is not available*/ \
     ( !(defined(__has_include) && __has_include(<version>)) && \
     !(defined(HAVE_CXX17) && HAVE_CXX17) &&  __cplusplus < 201703 )
 
@@ -564,28 +629,27 @@ using std::swap;
       managed like an ordinary mutex in deadlock sense.
  */
 
-namespace eprosima
-{
+namespace eprosima {
 
 #ifdef NDEBUG
 using shared_mutex = detail::shared_mutex<detail::shared_mutex_type::PTHREAD_RWLOCK_PREFER_READER_NP>;
 #else
-using shared_mutex = detail::debug_wrapper<detail::shared_mutex<detail::shared_mutex_type::PTHREAD_RWLOCK_PREFER_READER_NP> >;
-#endif    // NDEBUG
+using shared_mutex =
+        detail::debug_wrapper<detail::shared_mutex<detail::shared_mutex_type::PTHREAD_RWLOCK_PREFER_READER_NP>>;
+#endif // NDEBUG
 
-}    // namespace eprosima
+} //namespace eprosima
 
-#else    // fallback to STL
+#else // fallback to STL
 
 #include <shared_mutex>
 
-namespace eprosima
-{
+namespace eprosima {
 
 using std::shared_mutex;
 
-}    // namespace eprosima
+} //namespace eprosima
 
-#endif    // shared_mutex selection
+#endif // shared_mutex selection
 
-#endif    // _UTILS_SHARED_MUTEX_HPP_
+#endif // _UTILS_SHARED_MUTEX_HPP_

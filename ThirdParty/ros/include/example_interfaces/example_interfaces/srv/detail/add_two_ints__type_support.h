@@ -5,8 +5,9 @@
 #ifndef EXAMPLE_INTERFACES__SRV__DETAIL__ADD_TWO_INTS__TYPE_SUPPORT_H_
 #define EXAMPLE_INTERFACES__SRV__DETAIL__ADD_TWO_INTS__TYPE_SUPPORT_H_
 
-#include "example_interfaces/msg/rosidl_generator_c__visibility_control.h"
 #include "rosidl_typesupport_interface/macros.h"
+
+#include "example_interfaces/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -15,25 +16,43 @@ extern "C"
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_example_interfaces const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, example_interfaces, srv, AddTwoInts_Request)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_example_interfaces
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  example_interfaces,
+  srv,
+  AddTwoInts_Request
+)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_example_interfaces const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, example_interfaces, srv, AddTwoInts_Response)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_example_interfaces
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  example_interfaces,
+  srv,
+  AddTwoInts_Response
+)();
 
 #include "rosidl_runtime_c/service_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_example_interfaces const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_c, example_interfaces, srv, AddTwoInts)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_example_interfaces
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  example_interfaces,
+  srv,
+  AddTwoInts
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // EXAMPLE_INTERFACES__SRV__DETAIL__ADD_TWO_INTS__TYPE_SUPPORT_H_
+#endif  // EXAMPLE_INTERFACES__SRV__DETAIL__ADD_TWO_INTS__TYPE_SUPPORT_H_

@@ -17,38 +17,49 @@
  *
  */
 
-#ifndef _FASTRTPS_SAMPLEINFO_HPP_
-#define _FASTRTPS_SAMPLEINFO_HPP_
+#ifndef _FASTDDS_DDS_SUBSCRIBER_SAMPLEINFO_HPP_
+#define _FASTDDS_DDS_SUBSCRIBER_SAMPLEINFO_HPP_
 
+#include <fastdds/dds/subscriber/InstanceState.hpp>
+#include <fastdds/dds/subscriber/SampleState.hpp>
+#include <fastdds/dds/subscriber/ViewState.hpp>
+#include <fastdds/dds/topic/TypeSupport.hpp>
 
-#include <fastdds/rtps/common/Types.h>
-#include <fastdds/rtps/common/Time_t.h>
-#include <fastdds/rtps/common/InstanceHandle.h>
 #include <fastdds/rtps/common/SampleIdentity.h>
+#include <fastdds/rtps/common/Time_t.h>
+#include <fastdds/rtps/common/Types.h>
 
 namespace eprosima {
 namespace fastdds {
 namespace dds {
 
+FASTDDS_DEPRECATED_UNTIL(3, "eprosima::fastdds::dds::READ",
+        "Use eprosima::fastdds::dds::READ_SAMPLE_STATE instead.")
+constexpr SampleStateKind READ = READ_SAMPLE_STATE;
 
-enum SampleStateKind
-{
-    READ,
-    NOT_READ
-};
+FASTDDS_DEPRECATED_UNTIL(3, "eprosima::fastdds::dds::NOT_READ",
+        "Use eprosima::fastdds::dds::NOT_READ_SAMPLE_STATE instead.")
+constexpr SampleStateKind NOT_READ = NOT_READ_SAMPLE_STATE;
 
-enum ViewStateKind
-{
-    NEW,
-    NOT_NEW
-};
+FASTDDS_DEPRECATED_UNTIL(3, "eprosima::fastdds::dds::NEW",
+        "Use eprosima::fastdds::dds::NEW_VIEW_STATE instead.")
+constexpr ViewStateKind NEW = NEW_VIEW_STATE;
 
-enum InstanceStateKind
-{
-    ALIVE,
-    NOT_ALIVE_DISPOSED,
-    NOT_ALIVE_NO_WRITERS
-};
+FASTDDS_DEPRECATED_UNTIL(3, "eprosima::fastdds::dds::NOT_NEW",
+        "Use eprosima::fastdds::dds::NOT_NEW_VIEW_STATE instead.")
+constexpr ViewStateKind NOT_NEW = NOT_NEW_VIEW_STATE;
+
+FASTDDS_DEPRECATED_UNTIL(3, "eprosima::fastdds::dds::ALIVE",
+        "Use eprosima::fastdds::dds::ALIVE_INSTANCE_STATE instead.")
+constexpr InstanceStateKind ALIVE = ALIVE_INSTANCE_STATE;
+
+FASTDDS_DEPRECATED_UNTIL(3, "eprosima::fastdds::dds::NOT_ALIVE_DISPOSED",
+        "Use eprosima::fastdds::dds::NOT_ALIVE_DISPOSED_INSTANCE_STATE instead.")
+constexpr InstanceStateKind NOT_ALIVE_DISPOSED = NOT_ALIVE_DISPOSED_INSTANCE_STATE;
+
+FASTDDS_DEPRECATED_UNTIL(3, "eprosima::fastdds::dds::NOT_ALIVE_NO_WRITERS",
+        "Use eprosima::fastdds::dds::NOT_ALIVE_NO_WRITERS_INSTANCE_STATE instead.")
+constexpr InstanceStateKind NOT_ALIVE_NO_WRITERS = NOT_ALIVE_NO_WRITERS_INSTANCE_STATE;
 
 /*!
  * @brief SampleInfo is the information that accompanies each sample that is ‘read’ or ‘taken.’
@@ -78,18 +89,21 @@ struct SampleInfo
 
     //! the generation difference between the time the sample was received, and the time the most recent sample was received.
     //! The most recent sample used for the calculation may or may not be in the returned collection
-    int32_t absoulte_generation_rank;
+    int32_t absolute_generation_rank;
 
     //! time provided by the DataWriter when the sample was written
     fastrtps::rtps::Time_t source_timestamp;
 
+    //! time provided by the DataReader when the sample was added to its history
+    fastrtps::rtps::Time_t reception_timestamp;
+
     //! identifies locally the corresponding instance
-    fastrtps::rtps::InstanceHandle_t instance_handle;
+    InstanceHandle_t instance_handle;
 
     //! identifies locally the DataWriter that modified the instance
     //!
     //! Is the same InstanceHandle_t that is returned by the operation get_matched_publications on the DataReader
-    fastrtps::rtps::InstanceHandle_t publication_handle;
+    InstanceHandle_t publication_handle;
 
     //! whether the DataSample contains data or is only used to communicate of a change in the instance
     bool valid_data;
@@ -102,8 +116,8 @@ struct SampleInfo
 
 };
 
-} /* namespace dds */
-} /* namespace fastdds */
-} /* namespace eprosima */
+}  // namespace dds
+}  // namespace fastdds
+}  // namespace eprosima
 
-#endif /* _FASTRTPS_SAMPLEINFO_HPP_*/
+#endif /* _FASTDDS_DDS_SUBSCRIBER_SAMPLEINFO_HPP_*/

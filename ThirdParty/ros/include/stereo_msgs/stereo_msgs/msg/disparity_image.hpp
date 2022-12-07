@@ -4,8 +4,8 @@
 #ifndef STEREO_MSGS__MSG__DISPARITY_IMAGE_HPP_
 #define STEREO_MSGS__MSG__DISPARITY_IMAGE_HPP_
 
-#include "stereo_msgs/msg/detail/disparity_image__builder.hpp"
 #include "stereo_msgs/msg/detail/disparity_image__struct.hpp"
+#include "stereo_msgs/msg/detail/disparity_image__builder.hpp"
 #include "stereo_msgs/msg/detail/disparity_image__traits.hpp"
 
-#endif    // STEREO_MSGS__MSG__DISPARITY_IMAGE_HPP_
+#endif  // STEREO_MSGS__MSG__DISPARITY_IMAGE_HPP_

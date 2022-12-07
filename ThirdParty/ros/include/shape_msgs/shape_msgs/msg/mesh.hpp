@@ -4,8 +4,8 @@
 #ifndef SHAPE_MSGS__MSG__MESH_HPP_
 #define SHAPE_MSGS__MSG__MESH_HPP_
 
-#include "shape_msgs/msg/detail/mesh__builder.hpp"
 #include "shape_msgs/msg/detail/mesh__struct.hpp"
+#include "shape_msgs/msg/detail/mesh__builder.hpp"
 #include "shape_msgs/msg/detail/mesh__traits.hpp"
 
-#endif    // SHAPE_MSGS__MSG__MESH_HPP_
+#endif  // SHAPE_MSGS__MSG__MESH_HPP_

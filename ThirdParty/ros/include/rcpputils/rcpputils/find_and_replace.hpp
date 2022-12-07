@@ -33,45 +33,50 @@ namespace rcpputils
  * \return A copy of the input string with all instances of the string `find` replaced with the
  *   string `replace`.
  */
-template<class CharT, class Traits = std::char_traits<CharT>, class Allocator = std::allocator<CharT> >
-std::basic_string<CharT, Traits, Allocator> find_and_replace(const std::basic_string<CharT, Traits, Allocator>& input,
-                                                             const std::basic_string<CharT, Traits, Allocator>& find,
-                                                             const std::basic_string<CharT, Traits, Allocator>& replace)
+template<
+  class CharT,
+  class Traits = std::char_traits<CharT>,
+  class Allocator = std::allocator<CharT>
+>
+std::basic_string<CharT, Traits, Allocator>
+find_and_replace(
+  const std::basic_string<CharT, Traits, Allocator> & input,
+  const std::basic_string<CharT, Traits, Allocator> & find,
+  const std::basic_string<CharT, Traits, Allocator> & replace)
 {
-    std::basic_string<CharT, Traits, Allocator> output = input;
-    const std::size_t find_len = find.length();
-    const std::size_t replace_len = replace.length();
-    if (find == replace)
-    {
-        return output;
-    }
-    if (0u == find_len)
-    {
-        return output;
-    }
-    std::size_t pos = output.find(find);
-    while (pos != std::basic_string<CharT, Traits, Allocator>::npos)
-    {
-        output.replace(pos, find_len, replace);
-        pos = output.find(find, pos + replace_len);
-    }
+  std::basic_string<CharT, Traits, Allocator> output = input;
+  const std::size_t find_len = find.length();
+  const std::size_t replace_len = replace.length();
+  if (find == replace) {
     return output;
+  }
+  if (0u == find_len) {
+    return output;
+  }
+  std::size_t pos = output.find(find);
+  while (pos != std::basic_string<CharT, Traits, Allocator>::npos) {
+    output.replace(pos, find_len, replace);
+    pos = output.find(find, pos + replace_len);
+  }
+  return output;
 }
 
 namespace detail
 {
 template<typename CharT, std::size_t Length>
-std::basic_string<CharT> normalize_to_basic_string(const CharT (&char_string)[Length])
+std::basic_string<CharT>
+normalize_to_basic_string(const CharT (& char_string)[Length])
 {
-    return std::basic_string<CharT>(char_string);
+  return std::basic_string<CharT>(char_string);
 }
 
 template<typename StringLikeT>
-StringLikeT&& normalize_to_basic_string(StringLikeT&& string_like)
+StringLikeT &&
+normalize_to_basic_string(StringLikeT && string_like)
 {
-    return string_like;
+  return string_like;
 }
-}    // namespace detail
+}  // namespace detail
 
 /// Find and replace all instances of a string with another string.
 /**
@@ -82,13 +87,19 @@ StringLikeT&& normalize_to_basic_string(StringLikeT&& string_like)
  *   string `replace`.
  */
 template<typename InputT, typename FindT, typename ReplaceT>
-auto find_and_replace(InputT&& input, FindT&& find, ReplaceT&& replace)
+auto
+find_and_replace(
+  InputT && input,
+  FindT && find,
+  ReplaceT && replace)
 {
-    auto input_str = detail::normalize_to_basic_string(input);
-    return find_and_replace<typename decltype(input_str)::value_type>(
-        input_str, detail::normalize_to_basic_string(find), detail::normalize_to_basic_string(replace));
+  auto input_str = detail::normalize_to_basic_string(input);
+  return find_and_replace<typename decltype(input_str)::value_type>(
+    input_str,
+    detail::normalize_to_basic_string(find),
+    detail::normalize_to_basic_string(replace));
 }
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__FIND_AND_REPLACE_HPP_
+#endif  // RCPPUTILS__FIND_AND_REPLACE_HPP_

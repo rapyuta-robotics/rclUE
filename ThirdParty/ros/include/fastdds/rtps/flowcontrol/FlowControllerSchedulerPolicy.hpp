@@ -17,12 +17,9 @@
 
 #include <cstdint>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace rtps
-{
+namespace eprosima {
+namespace fastdds {
+namespace rtps {
 
 /*!
  * Supported scheduler policy by a flow controller.
@@ -43,8 +40,8 @@ enum class FlowControllerSchedulerPolicy : int32_t
     PRIORITY_WITH_RESERVATION
 };
 
-}    // namespace rtps
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace rtps
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // FASTDDS_RTPS_FLOWCONTROL_FLOWCONTROLLERSCHEDULERPOLICY_HPP
+#endif // FASTDDS_RTPS_FLOWCONTROL_FLOWCONTROLLERSCHEDULERPOLICY_HPP

@@ -26,22 +26,23 @@ extern "C"
 #include "rcl/visibility_control.h"
 #include "rmw/localhost.h"
 
-    extern const char* const RCL_LOCALHOST_ENV_VAR;
+extern const char * const RCL_LOCALHOST_ENV_VAR;
 
-    /// Determine if the user wants to communicate using loopback only.
-    /**
-     * Checks if localhost should be used for network communication based on environment.
-     *
-     * \param[out] localhost_only Must not be NULL.
-     * \return #RCL_RET_INVALID_ARGUMENT if an argument is invalid, or
-     * \return #RCL_RET_ERROR if an unexpected error happened, or
-     * \return #RCL_RET_OK.
-     */
-    RCL_PUBLIC
-    rcl_ret_t rcl_get_localhost_only(rmw_localhost_only_t* localhost_only);
+/// Determine if the user wants to communicate using loopback only.
+/**
+ * Checks if localhost should be used for network communication based on environment.
+ *
+ * \param[out] localhost_only Must not be NULL.
+ * \return #RCL_RET_INVALID_ARGUMENT if an argument is invalid, or
+ * \return #RCL_RET_ERROR if an unexpected error happened, or
+ * \return #RCL_RET_OK.
+ */
+RCL_PUBLIC
+rcl_ret_t
+rcl_get_localhost_only(rmw_localhost_only_t * localhost_only);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL__LOCALHOST_H_
+#endif  // RCL__LOCALHOST_H_

@@ -31,18 +31,18 @@ extern "C"
 /// matches the one that is in use.
 #define RCL_ASSERT_RMW_ID_MATCHES_ENV_VAR_NAME "RCL_ASSERT_RMW_ID_MATCHES"
 
-    /// Check whether the RMW implementation in use matches what the user requested.
-    /**
-     * \return #RCL_RET_OK if the RMW implementation in use matches what the user requested, or
-     * \return #RCL_RET_MISMATCHED_RMW_ID if the RMW implementation does not match, or
-     * \return #RCL_RET_BAD_ALLOC if memory allocation failed, or
-     * \return #RCL_RET_ERROR if some other error occurred.
-     */
-    RCL_PUBLIC
-    rcl_ret_t rcl_rmw_implementation_identifier_check(void);
+/// Check whether the RMW implementation in use matches what the user requested.
+/**
+ * \return #RCL_RET_OK if the RMW implementation in use matches what the user requested, or
+ * \return #RCL_RET_MISMATCHED_RMW_ID if the RMW implementation does not match, or
+ * \return #RCL_RET_BAD_ALLOC if memory allocation failed, or
+ * \return #RCL_RET_ERROR if some other error occurred.
+ */
+RCL_PUBLIC
+rcl_ret_t rcl_rmw_implementation_identifier_check(void);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL__RMW_IMPLEMENTATION_IDENTIFIER_CHECK_H_
+#endif  // RCL__RMW_IMPLEMENTATION_IDENTIFIER_CHECK_H_

@@ -20,20 +20,16 @@
 #define _FASTDDS_DDS_TOPIC_CONTENTFILTEREDTOPIC_HPP_
 
 #include <fastrtps/fastrtps_dll.h>
-
-#include <fastdds/dds/topic/Topic.hpp>
 #include <fastdds/dds/topic/TopicDescription.hpp>
+#include <fastdds/dds/topic/Topic.hpp>
 
 #define FASTDDS_SQLFILTER_NAME eprosima::fastdds::dds::sqlfilter_name
 
 using eprosima::fastrtps::types::ReturnCode_t;
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 class DomainParticipant;
 class DomainParticipantImpl;
@@ -51,12 +47,15 @@ class ContentFilteredTopic : public TopicDescription
     friend class DomainParticipantImpl;
 
 private:
-    RTPS_DllAPI ContentFilteredTopic(const std::string& name,
-                                     Topic* related_topic,
-                                     const std::string& filter_expression,
-                                     const std::vector<std::string>& expression_parameters);
+
+    RTPS_DllAPI ContentFilteredTopic(
+            const std::string& name,
+            Topic* related_topic,
+            const std::string& filter_expression,
+            const std::vector<std::string>& expression_parameters);
 
 public:
+
     RTPS_DllAPI virtual ~ContentFilteredTopic();
 
     /**
@@ -92,7 +91,8 @@ public:
      *
      * @return RETCODE_OK
      */
-    RTPS_DllAPI ReturnCode_t get_expression_parameters(std::vector<std::string>& expression_parameters) const;
+    RTPS_DllAPI ReturnCode_t get_expression_parameters(
+            std::vector<std::string>& expression_parameters) const;
 
     /**
      * @brief Set the expression parameters.
@@ -104,7 +104,8 @@ public:
      * @return RETCODE_OK             if the expression parameters where correctly updated.
      * @return RETCODE_BAD_PARAMETER  if the expression parameters do not match with the current @c filter_expression.
      */
-    RTPS_DllAPI ReturnCode_t set_expression_parameters(const std::vector<std::string>& expression_parameters);
+    RTPS_DllAPI ReturnCode_t set_expression_parameters(
+            const std::vector<std::string>& expression_parameters);
 
     /**
      * @brief Set the filter expression and the expression parameters.
@@ -119,8 +120,9 @@ public:
      * @return RETCODE_BAD_PARAMETER  if @c filter_expression is not valid for this ContentFilteredTopic.
      * @return RETCODE_BAD_PARAMETER  if the expression parameters do not match with the @c filter_expression.
      */
-    RTPS_DllAPI ReturnCode_t set_filter_expression(const std::string& filter_expression,
-                                                   const std::vector<std::string>& expression_parameters);
+    RTPS_DllAPI ReturnCode_t set_filter_expression(
+            const std::string& filter_expression,
+            const std::vector<std::string>& expression_parameters);
 
     /**
      * @brief Getter for the DomainParticipant
@@ -131,11 +133,13 @@ public:
     TopicDescriptionImpl* get_impl() const override;
 
 protected:
+
     ContentFilteredTopicImpl* impl_;
+
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_TOPIC_CONTENTFILTEREDTOPIC_HPP_
+#endif  // _FASTDDS_DDS_TOPIC_CONTENTFILTEREDTOPIC_HPP_

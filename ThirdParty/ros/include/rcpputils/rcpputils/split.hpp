@@ -54,23 +54,25 @@ namespace rcpputils
  * \param[in] it iterator pointing to a storage container
  * \param[in] skip_empty remove empty strings from the return vector
  */
-template<class InsertIterator,
-         typename std::enable_if<
-             std::is_same<InsertIterator&,
-                          decltype(std::declval<InsertIterator>().operator=(std::declval<std::string>()))>::value>::type* = nullptr>
-void split(const std::string& input, char delim, InsertIterator& it, bool skip_empty = false)
+template<
+  class InsertIterator,
+  typename std::enable_if<
+    std::is_same<
+      InsertIterator &,
+      decltype(std::declval<InsertIterator>().operator=(std::declval<std::string>()))>::value
+  >::type * = nullptr>
+void
+split(const std::string & input, char delim, InsertIterator & it, bool skip_empty = false)
 {
-    std::stringstream ss;
-    ss.str(input);
-    std::string item;
-    while (std::getline(ss, item, delim))
-    {
-        if (skip_empty && item == "")
-        {
-            continue;
-        }
-        it = item;
+  std::stringstream ss;
+  ss.str(input);
+  std::string item;
+  while (std::getline(ss, item, delim)) {
+    if (skip_empty && item == "") {
+      continue;
     }
+    it = item;
+  }
 }
 /// @endcond
 
@@ -83,13 +85,14 @@ void split(const std::string& input, char delim, InsertIterator& it, bool skip_e
  * \param[in] skip_empty remove empty strings from the return vector
  * \return A vector of tokens.
  */
-inline std::vector<std::string> split(const std::string& input, char delim, bool skip_empty = false)
+inline std::vector<std::string>
+split(const std::string & input, char delim, bool skip_empty = false)
 {
-    std::vector<std::string> result;
-    auto it = std::back_inserter(result);
-    split(input, delim, it, skip_empty);
-    return result;
+  std::vector<std::string> result;
+  auto it = std::back_inserter(result);
+  split(input, delim, it, skip_empty);
+  return result;
 }
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__SPLIT_HPP_
+#endif  // RCPPUTILS__SPLIT_HPP_

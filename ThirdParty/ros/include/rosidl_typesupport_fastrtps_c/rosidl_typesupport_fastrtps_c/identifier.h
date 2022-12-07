@@ -22,12 +22,12 @@ extern "C"
 {
 #endif
 
-    /// String identifier specific to rosidl_typesupport_fastrtps_c
-    ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC
-    extern const char* rosidl_typesupport_fastrtps_c__identifier;
+/// String identifier specific to rosidl_typesupport_fastrtps_c
+ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC
+extern const char * rosidl_typesupport_fastrtps_c__identifier;
 
 #if __cplusplus
 }
 #endif
 
-#endif    // ROSIDL_TYPESUPPORT_FASTRTPS_C__IDENTIFIER_H_
+#endif  // ROSIDL_TYPESUPPORT_FASTRTPS_C__IDENTIFIER_H_

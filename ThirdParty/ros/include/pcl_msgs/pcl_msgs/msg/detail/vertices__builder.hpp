@@ -5,11 +5,12 @@
 #ifndef PCL_MSGS__MSG__DETAIL__VERTICES__BUILDER_HPP_
 #define PCL_MSGS__MSG__DETAIL__VERTICES__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "pcl_msgs/msg/detail/vertices__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace pcl_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_Vertices_vertices
 {
 public:
-    Init_Vertices_vertices() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::pcl_msgs::msg::Vertices vertices(::pcl_msgs::msg::Vertices::_vertices_type arg)
-    {
-        msg_.vertices = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_Vertices_vertices()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::pcl_msgs::msg::Vertices vertices(::pcl_msgs::msg::Vertices::_vertices_type arg)
+  {
+    msg_.vertices = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::pcl_msgs::msg::Vertices msg_;
+  ::pcl_msgs::msg::Vertices msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::pcl_msgs::msg::Vertices>()
+inline
+auto build<::pcl_msgs::msg::Vertices>()
 {
-    return pcl_msgs::msg::builder::Init_Vertices_vertices();
+  return pcl_msgs::msg::builder::Init_Vertices_vertices();
 }
 
-}    // namespace pcl_msgs
+}  // namespace pcl_msgs
 
-#endif    // PCL_MSGS__MSG__DETAIL__VERTICES__BUILDER_HPP_
+#endif  // PCL_MSGS__MSG__DETAIL__VERTICES__BUILDER_HPP_

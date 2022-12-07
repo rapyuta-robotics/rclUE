@@ -19,18 +19,13 @@
 #ifndef _FASTDDS_STATISTICS_DDS_PUBLISHER_QOS_DATAWRITERQOS_HPP_
 #define _FASTDDS_STATISTICS_DDS_PUBLISHER_QOS_DATAWRITERQOS_HPP_
 
+#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
 #include <fastrtps/fastrtps_dll.h>
 
-#include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
-
-namespace eprosima
-{
-namespace fastdds
-{
-namespace statistics
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace statistics {
+namespace dds {
 
 /**
  * Class DataWriterQos: extends standard DDS DataWriterQos class to include specific default constructor for the
@@ -40,6 +35,7 @@ namespace dds
 class DataWriterQos : public eprosima::fastdds::dds::DataWriterQos
 {
 public:
+
     /**
      * @brief Constructor
      */
@@ -49,9 +45,9 @@ public:
 //! Constant to access default Statistics DataWriter Qos
 const eprosima::fastdds::statistics::dds::DataWriterQos STATISTICS_DATAWRITER_QOS;
 
-}    // namespace dds
-}    // namespace statistics
-}    // namespace fastdds
-}    // namespace eprosima
+} // dds
+} // statistics
+} // fastdds
+} // eprosima
 
 #endif /* _FASTDDS_STATISTICS_DDS_PUBLISHER_QOS_DATAWRITERQOS_HPP_ */

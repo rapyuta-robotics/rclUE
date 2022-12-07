@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__STRING_HPP_
 #define EXAMPLE_INTERFACES__MSG__STRING_HPP_
 
-#include "example_interfaces/msg/detail/string__builder.hpp"
 #include "example_interfaces/msg/detail/string__struct.hpp"
+#include "example_interfaces/msg/detail/string__builder.hpp"
 #include "example_interfaces/msg/detail/string__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__MSG__STRING_HPP_
+#endif  // EXAMPLE_INTERFACES__MSG__STRING_HPP_

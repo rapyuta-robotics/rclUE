@@ -20,18 +20,16 @@
 #define _FASTDDS_DDS_TOPIC_ICONTENTFILTERFACTORY_HPP_
 
 #include <fastrtps/fastrtps_dll.h>
-#include <fastrtps/types/TypesBase.h>
 
 #include <fastdds/dds/core/LoanableTypedCollection.hpp>
 #include <fastdds/dds/topic/IContentFilter.hpp>
 #include <fastdds/dds/topic/TopicDataType.hpp>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+#include <fastrtps/types/TypesBase.h>
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * The interface that a factory of IContentFilter objects should implement.
@@ -66,12 +64,13 @@ struct IContentFilterFactory
      *
      * @return A return code indicating the result of the operation.
      */
-    virtual ReturnCode_t create_content_filter(const char* filter_class_name,
-                                               const char* type_name,
-                                               const TopicDataType* data_type,
-                                               const char* filter_expression,
-                                               const ParameterSeq& filter_parameters,
-                                               IContentFilter*& filter_instance) = 0;
+    virtual ReturnCode_t create_content_filter(
+            const char* filter_class_name,
+            const char* type_name,
+            const TopicDataType* data_type,
+            const char* filter_expression,
+            const ParameterSeq& filter_parameters,
+            IContentFilter*& filter_instance) = 0;
 
     /**
      * Delete an IContentFilter instance.
@@ -85,11 +84,13 @@ struct IContentFilterFactory
      *
      * @return A return code indicating the result of the operation.
      */
-    virtual ReturnCode_t delete_content_filter(const char* filter_class_name, IContentFilter* filter_instance) = 0;
+    virtual ReturnCode_t delete_content_filter(
+            const char* filter_class_name,
+            IContentFilter* filter_instance) = 0;
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_TOPIC_ICONTENTFILTERFACTORY_HPP_
+#endif  // _FASTDDS_DDS_TOPIC_ICONTENTFILTERFACTORY_HPP_

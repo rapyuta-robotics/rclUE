@@ -23,13 +23,13 @@ extern "C"
 #include "rcutils/types/array_list.h"
 #include "rcutils/types/char_array.h"
 #include "rcutils/types/hash_map.h"
-#include "rcutils/types/rcutils_ret.h"
 #include "rcutils/types/string_array.h"
 #include "rcutils/types/string_map.h"
+#include "rcutils/types/rcutils_ret.h"
 #include "rcutils/types/uint8_array.h"
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCUTILS__TYPES_H_
+#endif  // RCUTILS__TYPES_H_

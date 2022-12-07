@@ -17,8 +17,8 @@
 
 #define FASTCDR_VERSION_MAJOR 1
 #define FASTCDR_VERSION_MINOR 0
-#define FASTCDR_VERSION_MICRO 13
-#define FASTCDR_VERSION_STR "1.0.13"
+#define FASTCDR_VERSION_MICRO 24
+#define FASTCDR_VERSION_STR "1.0.24"
 
 // C++11 support defines
 #ifndef HAVE_CXX11
@@ -42,8 +42,16 @@
 #endif
 
 // Endianness defines
-#ifndef __BIG_ENDIAN__
-#define __BIG_ENDIAN__ 0
+#ifndef FASTCDR_IS_BIG_ENDIAN_TARGET
+#define FASTCDR_IS_BIG_ENDIAN_TARGET 0
+#endif
+
+#ifndef FASTCDR_HAVE_FLOAT128
+#define FASTCDR_HAVE_FLOAT128 1
+#endif
+
+#ifndef FASTCDR_SIZEOF_LONG_DOUBLE
+#define FASTCDR_SIZEOF_LONG_DOUBLE 16
 #endif
 
 #if defined(__ARM_ARCH) && __ARM_ARCH <= 7

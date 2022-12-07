@@ -5,8 +5,8 @@
 #ifndef UE_MSGS__SRV__SPAWN_ENTITY_H_
 #define UE_MSGS__SRV__SPAWN_ENTITY_H_
 
-#include "ue_msgs/srv/detail/spawn_entity__functions.h"
 #include "ue_msgs/srv/detail/spawn_entity__struct.h"
+#include "ue_msgs/srv/detail/spawn_entity__functions.h"
 #include "ue_msgs/srv/detail/spawn_entity__type_support.h"
 
-#endif    // UE_MSGS__SRV__SPAWN_ENTITY_H_
+#endif  // UE_MSGS__SRV__SPAWN_ENTITY_H_

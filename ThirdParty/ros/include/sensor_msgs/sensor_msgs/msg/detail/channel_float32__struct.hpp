@@ -5,19 +5,20 @@
 #ifndef SENSOR_MSGS__MSG__DETAIL__CHANNEL_FLOAT32__STRUCT_HPP_
 #define SENSOR_MSGS__MSG__DETAIL__CHANNEL_FLOAT32__STRUCT_HPP_
 
-#include "rosidl_runtime_cpp/bounded_vector.hpp"
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-
 #include <algorithm>
 #include <array>
 #include <memory>
 #include <string>
 #include <vector>
 
+#include "rosidl_runtime_cpp/bounded_vector.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
+
 #ifndef _WIN32
-#define DEPRECATED__sensor_msgs__msg__ChannelFloat32 __attribute__((deprecated))
+# define DEPRECATED__sensor_msgs__msg__ChannelFloat32 __attribute__((deprecated))
 #else
-#define DEPRECATED__sensor_msgs__msg__ChannelFloat32 __declspec(deprecated)
+# define DEPRECATED__sensor_msgs__msg__ChannelFloat32 __declspec(deprecated)
 #endif
 
 namespace sensor_msgs
@@ -30,101 +31,113 @@ namespace msg
 template<class ContainerAllocator>
 struct ChannelFloat32_
 {
-    using Type = ChannelFloat32_<ContainerAllocator>;
+  using Type = ChannelFloat32_<ContainerAllocator>;
 
-    explicit ChannelFloat32_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
+  explicit ChannelFloat32_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
+  {
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-        if (rosidl_runtime_cpp::MessageInitialization::ALL == _init || rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
-        {
-            this->name = "";
-        }
+      this->name = "";
     }
+  }
 
-    explicit ChannelFloat32_(const ContainerAllocator& _alloc,
-                             rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-        : name(_alloc)
+  explicit ChannelFloat32_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
+  : name(_alloc)
+  {
+    if (rosidl_runtime_cpp::MessageInitialization::ALL == _init ||
+      rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
     {
-        if (rosidl_runtime_cpp::MessageInitialization::ALL == _init || rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
-        {
-            this->name = "";
-        }
+      this->name = "";
     }
+  }
 
-    // field types and members
-    using _name_type = std::
-        basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
-    _name_type name;
-    using _values_type = std::vector<float, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<float>>;
-    _values_type values;
+  // field types and members
+  using _name_type =
+    std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>;
+  _name_type name;
+  using _values_type =
+    std::vector<float, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<float>>;
+  _values_type values;
 
-    // setters for named parameter idiom
-    Type& set__name(const std::basic_string<char,
-                                            std::char_traits<char>,
-                                            typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>>& _arg)
-    {
-        this->name = _arg;
-        return *this;
+  // setters for named parameter idiom
+  Type & set__name(
+    const std::basic_string<char, std::char_traits<char>, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<char>> & _arg)
+  {
+    this->name = _arg;
+    return *this;
+  }
+  Type & set__values(
+    const std::vector<float, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<float>> & _arg)
+  {
+    this->values = _arg;
+    return *this;
+  }
+
+  // constant declarations
+
+  // pointer types
+  using RawPtr =
+    sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> *;
+  using ConstRawPtr =
+    const sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> *;
+  using SharedPtr =
+    std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>;
+  using ConstSharedPtr =
+    std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const>;
+
+  template<typename Deleter = std::default_delete<
+      sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>>
+  using UniquePtrWithDeleter =
+    std::unique_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>, Deleter>;
+
+  using UniquePtr = UniquePtrWithDeleter<>;
+
+  template<typename Deleter = std::default_delete<
+      sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>>
+  using ConstUniquePtrWithDeleter =
+    std::unique_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const, Deleter>;
+  using ConstUniquePtr = ConstUniquePtrWithDeleter<>;
+
+  using WeakPtr =
+    std::weak_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>;
+  using ConstWeakPtr =
+    std::weak_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const>;
+
+  // pointer types similar to ROS 1, use SharedPtr / ConstSharedPtr instead
+  // NOTE: Can't use 'using' here because GNU C++ can't parse attributes properly
+  typedef DEPRECATED__sensor_msgs__msg__ChannelFloat32
+    std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>
+    Ptr;
+  typedef DEPRECATED__sensor_msgs__msg__ChannelFloat32
+    std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const>
+    ConstPtr;
+
+  // comparison operators
+  bool operator==(const ChannelFloat32_ & other) const
+  {
+    if (this->name != other.name) {
+      return false;
     }
-    Type& set__values(
-        const std::vector<float, typename std::allocator_traits<ContainerAllocator>::template rebind_alloc<float>>& _arg)
-    {
-        this->values = _arg;
-        return *this;
+    if (this->values != other.values) {
+      return false;
     }
-
-    // constant declarations
-
-    // pointer types
-    using RawPtr = sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>*;
-    using ConstRawPtr = const sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>*;
-    using SharedPtr = std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>;
-    using ConstSharedPtr = std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const>;
-
-    template<typename Deleter = std::default_delete<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>>
-    using UniquePtrWithDeleter = std::unique_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>, Deleter>;
-
-    using UniquePtr = UniquePtrWithDeleter<>;
-
-    template<typename Deleter = std::default_delete<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>>
-    using ConstUniquePtrWithDeleter = std::unique_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const, Deleter>;
-    using ConstUniquePtr = ConstUniquePtrWithDeleter<>;
-
-    using WeakPtr = std::weak_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>>;
-    using ConstWeakPtr = std::weak_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const>;
-
-    // pointer types similar to ROS 1, use SharedPtr / ConstSharedPtr instead
-    // NOTE: Can't use 'using' here because GNU C++ can't parse attributes properly
-    typedef DEPRECATED__sensor_msgs__msg__ChannelFloat32 std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator>> Ptr;
-    typedef DEPRECATED__sensor_msgs__msg__ChannelFloat32
-        std::shared_ptr<sensor_msgs::msg::ChannelFloat32_<ContainerAllocator> const>
-            ConstPtr;
-
-    // comparison operators
-    bool operator==(const ChannelFloat32_& other) const
-    {
-        if (this->name != other.name)
-        {
-            return false;
-        }
-        if (this->values != other.values)
-        {
-            return false;
-        }
-        return true;
-    }
-    bool operator!=(const ChannelFloat32_& other) const
-    {
-        return !this->operator==(other);
-    }
-};    // struct ChannelFloat32_
+    return true;
+  }
+  bool operator!=(const ChannelFloat32_ & other) const
+  {
+    return !this->operator==(other);
+  }
+};  // struct ChannelFloat32_
 
 // alias to use template instance with default allocator
-using ChannelFloat32 = sensor_msgs::msg::ChannelFloat32_<std::allocator<void>>;
+using ChannelFloat32 =
+  sensor_msgs::msg::ChannelFloat32_<std::allocator<void>>;
 
 // constant definitions
 
-}    // namespace msg
+}  // namespace msg
 
-}    // namespace sensor_msgs
+}  // namespace sensor_msgs
 
-#endif    // SENSOR_MSGS__MSG__DETAIL__CHANNEL_FLOAT32__STRUCT_HPP_
+#endif  // SENSOR_MSGS__MSG__DETAIL__CHANNEL_FLOAT32__STRUCT_HPP_

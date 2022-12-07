@@ -5,8 +5,9 @@
 #ifndef ACTION_MSGS__MSG__DETAIL__GOAL_STATUS__TYPE_SUPPORT_H_
 #define ACTION_MSGS__MSG__DETAIL__GOAL_STATUS__TYPE_SUPPORT_H_
 
-#include "action_msgs/msg/rosidl_generator_c__visibility_control.h"
 #include "rosidl_typesupport_interface/macros.h"
+
+#include "action_msgs/msg/rosidl_generator_c__visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
@@ -15,12 +16,18 @@ extern "C"
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
 
-    // Forward declare the get type support functions for this type.
-    ROSIDL_GENERATOR_C_PUBLIC_action_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, action_msgs, msg, GoalStatus)();
+// Forward declare the get type support functions for this type.
+ROSIDL_GENERATOR_C_PUBLIC_action_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(
+  rosidl_typesupport_c,
+  action_msgs,
+  msg,
+  GoalStatus
+)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ACTION_MSGS__MSG__DETAIL__GOAL_STATUS__TYPE_SUPPORT_H_
+#endif  // ACTION_MSGS__MSG__DETAIL__GOAL_STATUS__TYPE_SUPPORT_H_

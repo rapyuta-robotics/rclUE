@@ -10,18 +10,17 @@ extern "C"
 {
 #endif
 
-#include "rcl_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
+#include "rcl_interfaces/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_rcl_interfaces const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          rcl_interfaces,
-                                                          msg,
-                                                          ParameterEventDescriptors)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_rcl_interfaces
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, rcl_interfaces, msg, ParameterEventDescriptors)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL_INTERFACES__MSG__DETAIL__PARAMETER_EVENT_DESCRIPTORS__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_
+#endif  // RCL_INTERFACES__MSG__DETAIL__PARAMETER_EVENT_DESCRIPTORS__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_

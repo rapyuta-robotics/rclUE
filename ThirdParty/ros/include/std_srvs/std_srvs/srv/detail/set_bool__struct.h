@@ -14,24 +14,26 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-    // Constants defined in the message
 
-    /// Struct defined in srv/SetBool in the package std_srvs.
-    typedef struct std_srvs__srv__SetBool_Request
-    {
-        /// e.g. for hardware enabling / disabling
-        bool data;
-    } std_srvs__srv__SetBool_Request;
+// Constants defined in the message
 
-    // Struct for a sequence of std_srvs__srv__SetBool_Request.
-    typedef struct std_srvs__srv__SetBool_Request__Sequence
-    {
-        std_srvs__srv__SetBool_Request* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } std_srvs__srv__SetBool_Request__Sequence;
+/// Struct defined in srv/SetBool in the package std_srvs.
+typedef struct std_srvs__srv__SetBool_Request
+{
+  /// e.g. for hardware enabling / disabling
+  bool data;
+} std_srvs__srv__SetBool_Request;
+
+// Struct for a sequence of std_srvs__srv__SetBool_Request.
+typedef struct std_srvs__srv__SetBool_Request__Sequence
+{
+  std_srvs__srv__SetBool_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} std_srvs__srv__SetBool_Request__Sequence;
+
 
 // Constants defined in the message
 
@@ -39,27 +41,27 @@ extern "C"
 // Member 'message'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in srv/SetBool in the package std_srvs.
-    typedef struct std_srvs__srv__SetBool_Response
-    {
-        /// indicate successful run of triggered service
-        bool success;
-        /// informational, e.g. for error messages
-        rosidl_runtime_c__String message;
-    } std_srvs__srv__SetBool_Response;
+/// Struct defined in srv/SetBool in the package std_srvs.
+typedef struct std_srvs__srv__SetBool_Response
+{
+  /// indicate successful run of triggered service
+  bool success;
+  /// informational, e.g. for error messages
+  rosidl_runtime_c__String message;
+} std_srvs__srv__SetBool_Response;
 
-    // Struct for a sequence of std_srvs__srv__SetBool_Response.
-    typedef struct std_srvs__srv__SetBool_Response__Sequence
-    {
-        std_srvs__srv__SetBool_Response* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } std_srvs__srv__SetBool_Response__Sequence;
+// Struct for a sequence of std_srvs__srv__SetBool_Response.
+typedef struct std_srvs__srv__SetBool_Response__Sequence
+{
+  std_srvs__srv__SetBool_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} std_srvs__srv__SetBool_Response__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // STD_SRVS__SRV__DETAIL__SET_BOOL__STRUCT_H_
+#endif  // STD_SRVS__SRV__DETAIL__SET_BOOL__STRUCT_H_

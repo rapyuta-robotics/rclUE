@@ -15,9 +15,9 @@
 #ifndef RCPPUTILS__TIME_HPP_
 #define RCPPUTILS__TIME_HPP_
 
-#include "rcutils/time.h"
-
 #include <chrono>
+
+#include "rcutils/time.h"
 
 namespace rcpputils
 {
@@ -33,25 +33,28 @@ namespace rcpputils
  * std::chrono::nanoseconds::min().
  */
 template<typename DurationRepT, typename DurationT>
-std::chrono::nanoseconds convert_to_nanoseconds(const std::chrono::duration<DurationRepT, DurationT>& time)
+std::chrono::nanoseconds convert_to_nanoseconds(
+  const std::chrono::duration<DurationRepT, DurationT> & time)
 {
-    constexpr auto ns_max_as_double = std::chrono::duration_cast<std::chrono::duration<double, std::chrono::nanoseconds::period>>(
-        std::chrono::nanoseconds::max());
-    if (time > ns_max_as_double)
-    {
-        throw std::invalid_argument{"time must be less than std::chrono::nanoseconds::max()"};
-    }
+  constexpr auto ns_max_as_double =
+    std::chrono::duration_cast<std::chrono::duration<double, std::chrono::nanoseconds::period>>(
+    std::chrono::nanoseconds::max());
+  if (time > ns_max_as_double) {
+    throw std::invalid_argument{
+            "time must be less than std::chrono::nanoseconds::max()"};
+  }
 
-    constexpr auto ns_min_as_double = std::chrono::duration_cast<std::chrono::duration<double, std::chrono::nanoseconds::period>>(
-        std::chrono::nanoseconds::min());
-    if (time < ns_min_as_double)
-    {
-        throw std::invalid_argument{"time must be bigger than std::chrono::nanoseconds::min()"};
-    }
+  constexpr auto ns_min_as_double =
+    std::chrono::duration_cast<std::chrono::duration<double, std::chrono::nanoseconds::period>>(
+    std::chrono::nanoseconds::min());
+  if (time < ns_min_as_double) {
+    throw std::invalid_argument{
+            "time must be bigger than std::chrono::nanoseconds::min()"};
+  }
 
-    return std::chrono::duration_cast<std::chrono::nanoseconds>(time);
+  return std::chrono::duration_cast<std::chrono::nanoseconds>(time);
 }
 
-}    // namespace rcpputils
+}  // namespace rcpputils
 
-#endif    // RCPPUTILS__TIME_HPP_
+#endif  // RCPPUTILS__TIME_HPP_

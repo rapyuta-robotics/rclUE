@@ -21,12 +21,9 @@
 
 #include <fastdds/rtps/common/Locator.h>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace rtps
-{
+namespace eprosima {
+namespace fastdds {
+namespace rtps {
 
 /**
  * Provides a Locator's iterator interface that can be used by different Locator's
@@ -39,7 +36,7 @@ struct LocatorsIterator
      *
      * @return LocatorsIterator& reference to the next LocatorsIterator.
      */
-    virtual LocatorsIterator& operator++() = 0;
+    virtual LocatorsIterator& operator ++() = 0;
     /**
      * @brief Equal to operator.
      *
@@ -47,7 +44,8 @@ struct LocatorsIterator
      * @return true if equal.
      * @return false otherwise.
      */
-    virtual bool operator==(const LocatorsIterator& other) const = 0;
+    virtual bool operator ==(
+            const LocatorsIterator& other) const = 0;
     /**
      * @brief Not equal to operator.
      *
@@ -55,17 +53,18 @@ struct LocatorsIterator
      * @return true if not equal.
      * @return false otherwise.
      */
-    virtual bool operator!=(const LocatorsIterator& other) const = 0;
+    virtual bool operator !=(
+            const LocatorsIterator& other) const = 0;
     /**
      * @brief Dereference operator.
      *
      * @return const Locator& Reference to the locator pointed by the LocatorsIterator.
      */
-    virtual const Locator& operator*() const = 0;
+    virtual const Locator& operator *() const = 0;
 };
 
-}    // namespace rtps
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace rtps
+} // namespace fastdds
+} // namespace eprosima
 
 #endif /* _FASTDDS_RTPS_COMMON_LOCATORSITERATOR_HPP_ */

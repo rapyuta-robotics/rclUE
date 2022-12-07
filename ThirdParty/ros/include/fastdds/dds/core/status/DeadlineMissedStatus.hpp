@@ -19,7 +19,7 @@
 #ifndef _FASTDDS_DDS_QOS_DEADLINEMISSEDSTATUS_HPP_
 #define _FASTDDS_DDS_QOS_DEADLINEMISSEDSTATUS_HPP_
 
-#include <fastdds/rtps/common/InstanceHandle.h>
+#include <fastdds/dds/topic/TypeSupport.hpp>
 
 namespace eprosima {
 namespace fastdds {
@@ -42,7 +42,7 @@ struct DeadlineMissedStatus
     {
     }
 
-    //! @brief Total cumulative number of offered deadline periods epased during which a writer failed to provide data
+    //! @brief Total cumulative number of offered deadline periods elapsed during which a writer failed to provide data
     //! @details Missed deadlines accumulate, that is, each deadline period the total_count will be incremented by 1
     uint32_t total_count;
 
@@ -50,7 +50,7 @@ struct DeadlineMissedStatus
     uint32_t total_count_change;
 
     //! @brief Handle to the last instance missing the deadline
-    fastrtps::rtps::InstanceHandle_t last_instance_handle;
+    InstanceHandle_t last_instance_handle;
 };
 
 //! Typedef of DeadlineMissedStatus

@@ -15,31 +15,31 @@
 #ifndef RMW__EVENTS_STATUSES__REQUESTED_DEADLINE_MISSED_H_
 #define RMW__EVENTS_STATUSES__REQUESTED_DEADLINE_MISSED_H_
 
-#include "rmw/visibility_control.h"
-
 #include <stdint.h>
+
+#include "rmw/visibility_control.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-    /// QoS Requested Deadline Missed information provided by a subscription.
-    typedef struct RMW_PUBLIC_TYPE rmw_requested_deadline_missed_status_s
-    {
-        /**
-         * Lifetime cumulative number of missed deadlines detected for any instance read by the
-         * subscription.
-         * Missed deadlines accumulate; that is, each deadline period the total_count will be incremented
-         * by one for each instance for which data was not received.
-         */
-        int32_t total_count;
-        /// The incremental number of deadlines detected since the status was read.
-        int32_t total_count_change;
-    } rmw_requested_deadline_missed_status_t;
+/// QoS Requested Deadline Missed information provided by a subscription.
+typedef struct RMW_PUBLIC_TYPE rmw_requested_deadline_missed_status_s
+{
+  /**
+   * Lifetime cumulative number of missed deadlines detected for any instance read by the
+   * subscription.
+   * Missed deadlines accumulate; that is, each deadline period the total_count will be incremented
+   * by one for each instance for which data was not received.
+   */
+  int32_t total_count;
+  /// The incremental number of deadlines detected since the status was read.
+  int32_t total_count_change;
+} rmw_requested_deadline_missed_status_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__EVENTS_STATUSES__REQUESTED_DEADLINE_MISSED_H_
+#endif  // RMW__EVENTS_STATUSES__REQUESTED_DEADLINE_MISSED_H_

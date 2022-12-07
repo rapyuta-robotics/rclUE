@@ -4,8 +4,8 @@
 #ifndef ACTION_MSGS__MSG__GOAL_STATUS_ARRAY_HPP_
 #define ACTION_MSGS__MSG__GOAL_STATUS_ARRAY_HPP_
 
-#include "action_msgs/msg/detail/goal_status_array__builder.hpp"
 #include "action_msgs/msg/detail/goal_status_array__struct.hpp"
+#include "action_msgs/msg/detail/goal_status_array__builder.hpp"
 #include "action_msgs/msg/detail/goal_status_array__traits.hpp"
 
-#endif    // ACTION_MSGS__MSG__GOAL_STATUS_ARRAY_HPP_
+#endif  // ACTION_MSGS__MSG__GOAL_STATUS_ARRAY_HPP_

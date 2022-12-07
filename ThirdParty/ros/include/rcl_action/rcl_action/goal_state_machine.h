@@ -23,22 +23,25 @@ extern "C"
 #include "rcl_action/types.h"
 #include "rcl_action/visibility_control.h"
 
-    /// Transition a goal from one state to the next.
-    /**
-     * Given a goal state and a goal event, return the next state.
-     *
-     * \param[in] state the state to transition from
-     * \param[in] event the event triggering a transition
-     * \return the next goal state if the transition is valid, or
-     * \return `GOAL_STATE_UNKNOWN` if the transition is invalid or an error occured
-     */
-    RCL_ACTION_PUBLIC
-    RCL_WARN_UNUSED
-    rcl_action_goal_state_t rcl_action_transition_goal_state(const rcl_action_goal_state_t state,
-                                                             const rcl_action_goal_event_t event);
+
+/// Transition a goal from one state to the next.
+/**
+ * Given a goal state and a goal event, return the next state.
+ *
+ * \param[in] state the state to transition from
+ * \param[in] event the event triggering a transition
+ * \return the next goal state if the transition is valid, or
+ * \return `GOAL_STATE_UNKNOWN` if the transition is invalid or an error occured
+ */
+RCL_ACTION_PUBLIC
+RCL_WARN_UNUSED
+rcl_action_goal_state_t
+rcl_action_transition_goal_state(
+  const rcl_action_goal_state_t state,
+  const rcl_action_goal_event_t event);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL_ACTION__GOAL_STATE_MACHINE_H_
+#endif  // RCL_ACTION__GOAL_STATE_MACHINE_H_

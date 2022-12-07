@@ -4,8 +4,8 @@
 #ifndef RMW_DDS_COMMON__MSG__NODE_ENTITIES_INFO_HPP_
 #define RMW_DDS_COMMON__MSG__NODE_ENTITIES_INFO_HPP_
 
-#include "rmw_dds_common/msg/detail/node_entities_info__builder.hpp"
 #include "rmw_dds_common/msg/detail/node_entities_info__struct.hpp"
+#include "rmw_dds_common/msg/detail/node_entities_info__builder.hpp"
 #include "rmw_dds_common/msg/detail/node_entities_info__traits.hpp"
 
-#endif    // RMW_DDS_COMMON__MSG__NODE_ENTITIES_INFO_HPP_
+#endif  // RMW_DDS_COMMON__MSG__NODE_ENTITIES_INFO_HPP_

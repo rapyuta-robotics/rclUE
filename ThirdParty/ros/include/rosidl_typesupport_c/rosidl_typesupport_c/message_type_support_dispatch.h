@@ -16,6 +16,7 @@
 #define ROSIDL_TYPESUPPORT_C__MESSAGE_TYPE_SUPPORT_DISPATCH_H_
 
 #include "rosidl_runtime_c/message_type_support_struct.h"
+
 #include "rosidl_typesupport_c/visibility_control.h"
 
 #ifdef __cplusplus
@@ -23,22 +24,22 @@ extern "C"
 {
 #endif
 
-    /// Get the message type support handle specific to this identifier.
-    /**
-     * If the identifier is the same as this handle's typesupport_identifier, then the handle is
-     * simply returned, otherwise it's loaded from a shared library.
-     *
-     * \param handle Handle to message type support
-     * \param identifier The typesupport identifier to get the handle function for
-     * \return The associated message typesupport handle if found, otherwise NULL
-     */
-    ROSIDL_TYPESUPPORT_C_PUBLIC
-    const rosidl_message_type_support_t* rosidl_typesupport_c__get_message_typesupport_handle_function(
-        const rosidl_message_type_support_t* handle,
-        const char* identifier);
+/// Get the message type support handle specific to this identifier.
+/**
+ * If the identifier is the same as this handle's typesupport_identifier, then the handle is
+ * simply returned, otherwise it's loaded from a shared library.
+ *
+ * \param handle Handle to message type support
+ * \param identifier The typesupport identifier to get the handle function for
+ * \return The associated message typesupport handle if found, otherwise NULL
+ */
+ROSIDL_TYPESUPPORT_C_PUBLIC
+const rosidl_message_type_support_t *
+rosidl_typesupport_c__get_message_typesupport_handle_function(
+  const rosidl_message_type_support_t * handle, const char * identifier);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ROSIDL_TYPESUPPORT_C__MESSAGE_TYPE_SUPPORT_DISPATCH_H_
+#endif  // ROSIDL_TYPESUPPORT_C__MESSAGE_TYPE_SUPPORT_DISPATCH_H_

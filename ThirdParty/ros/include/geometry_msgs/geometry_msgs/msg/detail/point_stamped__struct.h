@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -22,28 +23,28 @@ extern "C"
 // Member 'point'
 #include "geometry_msgs/msg/detail/point__struct.h"
 
-    /// Struct defined in msg/PointStamped in the package geometry_msgs.
-    /**
-     * This represents a Point with reference coordinate frame and timestamp
-     */
-    typedef struct geometry_msgs__msg__PointStamped
-    {
-        std_msgs__msg__Header header;
-        geometry_msgs__msg__Point point;
-    } geometry_msgs__msg__PointStamped;
+/// Struct defined in msg/PointStamped in the package geometry_msgs.
+/**
+  * This represents a Point with reference coordinate frame and timestamp
+ */
+typedef struct geometry_msgs__msg__PointStamped
+{
+  std_msgs__msg__Header header;
+  geometry_msgs__msg__Point point;
+} geometry_msgs__msg__PointStamped;
 
-    // Struct for a sequence of geometry_msgs__msg__PointStamped.
-    typedef struct geometry_msgs__msg__PointStamped__Sequence
-    {
-        geometry_msgs__msg__PointStamped* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } geometry_msgs__msg__PointStamped__Sequence;
+// Struct for a sequence of geometry_msgs__msg__PointStamped.
+typedef struct geometry_msgs__msg__PointStamped__Sequence
+{
+  geometry_msgs__msg__PointStamped * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} geometry_msgs__msg__PointStamped__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__POINT_STAMPED__STRUCT_H_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__POINT_STAMPED__STRUCT_H_

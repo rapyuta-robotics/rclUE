@@ -21,12 +21,9 @@
 
 #include <cstdint>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * Indicates whether or not a sample has ever been read.
@@ -56,8 +53,8 @@ using SampleStateMask = uint16_t;
 /// Any sample state
 constexpr SampleStateMask ANY_SAMPLE_STATE = READ_SAMPLE_STATE | NOT_READ_SAMPLE_STATE;
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+}  // namespace dds
+}  // namespace fastdds
+}  // namespace eprosima
 
-#endif    // _FASTDDS_DDS_SUBSCRIBER_SAMPLESTATE_HPP_
+#endif  // _FASTDDS_DDS_SUBSCRIBER_SAMPLESTATE_HPP_

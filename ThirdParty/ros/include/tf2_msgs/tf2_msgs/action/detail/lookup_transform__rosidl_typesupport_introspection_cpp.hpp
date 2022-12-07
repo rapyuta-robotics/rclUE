@@ -5,6 +5,7 @@
 #ifndef TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
 #define TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
 
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "rosidl_typesupport_introspection_cpp/visibility_control.h"
@@ -14,12 +15,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_Goal)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_Goal)();
 
 #ifdef __cplusplus
 }
@@ -37,12 +36,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_Result)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_Result)();
 
 #ifdef __cplusplus
 }
@@ -60,12 +57,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_Feedback)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_Feedback)();
 
 #ifdef __cplusplus
 }
@@ -83,12 +78,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_SendGoal_Request)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_SendGoal_Request)();
 
 #ifdef __cplusplus
 }
@@ -106,12 +99,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_SendGoal_Response)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_SendGoal_Response)();
 
 #ifdef __cplusplus
 }
@@ -128,11 +119,9 @@ extern "C"
 {
 #endif
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_service_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_SendGoal)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_service_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_SendGoal)();
 
 #ifdef __cplusplus
 }
@@ -150,12 +139,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_GetResult_Request)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_GetResult_Request)();
 
 #ifdef __cplusplus
 }
@@ -173,12 +160,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_GetResult_Response)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_GetResult_Response)();
 
 #ifdef __cplusplus
 }
@@ -196,11 +181,9 @@ extern "C"
 {
 #endif
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_service_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_GetResult)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_service_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_GetResult)();
 
 #ifdef __cplusplus
 }
@@ -218,15 +201,13 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           tf2_msgs,
-                                                                                           action,
-                                                                                           LookupTransform_FeedbackMessage)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, tf2_msgs, action, LookupTransform_FeedbackMessage)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
+#endif  // TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_

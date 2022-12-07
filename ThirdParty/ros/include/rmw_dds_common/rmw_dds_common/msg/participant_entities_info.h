@@ -5,8 +5,8 @@
 #ifndef RMW_DDS_COMMON__MSG__PARTICIPANT_ENTITIES_INFO_H_
 #define RMW_DDS_COMMON__MSG__PARTICIPANT_ENTITIES_INFO_H_
 
-#include "rmw_dds_common/msg/detail/participant_entities_info__functions.h"
 #include "rmw_dds_common/msg/detail/participant_entities_info__struct.h"
+#include "rmw_dds_common/msg/detail/participant_entities_info__functions.h"
 #include "rmw_dds_common/msg/detail/participant_entities_info__type_support.h"
 
-#endif    // RMW_DDS_COMMON__MSG__PARTICIPANT_ENTITIES_INFO_H_
+#endif  // RMW_DDS_COMMON__MSG__PARTICIPANT_ENTITIES_INFO_H_

@@ -5,8 +5,8 @@
 #ifndef STD_MSGS__MSG__FLOAT32_H_
 #define STD_MSGS__MSG__FLOAT32_H_
 
-#include "std_msgs/msg/detail/float32__functions.h"
 #include "std_msgs/msg/detail/float32__struct.h"
+#include "std_msgs/msg/detail/float32__functions.h"
 #include "std_msgs/msg/detail/float32__type_support.h"
 
-#endif    // STD_MSGS__MSG__FLOAT32_H_
+#endif  // STD_MSGS__MSG__FLOAT32_H_

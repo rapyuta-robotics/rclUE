@@ -17,6 +17,7 @@
 
 #include "fastdds/dds/publisher/DataWriter.hpp"
 #include "fastdds/dds/subscriber/DataReader.hpp"
+
 #include "rmw/rmw.h"
 #include "rmw_fastrtps_cpp/visibility_control.h"
 
@@ -31,7 +32,8 @@ namespace rmw_fastrtps_cpp
  * \return native Fast DDS DataWriter handle if successful, otherwise `NULL`
  */
 RMW_FASTRTPS_CPP_PUBLIC
-eprosima::fastdds::dds::DataWriter* get_request_datawriter(rmw_client_t* client);
+eprosima::fastdds::dds::DataWriter *
+get_request_datawriter(rmw_client_t * client);
 
 /// Return a native Fast DDS DataReader handle for the response.
 /**
@@ -41,8 +43,9 @@ eprosima::fastdds::dds::DataWriter* get_request_datawriter(rmw_client_t* client)
  * \return native Fast DDS DataReader handle if successful, otherwise `NULL`
  */
 RMW_FASTRTPS_CPP_PUBLIC
-eprosima::fastdds::dds::DataReader* get_response_datareader(rmw_client_t* client);
+eprosima::fastdds::dds::DataReader *
+get_response_datareader(rmw_client_t * client);
 
-}    // namespace rmw_fastrtps_cpp
+}  // namespace rmw_fastrtps_cpp
 
-#endif    // RMW_FASTRTPS_CPP__GET_CLIENT_HPP_
+#endif  // RMW_FASTRTPS_CPP__GET_CLIENT_HPP_

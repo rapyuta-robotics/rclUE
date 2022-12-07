@@ -4,8 +4,8 @@
 #ifndef GEOMETRY_MSGS__MSG__TWIST_HPP_
 #define GEOMETRY_MSGS__MSG__TWIST_HPP_
 
-#include "geometry_msgs/msg/detail/twist__builder.hpp"
 #include "geometry_msgs/msg/detail/twist__struct.hpp"
+#include "geometry_msgs/msg/detail/twist__builder.hpp"
 #include "geometry_msgs/msg/detail/twist__traits.hpp"
 
-#endif    // GEOMETRY_MSGS__MSG__TWIST_HPP_
+#endif  // GEOMETRY_MSGS__MSG__TWIST_HPP_

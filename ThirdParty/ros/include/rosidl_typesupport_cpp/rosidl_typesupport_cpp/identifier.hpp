@@ -22,8 +22,8 @@ namespace rosidl_typesupport_cpp
 
 /// String identifier specific to rosidl_typesupport_cpp.
 ROSIDL_TYPESUPPORT_CPP_IMPORT
-extern const char* typesupport_identifier;
+extern const char * typesupport_identifier;
 
-}    // namespace rosidl_typesupport_cpp
+}  // namespace rosidl_typesupport_cpp
 
-#endif    // ROSIDL_TYPESUPPORT_CPP__IDENTIFIER_HPP_
+#endif  // ROSIDL_TYPESUPPORT_CPP__IDENTIFIER_HPP_

@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__MSG__SET_PARAMETERS_RESULT_H_
 #define RCL_INTERFACES__MSG__SET_PARAMETERS_RESULT_H_
 
-#include "rcl_interfaces/msg/detail/set_parameters_result__functions.h"
 #include "rcl_interfaces/msg/detail/set_parameters_result__struct.h"
+#include "rcl_interfaces/msg/detail/set_parameters_result__functions.h"
 #include "rcl_interfaces/msg/detail/set_parameters_result__type_support.h"
 
-#endif    // RCL_INTERFACES__MSG__SET_PARAMETERS_RESULT_H_
+#endif  // RCL_INTERFACES__MSG__SET_PARAMETERS_RESULT_H_

@@ -10,134 +10,115 @@ extern "C"
 {
 #endif
 
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_Goal)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_Goal)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_Result)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_Result)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_Feedback)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_Feedback)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_SendGoal_Request)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_SendGoal_Request)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_SendGoal_Response)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_SendGoal_Response)();
 
 #include "rosidl_runtime_c/service_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_SendGoal)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_SendGoal)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_GetResult_Request)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_GetResult_Request)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_GetResult_Response)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_GetResult_Response)();
 
-    // already included above
-    // #include "rosidl_runtime_c/service_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/service_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_GetResult)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_GetResult)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "tf2_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c,
-                                                          tf2_msgs,
-                                                          action,
-                                                          LookupTransform_FeedbackMessage)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_tf2_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, tf2_msgs, action, LookupTransform_FeedbackMessage)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_
+#endif  // TF2_MSGS__ACTION__DETAIL__LOOKUP_TRANSFORM__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_

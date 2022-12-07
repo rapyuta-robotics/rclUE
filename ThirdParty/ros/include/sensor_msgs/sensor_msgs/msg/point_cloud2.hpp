@@ -4,8 +4,8 @@
 #ifndef SENSOR_MSGS__MSG__POINT_CLOUD2_HPP_
 #define SENSOR_MSGS__MSG__POINT_CLOUD2_HPP_
 
-#include "sensor_msgs/msg/detail/point_cloud2__builder.hpp"
 #include "sensor_msgs/msg/detail/point_cloud2__struct.hpp"
+#include "sensor_msgs/msg/detail/point_cloud2__builder.hpp"
 #include "sensor_msgs/msg/detail/point_cloud2__traits.hpp"
 
-#endif    // SENSOR_MSGS__MSG__POINT_CLOUD2_HPP_
+#endif  // SENSOR_MSGS__MSG__POINT_CLOUD2_HPP_

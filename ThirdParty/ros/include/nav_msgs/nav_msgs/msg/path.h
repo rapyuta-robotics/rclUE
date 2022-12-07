@@ -5,8 +5,8 @@
 #ifndef NAV_MSGS__MSG__PATH_H_
 #define NAV_MSGS__MSG__PATH_H_
 
-#include "nav_msgs/msg/detail/path__functions.h"
 #include "nav_msgs/msg/detail/path__struct.h"
+#include "nav_msgs/msg/detail/path__functions.h"
 #include "nav_msgs/msg/detail/path__type_support.h"
 
-#endif    // NAV_MSGS__MSG__PATH_H_
+#endif  // NAV_MSGS__MSG__PATH_H_

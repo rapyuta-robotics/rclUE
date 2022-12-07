@@ -15,35 +15,35 @@
 #ifndef RMW_FASTRTPS_SHARED_CPP__LOCKED_OBJECT_HPP_
 #define RMW_FASTRTPS_SHARED_CPP__LOCKED_OBJECT_HPP_
 
-#include "rcpputils/thread_safety_annotations.hpp"
-
 #include <mutex>
+
+#include "rcpputils/thread_safety_annotations.hpp"
 
 template<class T>
 class LockedObject
 {
 private:
-    mutable std::mutex mutex_;
-    T object_ RCPPUTILS_TSA_GUARDED_BY(mutex_);
+  mutable std::mutex mutex_;
+  T object_ RCPPUTILS_TSA_GUARDED_BY(mutex_);
 
 public:
-    /**
-     * \return a reference to this object to lock.
-     */
-    std::mutex& getMutex() const RCPPUTILS_TSA_RETURN_CAPABILITY(mutex_)
-    {
-        return mutex_;
-    }
+  /**
+  * \return a reference to this object to lock.
+  */
+  std::mutex & getMutex() const RCPPUTILS_TSA_RETURN_CAPABILITY(mutex_)
+  {
+    return mutex_;
+  }
 
-    T& operator()()
-    {
-        return object_;
-    }
+  T & operator()()
+  {
+    return object_;
+  }
 
-    const T& operator()() const
-    {
-        return object_;
-    }
+  const T & operator()() const
+  {
+    return object_;
+  }
 };
 
-#endif    // RMW_FASTRTPS_SHARED_CPP__LOCKED_OBJECT_HPP_
+#endif  // RMW_FASTRTPS_SHARED_CPP__LOCKED_OBJECT_HPP_

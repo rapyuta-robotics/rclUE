@@ -10,15 +10,17 @@ extern "C"
 {
 #endif
 
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "std_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_std_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, String)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_std_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, String)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // STD_MSGS__MSG__DETAIL__STRING__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_
+#endif  // STD_MSGS__MSG__DETAIL__STRING__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_

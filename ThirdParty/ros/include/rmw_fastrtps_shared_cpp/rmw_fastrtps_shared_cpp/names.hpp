@@ -15,52 +15,57 @@
 #ifndef RMW_FASTRTPS_SHARED_CPP__NAMES_HPP_
 #define RMW_FASTRTPS_SHARED_CPP__NAMES_HPP_
 
-#include "fastrtps/utils/fixed_size_string.hpp"
-#include "namespace_prefix.hpp"
-#include "rmw/types.h"
-
 #include <string>
+
+#include "fastrtps/utils/fixed_size_string.hpp"
+#include "rmw/types.h"
+#include "namespace_prefix.hpp"
 
 /// Construct a topic name.
 /**
- * \param[in] prefix Required prefix for topic name.
- * \param[in] base Required name of the topic.
- * \param[in] suffix Optional suffix for topic name.
- */
-inline eprosima::fastrtps::string_255 _mangle_topic_name(const char* prefix, const char* base, const char* suffix = nullptr)
+  * \param[in] prefix Required prefix for topic name.
+  * \param[in] base Required name of the topic.
+  * \param[in] suffix Optional suffix for topic name.
+  */
+inline
+eprosima::fastrtps::string_255
+_mangle_topic_name(
+  const char * prefix,
+  const char * base,
+  const char * suffix = nullptr)
 {
-    std::ostringstream topicName;
-    if (prefix)
-    {
-        topicName << prefix;
-    }
-    topicName << base;
-    if (suffix)
-    {
-        topicName << suffix;
-    }
-    return topicName.str();
+  std::ostringstream topicName;
+  if (prefix) {
+    topicName << prefix;
+  }
+  topicName << base;
+  if (suffix) {
+    topicName << suffix;
+  }
+  return topicName.str();
 }
 
 /// Construct a topic name according to proper conventions.
 /**
- * \param[in] qos_profile The QoS profile for the topic.
- * \param[in] prefix Required prefix for topic name.
- * \param[in] base Required name of the topic.
- * \param[in] suffix Optional suffix for topic name.
- */
-inline eprosima::fastrtps::string_255 _create_topic_name(const rmw_qos_profile_t* qos_profile,
-                                                         const char* prefix,
-                                                         const char* base,
-                                                         const char* suffix = nullptr)
+  * \param[in] qos_profile The QoS profile for the topic.
+  * \param[in] prefix Required prefix for topic name.
+  * \param[in] base Required name of the topic.
+  * \param[in] suffix Optional suffix for topic name.
+  */
+inline
+eprosima::fastrtps::string_255
+_create_topic_name(
+  const rmw_qos_profile_t * qos_profile,
+  const char * prefix,
+  const char * base,
+  const char * suffix = nullptr)
 {
-    assert(qos_profile);
-    assert(base);
-    if (qos_profile->avoid_ros_namespace_conventions)
-    {
-        prefix = nullptr;
-    }
-    return _mangle_topic_name(prefix, base, suffix);
+  assert(qos_profile);
+  assert(base);
+  if (qos_profile->avoid_ros_namespace_conventions) {
+    prefix = nullptr;
+  }
+  return _mangle_topic_name(prefix, base, suffix);
 }
 
-#endif    // RMW_FASTRTPS_SHARED_CPP__NAMES_HPP_
+#endif  // RMW_FASTRTPS_SHARED_CPP__NAMES_HPP_

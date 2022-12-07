@@ -5,11 +5,12 @@
 #ifndef RCL_INTERFACES__MSG__DETAIL__PARAMETER_TYPE__BUILDER_HPP_
 #define RCL_INTERFACES__MSG__DETAIL__PARAMETER_TYPE__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "rcl_interfaces/msg/detail/parameter_type__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace rcl_interfaces
 {
@@ -17,17 +18,19 @@ namespace rcl_interfaces
 namespace msg
 {
 
-}    // namespace msg
+
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::rcl_interfaces::msg::ParameterType>()
+inline
+auto build<::rcl_interfaces::msg::ParameterType>()
 {
-    return ::rcl_interfaces::msg::ParameterType(rosidl_runtime_cpp::MessageInitialization::ZERO);
+  return ::rcl_interfaces::msg::ParameterType(rosidl_runtime_cpp::MessageInitialization::ZERO);
 }
 
-}    // namespace rcl_interfaces
+}  // namespace rcl_interfaces
 
-#endif    // RCL_INTERFACES__MSG__DETAIL__PARAMETER_TYPE__BUILDER_HPP_
+#endif  // RCL_INTERFACES__MSG__DETAIL__PARAMETER_TYPE__BUILDER_HPP_

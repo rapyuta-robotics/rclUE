@@ -23,4 +23,4 @@
 
 #include "rosidl_typesupport_c/type_support_map.h"
 
-#endif    // ROSIDL_TYPESUPPORT_CPP__TYPE_SUPPORT_MAP_H_
+#endif  // ROSIDL_TYPESUPPORT_CPP__TYPE_SUPPORT_MAP_H_

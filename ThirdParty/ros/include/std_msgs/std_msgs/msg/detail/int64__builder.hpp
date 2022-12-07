@@ -5,11 +5,12 @@
 #ifndef STD_MSGS__MSG__DETAIL__INT64__BUILDER_HPP_
 #define STD_MSGS__MSG__DETAIL__INT64__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "std_msgs/msg/detail/int64__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "std_msgs/msg/detail/int64__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace std_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_Int64_data
 {
 public:
-    Init_Int64_data() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::std_msgs::msg::Int64 data(::std_msgs::msg::Int64::_data_type arg)
-    {
-        msg_.data = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_Int64_data()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::std_msgs::msg::Int64 data(::std_msgs::msg::Int64::_data_type arg)
+  {
+    msg_.data = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::std_msgs::msg::Int64 msg_;
+  ::std_msgs::msg::Int64 msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::std_msgs::msg::Int64>()
+inline
+auto build<::std_msgs::msg::Int64>()
 {
-    return std_msgs::msg::builder::Init_Int64_data();
+  return std_msgs::msg::builder::Init_Int64_data();
 }
 
-}    // namespace std_msgs
+}  // namespace std_msgs
 
-#endif    // STD_MSGS__MSG__DETAIL__INT64__BUILDER_HPP_
+#endif  // STD_MSGS__MSG__DETAIL__INT64__BUILDER_HPP_

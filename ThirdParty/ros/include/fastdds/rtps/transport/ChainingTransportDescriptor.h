@@ -15,17 +15,14 @@
 #ifndef _FASTDDS_RTPS_TRANSPORT_CHAININGTRANSPORTDESCRIPTOR_H_
 #define _FASTDDS_RTPS_TRANSPORT_CHAININGTRANSPORTDESCRIPTOR_H_
 
-#include "TransportInterface.h"
-
 #include <memory>
 #include <vector>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace rtps
-{
+#include "TransportInterface.h"
+
+namespace eprosima {
+namespace fastdds {
+namespace rtps {
 
 /**
  * Base class for the descriptors of chaining transports. A chaining transport
@@ -39,13 +36,17 @@ namespace rtps
  */
 typedef struct ChainingTransportDescriptor : public TransportDescriptorInterface
 {
-    RTPS_DllAPI ChainingTransportDescriptor(std::shared_ptr<TransportDescriptorInterface> low_level)
-        : TransportDescriptorInterface(low_level->maxMessageSize, low_level->maxInitialPeersRange), low_level_descriptor(low_level)
+    RTPS_DllAPI ChainingTransportDescriptor(
+            std::shared_ptr<TransportDescriptorInterface> low_level)
+        : TransportDescriptorInterface(low_level->maxMessageSize, low_level->maxInitialPeersRange)
+        , low_level_descriptor(low_level)
     {
     }
 
-    RTPS_DllAPI ChainingTransportDescriptor(const ChainingTransportDescriptor& t)
-        : TransportDescriptorInterface(t), low_level_descriptor(t.low_level_descriptor)
+    RTPS_DllAPI ChainingTransportDescriptor(
+            const ChainingTransportDescriptor& t)
+        : TransportDescriptorInterface(t)
+        , low_level_descriptor(t.low_level_descriptor)
     {
     }
 
@@ -67,8 +68,8 @@ typedef struct ChainingTransportDescriptor : public TransportDescriptorInterface
     std::shared_ptr<TransportDescriptorInterface> low_level_descriptor;
 } ChainingTransportDescriptor;
 
-}    // namespace rtps
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace rtps
+} // namespace fastrtps
+} // namespace eprosima
 
-#endif    // _FASTDDS_RTPS_TRANSPORT_CHAININGTRANSPORTDESCRIPTOR_H_
+#endif // _FASTDDS_RTPS_TRANSPORT_CHAININGTRANSPORTDESCRIPTOR_H_

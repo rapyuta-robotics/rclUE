@@ -5,11 +5,12 @@
 #ifndef PCL_MSGS__MSG__DETAIL__MODEL_COEFFICIENTS__BUILDER_HPP_
 #define PCL_MSGS__MSG__DETAIL__MODEL_COEFFICIENTS__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "pcl_msgs/msg/detail/model_coefficients__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace pcl_msgs
 {
@@ -23,48 +24,49 @@ namespace builder
 class Init_ModelCoefficients_values
 {
 public:
-    explicit Init_ModelCoefficients_values(::pcl_msgs::msg::ModelCoefficients& msg) : msg_(msg)
-    {
-    }
-    ::pcl_msgs::msg::ModelCoefficients values(::pcl_msgs::msg::ModelCoefficients::_values_type arg)
-    {
-        msg_.values = std::move(arg);
-        return std::move(msg_);
-    }
+  explicit Init_ModelCoefficients_values(::pcl_msgs::msg::ModelCoefficients & msg)
+  : msg_(msg)
+  {}
+  ::pcl_msgs::msg::ModelCoefficients values(::pcl_msgs::msg::ModelCoefficients::_values_type arg)
+  {
+    msg_.values = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::pcl_msgs::msg::ModelCoefficients msg_;
+  ::pcl_msgs::msg::ModelCoefficients msg_;
 };
 
 class Init_ModelCoefficients_header
 {
 public:
-    Init_ModelCoefficients_header() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    Init_ModelCoefficients_values header(::pcl_msgs::msg::ModelCoefficients::_header_type arg)
-    {
-        msg_.header = std::move(arg);
-        return Init_ModelCoefficients_values(msg_);
-    }
+  Init_ModelCoefficients_header()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_ModelCoefficients_values header(::pcl_msgs::msg::ModelCoefficients::_header_type arg)
+  {
+    msg_.header = std::move(arg);
+    return Init_ModelCoefficients_values(msg_);
+  }
 
 private:
-    ::pcl_msgs::msg::ModelCoefficients msg_;
+  ::pcl_msgs::msg::ModelCoefficients msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::pcl_msgs::msg::ModelCoefficients>()
+inline
+auto build<::pcl_msgs::msg::ModelCoefficients>()
 {
-    return pcl_msgs::msg::builder::Init_ModelCoefficients_header();
+  return pcl_msgs::msg::builder::Init_ModelCoefficients_header();
 }
 
-}    // namespace pcl_msgs
+}  // namespace pcl_msgs
 
-#endif    // PCL_MSGS__MSG__DETAIL__MODEL_COEFFICIENTS__BUILDER_HPP_
+#endif  // PCL_MSGS__MSG__DETAIL__MODEL_COEFFICIENTS__BUILDER_HPP_

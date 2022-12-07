@@ -5,8 +5,8 @@
 #ifndef EXAMPLE_INTERFACES__MSG__EMPTY_H_
 #define EXAMPLE_INTERFACES__MSG__EMPTY_H_
 
-#include "example_interfaces/msg/detail/empty__functions.h"
 #include "example_interfaces/msg/detail/empty__struct.h"
+#include "example_interfaces/msg/detail/empty__functions.h"
 #include "example_interfaces/msg/detail/empty__type_support.h"
 
-#endif    // EXAMPLE_INTERFACES__MSG__EMPTY_H_
+#endif  // EXAMPLE_INTERFACES__MSG__EMPTY_H_

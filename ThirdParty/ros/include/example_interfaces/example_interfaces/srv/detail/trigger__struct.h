@@ -14,23 +14,25 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-    // Constants defined in the message
 
-    /// Struct defined in srv/Trigger in the package example_interfaces.
-    typedef struct example_interfaces__srv__Trigger_Request
-    {
-        uint8_t structure_needs_at_least_one_member;
-    } example_interfaces__srv__Trigger_Request;
+// Constants defined in the message
 
-    // Struct for a sequence of example_interfaces__srv__Trigger_Request.
-    typedef struct example_interfaces__srv__Trigger_Request__Sequence
-    {
-        example_interfaces__srv__Trigger_Request* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } example_interfaces__srv__Trigger_Request__Sequence;
+/// Struct defined in srv/Trigger in the package example_interfaces.
+typedef struct example_interfaces__srv__Trigger_Request
+{
+  uint8_t structure_needs_at_least_one_member;
+} example_interfaces__srv__Trigger_Request;
+
+// Struct for a sequence of example_interfaces__srv__Trigger_Request.
+typedef struct example_interfaces__srv__Trigger_Request__Sequence
+{
+  example_interfaces__srv__Trigger_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} example_interfaces__srv__Trigger_Request__Sequence;
+
 
 // Constants defined in the message
 
@@ -38,27 +40,27 @@ extern "C"
 // Member 'message'
 #include "rosidl_runtime_c/string.h"
 
-    /// Struct defined in srv/Trigger in the package example_interfaces.
-    typedef struct example_interfaces__srv__Trigger_Response
-    {
-        /// indicate successful run of triggered service
-        bool success;
-        /// informational, e.g. for error messages.
-        rosidl_runtime_c__String message;
-    } example_interfaces__srv__Trigger_Response;
+/// Struct defined in srv/Trigger in the package example_interfaces.
+typedef struct example_interfaces__srv__Trigger_Response
+{
+  /// indicate successful run of triggered service
+  bool success;
+  /// informational, e.g. for error messages.
+  rosidl_runtime_c__String message;
+} example_interfaces__srv__Trigger_Response;
 
-    // Struct for a sequence of example_interfaces__srv__Trigger_Response.
-    typedef struct example_interfaces__srv__Trigger_Response__Sequence
-    {
-        example_interfaces__srv__Trigger_Response* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } example_interfaces__srv__Trigger_Response__Sequence;
+// Struct for a sequence of example_interfaces__srv__Trigger_Response.
+typedef struct example_interfaces__srv__Trigger_Response__Sequence
+{
+  example_interfaces__srv__Trigger_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} example_interfaces__srv__Trigger_Response__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // EXAMPLE_INTERFACES__SRV__DETAIL__TRIGGER__STRUCT_H_
+#endif  // EXAMPLE_INTERFACES__SRV__DETAIL__TRIGGER__STRUCT_H_

@@ -23,19 +23,17 @@
 #include <fastdds/rtps/common/InstanceHandle.h>
 #include <fastrtps/fastrtps_dll.h>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 using InstanceHandle_t = eprosima::fastrtps::rtps::InstanceHandle_t;
 
 extern RTPS_DllAPI const InstanceHandle_t HANDLE_NIL;
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_COMMON_INSTANCEHANDLE_HPP_
+#endif // _FASTDDS_DDS_COMMON_INSTANCEHANDLE_HPP_

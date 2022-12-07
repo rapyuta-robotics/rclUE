@@ -5,14 +5,14 @@
 #ifndef PCL_MSGS__MSG__DETAIL__POINT_INDICES__TRAITS_HPP_
 #define PCL_MSGS__MSG__DETAIL__POINT_INDICES__TRAITS_HPP_
 
-#include "pcl_msgs/msg/detail/point_indices__struct.hpp"
-#include "rosidl_runtime_cpp/traits.hpp"
-
 #include <stdint.h>
 
 #include <sstream>
 #include <string>
 #include <type_traits>
+
+#include "pcl_msgs/msg/detail/point_indices__struct.hpp"
+#include "rosidl_runtime_cpp/traits.hpp"
 
 // Include directives for member types
 // Member 'header'
@@ -24,139 +24,127 @@ namespace pcl_msgs
 namespace msg
 {
 
-inline void to_flow_style_yaml(const PointIndices& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const PointIndices & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: header
-    {
-        out << "header: ";
-        to_flow_style_yaml(msg.header, out);
-        out << ", ";
-    }
+  out << "{";
+  // member: header
+  {
+    out << "header: ";
+    to_flow_style_yaml(msg.header, out);
+    out << ", ";
+  }
 
-    // member: indices
-    {
-        if (msg.indices.size() == 0)
-        {
-            out << "indices: []";
+  // member: indices
+  {
+    if (msg.indices.size() == 0) {
+      out << "indices: []";
+    } else {
+      out << "indices: [";
+      size_t pending_items = msg.indices.size();
+      for (auto item : msg.indices) {
+        rosidl_generator_traits::value_to_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
         }
-        else
-        {
-            out << "indices: [";
-            size_t pending_items = msg.indices.size();
-            for (auto item : msg.indices)
-            {
-                rosidl_generator_traits::value_to_yaml(item, out);
-                if (--pending_items > 0)
-                {
-                    out << ", ";
-                }
-            }
-            out << "]";
-        }
+      }
+      out << "]";
     }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const PointIndices& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const PointIndices & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: header
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "header:\n";
-        to_block_style_yaml(msg.header, out, indentation + 2);
+  // member: header
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
+    out << "header:\n";
+    to_block_style_yaml(msg.header, out, indentation + 2);
+  }
 
-    // member: indices
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        if (msg.indices.size() == 0)
-        {
-            out << "indices: []\n";
-        }
-        else
-        {
-            out << "indices:\n";
-            for (auto item : msg.indices)
-            {
-                if (indentation > 0)
-                {
-                    out << std::string(indentation, ' ');
-                }
-                out << "- ";
-                rosidl_generator_traits::value_to_yaml(item, out);
-                out << "\n";
-            }
-        }
+  // member: indices
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-}    // NOLINT(readability/fn_size)
+    if (msg.indices.size() == 0) {
+      out << "indices: []\n";
+    } else {
+      out << "indices:\n";
+      for (auto item : msg.indices) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "- ";
+        rosidl_generator_traits::value_to_yaml(item, out);
+        out << "\n";
+      }
+    }
+  }
+}  // NOLINT(readability/fn_size)
 
-inline std::string to_yaml(const PointIndices& msg, bool use_flow_style = false)
+inline std::string to_yaml(const PointIndices & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace msg
+}  // namespace msg
 
-}    // namespace pcl_msgs
+}  // namespace pcl_msgs
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use pcl_msgs::msg::to_block_style_yaml() instead")]] inline void to_yaml(const pcl_msgs::msg::PointIndices& msg,
-                                                                                       std::ostream& out,
-                                                                                       size_t indentation = 0)
+[[deprecated("use pcl_msgs::msg::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const pcl_msgs::msg::PointIndices & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    pcl_msgs::msg::to_block_style_yaml(msg, out, indentation);
+  pcl_msgs::msg::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use pcl_msgs::msg::to_yaml() instead")]] inline std::string to_yaml(const pcl_msgs::msg::PointIndices& msg)
+[[deprecated("use pcl_msgs::msg::to_yaml() instead")]]
+inline std::string to_yaml(const pcl_msgs::msg::PointIndices & msg)
 {
-    return pcl_msgs::msg::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<pcl_msgs::msg::PointIndices>()
-{
-    return "pcl_msgs::msg::PointIndices";
+  return pcl_msgs::msg::to_yaml(msg);
 }
 
 template<>
-inline const char* name<pcl_msgs::msg::PointIndices>()
+inline const char * data_type<pcl_msgs::msg::PointIndices>()
 {
-    return "pcl_msgs/msg/PointIndices";
+  return "pcl_msgs::msg::PointIndices";
 }
 
 template<>
-struct has_fixed_size<pcl_msgs::msg::PointIndices> : std::integral_constant<bool, false>
+inline const char * name<pcl_msgs::msg::PointIndices>()
 {
-};
+  return "pcl_msgs/msg/PointIndices";
+}
 
 template<>
-struct has_bounded_size<pcl_msgs::msg::PointIndices> : std::integral_constant<bool, false>
-{
-};
+struct has_fixed_size<pcl_msgs::msg::PointIndices>
+  : std::integral_constant<bool, false> {};
 
 template<>
-struct is_message<pcl_msgs::msg::PointIndices> : std::true_type
-{
-};
+struct has_bounded_size<pcl_msgs::msg::PointIndices>
+  : std::integral_constant<bool, false> {};
 
-}    // namespace rosidl_generator_traits
+template<>
+struct is_message<pcl_msgs::msg::PointIndices>
+  : std::true_type {};
 
-#endif    // PCL_MSGS__MSG__DETAIL__POINT_INDICES__TRAITS_HPP_
+}  // namespace rosidl_generator_traits
+
+#endif  // PCL_MSGS__MSG__DETAIL__POINT_INDICES__TRAITS_HPP_

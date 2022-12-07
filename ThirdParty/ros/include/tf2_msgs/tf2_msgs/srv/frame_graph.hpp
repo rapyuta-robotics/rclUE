@@ -4,8 +4,8 @@
 #ifndef TF2_MSGS__SRV__FRAME_GRAPH_HPP_
 #define TF2_MSGS__SRV__FRAME_GRAPH_HPP_
 
-#include "tf2_msgs/srv/detail/frame_graph__builder.hpp"
 #include "tf2_msgs/srv/detail/frame_graph__struct.hpp"
+#include "tf2_msgs/srv/detail/frame_graph__builder.hpp"
 #include "tf2_msgs/srv/detail/frame_graph__traits.hpp"
 
-#endif    // TF2_MSGS__SRV__FRAME_GRAPH_HPP_
+#endif  // TF2_MSGS__SRV__FRAME_GRAPH_HPP_

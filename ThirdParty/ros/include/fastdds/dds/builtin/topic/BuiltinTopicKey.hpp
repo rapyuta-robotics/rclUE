@@ -22,14 +22,10 @@
 
 #include <stdint.h>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
-namespace builtin
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
+namespace builtin {
 
 // following API definition:
 // #define BUILTIN_TOPIC_KEY_TYPE_NATIVE uint32_t
@@ -37,13 +33,13 @@ namespace builtin
 struct BuiltinTopicKey_t
 {
     // BUILTIN_TOPIC_KEY_TYPE_NATIVE = long type
-    //! Value
+    //!Value
     uint32_t value[3];
 };
 
-}    // namespace builtin
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // builtin
+} // dds
+} // fastdds
+} // eprosima
 
-#endif    // FASTDDS_DDS_BUILTIN_TOPIC_BUILTINTOPICKEY_HPP
+#endif // FASTDDS_DDS_BUILTIN_TOPIC_BUILTINTOPICKEY_HPP

@@ -30,11 +30,11 @@ extern "C"
 
 #include <rcutils/error_handling.h>
 
-    /// Struct wrapping a fixed-size c string used for returning the formatted error string.
-    typedef rcutils_error_string_t rmw_error_string_t;
+/// Struct wrapping a fixed-size c string used for returning the formatted error string.
+typedef rcutils_error_string_t rmw_error_string_t;
 
-    /// Struct which encapsulates the error state set by RMW_SET_ERROR_MSG().
-    typedef rcutils_error_state_t rmw_error_state_t;
+/// Struct which encapsulates the error state set by RMW_SET_ERROR_MSG().
+typedef rcutils_error_state_t rmw_error_state_t;
 
 /// Limit the buffer size in the `fwrite` call to give an upper bound to buffer overrun in the case
 /// of non-null terminated `msg`.
@@ -77,7 +77,8 @@ extern "C"
  * \return `RCUTILS_RET_BAD_ALLOC` if allocating memory fails, or
  * \return `RCUTILS_RET_ERROR` if an unspecified error occurs.
  */
-#define rmw_initialize_error_handling_thread_local_storage rcutils_initialize_error_handling_thread_local_storage
+#define rmw_initialize_error_handling_thread_local_storage \
+  rcutils_initialize_error_handling_thread_local_storage
 
 /// Set the error message, as well as the file and line on which it occurred.
 /**
@@ -103,7 +104,8 @@ extern "C"
  * \param[in] argument The argument to test.
  * \param[in] error_return_type The type to return if the argument is `NULL`.
  */
-#define RMW_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type) RCUTILS_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type)
+#define RMW_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type) \
+  RCUTILS_CHECK_ARGUMENT_FOR_NULL(argument, error_return_type)
 
 /// Check a value for null, with an error message and error statement.
 /**
@@ -114,7 +116,8 @@ extern "C"
  * \param[in] msg The error message if `value` is `NULL`.
  * \param[in] error_statement The statement to evaluate if `value` is `NULL`.
  */
-#define RMW_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement) RCUTILS_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement)
+#define RMW_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement) \
+  RCUTILS_CHECK_FOR_NULL_WITH_MSG(value, msg, error_statement)
 
 /// Set the error message, as well as append the current file and line number.
 /**
@@ -138,7 +141,7 @@ extern "C"
  * \param[in] ... Arguments for the format string.
  */
 #define RMW_SET_ERROR_MSG_WITH_FORMAT_STRING(format_string, ...) \
-    RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(format_string, __VA_ARGS__)
+  RCUTILS_SET_ERROR_MSG_WITH_FORMAT_STRING(format_string, __VA_ARGS__)
 
 /// Return `true` if the error is set, otherwise `false`.
 /**
@@ -176,4 +179,4 @@ extern "C"
 }
 #endif
 
-#endif    // RMW__ERROR_HANDLING_H_
+#endif  // RMW__ERROR_HANDLING_H_

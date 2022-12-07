@@ -4,8 +4,8 @@
 #ifndef SENSOR_MSGS__MSG__IMAGE_HPP_
 #define SENSOR_MSGS__MSG__IMAGE_HPP_
 
-#include "sensor_msgs/msg/detail/image__builder.hpp"
 #include "sensor_msgs/msg/detail/image__struct.hpp"
+#include "sensor_msgs/msg/detail/image__builder.hpp"
 #include "sensor_msgs/msg/detail/image__traits.hpp"
 
-#endif    // SENSOR_MSGS__MSG__IMAGE_HPP_
+#endif  // SENSOR_MSGS__MSG__IMAGE_HPP_

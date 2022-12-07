@@ -23,6 +23,8 @@
 #include <fastdds/rtps/common/FragmentNumber.h>
 #include <fastdds/rtps/common/SequenceNumber.h>
 
+#include <cassert>
+
 namespace eprosima {
 namespace fastrtps {
 namespace rtps {
@@ -52,29 +54,9 @@ class ChangeForReader_t
 
 public:
 
-    ChangeForReader_t()
-        : status_(UNSENT)
-        , is_relevant_(true)
-        , change_(nullptr)
-    {
-    }
-
-    ChangeForReader_t(
-            const ChangeForReader_t& ch)
-        : status_(ch.status_)
-        , is_relevant_(ch.is_relevant_)
-        , seq_num_(ch.seq_num_)
-        , change_(ch.change_)
-        , unsent_fragments_(ch.unsent_fragments_)
-    {
-    }
-
-    //TODO(Ricardo) Temporal
-    //ChangeForReader_t(const CacheChange_t* change) : status_(UNSENT),
-    ChangeForReader_t(
+    explicit ChangeForReader_t(
             CacheChange_t* change)
         : status_(UNSENT)
-        , is_relevant_(true)
         , seq_num_(change->sequenceNumber)
         , change_(change)
     {
@@ -85,36 +67,10 @@ public:
         }
     }
 
-    ChangeForReader_t(
-            const SequenceNumber_t& seq_num)
-        : status_(UNSENT)
-        , is_relevant_(true)
-        , seq_num_(seq_num)
-        , change_(nullptr)
-    {
-    }
-
-    ~ChangeForReader_t()
-    {
-    }
-
-    ChangeForReader_t& operator =(
-            const ChangeForReader_t& ch)
-    {
-        status_ = ch.status_;
-        is_relevant_ = ch.is_relevant_;
-        seq_num_ = ch.seq_num_;
-        change_ = ch.change_;
-        unsent_fragments_ = ch.unsent_fragments_;
-        return *this;
-    }
-
     /**
      * Get the cache change
      * @return Cache change
      */
-    // TODO(Ricardo) Temporal
-    //const CacheChange_t* getChange() const
     CacheChange_t* getChange() const
     {
         return change_;
@@ -131,33 +87,19 @@ public:
         return status_;
     }
 
-    void setRelevance(
-            const bool relevance)
-    {
-        is_relevant_ = relevance;
-    }
-
-    bool isRelevant() const
-    {
-        return is_relevant_;
-    }
-
     const SequenceNumber_t getSequenceNumber() const
     {
         return seq_num_;
     }
 
-    //! Set change as not valid
-    void notValid()
+    FragmentNumber_t get_next_unsent_fragment() const
     {
-        is_relevant_ = false;
-        change_ = nullptr;
-    }
+        if (unsent_fragments_.empty())
+        {
+            return change_->getFragmentCount() + 1;
+        }
 
-    //! Set change as valid
-    bool isValid() const
-    {
-        return change_ != nullptr;
+        return unsent_fragments_.min();
     }
 
     FragmentNumberSet_t getUnsentFragments() const
@@ -167,7 +109,9 @@ public:
 
     void markAllFragmentsAsUnsent()
     {
-        if (change_ != nullptr && change_->getFragmentSize() != 0)
+        assert(nullptr != change_);
+
+        if (change_->getFragmentSize() != 0)
         {
             unsent_fragments_.base(1u);
             unsent_fragments_.add_range(1u, change_->getFragmentCount() + 1u);
@@ -179,7 +123,9 @@ public:
     {
         unsent_fragments_.remove(sentFragment);
 
-        if (!unsent_fragments_.empty() && unsent_fragments_.max() < change_->getFragmentCount())
+        // We only use the running window mechanism during the first stage, until all fragments have been delivered
+        // once, and we consider the whole change as delivered.
+        if (!delivered_ && !unsent_fragments_.empty() && (unsent_fragments_.max() < change_->getFragmentCount()))
         {
             FragmentNumber_t base = unsent_fragments_.base();
             FragmentNumber_t max = unsent_fragments_.max();
@@ -197,17 +143,41 @@ public:
     void markFragmentsAsUnsent(
             const FragmentNumberSet_t& unsentFragments)
     {
-        FragmentNumber_t other_base = unsentFragments.base();
-        if (other_base < unsent_fragments_.base())
+        // Ignore NACK_FRAG messages during the first stage, until all fragments have been delivered once, and we
+        // consider the whole change as delivered.
+        if (delivered_)
         {
-            unsent_fragments_.base_update(other_base);
-        }
-        unsentFragments.for_each(
-            [this](
-                FragmentNumber_t element)
+            if (unsent_fragments_.empty())
             {
-                unsent_fragments_.add(element);
-            });
+                // Current window is empty, so we can set it to the received one.
+                unsent_fragments_ = unsentFragments;
+            }
+            else
+            {
+                // Update window to send the lowest possible requested fragments first.
+                FragmentNumber_t other_base = unsentFragments.base();
+                if (other_base < unsent_fragments_.base())
+                {
+                    unsent_fragments_.base_update(other_base);
+                }
+                unsentFragments.for_each(
+                    [this](
+                        FragmentNumber_t element)
+                    {
+                        unsent_fragments_.add(element);
+                    });
+            }
+        }
+    }
+
+    bool has_been_delivered() const
+    {
+        return delivered_;
+    }
+
+    void set_delivered()
+    {
+        delivered_ = true;
     }
 
 private:
@@ -215,17 +185,15 @@ private:
     //!Status
     ChangeForReaderStatus_t status_;
 
-    //!Boolean specifying if this change is relevant
-    bool is_relevant_;
-
     //!Sequence number
     SequenceNumber_t seq_num_;
 
-    // TODO(Ricardo) Temporal
-    //const CacheChange_t* change_;
     CacheChange_t* change_;
 
     FragmentNumberSet_t unsent_fragments_;
+
+    //! Indicates if was delivered at least once.
+    bool delivered_ = false;
 };
 
 struct ChangeForReaderCmp

@@ -33,35 +33,35 @@ extern "C"
 /// @cond Doxygen_Suppress
 // This block either sets RCUTILS_THREAD_LOCAL or RCUTILS_THREAD_LOCAL_PTHREAD.
 #if defined _WIN32 || defined __CYGWIN__
-    // Windows or Cygwin
-#define RCUTILS_THREAD_LOCAL __declspec(thread)
+// Windows or Cygwin
+  #define RCUTILS_THREAD_LOCAL __declspec(thread)
 #elif defined __APPLE__
 // Apple OS's
-#include <TargetConditionals.h>
-#if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
+  #include <TargetConditionals.h>
+  #if TARGET_IPHONE_SIMULATOR || TARGET_OS_IPHONE
 // iOS Simulator or iOS device
-#include <Availability.h>
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
-#if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
+    #include <Availability.h>
+    #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
+      #if __IPHONE_OS_VERSION_MAX_ALLOWED >= 100000
 // iOS >= 10, thread local storage was added in iOS 10
-#define RCUTILS_THREAD_LOCAL _Thread_local
-#else
+        #define RCUTILS_THREAD_LOCAL _Thread_local
+      #else
 // iOS < 10, no thread local storage, so use pthread instead
-#define RCUTILS_THREAD_LOCAL_PTHREAD 1
-#undef RCUTILS_THREAD_LOCAL
-#endif
-#else
-#error "Unknown iOS version"
-#endif
-#elif TARGET_OS_MAC
+        #define RCUTILS_THREAD_LOCAL_PTHREAD 1
+        #undef RCUTILS_THREAD_LOCAL
+      #endif
+    #else
+      #error "Unknown iOS version"
+    #endif
+  #elif TARGET_OS_MAC
 // macOS
-#define RCUTILS_THREAD_LOCAL _Thread_local
-#else
-#error "Unknown Apple platform"
-#endif
+    #define RCUTILS_THREAD_LOCAL _Thread_local
+  #else
+    #error "Unknown Apple platform"
+  #endif
 #else
 // Some other non-Windows, non-cygwin, non-apple OS
-#define RCUTILS_THREAD_LOCAL _Thread_local
+  #define RCUTILS_THREAD_LOCAL _Thread_local
 #endif
 
 #define RCUTILS_STRINGIFY_IMPL(x) #x
@@ -70,9 +70,9 @@ extern "C"
 /// A macro to mark an argument or variable as unused.
 #define RCUTILS_UNUSED(x) (void)(x)
 
-#define RCUTILS_JOIN_IMPL(arg1, arg2) arg1##arg2
+#define RCUTILS_JOIN_IMPL(arg1, arg2) arg1 ## arg2
 #define RCUTILS_JOIN(arg1, arg2) RCUTILS_JOIN_IMPL(arg1, arg2)
-    /// @endcond
+/// @endcond
 
 #if defined _WIN32 || defined __CYGWIN__
 /// Macro to annotate printf-like functions on Linux. Disabled on Windows.
@@ -100,21 +100,21 @@ extern "C"
  * \param[in] first_to_check_index index of the first "optional argument"
  */
 #define RCUTILS_ATTRIBUTE_PRINTF_FORMAT(format_string_index, first_to_check_index) \
-    __attribute__((format(printf, format_string_index, first_to_check_index)))
-#endif    // !defined _WIN32 || defined __CYGWIN__
+  __attribute__ ((format(printf, format_string_index, first_to_check_index)))
+#endif  // !defined _WIN32 || defined __CYGWIN__
 
 /// Macro to declare deprecation in the platform appropriate manner.
 #ifndef _WIN32
-#define RCUTILS_DEPRECATED __attribute__((deprecated))
+# define RCUTILS_DEPRECATED __attribute__((deprecated))
 #else
-#define RCUTILS_DEPRECATED __declspec(deprecated)
+# define RCUTILS_DEPRECATED __declspec(deprecated)
 #endif
 
 /// Macro to declare deprecation in the platform appropriate manner with a message.
 #ifndef _WIN32
-#define RCUTILS_DEPRECATED_WITH_MSG(msg) __attribute__((deprecated(msg)))
+# define RCUTILS_DEPRECATED_WITH_MSG(msg) __attribute__((deprecated(msg)))
 #else
-#define RCUTILS_DEPRECATED_WITH_MSG(msg) __declspec(deprecated(msg))
+# define RCUTILS_DEPRECATED_WITH_MSG(msg) __declspec(deprecated(msg))
 #endif
 
 // Provide the compiler with branch prediction information
@@ -123,24 +123,24 @@ extern "C"
  * \def RCUTILS_LIKELY
  * Instruct the compiler to optimize for the case where the argument equals 1.
  */
-#define RCUTILS_LIKELY(x) __builtin_expect((x), 1)
+# define RCUTILS_LIKELY(x) __builtin_expect((x), 1)
 /**
  * \def RCUTILS_UNLIKELY
  * Instruct the compiler to optimize for the case where the argument equals 0.
  */
-#define RCUTILS_UNLIKELY(x) __builtin_expect((x), 0)
+# define RCUTILS_UNLIKELY(x) __builtin_expect((x), 0)
 #else
 /**
  * \def RCUTILS_LIKELY
  * No op since Windows doesn't support providing branch prediction information.
  */
-#define RCUTILS_LIKELY(x) (x)
+# define RCUTILS_LIKELY(x) (x)
 /**
  * \def RCUTILS_UNLIKELY
  * No op since Windows doesn't support providing branch prediction information.
  */
-#define RCUTILS_UNLIKELY(x) (x)
-#endif    // _WIN32
+# define RCUTILS_UNLIKELY(x) (x)
+#endif  // _WIN32
 
 #if defined RCUTILS_ENABLE_FAULT_INJECTION
 #include "rcutils/testing/fault_injection.h"
@@ -186,7 +186,8 @@ extern "C"
  * \param error_return_value the value returned as a result of an error. It does not need to be
  * a rcutils_ret_t type. It could also be NULL, -1, a string error message, etc
  */
-#define RCUTILS_CAN_RETURN_WITH_ERROR_OF(error_return_value) RCUTILS_FAULT_INJECTION_MAYBE_RETURN_ERROR(error_return_value);
+# define RCUTILS_CAN_RETURN_WITH_ERROR_OF(error_return_value) \
+  RCUTILS_FAULT_INJECTION_MAYBE_RETURN_ERROR(error_return_value);
 
 /**
  * \def RCUTILS_CAN_FAIL_WITH
@@ -202,15 +203,16 @@ extern "C"
  *
  * \param failure_code Code that is representative of the failure case in this function.
  */
-#define RCUTILS_CAN_FAIL_WITH(failure_code) RCUTILS_FAULT_INJECTION_MAYBE_FAIL(failure_code);
+# define RCUTILS_CAN_FAIL_WITH(failure_code) \
+  RCUTILS_FAULT_INJECTION_MAYBE_FAIL(failure_code);
 
 #else
-#define RCUTILS_CAN_RETURN_WITH_ERROR_OF(error_return_value)
-#define RCUTILS_CAN_FAIL_WITH(failure_code)
-#endif    // defined RCUTILS_ENABLE_FAULT_INJECTION
+# define RCUTILS_CAN_RETURN_WITH_ERROR_OF(error_return_value)
+# define RCUTILS_CAN_FAIL_WITH(failure_code)
+#endif  // defined RCUTILS_ENABLE_FAULT_INJECTION
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCUTILS__MACROS_H_
+#endif  // RCUTILS__MACROS_H_

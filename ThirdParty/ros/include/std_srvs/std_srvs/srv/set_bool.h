@@ -5,8 +5,8 @@
 #ifndef STD_SRVS__SRV__SET_BOOL_H_
 #define STD_SRVS__SRV__SET_BOOL_H_
 
-#include "std_srvs/srv/detail/set_bool__functions.h"
 #include "std_srvs/srv/detail/set_bool__struct.h"
+#include "std_srvs/srv/detail/set_bool__functions.h"
 #include "std_srvs/srv/detail/set_bool__type_support.h"
 
-#endif    // STD_SRVS__SRV__SET_BOOL_H_
+#endif  // STD_SRVS__SRV__SET_BOOL_H_

@@ -20,20 +20,17 @@
 #ifndef _FASTDDS_GUARD_CONDITION_HPP_
 #define _FASTDDS_GUARD_CONDITION_HPP_
 
+#include <atomic>
+
+#include <fastdds/dds/core/condition/Condition.hpp>
 #include <fastrtps/fastrtps_dll.h>
 #include <fastrtps/types/TypesBase.h>
 
-#include <atomic>
-#include <fastdds/dds/core/condition/Condition.hpp>
-
 using eprosima::fastrtps::types::ReturnCode_t;
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * @brief The GuardCondition class is a specific Condition whose trigger_value is completely under the control
@@ -47,6 +44,7 @@ namespace dds
 class GuardCondition : public Condition
 {
 public:
+
     RTPS_DllAPI GuardCondition();
 
     RTPS_DllAPI ~GuardCondition();
@@ -58,14 +56,17 @@ public:
      * @param value new value for trigger
      * @return RETURN_OK
      */
-    RTPS_DllAPI ReturnCode_t set_trigger_value(bool value);
+    RTPS_DllAPI ReturnCode_t set_trigger_value(
+            bool value);
 
 private:
+
     std::atomic<bool> trigger_value_;
+
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_GUARD_CONDITION_HPP_
+#endif // _FASTDDS_GUARD_CONDITION_HPP_

@@ -5,8 +5,8 @@
 #ifndef STD_SRVS__SRV__TRIGGER_H_
 #define STD_SRVS__SRV__TRIGGER_H_
 
-#include "std_srvs/srv/detail/trigger__functions.h"
 #include "std_srvs/srv/detail/trigger__struct.h"
+#include "std_srvs/srv/detail/trigger__functions.h"
 #include "std_srvs/srv/detail/trigger__type_support.h"
 
-#endif    // STD_SRVS__SRV__TRIGGER_H_
+#endif  // STD_SRVS__SRV__TRIGGER_H_

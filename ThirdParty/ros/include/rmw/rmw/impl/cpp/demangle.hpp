@@ -18,14 +18,13 @@
 #ifndef _WIN32
 // Includes for abi::__cxa_demangle.
 #include <cxxabi.h>
-
 #include <cstdlib>
 #include <memory>
 #endif
-#include "rmw/impl/config.h"
-
 #include <iostream>
 #include <string>
+
+#include "rmw/impl/config.h"
 
 namespace rmw
 {
@@ -36,24 +35,28 @@ namespace cpp
 
 /// Return the demangle name of the instance of type T.
 template<typename T>
-std::string demangle(const T& instance)
+std::string
+demangle(const T & instance)
 {
-    (void)instance;
+  (void)instance;
 // Cannot do demangling if on Windows or if we want to avoid memory allocation.
 #if !defined(_WIN32) || RMW_AVOID_MEMORY_ALLOCATION
-    int status = 0;
-    std::string mangled_typeid_name = typeid(T).name();
+  int status = 0;
+  std::string mangled_typeid_name = typeid(T).name();
 
-    std::unique_ptr<char, void (*)(void*)> res{abi::__cxa_demangle(mangled_typeid_name.c_str(), NULL, NULL, &status), std::free};
+  std::unique_ptr<char, void (*)(void *)> res {
+    abi::__cxa_demangle(mangled_typeid_name.c_str(), NULL, NULL, &status),
+    std::free
+  };
 
-    return (status == 0) ? res.get() : mangled_typeid_name;
+  return (status == 0) ? res.get() : mangled_typeid_name;
 #else
-    return typeid(T).name();
+  return typeid(T).name();
 #endif
 }
 
-}    // namespace cpp
-}    // namespace impl
-}    // namespace rmw
+}  // namespace cpp
+}  // namespace impl
+}  // namespace rmw
 
-#endif    // RMW__IMPL__CPP__DEMANGLE_HPP_
+#endif  // RMW__IMPL__CPP__DEMANGLE_HPP_

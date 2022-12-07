@@ -3,12 +3,9 @@
 
 #include <cstdint>
 
-namespace eprosima
-{
-namespace fastrtps
-{
-namespace rtps
-{
+namespace eprosima {
+namespace fastrtps {
+namespace rtps {
 
 enum class DeliveryRetCode : uint32_t
 {
@@ -17,8 +14,8 @@ enum class DeliveryRetCode : uint32_t
     EXCEEDED_LIMIT
 };
 
-}    // namespace rtps
-}    // namespace fastrtps
-}    // namespace eprosima
+} // namespace rtps
+} // namespace fastrtps
+} // namespace eprosima
 
-#endif    // _FASTDDS_RTPS_WRITER_DELIVERYRETCODE_HPP_
+#endif // _FASTDDS_RTPS_WRITER_DELIVERYRETCODE_HPP_

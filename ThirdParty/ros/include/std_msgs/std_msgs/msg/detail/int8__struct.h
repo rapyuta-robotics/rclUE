@@ -14,32 +14,33 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
-    // Constants defined in the message
 
-    /// Struct defined in msg/Int8 in the package std_msgs.
-    /**
-     * This was originally provided as an example message.
-     * It is deprecated as of Foxy
-     * It is recommended to create your own semantically meaningful message.
-     * However if you would like to continue using this please use the equivalent in example_msgs.
-     */
-    typedef struct std_msgs__msg__Int8
-    {
-        int8_t data;
-    } std_msgs__msg__Int8;
+// Constants defined in the message
 
-    // Struct for a sequence of std_msgs__msg__Int8.
-    typedef struct std_msgs__msg__Int8__Sequence
-    {
-        std_msgs__msg__Int8* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } std_msgs__msg__Int8__Sequence;
+/// Struct defined in msg/Int8 in the package std_msgs.
+/**
+  * This was originally provided as an example message.
+  * It is deprecated as of Foxy
+  * It is recommended to create your own semantically meaningful message.
+  * However if you would like to continue using this please use the equivalent in example_msgs.
+ */
+typedef struct std_msgs__msg__Int8
+{
+  int8_t data;
+} std_msgs__msg__Int8;
+
+// Struct for a sequence of std_msgs__msg__Int8.
+typedef struct std_msgs__msg__Int8__Sequence
+{
+  std_msgs__msg__Int8 * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} std_msgs__msg__Int8__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // STD_MSGS__MSG__DETAIL__INT8__STRUCT_H_
+#endif  // STD_MSGS__MSG__DETAIL__INT8__STRUCT_H_

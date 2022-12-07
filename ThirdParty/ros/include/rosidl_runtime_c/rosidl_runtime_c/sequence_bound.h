@@ -23,46 +23,46 @@ extern "C"
 {
 #endif
 
-    typedef struct rosidl_runtime_c__Sequence__bound rosidl_runtime_c__Sequence__bound;
+typedef struct rosidl_runtime_c__Sequence__bound rosidl_runtime_c__Sequence__bound;
 
-    typedef const rosidl_runtime_c__Sequence__bound* (
-        *rosidl_runtime_c__bound_handle_function)(const rosidl_runtime_c__Sequence__bound*, const char*);
+typedef const rosidl_runtime_c__Sequence__bound * (* rosidl_runtime_c__bound_handle_function)(
+  const rosidl_runtime_c__Sequence__bound *, const char *);
 
-    struct rosidl_runtime_c__Sequence__bound
-    {
-        /// String identifier for the type_support.
-        const char* typesupport_identifier;
-        /// Pointer to type support handle function
-        const void* data;
-        rosidl_runtime_c__bound_handle_function func;
-    };
+struct rosidl_runtime_c__Sequence__bound
+{
+  /// String identifier for the type_support.
+  const char * typesupport_identifier;
+  /// Pointer to type support handle function
+  const void * data;
+  rosidl_runtime_c__bound_handle_function func;
+};
 
-    /// Get the message bounds handle specific to this identifier.
-    /**
-     * The handle's sequence bound is simply returned or if the parameters are NULL then an assert
-     * will happen.
-     *
-     * \param handle Handle to service type support
-     * \param identifier The identifier to get the handle for
-     * \return The associated sequence bound handle function.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC
-    const rosidl_runtime_c__Sequence__bound* get_sequence_bound_handle(const rosidl_runtime_c__Sequence__bound* handle,
-                                                                       const char* identifier);
+/// Get the message bounds handle specific to this identifier.
+/**
+ * The handle's sequence bound is simply returned or if the parameters are NULL then an assert
+ * will happen.
+ *
+ * \param handle Handle to service type support
+ * \param identifier The identifier to get the handle for
+ * \return The associated sequence bound handle function.
+ */
+ROSIDL_GENERATOR_C_PUBLIC
+const rosidl_runtime_c__Sequence__bound * get_sequence_bound_handle(
+  const rosidl_runtime_c__Sequence__bound * handle, const char * identifier);
 
-    /// Get the message bounds handle function specific to this identifier.
-    /**
-     * If the identifier is the same as this handle function's identifier the handle is simply returned
-     * or if the parameters are NULL then an assert will happen.
-     *
-     * \param handle Handle to service type support
-     * \param identifier The identifier to get the handle function for
-     * \return if the identifier match's the handle's identifier then the handle's function
-     *   is returned.
-     */
-    ROSIDL_GENERATOR_C_PUBLIC
-    const rosidl_runtime_c__Sequence__bound* get_sequence_bound_handle_function(const rosidl_runtime_c__Sequence__bound* handle,
-                                                                                const char* identifier);
+/// Get the message bounds handle function specific to this identifier.
+/**
+ * If the identifier is the same as this handle function's identifier the handle is simply returned
+ * or if the parameters are NULL then an assert will happen.
+ *
+ * \param handle Handle to service type support
+ * \param identifier The identifier to get the handle function for
+ * \return if the identifier match's the handle's identifier then the handle's function
+ *   is returned.
+ */
+ROSIDL_GENERATOR_C_PUBLIC
+const rosidl_runtime_c__Sequence__bound * get_sequence_bound_handle_function(
+  const rosidl_runtime_c__Sequence__bound * handle, const char * identifier);
 
 /// Get the sequence bounds given a provided action and package.
 /*
@@ -72,10 +72,11 @@ extern "C"
  * \return a rosidl_message_bounds_t struct if founded, otherwise NULL.
  */
 #define ROSIDL_GET_SEQUENCE_BOUNDS(PkgName, MsgSubfolder, MsgName) \
-    ROSIDL_BOUNDS_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_c, PkgName, MsgSubfolder, MsgName)()
+  ROSIDL_BOUNDS_INTERFACE__MESSAGE_SYMBOL_NAME( \
+    rosidl_typesupport_c, PkgName, MsgSubfolder, MsgName)()
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // ROSIDL_RUNTIME_C__SEQUENCE_BOUND_H_
+#endif  // ROSIDL_RUNTIME_C__SEQUENCE_BOUND_H_

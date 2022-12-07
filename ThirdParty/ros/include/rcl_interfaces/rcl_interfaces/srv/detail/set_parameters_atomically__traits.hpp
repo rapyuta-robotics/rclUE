@@ -5,14 +5,14 @@
 #ifndef RCL_INTERFACES__SRV__DETAIL__SET_PARAMETERS_ATOMICALLY__TRAITS_HPP_
 #define RCL_INTERFACES__SRV__DETAIL__SET_PARAMETERS_ATOMICALLY__TRAITS_HPP_
 
-#include "rcl_interfaces/srv/detail/set_parameters_atomically__struct.hpp"
-#include "rosidl_runtime_cpp/traits.hpp"
-
 #include <stdint.h>
 
 #include <sstream>
 #include <string>
 #include <type_traits>
+
+#include "rcl_interfaces/srv/detail/set_parameters_atomically__struct.hpp"
+#include "rosidl_runtime_cpp/traits.hpp"
 
 // Include directives for member types
 // Member 'parameters'
@@ -24,122 +24,111 @@ namespace rcl_interfaces
 namespace srv
 {
 
-inline void to_flow_style_yaml(const SetParametersAtomically_Request& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const SetParametersAtomically_Request & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: parameters
-    {
-        if (msg.parameters.size() == 0)
-        {
-            out << "parameters: []";
+  out << "{";
+  // member: parameters
+  {
+    if (msg.parameters.size() == 0) {
+      out << "parameters: []";
+    } else {
+      out << "parameters: [";
+      size_t pending_items = msg.parameters.size();
+      for (auto item : msg.parameters) {
+        to_flow_style_yaml(item, out);
+        if (--pending_items > 0) {
+          out << ", ";
         }
-        else
-        {
-            out << "parameters: [";
-            size_t pending_items = msg.parameters.size();
-            for (auto item : msg.parameters)
-            {
-                to_flow_style_yaml(item, out);
-                if (--pending_items > 0)
-                {
-                    out << ", ";
-                }
-            }
-            out << "]";
-        }
+      }
+      out << "]";
     }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const SetParametersAtomically_Request& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const SetParametersAtomically_Request & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: parameters
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        if (msg.parameters.size() == 0)
-        {
-            out << "parameters: []\n";
-        }
-        else
-        {
-            out << "parameters:\n";
-            for (auto item : msg.parameters)
-            {
-                if (indentation > 0)
-                {
-                    out << std::string(indentation, ' ');
-                }
-                out << "-\n";
-                to_block_style_yaml(item, out, indentation + 2);
-            }
-        }
+  // member: parameters
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-}    // NOLINT(readability/fn_size)
+    if (msg.parameters.size() == 0) {
+      out << "parameters: []\n";
+    } else {
+      out << "parameters:\n";
+      for (auto item : msg.parameters) {
+        if (indentation > 0) {
+          out << std::string(indentation, ' ');
+        }
+        out << "-\n";
+        to_block_style_yaml(item, out, indentation + 2);
+      }
+    }
+  }
+}  // NOLINT(readability/fn_size)
 
-inline std::string to_yaml(const SetParametersAtomically_Request& msg, bool use_flow_style = false)
+inline std::string to_yaml(const SetParametersAtomically_Request & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace srv
+}  // namespace srv
 
-}    // namespace rcl_interfaces
+}  // namespace rcl_interfaces
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use rcl_interfaces::srv::to_block_style_yaml() instead")]] inline void
-to_yaml(const rcl_interfaces::srv::SetParametersAtomically_Request& msg, std::ostream& out, size_t indentation = 0)
+[[deprecated("use rcl_interfaces::srv::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const rcl_interfaces::srv::SetParametersAtomically_Request & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    rcl_interfaces::srv::to_block_style_yaml(msg, out, indentation);
+  rcl_interfaces::srv::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use rcl_interfaces::srv::to_yaml() instead")]] inline std::string to_yaml(
-    const rcl_interfaces::srv::SetParametersAtomically_Request& msg)
+[[deprecated("use rcl_interfaces::srv::to_yaml() instead")]]
+inline std::string to_yaml(const rcl_interfaces::srv::SetParametersAtomically_Request & msg)
 {
-    return rcl_interfaces::srv::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<rcl_interfaces::srv::SetParametersAtomically_Request>()
-{
-    return "rcl_interfaces::srv::SetParametersAtomically_Request";
+  return rcl_interfaces::srv::to_yaml(msg);
 }
 
 template<>
-inline const char* name<rcl_interfaces::srv::SetParametersAtomically_Request>()
+inline const char * data_type<rcl_interfaces::srv::SetParametersAtomically_Request>()
 {
-    return "rcl_interfaces/srv/SetParametersAtomically_Request";
+  return "rcl_interfaces::srv::SetParametersAtomically_Request";
 }
 
 template<>
-struct has_fixed_size<rcl_interfaces::srv::SetParametersAtomically_Request> : std::integral_constant<bool, false>
+inline const char * name<rcl_interfaces::srv::SetParametersAtomically_Request>()
 {
-};
+  return "rcl_interfaces/srv/SetParametersAtomically_Request";
+}
 
 template<>
-struct has_bounded_size<rcl_interfaces::srv::SetParametersAtomically_Request> : std::integral_constant<bool, false>
-{
-};
+struct has_fixed_size<rcl_interfaces::srv::SetParametersAtomically_Request>
+  : std::integral_constant<bool, false> {};
 
 template<>
-struct is_message<rcl_interfaces::srv::SetParametersAtomically_Request> : std::true_type
-{
-};
+struct has_bounded_size<rcl_interfaces::srv::SetParametersAtomically_Request>
+  : std::integral_constant<bool, false> {};
 
-}    // namespace rosidl_generator_traits
+template<>
+struct is_message<rcl_interfaces::srv::SetParametersAtomically_Request>
+  : std::true_type {};
+
+}  // namespace rosidl_generator_traits
 
 // Include directives for member types
 // Member 'result'
@@ -151,140 +140,144 @@ namespace rcl_interfaces
 namespace srv
 {
 
-inline void to_flow_style_yaml(const SetParametersAtomically_Response& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const SetParametersAtomically_Response & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: result
-    {
-        out << "result: ";
-        to_flow_style_yaml(msg.result, out);
-    }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  out << "{";
+  // member: result
+  {
+    out << "result: ";
+    to_flow_style_yaml(msg.result, out);
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const SetParametersAtomically_Response& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const SetParametersAtomically_Response & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: result
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "result:\n";
-        to_block_style_yaml(msg.result, out, indentation + 2);
+  // member: result
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-}    // NOLINT(readability/fn_size)
+    out << "result:\n";
+    to_block_style_yaml(msg.result, out, indentation + 2);
+  }
+}  // NOLINT(readability/fn_size)
 
-inline std::string to_yaml(const SetParametersAtomically_Response& msg, bool use_flow_style = false)
+inline std::string to_yaml(const SetParametersAtomically_Response & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace srv
+}  // namespace srv
 
-}    // namespace rcl_interfaces
+}  // namespace rcl_interfaces
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use rcl_interfaces::srv::to_block_style_yaml() instead")]] inline void
-to_yaml(const rcl_interfaces::srv::SetParametersAtomically_Response& msg, std::ostream& out, size_t indentation = 0)
+[[deprecated("use rcl_interfaces::srv::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const rcl_interfaces::srv::SetParametersAtomically_Response & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    rcl_interfaces::srv::to_block_style_yaml(msg, out, indentation);
+  rcl_interfaces::srv::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use rcl_interfaces::srv::to_yaml() instead")]] inline std::string to_yaml(
-    const rcl_interfaces::srv::SetParametersAtomically_Response& msg)
+[[deprecated("use rcl_interfaces::srv::to_yaml() instead")]]
+inline std::string to_yaml(const rcl_interfaces::srv::SetParametersAtomically_Response & msg)
 {
-    return rcl_interfaces::srv::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<rcl_interfaces::srv::SetParametersAtomically_Response>()
-{
-    return "rcl_interfaces::srv::SetParametersAtomically_Response";
+  return rcl_interfaces::srv::to_yaml(msg);
 }
 
 template<>
-inline const char* name<rcl_interfaces::srv::SetParametersAtomically_Response>()
+inline const char * data_type<rcl_interfaces::srv::SetParametersAtomically_Response>()
 {
-    return "rcl_interfaces/srv/SetParametersAtomically_Response";
+  return "rcl_interfaces::srv::SetParametersAtomically_Response";
+}
+
+template<>
+inline const char * name<rcl_interfaces::srv::SetParametersAtomically_Response>()
+{
+  return "rcl_interfaces/srv/SetParametersAtomically_Response";
 }
 
 template<>
 struct has_fixed_size<rcl_interfaces::srv::SetParametersAtomically_Response>
-    : std::integral_constant<bool, has_fixed_size<rcl_interfaces::msg::SetParametersResult>::value>
-{
-};
+  : std::integral_constant<bool, has_fixed_size<rcl_interfaces::msg::SetParametersResult>::value> {};
 
 template<>
 struct has_bounded_size<rcl_interfaces::srv::SetParametersAtomically_Response>
-    : std::integral_constant<bool, has_bounded_size<rcl_interfaces::msg::SetParametersResult>::value>
-{
-};
+  : std::integral_constant<bool, has_bounded_size<rcl_interfaces::msg::SetParametersResult>::value> {};
 
 template<>
-struct is_message<rcl_interfaces::srv::SetParametersAtomically_Response> : std::true_type
-{
-};
+struct is_message<rcl_interfaces::srv::SetParametersAtomically_Response>
+  : std::true_type {};
 
-}    // namespace rosidl_generator_traits
+}  // namespace rosidl_generator_traits
 
 namespace rosidl_generator_traits
 {
 
 template<>
-inline const char* data_type<rcl_interfaces::srv::SetParametersAtomically>()
+inline const char * data_type<rcl_interfaces::srv::SetParametersAtomically>()
 {
-    return "rcl_interfaces::srv::SetParametersAtomically";
+  return "rcl_interfaces::srv::SetParametersAtomically";
 }
 
 template<>
-inline const char* name<rcl_interfaces::srv::SetParametersAtomically>()
+inline const char * name<rcl_interfaces::srv::SetParametersAtomically>()
 {
-    return "rcl_interfaces/srv/SetParametersAtomically";
+  return "rcl_interfaces/srv/SetParametersAtomically";
 }
 
 template<>
 struct has_fixed_size<rcl_interfaces::srv::SetParametersAtomically>
-    : std::integral_constant<bool,
-                             has_fixed_size<rcl_interfaces::srv::SetParametersAtomically_Request>::value &&
-                                 has_fixed_size<rcl_interfaces::srv::SetParametersAtomically_Response>::value>
+  : std::integral_constant<
+    bool,
+    has_fixed_size<rcl_interfaces::srv::SetParametersAtomically_Request>::value &&
+    has_fixed_size<rcl_interfaces::srv::SetParametersAtomically_Response>::value
+  >
 {
 };
 
 template<>
 struct has_bounded_size<rcl_interfaces::srv::SetParametersAtomically>
-    : std::integral_constant<bool,
-                             has_bounded_size<rcl_interfaces::srv::SetParametersAtomically_Request>::value &&
-                                 has_bounded_size<rcl_interfaces::srv::SetParametersAtomically_Response>::value>
+  : std::integral_constant<
+    bool,
+    has_bounded_size<rcl_interfaces::srv::SetParametersAtomically_Request>::value &&
+    has_bounded_size<rcl_interfaces::srv::SetParametersAtomically_Response>::value
+  >
 {
 };
 
 template<>
-struct is_service<rcl_interfaces::srv::SetParametersAtomically> : std::true_type
+struct is_service<rcl_interfaces::srv::SetParametersAtomically>
+  : std::true_type
 {
 };
 
 template<>
-struct is_service_request<rcl_interfaces::srv::SetParametersAtomically_Request> : std::true_type
+struct is_service_request<rcl_interfaces::srv::SetParametersAtomically_Request>
+  : std::true_type
 {
 };
 
 template<>
-struct is_service_response<rcl_interfaces::srv::SetParametersAtomically_Response> : std::true_type
+struct is_service_response<rcl_interfaces::srv::SetParametersAtomically_Response>
+  : std::true_type
 {
 };
 
-}    // namespace rosidl_generator_traits
+}  // namespace rosidl_generator_traits
 
-#endif    // RCL_INTERFACES__SRV__DETAIL__SET_PARAMETERS_ATOMICALLY__TRAITS_HPP_
+#endif  // RCL_INTERFACES__SRV__DETAIL__SET_PARAMETERS_ATOMICALLY__TRAITS_HPP_

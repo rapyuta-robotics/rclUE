@@ -5,8 +5,8 @@
 #ifndef EXAMPLE_INTERFACES__SRV__SET_BOOL_H_
 #define EXAMPLE_INTERFACES__SRV__SET_BOOL_H_
 
-#include "example_interfaces/srv/detail/set_bool__functions.h"
 #include "example_interfaces/srv/detail/set_bool__struct.h"
+#include "example_interfaces/srv/detail/set_bool__functions.h"
 #include "example_interfaces/srv/detail/set_bool__type_support.h"
 
-#endif    // EXAMPLE_INTERFACES__SRV__SET_BOOL_H_
+#endif  // EXAMPLE_INTERFACES__SRV__SET_BOOL_H_

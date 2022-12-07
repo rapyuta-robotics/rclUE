@@ -5,11 +5,12 @@
 #ifndef SENSOR_MSGS__MSG__DETAIL__ILLUMINANCE__BUILDER_HPP_
 #define SENSOR_MSGS__MSG__DETAIL__ILLUMINANCE__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "sensor_msgs/msg/detail/illuminance__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "sensor_msgs/msg/detail/illuminance__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace sensor_msgs
 {
@@ -23,64 +24,65 @@ namespace builder
 class Init_Illuminance_variance
 {
 public:
-    explicit Init_Illuminance_variance(::sensor_msgs::msg::Illuminance& msg) : msg_(msg)
-    {
-    }
-    ::sensor_msgs::msg::Illuminance variance(::sensor_msgs::msg::Illuminance::_variance_type arg)
-    {
-        msg_.variance = std::move(arg);
-        return std::move(msg_);
-    }
+  explicit Init_Illuminance_variance(::sensor_msgs::msg::Illuminance & msg)
+  : msg_(msg)
+  {}
+  ::sensor_msgs::msg::Illuminance variance(::sensor_msgs::msg::Illuminance::_variance_type arg)
+  {
+    msg_.variance = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::sensor_msgs::msg::Illuminance msg_;
+  ::sensor_msgs::msg::Illuminance msg_;
 };
 
 class Init_Illuminance_illuminance
 {
 public:
-    explicit Init_Illuminance_illuminance(::sensor_msgs::msg::Illuminance& msg) : msg_(msg)
-    {
-    }
-    Init_Illuminance_variance illuminance(::sensor_msgs::msg::Illuminance::_illuminance_type arg)
-    {
-        msg_.illuminance = std::move(arg);
-        return Init_Illuminance_variance(msg_);
-    }
+  explicit Init_Illuminance_illuminance(::sensor_msgs::msg::Illuminance & msg)
+  : msg_(msg)
+  {}
+  Init_Illuminance_variance illuminance(::sensor_msgs::msg::Illuminance::_illuminance_type arg)
+  {
+    msg_.illuminance = std::move(arg);
+    return Init_Illuminance_variance(msg_);
+  }
 
 private:
-    ::sensor_msgs::msg::Illuminance msg_;
+  ::sensor_msgs::msg::Illuminance msg_;
 };
 
 class Init_Illuminance_header
 {
 public:
-    Init_Illuminance_header() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    Init_Illuminance_illuminance header(::sensor_msgs::msg::Illuminance::_header_type arg)
-    {
-        msg_.header = std::move(arg);
-        return Init_Illuminance_illuminance(msg_);
-    }
+  Init_Illuminance_header()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_Illuminance_illuminance header(::sensor_msgs::msg::Illuminance::_header_type arg)
+  {
+    msg_.header = std::move(arg);
+    return Init_Illuminance_illuminance(msg_);
+  }
 
 private:
-    ::sensor_msgs::msg::Illuminance msg_;
+  ::sensor_msgs::msg::Illuminance msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::sensor_msgs::msg::Illuminance>()
+inline
+auto build<::sensor_msgs::msg::Illuminance>()
 {
-    return sensor_msgs::msg::builder::Init_Illuminance_header();
+  return sensor_msgs::msg::builder::Init_Illuminance_header();
 }
 
-}    // namespace sensor_msgs
+}  // namespace sensor_msgs
 
-#endif    // SENSOR_MSGS__MSG__DETAIL__ILLUMINANCE__BUILDER_HPP_
+#endif  // SENSOR_MSGS__MSG__DETAIL__ILLUMINANCE__BUILDER_HPP_

@@ -5,11 +5,12 @@
 #ifndef SENSOR_MSGS__MSG__DETAIL__JOY_FEEDBACK_ARRAY__BUILDER_HPP_
 #define SENSOR_MSGS__MSG__DETAIL__JOY_FEEDBACK_ARRAY__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "sensor_msgs/msg/detail/joy_feedback_array__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "sensor_msgs/msg/detail/joy_feedback_array__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace sensor_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_JoyFeedbackArray_array
 {
 public:
-    Init_JoyFeedbackArray_array() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::sensor_msgs::msg::JoyFeedbackArray array(::sensor_msgs::msg::JoyFeedbackArray::_array_type arg)
-    {
-        msg_.array = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_JoyFeedbackArray_array()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::sensor_msgs::msg::JoyFeedbackArray array(::sensor_msgs::msg::JoyFeedbackArray::_array_type arg)
+  {
+    msg_.array = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::sensor_msgs::msg::JoyFeedbackArray msg_;
+  ::sensor_msgs::msg::JoyFeedbackArray msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::sensor_msgs::msg::JoyFeedbackArray>()
+inline
+auto build<::sensor_msgs::msg::JoyFeedbackArray>()
 {
-    return sensor_msgs::msg::builder::Init_JoyFeedbackArray_array();
+  return sensor_msgs::msg::builder::Init_JoyFeedbackArray_array();
 }
 
-}    // namespace sensor_msgs
+}  // namespace sensor_msgs
 
-#endif    // SENSOR_MSGS__MSG__DETAIL__JOY_FEEDBACK_ARRAY__BUILDER_HPP_
+#endif  // SENSOR_MSGS__MSG__DETAIL__JOY_FEEDBACK_ARRAY__BUILDER_HPP_

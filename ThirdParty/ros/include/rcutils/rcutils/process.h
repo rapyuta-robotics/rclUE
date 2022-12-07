@@ -26,36 +26,36 @@ extern "C"
 #include "rcutils/macros.h"
 #include "rcutils/visibility_control.h"
 
-    /// Retrieve the current process ID.
-    /**
-     * This function returns the current process ID, and is always successful.
-     *
-     * This function is thread-safe.
-     *
-     * \return The current process ID.
-     */
-    RCUTILS_PUBLIC
-    RCUTILS_WARN_UNUSED
-    int rcutils_get_pid(void);
+/// Retrieve the current process ID.
+/**
+ * This function returns the current process ID, and is always successful.
+ *
+ * This function is thread-safe.
+ *
+ * \return The current process ID.
+ */
+RCUTILS_PUBLIC
+RCUTILS_WARN_UNUSED
+int rcutils_get_pid(void);
 
-    /// Retrieve the current executable name.
-    /**
-     * This function portably retrieves the current program name and returns
-     * a copy of it.
-     * It is up to the caller to free the memory.
-     *
-     * This function is thread-safe.
-     *
-     * \param[in] allocator the allocator to use
-     * \return The program name on success, or
-     * \return NULL on failure.
-     */
-    RCUTILS_PUBLIC
-    RCUTILS_WARN_UNUSED
-    char* rcutils_get_executable_name(rcutils_allocator_t allocator);
+/// Retrieve the current executable name.
+/**
+ * This function portably retrieves the current program name and returns
+ * a copy of it.
+ * It is up to the caller to free the memory.
+ *
+ * This function is thread-safe.
+ *
+ * \param[in] allocator the allocator to use
+ * \return The program name on success, or
+ * \return NULL on failure.
+ */
+RCUTILS_PUBLIC
+RCUTILS_WARN_UNUSED
+char * rcutils_get_executable_name(rcutils_allocator_t allocator);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCUTILS__PROCESS_H_
+#endif  // RCUTILS__PROCESS_H_

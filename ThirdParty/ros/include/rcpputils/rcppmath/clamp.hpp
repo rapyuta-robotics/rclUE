@@ -37,10 +37,10 @@ namespace rcppmath
  *  a dangling reference if that parameter is returned.
  */
 template<class T>
-constexpr const T& clamp(const T& v, const T& lo, const T& hi)
+constexpr const T & clamp(const T & v, const T & lo, const T & hi)
 {
-    assert(!(hi < lo));
-    return (v < lo) ? lo : (hi < v) ? hi : v;
+  assert(!(hi < lo) );
+  return (v < lo) ? lo : (hi < v) ? hi : v;
 }
 
 /**
@@ -58,12 +58,12 @@ constexpr const T& clamp(const T& v, const T& lo, const T& hi)
  * \sa rcppmath::clamp(const T&, const T&, const T&)
  */
 template<class T, class Compare>
-constexpr const T& clamp(const T& v, const T& lo, const T& hi, Compare comp)
+constexpr const T & clamp(const T & v, const T & lo, const T & hi, Compare comp)
 {
-    assert(!comp(hi, lo));
-    return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
+  assert(!comp(hi, lo) );
+  return comp(v, lo) ? lo : comp(hi, v) ? hi : v;
 }
 
-}    // namespace rcppmath
+}  // namespace rcppmath
 
-#endif    // RCPPMATH__CLAMP_HPP_
+#endif  // RCPPMATH__CLAMP_HPP_

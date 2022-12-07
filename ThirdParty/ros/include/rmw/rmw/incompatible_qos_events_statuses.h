@@ -17,4 +17,4 @@
 
 #include "rmw/events_statuses/incompatible_qos.h"
 
-#endif    // RMW__INCOMPATIBLE_QOS_EVENTS_STATUSES_H_
+#endif  // RMW__INCOMPATIBLE_QOS_EVENTS_STATUSES_H_

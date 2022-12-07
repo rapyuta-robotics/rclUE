@@ -4,8 +4,8 @@
 #ifndef EXAMPLE_INTERFACES__ACTION__FIBONACCI_HPP_
 #define EXAMPLE_INTERFACES__ACTION__FIBONACCI_HPP_
 
-#include "example_interfaces/action/detail/fibonacci__builder.hpp"
 #include "example_interfaces/action/detail/fibonacci__struct.hpp"
+#include "example_interfaces/action/detail/fibonacci__builder.hpp"
 #include "example_interfaces/action/detail/fibonacci__traits.hpp"
 
-#endif    // EXAMPLE_INTERFACES__ACTION__FIBONACCI_HPP_
+#endif  // EXAMPLE_INTERFACES__ACTION__FIBONACCI_HPP_

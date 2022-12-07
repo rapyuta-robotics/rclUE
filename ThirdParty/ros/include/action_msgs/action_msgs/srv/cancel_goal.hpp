@@ -4,8 +4,8 @@
 #ifndef ACTION_MSGS__SRV__CANCEL_GOAL_HPP_
 #define ACTION_MSGS__SRV__CANCEL_GOAL_HPP_
 
-#include "action_msgs/srv/detail/cancel_goal__builder.hpp"
 #include "action_msgs/srv/detail/cancel_goal__struct.hpp"
+#include "action_msgs/srv/detail/cancel_goal__builder.hpp"
 #include "action_msgs/srv/detail/cancel_goal__traits.hpp"
 
-#endif    // ACTION_MSGS__SRV__CANCEL_GOAL_HPP_
+#endif  // ACTION_MSGS__SRV__CANCEL_GOAL_HPP_

@@ -4,8 +4,8 @@
 #ifndef STD_MSGS__MSG__STRING_HPP_
 #define STD_MSGS__MSG__STRING_HPP_
 
-#include "std_msgs/msg/detail/string__builder.hpp"
 #include "std_msgs/msg/detail/string__struct.hpp"
+#include "std_msgs/msg/detail/string__builder.hpp"
 #include "std_msgs/msg/detail/string__traits.hpp"
 
-#endif    // STD_MSGS__MSG__STRING_HPP_
+#endif  // STD_MSGS__MSG__STRING_HPP_

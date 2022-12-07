@@ -50,7 +50,7 @@ public:
      * @param type TopicDataType.
      * @param qos ReaderQoS policy.
      * @param payloadMax Maximum payload size per change.
-     * @param mempolicy Set wether the payloads ccan dynamically resized or not.
+     * @param mempolicy Set whether the payloads ccan dynamically resized or not.
      */
     SubscriberHistory(
             const TopicAttributes& topic_att,
@@ -59,7 +59,38 @@ public:
             uint32_t payloadMax,
             rtps::MemoryManagementPolicy_t mempolicy);
 
-    virtual ~SubscriberHistory();
+    ~SubscriberHistory() override;
+
+    /**
+     * Remove a specific change from the history.
+     * No Thread Safe
+     * @param removal iterator to the CacheChange_t to remove.
+     * @param release defaults to true and hints if the CacheChange_t should return to the pool
+     * @return iterator to the next CacheChange_t or end iterator.
+     */
+    iterator remove_change_nts(
+            const_iterator removal,
+            bool release = true) override;
+
+    /**
+     * Check if a new change can be added to this history.
+     *
+     * @param [in]  writer_guid                    GUID of the writer where the change came from.
+     * @param [in]  total_payload_size             Total payload size of the incoming change.
+     * @param [in]  unknown_missing_changes_up_to  The number of changes from the same writer with a lower sequence
+     *                                             number that could potentially be received in the future.
+     * @param [out] will_never_be_accepted         When the method returns @c false, this parameter will inform
+     *                                             whether the change could be accepted in the future or not.
+     *
+     * @pre change should not be present in the history
+     *
+     * @return Whether a call to received_change will succeed when called with the same arguments.
+     */
+    bool can_change_be_added_nts(
+            const rtps::GUID_t& writer_guid,
+            uint32_t total_payload_size,
+            size_t unknown_missing_changes_up_to,
+            bool& will_never_be_accepted) const override;
 
     /**
      * Called when a change is received by the Subscriber. Will add the change to the history.
@@ -70,7 +101,16 @@ public:
      */
     bool received_change(
             rtps::CacheChange_t* change,
-            size_t unknown_missing_changes_up_to);
+            size_t unknown_missing_changes_up_to) override;
+
+    /**
+     * Called when a fragmented change is received completely by the Subscriber. Will find its instance and store it.
+     * @pre Change should be already present in the history.
+     * @param[in] change The received change
+     * @return
+     */
+    bool completed_change(
+            rtps::CacheChange_t* change) override;
 
     /** @name Read or take data methods.
      * Methods to read or take data from the History.
@@ -106,6 +146,16 @@ public:
      */
     bool remove_change_sub(
             rtps::CacheChange_t* change);
+
+    /**
+     * This method is called to remove a change from the SubscriberHistory.
+     * @param [in]     change Pointer to the CacheChange_t.
+     * @param [in,out] it     Iterator pointing to change on input. Will point to next valid change on output.
+     * @return True if removed.
+     */
+    bool remove_change_sub(
+            rtps::CacheChange_t* change,
+            iterator& it);
 
     /**
      * @brief A method to set the next deadline for the given instance
@@ -152,15 +202,18 @@ private:
     /// Function processing a received change
     std::function<bool(rtps::CacheChange_t*, size_t)> receive_fn_;
 
+    /// Function processing a completed fragmented change
+    std::function<bool(rtps::CacheChange_t*)> complete_fn_;
+
     /**
      * @brief Method that finds a key in m_keyedChanges or tries to add it if not found
      * @param a_change The change to get the key from
-     * @param map_it A map iterator to the given key
+     * @param[out] map_it A map iterator to the given key
      * @return True if it was found or could be added to the map
      */
     bool find_key(
             rtps::CacheChange_t* a_change,
-            t_m_Inst_Caches::iterator* map_it);
+            t_m_Inst_Caches::iterator& map_it);
 
     /**
      * @brief Method that finds a key in m_keyedChanges or tries to add it if not found
@@ -195,6 +248,12 @@ private:
     bool received_change_keep_last_with_key(
             rtps::CacheChange_t* change,
             size_t unknown_missing_changes_up_to);
+
+    bool completed_change_keep_all_with_key(
+            rtps::CacheChange_t* change);
+
+    bool completed_change_keep_last_with_key(
+            rtps::CacheChange_t* change);
     ///@}
 
     bool add_received_change(
@@ -214,6 +273,6 @@ private:
 } // namespace fastrtps
 } // namespace eprosima
 
-#endif
+#endif // ifndef DOXYGEN_SHOULD_SKIP_THIS_PUBLIC
 
 #endif /* SUBSCRIBERHISTORY_H_ */

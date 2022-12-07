@@ -21,23 +21,25 @@ extern "C"
 #endif
 
 #include "rcutils/types.h"
+
 #include "rmw/macros.h"
 #include "rmw/types.h"
 #include "rmw/visibility_control.h"
 
-    /// Check that a string_array struct is zero initialized
-    /**
-     * This sets error message and returns error code if array is not zero initialized
-     *
-     * \param[in] array The string array to check
-     * \return RMW_RET_OK if array is zero initialized, otherwise RMW_RET_ERROR
-     */
-    RMW_PUBLIC
-    RMW_WARN_UNUSED
-    rmw_ret_t rmw_check_zero_rmw_string_array(rcutils_string_array_t* array);
+/// Check that a string_array struct is zero initialized
+/**
+ * This sets error message and returns error code if array is not zero initialized
+ *
+ * \param[in] array The string array to check
+ * \return RMW_RET_OK if array is zero initialized, otherwise RMW_RET_ERROR
+ */
+RMW_PUBLIC
+RMW_WARN_UNUSED
+rmw_ret_t
+rmw_check_zero_rmw_string_array(rcutils_string_array_t * array);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__SANITY_CHECKS_H_
+#endif  // RMW__SANITY_CHECKS_H_

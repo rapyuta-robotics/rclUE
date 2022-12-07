@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__SRV__SET_PARAMETERS_ATOMICALLY_H_
 #define RCL_INTERFACES__SRV__SET_PARAMETERS_ATOMICALLY_H_
 
-#include "rcl_interfaces/srv/detail/set_parameters_atomically__functions.h"
 #include "rcl_interfaces/srv/detail/set_parameters_atomically__struct.h"
+#include "rcl_interfaces/srv/detail/set_parameters_atomically__functions.h"
 #include "rcl_interfaces/srv/detail/set_parameters_atomically__type_support.h"
 
-#endif    // RCL_INTERFACES__SRV__SET_PARAMETERS_ATOMICALLY_H_
+#endif  // RCL_INTERFACES__SRV__SET_PARAMETERS_ATOMICALLY_H_

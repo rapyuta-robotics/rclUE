@@ -25,21 +25,25 @@ namespace rtps {
  * Interface against which to implement a data receiver, decoupled from transport internals.
  * @ingroup TRANSPORT_MODULE
  * */
-class TransportReceiverInterface
+class RTPS_DllAPI TransportReceiverInterface
 {
 public:
 
+    //! Destructor
     virtual ~TransportReceiverInterface() = default;
 
     /**
      * Method to be called by the transport when receiving data.
      * @param data Pointer to the received data.
      * @param size Number of bytes received.
-     * @param localLocator Locator identifying the local endpoint.
+     * @param local_locator Locator identifying the local endpoint.
      * @param remote_locator Locator identifying the remote endpoint.
      */
-    virtual void OnDataReceived(const fastrtps::rtps::octet* data, const uint32_t size,
-        const fastrtps::rtps::Locator_t& localLocator, const fastrtps::rtps::Locator_t& remote_locator) = 0;
+    virtual void OnDataReceived(
+            const fastrtps::rtps::octet* data,
+            const uint32_t size,
+            const Locator& local_locator,
+            const Locator& remote_locator) = 0;
 };
 
 } // namespace rtps

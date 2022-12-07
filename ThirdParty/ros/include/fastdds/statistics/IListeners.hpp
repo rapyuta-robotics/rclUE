@@ -22,12 +22,9 @@
 
 #include <cstdint>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace statistics
-{
+namespace eprosima {
+namespace fastdds {
+namespace statistics {
 
 class Data;
 enum EventKind : uint32_t;
@@ -36,11 +33,12 @@ struct IListener
 {
     virtual ~IListener() = default;
 
-    virtual void on_statistics_data(const Data& statistics_data) = 0;
+    virtual void on_statistics_data(
+            const Data& statistics_data) = 0;
 };
 
-}    // namespace statistics
-}    // namespace fastdds
-}    // namespace eprosima
+} // statistics
+} // fastdds
+} // eprosima
 
-#endif    // _FASTDDS_STATISTICS_ILISTENERS_HPP_
+#endif // _FASTDDS_STATISTICS_ILISTENERS_HPP_

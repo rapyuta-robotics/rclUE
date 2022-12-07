@@ -5,8 +5,8 @@
 #ifndef ACTION_MSGS__MSG__GOAL_INFO_H_
 #define ACTION_MSGS__MSG__GOAL_INFO_H_
 
-#include "action_msgs/msg/detail/goal_info__functions.h"
 #include "action_msgs/msg/detail/goal_info__struct.h"
+#include "action_msgs/msg/detail/goal_info__functions.h"
 #include "action_msgs/msg/detail/goal_info__type_support.h"
 
-#endif    // ACTION_MSGS__MSG__GOAL_INFO_H_
+#endif  // ACTION_MSGS__MSG__GOAL_INFO_H_

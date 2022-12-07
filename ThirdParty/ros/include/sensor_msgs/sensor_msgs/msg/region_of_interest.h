@@ -5,8 +5,8 @@
 #ifndef SENSOR_MSGS__MSG__REGION_OF_INTEREST_H_
 #define SENSOR_MSGS__MSG__REGION_OF_INTEREST_H_
 
-#include "sensor_msgs/msg/detail/region_of_interest__functions.h"
 #include "sensor_msgs/msg/detail/region_of_interest__struct.h"
+#include "sensor_msgs/msg/detail/region_of_interest__functions.h"
 #include "sensor_msgs/msg/detail/region_of_interest__type_support.h"
 
-#endif    // SENSOR_MSGS__MSG__REGION_OF_INTEREST_H_
+#endif  // SENSOR_MSGS__MSG__REGION_OF_INTEREST_H_

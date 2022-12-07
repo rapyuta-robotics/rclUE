@@ -21,16 +21,14 @@
 
 #include <cassert>
 #include <cstdint>
-#include <fastdds/dds/core/LoanableCollection.hpp>
 #include <stdexcept>
 #include <type_traits>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+#include <fastdds/dds/core/LoanableCollection.hpp>
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * A type-safe accessible collection of generic opaque pointers that can receive the buffer from outside (loan).
@@ -41,6 +39,7 @@ template<typename T, typename _NonConstEnabler = std::true_type>
 class LoanableTypedCollection : public LoanableCollection
 {
 public:
+
     /**
      * Set an element of the sequence.
      *
@@ -56,8 +55,9 @@ public:
      *
      * @return a reference to the element at position @c n
      */
-    template<typename Enabler = _NonConstEnabler>
-    typename std::enable_if<Enabler::value, T>::type& operator[](size_type n)
+    template <typename Enabler = _NonConstEnabler>
+    typename std::enable_if<Enabler::value, T>::type& operator [](
+            size_type n)
     {
         if (n >= length_)
         {
@@ -81,7 +81,8 @@ public:
      *
      * @return a const reference to the element at position @n
      */
-    const T& operator[](size_type n) const
+    const T& operator [](
+            size_type n) const
     {
         if (n >= length_)
         {
@@ -90,10 +91,11 @@ public:
 
         return *static_cast<const T*>(elements_[n]);
     }
+
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_CORE_LOANABLETYPEDCOLLECTION_HPP_
+#endif // _FASTDDS_DDS_CORE_LOANABLETYPEDCOLLECTION_HPP_

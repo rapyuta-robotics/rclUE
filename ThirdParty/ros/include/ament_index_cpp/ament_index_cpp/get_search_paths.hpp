@@ -15,10 +15,10 @@
 #ifndef AMENT_INDEX_CPP__GET_SEARCH_PATHS_HPP_
 #define AMENT_INDEX_CPP__GET_SEARCH_PATHS_HPP_
 
-#include "ament_index_cpp/visibility_control.h"
-
 #include <list>
 #include <string>
+
+#include "ament_index_cpp/visibility_control.h"
 
 namespace ament_index_cpp
 {
@@ -28,8 +28,9 @@ namespace ament_index_cpp
  * \throws runtime_error if the environment variable AMENT_PREFIX_PATH is not set
  */
 AMENT_INDEX_CPP_PUBLIC
-std::list<std::string> get_search_paths();
+std::list<std::string>
+get_search_paths();
 
-}    // namespace ament_index_cpp
+}  // namespace ament_index_cpp
 
-#endif    // AMENT_INDEX_CPP__GET_SEARCH_PATHS_HPP_
+#endif  // AMENT_INDEX_CPP__GET_SEARCH_PATHS_HPP_

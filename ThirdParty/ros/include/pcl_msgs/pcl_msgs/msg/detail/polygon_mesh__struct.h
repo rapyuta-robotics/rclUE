@@ -14,6 +14,7 @@ extern "C"
 #include <stddef.h>
 #include <stdint.h>
 
+
 // Constants defined in the message
 
 // Include directives for member types
@@ -24,31 +25,31 @@ extern "C"
 // Member 'polygons'
 #include "pcl_msgs/msg/detail/vertices__struct.h"
 
-    /// Struct defined in msg/PolygonMesh in the package pcl_msgs.
-    /**
-     * Separate header for the polygonal surface
-     */
-    typedef struct pcl_msgs__msg__PolygonMesh
-    {
-        std_msgs__msg__Header header;
-        /// Vertices of the mesh as a point cloud
-        sensor_msgs__msg__PointCloud2 cloud;
-        /// List of polygons
-        pcl_msgs__msg__Vertices__Sequence polygons;
-    } pcl_msgs__msg__PolygonMesh;
+/// Struct defined in msg/PolygonMesh in the package pcl_msgs.
+/**
+  * Separate header for the polygonal surface
+ */
+typedef struct pcl_msgs__msg__PolygonMesh
+{
+  std_msgs__msg__Header header;
+  /// Vertices of the mesh as a point cloud
+  sensor_msgs__msg__PointCloud2 cloud;
+  /// List of polygons
+  pcl_msgs__msg__Vertices__Sequence polygons;
+} pcl_msgs__msg__PolygonMesh;
 
-    // Struct for a sequence of pcl_msgs__msg__PolygonMesh.
-    typedef struct pcl_msgs__msg__PolygonMesh__Sequence
-    {
-        pcl_msgs__msg__PolygonMesh* data;
-        /// The number of valid items in data
-        size_t size;
-        /// The number of allocated items in data
-        size_t capacity;
-    } pcl_msgs__msg__PolygonMesh__Sequence;
+// Struct for a sequence of pcl_msgs__msg__PolygonMesh.
+typedef struct pcl_msgs__msg__PolygonMesh__Sequence
+{
+  pcl_msgs__msg__PolygonMesh * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} pcl_msgs__msg__PolygonMesh__Sequence;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // PCL_MSGS__MSG__DETAIL__POLYGON_MESH__STRUCT_H_
+#endif  // PCL_MSGS__MSG__DETAIL__POLYGON_MESH__STRUCT_H_

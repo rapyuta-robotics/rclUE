@@ -24,11 +24,11 @@ extern "C"
 
 #include "rcutils/allocator.h"
 
-    /// Encapsulation of an allocator.
-    /**
-     * \sa rcutils_allocator_t
-     */
-    typedef rcutils_allocator_t rcl_allocator_t;
+/// Encapsulation of an allocator.
+/**
+ * \sa rcutils_allocator_t
+ */
+typedef rcutils_allocator_t rcl_allocator_t;
 
 /// Return a properly initialized rcl_allocator_t with default values.
 /**
@@ -46,17 +46,18 @@ extern "C"
 /**
  * If the allocator is not initialized, run the fail_statement.
  */
-#define RCL_CHECK_ALLOCATOR(allocator, fail_statement) RCUTILS_CHECK_ALLOCATOR(allocator, fail_statement)
+#define RCL_CHECK_ALLOCATOR(allocator, fail_statement) \
+  RCUTILS_CHECK_ALLOCATOR(allocator, fail_statement)
 
 /// Check that the given allocator is initialized, or fail with a message.
 /**
  * If the allocator is not initialized, set the error to msg, and run the fail_statement.
  */
 #define RCL_CHECK_ALLOCATOR_WITH_MSG(allocator, msg, fail_statement) \
-    RCUTILS_CHECK_ALLOCATOR_WITH_MSG(allocator, msg, fail_statement)
+  RCUTILS_CHECK_ALLOCATOR_WITH_MSG(allocator, msg, fail_statement)
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL__ALLOCATOR_H_
+#endif  // RCL__ALLOCATOR_H_

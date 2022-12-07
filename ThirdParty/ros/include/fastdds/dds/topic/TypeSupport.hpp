@@ -20,6 +20,7 @@
 #define _FASTDDS_TYPE_SUPPORT_HPP_
 
 #include <fastdds/dds/topic/TopicDataType.hpp>
+#include <fastdds/dds/common/InstanceHandle.hpp>
 #include <fastrtps/types/DynamicPubSubType.h>
 #include <fastrtps/types/TypesBase.h>
 
@@ -48,34 +49,50 @@ public:
     using ReturnCode_t = eprosima::fastrtps::types::ReturnCode_t;
 
     using Base = std::shared_ptr<fastdds::dds::TopicDataType>;
-    using Base::operator ->;
-    using Base::operator *;
-    using Base::operator bool;
-    using Base::operator =;
 
     /**
      * @brief Constructor
      */
-    RTPS_DllAPI TypeSupport()
-        : std::shared_ptr<fastdds::dds::TopicDataType>(nullptr)
-    {
-    }
+    RTPS_DllAPI TypeSupport() noexcept = default;
 
     /**
      * @brief Copy Constructor
+     *
      * @param type Another instance of TypeSupport
      */
     RTPS_DllAPI TypeSupport(
-            const TypeSupport& type)
-        : std::shared_ptr<fastdds::dds::TopicDataType>(type)
-    {
-    }
+            const TypeSupport& type) noexcept = default;
+
+    /**
+     * @brief Move Constructor
+     *
+     * @param type Another instance of TypeSupport
+     */
+    RTPS_DllAPI TypeSupport(
+            TypeSupport&& type) noexcept = default;
+
+    /**
+     * @brief Copy Assignment
+     *
+     * @param type Another instance of TypeSupport
+     */
+    RTPS_DllAPI TypeSupport& operator = (
+            const TypeSupport& type) noexcept = default;
+
+    /**
+     * @brief Move Assignment
+     *
+     * @param type Another instance of TypeSupport
+     */
+    RTPS_DllAPI TypeSupport& operator = (
+            TypeSupport&& type) noexcept = default;
 
     /*!
-     * \brief TypeSupport constructor that receives a TopicDataType pointer.
+     * @brief TypeSupport constructor that receives a TopicDataType pointer.
      * The passed pointer will be managed by the TypeSupport object, so creating two TypeSupport
      * from the same pointer or deleting the passed pointer will produce a runtime error.
-     * \param ptr
+     *
+     * @param ptr
      */
     RTPS_DllAPI explicit TypeSupport(
             fastdds::dds::TopicDataType* ptr)
@@ -84,9 +101,10 @@ public:
     }
 
     /*!
-     * \brief TypeSupport constructor that receives a DynamicPubSubType.
+     * @brief TypeSupport constructor that receives a DynamicPubSubType.
      * It will copy the instance so the user will keep the ownership of his object.
-     * \param ptr
+     *
+     * @param ptr
      */
     RTPS_DllAPI TypeSupport(
             fastrtps::types::DynamicPubSubType ptr)
@@ -97,6 +115,7 @@ public:
 
     /**
      * @brief Registers the type on a participant
+     *
      * @param participant DomainParticipant where the type is going to be registered
      * @return RETCODE_BAD_PARAMETER if the type name is empty, RETCODE_PRECONDITION_NOT_MET if there is another type with
      * the same name registered on the DomainParticipant and RETCODE_OK if it is registered correctly
@@ -106,6 +125,7 @@ public:
 
     /**
      * @brief Registers the type on a participant
+     *
      * @param participant DomainParticipant where the type is going to be registered
      * @param type_name Name of the type to register
      * @return RETCODE_BAD_PARAMETER if the type name is empty, RETCODE_PRECONDITION_NOT_MET if there is another type with
@@ -117,6 +137,7 @@ public:
 
     /**
      * @brief Getter for the type name
+     *
      * @return name of the data type
      */
     RTPS_DllAPI virtual const std::string& get_type_name() const
@@ -126,32 +147,29 @@ public:
 
     /**
      * @brief Serializes the data
+     *
      * @param data Pointer to data
      * @param payload Pointer to payload
      * @return true if it is serialized correctly, false if not
      */
     RTPS_DllAPI virtual bool serialize(
             void* data,
-            fastrtps::rtps::SerializedPayload_t* payload)
-    {
-        return get()->serialize(data, payload);
-    }
+            fastrtps::rtps::SerializedPayload_t* payload);
 
     /**
      * @brief Deserializes the data
+     *
      * @param payload Pointer to payload
      * @param data Pointer to data
      * @return true if it is deserialized correctly, false if not
      */
     RTPS_DllAPI virtual bool deserialize(
             fastrtps::rtps::SerializedPayload_t* payload,
-            void* data)
-    {
-        return get()->deserialize(payload, data);
-    }
+            void* data);
 
     /**
      * @brief Getter for the SerializedSizeProvider
+     *
      * @param data Pointer to data
      * @return function
      */
@@ -163,6 +181,7 @@ public:
 
     /**
      * @brief Creates new data
+     *
      * @return Pointer to the data
      */
     RTPS_DllAPI virtual void* create_data()
@@ -172,6 +191,7 @@ public:
 
     /**
      * @brief Deletes data
+     *
      * @param data Pointer to the data to delete
      */
     RTPS_DllAPI virtual void delete_data(
@@ -182,6 +202,7 @@ public:
 
     /**
      * @brief Getter for the data key
+     *
      * @param data Pointer to data
      * @param i_handle InstanceHandle pointer to store the key
      * @param force_md5 boolean to force md5 (default: false)
@@ -189,7 +210,7 @@ public:
      */
     RTPS_DllAPI virtual bool get_key(
             void* data,
-            fastrtps::rtps::InstanceHandle_t* i_handle,
+            InstanceHandle_t* i_handle,
             bool force_md5 = false)
     {
         return get()->getKey(data, i_handle, force_md5);
@@ -208,11 +229,40 @@ public:
 
     /**
      * @brief Check if the TypeSupport is empty
+     *
      * @return true if empty, false if not
      */
     RTPS_DllAPI bool empty() const
     {
         return get() == nullptr;
+    }
+
+    /**
+     * Checks if the type is bounded.
+     */
+    RTPS_DllAPI virtual inline bool is_bounded() const
+    {
+        return get()->is_bounded();
+    }
+
+    /**
+     * Checks if the type is plain.
+     */
+    RTPS_DllAPI virtual inline bool is_plain() const
+    {
+        return get()->is_plain();
+    }
+
+    RTPS_DllAPI bool operator !=(
+            std::nullptr_t) const
+    {
+        return bool(*this);
+    }
+
+    RTPS_DllAPI bool operator ==(
+            std::nullptr_t) const
+    {
+        return !*this;
     }
 
 };

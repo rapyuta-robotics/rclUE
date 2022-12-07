@@ -25,8 +25,9 @@ namespace rmw_fastrtps_cpp
 /**
  * Should be called when creating a node, and before using `context->impl`.
  */
-rmw_ret_t increment_context_impl_ref_count(rmw_context_t* context);
+rmw_ret_t
+increment_context_impl_ref_count(rmw_context_t * context);
 
-}    // namespace rmw_fastrtps_cpp
+}  // namespace rmw_fastrtps_cpp
 
-#endif    // RMW_FASTRTPS_CPP__INIT_RMW_CONTEXT_IMPL_HPP_
+#endif  // RMW_FASTRTPS_CPP__INIT_RMW_CONTEXT_IMPL_HPP_

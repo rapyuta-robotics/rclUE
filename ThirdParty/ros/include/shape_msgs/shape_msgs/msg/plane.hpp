@@ -4,8 +4,8 @@
 #ifndef SHAPE_MSGS__MSG__PLANE_HPP_
 #define SHAPE_MSGS__MSG__PLANE_HPP_
 
-#include "shape_msgs/msg/detail/plane__builder.hpp"
 #include "shape_msgs/msg/detail/plane__struct.hpp"
+#include "shape_msgs/msg/detail/plane__builder.hpp"
 #include "shape_msgs/msg/detail/plane__traits.hpp"
 
-#endif    // SHAPE_MSGS__MSG__PLANE_HPP_
+#endif  // SHAPE_MSGS__MSG__PLANE_HPP_

@@ -17,19 +17,19 @@
 
 enum rosidl_runtime_c__message_initialization
 {
-    // Initialize all fields of the message, either with the default value
-    // (if the field has one), or with an empty value (generally 0 or an
-    // empty string).
-    ROSIDL_RUNTIME_C_MSG_INIT_ALL,
-    // Skip initialization of all fields of the message.  It is up to the user to
-    // ensure that all fields are initialized before use.
-    ROSIDL_RUNTIME_C_MSG_INIT_SKIP,
-    // Initialize all fields of the message to an empty value (generally 0 or an
-    // empty string).
-    ROSIDL_RUNTIME_C_MSG_INIT_ZERO,
-    // Initialize all fields of the message that have defaults; all other fields
-    // are left untouched.
-    ROSIDL_RUNTIME_C_MSG_INIT_DEFAULTS_ONLY,
+  // Initialize all fields of the message, either with the default value
+  // (if the field has one), or with an empty value (generally 0 or an
+  // empty string).
+  ROSIDL_RUNTIME_C_MSG_INIT_ALL,
+  // Skip initialization of all fields of the message.  It is up to the user to
+  // ensure that all fields are initialized before use.
+  ROSIDL_RUNTIME_C_MSG_INIT_SKIP,
+  // Initialize all fields of the message to an empty value (generally 0 or an
+  // empty string).
+  ROSIDL_RUNTIME_C_MSG_INIT_ZERO,
+  // Initialize all fields of the message that have defaults; all other fields
+  // are left untouched.
+  ROSIDL_RUNTIME_C_MSG_INIT_DEFAULTS_ONLY,
 };
 
-#endif    // ROSIDL_RUNTIME_C__MESSAGE_INITIALIZATION_H_
+#endif  // ROSIDL_RUNTIME_C__MESSAGE_INITIALIZATION_H_

@@ -26,40 +26,44 @@ extern "C"
 #include "rcutils/types.h"
 #include "rcutils/visibility_control.h"
 
-    /// Split a given string with the specified delimiter
-    /**
-     * \param[in] str string to split
-     * \param[in] delimiter on where to split
-     * \param[in] allocator for allocating new memory for the output array
-     * \param[out] string_array with the split tokens
-     * \return #RCUTILS_RET_OK if successful, or
-     * \return #RCUTILS_RET_INVALID_ARGUMENT for invalid arguments, or
-     * \return #RCUTILS_RET_BAD_ALLOC if memory allocation fails, or
-     * \return #RCUTILS_RET_ERROR if an unknown error occurs
-     */
-    RCUTILS_PUBLIC
-    rcutils_ret_t rcutils_split(const char* str,
-                                char delimiter,
-                                rcutils_allocator_t allocator,
-                                rcutils_string_array_t* string_array);
+/// Split a given string with the specified delimiter
+/**
+ * \param[in] str string to split
+ * \param[in] delimiter on where to split
+ * \param[in] allocator for allocating new memory for the output array
+ * \param[out] string_array with the split tokens
+ * \return #RCUTILS_RET_OK if successful, or
+ * \return #RCUTILS_RET_INVALID_ARGUMENT for invalid arguments, or
+ * \return #RCUTILS_RET_BAD_ALLOC if memory allocation fails, or
+ * \return #RCUTILS_RET_ERROR if an unknown error occurs
+ */
+RCUTILS_PUBLIC
+rcutils_ret_t
+rcutils_split(
+  const char * str,
+  char delimiter,
+  rcutils_allocator_t allocator,
+  rcutils_string_array_t * string_array);
 
-    /// Split a given string on the last occurrence of the specified delimiter
-    /**
-     * \param[in] str string to split
-     * \param[in] delimiter on where to split
-     * \param[in] allocator for allocating new memory for the output array
-     * \param[out] string_array with the split tokens
-     * \return #RCUTILS_RET_OK if successful, or
-     * \return #RCUTILS_RET_ERROR if an unknown error occurs
-     */
-    RCUTILS_PUBLIC
-    rcutils_ret_t rcutils_split_last(const char* str,
-                                     char delimiter,
-                                     rcutils_allocator_t allocator,
-                                     rcutils_string_array_t* string_array);
+/// Split a given string on the last occurrence of the specified delimiter
+/**
+ * \param[in] str string to split
+ * \param[in] delimiter on where to split
+ * \param[in] allocator for allocating new memory for the output array
+ * \param[out] string_array with the split tokens
+ * \return #RCUTILS_RET_OK if successful, or
+ * \return #RCUTILS_RET_ERROR if an unknown error occurs
+ */
+RCUTILS_PUBLIC
+rcutils_ret_t
+rcutils_split_last(
+  const char * str,
+  char delimiter,
+  rcutils_allocator_t allocator,
+  rcutils_string_array_t * string_array);
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCUTILS__SPLIT_H_
+#endif  // RCUTILS__SPLIT_H_

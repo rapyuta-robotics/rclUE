@@ -22,16 +22,14 @@
 #include <array>
 #include <cassert>
 #include <cstdint>
-#include <fastdds/dds/core/LoanableArray.hpp>
-#include <fastdds/dds/core/LoanableTypedCollection.hpp>
 #include <stdexcept>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
+#include <fastdds/dds/core/LoanableArray.hpp>
+#include <fastdds/dds/core/LoanableTypedCollection.hpp>
+
+namespace eprosima {
+namespace fastdds {
+namespace dds {
 
 /**
  * A type-safe, ordered collection of elements allocated on the stack.
@@ -53,20 +51,26 @@ struct StackAllocatedSequence : public LoanableTypedCollection<T>
     ~StackAllocatedSequence() = default;
 
     // Non-copyable
-    StackAllocatedSequence(const StackAllocatedSequence&) = delete;
-    StackAllocatedSequence& operator=(const StackAllocatedSequence&) = delete;
+    StackAllocatedSequence(
+            const StackAllocatedSequence&) = delete;
+    StackAllocatedSequence& operator = (
+            const StackAllocatedSequence&) = delete;
 
     // Non-moveable
-    StackAllocatedSequence(StackAllocatedSequence&&) = delete;
-    StackAllocatedSequence& operator=(StackAllocatedSequence&&) = delete;
+    StackAllocatedSequence(
+            StackAllocatedSequence&&) = delete;
+    StackAllocatedSequence& operator = (
+            StackAllocatedSequence&&) = delete;
 
 protected:
+
+    using LoanableCollection::maximum_;
+    using LoanableCollection::length_;
     using LoanableCollection::elements_;
     using LoanableCollection::has_ownership_;
-    using LoanableCollection::length_;
-    using LoanableCollection::maximum_;
 
-    void resize(LoanableCollection::size_type new_length) override
+    void resize(
+            LoanableCollection::size_type new_length) override
     {
         // This kind of collection cannot grow above its stack-allocated size
         if (new_length > num_items)
@@ -76,11 +80,12 @@ protected:
     }
 
 private:
+
     LoanableArray<T, num_items> data_;
 };
 
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // _FASTDDS_DDS_CORE_STACKALLOCATEDSEQUENCE_HPP_
+#endif // _FASTDDS_DDS_CORE_STACKALLOCATEDSEQUENCE_HPP_

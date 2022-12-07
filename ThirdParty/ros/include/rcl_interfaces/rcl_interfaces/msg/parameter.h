@@ -5,8 +5,8 @@
 #ifndef RCL_INTERFACES__MSG__PARAMETER_H_
 #define RCL_INTERFACES__MSG__PARAMETER_H_
 
-#include "rcl_interfaces/msg/detail/parameter__functions.h"
 #include "rcl_interfaces/msg/detail/parameter__struct.h"
+#include "rcl_interfaces/msg/detail/parameter__functions.h"
 #include "rcl_interfaces/msg/detail/parameter__type_support.h"
 
-#endif    // RCL_INTERFACES__MSG__PARAMETER_H_
+#endif  // RCL_INTERFACES__MSG__PARAMETER_H_

@@ -4,8 +4,8 @@
 #ifndef DIAGNOSTIC_MSGS__MSG__KEY_VALUE_HPP_
 #define DIAGNOSTIC_MSGS__MSG__KEY_VALUE_HPP_
 
-#include "diagnostic_msgs/msg/detail/key_value__builder.hpp"
 #include "diagnostic_msgs/msg/detail/key_value__struct.hpp"
+#include "diagnostic_msgs/msg/detail/key_value__builder.hpp"
 #include "diagnostic_msgs/msg/detail/key_value__traits.hpp"
 
-#endif    // DIAGNOSTIC_MSGS__MSG__KEY_VALUE_HPP_
+#endif  // DIAGNOSTIC_MSGS__MSG__KEY_VALUE_HPP_

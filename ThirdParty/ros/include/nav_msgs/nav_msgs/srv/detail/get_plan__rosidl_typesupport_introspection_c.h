@@ -10,34 +10,38 @@ extern "C"
 {
 #endif
 
-#include "nav_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
+#include "nav_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_nav_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, nav_msgs, srv, GetPlan_Request)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_nav_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, nav_msgs, srv, GetPlan_Request)();
 
-    // already included above
-    // #include "rosidl_runtime_c/message_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "nav_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_runtime_c/message_type_support_struct.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "nav_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_nav_msgs const rosidl_message_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, nav_msgs, srv, GetPlan_Response)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_nav_msgs
+const rosidl_message_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, nav_msgs, srv, GetPlan_Response)();
 
 #include "rosidl_runtime_c/service_type_support_struct.h"
-    // already included above
-    // #include "rosidl_typesupport_interface/macros.h"
-    // already included above
-    // #include "nav_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
+// already included above
+// #include "rosidl_typesupport_interface/macros.h"
+// already included above
+// #include "nav_msgs/msg/rosidl_typesupport_introspection_c__visibility_control.h"
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_nav_msgs const rosidl_service_type_support_t*
-        ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_c, nav_msgs, srv, GetPlan)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_C_PUBLIC_nav_msgs
+const rosidl_service_type_support_t *
+ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_c, nav_msgs, srv, GetPlan)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // NAV_MSGS__SRV__DETAIL__GET_PLAN__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_
+#endif  // NAV_MSGS__SRV__DETAIL__GET_PLAN__ROSIDL_TYPESUPPORT_INTROSPECTION_C_H_

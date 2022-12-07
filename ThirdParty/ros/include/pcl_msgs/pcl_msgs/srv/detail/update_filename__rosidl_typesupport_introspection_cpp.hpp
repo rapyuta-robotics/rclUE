@@ -5,6 +5,7 @@
 #ifndef PCL_MSGS__SRV__DETAIL__UPDATE_FILENAME__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
 #define PCL_MSGS__SRV__DETAIL__UPDATE_FILENAME__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
 
+
 #include "rosidl_runtime_c/message_type_support_struct.h"
 #include "rosidl_typesupport_interface/macros.h"
 #include "rosidl_typesupport_introspection_cpp/visibility_control.h"
@@ -14,12 +15,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           pcl_msgs,
-                                                                                           srv,
-                                                                                           UpdateFilename_Request)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, pcl_msgs, srv, UpdateFilename_Request)();
 
 #ifdef __cplusplus
 }
@@ -37,12 +36,10 @@ extern "C"
 {
 #endif
 
-    // TODO(dirk-thomas) these visibility macros should be message package specific
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_message_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           pcl_msgs,
-                                                                                           srv,
-                                                                                           UpdateFilename_Response)();
+// TODO(dirk-thomas) these visibility macros should be message package specific
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_message_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, pcl_msgs, srv, UpdateFilename_Response)();
 
 #ifdef __cplusplus
 }
@@ -59,14 +56,12 @@ extern "C"
 {
 #endif
 
-    ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
-    const rosidl_service_type_support_t* ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp,
-                                                                                           pcl_msgs,
-                                                                                           srv,
-                                                                                           UpdateFilename)();
+ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_PUBLIC
+const rosidl_service_type_support_t *
+  ROSIDL_TYPESUPPORT_INTERFACE__SERVICE_SYMBOL_NAME(rosidl_typesupport_introspection_cpp, pcl_msgs, srv, UpdateFilename)();
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // PCL_MSGS__SRV__DETAIL__UPDATE_FILENAME__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_
+#endif  // PCL_MSGS__SRV__DETAIL__UPDATE_FILENAME__ROSIDL_TYPESUPPORT_INTROSPECTION_CPP_HPP_

@@ -15,10 +15,10 @@
 #ifndef ROSIDL_TYPESUPPORT_FASTRTPS_C__WSTRING_CONVERSION_HPP_
 #define ROSIDL_TYPESUPPORT_FASTRTPS_C__WSTRING_CONVERSION_HPP_
 
+#include <string>
+
 #include "rosidl_runtime_c/u16string.h"
 #include "rosidl_typesupport_fastrtps_c/visibility_control.h"
-
-#include <string>
 
 namespace rosidl_typesupport_fastrtps_c
 {
@@ -29,7 +29,8 @@ namespace rosidl_typesupport_fastrtps_c
  * \param[in,out] wstr The std::wstring to copy to.
  */
 ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC
-void u16string_to_wstring(const rosidl_runtime_c__U16String& u16str, std::wstring& wstr);
+void u16string_to_wstring(
+  const rosidl_runtime_c__U16String & u16str, std::wstring & wstr);
 
 /// Convert a std::wstring into a `rosidl_runtime_c__U16String`.
 /**
@@ -38,8 +39,9 @@ void u16string_to_wstring(const rosidl_runtime_c__U16String& u16str, std::wstrin
  * \return true if resizing u16str and assignment succeeded, otherwise false.
  */
 ROSIDL_TYPESUPPORT_FASTRTPS_C_PUBLIC
-bool wstring_to_u16string(const std::wstring& wstr, rosidl_runtime_c__U16String& u16str);
+bool wstring_to_u16string(
+  const std::wstring & wstr, rosidl_runtime_c__U16String & u16str);
 
-}    // namespace rosidl_typesupport_fastrtps_c
+}  // namespace rosidl_typesupport_fastrtps_c
 
-#endif    // ROSIDL_TYPESUPPORT_FASTRTPS_C__WSTRING_CONVERSION_HPP_
+#endif  // ROSIDL_TYPESUPPORT_FASTRTPS_C__WSTRING_CONVERSION_HPP_

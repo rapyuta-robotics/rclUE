@@ -16,15 +16,18 @@
 #define RMW_FASTRTPS_SHARED_CPP__CREATE_RMW_GID_HPP_
 
 #include "fastdds/rtps/common/Guid.h"
+
 #include "rmw/types.h"
+
 #include "rmw_fastrtps_shared_cpp/visibility_control.h"
 
 namespace rmw_fastrtps_shared_cpp
 {
 
 RMW_FASTRTPS_SHARED_CPP_PUBLIC
-rmw_gid_t create_rmw_gid(const char* identifier, const eprosima::fastrtps::rtps::GUID_t& guid);
+rmw_gid_t
+create_rmw_gid(const char * identifier, const eprosima::fastrtps::rtps::GUID_t & guid);
 
-}    // namespace rmw_fastrtps_shared_cpp
+}  // namespace rmw_fastrtps_shared_cpp
 
-#endif    // RMW_FASTRTPS_SHARED_CPP__CREATE_RMW_GID_HPP_
+#endif  // RMW_FASTRTPS_SHARED_CPP__CREATE_RMW_GID_HPP_

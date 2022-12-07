@@ -5,14 +5,14 @@
 #ifndef RCL_INTERFACES__MSG__DETAIL__INTEGER_RANGE__TRAITS_HPP_
 #define RCL_INTERFACES__MSG__DETAIL__INTEGER_RANGE__TRAITS_HPP_
 
-#include "rcl_interfaces/msg/detail/integer_range__struct.hpp"
-#include "rosidl_runtime_cpp/traits.hpp"
-
 #include <stdint.h>
 
 #include <sstream>
 #include <string>
 #include <type_traits>
+
+#include "rcl_interfaces/msg/detail/integer_range__struct.hpp"
+#include "rosidl_runtime_cpp/traits.hpp"
 
 namespace rcl_interfaces
 {
@@ -20,127 +20,124 @@ namespace rcl_interfaces
 namespace msg
 {
 
-inline void to_flow_style_yaml(const IntegerRange& msg, std::ostream& out)
+inline void to_flow_style_yaml(
+  const IntegerRange & msg,
+  std::ostream & out)
 {
-    out << "{";
-    // member: from_value
-    {
-        out << "from_value: ";
-        rosidl_generator_traits::value_to_yaml(msg.from_value, out);
-        out << ", ";
-    }
+  out << "{";
+  // member: from_value
+  {
+    out << "from_value: ";
+    rosidl_generator_traits::value_to_yaml(msg.from_value, out);
+    out << ", ";
+  }
 
-    // member: to_value
-    {
-        out << "to_value: ";
-        rosidl_generator_traits::value_to_yaml(msg.to_value, out);
-        out << ", ";
-    }
+  // member: to_value
+  {
+    out << "to_value: ";
+    rosidl_generator_traits::value_to_yaml(msg.to_value, out);
+    out << ", ";
+  }
 
-    // member: step
-    {
-        out << "step: ";
-        rosidl_generator_traits::value_to_yaml(msg.step, out);
-    }
-    out << "}";
-}    // NOLINT(readability/fn_size)
+  // member: step
+  {
+    out << "step: ";
+    rosidl_generator_traits::value_to_yaml(msg.step, out);
+  }
+  out << "}";
+}  // NOLINT(readability/fn_size)
 
-inline void to_block_style_yaml(const IntegerRange& msg, std::ostream& out, size_t indentation = 0)
+inline void to_block_style_yaml(
+  const IntegerRange & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    // member: from_value
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "from_value: ";
-        rosidl_generator_traits::value_to_yaml(msg.from_value, out);
-        out << "\n";
+  // member: from_value
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
+    out << "from_value: ";
+    rosidl_generator_traits::value_to_yaml(msg.from_value, out);
+    out << "\n";
+  }
 
-    // member: to_value
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "to_value: ";
-        rosidl_generator_traits::value_to_yaml(msg.to_value, out);
-        out << "\n";
+  // member: to_value
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
+    out << "to_value: ";
+    rosidl_generator_traits::value_to_yaml(msg.to_value, out);
+    out << "\n";
+  }
 
-    // member: step
-    {
-        if (indentation > 0)
-        {
-            out << std::string(indentation, ' ');
-        }
-        out << "step: ";
-        rosidl_generator_traits::value_to_yaml(msg.step, out);
-        out << "\n";
+  // member: step
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
     }
-}    // NOLINT(readability/fn_size)
+    out << "step: ";
+    rosidl_generator_traits::value_to_yaml(msg.step, out);
+    out << "\n";
+  }
+}  // NOLINT(readability/fn_size)
 
-inline std::string to_yaml(const IntegerRange& msg, bool use_flow_style = false)
+inline std::string to_yaml(const IntegerRange & msg, bool use_flow_style = false)
 {
-    std::ostringstream out;
-    if (use_flow_style)
-    {
-        to_flow_style_yaml(msg, out);
-    }
-    else
-    {
-        to_block_style_yaml(msg, out);
-    }
-    return out.str();
+  std::ostringstream out;
+  if (use_flow_style) {
+    to_flow_style_yaml(msg, out);
+  } else {
+    to_block_style_yaml(msg, out);
+  }
+  return out.str();
 }
 
-}    // namespace msg
+}  // namespace msg
 
-}    // namespace rcl_interfaces
+}  // namespace rcl_interfaces
 
 namespace rosidl_generator_traits
 {
 
-[[deprecated("use rcl_interfaces::msg::to_block_style_yaml() instead")]] inline void
-to_yaml(const rcl_interfaces::msg::IntegerRange& msg, std::ostream& out, size_t indentation = 0)
+[[deprecated("use rcl_interfaces::msg::to_block_style_yaml() instead")]]
+inline void to_yaml(
+  const rcl_interfaces::msg::IntegerRange & msg,
+  std::ostream & out, size_t indentation = 0)
 {
-    rcl_interfaces::msg::to_block_style_yaml(msg, out, indentation);
+  rcl_interfaces::msg::to_block_style_yaml(msg, out, indentation);
 }
 
-[[deprecated("use rcl_interfaces::msg::to_yaml() instead")]] inline std::string to_yaml(
-    const rcl_interfaces::msg::IntegerRange& msg)
+[[deprecated("use rcl_interfaces::msg::to_yaml() instead")]]
+inline std::string to_yaml(const rcl_interfaces::msg::IntegerRange & msg)
 {
-    return rcl_interfaces::msg::to_yaml(msg);
-}
-
-template<>
-inline const char* data_type<rcl_interfaces::msg::IntegerRange>()
-{
-    return "rcl_interfaces::msg::IntegerRange";
+  return rcl_interfaces::msg::to_yaml(msg);
 }
 
 template<>
-inline const char* name<rcl_interfaces::msg::IntegerRange>()
+inline const char * data_type<rcl_interfaces::msg::IntegerRange>()
 {
-    return "rcl_interfaces/msg/IntegerRange";
+  return "rcl_interfaces::msg::IntegerRange";
 }
 
 template<>
-struct has_fixed_size<rcl_interfaces::msg::IntegerRange> : std::integral_constant<bool, true>
+inline const char * name<rcl_interfaces::msg::IntegerRange>()
 {
-};
+  return "rcl_interfaces/msg/IntegerRange";
+}
 
 template<>
-struct has_bounded_size<rcl_interfaces::msg::IntegerRange> : std::integral_constant<bool, true>
-{
-};
+struct has_fixed_size<rcl_interfaces::msg::IntegerRange>
+  : std::integral_constant<bool, true> {};
 
 template<>
-struct is_message<rcl_interfaces::msg::IntegerRange> : std::true_type
-{
-};
+struct has_bounded_size<rcl_interfaces::msg::IntegerRange>
+  : std::integral_constant<bool, true> {};
 
-}    // namespace rosidl_generator_traits
+template<>
+struct is_message<rcl_interfaces::msg::IntegerRange>
+  : std::true_type {};
 
-#endif    // RCL_INTERFACES__MSG__DETAIL__INTEGER_RANGE__TRAITS_HPP_
+}  // namespace rosidl_generator_traits
+
+#endif  // RCL_INTERFACES__MSG__DETAIL__INTEGER_RANGE__TRAITS_HPP_

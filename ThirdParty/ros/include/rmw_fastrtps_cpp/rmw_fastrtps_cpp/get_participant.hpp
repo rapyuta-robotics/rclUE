@@ -16,6 +16,7 @@
 #define RMW_FASTRTPS_CPP__GET_PARTICIPANT_HPP_
 
 #include "fastdds/dds/domain/DomainParticipant.hpp"
+
 #include "rmw/rmw.h"
 #include "rmw_fastrtps_cpp/visibility_control.h"
 
@@ -30,8 +31,9 @@ namespace rmw_fastrtps_cpp
  * \return native Fast DDS DomainParticipant handle if successful, otherwise `NULL`
  */
 RMW_FASTRTPS_CPP_PUBLIC
-eprosima::fastdds::dds::DomainParticipant* get_domain_participant(rmw_node_t* node);
+eprosima::fastdds::dds::DomainParticipant *
+get_domain_participant(rmw_node_t * node);
 
-}    // namespace rmw_fastrtps_cpp
+}  // namespace rmw_fastrtps_cpp
 
-#endif    // RMW_FASTRTPS_CPP__GET_PARTICIPANT_HPP_
+#endif  // RMW_FASTRTPS_CPP__GET_PARTICIPANT_HPP_

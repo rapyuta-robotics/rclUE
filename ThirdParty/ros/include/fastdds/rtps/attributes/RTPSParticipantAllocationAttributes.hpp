@@ -19,6 +19,8 @@
 #ifndef _FASTDDS_RTPS_RTPSPARTICIPANTALLOCATIONATTRIBUTES_HPP_
 #define _FASTDDS_RTPS_RTPSPARTICIPANTALLOCATIONATTRIBUTES_HPP_
 
+#include <fastdds/rtps/builtin/data/ContentFilterProperty.hpp>
+
 #include <fastrtps/utils/collections/ResourceLimitedContainerConfig.hpp>
 
 namespace eprosima {
@@ -81,7 +83,7 @@ struct SendBuffersAllocationAttributes
      *
      * This attribute controls how the buffer manager behaves when a send buffer is not
      * available. When true, a new buffer will be created. When false, it will wait for a
-     * buffer to be returned. This is a tradeoff between latency and dynamic allocations.
+     * buffer to be returned. This is a trade-off between latency and dynamic allocations.
      */
     bool dynamic = false;
 };
@@ -96,7 +98,8 @@ struct VariableLengthDataLimits
     {
         return (this->max_properties == b.max_properties) &&
                (this->max_user_data == b.max_user_data) &&
-               (this->max_partitions == b.max_partitions);
+               (this->max_partitions == b.max_partitions) &&
+               (this->max_datasharing_domains == b.max_datasharing_domains);
     }
 
     //! Defines the maximum size (in octets) of properties data in the local or remote participant
@@ -105,6 +108,8 @@ struct VariableLengthDataLimits
     size_t max_user_data = 0;
     //! Defines the maximum size (in octets) of partitions data
     size_t max_partitions = 0;
+    //! Defines the maximum size (in elements) of the list of data sharing domain IDs
+    size_t max_datasharing_domains = 0;
 };
 
 /**
@@ -124,6 +129,8 @@ struct RTPSParticipantAllocationAttributes
     SendBuffersAllocationAttributes send_buffers;
     //! Holds limits for variable-length data
     VariableLengthDataLimits data_limits;
+    //! Defines the allocation behavior of content filter discovery information
+    fastdds::rtps::ContentFilterProperty::AllocationConfiguration content_filter;
 
     //! @return the allocation config for the total of readers in the system (participants * readers)
     ResourceLimitedContainerConfig total_readers() const

@@ -16,7 +16,6 @@
 #define ROSIDL_TYPESUPPORT_INTROSPECTION_CPP__FIELD_TYPES_HPP_
 
 #include <rosidl_typesupport_introspection_c/field_types.h>
-
 #include <cstdint>
 
 namespace rosidl_typesupport_introspection_cpp
@@ -72,6 +71,6 @@ const uint8_t ROS_TYPE_FLOAT32 = rosidl_typesupport_introspection_c__ROS_TYPE_FL
 /// For backward compatibility only.
 const uint8_t ROS_TYPE_FLOAT64 = rosidl_typesupport_introspection_c__ROS_TYPE_FLOAT64;
 
-}    // namespace rosidl_typesupport_introspection_cpp
+}  // namespace rosidl_typesupport_introspection_cpp
 
-#endif    // ROSIDL_TYPESUPPORT_INTROSPECTION_CPP__FIELD_TYPES_HPP_
+#endif  // ROSIDL_TYPESUPPORT_INTROSPECTION_CPP__FIELD_TYPES_HPP_

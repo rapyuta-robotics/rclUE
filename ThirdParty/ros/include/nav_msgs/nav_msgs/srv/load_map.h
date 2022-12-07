@@ -5,8 +5,8 @@
 #ifndef NAV_MSGS__SRV__LOAD_MAP_H_
 #define NAV_MSGS__SRV__LOAD_MAP_H_
 
-#include "nav_msgs/srv/detail/load_map__functions.h"
 #include "nav_msgs/srv/detail/load_map__struct.h"
+#include "nav_msgs/srv/detail/load_map__functions.h"
 #include "nav_msgs/srv/detail/load_map__type_support.h"
 
-#endif    // NAV_MSGS__SRV__LOAD_MAP_H_
+#endif  // NAV_MSGS__SRV__LOAD_MAP_H_

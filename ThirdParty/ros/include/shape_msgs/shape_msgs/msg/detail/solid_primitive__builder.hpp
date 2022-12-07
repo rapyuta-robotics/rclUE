@@ -5,11 +5,12 @@
 #ifndef SHAPE_MSGS__MSG__DETAIL__SOLID_PRIMITIVE__BUILDER_HPP_
 #define SHAPE_MSGS__MSG__DETAIL__SOLID_PRIMITIVE__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "shape_msgs/msg/detail/solid_primitive__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "shape_msgs/msg/detail/solid_primitive__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace shape_msgs
 {
@@ -23,64 +24,65 @@ namespace builder
 class Init_SolidPrimitive_polygon
 {
 public:
-    explicit Init_SolidPrimitive_polygon(::shape_msgs::msg::SolidPrimitive& msg) : msg_(msg)
-    {
-    }
-    ::shape_msgs::msg::SolidPrimitive polygon(::shape_msgs::msg::SolidPrimitive::_polygon_type arg)
-    {
-        msg_.polygon = std::move(arg);
-        return std::move(msg_);
-    }
+  explicit Init_SolidPrimitive_polygon(::shape_msgs::msg::SolidPrimitive & msg)
+  : msg_(msg)
+  {}
+  ::shape_msgs::msg::SolidPrimitive polygon(::shape_msgs::msg::SolidPrimitive::_polygon_type arg)
+  {
+    msg_.polygon = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::shape_msgs::msg::SolidPrimitive msg_;
+  ::shape_msgs::msg::SolidPrimitive msg_;
 };
 
 class Init_SolidPrimitive_dimensions
 {
 public:
-    explicit Init_SolidPrimitive_dimensions(::shape_msgs::msg::SolidPrimitive& msg) : msg_(msg)
-    {
-    }
-    Init_SolidPrimitive_polygon dimensions(::shape_msgs::msg::SolidPrimitive::_dimensions_type arg)
-    {
-        msg_.dimensions = std::move(arg);
-        return Init_SolidPrimitive_polygon(msg_);
-    }
+  explicit Init_SolidPrimitive_dimensions(::shape_msgs::msg::SolidPrimitive & msg)
+  : msg_(msg)
+  {}
+  Init_SolidPrimitive_polygon dimensions(::shape_msgs::msg::SolidPrimitive::_dimensions_type arg)
+  {
+    msg_.dimensions = std::move(arg);
+    return Init_SolidPrimitive_polygon(msg_);
+  }
 
 private:
-    ::shape_msgs::msg::SolidPrimitive msg_;
+  ::shape_msgs::msg::SolidPrimitive msg_;
 };
 
 class Init_SolidPrimitive_type
 {
 public:
-    Init_SolidPrimitive_type() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    Init_SolidPrimitive_dimensions type(::shape_msgs::msg::SolidPrimitive::_type_type arg)
-    {
-        msg_.type = std::move(arg);
-        return Init_SolidPrimitive_dimensions(msg_);
-    }
+  Init_SolidPrimitive_type()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  Init_SolidPrimitive_dimensions type(::shape_msgs::msg::SolidPrimitive::_type_type arg)
+  {
+    msg_.type = std::move(arg);
+    return Init_SolidPrimitive_dimensions(msg_);
+  }
 
 private:
-    ::shape_msgs::msg::SolidPrimitive msg_;
+  ::shape_msgs::msg::SolidPrimitive msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::shape_msgs::msg::SolidPrimitive>()
+inline
+auto build<::shape_msgs::msg::SolidPrimitive>()
 {
-    return shape_msgs::msg::builder::Init_SolidPrimitive_type();
+  return shape_msgs::msg::builder::Init_SolidPrimitive_type();
 }
 
-}    // namespace shape_msgs
+}  // namespace shape_msgs
 
-#endif    // SHAPE_MSGS__MSG__DETAIL__SOLID_PRIMITIVE__BUILDER_HPP_
+#endif  // SHAPE_MSGS__MSG__DETAIL__SOLID_PRIMITIVE__BUILDER_HPP_

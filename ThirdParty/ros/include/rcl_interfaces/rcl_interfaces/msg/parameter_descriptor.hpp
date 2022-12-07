@@ -4,8 +4,8 @@
 #ifndef RCL_INTERFACES__MSG__PARAMETER_DESCRIPTOR_HPP_
 #define RCL_INTERFACES__MSG__PARAMETER_DESCRIPTOR_HPP_
 
-#include "rcl_interfaces/msg/detail/parameter_descriptor__builder.hpp"
 #include "rcl_interfaces/msg/detail/parameter_descriptor__struct.hpp"
+#include "rcl_interfaces/msg/detail/parameter_descriptor__builder.hpp"
 #include "rcl_interfaces/msg/detail/parameter_descriptor__traits.hpp"
 
-#endif    // RCL_INTERFACES__MSG__PARAMETER_DESCRIPTOR_HPP_
+#endif  // RCL_INTERFACES__MSG__PARAMETER_DESCRIPTOR_HPP_

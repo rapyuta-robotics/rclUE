@@ -5,8 +5,8 @@
 #ifndef DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_ARRAY_H_
 #define DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_ARRAY_H_
 
-#include "diagnostic_msgs/msg/detail/diagnostic_array__functions.h"
 #include "diagnostic_msgs/msg/detail/diagnostic_array__struct.h"
+#include "diagnostic_msgs/msg/detail/diagnostic_array__functions.h"
 #include "diagnostic_msgs/msg/detail/diagnostic_array__type_support.h"
 
-#endif    // DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_ARRAY_H_
+#endif  // DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_ARRAY_H_

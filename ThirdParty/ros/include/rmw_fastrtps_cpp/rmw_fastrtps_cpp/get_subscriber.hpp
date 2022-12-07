@@ -16,6 +16,7 @@
 #define RMW_FASTRTPS_CPP__GET_SUBSCRIBER_HPP_
 
 #include "fastdds/dds/subscriber/DataReader.hpp"
+
 #include "rmw/rmw.h"
 #include "rmw_fastrtps_cpp/visibility_control.h"
 
@@ -30,8 +31,9 @@ namespace rmw_fastrtps_cpp
  * \return native Fast DDS DataReader handle if successful, otherwise `NULL`
  */
 RMW_FASTRTPS_CPP_PUBLIC
-eprosima::fastdds::dds::DataReader* get_datareader(rmw_subscription_t* subscription);
+eprosima::fastdds::dds::DataReader *
+get_datareader(rmw_subscription_t * subscription);
 
-}    // namespace rmw_fastrtps_cpp
+}  // namespace rmw_fastrtps_cpp
 
-#endif    // RMW_FASTRTPS_CPP__GET_SUBSCRIBER_HPP_
+#endif  // RMW_FASTRTPS_CPP__GET_SUBSCRIBER_HPP_

@@ -19,19 +19,19 @@
 #ifndef RCPPUTILS__ASSERTS_HPP_
 #define RCPPUTILS__ASSERTS_HPP_
 
-#include "rcpputils/visibility_control.hpp"
-
 #include <exception>
 #include <stdexcept>
 #include <string>
+
+#include "rcpputils/visibility_control.hpp"
 
 // Needed to disable compiler warning for exporting a class that extends a
 // non-DLL-interface class.
 // This should be fine since its extending an STL class.
 #ifdef _WIN32
-#pragma warning(push)
-#pragma warning(disable : 4251)
-#pragma warning(disable : 4275)
+# pragma warning(push)
+# pragma warning(disable:4251)
+# pragma warning(disable:4275)
 #endif
 
 namespace rcpputils
@@ -42,22 +42,22 @@ namespace rcpputils
  */
 class RCPPUTILS_PUBLIC AssertionException : public std::exception
 {
-    std::string msg_;
+  std::string msg_;
 
 public:
-    /**
-     * \brief Constructor for AssertionException
-     *
-     * \param[in] msg The message to display when this exception is thrown.
-     */
-    explicit AssertionException(const char* msg);
+  /**
+   * \brief Constructor for AssertionException
+   *
+   * \param[in] msg The message to display when this exception is thrown.
+   */
+  explicit AssertionException(const char * msg);
 
-    /**
-     * \brief Get the message description of why this exception was thrown.
-     *
-     * \return The string message
-     */
-    virtual const char* what() const noexcept;
+  /**
+   * \brief Get the message description of why this exception was thrown.
+   *
+   * \return The string message
+   */
+  virtual const char * what() const noexcept;
 };
 
 /**
@@ -66,23 +66,23 @@ public:
 
 class RCPPUTILS_PUBLIC IllegalStateException : public std::exception
 {
-    std::string msg_;
+  std::string msg_;
 
 public:
-    /**
-     * \brief Constructor for IllegalStateException
-     *
-     * \param[in] msg The message to display when this exception is thrown.
-     */
+  /**
+   * \brief Constructor for IllegalStateException
+   *
+   * \param[in] msg The message to display when this exception is thrown.
+   */
 
-    explicit IllegalStateException(const char* msg);
+  explicit IllegalStateException(const char * msg);
 
-    /**
-     * \brief Get the message description of why this exception was thrown.
-     *
-     * \return The string message
-     */
-    virtual const char* what() const noexcept;
+  /**
+   * \brief Get the message description of why this exception was thrown.
+   *
+   * \return The string message
+   */
+  virtual const char * what() const noexcept;
 };
 
 /**
@@ -92,12 +92,11 @@ public:
  * \param[in] msg message to pass to exception when condition is false
  * \throw std::invalid_argument if the condition is not met.
  */
-inline void require_true(bool condition, const std::string& msg = "invalid argument passed")
+inline void require_true(bool condition, const std::string & msg = "invalid argument passed")
 {
-    if (!condition)
-    {
-        throw std::invalid_argument{msg};
-    }
+  if (!condition) {
+    throw std::invalid_argument{msg};
+  }
 }
 
 /**
@@ -107,12 +106,11 @@ inline void require_true(bool condition, const std::string& msg = "invalid argum
  * \param[in] msg message to pass to exception when condition is false
  * \throw rcpputils::IllegalStateException if the condition is not met.
  */
-inline void check_true(bool condition, const std::string& msg = "check reported invalid state")
+inline void check_true(bool condition, const std::string & msg = "check reported invalid state")
 {
-    if (!condition)
-    {
-        throw rcpputils::IllegalStateException{msg.c_str()};
-    }
+  if (!condition) {
+    throw rcpputils::IllegalStateException{msg.c_str()};
+  }
 }
 
 /**
@@ -125,23 +123,22 @@ inline void check_true(bool condition, const std::string& msg = "check reported 
  * \param[in] msg message to pass to exception when condition is not met.
  * \throw rcpputils::AssertionException if the macro NDEBUG is not set and the condition is not met.
  */
-inline void assert_true(bool condition, const std::string& msg = "assertion failed")
+inline void assert_true(bool condition, const std::string & msg = "assertion failed")
 {
 // Same macro definition used by cassert
 #ifndef NDEBUG
-    if (!condition)
-    {
-        throw rcpputils::AssertionException{msg.c_str()};
-    }
+  if (!condition) {
+    throw rcpputils::AssertionException{msg.c_str()};
+  }
 #else
-    (void)condition;
-    (void)msg;
+  (void) condition;
+  (void) msg;
 #endif
 }
-}    // namespace rcpputils
+}  // namespace rcpputils
 
 #ifdef _WIN32
-#pragma warning(pop)
+# pragma warning(pop)
 #endif
 
-#endif    // RCPPUTILS__ASSERTS_HPP_
+#endif  // RCPPUTILS__ASSERTS_HPP_

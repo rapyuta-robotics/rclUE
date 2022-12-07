@@ -21,4 +21,4 @@
 #define RMW_AVOID_MEMORY_ALLOCATION 0
 #endif
 
-#endif    // RMW__IMPL__CONFIG_H_
+#endif  // RMW__IMPL__CONFIG_H_

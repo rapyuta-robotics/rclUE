@@ -21,14 +21,10 @@
 
 #include <fastdds/dds/subscriber/qos/DataReaderQos.hpp>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace statistics
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace statistics {
+namespace dds {
 
 /**
  * Class DataReaderQos: extends standard DDS DataReaderQos class to include specific default constructor for the
@@ -38,6 +34,7 @@ namespace dds
 class DataReaderQos : public eprosima::fastdds::dds::DataReaderQos
 {
 public:
+
     /**
      * @brief Constructor
      */
@@ -47,9 +44,9 @@ public:
 //! Constant to access default Statistics DataReader Qos
 const eprosima::fastdds::statistics::dds::DataReaderQos STATISTICS_DATAREADER_QOS;
 
-}    // namespace dds
-}    // namespace statistics
-}    // namespace fastdds
-}    // namespace eprosima
+} // dds
+} // statistics
+} // fastdds
+} // eprosima
 
 #endif /* _FASTDDS_STATISTICS_DDS_SUBSCRIBER_QOS_DATAREADERQOS_HPP_ */

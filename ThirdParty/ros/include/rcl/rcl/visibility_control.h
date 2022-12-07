@@ -20,39 +20,39 @@ extern "C"
 {
 #endif
 
-    // This logic was borrowed (then namespaced) from the examples on the gcc wiki:
-    //     https://gcc.gnu.org/wiki/Visibility
+// This logic was borrowed (then namespaced) from the examples on the gcc wiki:
+//     https://gcc.gnu.org/wiki/Visibility
 
 #if defined _WIN32 || defined __CYGWIN__
-#ifdef __GNUC__
-#define RCL_EXPORT __attribute__((dllexport))
-#define RCL_IMPORT __attribute__((dllimport))
+  #ifdef __GNUC__
+    #define RCL_EXPORT __attribute__ ((dllexport))
+    #define RCL_IMPORT __attribute__ ((dllimport))
+  #else
+    #define RCL_EXPORT __declspec(dllexport)
+    #define RCL_IMPORT __declspec(dllimport)
+  #endif
+  #ifdef RCL_BUILDING_DLL
+    #define RCL_PUBLIC RCL_EXPORT
+  #else
+    #define RCL_PUBLIC RCL_IMPORT
+  #endif
+  #define RCL_PUBLIC_TYPE RCL_PUBLIC
+  #define RCL_LOCAL
 #else
-#define RCL_EXPORT __declspec(dllexport)
-#define RCL_IMPORT __declspec(dllimport)
-#endif
-#ifdef RCL_BUILDING_DLL
-#define RCL_PUBLIC RCL_EXPORT
-#else
-#define RCL_PUBLIC RCL_IMPORT
-#endif
-#define RCL_PUBLIC_TYPE RCL_PUBLIC
-#define RCL_LOCAL
-#else
-#define RCL_EXPORT __attribute__((visibility("default")))
-#define RCL_IMPORT
-#if __GNUC__ >= 4
-#define RCL_PUBLIC __attribute__((visibility("default")))
-#define RCL_LOCAL __attribute__((visibility("hidden")))
-#else
-#define RCL_PUBLIC
-#define RCL_LOCAL
-#endif
-#define RCL_PUBLIC_TYPE
+  #define RCL_EXPORT __attribute__ ((visibility("default")))
+  #define RCL_IMPORT
+  #if __GNUC__ >= 4
+    #define RCL_PUBLIC __attribute__ ((visibility("default")))
+    #define RCL_LOCAL  __attribute__ ((visibility("hidden")))
+  #else
+    #define RCL_PUBLIC
+    #define RCL_LOCAL
+  #endif
+  #define RCL_PUBLIC_TYPE
 #endif
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RCL__VISIBILITY_CONTROL_H_
+#endif  // RCL__VISIBILITY_CONTROL_H_

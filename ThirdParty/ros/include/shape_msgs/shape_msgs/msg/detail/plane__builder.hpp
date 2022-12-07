@@ -5,11 +5,12 @@
 #ifndef SHAPE_MSGS__MSG__DETAIL__PLANE__BUILDER_HPP_
 #define SHAPE_MSGS__MSG__DETAIL__PLANE__BUILDER_HPP_
 
-#include "rosidl_runtime_cpp/message_initialization.hpp"
-#include "shape_msgs/msg/detail/plane__struct.hpp"
-
 #include <algorithm>
 #include <utility>
+
+#include "shape_msgs/msg/detail/plane__struct.hpp"
+#include "rosidl_runtime_cpp/message_initialization.hpp"
+
 
 namespace shape_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_Plane_coef
 {
 public:
-    Init_Plane_coef() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::shape_msgs::msg::Plane coef(::shape_msgs::msg::Plane::_coef_type arg)
-    {
-        msg_.coef = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_Plane_coef()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::shape_msgs::msg::Plane coef(::shape_msgs::msg::Plane::_coef_type arg)
+  {
+    msg_.coef = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::shape_msgs::msg::Plane msg_;
+  ::shape_msgs::msg::Plane msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::shape_msgs::msg::Plane>()
+inline
+auto build<::shape_msgs::msg::Plane>()
 {
-    return shape_msgs::msg::builder::Init_Plane_coef();
+  return shape_msgs::msg::builder::Init_Plane_coef();
 }
 
-}    // namespace shape_msgs
+}  // namespace shape_msgs
 
-#endif    // SHAPE_MSGS__MSG__DETAIL__PLANE__BUILDER_HPP_
+#endif  // SHAPE_MSGS__MSG__DETAIL__PLANE__BUILDER_HPP_

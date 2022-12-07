@@ -23,14 +23,10 @@
 #include <fastdds/dds/builtin/topic/BuiltinTopicKey.hpp>
 #include <fastdds/dds/core/policy/QosPolicies.hpp>
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace dds
-{
-namespace builtin
-{
+namespace eprosima {
+namespace fastdds {
+namespace dds {
+namespace builtin {
 
 struct TopicBuiltinTopicData
 {
@@ -43,43 +39,43 @@ struct TopicBuiltinTopicData
     //! Type name
     std::string type_name;
 
-    //! Durability Qos, implemented in the library.
+    //!Durability Qos, implemented in the library.
     DurabilityQosPolicy durability;
 
-    //! Durability Service Qos, NOT implemented in the library.
+    //!Durability Service Qos, NOT implemented in the library.
     DurabilityServiceQosPolicy durability_service;
 
-    //! Deadline Qos, implemented in the library.
+    //!Deadline Qos, implemented in the library.
     DeadlineQosPolicy deadline;
 
-    //! Liveliness Qos, implemented in the library.
+    //!Liveliness Qos, implemented in the library.
     LivelinessQosPolicy liveliness;
 
-    //! Reliability Qos, implemented in the library.
+    //!Reliability Qos, implemented in the library.
     ReliabilityQosPolicy reliability;
 
-    //! Transport Priority Qos, NOT implemented in the library.
+    //!Transport Priority Qos, NOT implemented in the library.
     TransportPriorityQosPolicy transport_priority;
 
-    //! Lifespan Qos, implemented in the library.
+    //!Lifespan Qos, implemented in the library.
     LifespanQosPolicy lifespan;
 
-    //! History Qos, implemented in the library.
+    //!History Qos, implemented in the library.
     HistoryQosPolicy history;
 
-    //! Resource Limits Qos, implemented in the library.
+    //!Resource Limits Qos, implemented in the library.
     ResourceLimitsQosPolicy resource_limits;
 
-    //! Ownership Qos, NOT implemented in the library.
+    //!Ownership Qos, NOT implemented in the library.
     OwnershipQosPolicy ownership;
 
-    //! Topic Data Qos, NOT implemented in the library.
+    //!Topic Data Qos, NOT implemented in the library.
     TopicDataQosPolicy topic_data;
 };
 
-}    // namespace builtin
-}    // namespace dds
-}    // namespace fastdds
-}    // namespace eprosima
+} // builtin
+} // dds
+} // fastdds
+} // eprosima
 
-#endif    // FASTDDS_DDS_BUILTIN_TOPIC_TOPICBUILTINTOPICDATA_HPP
+#endif // FASTDDS_DDS_BUILTIN_TOPIC_TOPICBUILTINTOPICDATA_HPP

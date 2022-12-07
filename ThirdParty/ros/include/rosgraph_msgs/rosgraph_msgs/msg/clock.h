@@ -5,8 +5,8 @@
 #ifndef ROSGRAPH_MSGS__MSG__CLOCK_H_
 #define ROSGRAPH_MSGS__MSG__CLOCK_H_
 
-#include "rosgraph_msgs/msg/detail/clock__functions.h"
 #include "rosgraph_msgs/msg/detail/clock__struct.h"
+#include "rosgraph_msgs/msg/detail/clock__functions.h"
 #include "rosgraph_msgs/msg/detail/clock__type_support.h"
 
-#endif    // ROSGRAPH_MSGS__MSG__CLOCK_H_
+#endif  // ROSGRAPH_MSGS__MSG__CLOCK_H_

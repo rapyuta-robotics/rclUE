@@ -22,19 +22,19 @@ extern "C"
 {
 #endif
 
-    /// Used to specify if the context can only communicate through localhost.
-    typedef enum RMW_PUBLIC_TYPE rmw_localhost_only_e
-    {
-        /// Uses ROS_LOCALHOST_ONLY environment variable.
-        RMW_LOCALHOST_ONLY_DEFAULT = 0,
-        /// Forces using only localhost.
-        RMW_LOCALHOST_ONLY_ENABLED = 1,
-        /// Forces disabling localhost only.
-        RMW_LOCALHOST_ONLY_DISABLED = 2,
-    } rmw_localhost_only_t;
+/// Used to specify if the context can only communicate through localhost.
+typedef enum RMW_PUBLIC_TYPE rmw_localhost_only_e
+{
+  /// Uses ROS_LOCALHOST_ONLY environment variable.
+  RMW_LOCALHOST_ONLY_DEFAULT = 0,
+  /// Forces using only localhost.
+  RMW_LOCALHOST_ONLY_ENABLED = 1,
+  /// Forces disabling localhost only.
+  RMW_LOCALHOST_ONLY_DISABLED = 2,
+} rmw_localhost_only_t;
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif    // RMW__LOCALHOST_H_
+#endif  // RMW__LOCALHOST_H_

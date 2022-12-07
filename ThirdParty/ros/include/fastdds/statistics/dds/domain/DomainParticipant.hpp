@@ -20,23 +20,19 @@
 #ifndef _FASTDDS_STATISTICS_DDS_DOMAIN_DOMAINPARTICIPANT_HPP_
 #define _FASTDDS_STATISTICS_DDS_DOMAIN_DOMAINPARTICIPANT_HPP_
 
-#include <fastrtps/fastrtps_dll.h>
-#include <fastrtps/types/TypesBase.h>
+#include <string>
 
 #include <fastdds/dds/domain/DomainParticipant.hpp>
 #include <fastdds/dds/publisher/qos/DataWriterQos.hpp>
-#include <string>
+#include <fastrtps/fastrtps_dll.h>
+#include <fastrtps/types/TypesBase.h>
 
 using eprosima::fastrtps::types::ReturnCode_t;
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace statistics
-{
-namespace dds
-{
+namespace eprosima {
+namespace fastdds {
+namespace statistics {
+namespace dds {
 
 /**
  * Class DomainParticipant: extends standard DDS DomainParticipant class to include specific methods for the Statistics
@@ -48,6 +44,7 @@ class DomainParticipant : public eprosima::fastdds::dds::DomainParticipant
     DomainParticipant() = delete;
 
 public:
+
     /**
      * @brief This operation enables a Statistics DataWriter
      * @param topic_name Name of the topic associated to the Statistics DataWriter
@@ -58,8 +55,9 @@ public:
      * RETCODE_OK if the DataWriter has been created or if it has been created previously,
      * and RETCODE_ERROR otherwise
      */
-    RTPS_DllAPI ReturnCode_t enable_statistics_datawriter(const std::string& topic_name,
-                                                          const eprosima::fastdds::dds::DataWriterQos& dwqos);
+    RTPS_DllAPI ReturnCode_t enable_statistics_datawriter(
+            const std::string& topic_name,
+            const eprosima::fastdds::dds::DataWriterQos& dwqos);
 
     /**
      * @brief This operation disables a Statistics DataWriter
@@ -69,7 +67,8 @@ public:
      * RETCODE_OK if the DataWriter has been correctly deleted or does not exist,
      * and RETCODE_ERROR otherwise
      */
-    RTPS_DllAPI ReturnCode_t disable_statistics_datawriter(const std::string& topic_name);
+    RTPS_DllAPI ReturnCode_t disable_statistics_datawriter(
+            const std::string& topic_name);
 
     /**
      * @brief This operation narrows the DDS DomainParticipant to the Statistics DomainParticipant
@@ -77,7 +76,8 @@ public:
      * @return Reference to the Statistics DomainParticipant if successful.
      * nullptr otherwise.
      */
-    RTPS_DllAPI static DomainParticipant* narrow(eprosima::fastdds::dds::DomainParticipant* domain_participant);
+    RTPS_DllAPI static DomainParticipant* narrow(
+            eprosima::fastdds::dds::DomainParticipant* domain_participant);
 
     /**
      * @brief This operation narrows the DDS DomainParticipant to the Statistics DomainParticipant
@@ -85,12 +85,14 @@ public:
      * @return Constant reference to the Statistics DomainParticipant if successful.
      * nullptr otherwise.
      */
-    RTPS_DllAPI static const DomainParticipant* narrow(const eprosima::fastdds::dds::DomainParticipant* domain_participant);
+    RTPS_DllAPI static const DomainParticipant* narrow(
+            const eprosima::fastdds::dds::DomainParticipant* domain_participant);
+
 };
 
-}    // namespace dds
-}    // namespace statistics
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace dds
+} // namespace statistics
+} // namespace fastdds
+} // namespace eprosima
 
 #endif /* _FASTDDS_STATISTICS_DDS_DOMAIN_DOMAINPARTICIPANT_HPP_ */

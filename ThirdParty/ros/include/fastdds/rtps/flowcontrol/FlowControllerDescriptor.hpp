@@ -18,12 +18,9 @@
 #include "FlowControllerConsts.hpp"
 #include "FlowControllerSchedulerPolicy.hpp"
 
-namespace eprosima
-{
-namespace fastdds
-{
-namespace rtps
-{
+namespace eprosima {
+namespace fastdds {
+namespace rtps {
 
 /*!
  * Configuration values for creating flow controllers.
@@ -55,8 +52,8 @@ struct FlowControllerDescriptor
     uint64_t period_ms = 100;
 };
 
-}    // namespace rtps
-}    // namespace fastdds
-}    // namespace eprosima
+} // namespace rtps
+} // namespace fastdds
+} // namespace eprosima
 
-#endif    // FASTDDS_RTPS_FLOWCONTROL_FLOWCONTROLLERDESCRIPTOR_HPP
+#endif // FASTDDS_RTPS_FLOWCONTROL_FLOWCONTROLLERDESCRIPTOR_HPP

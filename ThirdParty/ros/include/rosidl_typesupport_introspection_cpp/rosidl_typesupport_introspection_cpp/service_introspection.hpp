@@ -15,12 +15,13 @@
 #ifndef ROSIDL_TYPESUPPORT_INTROSPECTION_CPP__SERVICE_INTROSPECTION_HPP_
 #define ROSIDL_TYPESUPPORT_INTROSPECTION_CPP__SERVICE_INTROSPECTION_HPP_
 
-#include "rosidl_runtime_c/service_type_support_struct.h"
-#include "rosidl_runtime_c/visibility_control.h"
-#include "rosidl_typesupport_introspection_cpp/message_introspection.hpp"
-
 #include <cstddef>
 #include <cstdint>
+
+#include "rosidl_runtime_c/service_type_support_struct.h"
+#include "rosidl_runtime_c/visibility_control.h"
+
+#include "rosidl_typesupport_introspection_cpp/message_introspection.hpp"
 
 namespace rosidl_typesupport_introspection_cpp
 {
@@ -29,17 +30,17 @@ namespace rosidl_typesupport_introspection_cpp
 /// A service is comprised of two interfaces: the request and the response.
 typedef struct ServiceMembers_s
 {
-    /// The namespace in which the service resides, e.g. "example_messages::srv"
-    /// for example_messages/srv
-    const char* service_namespace_;
-    /// The name of the service, e.g. "AddTwoInts"
-    const char* service_name_;
-    /// A pointer to the introspection information structure for the request interface.
-    const MessageMembers* request_members_;
-    /// A pointer to the introspection information structure for the response interface.
-    const MessageMembers* response_members_;
+  /// The namespace in which the service resides, e.g. "example_messages::srv"
+  /// for example_messages/srv
+  const char * service_namespace_;
+  /// The name of the service, e.g. "AddTwoInts"
+  const char * service_name_;
+  /// A pointer to the introspection information structure for the request interface.
+  const MessageMembers * request_members_;
+  /// A pointer to the introspection information structure for the response interface.
+  const MessageMembers * response_members_;
 } ServiceMembers;
 
-}    // namespace rosidl_typesupport_introspection_cpp
+}  // namespace rosidl_typesupport_introspection_cpp
 
-#endif    // ROSIDL_TYPESUPPORT_INTROSPECTION_CPP__SERVICE_INTROSPECTION_HPP_
+#endif  // ROSIDL_TYPESUPPORT_INTROSPECTION_CPP__SERVICE_INTROSPECTION_HPP_

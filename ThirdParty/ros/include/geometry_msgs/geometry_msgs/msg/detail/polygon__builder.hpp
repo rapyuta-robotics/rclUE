@@ -5,11 +5,12 @@
 #ifndef GEOMETRY_MSGS__MSG__DETAIL__POLYGON__BUILDER_HPP_
 #define GEOMETRY_MSGS__MSG__DETAIL__POLYGON__BUILDER_HPP_
 
+#include <algorithm>
+#include <utility>
+
 #include "geometry_msgs/msg/detail/polygon__struct.hpp"
 #include "rosidl_runtime_cpp/message_initialization.hpp"
 
-#include <algorithm>
-#include <utility>
 
 namespace geometry_msgs
 {
@@ -23,32 +24,33 @@ namespace builder
 class Init_Polygon_points
 {
 public:
-    Init_Polygon_points() : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
-    {
-    }
-    ::geometry_msgs::msg::Polygon points(::geometry_msgs::msg::Polygon::_points_type arg)
-    {
-        msg_.points = std::move(arg);
-        return std::move(msg_);
-    }
+  Init_Polygon_points()
+  : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
+  {}
+  ::geometry_msgs::msg::Polygon points(::geometry_msgs::msg::Polygon::_points_type arg)
+  {
+    msg_.points = std::move(arg);
+    return std::move(msg_);
+  }
 
 private:
-    ::geometry_msgs::msg::Polygon msg_;
+  ::geometry_msgs::msg::Polygon msg_;
 };
 
-}    // namespace builder
+}  // namespace builder
 
-}    // namespace msg
+}  // namespace msg
 
 template<typename MessageType>
 auto build();
 
 template<>
-inline auto build<::geometry_msgs::msg::Polygon>()
+inline
+auto build<::geometry_msgs::msg::Polygon>()
 {
-    return geometry_msgs::msg::builder::Init_Polygon_points();
+  return geometry_msgs::msg::builder::Init_Polygon_points();
 }
 
-}    // namespace geometry_msgs
+}  // namespace geometry_msgs
 
-#endif    // GEOMETRY_MSGS__MSG__DETAIL__POLYGON__BUILDER_HPP_
+#endif  // GEOMETRY_MSGS__MSG__DETAIL__POLYGON__BUILDER_HPP_

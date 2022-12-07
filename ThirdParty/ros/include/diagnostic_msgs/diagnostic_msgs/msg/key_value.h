@@ -5,8 +5,8 @@
 #ifndef DIAGNOSTIC_MSGS__MSG__KEY_VALUE_H_
 #define DIAGNOSTIC_MSGS__MSG__KEY_VALUE_H_
 
-#include "diagnostic_msgs/msg/detail/key_value__functions.h"
 #include "diagnostic_msgs/msg/detail/key_value__struct.h"
+#include "diagnostic_msgs/msg/detail/key_value__functions.h"
 #include "diagnostic_msgs/msg/detail/key_value__type_support.h"
 
-#endif    // DIAGNOSTIC_MSGS__MSG__KEY_VALUE_H_
+#endif  // DIAGNOSTIC_MSGS__MSG__KEY_VALUE_H_
