@@ -67,8 +67,9 @@ void UROS2Publisher::StopPublishTimer()
 
 void UROS2Publisher::StartPublishTimer()
 {
-    if (PublicationFrequencyHz > 0)
+    if (PublicationFrequencyHz > 0 && TimerManager != nullptr)
     {
+        TimerManager->LogInfo = TopicName;
         FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &UROS2Publisher::UpdateAndPublishMessage);
         TimerManager->SetTimer(TimerDelegate, 1.f / PublicationFrequencyHz);
     }

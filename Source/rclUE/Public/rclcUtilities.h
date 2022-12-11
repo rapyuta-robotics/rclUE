@@ -165,6 +165,9 @@ UCLASS()
 class URRTimerManager : public UObject
 {
     GENERATED_BODY()
+public:
+    FString LogInfo;
+
 protected:
     UPROPERTY()
     bool bEnabled = true;
@@ -188,18 +191,20 @@ public:
     {
         bEnabled = false;
         GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+        UE_LOG(LogTemp, Log, TEXT("[URRTimerManager::SetTimer][%s] Timer stopped"), *LogInfo);
     }
 
     void SetTimer(FTimerDelegate const& InDelegate, float InRate)
     {
+        StopTimer();
         Rate = InRate;
         Delegate = InDelegate;
         bEnabled = true;
         desiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
 
-        GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
         TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, Rate, false);
+        UE_LOG(LogTemp, Log, TEXT("[URRTimerManager::SetTimer][%s] Timer started"), *LogInfo);
     }
 
     void SetTimerImple()
@@ -217,27 +222,30 @@ public:
         }
         else
         {
-            UE_LOG(LogTemp, Error, TEXT("Delegate is not bound"));
+            UE_LOG(LogTemp, Error, TEXT("[URRTimerManager::SetTimerImple][%s] Delegate is not bound"), *LogInfo);
         }
+
+        float now = UGameplayStatics::GetTimeSeconds(GetWorld());
 
         // update desiredTime
         desiredTime += Rate;
 
-        float wt = desiredTime - UGameplayStatics::GetTimeSeconds(GetWorld());
-        while (wt <= 0)
+        float wt = desiredTime - now;
+        if (wt <= 0)
         {
             UE_LOG(LogTemp,
                    Warning,
-                   TEXT("Delegate function call take longer than Rate or StepSize is not small enough to meet target Rate=%f, "
+                   TEXT("[URRTimerManager::SetTimerImple][%s] Delegate function call take longer than Rate or StepSize is not "
+                        "small enough to meet target Rate=%f, "
                         "StepSize=%f."),
+                   *LogInfo,
                    Rate,
                    FApp::GetFixedDeltaTime());
 
             // Make sure that function call happens at next tick.
             wt = FApp::GetFixedDeltaTime() * 0.5;
-            desiredTime += wt;
+            desiredTime = now + wt;
         }
-
         // define lambda
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, wt, false);
     }
