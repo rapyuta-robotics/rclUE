@@ -162,6 +162,96 @@ static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
 
 UCLASS()
+class URRTimerManager : public UObject
+{
+    GENERATED_BODY()
+public:
+    FString LogInfo;
+
+protected:
+    UPROPERTY()
+    bool bEnabled = true;
+
+    UPROPERTY()
+    float Rate = 0.f;
+
+    UPROPERTY()
+    float desiredTime = 0.f;
+
+    //! Timer handler for periodic publisher
+    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    FTimerHandle TimerHandle;
+
+    FTimerDelegate Delegate;
+
+    FTimerDelegate TimerDelegate;
+
+public:
+    void StopTimer()
+    {
+        bEnabled = false;
+        GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
+        UE_LOG(LogTemp, Log, TEXT("[URRTimerManager::SetTimer][%s] Timer stopped"), *LogInfo);
+    }
+
+    void SetTimer(FTimerDelegate const& InDelegate, float InRate)
+    {
+        StopTimer();
+        Rate = InRate;
+        Delegate = InDelegate;
+        bEnabled = true;
+        desiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
+
+        TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
+        GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, Rate, false);
+        UE_LOG(LogTemp, Log, TEXT("[URRTimerManager::SetTimer][%s] Timer started"), *LogInfo);
+    }
+
+    void SetTimerImple()
+    {
+        if (!bEnabled)
+        {
+            bEnabled = true;
+            return;
+        }
+
+        // function call. Make sure delegate is bound.
+        if (Delegate.IsBound())
+        {
+            Delegate.ExecuteIfBound();
+        }
+        else
+        {
+            UE_LOG(LogTemp, Error, TEXT("[URRTimerManager::SetTimerImple][%s] Delegate is not bound"), *LogInfo);
+        }
+
+        float now = UGameplayStatics::GetTimeSeconds(GetWorld());
+
+        // update desiredTime
+        desiredTime += Rate;
+
+        float wt = desiredTime - now;
+        if (wt <= 0)
+        {
+            UE_LOG(LogTemp,
+                   Warning,
+                   TEXT("[URRTimerManager::SetTimerImple][%s] Delegate function call take longer than Rate or StepSize is not "
+                        "small enough to meet target Rate=%f, "
+                        "StepSize=%f."),
+                   *LogInfo,
+                   Rate,
+                   FApp::GetFixedDeltaTime());
+
+            // Make sure that function call happens at next tick.
+            wt = FApp::GetFixedDeltaTime() * 0.5;
+            desiredTime = now + wt;
+        }
+        // define lambda
+        GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, wt, false);
+    }
+};
+
+UCLASS()
 class UROS2Utils : public UBlueprintFunctionLibrary
 {
     GENERATED_BODY()
