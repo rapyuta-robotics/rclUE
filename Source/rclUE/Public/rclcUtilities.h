@@ -186,7 +186,7 @@ protected:
     float Rate = 0.f;
 
     UPROPERTY()
-    float desiredTime = 0.f;
+    float DesiredTime = 0.f;
 
     //! Timer handler for periodic publisher
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -214,7 +214,7 @@ public:
         Rate = InRate;
         Delegate = InDelegate;
         bEnabled = true;
-        desiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
+        DesiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
 
         TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, Rate, false);
@@ -241,10 +241,10 @@ public:
 
         float now = UGameplayStatics::GetTimeSeconds(GetWorld());
 
-        // update desiredTime
-        desiredTime += Rate;
+        // update DesiredTime
+        DesiredTime += Rate;
 
-        float wt = desiredTime - now;
+        float wt = DesiredTime - now;
         if (wt <= 0)
         {
             UE_LOG_THROTTLE(
@@ -260,7 +260,7 @@ public:
                 FApp::GetFixedDeltaTime());
             // Make sure that function call happens at next tick.
             wt = FApp::GetFixedDeltaTime() * 0.5;
-            desiredTime = now + wt;
+            DesiredTime = now + wt;
         }
         // define lambda
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, wt, false);
