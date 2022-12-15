@@ -65,6 +65,16 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
         }                                                                           \
     }
 
+#define UE_LOG_THROTTLE(InRate, InLastHit, ...)                                   \
+    {                                                                             \
+        float UE_LOG_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
+        if (InLastHit + InRate <= UE_LOG_THROTTLE_Now)                            \
+        {                                                                         \
+            InLastHit = UE_LOG_THROTTLE_Now;                                      \
+            UE_LOG(__VA_ARGS__);                                                  \
+        }                                                                         \
+    }
+
 /**
  * @brief used to add states to classes (e.g. to avoid double initializations)
  *
@@ -176,7 +186,7 @@ protected:
     float Rate = 0.f;
 
     UPROPERTY()
-    float desiredTime = 0.f;
+    float DesiredTime = 0.f;
 
     //! Timer handler for periodic publisher
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -185,6 +195,10 @@ protected:
     FTimerDelegate Delegate;
 
     FTimerDelegate TimerDelegate;
+
+    //! internal property used to log throttle.
+    UPROPERTY()
+    float LogLastHit = 0.f;
 
 public:
     void StopTimer()
@@ -200,7 +214,7 @@ public:
         Rate = InRate;
         Delegate = InDelegate;
         bEnabled = true;
-        desiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
+        DesiredTime = UGameplayStatics::GetTimeSeconds(GetWorld()) + Rate;
 
         TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, Rate, false);
@@ -227,24 +241,26 @@ public:
 
         float now = UGameplayStatics::GetTimeSeconds(GetWorld());
 
-        // update desiredTime
-        desiredTime += Rate;
+        // update DesiredTime
+        DesiredTime += Rate;
 
-        float wt = desiredTime - now;
+        float wt = DesiredTime - now;
         if (wt <= 0)
         {
-            UE_LOG(LogTemp,
-                   Warning,
-                   TEXT("[URRTimerManager::SetTimerImple][%s] Delegate function call take longer than Rate or StepSize is not "
-                        "small enough to meet target Rate=%f, "
-                        "StepSize=%f."),
-                   *LogInfo,
-                   Rate,
-                   FApp::GetFixedDeltaTime());
-
+            UE_LOG_THROTTLE(
+                5,
+                LogLastHit,
+                LogTemp,
+                Warning,
+                TEXT("[URRTimerManager::SetTimerImple][%s] Delegate function call take longer than Rate or StepSize is not "
+                     "small enough to meet target Rate=%f, "
+                     "StepSize=%f."),
+                *LogInfo,
+                Rate,
+                FApp::GetFixedDeltaTime());
             // Make sure that function call happens at next tick.
             wt = FApp::GetFixedDeltaTime() * 0.5;
-            desiredTime = now + wt;
+            DesiredTime = now + wt;
         }
         // define lambda
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, wt, false);
