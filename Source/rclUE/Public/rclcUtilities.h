@@ -68,7 +68,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 #define UE_LOG_THROTTLE(InRate, InLastHit, ...)                                   \
     {                                                                             \
         float UE_LOG_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
-        if (InLastHit + InRate <= UE_LOG_THROTTLE_Now)                            \
+        if (InLastHit + InRate >= UE_LOG_THROTTLE_Now)                            \
         {                                                                         \
             InLastHit = UE_LOG_THROTTLE_Now;                                      \
             UE_LOG(__VA_ARGS__);                                                  \
