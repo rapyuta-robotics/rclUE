@@ -1,18 +1,18 @@
 Welcome to rclUE's documentation!
 ===================================
 
-**rclUE** is a `ROS2 <https://docs.ros.org/en/foxy/index.html#>`_ 
+**rclUE** is a `ROS2 <https://docs.ros.org/en/foxy/index.html#>`_
 client library for Unreal Engine.
-rclUE is a UE4 Plugin whih bridges `Unreal Engine <https://www.unrealengine.com/en-US/?lang=en-US>`_ 
-and ROS2, opening UE4’s tools to ROS developers through a C++ interface. 
-Furthermore non-ROS engineers should be able to quickly set up robot simulations 
-through UE4’s blueprint visual scripting language by using the instruments 
-that ROS developers and the plugin exposed. 
+rclUE is a UE Plugin whih bridges `Unreal Engine <https://www.unrealengine.com/en-US/?lang=en-US>`_
+and ROS2, opening UE’s tools to ROS developers through a C++ interface.
+Furthermore non-ROS engineers should be able to quickly set up robot simulations
+through UE’s blueprint visual scripting language by using the instruments
+that ROS developers and the plugin exposed.
 
 This document includes not only rclUE but also an overview of its stakeholders from various repositories.
 Please check the :doc:`overview`.
 
-A demo of our tool can be found in our port of the `turtlebot examples to UE4 <https://github.com/rapyuta-robotics/turtlebot3-UE>`_.
+A demo of our tool can be found in our port of the `turtlebot examples to UE <https://github.com/rapyuta-robotics/turtlebot3-UE>`_.
 
 .. raw:: html
 
