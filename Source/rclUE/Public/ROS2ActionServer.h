@@ -23,7 +23,7 @@ DECLARE_DYNAMIC_DELEGATE_RetVal_OneParam(bool, FActionGoalCallback, UROS2Generic
  * method
  * @sa [rclc action client](https://docs.ros2.org/dashing/api/rcl_action/action__server_8h.html)
  * @sa [Unreal Engine
- * Delegates](https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
+ * Delegates](https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
  */
 UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionServer : public UROS2Action

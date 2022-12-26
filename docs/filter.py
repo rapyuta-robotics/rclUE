@@ -2,13 +2,13 @@
 import sys
 import re
 
-URL_BASE = 'https://docs.unrealengine.com/4.27/en-US/ProgrammingAndScripting/'
+URL_BASE = 'https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/'
 URL_GAMEARCHITECTURE = URL_BASE + 'GameplayArchitecture/'
 UE_MACROS = {
-    'UCLASS'    : URL_BASE + 'ProgrammingWithCPP/UnrealArchitecture/Objects/', 
-    'UINTERFACE': URL_GAMEARCHITECTURE + 'Interfaces/', 
-    'USTRUCT'   : URL_GAMEARCHITECTURE + 'Structs/', 
-    'UFUNCTION' : URL_GAMEARCHITECTURE + 'Functions/', 
+    'UCLASS'    : URL_BASE + 'ProgrammingWithCPP/UnrealArchitecture/Objects/',
+    'UINTERFACE': URL_GAMEARCHITECTURE + 'Interfaces/',
+    'USTRUCT'   : URL_GAMEARCHITECTURE + 'Structs/',
+    'UFUNCTION' : URL_GAMEARCHITECTURE + 'Functions/',
     'UPROPERTY' : URL_GAMEARCHITECTURE + 'Properties/',
     'UENUM'     : URL_GAMEARCHITECTURE + 'Properties/'
 }
@@ -30,7 +30,7 @@ else:
             for key in UE_MACROS:
                 if line.lstrip().startswith(key):
                     line = '''
-                    /*! 
+                    /*!
                     * [{}]({})
                     */
                     '''.format(line.strip(), UE_MACROS[key])
