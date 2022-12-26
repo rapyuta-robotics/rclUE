@@ -136,24 +136,6 @@ public:
     */
     AROS2Node();
 
-protected:
-    /**
-     * @brief Overridable function called whenever this actor is being removed from a level
-     * @param EndPlayReason
-     * \sa [AActor::EndPlay](https://docs.unrealengine.com/5.1/en-US/API/Runtime/Engine/GameFramework/AActor/EndPlay/)
-     */
-    virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-public:
-    /**
-     * @brief Called every frame
-     *
-     * @param DeltaTime
-     * @sa [Actor Ticking](https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Actors/Ticking/)
-     */
-    virtual void Tick(float DeltaTime) override;
-
-
 public:
     UROS2NodeComponent* ActorComponent = nullptr;
 
@@ -228,5 +210,4 @@ public:
     FString Namespace = TEXT("");
 
 private:
-
 };

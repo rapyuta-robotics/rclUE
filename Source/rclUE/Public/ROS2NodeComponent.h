@@ -74,8 +74,8 @@ public:
 public:
     /**
      * @brief Initilize rosnode with rclc_node_init_default
-     * This can't be pre-placed in UROS2NodeComponent::BeginPlay() as the order of rcl(c) instructions could be different/relevant in each of
-     * Child classes
+     * This can't be pre-placed in UROS2NodeComponent::BeginPlay() as the order of rcl(c) instructions could be different/relevant
+     * in each of Child classes
      *
      */
     UFUNCTION(BlueprintCallable)
@@ -157,8 +157,9 @@ public:
 
 protected:
     /**
-     * @brief method used to wait on communication and call delegates when appropriate modeled after executor + actions
-     *
+     * @brief method used to wait on communication and call delegates when appropriate modeled after executor + actions.
+     * @sa [rclc_executor_spin_some in
+     * rclc/executor.c](https://github.com/ros2/rclc/blob/243ee63ca369f0fb90397ba9ae0ca1283ab16ad3/rclc/src/rclc/executor.c#L1802)
      */
     UFUNCTION()
     void SpinSome();
@@ -212,4 +213,29 @@ private:
      */
     UFUNCTION()
     void HandleServiceClients();
+
+    /**
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take_response_with_info to get response and execute Callback.
+     *
+     */
+    UFUNCTION()
+    void HandleActionClients();
+
+    /**
+     * @brief based on _rclc_default_scheduling of the rclc executor.
+     * Called inside #SpinSome. rcl_take_response_with_info to get response and execute Callback.
+     *
+     */
+    UFUNCTION()
+    void HandleActionServers();
+
+    /**
+     * @brief invalidate #wait_set so that in next spin_some() call the
+     * #wait_set is updated accordingly in #SpinSome
+     * @sa  [rclc_executor_add_subscription_with_context in
+     * rclc/executor.c](https://github.com/ros2/rclc/blob/243ee63ca369f0fb90397ba9ae0ca1283ab16ad3/rclc/src/rclc/executor.c#L207)
+     */
+    UFUNCTION()
+    void InvalidateWaitSet();
 };

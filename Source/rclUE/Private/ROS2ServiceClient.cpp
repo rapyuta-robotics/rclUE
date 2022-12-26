@@ -49,7 +49,7 @@ void UROS2ServiceClient::UpdateAndSendRequest()
     check(IsValid(OwnerNode));
     if (!IsServiceReady())
     {
-        UE_LOG(LogROS2Service, Error, TEXT("Service named %s is not ready yet (%s)"), *ServiceName, *__LOG_INFO__);
+        UE_LOG(LogROS2Srv, Error, TEXT("Service named %s is not ready yet (%s)"), *ServiceName, *__LOG_INFO__);
         return;
     }
     RequestDelegate.ExecuteIfBound(Service);
@@ -83,7 +83,7 @@ bool UROS2ServiceClient::IsServiceReady()
     }
     if (ret != RCL_RET_OK)
     {
-        UE_LOG(LogROS2Service, Error, TEXT("rcl_service_server_is_available failed (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Srv, Error, TEXT("rcl_service_server_is_available failed (%s)"), *__LOG_INFO__);
     }
     return is_ready;
 }

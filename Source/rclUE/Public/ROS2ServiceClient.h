@@ -32,7 +32,6 @@ class RCLUE_API UROS2ServiceClient : public UROS2Service
     GENERATED_BODY()
 
 public:
-
     /**
      * @brief Destroy publisher with rcl_client_fini
      *
@@ -48,7 +47,7 @@ public:
 
     /**
      * @brief Determine the relevant action client functions to call.
-     * 
+     *
      */
     virtual void ProcessReady() override;
 
@@ -96,13 +95,13 @@ public:
 
 protected:
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FServiceClientCallback& InRequestDelegate, const FServiceClientCallback& InResponseCallback);
+    void SetDelegates(const FServiceCallback& InRequestDelegate, const FServiceCallback& InResponseCallback);
 
     /**
      * @brief Send service request
      *
      */
-    UFUNCTION() 
+    UFUNCTION()
     void SendRequest();
     const void* req;
     const void* res;

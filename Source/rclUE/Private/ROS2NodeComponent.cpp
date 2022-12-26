@@ -83,7 +83,7 @@ void UROS2NodeComponent::Init()
             Support = GetWorld()->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
             UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
-
+            node = rcl_get_zero_initialized_node();
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
         }
 
@@ -104,14 +104,10 @@ void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 
     if (false == Subscriptions.Contains(InSubscriber))
     {
+        InSubscriber->RegisterComponent();
         InSubscriber->InitializeWithROS2(this);
         Subscriptions.Add(InSubscriber);
-    
-        // invalidate wait_set
-        if (rcl_wait_set_is_valid(&wait_set))
-        {
-            RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-        }
+        InvalidateWaitSet();
     }
     else
     {
@@ -125,6 +121,7 @@ void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
 
     if (false == Publishers.Contains(InPublisher))
     {
+        InPublisher->RegisterComponent();
         InPublisher->InitializeWithROS2(this);
         Publishers.Add(InPublisher);
     }
@@ -139,8 +136,10 @@ void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
     check(IsValid(InServiceClient));
     if (false == ServiceClients.Contains(InServiceClient))
     {
+        InServiceClient->RegisterComponent();
         InServiceClient->InitializeWithROS2(this);
         ServiceClients.Add(InServiceClient);
+        InvalidateWaitSet();
     }
     else
     {
@@ -153,18 +152,14 @@ void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
     check(IsValid(InServiceServer));
     if (false == ServiceServers.Contains(InServiceServer))
     {
+        InServiceServer->RegisterComponent();
         InServiceServer->InitializeWithROS2(this);
         ServiceServers.Add(InServiceServer);
-
-        // invalidate wait_set
-        if (rcl_wait_set_is_valid(&wait_set))
-        {
-            RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
-        }
+        InvalidateWaitSet();
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
 }
 
@@ -174,8 +169,10 @@ void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
 
     if (false == ActionClients.Contains(InActionClient))
     {
+        InActionClient->RegisterComponent();
         InActionClient->InitializeWithROS2(this);
         ActionClients.Add(InActionClient);
+        InvalidateWaitSet();
     }
     else
     {
@@ -189,8 +186,10 @@ void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
 
     if (false == ActionServers.Contains(InActionServer))
     {
+        InActionServer->RegisterComponent();
         InActionServer->InitializeWithROS2(this);
         ActionServers.Add(InActionServer);
+        InvalidateWaitSet();
     }
     else
     {
@@ -267,18 +266,37 @@ void UROS2NodeComponent::HandleServiceClients()
     }
 }
 
+void UROS2NodeComponent::HandleActionClients()
+{
+    for (auto& a : ActionClients)
+    {
+        a->ProcessReady(&wait_set);
+    }
+}
+
+void UROS2NodeComponent::HandleActionServers()
+{
+    for (auto& a : ActionServers)
+    {
+        a->ProcessReady(&wait_set);
+    }
+}
+
 void UROS2NodeComponent::SpinSome()
 {
+    // ref
+    // action: rcl_action_wait_set_add_action_server.
+    // https://github.com/ros2/rcl/blob/3eb0f7536e9023c1af3dd2a6eefcfc11bd20129e/rcl_action/src/rcl_action/action_server.c#L956
     if (!rcl_wait_set_is_valid(&wait_set))
     {
         RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
         wait_set = rcl_get_zero_initialized_wait_set();
         RCSOFTCHECK(rcl_wait_set_init(&wait_set,
-                                      Subscriptions.Num() + ActionClients.Num() * 2,
+                                      Subscriptions.Num() + ActionClients.Num() * 2,    // action feedback and status
                                       NGuardConditions,
-                                      NTimers + ActionServers.Num(),
-                                      ServiceClients.Num() + ActionClients.Num() * 3,
-                                      ServiceServers.Num() + ActionServers.Num() * 3,
+                                      NTimers + ActionServers.Num(),                     // action timeout
+                                      ServiceClients.Num() + ActionClients.Num() * 3,    // action goal, cancel and result
+                                      ServiceServers.Num() + ActionServers.Num() * 3,    // action goal, cancel and result
                                       NEvents,
                                       &Support->Get().context,
                                       rcl_get_default_allocator()));
@@ -286,6 +304,7 @@ void UROS2NodeComponent::SpinSome()
 
     RCSOFTCHECK(rcl_wait_set_clear(&wait_set));
 
+    // todo add timer for action
     for (auto& s : Subscriptions)
     {
         RCSOFTCHECK(rcl_wait_set_add_subscription(&wait_set, &s->rcl_subscription, nullptr));
@@ -317,14 +336,16 @@ void UROS2NodeComponent::SpinSome()
     HandleSubscriptions();
     HandleServiceServers();
     HandleServiceClients();
+    HandleActionClients();
+    HandleActionServers();
+}
 
-    for (auto& a : ActionServers)
+void UROS2NodeComponent::InvalidateWaitSet()
+{
+    // invalidate wait_set so that in next spin_some() call the
+    // 'executor->wait_set' is updated accordingly
+    if (rcl_wait_set_is_valid(&wait_set))
     {
-        a->ProcessReady(&wait_set);
-    }
-
-    for (auto& a : ActionClients)
-    {
-        a->ProcessReady(&wait_set);
+        RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
     }
 }

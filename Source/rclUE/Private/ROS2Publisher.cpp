@@ -23,7 +23,8 @@ UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
 
 void UROS2Publisher::InitializeTopicComponent()
 {
-    TimerManager = CreateDefaultSubobject<URRTimerManager>(TEXT("%sTimerManager"), *GetName());
+    TimerManager = NewObject<URRTimerManager>(
+        this, URRTimerManager::StaticClass(), FName(*FString::Printf(TEXT("%s_TimerManager"), *GetName())));
     PrimaryComponentTick.bCanEverTick = true;
 
     const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
@@ -74,7 +75,6 @@ void UROS2Publisher::Destroy()
     }
     UpdateDelegate.Unbind();
 }
-
 
 void UROS2Publisher::UpdateAndPublishMessage()
 {
