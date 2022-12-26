@@ -10,7 +10,7 @@ or Blueprint, for scripting logic.
 
 Unreal’s type system favors inheritance over composition,
 and requires that (ultimately) all classes that work with
-these features derive from a base UObject class. These UObjects are managed memory,
+these features derive from a base UObject class. These UObjects are managed by memory,
 similar to Java objects, and Unreal has a built-in garbage collector to service them.
 
 To further empower the system, data structures such as arrays, maps,

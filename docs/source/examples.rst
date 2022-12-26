@@ -1,6 +1,6 @@
 Examples
 ========
-\* The content presented here can be found in the `ROS2Examples in the turtlebot3-UE <https://github.com/rapyuta-robotics/turtlebot3-UE/tree/devel/Source/turtlebot3/pubsub>`_ sample code.
+\* The content presented here can be found in the `ROS2Examples folder of the turtlebot3-UE sample code. <https://github.com/rapyuta-robotics/turtlebot3-UE/tree/devel/Source/turtlebot3/ROS2Examples>`_ sample code.
 
 Setup and run
 ---------------
