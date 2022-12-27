@@ -26,6 +26,7 @@
 #include "ROS2NodeComponent.generated.h"
 
 class UROS2Publisher;
+class UROS2Subscriber;
 class UROS2ServiceServer;
 class UROS2ServiceClient;
 class UROS2ActionServer;
@@ -35,13 +36,45 @@ class UROS2ActionClient;
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 
+//! BP requires a custom-made callback thus it must be Dynamic
+DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessage);
+
+/**
+ * @brief ROS2_CREATE_PUBLISHER
+ * FTopicCallback is of dynamic delegate type to be serializable for BP use
+ * FTopicCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_PUBLISHER(InROS2Node, InUserObject, InTopicName, InPublisherClass, InMsgClass, InPubFrequency, InCallback) \
+    if (ensure(IsValid(InROS2Node)))                                                                                           \
+    {                                                                                                                          \
+        FTopicCallback cb;                                                                                                     \
+        cb.BindDynamic(InUserObject, InCallback);                                                                              \
+        InROS2Node->CreatePublisherWithDelegate(InTopicName, InPublisherClass, InMsgClass, InPubFrequency, cb);                \
+    }
+
+/**
+ * @brief ROS2_CREATE_SUBSCRIBER
+ * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
+ * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_SUBSCRIBER(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
+    if (ensure(IsValid(InROS2Node)))                                                          \
+    {                                                                                         \
+        FSubscriptionCallback cb;                                                             \
+        cb.BindDynamic(InUserObject, InCallback);                                             \
+        InROS2Node->CreateSubscriber(InTopicName, InMsgClass, cb);                            \
+    }
+
 /**
  * Class implementing ROS2 node.
  * This class also handles tasks performed by the executor in rclc.
  * Components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers
  * and action clients should register to the node with the appropriate methods (Add*).
  */
-UCLASS(Blueprintable)
+UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2NodeComponent : public UActorComponent
 {
     GENERATED_BODY()
@@ -84,6 +117,44 @@ public:
     rcl_node_t* GetNode();
 
     /**
+     * @brief Set this node to UROS2Publisher::OwnerNode of InPublisher and add to #Publishers.
+     *
+     * @param InPublisher
+     */
+    UFUNCTION(BlueprintCallable)
+    void AddPublisher(UROS2Publisher* InPublisher);
+
+    /**
+     * @brief Create a new UROS2Publisher of custom type and andd to Node.
+     *
+     * @param InTopicName Topic name
+     * @param InPublisherClass Custom output publisher type class
+     * @param InMsgClass Custom message type class
+     * @param InPubFrequency Publishing frequency
+     * @param InUpdateDelegate Delegate which is called with given frequency.
+     */
+    UFUNCTION(BlueprintCallable)
+    UROS2Publisher* CreatePublisherWithDelegate(const FString& InTopicName,
+                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                float InPubFrequency,
+                                                const FTopicCallback& InUpdateDelegate);
+
+    /**
+     * @brief Create a new UROS2Publisher of custom type and andd to Node.
+     *
+     * @param InTopicName Topic name
+     * @param InPublisherClass Custom output publisher type class
+     * @param InMsgClass Custom message type class
+     * @param InPubFrequency Publishing frequency
+     */
+    UFUNCTION(BlueprintCallable)
+    UROS2Publisher* CreatePublisher(const FString& InTopicName,
+                                    const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                    const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                    float InPubFrequency);
+
+    /**
      * @brief Methods to register subscribers.
      * It is up to the user to ensure that they are only added once
      * @param TopicName
@@ -94,12 +165,17 @@ public:
     void AddSubscription(UROS2Subscriber* InSubscriber);
 
     /**
-     * @brief Set this node to UROS2Publisher::OwnerNode of InPublisher and add to #Publishers.
+     * @brief Create a Subscriber object and add to Node.
      *
-     * @param InPublisher
+     * @param InTopicName
+     * @param InMsgClass
+     * @param InCallback
+     * @return UROS2Subscriber*
      */
     UFUNCTION(BlueprintCallable)
-    void AddPublisher(UROS2Publisher* InPublisher);
+    UROS2Subscriber* CreateSubscriber(const FString& InTopicName,
+                                      const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                      const FSubscriptionCallback& InCallback);
 
     /**
      * @brief Set this node to UROS2ServiceClient::OwnerNode and add to #ServiceClients.
@@ -143,7 +219,7 @@ public:
     FString Name = TEXT("node");
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Namespace = TEXT("ros_global");
+    FString Namespace = TEXT("");
 
     //! wait_set quantities - currently unused
     UPROPERTY(VisibleAnywhere, Category = "Diagnostics")

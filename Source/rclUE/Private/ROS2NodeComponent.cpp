@@ -2,9 +2,9 @@
 
 #include "ROS2NodeComponent.h"
 
-#include "ROS2ActionClient.h"
-#include "ROS2ActionServer.h"
-#include "ROS2Publisher.h"
+// #include "ROS2ActionClient.h"
+// #include "ROS2ActionServer.h"
+// #include "ROS2Publisher.h"
 #include "ROS2ServiceClient.h"
 #include "ROS2Subsystem.h"
 
@@ -98,6 +98,53 @@ rcl_node_t* UROS2NodeComponent::GetNode()
     return &node;
 }
 
+// Publisher////////////////////
+void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
+{
+    check(IsValid(InPublisher));
+
+    if (false == Publishers.Contains(InPublisher))
+    {
+        InPublisher->RegisterComponent();
+        InPublisher->InitializeWithROS2(this);
+        Publishers.Add(InPublisher);
+    }
+    else
+    {
+        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added (%s)"), *InPublisher->GetName(), *__LOG_INFO__);
+    }
+}
+
+UROS2Publisher* UROS2NodeComponent::CreatePublisherWithDelegate(const FString& InTopicName,
+                                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                                float InPubFrequency,
+                                                                const FTopicCallback& InUpdateDelegate)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
+    publisher->MsgClass = InMsgClass;
+    publisher->TopicName = InTopicName;
+    publisher->PublicationFrequencyHz = InPubFrequency;
+    publisher->SetDelegates(InUpdateDelegate);
+    AddPublisher(publisher);
+    return publisher;
+}
+
+UROS2Publisher* UROS2NodeComponent::CreatePublisher(const FString& InTopicName,
+                                                    const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                    const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                    float InPubFrequency)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
+    publisher->MsgClass = InMsgClass;
+    publisher->TopicName = InTopicName;
+    publisher->PublicationFrequencyHz = InPubFrequency;
+    publisher->SetDefaultDelegates();
+    AddPublisher(publisher);
+    return publisher;
+}
+
+// Subscriber////////////////////
 void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 {
     check(IsValid(InSubscriber));
@@ -115,20 +162,16 @@ void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
     }
 }
 
-void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
+UROS2Subscriber* UROS2NodeComponent::CreateSubscriber(const FString& InTopicName,
+                                                      const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                      const FSubscriptionCallback& InCallback)
 {
-    check(IsValid(InPublisher));
-
-    if (false == Publishers.Contains(InPublisher))
-    {
-        InPublisher->RegisterComponent();
-        InPublisher->InitializeWithROS2(this);
-        Publishers.Add(InPublisher);
-    }
-    else
-    {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added (%s)"), *InPublisher->GetName(), *__LOG_INFO__);
-    }
+    UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(this);
+    subscriber->MsgClass = InMsgClass;
+    subscriber->TopicName = InTopicName;
+    subscriber->Callback = InCallback;
+    AddSubscription(subscriber);
+    return subscriber;
 }
 
 void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)

@@ -5,6 +5,8 @@
 #include <Engine/World.h>
 #include <TimerManager.h>
 
+DEFINE_LOG_CATEGORY(LogROS2Topic);
+
 UROS2Topic::UROS2Topic()
 {
     PrimaryComponentTick.bCanEverTick = true;

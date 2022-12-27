@@ -28,7 +28,6 @@ class RCLUE_API UROS2Subscriber : public UROS2Topic
     GENERATED_BODY()
 
 public:
-
     /**
      * @brief Create a new UROS2Publisher of custom type
      *
@@ -37,10 +36,9 @@ public:
      * @param InCallback Callback function
      */
     static UROS2Subscriber* CreateSubscriber(UObject* InOwner,
-                                            const FString& InTopicName,
-                                            const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                            const FSubscriptionCallback& InCallback);
-
+                                             const FString& InTopicName,
+                                             const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                             const FSubscriptionCallback& InCallback);
 
     /**
      * @brief Destroy subscriber with rcl_subscriber_fini
@@ -48,10 +46,10 @@ public:
      */
     virtual void Destroy() override;
 
-    //! Delegate which is Bound with #UpdateMessage by #SetupUpdateCallback
+    //! Delegate which is Bound with #UpdateMessage by #SetDelegates
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FSubscriptionCallback Callback;
-    
+
     /**
      * @brief Determine the relevant action client functions to call.
      * Should be implemented in ActionServer and ActionClient
@@ -67,7 +65,6 @@ public:
     rcl_subscription_t rcl_subscription;
 
 protected:
-
     /**
      * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
      *

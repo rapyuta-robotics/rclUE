@@ -40,9 +40,8 @@ public:
                                            const FString& InTopicName,
                                            const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                            const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                           int32 InPubFrequency);
+                                           float InPubFrequency);
 
-    
     /**
      * @brief Update Msg with delegate and publish msg.
      *
@@ -97,19 +96,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     float PublicationFrequencyHz = 1.f;
 
-    //! Delegate which is Bound with #UpdateMessage by #SetupUpdateCallback
+    //! Delegate which is Bound with #UpdateMessage by #SetDefaultDelegates
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTopicCallback UpdateDelegate;
-
-    /**
-     * @brief Bind #UpdateMessage with #UpdateDelegate
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void SetupUpdateCallback()
-    {
-        UpdateDelegate.BindDynamic(this, &UROS2Publisher::UpdateMessage);
-    }
 
     /**
      * @brief Update msg. Should be implemented in child class.
@@ -122,6 +111,18 @@ public:
         checkNoEntry();
     }
 
+    /**
+     * @brief Bind #UpdateMessage with #UpdateDelegate
+     *
+     */
+    UFUNCTION(BlueprintCallable)
+    void SetDefaultDelegates();
+
+    /**
+     * @brief Set the Delegates object.
+     *
+     * @param InUpdateDelegate
+     */
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FTopicCallback& InUpdateDelegate);
 
@@ -133,7 +134,6 @@ public:
     void Publish();
 
 protected:
-
     //! Timer handler for periodic publisher
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     FTimerHandle TimerHandle;

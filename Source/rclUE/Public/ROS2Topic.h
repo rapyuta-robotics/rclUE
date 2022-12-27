@@ -17,27 +17,7 @@
 
 #include "ROS2Topic.generated.h"
 
-//! BP requires a custom-made callback thus it must be Dynamic
-DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
-DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessage);
-
-/**
- * @brief RR_ROS2_SUBSCRIBE_TO_TOPIC
- * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
- * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
- * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
- */
-#define RR_ROS2_SUBSCRIBE_TO_TOPIC(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
-    if (ensure(IsValid(InROS2Node)))                                                              \
-    {                                                                                             \
-        FSubscriptionCallback cb;                                                                 \
-        cb.BindDynamic(InUserObject, InCallback);                                                 \
-        UROS2Subscriber* NewSub = NewObject<UROS2Subscriber>(this);                               \
-        NewSub->TopicName = InTopicName;                                                          \
-        NewSub->MsgClass = InMsgClass;                                                            \
-        NewSub->Callback = cb;                                                                    \
-        InROS2Node->AddSubscription(NewSub);                                                      \
-    }
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Topic, Log, All);
 
 /**
  * @brief ROS2 Publisher class.
@@ -49,7 +29,6 @@ class RCLUE_API UROS2Topic : public UActorComponent
     GENERATED_BODY()
 
 public:
-
     /**
      * @brief Construct a new UROS2Topic object
      *
@@ -93,7 +72,7 @@ public:
     TSubclassOf<UROS2GenericMsg> MsgClass;
 
     //! ROS2Node which own this publisher.
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite) 
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     UROS2NodeComponent* OwnerNode = nullptr;
 
     //! Publisher state
@@ -110,7 +89,6 @@ public:
     UROS2GenericMsg* TopicMessage;
 
 protected:
-
     /**
      * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
      *

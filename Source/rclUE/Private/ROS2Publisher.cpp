@@ -5,19 +5,17 @@
 #include <Engine/World.h>
 #include <TimerManager.h>
 
-DEFINE_LOG_CATEGORY(LogROS2Publisher);
-
 UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
                                                 const FString& InTopicName,
                                                 const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                                 const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                int32 InPubFrequency)
+                                                float InPubFrequency)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
     publisher->MsgClass = InMsgClass;
     publisher->TopicName = InTopicName;
     publisher->PublicationFrequencyHz = InPubFrequency;
-    publisher->SetupUpdateCallback();
+    publisher->SetDefaultDelegates();
     return publisher;
 }
 
@@ -59,18 +57,12 @@ void UROS2Publisher::StartPublishTimer()
     }
 }
 
-// void UROS2Publisher::RegisterToROS2Node(AROS2Node* InROS2Node)
-// {
-//     SetupUpdateCallback();
-//     InROS2Node->AddPublisher(this);
-// }
-
 void UROS2Publisher::Destroy()
 {
     Super::Destroy();
     if (OwnerNode != nullptr)
     {
-        UE_LOG(LogROS2Publisher, Log, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Topic, Log, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
         RCSOFTCHECK(rcl_publisher_fini(&RclPublisher, OwnerNode->GetNode()));
     }
     UpdateDelegate.Unbind();
@@ -80,7 +72,7 @@ void UROS2Publisher::UpdateAndPublishMessage()
 {
     if (State != UROS2State::Initialized)
     {
-        UE_LOG(LogROS2Publisher, Error, TEXT("Publisher is not initialized yet (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Topic, Error, TEXT("Publisher is not initialized yet (%s)"), *__LOG_INFO__);
         return;
     }
     check(IsValid(OwnerNode));
@@ -95,17 +87,21 @@ void UROS2Publisher::Publish()
     check(State == UROS2State::Initialized);
     check(OwnerNode != nullptr);
 
-    PublishedMsg = TopicMessage->Get();
-
-    RCSOFTCHECK(rcl_publish(&RclPublisher, PublishedMsg, nullptr));
+    RCSOFTCHECK(rcl_publish(&RclPublisher, TopicMessage->Get(), nullptr));
 }
 
 void UROS2Publisher::SetDelegates(const FTopicCallback& InUpdateDelegate)
 {
     if (!InUpdateDelegate.IsBound())
     {
-        UE_LOG(LogROS2Publisher, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Topic, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
-
+    UpdateDelegate.Unbind();
     UpdateDelegate = InUpdateDelegate;
+}
+
+void UROS2Publisher::SetDefaultDelegates()
+{
+    UpdateDelegate.Unbind();
+    UpdateDelegate.BindDynamic(this, &UROS2Publisher::UpdateMessage);
 }

@@ -6,9 +6,9 @@
 #include <TimerManager.h>
 
 UROS2Subscriber* UROS2Subscriber::CreateSubscriber(UObject* InOwner,
-                                                const FString& InTopicName,
-                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                const FSubscriptionCallback& InCallback)
+                                                   const FString& InTopicName,
+                                                   const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                   const FSubscriptionCallback& InCallback)
 {
     UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(InOwner);
     subscriber->MsgClass = InMsgClass;
@@ -26,6 +26,7 @@ void UROS2Subscriber::InitializeTopicComponent()
     rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
     RCSOFTCHECK(rcl_subscription_init(&rcl_subscription, OwnerNode->GetNode(), type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
+    State = UROS2State::Initialized;
 }
 
 void UROS2Subscriber::Destroy()
@@ -33,7 +34,7 @@ void UROS2Subscriber::Destroy()
     Super::Destroy();
     if (OwnerNode != nullptr)
     {
-        UE_LOG(LogROS2Msg, Log, TEXT("Subscriber Destroy - rcl_Subscriber_fini (%s)"), *__LOG_INFO__);
+        UE_LOG(LogROS2Topic, Log, TEXT("Subscriber Destroy - rcl_Subscriber_fini (%s)"), *__LOG_INFO__);
         RCSOFTCHECK(rcl_subscription_fini(&rcl_subscription, OwnerNode->GetNode()));
     }
     Callback.Unbind();
@@ -60,5 +61,6 @@ void UROS2Subscriber::SetDelegates(const FSubscriptionCallback& InCallback)
         UE_LOG(LogROS2Msg, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
 
+    Callback.Unbind();
     Callback = InCallback;
 }

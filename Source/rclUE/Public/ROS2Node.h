@@ -35,12 +35,12 @@ class UROS2ActionClient;
 // DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 
 /**
- * @brief RR_ROS2_SUBSCRIBE_TO_TOPIC
+ * @brief ROS2_CREATE_SUBSCRIBER
  * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
  * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
  * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
  */
-// #define RR_ROS2_SUBSCRIBE_TO_TOPIC(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
+// #define ROS2_CREATE_SUBSCRIBER(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
 //     if (ensure(IsValid(InROS2Node)))                                                              \
 //     {                                                                                             \
 //         FSubscriptionCallback cb;                                                                 \
@@ -88,7 +88,7 @@ public:
     FSubscriptionCallback Callback;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool Ready;
+    bool Ready = false;
 };
 
 /**
