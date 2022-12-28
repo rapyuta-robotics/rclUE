@@ -32,7 +32,6 @@ class RCLUE_API UROS2ServiceServer : public UROS2Service
     GENERATED_BODY()
 
 public:
-
     /**
      * @brief Create a new UROS2Publisher of custom type
      *
@@ -41,10 +40,9 @@ public:
      * @param InCallback Callback function
      */
     static UROS2ServiceServer* CreateServiceServer(UObject* InOwner,
-                                                    const FString& InSrvName,
-                                                    const TSubclassOf<UROS2GenericSrv>& InSrvClass,
-                                                    const FServiceCallback& InCallback);
-
+                                                   const FString& InServiceName,
+                                                   const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                   const FServiceCallback& InCallback);
 
     /**
      * @brief Destroy publisher with rcl_client_fini
@@ -71,8 +69,7 @@ public:
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FServiceCallback& InSrvCallback);
 
-protected :
-
+protected:
     /**
      * @brief Initialize ROS2 action client with rcl_action_client_init.
      * Set QOS for all goal, result, cancel, feedback and status

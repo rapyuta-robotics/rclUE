@@ -39,6 +39,7 @@ DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
 //! BP requires a custom-made callback thus it must be Dynamic
 DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
 DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessage);
+DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
 
 /**
  * @brief ROS2_CREATE_PUBLISHER
@@ -46,12 +47,13 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessa
  * FTopicCallback::BindDynamic is a macro, instead of a function.
  * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
  */
-#define ROS2_CREATE_PUBLISHER(InROS2Node, InUserObject, InTopicName, InPublisherClass, InMsgClass, InPubFrequency, InCallback) \
-    if (ensure(IsValid(InROS2Node)))                                                                                           \
-    {                                                                                                                          \
-        FTopicCallback cb;                                                                                                     \
-        cb.BindDynamic(InUserObject, InCallback);                                                                              \
-        InROS2Node->CreatePublisherWithDelegate(InTopicName, InPublisherClass, InMsgClass, InPubFrequency, cb);                \
+#define ROS2_CREATE_LOOP_PUBLISHER(                                                                                           \
+    InROS2Node, InUserObject, InTopicName, InPublisherClass, InMsgClass, InPubFrequency, InCallback, InQoS, OutPublisher)     \
+    if (ensure(IsValid(InROS2Node)))                                                                                          \
+    {                                                                                                                         \
+        FTopicCallback cb;                                                                                                    \
+        cb.BindDynamic(InUserObject, InCallback);                                                                             \
+        OutPublisher = InROS2Node->CreateLoopPublisher(InTopicName, InPublisherClass, InMsgClass, InPubFrequency, cb, InQoS); \
     }
 
 /**
@@ -69,6 +71,34 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessa
     }
 
 /**
+ * @brief ROS2_CREATE_SERVICE_CLIENT
+ * FServiceCallback is of dynamic delegate type to be serializable for BP use
+ * FServiceCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_SERVICE_CLIENT(InROS2Node, InUserObject, InServiceName, InSrvClass, InRequestCallback, InQoS, OutClient) \
+    if (ensure(IsValid(InROS2Node)))                                                                                         \
+    {                                                                                                                        \
+        FServiceCallback req;                                                                                                \
+        req.BindDynamic(InUserObject, InRequestCallback);                                                                    \
+        OutClient = InROS2Node->CreateServiceClient(InServiceName, InSrvClass, req, InQoS);                                  \
+    }
+
+/**
+ * @brief ROS2_CREATE_SERVICE_CLIENT
+ * FServiceCallback is of dynamic delegate type to be serializable for BP use
+ * FServiceCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_SERVICE_SERVER(InROS2Node, InUserObject, InServiceName, InSrvClass, InResponseCallback) \
+    if (ensure(IsValid(InROS2Node)))                                                                        \
+    {                                                                                                       \
+        FServiceCallback res;                                                                               \
+        res.BindDynamic(InUserObject, InResponseCallback);                                                  \
+        InROS2Node->CreateServiceServer(InServiceName, InSrvClass, res);                                    \
+    }
+
+/**
  * Class implementing ROS2 node.
  * This class also handles tasks performed by the executor in rclc.
  * Components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers
@@ -80,6 +110,19 @@ class RCLUE_API UROS2NodeComponent : public UActorComponent
     GENERATED_BODY()
 
 public:
+    /**
+     * @brief Create a New Node object.
+     * Used outside of  constructor.
+     * @param InNodeName
+     * @param InNodeNamespace
+     * @param InCompName
+     * @return UROS2NodeComponent*
+     */
+    static UROS2NodeComponent* CreateNewNode(UObject* InOwner,
+                                             const FString& InNodeName,
+                                             const FString& InNodeNamespace,
+                                             const FString& InCompName = TEXT("ROS2NodeComponent"));
+
     //! A constructor.
     /*!
       Constructor
@@ -125,20 +168,16 @@ public:
     void AddPublisher(UROS2Publisher* InPublisher);
 
     /**
-     * @brief Create a new UROS2Publisher of custom type and andd to Node.
-     *
+     * @brief Create a new UROS2Publisher of custom publisher class and andd to Node.
+     * Custom Publisher class is expected to override #UROS2Publisher::Update which in loop with frequency.
      * @param InTopicName Topic name
      * @param InPublisherClass Custom output publisher type class
-     * @param InMsgClass Custom message type class
      * @param InPubFrequency Publishing frequency
-     * @param InUpdateDelegate Delegate which is called with given frequency.
      */
     UFUNCTION(BlueprintCallable)
-    UROS2Publisher* CreatePublisherWithDelegate(const FString& InTopicName,
-                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
-                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                float InPubFrequency,
-                                                const FTopicCallback& InUpdateDelegate);
+    UROS2Publisher* CreateLoopPublisherWithClass(const FString& InTopicName,
+                                                 const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                 const float InPubFrequency);
 
     /**
      * @brief Create a new UROS2Publisher of custom type and andd to Node.
@@ -147,12 +186,29 @@ public:
      * @param InPublisherClass Custom output publisher type class
      * @param InMsgClass Custom message type class
      * @param InPubFrequency Publishing frequency
+     * @param InUpdateDelegate Delegate which is called with given frequency.
+     * @param InQoS QoS. Default is #UROS2QoS::Default
+     */
+    UFUNCTION(BlueprintCallable)
+    UROS2Publisher* CreateLoopPublisher(const FString& InTopicName,
+                                        const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                        const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                        const float InPubFrequency,
+                                        const FTopicCallback& InUpdateDelegate,
+                                        const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+    /**
+     * @brief Create a new UROS2Publisher of custom type and andd to Node.
+     *
+     * @param InTopicName Topic name
+     * @param InPublisherClass Custom output publisher type class
+     * @param InMsgClass Custom message type class
+     * @param InQoS QoS. Default is #UROS2QoS::Default
      */
     UFUNCTION(BlueprintCallable)
     UROS2Publisher* CreatePublisher(const FString& InTopicName,
                                     const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                     const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                    float InPubFrequency);
+                                    const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
 
     /**
      * @brief Methods to register subscribers.
@@ -186,6 +242,22 @@ public:
     void AddServiceClient(UROS2ServiceClient* InServiceClient);
 
     /**
+     * @brief Create a Service client object and add to Node.
+     *
+     * @param InServiceName
+     * @param InSrvClass
+     * @param InRequestDelegate
+     * @param InResponseDelegate
+     * @param InQoS QoS. Default is #UROS2QoS::Default
+     * @return UROS2NodeComponent*
+     */
+    UFUNCTION(BlueprintCallable)
+    UROS2ServiceClient* CreateServiceClient(const FString& InServiceName,
+                                            const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                            const FServiceCallback& InResponseDelegate,
+                                            const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
+
+    /**
      * @brief Create ServiceServer with rcl_service_init and add to #ServiceServers.
      *
      * @param ServiceName
@@ -194,6 +266,18 @@ public:
      */
     UFUNCTION(BlueprintCallable)
     void AddServiceServer(UROS2ServiceServer* InServiceServer);
+
+    /**
+     * @brief Create a new UROS2Publisher of custom type
+     *
+     * @param InTopicName Topic name
+     * @param InSrvClass Custom message type class
+     * @param InCallback Callback function
+     */
+    UFUNCTION(BlueprintCallable)
+    UROS2ServiceServer* CreateServiceServer(const FString& InServiceName,
+                                            const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                            const FServiceCallback& InCallback);
 
     /**
      * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionClients.

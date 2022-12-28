@@ -29,40 +29,6 @@ class UROS2ServiceClient;
 class UROS2ActionServer;
 class UROS2ActionClient;
 
-// Reminder: functions bound to delegates must be UFUNCTION
-// DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
-// DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
-// DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
-
-/**
- * @brief ROS2_CREATE_SUBSCRIBER
- * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
- * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
- * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
- */
-// #define ROS2_CREATE_SUBSCRIBER(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
-//     if (ensure(IsValid(InROS2Node)))                                                              \
-//     {                                                                                             \
-//         FSubscriptionCallback cb;                                                                 \
-//         cb.BindDynamic(InUserObject, InCallback);                                                 \
-//         InROS2Node->AddSubscription(InTopicName, InMsgClass, cb);                                 \
-//     }
-
-#define RR_ROS2_CREATE_SERVICE_CLIENT(                                                                        \
-    InROS2Node, InUserObject, InFullServiceName, InServiceClass, InServiceResponseCallback, OutServiceClient) \
-    OutServiceClient = NewObject<UROS2ServiceClient>(InUserObject);                                           \
-    OutServiceClient->RegisterComponent();                                                                    \
-    OutServiceClient->ServiceName = InFullServiceName;                                                        \
-    OutServiceClient->SrvClass = InServiceClass;                                                              \
-                                                                                                              \
-    /* Bounded method will be called when receive response*/                                                  \
-    OutServiceClient->ResponseDelegate.BindDynamic(InUserObject, InServiceResponseCallback);                  \
-                                                                                                              \
-    /* Register service to InROS2Node*/                                                                       \
-    InROS2Node->AddServiceClient(OutServiceClient);
-
-#define RR_ROS2_STOP_SERVICE_CLIENT(InServiceClient) InServiceClient->RevokeRequestResponseCallbacks();
-
 /**
  * @brief Helper structs which is components of the node and should register to
  * the node with the appropriate methods (AddSubscription).

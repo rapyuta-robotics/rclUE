@@ -13,7 +13,7 @@ UROS2Subscriber* UROS2Subscriber::CreateSubscriber(UObject* InOwner,
     UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(InOwner);
     subscriber->MsgClass = InMsgClass;
     subscriber->TopicName = InTopicName;
-    subscriber->Callback = InCallback;
+    subscriber->SetDelegates(InCallback);
     return subscriber;
 }
 

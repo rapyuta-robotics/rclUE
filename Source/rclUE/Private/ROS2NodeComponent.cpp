@@ -2,16 +2,24 @@
 
 #include "ROS2NodeComponent.h"
 
-// #include "ROS2ActionClient.h"
-// #include "ROS2ActionServer.h"
-// #include "ROS2Publisher.h"
-#include "ROS2ServiceClient.h"
 #include "ROS2Subsystem.h"
 
 #include <Engine/GameInstance.h>
 #include <Kismet/GameplayStatics.h>
 
 DEFINE_LOG_CATEGORY(LogROS2Node);
+
+UROS2NodeComponent* UROS2NodeComponent::CreateNewNode(UObject* InOwner,
+                                                      const FString& InNodeName,
+                                                      const FString& InNodeNamespace,
+                                                      const FString& InCompName)
+{
+    UROS2NodeComponent* node = NewObject<UROS2NodeComponent>(InOwner, UROS2NodeComponent::StaticClass(), FName(*InCompName));
+    node->RegisterComponent();
+    node->Name = InNodeName;
+    node->Namespace = InNodeNamespace;
+    return node;
+}
 
 UROS2NodeComponent::UROS2NodeComponent()
 {
@@ -115,15 +123,29 @@ void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
     }
 }
 
-UROS2Publisher* UROS2NodeComponent::CreatePublisherWithDelegate(const FString& InTopicName,
-                                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
-                                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                                float InPubFrequency,
-                                                                const FTopicCallback& InUpdateDelegate)
+UROS2Publisher* UROS2NodeComponent::CreateLoopPublisherWithClass(const FString& InTopicName,
+                                                                 const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                                 const float InPubFrequency)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
+    publisher->TopicName = InTopicName;
+    publisher->PublicationFrequencyHz = InPubFrequency;
+    publisher->SetDefaultDelegates();
+    AddPublisher(publisher);
+    return publisher;
+}
+
+UROS2Publisher* UROS2NodeComponent::CreateLoopPublisher(const FString& InTopicName,
+                                                        const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                        const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                        const float InPubFrequency,
+                                                        const FTopicCallback& InUpdateDelegate,
+                                                        const TEnumAsByte<UROS2QoS> InQoS)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
     publisher->MsgClass = InMsgClass;
     publisher->TopicName = InTopicName;
+    publisher->QoS = InQoS;
     publisher->PublicationFrequencyHz = InPubFrequency;
     publisher->SetDelegates(InUpdateDelegate);
     AddPublisher(publisher);
@@ -133,13 +155,13 @@ UROS2Publisher* UROS2NodeComponent::CreatePublisherWithDelegate(const FString& I
 UROS2Publisher* UROS2NodeComponent::CreatePublisher(const FString& InTopicName,
                                                     const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                                     const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                    float InPubFrequency)
+                                                    const TEnumAsByte<UROS2QoS> InQoS)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
     publisher->MsgClass = InMsgClass;
     publisher->TopicName = InTopicName;
-    publisher->PublicationFrequencyHz = InPubFrequency;
-    publisher->SetDefaultDelegates();
+    publisher->QoS = InQoS;
+    publisher->PublicationFrequencyHz = -1;
     AddPublisher(publisher);
     return publisher;
 }
@@ -174,6 +196,7 @@ UROS2Subscriber* UROS2NodeComponent::CreateSubscriber(const FString& InTopicName
     return subscriber;
 }
 
+//service client
 void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
 {
     check(IsValid(InServiceClient));
@@ -190,6 +213,21 @@ void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
     }
 }
 
+UROS2ServiceClient* UROS2NodeComponent::CreateServiceClient(const FString& InServiceName,
+                                                            const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                            const FServiceCallback& InResponseDelegate,
+                                                            const TEnumAsByte<UROS2QoS> InQoS)
+{
+    UROS2ServiceClient* client = NewObject<UROS2ServiceClient>(this);
+    client->SrvClass = InSrvClass;
+    client->ServiceName = InServiceName;
+    client->QoS = InQoS;
+    client->SetDelegates(InResponseDelegate);
+    AddServiceClient(client);
+    return client;
+}
+
+//service server
 void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
 {
     check(IsValid(InServiceServer));
@@ -204,6 +242,19 @@ void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
     {
         UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
+}
+
+UROS2ServiceServer* UROS2NodeComponent::CreateServiceServer(const FString& InServiceName,
+                                                            const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                            const FServiceCallback& InCallback)
+
+{
+    UROS2ServiceServer* server = NewObject<UROS2ServiceServer>(this);
+    server->SrvClass = InSrvClass;
+    server->ServiceName = InServiceName;
+    server->SrvCallback = InCallback;
+    AddServiceServer(server);
+    return server;
 }
 
 void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)

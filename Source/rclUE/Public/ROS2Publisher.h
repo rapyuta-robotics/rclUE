@@ -50,13 +50,20 @@ public:
     void UpdateAndPublishMessage();
 
     /**
+     * @brief Publish msg
+     *
+     */
+    UFUNCTION(BlueprintCallable)
+    void Publish();
+
+    /**
      * @brief Publish a message
      *
      * @tparam TMessageStruct
      * @param InMessage
      */
     template<typename TUEMessage, typename TUEStruct>
-    void PublishMessage(const TUEStruct& InMessageData)
+    void Publish(const TUEStruct& InMessageData)
     {
         if (UROS2State::Initialized == State)
         {
@@ -125,13 +132,6 @@ public:
      */
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FTopicCallback& InUpdateDelegate);
-
-    /**
-     * @brief Publish msg.
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void Publish();
 
 protected:
     //! Timer handler for periodic publisher

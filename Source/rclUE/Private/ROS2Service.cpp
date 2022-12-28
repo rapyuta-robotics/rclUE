@@ -50,7 +50,6 @@ void UROS2Service::Destroy()
     {
         Service->Fini();
     }
-
 }
 
 void UROS2Service::ProcessReady()

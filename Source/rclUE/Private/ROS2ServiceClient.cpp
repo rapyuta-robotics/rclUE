@@ -2,6 +2,18 @@
 
 #include "ROS2ServiceClient.h"
 
+UROS2ServiceClient* UROS2ServiceClient::CreateServiceClient(UObject* InOwner,
+                                                            const FString& InServiceName,
+                                                            const TSubclassOf<UROS2GenericMsg>& InSrvClass,
+                                                            const FServiceCallback& InResponseDelegate)
+{
+    UROS2ServiceClient* client = NewObject<UROS2ServiceClient>(InOwner);
+    client->SrvClass = InSrvClass;
+    client->ServiceName = InServiceName;
+    client->SetDelegates(InResponseDelegate);
+    return client;
+}
+
 void UROS2ServiceClient::InitializeServiceComponent()
 {
     const rosidl_service_type_support_t* srv_type_support = Service->GetTypeSupport();
@@ -23,6 +35,8 @@ void UROS2ServiceClient::Destroy()
         UE_LOG(LogROS2Srv, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
         RCSOFTCHECK(rcl_client_fini(&client, OwnerNode->GetNode()));
     }
+
+    ResponseDelegate.Unbind();
 }
 
 void UROS2ServiceClient::ProcessReady()
@@ -42,7 +56,7 @@ void UROS2ServiceClient::ProcessReady()
     }
 }
 
-void UROS2ServiceClient::UpdateAndSendRequest()
+void UROS2ServiceClient::SendRequest()
 {
     UE_LOG(LogROS2Srv, Log, TEXT("%s"), *__LOG_INFO__);
     check(State == UROS2State::Initialized);
@@ -52,15 +66,6 @@ void UROS2ServiceClient::UpdateAndSendRequest()
         UE_LOG(LogROS2Srv, Error, TEXT("Service named %s is not ready yet (%s)"), *ServiceName, *__LOG_INFO__);
         return;
     }
-    RequestDelegate.ExecuteIfBound(Service);
-    SendRequest();
-}
-
-void UROS2ServiceClient::SendRequest()
-{
-    UE_LOG(LogROS2Srv, Log, TEXT("%s"), *__LOG_INFO__);
-    check(State == UROS2State::Initialized);
-    check(OwnerNode != nullptr);
 
     req = Service->GetRequest();
 
@@ -88,18 +93,12 @@ bool UROS2ServiceClient::IsServiceReady()
     return is_ready;
 }
 
-void UROS2ServiceClient::SetDelegates(const FServiceCallback& InRequestDelegate, const FServiceCallback& InResponseDelegate)
+void UROS2ServiceClient::SetDelegates(const FServiceCallback& InResponseDelegate)
 {
-    if (!InRequestDelegate.IsBound())
-    {
-        UE_LOG(LogROS2Srv, Warning, TEXT("RequestDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
-    }
-
     if (!InResponseDelegate.IsBound())
     {
         UE_LOG(LogROS2Srv, Warning, TEXT("ResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
     }
-
-    RequestDelegate = InRequestDelegate;
+    ResponseDelegate.Unbind();
     ResponseDelegate = InResponseDelegate;
 }

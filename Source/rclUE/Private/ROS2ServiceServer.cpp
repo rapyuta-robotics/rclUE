@@ -3,13 +3,13 @@
 #include "ROS2ServiceServer.h"
 
 UROS2ServiceServer* UROS2ServiceServer::CreateServiceServer(UObject* InOwner,
-                                                    const FString& InSrvName,
-                                                    const TSubclassOf<UROS2GenericSrv>& InSrvClass,
-                                                    const FServiceCallback& InCallback)
+                                                            const FString& InServiceName,
+                                                            const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                            const FServiceCallback& InCallback)
 {
     UROS2ServiceServer* serviceserver = NewObject<UROS2ServiceServer>(InOwner);
     serviceserver->SrvClass = InSrvClass;
-    serviceserver->ServiceName = InSrvName;
+    serviceserver->ServiceName = InServiceName;
     serviceserver->SrvCallback = InCallback;
     return serviceserver;
 }

@@ -15,13 +15,10 @@
 #include "CoreMinimal.h"
 
 // rclUE
-#include "Srvs/ROS2GenericSrv.h"
 #include "ROS2NodeComponent.h"
+#include "Srvs/ROS2GenericSrv.h"
 
 #include "ROS2Service.generated.h"
-
-//! Servoce call back delegate.  BP requires a custom-made callback thus it must be Dynamic
-DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService /*Service*/);
 
 /**
  * @brief Class implementing ROS2 service clients.
@@ -41,7 +38,6 @@ public:
     UROS2Service();
 
 public:
-
     /**
      * @brief Initialize Publisher
      *
@@ -101,8 +97,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Services;
 
-protected :
-
+protected:
     //! Service is ready or not
     bool Ready;
 

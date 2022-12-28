@@ -33,27 +33,30 @@ class RCLUE_API UROS2ServiceClient : public UROS2Service
 
 public:
     /**
+     * @brief Create a Service Client object
+     *
+     * @param InOwner
+     * @param InServiceName
+     * @param InSrvClass
+     * @param InResponseDelegate
+     * @return UROS2ServiceClient*
+     */
+    static UROS2ServiceClient* CreateServiceClient(UObject* InOwner,
+                                                   const FString& InServiceName,
+                                                   const TSubclassOf<UROS2GenericMsg>& InSrvClass,
+                                                   const FServiceCallback& InResponseDelegate);
+
+    /**
      * @brief Destroy publisher with rcl_client_fini
      *
      */
     virtual void Destroy();
 
     /**
-     * @brief Update Srv with delegate and send request.
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void UpdateAndSendRequest();
-
-    /**
      * @brief Determine the relevant action client functions to call.
      *
      */
     virtual void ProcessReady() override;
-
-    //! used to pass data for the request
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FServiceCallback RequestDelegate;
 
     //! used to receive the answer
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -63,27 +66,44 @@ public:
     rcl_client_t client;
 
     //! Service is ready or not
-    bool Ready;
-    template<typename TService, typename TServiceRequest>
-    void SendRequest(TService* InService, const TServiceRequest& InServiceRequest)
-    {
-        check(State == UROS2State::Initialized);
-        check(OwnerNode != nullptr);
-
-        InService->SetRequest(InServiceRequest);
-        int64_t Seq;
-        RCSOFTCHECK(rcl_send_request(&client, InService->GetRequest(), &Seq));
-    }
+    bool Ready = false;
 
     /**
-     * @brief Unbind #RequestDelegate & #ResponseDelegate
+     * @brief Send service request
      *
      */
     UFUNCTION(BlueprintCallable)
-    virtual void RevokeRequestResponseCallbacks()
+    void SendRequest();
+
+    /**
+     * @brief Send service request
+     *
+     * @tparam TService
+     * @tparam TServiceRequest
+     * @param InService
+     * @param InServiceRequest
+     */
+    template<typename TService, typename TServiceRequest>
+    void SendRequest(TService* InService, const TServiceRequest& InServiceRequest)
     {
-        RequestDelegate.Unbind();
-        ResponseDelegate.Unbind();
+        if (UROS2State::Initialized == State)
+        {
+            check(OwnerNode != nullptr);
+            if (!IsServiceReady())
+            {
+                UE_LOG(LogROS2Srv, Error, TEXT("Service named %s is not ready yet (%s)"), *ServiceName, *__LOG_INFO__);
+                return;
+            }
+
+            InService->SetRequest(InServiceRequest);
+
+            int64_t Seq;
+            RCSOFTCHECK(rcl_send_request(&client, InService->GetRequest(), &Seq));
+        }
+        else
+        {
+            UE_LOG(LogTemp, Log, TEXT("SendRequest() [%s] client is not yet initialized"), *GetName());
+        }
     }
 
     /**
@@ -93,16 +113,10 @@ public:
     UFUNCTION(BlueprintCallable)
     bool IsServiceReady();
 
-protected:
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FServiceCallback& InRequestDelegate, const FServiceCallback& InResponseCallback);
+    void SetDelegates(const FServiceCallback& InResponseCallback);
 
-    /**
-     * @brief Send service request
-     *
-     */
-    UFUNCTION()
-    void SendRequest();
+protected:
     const void* req;
     const void* res;
 
