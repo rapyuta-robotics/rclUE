@@ -257,6 +257,7 @@ UROS2ServiceServer* UROS2NodeComponent::CreateServiceServer(const FString& InSer
     return server;
 }
 
+//action client
 void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
 {
     check(IsValid(InActionClient));
@@ -274,6 +275,21 @@ void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
     }
 }
 
+UROS2ActionClient* UROS2NodeComponent::CreateActionClient(const FString& InActionName,
+                                                          const TSubclassOf<UROS2GenericAction>& InActionClass,
+                                                          const FActionCallback& InFeedbackDelegate,
+                                                          const FActionCallback& InResultResponseDelegate,
+                                                          const FActionCallback& InGoalResponseDelegate,
+                                                          const FSimpleCallback& InCancelResponseDelegate)
+{
+    UROS2ActionClient* client = NewObject<UROS2ActionClient>(this);
+    client->ActionClass = InActionClass;
+    client->ActionName = InActionName;
+    client->SetDelegates(InFeedbackDelegate, InResultResponseDelegate, InGoalResponseDelegate, InCancelResponseDelegate);
+    AddActionClient(client);
+    return client;
+}
+
 void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
 {
     check(IsValid(InActionServer));
@@ -289,6 +305,20 @@ void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
     {
         UE_LOG(LogROS2Node, Warning, TEXT("[%s] ActionServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
     }
+}
+
+UROS2ActionServer* UROS2NodeComponent::CreateActionServer(const FString& InActionName,
+                                                          const TSubclassOf<UROS2GenericAction>& InActionClass,
+                                                          const FActionCallback& InGoalDelegate,
+                                                          const FSimpleCallback& InCancelDelegate,
+                                                          const FSimpleCallback& InResultDelegate)
+{
+    UROS2ActionServer* server = NewObject<UROS2ActionServer>(this);
+    server->ActionClass = InActionClass;
+    server->ActionName = InActionName;
+    server->SetDelegates(InGoalDelegate, InCancelDelegate, InResultDelegate);
+    AddActionServer(server);
+    return server;
 }
 
 void UROS2NodeComponent::HandleSubscriptions()

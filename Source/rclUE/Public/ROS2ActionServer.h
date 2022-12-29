@@ -16,8 +16,6 @@
 
 #include "ROS2ActionServer.generated.h"
 
-DECLARE_DYNAMIC_DELEGATE_RetVal_OneParam(bool, FActionGoalCallback, UROS2GenericAction*, InAction /*Action*/);
-
 /**
  * @brief  Class implementing ROS2 action servers. Wrapper class of rclc action server. Callbacks are set through the SetDelegates
  * method
@@ -31,6 +29,13 @@ class RCLUE_API UROS2ActionServer : public UROS2Action
     GENERATED_BODY()
 
 public:
+    static UROS2ActionServer* CreateActionServer(UObject* InOwner,
+                                                 const FString& InActionName,
+                                                 const TSubclassOf<UROS2GenericAction>& InActionClass,
+                                                 const FActionCallback& InGoalDelegate,
+                                                 const FSimpleCallback& InCancelDelegate,
+                                                 const FSimpleCallback& InResultDelegate);
+
     /**
      * @brief Destroy action server from rclc
      *
@@ -45,6 +50,14 @@ public:
     virtual void ProcessReady(rcl_wait_set_t* wait_set) override;
 
     /**
+     * @brief Process and send cancel response with rcl_action_process_cancel_request
+     * @param InReturnCode return code
+     * @sa [CancelGoal](https://docs.ros2.org/foxy/api/action_msgs/srv/CancelGoal.html)
+     */
+    UFUNCTION(BlueprintCallable)
+    void ProcessAndSendCancelResponse(const int InReturnCode);
+
+    /**
      * @brief Send action goal response with rcl_action_send_goal_response
      *
      */
@@ -52,41 +65,30 @@ public:
     void SendGoalResponse();
 
     /**
-     * @brief Process and send cancel response with rcl_action_process_cancel_request
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void ProcessAndSendCancelResponse();
-
-    /**
      * @brief Update and send feedback with rcl_action_publish_feedback
      *
      */
     UFUNCTION(BlueprintCallable)
-    void UpdateAndSendFeedback();
+    void SendFeedback();
 
     /**
      * @brief Update and send feedback with rcl_action_send_result_response
      *
      */
     UFUNCTION(BlueprintCallable)
-    void UpdateAndSendResult();
+    void SendResultResponse();
 
     /**
      * @brief Set the Delegates object
      *
-     * @param UpdateFeedback
-     * @param UpdateResult
      * @param HandleGoal
      * @param HandleCancel
      * @param HandleAccepted
      */
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FActionCallback& UpdateFeedback,
-                      const FActionCallback& UpdateResult,
-                      const FActionGoalCallback& HandleGoal,
-                      const FSimpleCallback& HandleCancel,
-                      const FSimpleCallback& HandleAccepted);
+    void SetDelegates(const FActionCallback& InGoalDelegate,
+                      const FSimpleCallback& InCancelDelegate,
+                      const FSimpleCallback& InResultDelegate);
 
     //! ROS2 action server from rclc
     rcl_action_server_t server;
@@ -97,11 +99,9 @@ private:
     rmw_request_id_t result_req_id;
     rmw_request_id_t cancel_req_id;
 
-    FActionCallback UpdateFeedbackDelegate;
-    FActionCallback UpdateResultDelegate;
-    FActionGoalCallback HandleGoalDelegate;
-    FSimpleCallback HandleCancelDelegate;
-    FSimpleCallback HandleAcceptedDelegate;
+    FActionCallback GoalDelegate;
+    FSimpleCallback CancelDelegate;
+    FSimpleCallback ResultDelegate;
 
     /**
      * @brief Initialize ROS2 action client with rcl_action_server_init.

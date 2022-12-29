@@ -29,6 +29,25 @@ class RCLUE_API UROS2ActionClient : public UROS2Action
 
 public:
     /**
+     * @brief Create Action Client
+     *
+     * @param InOwner
+     * @param InActionName
+     * @param InActionClass
+     * @param InFeedbackDelegate
+     * @param InResultResponseDelegate
+     * @param InGoalResponseDelegate
+     * @param InCancelResponseDelegate
+     * @return UROS2ActionClient*
+     */
+    static UROS2ActionClient* CreateActionClient(UObject* InOwner,
+                                                 const FString& InActionName,
+                                                 const TSubclassOf<UROS2GenericAction>& InActionClass,
+                                                 const FActionCallback& InFeedbackDelegate,
+                                                 const FActionCallback& InResultResponseDelegate,
+                                                 const FActionCallback& InGoalResponseDelegate,
+                                                 const FSimpleCallback& InCancelResponseDelegate);
+    /**
      * @brief Destroy action client from rclc
      *
      */
@@ -46,21 +65,44 @@ public:
      *
      */
     UFUNCTION(BlueprintCallable)
-    bool UpdateAndSendGoal();
+    bool SendGoal();
+
+    /**
+     * @brief Send a goal
+     *
+     * @tparam TUEStruct
+     * @param InGoalData
+     */
+    template<typename TAction, typename TUEStruct>
+    void SendGoal(const TUEStruct& InGoalData)
+    {
+        if (UROS2State::Initialized == State)
+        {
+            // Update [TopicMessage] with [InMessageData]
+            CastChecked<TAction>(Action)->SetGoalRequest(InGoalData);
+
+            // Send [Action]
+            SendGoal();
+        }
+        else
+        {
+            UE_LOG(LogTemp, Log, TEXT("Publish [%s] Publisher not yet initialized"), *GetName());
+        }
+    }
 
     /**
      * @brief Send result request to get result with rcl_action_send_result_request
      *
      */
     UFUNCTION(BlueprintCallable)
-    void GetResultRequest();
+    void SendResultRequest();
 
     /**
      * @brief Send cancel request with rcl_action_send_cancel_request
      *
      */
     UFUNCTION(BlueprintCallable)
-    void CancelActionRequest();
+    void SendCancelRequest();
 
     /**
      * @brief Set the Delegates object
@@ -72,11 +114,10 @@ public:
      * @param Cancel
      */
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FActionCallback& SetGoal,
-                      const FActionCallback& Feedback,
-                      const FActionCallback& Result,
-                      const FActionCallback& GoalResponse,
-                      const FSimpleCallback& Cancel);
+    void SetDelegates(const FActionCallback& InFeedbackDelegate,
+                      const FActionCallback& InResultResponseDelegate,
+                      const FActionCallback& InGoalResponseDelegate,
+                      const FSimpleCallback& InCancelResponseDelegate);
 
     //! ROS2 action client from rclc
     rcl_action_client_t client;
@@ -86,11 +127,10 @@ private:
     rmw_request_id_t result_res_id;
     rmw_request_id_t cancel_res_id;
 
-    FActionCallback SetGoalDelegate;
     FActionCallback FeedbackDelegate;
-    FActionCallback ResultDelegate;
+    FActionCallback ResultResponseDelegate;
     FActionCallback GoalResponseDelegate;
-    FSimpleCallback CancelDelegate;
+    FSimpleCallback CancelResponseDelegate;
 
     /**
      * @brief Initialize ROS2 action client with rcl_action_client_init.
