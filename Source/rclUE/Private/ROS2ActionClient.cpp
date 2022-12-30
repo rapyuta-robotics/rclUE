@@ -26,11 +26,11 @@ void UROS2ActionClient::InitializeActionComponent()
     client = rcl_action_get_zero_initialized_client();
     rcl_action_client_options_t client_opt = rcl_action_client_get_default_options();
 
-    client_opt.goal_service_qos = QoS_LUT[QoS];
-    client_opt.result_service_qos = QoS_LUT[QoS];
-    client_opt.cancel_service_qos = QoS_LUT[QoS];
-    client_opt.feedback_topic_qos = QoS_LUT[QoS];
-    client_opt.status_topic_qos = QoS_LUT[QoS];
+    client_opt.goal_service_qos = QoS_LUT[GoalQoS];
+    client_opt.result_service_qos = QoS_LUT[ResultQoS];
+    client_opt.cancel_service_qos = QoS_LUT[CancelQoS];
+    client_opt.feedback_topic_qos = QoS_LUT[FeedbackQoS];
+    client_opt.status_topic_qos = QoS_LUT[UROS2QoS::Default];    // status is not supported yet.
 
     rcl_ret_t rc =
         rcl_action_client_init(&client, OwnerNode->GetNode(), action_type_support, TCHAR_TO_UTF8(*ActionName), &client_opt);

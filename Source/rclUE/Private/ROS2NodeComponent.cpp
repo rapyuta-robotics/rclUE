@@ -186,12 +186,14 @@ void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 
 UROS2Subscriber* UROS2NodeComponent::CreateSubscriber(const FString& InTopicName,
                                                       const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                      const FSubscriptionCallback& InCallback)
+                                                      const FSubscriptionCallback& InCallback,
+                                                      const TEnumAsByte<UROS2QoS> InQoS)
 {
     UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(this);
     subscriber->MsgClass = InMsgClass;
     subscriber->TopicName = InTopicName;
     subscriber->Callback = InCallback;
+    subscriber->QoS = InQoS;
     AddSubscription(subscriber);
     return subscriber;
 }
@@ -246,12 +248,14 @@ void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
 
 UROS2ServiceServer* UROS2NodeComponent::CreateServiceServer(const FString& InServiceName,
                                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
-                                                            const FServiceCallback& InCallback)
+                                                            const FServiceCallback& InCallback,
+                                                            const TEnumAsByte<UROS2QoS> InQoS)
 
 {
     UROS2ServiceServer* server = NewObject<UROS2ServiceServer>(this);
     server->SrvClass = InSrvClass;
     server->ServiceName = InServiceName;
+    server->QoS = InQoS;
     server->SrvCallback = InCallback;
     AddServiceServer(server);
     return server;
@@ -277,14 +281,22 @@ void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
 
 UROS2ActionClient* UROS2NodeComponent::CreateActionClient(const FString& InActionName,
                                                           const TSubclassOf<UROS2GenericAction>& InActionClass,
-                                                          const FActionCallback& InFeedbackDelegate,
-                                                          const FActionCallback& InResultResponseDelegate,
                                                           const FActionCallback& InGoalResponseDelegate,
-                                                          const FSimpleCallback& InCancelResponseDelegate)
+                                                          const FActionCallback& InResultResponseDelegate,
+                                                          const FActionCallback& InFeedbackDelegate,
+                                                          const FSimpleCallback& InCancelResponseDelegate,
+                                                          const TEnumAsByte<UROS2QoS> InGoalQoS,
+                                                          const TEnumAsByte<UROS2QoS> InResultQoS,
+                                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS,
+                                                          const TEnumAsByte<UROS2QoS> InCancelQoS)
 {
     UROS2ActionClient* client = NewObject<UROS2ActionClient>(this);
     client->ActionClass = InActionClass;
     client->ActionName = InActionName;
+    client->GoalQoS = InGoalQoS;
+    client->ResultQoS = InResultQoS;
+    client->FeedbackQoS = InFeedbackQoS;
+    client->CancelQoS = InCancelQoS;
     client->SetDelegates(InFeedbackDelegate, InResultResponseDelegate, InGoalResponseDelegate, InCancelResponseDelegate);
     AddActionClient(client);
     return client;
@@ -310,12 +322,20 @@ void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
 UROS2ActionServer* UROS2NodeComponent::CreateActionServer(const FString& InActionName,
                                                           const TSubclassOf<UROS2GenericAction>& InActionClass,
                                                           const FActionCallback& InGoalDelegate,
+                                                          const FSimpleCallback& InResultDelegate,
                                                           const FSimpleCallback& InCancelDelegate,
-                                                          const FSimpleCallback& InResultDelegate)
+                                                          const TEnumAsByte<UROS2QoS> InGoalQoS,
+                                                          const TEnumAsByte<UROS2QoS> InResultQoS,
+                                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS,
+                                                          const TEnumAsByte<UROS2QoS> InCancelQoS)
 {
     UROS2ActionServer* server = NewObject<UROS2ActionServer>(this);
     server->ActionClass = InActionClass;
     server->ActionName = InActionName;
+    server->GoalQoS = InGoalQoS;
+    server->ResultQoS = InResultQoS;
+    server->FeedbackQoS = InFeedbackQoS;
+    server->CancelQoS = InCancelQoS;
     server->SetDelegates(InGoalDelegate, InCancelDelegate, InResultDelegate);
     AddActionServer(server);
     return server;

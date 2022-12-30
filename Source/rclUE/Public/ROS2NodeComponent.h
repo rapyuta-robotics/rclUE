@@ -47,7 +47,22 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
  * FTopicCallback::BindDynamic is a macro, instead of a function.
  * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
  */
-#define ROS2_CREATE_LOOP_PUBLISHER(                                                                                           \
+#define ROS2_CREATE_LOOP_PUBLISHER(                                                                                    \
+    InROS2Node, InUserObject, InTopicName, InPublisherClass, InMsgClass, InPubFrequency, InCallback, OutPublisher)     \
+    if (ensure(IsValid(InROS2Node)))                                                                                   \
+    {                                                                                                                  \
+        FTopicCallback cb;                                                                                             \
+        cb.BindDynamic(InUserObject, InCallback);                                                                      \
+        OutPublisher = InROS2Node->CreateLoopPublisher(InTopicName, InPublisherClass, InMsgClass, InPubFrequency, cb); \
+    }
+
+/**
+ * @brief ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS
+ * FTopicCallback is of dynamic delegate type to be serializable for BP use
+ * FTopicCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS(                                                                                  \
     InROS2Node, InUserObject, InTopicName, InPublisherClass, InMsgClass, InPubFrequency, InCallback, InQoS, OutPublisher)     \
     if (ensure(IsValid(InROS2Node)))                                                                                          \
     {                                                                                                                         \
@@ -71,21 +86,50 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
     }
 
 /**
+ * @brief ROS2_CREATE_SUBSCRIBERW_WITH_QOS
+ * FSubscriptionCallback is of dynamic delegate type to be serializable for BP use
+ * FSubscriptionCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_SUBSCRIBERW_WITH_QOS(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback, InQoS) \
+    if (ensure(IsValid(InROS2Node)))                                                                           \
+    {                                                                                                          \
+        FSubscriptionCallback cb;                                                                              \
+        cb.BindDynamic(InUserObject, InCallback);                                                              \
+        InROS2Node->CreateSubscriber(InTopicName, InMsgClass, cb, InQoS);                                      \
+    }
+
+/**
  * @brief ROS2_CREATE_SERVICE_CLIENT
  * FServiceCallback is of dynamic delegate type to be serializable for BP use
  * FServiceCallback::BindDynamic is a macro, instead of a function.
  * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
  */
-#define ROS2_CREATE_SERVICE_CLIENT(InROS2Node, InUserObject, InServiceName, InSrvClass, InRequestCallback, InQoS, OutClient) \
-    if (ensure(IsValid(InROS2Node)))                                                                                         \
-    {                                                                                                                        \
-        FServiceCallback req;                                                                                                \
-        req.BindDynamic(InUserObject, InRequestCallback);                                                                    \
-        OutClient = InROS2Node->CreateServiceClient(InServiceName, InSrvClass, req, InQoS);                                  \
+#define ROS2_CREATE_SERVICE_CLIENT(InROS2Node, InUserObject, InServiceName, InSrvClass, InRequestCallback, OutClient) \
+    if (ensure(IsValid(InROS2Node)))                                                                                  \
+    {                                                                                                                 \
+        FServiceCallback req;                                                                                         \
+        req.BindDynamic(InUserObject, InRequestCallback);                                                             \
+        OutClient = InROS2Node->CreateServiceClient(InServiceName, InSrvClass, req);                                  \
     }
 
 /**
- * @brief ROS2_CREATE_SERVICE_CLIENT
+ * @brief ROS2_CREATE_SERVICE_CLIENT_WITH_QOS
+ * FServiceCallback is of dynamic delegate type to be serializable for BP use
+ * FServiceCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_SERVICE_CLIENT_WITH_QOS(                                                  \
+    InROS2Node, InUserObject, InServiceName, InSrvClass, InRequestCallback, InQoS, OutClient) \
+    if (ensure(IsValid(InROS2Node)))                                                          \
+    {                                                                                         \
+        FServiceCallback req;                                                                 \
+        req.BindDynamic(InUserObject, InRequestCallback);                                     \
+        OutClient = InROS2Node->CreateServiceClient(InServiceName, InSrvClass, req, InQoS);   \
+    }
+
+/**
+ * @brief ROS2_CREATE_SERVICE_SERVER
  * FServiceCallback is of dynamic delegate type to be serializable for BP use
  * FServiceCallback::BindDynamic is a macro, instead of a function.
  * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
@@ -99,6 +143,20 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
     }
 
 /**
+ * @brief ROS2_CREATE_SERVICE_SERVER_WITH_QOS
+ * FServiceCallback is of dynamic delegate type to be serializable for BP use
+ * FServiceCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_SERVICE_SERVER_WITH_QOS(InROS2Node, InUserObject, InServiceName, InSrvClass, InQoS, InResponseCallback) \
+    if (ensure(IsValid(InROS2Node)))                                                                                        \
+    {                                                                                                                       \
+        FServiceCallback res;                                                                                               \
+        res.BindDynamic(InUserObject, InResponseCallback);                                                                  \
+        InROS2Node->CreateServiceServer(InServiceName, InSrvClass, res, InQoS);                                             \
+    }
+
+/**
  * @brief ROS2_CREATE_ACTION_CLIENT
  * FActionCallback is of dynamic delegate type to be serializable for BP use
  * FActionCallback::BindDynamic is a macro, instead of a function.
@@ -108,20 +166,51 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
                                   InUserObject,                                                                  \
                                   InActionName,                                                                  \
                                   InActionClass,                                                                 \
-                                  InFeedbackDelegate,                                                            \
-                                  InResultResponseDelegate,                                                      \
                                   InGoalResponseDelegate,                                                        \
+                                  InResultResponseDelegate,                                                      \
+                                  InFeedbackDelegate,                                                            \
                                   InCancelResponseDelegate,                                                      \
                                   OutClient)                                                                     \
     if (ensure(IsValid(InROS2Node)))                                                                             \
     {                                                                                                            \
         FActionCallback Feedback, Result, Goal;                                                                  \
         FSimpleCallback Cancel;                                                                                  \
-        Feedback.BindDynamic(InUserObject, InFeedbackDelegate);                                                  \
-        Result.BindDynamic(InUserObject, InResultResponseDelegate);                                              \
         Goal.BindDynamic(InUserObject, InGoalResponseDelegate);                                                  \
+        Result.BindDynamic(InUserObject, InResultResponseDelegate);                                              \
+        Feedback.BindDynamic(InUserObject, InFeedbackDelegate);                                                  \
         Cancel.BindDynamic(InUserObject, InCancelResponseDelegate);                                              \
-        OutClient = InROS2Node->CreateActionClient(InActionName, InActionClass, Feedback, Result, Goal, Cancel); \
+        OutClient = InROS2Node->CreateActionClient(InActionName, InActionClass, Goal, Result, Feedback, Cancel); \
+    }
+
+/**
+ * @brief ROS2_CREATE_ACTION_CLIENT_WITH_QOS
+ * FActionCallback is of dynamic delegate type to be serializable for BP use
+ * FActionCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_ACTION_CLIENT_WITH_QOS(InROS2Node,                                                                        \
+                                           InUserObject,                                                                      \
+                                           InActionName,                                                                      \
+                                           InActionClass,                                                                     \
+                                           InGoalResponseDelegate,                                                            \
+                                           InResultResponseDelegate,                                                          \
+                                           InFeedbackDelegate,                                                                \
+                                           InCancelResponseDelegate,                                                          \
+                                           InGoalQoS,                                                                         \
+                                           InResultQoS,                                                                       \
+                                           InFeedbackQoS,                                                                     \
+                                           InCancelQoS,                                                                       \
+                                           OutClient)                                                                         \
+    if (ensure(IsValid(InROS2Node)))                                                                                          \
+    {                                                                                                                         \
+        FActionCallback Feedback, Result, Goal;                                                                               \
+        FSimpleCallback Cancel;                                                                                               \
+        Goal.BindDynamic(InUserObject, InGoalResponseDelegate);                                                               \
+        Result.BindDynamic(InUserObject, InResultResponseDelegate);                                                           \
+        Feedback.BindDynamic(InUserObject, InFeedbackDelegate);                                                               \
+        Cancel.BindDynamic(InUserObject, InCancelResponseDelegate);                                                           \
+        OutClient = InROS2Node->CreateActionClient(                                                                           \
+            InActionName, InActionClass, Goal, Result, Feedback, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS); \
     }
 
 /**
@@ -131,15 +220,44 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
  * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
  */
 #define ROS2_CREATE_ACTION_SERVER(                                                                                        \
-    InROS2Node, InUserObject, InActionName, InActionClass, InGoalDelegate, InCancelDelegate, InResultDelegate, OutServer) \
+    InROS2Node, InUserObject, InActionName, InActionClass, InGoalDelegate, InResultDelegate, InCancelDelegate, OutServer) \
     if (ensure(IsValid(InROS2Node)))                                                                                      \
     {                                                                                                                     \
         FActionCallback Goal;                                                                                             \
         FSimpleCallback Result, Cancel;                                                                                   \
         Goal.BindDynamic(InUserObject, InGoalDelegate);                                                                   \
-        Cancel.BindDynamic(InUserObject, InCancelDelegate);                                                               \
         Result.BindDynamic(InUserObject, InResultDelegate);                                                               \
-        OutServer = InROS2Node->CreateActionServer(InActionName, InActionClass, Goal, Cancel, Result);                    \
+        Cancel.BindDynamic(InUserObject, InCancelDelegate);                                                               \
+        OutServer = InROS2Node->CreateActionServer(InActionName, InActionClass, Goal, Result, Cancel);                    \
+    }
+
+/**
+ * @brief ROS2_CREATE_ACTION_SERVER_WITH_QOS
+ * FActionCallback is of dynamic delegate type to be serializable for BP use
+ * FActionCallback::BindDynamic is a macro, instead of a function.
+ * Thus InCallback can only be a direct UFUNCTION() method & cannot be used as typed param!
+ */
+#define ROS2_CREATE_ACTION_SERVER_WITH_QOS(InROS2Node,                                                              \
+                                           InUserObject,                                                            \
+                                           InActionName,                                                            \
+                                           InActionClass,                                                           \
+                                           InGoalDelegate,                                                          \
+                                           InResultDelegate,                                                        \
+                                           InCancelDelegate,                                                        \
+                                           InGoalQoS,                                                               \
+                                           InResultQoS,                                                             \
+                                           InFeedbackQoS,                                                           \
+                                           InCancelQoS,                                                             \
+                                           OutServer)                                                               \
+    if (ensure(IsValid(InROS2Node)))                                                                                \
+    {                                                                                                               \
+        FActionCallback Goal;                                                                                       \
+        FSimpleCallback Result, Cancel;                                                                             \
+        Goal.BindDynamic(InUserObject, InGoalDelegate);                                                             \
+        Result.BindDynamic(InUserObject, InResultDelegate);                                                         \
+        Cancel.BindDynamic(InUserObject, InCancelDelegate);                                                         \
+        OutServer = InROS2Node->CreateActionServer(                                                                 \
+            InActionName, InActionClass, Goal, Result, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS); \
     }
 
 /**
@@ -275,7 +393,8 @@ public:
     UFUNCTION(BlueprintCallable)
     UROS2Subscriber* CreateSubscriber(const FString& InTopicName,
                                       const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                      const FSubscriptionCallback& InCallback);
+                                      const FSubscriptionCallback& InCallback,
+                                      const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
 
     /**
      * @brief Set this node to UROS2ServiceClient::OwnerNode and add to #ServiceClients.
@@ -321,7 +440,8 @@ public:
     UFUNCTION(BlueprintCallable)
     UROS2ServiceServer* CreateServiceServer(const FString& InServiceName,
                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
-                                            const FServiceCallback& InCallback);
+                                            const FServiceCallback& InCallback,
+                                            const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
 
     /**
      * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionClients.
@@ -333,20 +453,29 @@ public:
 
     /**
      * @brief Create a new UROS2ActionClient and add to Node.
+     *
      * @param InActionName
      * @param InActionClass
      * @param InFeedbackDelegate
      * @param InResultResponseDelegate
      * @param InGoalResponseDelegate
      * @param InCancelResponseDelegate
+     * @param InFeedbackQoS
+     * @param InResultQoS
+     * @param InGoalQoS
+     * @param InCancelQoS
      * @return UROS2ActionClient*
      */
     UROS2ActionClient* CreateActionClient(const FString& InActionName,
                                           const TSubclassOf<UROS2GenericAction>& InActionClass,
-                                          const FActionCallback& InFeedbackDelegate,
-                                          const FActionCallback& InResultResponseDelegate,
                                           const FActionCallback& InGoalResponseDelegate,
-                                          const FSimpleCallback& InCancelResponseDelegate);
+                                          const FActionCallback& InResultResponseDelegate,
+                                          const FActionCallback& InFeedbackDelegate,
+                                          const FSimpleCallback& InCancelResponseDelegate,
+                                          const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
+                                          const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
+                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                          const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
     /**
      * @brief Set this node to UROS2ActionClient::OwnerNode and add to #ActionServers.
      *
@@ -360,16 +489,24 @@ public:
      *
      * @param InActionName
      * @param InActionClass
-     * @param HandleGoal
-     * @param HandleCancel
-     * @param HandleAccepted
+     * @param InGoalDelegate
+     * @param InCancelDelegate
+     * @param InResultDelegate
+     * @param InFeedbackQoS
+     * @param InResultQoS
+     * @param InGoalQoS
+     * @param InCancelQoS
      * @return UROS2ActionServer*
      */
     UROS2ActionServer* CreateActionServer(const FString& InActionName,
                                           const TSubclassOf<UROS2GenericAction>& InActionClass,
                                           const FActionCallback& InGoalDelegate,
+                                          const FSimpleCallback& InResultDelegate,
                                           const FSimpleCallback& InCancelDelegate,
-                                          const FSimpleCallback& InResultDelegate);
+                                          const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
+                                          const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
+                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                          const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
 
     //! Node state
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

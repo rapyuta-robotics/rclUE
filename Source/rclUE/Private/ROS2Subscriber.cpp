@@ -24,6 +24,7 @@ void UROS2Subscriber::InitializeTopicComponent()
     rcl_subscription = rcl_get_zero_initialized_subscription();
     const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
     rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
+    sub_opt.qos = QoS_LUT[QoS];
     RCSOFTCHECK(rcl_subscription_init(&rcl_subscription, OwnerNode->GetNode(), type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
     State = UROS2State::Initialized;

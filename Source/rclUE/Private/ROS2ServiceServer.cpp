@@ -19,6 +19,7 @@ void UROS2ServiceServer::InitializeServiceComponent()
     rcl_service = rcl_get_zero_initialized_service();
     const rosidl_service_type_support_t* type_support = Service->GetTypeSupport();
     rcl_service_options_t srv_opt = rcl_service_get_default_options();
+    srv_opt.qos = QoS_LUT[QoS];
     RCSOFTCHECK(rcl_service_init(&rcl_service, OwnerNode->GetNode(), type_support, TCHAR_TO_UTF8(*ServiceName), &srv_opt));
 }
 

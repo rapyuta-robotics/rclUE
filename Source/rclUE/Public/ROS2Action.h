@@ -91,10 +91,25 @@ public:
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TEnumAsByte<UROS2State> State = UROS2State::Created;
 
-    //! Quality of service
+    //! Quality of Cancel
     //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Default;
+    TEnumAsByte<UROS2QoS> CancelQoS = UROS2QoS::Services;
+
+    //! Quality of Goal
+    //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> GoalQoS = UROS2QoS::Services;
+
+    //! Quality of Result
+    //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> ResultQoS = UROS2QoS::Services;
+
+    //! Quality of Feedback
+    //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
 
 protected:
     /**
