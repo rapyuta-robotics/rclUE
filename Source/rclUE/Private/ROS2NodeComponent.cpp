@@ -12,12 +12,17 @@ DEFINE_LOG_CATEGORY(LogROS2Node);
 UROS2NodeComponent* UROS2NodeComponent::CreateNewNode(UObject* InOwner,
                                                       const FString& InNodeName,
                                                       const FString& InNodeNamespace,
-                                                      const FString& InCompName)
+                                                      const FString& InCompName,
+                                                      bool Init)
 {
     UROS2NodeComponent* node = NewObject<UROS2NodeComponent>(InOwner, UROS2NodeComponent::StaticClass(), FName(*InCompName));
     node->RegisterComponent();
     node->Name = InNodeName;
     node->Namespace = InNodeNamespace;
+    if (Init)
+    {
+        node->Init();
+    }
     return node;
 }
 
@@ -83,6 +88,7 @@ void UROS2NodeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 // different/relevant in each of Child classes
 void UROS2NodeComponent::Init()
 {
+    this->RegisterComponent();
     if (State == UROS2State::Created)
     {
         UE_LOG(LogROS2Node, Log, TEXT("[%s] start initializing.."), *GetName());
@@ -148,6 +154,18 @@ UROS2Publisher* UROS2NodeComponent::CreateLoopPublisher(const FString& InTopicNa
     publisher->QoS = InQoS;
     publisher->PublicationFrequencyHz = InPubFrequency;
     publisher->SetDelegates(InUpdateDelegate);
+    AddPublisher(publisher);
+    return publisher;
+}
+
+UROS2Publisher* UROS2NodeComponent::CreatePublisherWithClass(const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                             const FString& InTopicName)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
+    if (!InTopicName.IsEmpty())
+    {
+        publisher->TopicName = InTopicName;
+    }
     AddPublisher(publisher);
     return publisher;
 }

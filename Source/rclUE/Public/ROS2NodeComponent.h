@@ -283,7 +283,8 @@ public:
     static UROS2NodeComponent* CreateNewNode(UObject* InOwner,
                                              const FString& InNodeName,
                                              const FString& InNodeNamespace,
-                                             const FString& InCompName = TEXT("ROS2NodeComponent"));
+                                             const FString& InCompName = TEXT("ROS2NodeComponent"),
+                                             const bool Init = true);
 
     //! A constructor.
     /*!
@@ -358,6 +359,18 @@ public:
                                         const float InPubFrequency,
                                         const FTopicCallback& InUpdateDelegate,
                                         const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+
+    /**
+     * @brief Create a new UROS2Publisher and andd to Node.
+     *
+     * @param InPublisherClass
+     * @param InTopicName
+     * @return UROS2Publisher*
+     */
+    UFUNCTION(BlueprintCallable)
+    UROS2Publisher* CreatePublisherWithClass(const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                             const FString& InTopicName = TEXT(""));
+
     /**
      * @brief Create a new UROS2Publisher and andd to Node.
      *
