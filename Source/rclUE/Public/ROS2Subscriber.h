@@ -22,7 +22,7 @@
  * @brief ROS2 Subscriber class.
  *
  */
-UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2Subscriber : public UROS2Topic
 {
     GENERATED_BODY()
@@ -38,7 +38,8 @@ public:
     static UROS2Subscriber* CreateSubscriber(UObject* InOwner,
                                              const FString& InTopicName,
                                              const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                             const FSubscriptionCallback& InCallback);
+                                             const FSubscriptionCallback& InCallback,
+                                             const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
 
     /**
      * @brief Destroy subscriber with rcl_subscriber_fini
@@ -70,4 +71,39 @@ protected:
      *
      */
     virtual void InitializeTopicComponent();
+};
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2SubscriberComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2Subscriber* Subscriber = nullptr;
+
+    //! this is pass to #UROS2Subscriber::TopicName in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString TopicName = TEXT("");
+
+    //! this is pass to #UROS2Subscriber::MsgClass in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSubclassOf<UROS2GenericMsg> MsgClass = UROS2GenericMsg::StaticClass();
+
+    //! this is pass to #UROS2Subscriber::QoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Default;
+
+    //! this is pass to #UROS2Subscriber::Callback in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FSubscriptionCallback Callback;
+
+    virtual void BeginPlay() override
+    {
+        if (Subscriber == nullptr)
+        {
+            Subscriber = UROS2Subscriber::CreateSubscriber(this, TopicName, MsgClass, Callback, QoS);
+        }
+        Super::BeginPlay();
+    };
 };

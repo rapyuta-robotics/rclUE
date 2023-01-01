@@ -4,7 +4,6 @@
 
 UROS2Action::UROS2Action()
 {
-    PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UROS2Action::InitializeWithROS2(UROS2NodeComponent* InROS2Node)

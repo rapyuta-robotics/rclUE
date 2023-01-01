@@ -8,12 +8,19 @@ UROS2ActionServer* UROS2ActionServer::CreateActionServer(UObject* InOwner,
                                                          const FString& InActionName,
                                                          const TSubclassOf<UROS2GenericAction>& InActionClass,
                                                          const FActionCallback& InGoalDelegate,
+                                                         const FSimpleCallback& InResultDelegate,
                                                          const FSimpleCallback& InCancelDelegate,
-                                                         const FSimpleCallback& InResultDelegate)
+                                                         const TEnumAsByte<UROS2QoS> InGoalQoS,
+                                                         const TEnumAsByte<UROS2QoS> InResultQoS,
+                                                         const TEnumAsByte<UROS2QoS> InFeedbackQoS,
+                                                         const TEnumAsByte<UROS2QoS> InCancelQoS)
 {
     UROS2ActionServer* server = NewObject<UROS2ActionServer>(InOwner);
     server->ActionClass = InActionClass;
     server->ActionName = InActionName;
+    server->GoalQoS = InGoalQoS;
+    server->ResultQoS = InResultQoS;
+    server->CancelQoS = InCancelQoS;
     server->SetDelegates(InGoalDelegate, InCancelDelegate, InResultDelegate);
     return server;
 }

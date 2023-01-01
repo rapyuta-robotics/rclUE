@@ -26,7 +26,7 @@
  *  Service type is defined by SrvClass
  *
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceClient : public UROS2Service
 {
     GENERATED_BODY()
@@ -43,8 +43,9 @@ public:
      */
     static UROS2ServiceClient* CreateServiceClient(UObject* InOwner,
                                                    const FString& InServiceName,
-                                                   const TSubclassOf<UROS2GenericMsg>& InSrvClass,
-                                                   const FServiceCallback& InResponseDelegate);
+                                                   const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                   const FServiceCallback& InResponseDelegate,
+                                                   const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
 
     /**
      * @brief Destroy publisher with rcl_client_fini
@@ -126,4 +127,39 @@ protected:
      *
      */
     virtual void InitializeServiceComponent() override;
+};
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2ServiceClientComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2ServiceClient* ServiceClient = nullptr;
+
+    //! this is pass to #UROS2ServiceClient::ServiceName in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString ServiceName = TEXT("");
+
+    //! this is pass to #UROS2ServiceClient::SrvClass in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSubclassOf<UROS2GenericSrv> SrvClass = UROS2GenericSrv::StaticClass();
+
+    //! this is pass to #UROS2ServiceClient::QoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ServiceClient::ResponseDelegate in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FServiceCallback ResponseDelegate;
+
+    virtual void BeginPlay() override
+    {
+        if (ServiceClient == nullptr)
+        {
+            ServiceClient = UROS2ServiceClient::CreateServiceClient(this, ServiceName, SrvClass, ResponseDelegate, QoS);
+        }
+        Super::BeginPlay();
+    };
 };

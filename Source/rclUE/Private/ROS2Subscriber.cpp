@@ -8,11 +8,13 @@
 UROS2Subscriber* UROS2Subscriber::CreateSubscriber(UObject* InOwner,
                                                    const FString& InTopicName,
                                                    const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                   const FSubscriptionCallback& InCallback)
+                                                   const FSubscriptionCallback& InCallback,
+                                                   const TEnumAsByte<UROS2QoS> InQoS)
 {
     UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(InOwner);
     subscriber->MsgClass = InMsgClass;
     subscriber->TopicName = InTopicName;
+    subscriber->QoS = InQoS;
     subscriber->SetDelegates(InCallback);
     return subscriber;
 }

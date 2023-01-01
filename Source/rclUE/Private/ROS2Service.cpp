@@ -5,7 +5,6 @@
 // Sets default values for this component's properties
 UROS2Service::UROS2Service()
 {
-    PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UROS2Service::InitializeWithROS2(UROS2NodeComponent* InROS2Node)

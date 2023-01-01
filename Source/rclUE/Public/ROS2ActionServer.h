@@ -23,7 +23,7 @@
  * @sa [Unreal Engine
  * Delegates](https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionServer : public UROS2Action
 {
     GENERATED_BODY()
@@ -33,8 +33,12 @@ public:
                                                  const FString& InActionName,
                                                  const TSubclassOf<UROS2GenericAction>& InActionClass,
                                                  const FActionCallback& InGoalDelegate,
+                                                 const FSimpleCallback& InResultDelegate,
                                                  const FSimpleCallback& InCancelDelegate,
-                                                 const FSimpleCallback& InResultDelegate);
+                                                 const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
+                                                 const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
+                                                 const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                                 const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
 
     /**
      * @brief Destroy action server from rclc
@@ -100,8 +104,8 @@ private:
     rmw_request_id_t cancel_req_id;
 
     FActionCallback GoalDelegate;
-    FSimpleCallback CancelDelegate;
     FSimpleCallback ResultDelegate;
+    FSimpleCallback CancelDelegate;
 
     /**
      * @brief Initialize ROS2 action client with rcl_action_server_init.
@@ -109,4 +113,60 @@ private:
      *
      */
     virtual void InitializeActionComponent() override;
+};
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2ActionServerComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2ActionServer* ActionServer = nullptr;
+
+    //! this is pass to #UROS2ActionServer::ActionName in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString ActionName = TEXT("");
+
+    //! this is pass to #UROS2ActionServer::ActionClass in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSubclassOf<UROS2GenericAction> ActionClass;
+
+    //! this is pass to #UROS2ActionServer::CancelQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> CancelQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionServer::GoalQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> GoalQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionServer::ResultQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> ResultQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionServer::FeedbackQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
+
+    FActionCallback GoalDelegate;
+    FSimpleCallback ResultDelegate;
+    FSimpleCallback CancelDelegate;
+
+    virtual void BeginPlay() override
+    {
+        if (ActionServer == nullptr)
+        {
+            ActionServer = UROS2ActionServer::CreateActionServer(this,
+                                                                 ActionName,
+                                                                 ActionClass,
+                                                                 GoalDelegate,
+                                                                 ResultDelegate,
+                                                                 CancelDelegate,
+                                                                 GoalQoS,
+                                                                 ResultQoS,
+                                                                 FeedbackQoS,
+                                                                 CancelQoS);
+        }
+        Super::BeginPlay();
+    };
 };

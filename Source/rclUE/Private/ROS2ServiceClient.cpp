@@ -4,12 +4,14 @@
 
 UROS2ServiceClient* UROS2ServiceClient::CreateServiceClient(UObject* InOwner,
                                                             const FString& InServiceName,
-                                                            const TSubclassOf<UROS2GenericMsg>& InSrvClass,
-                                                            const FServiceCallback& InResponseDelegate)
+                                                            const TSubclassOf<UROS2GenericSrv>& InSrvClass,
+                                                            const FServiceCallback& InResponseDelegate,
+                                                            const TEnumAsByte<UROS2QoS> InQoS)
 {
     UROS2ServiceClient* client = NewObject<UROS2ServiceClient>(InOwner);
     client->SrvClass = InSrvClass;
     client->ServiceName = InServiceName;
+    client->QoS = InQoS;
     client->SetDelegates(InResponseDelegate);
     return client;
 }

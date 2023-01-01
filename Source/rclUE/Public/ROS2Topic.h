@@ -24,7 +24,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Topic, Log, All);
  *
  */
 UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
-class RCLUE_API UROS2Topic : public UActorComponent
+class RCLUE_API UROS2Topic : public UObject
 {
     GENERATED_BODY()
 

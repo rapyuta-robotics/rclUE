@@ -9,13 +9,32 @@ UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
                                                 const FString& InTopicName,
                                                 const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                                 const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                float InPubFrequency)
+                                                float InPubFrequency,
+                                                const TEnumAsByte<UROS2QoS> InQoS)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
     publisher->MsgClass = InMsgClass;
     publisher->TopicName = InTopicName;
     publisher->PublicationFrequencyHz = InPubFrequency;
+    publisher->QoS = InQoS;
     publisher->SetDefaultDelegates();
+    return publisher;
+}
+
+UROS2Publisher* UROS2Publisher::CreateLoopPublisher(UObject* InOwner,
+                                                    const FString& InTopicName,
+                                                    const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                    const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                    float InPubFrequency,
+                                                    const FTopicCallback& InUpdateDelegate,
+                                                    const TEnumAsByte<UROS2QoS> InQoS)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
+    publisher->MsgClass = InMsgClass;
+    publisher->TopicName = InTopicName;
+    publisher->PublicationFrequencyHz = InPubFrequency;
+    publisher->QoS = InQoS;
+    publisher->SetDelegates(InUpdateDelegate);
     return publisher;
 }
 
@@ -23,8 +42,6 @@ void UROS2Publisher::InitializeTopicComponent()
 {
     TimerManager = NewObject<URRTimerManager>(
         this, URRTimerManager::StaticClass(), FName(*FString::Printf(TEXT("%s_TimerManager"), *GetName())));
-    PrimaryComponentTick.bCanEverTick = true;
-
     const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
 
     RclPublisher = rcl_get_zero_initialized_publisher();

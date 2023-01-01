@@ -26,7 +26,7 @@
  *  Service type is defined by SrvClass
  *
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceServer : public UROS2Service
 {
     GENERATED_BODY()
@@ -42,7 +42,8 @@ public:
     static UROS2ServiceServer* CreateServiceServer(UObject* InOwner,
                                                    const FString& InServiceName,
                                                    const TSubclassOf<UROS2GenericSrv>& InSrvClass,
-                                                   const FServiceCallback& InCallback);
+                                                   const FServiceCallback& InCallback,
+                                                   const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
 
     /**
      * @brief Destroy publisher with rcl_client_fini
@@ -76,4 +77,39 @@ protected:
      *
      */
     virtual void InitializeServiceComponent() override;
+};
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2ServiceServerComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2ServiceServer* ServiceServer = nullptr;
+
+    //! this is pass to #UROS2ServiceServer::ServiceName in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString ServiceName = TEXT("");
+
+    //! this is pass to #UROS2ServiceServer::SrvClass in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSubclassOf<UROS2GenericSrv> SrvClass = UROS2GenericSrv::StaticClass();
+
+    //! this is pass to #UROS2ServiceServer::QoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ServiceServer::ResponseDelegate in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FServiceCallback SrvCallback;
+
+    virtual void BeginPlay() override
+    {
+        if (ServiceServer == nullptr)
+        {
+            ServiceServer = UROS2ServiceServer::CreateServiceServer(this, ServiceName, SrvClass, SrvCallback, QoS);
+        }
+        Super::BeginPlay();
+    };
 };

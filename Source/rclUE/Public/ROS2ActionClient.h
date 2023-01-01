@@ -22,7 +22,7 @@
  * @sa [rclc action client](https://docs.ros2.org/dashing/api/rcl_action/action__client_8h.html)
  * @sa [Unreal Engine Delegates](https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionClient : public UROS2Action
 {
     GENERATED_BODY()
@@ -43,10 +43,14 @@ public:
     static UROS2ActionClient* CreateActionClient(UObject* InOwner,
                                                  const FString& InActionName,
                                                  const TSubclassOf<UROS2GenericAction>& InActionClass,
-                                                 const FActionCallback& InFeedbackDelegate,
-                                                 const FActionCallback& InResultResponseDelegate,
                                                  const FActionCallback& InGoalResponseDelegate,
-                                                 const FSimpleCallback& InCancelResponseDelegate);
+                                                 const FActionCallback& InResultResponseDelegate,
+                                                 const FActionCallback& InFeedbackDelegate,
+                                                 const FSimpleCallback& InCancelResponseDelegate,
+                                                 const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
+                                                 const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
+                                                 const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                                 const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
     /**
      * @brief Destroy action client from rclc
      *
@@ -127,9 +131,9 @@ private:
     rmw_request_id_t result_res_id;
     rmw_request_id_t cancel_res_id;
 
-    FActionCallback FeedbackDelegate;
-    FActionCallback ResultResponseDelegate;
     FActionCallback GoalResponseDelegate;
+    FActionCallback ResultResponseDelegate;
+    FActionCallback FeedbackDelegate;
     FSimpleCallback CancelResponseDelegate;
 
     /**
@@ -138,4 +142,62 @@ private:
      *
      */
     virtual void InitializeActionComponent() override;
+};
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2ActionClientComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2ActionClient* ActionClient = nullptr;
+
+    //! this is pass to #UROS2ActionClient::ActionName in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString ActionName = TEXT("");
+
+    //! this is pass to #UROS2ActionClient::ActionClass in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSubclassOf<UROS2GenericAction> ActionClass;
+
+    //! this is pass to #UROS2ActionClient::CancelQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> CancelQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionClient::GoalQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> GoalQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionClient::ResultQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> ResultQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionClient::FeedbackQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
+
+    FActionCallback GoalResponseDelegate;
+    FActionCallback ResultResponseDelegate;
+    FActionCallback FeedbackDelegate;
+    FSimpleCallback CancelResponseDelegate;
+
+    virtual void BeginPlay() override
+    {
+        if (ActionClient == nullptr)
+        {
+            ActionClient = UROS2ActionClient::CreateActionClient(this,
+                                                                 ActionName,
+                                                                 ActionClass,
+                                                                 GoalResponseDelegate,
+                                                                 ResultResponseDelegate,
+                                                                 FeedbackDelegate,
+                                                                 CancelResponseDelegate,
+                                                                 GoalQoS,
+                                                                 ResultQoS,
+                                                                 FeedbackQoS,
+                                                                 CancelQoS);
+        }
+        Super::BeginPlay();
+    };
 };

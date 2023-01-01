@@ -23,8 +23,8 @@
  *
  * type of action is defined by ActionClass
 */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class RCLUE_API UROS2Action : public UActorComponent
+UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2Action : public UObject
 {
     GENERATED_BODY()
 

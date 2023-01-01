@@ -119,7 +119,6 @@ void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
 
     if (false == Publishers.Contains(InPublisher))
     {
-        InPublisher->RegisterComponent();
         InPublisher->InitializeWithROS2(this);
         Publishers.Add(InPublisher);
     }
@@ -191,7 +190,6 @@ void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 
     if (false == Subscriptions.Contains(InSubscriber))
     {
-        InSubscriber->RegisterComponent();
         InSubscriber->InitializeWithROS2(this);
         Subscriptions.Add(InSubscriber);
         InvalidateWaitSet();
@@ -222,7 +220,6 @@ void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
     check(IsValid(InServiceClient));
     if (false == ServiceClients.Contains(InServiceClient))
     {
-        InServiceClient->RegisterComponent();
         InServiceClient->InitializeWithROS2(this);
         ServiceClients.Add(InServiceClient);
         InvalidateWaitSet();
@@ -253,7 +250,6 @@ void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
     check(IsValid(InServiceServer));
     if (false == ServiceServers.Contains(InServiceServer))
     {
-        InServiceServer->RegisterComponent();
         InServiceServer->InitializeWithROS2(this);
         ServiceServers.Add(InServiceServer);
         InvalidateWaitSet();
@@ -286,7 +282,6 @@ void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
 
     if (false == ActionClients.Contains(InActionClient))
     {
-        InActionClient->RegisterComponent();
         InActionClient->InitializeWithROS2(this);
         ActionClients.Add(InActionClient);
         InvalidateWaitSet();
@@ -326,7 +321,6 @@ void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
 
     if (false == ActionServers.Contains(InActionServer))
     {
-        InActionServer->RegisterComponent();
         InActionServer->InitializeWithROS2(this);
         ActionServers.Add(InActionServer);
         InvalidateWaitSet();

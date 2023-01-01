@@ -7,14 +7,22 @@
 UROS2ActionClient* UROS2ActionClient::CreateActionClient(UObject* InOwner,
                                                          const FString& InActionName,
                                                          const TSubclassOf<UROS2GenericAction>& InActionClass,
-                                                         const FActionCallback& InFeedbackDelegate,
-                                                         const FActionCallback& InResultResponseDelegate,
                                                          const FActionCallback& InGoalResponseDelegate,
-                                                         const FSimpleCallback& InCancelResponseDelegate)
+                                                         const FActionCallback& InResultResponseDelegate,
+                                                         const FActionCallback& InFeedbackDelegate,
+                                                         const FSimpleCallback& InCancelResponseDelegate,
+                                                         const TEnumAsByte<UROS2QoS> InGoalQoS,
+                                                         const TEnumAsByte<UROS2QoS> InResultQoS,
+                                                         const TEnumAsByte<UROS2QoS> InFeedbackQoS,
+                                                         const TEnumAsByte<UROS2QoS> InCancelQoS)
 {
     UROS2ActionClient* client = NewObject<UROS2ActionClient>(InOwner);
     client->ActionClass = InActionClass;
     client->ActionName = InActionName;
+    client->GoalQoS = InGoalQoS;
+    client->ResultQoS = InResultQoS;
+    client->FeedbackQoS = InFeedbackQoS;
+    client->CancelQoS = InCancelQoS;
     client->SetDelegates(InFeedbackDelegate, InResultResponseDelegate, InGoalResponseDelegate, InCancelResponseDelegate);
     return client;
 }

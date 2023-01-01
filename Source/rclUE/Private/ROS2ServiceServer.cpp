@@ -5,11 +5,13 @@
 UROS2ServiceServer* UROS2ServiceServer::CreateServiceServer(UObject* InOwner,
                                                             const FString& InServiceName,
                                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
-                                                            const FServiceCallback& InCallback)
+                                                            const FServiceCallback& InCallback,
+                                                            const TEnumAsByte<UROS2QoS> InQoS)
 {
     UROS2ServiceServer* server = NewObject<UROS2ServiceServer>(InOwner);
     server->SrvClass = InSrvClass;
     server->ServiceName = InServiceName;
+    server->QoS = InQoS;
     server->SetDelegates(InCallback);
     return server;
 }

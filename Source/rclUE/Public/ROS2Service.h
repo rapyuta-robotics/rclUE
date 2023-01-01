@@ -25,8 +25,8 @@
  *  Service type is defined by SrvClass
  *
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class RCLUE_API UROS2Service : public UActorComponent
+UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2Service : public UObject
 {
     GENERATED_BODY()
 

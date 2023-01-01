@@ -9,7 +9,6 @@ DEFINE_LOG_CATEGORY(LogROS2Topic);
 
 UROS2Topic::UROS2Topic()
 {
-    PrimaryComponentTick.bCanEverTick = true;
 }
 
 void UROS2Topic::InitializeWithROS2(UROS2NodeComponent* InROS2Node)
