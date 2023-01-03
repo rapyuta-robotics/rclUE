@@ -32,6 +32,8 @@ class UROS2ServiceClient;
 class UROS2ActionServer;
 class UROS2ActionClient;
 
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);
+
 // Reminder: functions bound to delegates must be UFUNCTION
 DECLARE_DYNAMIC_DELEGATE_OneParam(FActionCallback, UROS2GenericAction*, InAction /*Action*/);
 DECLARE_DYNAMIC_DELEGATE(FSimpleCallback);
@@ -260,6 +262,27 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
             InActionName, InActionClass, Goal, Result, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS); \
     }
 
+#define IS_ROS2NODE_INITED(InNode, InName, OutRes)                                                                           \
+    do                                                                                                                       \
+    {                                                                                                                        \
+        if (!IsValid(InNode))                                                                                                \
+        {                                                                                                                    \
+            UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ROS2 Node is nullptr. Please set OwnerNode."), *InName);       \
+            OutRes = false;                                                                                                  \
+        }                                                                                                                    \
+        else if (InNode->State != UROS2State::Initialized)                                                                   \
+        {                                                                                                                    \
+            UE_LOG_WITH_INFO(                                                                                                \
+                LogROS2Node, Warning, TEXT("[%s] ROS2 Node is not initialized yet. Please initialize OwnerNode."), *InName); \
+            OutRes = false;                                                                                                  \
+        }                                                                                                                    \
+        else                                                                                                                 \
+        {                                                                                                                    \
+            OutRes = true;                                                                                                   \
+        }                                                                                                                    \
+                                                                                                                             \
+    } while (0)
+
 /**
  * Class implementing ROS2 node.
  * This class also handles tasks performed by the executor in rclc.
@@ -280,11 +303,23 @@ public:
      * @param InCompName
      * @return UROS2NodeComponent*
      */
+    UFUNCTION(BlueprintCallable)
     static UROS2NodeComponent* CreateNewNode(UObject* InOwner,
                                              const FString& InNodeName,
                                              const FString& InNodeNamespace,
                                              const FString& InCompName = TEXT("ROS2NodeComponent"),
                                              const bool Init = true);
+
+    // /**
+    //  * @brief return true if ROS2Node is initialized.
+    //  *
+    //  * @param InNode
+    //  * @param Name
+    //  * @return true
+    //  * @return false
+    //  */
+    //  UFUNCTION(BlueprintCallable)
+    // static bool IsROS2NodeInited(UROS2NodeComponent* InNode, const FString InName = TEXT("ROS2NodeComponent"));
 
     //! A constructor.
     /*!
@@ -574,6 +609,10 @@ protected:
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<UROS2ActionServer*> ActionServers;
+
+    //! internal property used to log throttle.
+    UPROPERTY()
+    float LogLastHit = 0.f;
 
 private:
     /**

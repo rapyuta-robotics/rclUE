@@ -20,6 +20,23 @@
 
 #include "ROS2Service.generated.h"
 
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
+
+#define IS_SRV_INITED(InNode, InName, OutRes)                                                                      \
+    do                                                                                                             \
+    {                                                                                                              \
+        IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                                \
+                                                                                                                   \
+        if (State != UROS2State::Initialized)                                                                      \
+        {                                                                                                          \
+            UE_LOG_WITH_INFO(LogROS2Srv,                                                                           \
+                             Warning,                                                                              \
+                             TEXT("[%s] Service Client/Server is not initialized yet. Please initialize Action."), \
+                             *InName);                                                                             \
+            OutRes = false;                                                                                        \
+        }                                                                                                          \
+    } while (0)
+
 /**
  * @brief Class implementing ROS2 service clients.
  *  Service type is defined by SrvClass
@@ -32,32 +49,31 @@ class RCLUE_API UROS2Service : public UObject
 
 public:
     /**
-     * @brief Construct a new UROS2ServiceClient object
-     *
-     */
-    UROS2Service();
-
-public:
-    /**
      * @brief Initialize Publisher
      *
      * @param InROS2Node ROS2Node which this publisher belongs to
-     */
-    void InitializeWithROS2(UROS2NodeComponent* InROS2Node);
+    * @return true
+    * @return false
+    */
+    virtual bool InitializeWithROS2(UROS2NodeComponent* InROS2Node);
 
     /**
      * @brief Initialize ROS2 service client with rcl_client_init, set QoS, etc.
      *
+     * @return true
+     * @return false
      */
     UFUNCTION(BlueprintCallable)
-    void Init();
+    virtual bool Init();
 
     /**
      * @brief Create #UROS2GenericSrv instance and initialize it.
      *
+     * @return true
+     * @return false
      */
     UFUNCTION(BlueprintCallable)
-    void InitializeService();
+    virtual bool InitializeService();
 
     /**
      * @brief Destroy publisher with rcl_client_fini

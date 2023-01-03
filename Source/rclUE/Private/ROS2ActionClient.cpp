@@ -48,7 +48,9 @@ void UROS2ActionClient::Destroy()
 {
     Super::Destroy();
 
-    if (OwnerNode != nullptr)
+    bool res = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
+    if (res)
     {
         RCSOFTCHECK(rcl_action_client_fini(&client, OwnerNode->GetNode()));
     }
@@ -56,13 +58,20 @@ void UROS2ActionClient::Destroy()
 
 void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 {
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
+
     TArray<bool, TFixedAllocator<5>> IsReady = {false, false, false, false, false};
     RCSOFTCHECK(rcl_action_client_wait_set_get_entities_ready(
         wait_set, &client, &IsReady[0], &IsReady[1], &IsReady[2], &IsReady[3], &IsReady[4]));
 
     if (IsReady[0])
     {
-        UE_LOG(LogROS2Action, Log, TEXT("8. Action Client - Received feedback (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("8. Action Client - Received feedback"));
         void* data = Action->GetFeedbackMessage();
         RCSOFTCHECK(rcl_action_take_feedback(&client, data));
         FeedbackDelegate.ExecuteIfBound(Action);
@@ -70,12 +79,12 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[1])
     {
-        ensureMsgf(false, TEXT("Action Client take status not implemented yet (%s)"), *__LOG_INFO__);
+        ensureMsgf(false, TEXT("Action Client take status not implemented yet"));
     }
 
     if (IsReady[2])
     {
-        UE_LOG(LogROS2Action, Log, TEXT("4. Action Client - Received goal response (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("4. Action Client - Received goal response"));
         void* data = Action->GetGoalResponse();
         RCSOFTCHECK(rcl_action_take_goal_response(&client, &goal_res_id, data));
         GoalResponseDelegate.ExecuteIfBound(Action);
@@ -83,7 +92,7 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[3])
     {
-        UE_LOG(LogROS2Action, Log, TEXT("D. Action Client - Received cancel response (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("D. Action Client - Received cancel response"));
         void* data = Action->GetCancelResponse();
         RCSOFTCHECK(rcl_action_take_cancel_response(&client, &cancel_res_id, data));
         CancelResponseDelegate.ExecuteIfBound();
@@ -91,7 +100,7 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[4])
     {
-        UE_LOG(LogROS2Action, Log, TEXT("10. Action Client - Received result response (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("10. Action Client - Received result response"));
         void* data = Action->GetResultResponse();
         RCSOFTCHECK(rcl_action_take_result_response(&client, &result_res_id, data));
         ResultResponseDelegate.ExecuteIfBound(Action);
@@ -100,14 +109,18 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
 bool UROS2ActionClient::SendGoal()
 {
-    check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return false;
+    }
 
     bool bActionServerIsAvailable = false;
     RCSOFTCHECK(rcl_action_server_is_available(OwnerNode->GetNode(), &client, &bActionServerIsAvailable));
     if (bActionServerIsAvailable)
     {
-        UE_LOG(LogROS2Action, Log, TEXT("1. Action Client - Send goal (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("1. Action Client - Send goal"));
         const void* goal = Action->GetGoalRequest();
 
         int64_t Seq;
@@ -115,7 +128,7 @@ bool UROS2ActionClient::SendGoal()
     }
     else
     {
-        UE_LOG(LogROS2Action, Error, TEXT("Action Server Unavailable (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Error, TEXT("Action Server Unavailable"));
     }
 
     return bActionServerIsAvailable;
@@ -123,7 +136,14 @@ bool UROS2ActionClient::SendGoal()
 
 void UROS2ActionClient::SendResultRequest()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("5. Action Client - Send result request (%s)"), *__LOG_INFO__);
+    UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("5. Action Client - Send result request"));
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
+
     const void* result = Action->GetResultRequest();
 
     int64_t Seq;
@@ -132,7 +152,14 @@ void UROS2ActionClient::SendResultRequest()
 
 void UROS2ActionClient::SendCancelRequest()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request (%s)"), *__LOG_INFO__);
+    UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("A. Action Client - Send cancel action request"));
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
+
     action_msgs__srv__CancelGoal_Request* cancel_request = (action_msgs__srv__CancelGoal_Request*)Action->GetCancelRequest();
     cancel_request->goal_info.stamp = UROS2Utils::FloatToROSStamp(UGameplayStatics::GetTimeSeconds(GetWorld()));
 
@@ -147,22 +174,22 @@ void UROS2ActionClient::SetDelegates(const FActionCallback& InFeedbackDelegate,
 {
     if (!InFeedbackDelegate.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("FeedbackDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("FeedbackDelegate is not set - is this on purpose?"));
     }
 
     if (!InResultResponseDelegate.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("ResultResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("ResultResponseDelegate is not set - is this on purpose?"));
     }
 
     if (!InGoalResponseDelegate.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("GoalResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("GoalResponseDelegate is not set - is this on purpose?"));
     }
 
     if (!InCancelResponseDelegate.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("CancelResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("CancelResponseDelegate is not set - is this on purpose?"));
     }
 
     GoalResponseDelegate.Unbind();

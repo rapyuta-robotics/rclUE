@@ -87,12 +87,11 @@ public:
     template<typename TService, typename TServiceRequest>
     void SendRequest(TService* InService, const TServiceRequest& InServiceRequest)
     {
-        if (UROS2State::Initialized == State)
+        if (IsValid(OwnerNode) && OwnerNode->State == UROS2State::Initialized && State == UROS2State::Initialized)
         {
-            check(OwnerNode != nullptr);
             if (!IsServiceReady())
             {
-                UE_LOG(LogROS2Srv, Error, TEXT("Service named %s is not ready yet (%s)"), *ServiceName, *__LOG_INFO__);
+                UE_LOG_WITH_INFO(LogROS2Srv, Error, TEXT("Service named %s is not ready yet"), *ServiceName);
                 return;
             }
 
@@ -103,7 +102,7 @@ public:
         }
         else
         {
-            UE_LOG(LogTemp, Log, TEXT("SendRequest() [%s] client is not yet initialized"), *GetName());
+            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("SendRequest() [%s] Service Client or node is not yet initialized"), *GetName());
         }
     }
 

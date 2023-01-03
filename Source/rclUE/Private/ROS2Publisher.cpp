@@ -77,9 +77,11 @@ void UROS2Publisher::StartPublishTimer()
 void UROS2Publisher::Destroy()
 {
     Super::Destroy();
-    if (OwnerNode != nullptr)
+    bool res = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
+    if (res)
     {
-        UE_LOG(LogROS2Topic, Log, TEXT("Publisher Destroy - rcl_publisher_fini (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Topic, Log, TEXT("Publisher Destroy - rcl_publisher_fini "));
         RCSOFTCHECK(rcl_publisher_fini(&RclPublisher, OwnerNode->GetNode()));
     }
     UpdateDelegate.Unbind();
@@ -87,12 +89,13 @@ void UROS2Publisher::Destroy()
 
 void UROS2Publisher::UpdateAndPublishMessage()
 {
-    if (State != UROS2State::Initialized)
+    bool res = true;
+    IS_TOPIC_INITED(OwnerNode, GetName(), res);
+    if (!res)
     {
-        UE_LOG(LogROS2Topic, Error, TEXT("Publisher is not initialized yet (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Topic, Error, TEXT("Publisher is not initialized yet "));
         return;
     }
-    check(IsValid(OwnerNode));
 
     UpdateDelegate.ExecuteIfBound(TopicMessage);
 
@@ -101,8 +104,12 @@ void UROS2Publisher::UpdateAndPublishMessage()
 
 void UROS2Publisher::Publish()
 {
-    check(State == UROS2State::Initialized);
-    check(OwnerNode != nullptr);
+    bool res = true;
+    IS_TOPIC_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
 
     RCSOFTCHECK(rcl_publish(&RclPublisher, TopicMessage->Get(), nullptr));
 }
@@ -111,7 +118,7 @@ void UROS2Publisher::SetDelegates(const FTopicCallback& InUpdateDelegate)
 {
     if (!InUpdateDelegate.IsBound())
     {
-        UE_LOG(LogROS2Topic, Warning, TEXT("UpdateDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Topic, Warning, TEXT("UpdateDelegate is not set - is this on purpose? "));
     }
     UpdateDelegate.Unbind();
     UpdateDelegate = InUpdateDelegate;

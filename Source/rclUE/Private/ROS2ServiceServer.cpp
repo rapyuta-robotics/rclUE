@@ -29,22 +29,31 @@ void UROS2ServiceServer::Destroy()
 {
     Super::Destroy();
 
-    if (OwnerNode != nullptr)
+    bool res = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
+    if (res)
     {
-        UE_LOG(LogROS2Srv, Log, TEXT("Service server Destroy - rcl_service_fini (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Srv, Log, TEXT("Service server Destroy - rcl_service_fini "));
         RCSOFTCHECK(rcl_service_fini(&rcl_service, OwnerNode->GetNode()));
     }
 }
 
 void UROS2ServiceServer::ProcessReady()
 {
+    bool res = true;
+    IS_SRV_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
+
     if (Ready == true)
     {
         rmw_service_info_t req_info;
         void* data = Service->GetRequest();
         RCSOFTCHECK(rcl_take_request_with_info(&rcl_service, &req_info, data));
 
-        UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node Executing Service server callback (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Node, Log, TEXT("[%s] ROS2Node Executing Service server callback"), *GetName());
 
         SrvCallback.ExecuteIfBound(Service);
 
@@ -58,7 +67,7 @@ void UROS2ServiceServer::SetDelegates(const FServiceCallback& InSrvCallback)
 {
     if (!InSrvCallback.IsBound())
     {
-        UE_LOG(LogROS2Srv, Warning, TEXT("SrvCallback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Srv, Warning, TEXT("SrvCallback is not set - is this on purpose? "));
     }
 
     SrvCallback = InSrvCallback;

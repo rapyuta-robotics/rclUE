@@ -89,7 +89,9 @@ public:
     template<typename TUEMessage, typename TUEStruct>
     void Publish(const TUEStruct& InMessageData)
     {
-        if (UROS2State::Initialized == State)
+        // can't use macro in here.
+        // if (IsValid(OwnerNode) && OwnerNode->State == UROS2State::Initialized && State == UROS2State::Initialized)
+        if (State == UROS2State::Initialized)
         {
             // Update [TopicMessage] with [InMessageData]
             CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData);
@@ -99,7 +101,7 @@ public:
         }
         else
         {
-            UE_LOG(LogTemp, Log, TEXT("PublishMessage() [%s] Publisher not yet initialized"), *GetName());
+            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("PublishMessage() [%s] Publisher or node is not yet initialized"), *GetName());
         }
     }
 
@@ -221,7 +223,8 @@ public:
         }
         else
         {
-            UE_LOG(LogTemp, Warning, TEXT("[UROS2PublisherComponent][BeginPlay] Publisher class is not created in BeginPlay."));
+            UE_LOG_WITH_INFO(
+                LogTemp, Warning, TEXT("[UROS2PublisherComponent][BeginPlay] Publisher class is not created in BeginPlay."));
         }
         Super::BeginPlay();
     };
@@ -240,7 +243,7 @@ public:
         }
         else
         {
-            UE_LOG(LogTemp, Warning, TEXT("[UROS2PublisherComponent][SetParams] Publisher is not created yet."));
+            UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("[UROS2PublisherComponent][SetParams] Publisher is not created yet."));
         }
     }
 };

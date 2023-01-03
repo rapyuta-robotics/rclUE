@@ -42,15 +42,15 @@ void UROS2ActionServer::InitializeActionComponent()
     RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));
     rcl_ret_t rc = rcl_action_server_init(
         &server, OwnerNode->GetNode(), &ros_clock, action_type_support, TCHAR_TO_UTF8(*ActionName), &server_opt);
-
-    check(rc == RCL_RET_OK);
 }
 
 void UROS2ActionServer::Destroy()
 {
     Super::Destroy();
 
-    if (OwnerNode != nullptr)
+    bool res = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
+    if (res)
     {
         RCSOFTCHECK(rcl_action_server_fini(&server, OwnerNode->GetNode()));
         RCSOFTCHECK(rcl_ros_clock_fini(&ros_clock));
@@ -69,7 +69,7 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[0])
     {
-        UE_LOG(LogROS2Action, Log, TEXT("2. Action Server - Received goal request (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("2. Action Server - Received goal request"));
         void* data = Action->GetGoalRequest();
         RCSOFTCHECK(rcl_action_take_goal_request(&server, &goal_req_id, data));
         GoalDelegate.ExecuteIfBound(Action);
@@ -77,7 +77,7 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[1])
     {
-        UE_LOG(LogROS2Action, Log, TEXT("B. Action Server - Received cancel action request (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("B. Action Server - Received cancel action request"));
         void* data = Action->GetCancelRequest();
         RCSOFTCHECK(rcl_action_take_cancel_request(&server, &cancel_req_id, data));
         CancelDelegate.ExecuteIfBound();
@@ -85,7 +85,7 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[2])
     {
-        UE_LOG(LogROS2Action, Log, TEXT("6. Action Server - Received result request (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("6. Action Server - Received result request"));
         void* data = Action->GetResultRequest();
         RCSOFTCHECK(rcl_action_take_result_request(&server, &result_req_id, data));
         ResultDelegate.ExecuteIfBound();
@@ -93,15 +93,19 @@ void UROS2ActionServer::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[3])
     {
-        ensureMsgf(false, TEXT("Action Server goal expired not implemented yet (%s)"), *__LOG_INFO__);
+        ensureMsgf(false, TEXT("Action Server goal expired not implemented yet"));
     }
 }
 
 void UROS2ActionServer::ProcessAndSendCancelResponse(const int InReturnCode)
 {
-    UE_LOG(LogROS2Action, Log, TEXT("C. Action Server - Send cancel response (%s)"), *__LOG_INFO__);
-    check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("C. Action Server - Send cancel response"));
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
 
     rcl_action_cancel_request_t cancel_request = rcl_action_get_zero_initialized_cancel_request();
     cancel_request.goal_info.stamp = UROS2Utils::FloatToROSStamp(UGameplayStatics::GetTimeSeconds(GetWorld()));
@@ -117,26 +121,39 @@ void UROS2ActionServer::ProcessAndSendCancelResponse(const int InReturnCode)
 
 void UROS2ActionServer::SendGoalResponse()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("3. Action Server - Send goal response (%s)"), *__LOG_INFO__);
-    check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("3. Action Server - Send goal response"));
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
+
     RCSOFTCHECK(rcl_action_send_goal_response(&server, &goal_req_id, Action->GetGoalResponse()));
 }
 
 void UROS2ActionServer::SendFeedback()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("7. Action Server - Publish feedback (%s)"), *__LOG_INFO__);
-    check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("7. Action Server - Publish feedback"));
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
 
     RCSOFTCHECK(rcl_action_publish_feedback(&server, Action->GetFeedbackMessage()));
 }
 
 void UROS2ActionServer::SendResultResponse()
 {
-    UE_LOG(LogROS2Action, Log, TEXT("9. Action Server - Send result response (%s)"), *__LOG_INFO__);
-    check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("9. Action Server - Send result response"));
+    bool res = true;
+    IS_ACTION_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
 
     RCSOFTCHECK(rcl_action_send_result_response(&server, &result_req_id, Action->GetResultResponse()));
 }
@@ -147,17 +164,17 @@ void UROS2ActionServer::SetDelegates(const FActionCallback& InGoalDelegate,
 {
     if (!InGoalDelegate.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("GoalDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("GoalDelegate is not set - is this on purpose?"));
     }
 
     if (!InCancelDelegate.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("CancelDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("CancelDelegate is not set - is this on purpose?"));
     }
 
     if (!InResultDelegate.IsBound())
     {
-        UE_LOG(LogROS2Action, Warning, TEXT("ResultDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("ResultDelegate is not set - is this on purpose?"));
     }
 
     GoalDelegate.Unbind();

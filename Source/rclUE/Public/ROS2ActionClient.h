@@ -80,7 +80,7 @@ public:
     template<typename TAction, typename TUEStruct>
     void SendGoal(const TUEStruct& InGoalData)
     {
-        if (UROS2State::Initialized == State)
+        if (IsValid(OwnerNode) && OwnerNode->State == UROS2State::Initialized && State == UROS2State::Initialized)
         {
             // Update [TopicMessage] with [InMessageData]
             CastChecked<TAction>(Action)->SetGoalRequest(InGoalData);
@@ -90,7 +90,7 @@ public:
         }
         else
         {
-            UE_LOG(LogTemp, Log, TEXT("Publish [%s] Publisher not yet initialized"), *GetName());
+            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("Publish [%s] Action client or node is not yet initialized"), *GetName());
         }
     }
 

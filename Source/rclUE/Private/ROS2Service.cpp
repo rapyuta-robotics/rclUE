@@ -2,26 +2,29 @@
 
 #include "ROS2Service.h"
 
-// Sets default values for this component's properties
-UROS2Service::UROS2Service()
-{
-}
+DEFINE_LOG_CATEGORY(LogROS2Srv);
 
-void UROS2Service::InitializeWithROS2(UROS2NodeComponent* InROS2Node)
+bool UROS2Service::InitializeWithROS2(UROS2NodeComponent* InROS2Node)
 {
     OwnerNode = InROS2Node;
-    Init();
+    return Init();
 }
 
-void UROS2Service::Init()
+bool UROS2Service::Init()
 {
-    check(OwnerNode != nullptr);
-    check(OwnerNode->State == UROS2State::Initialized);
+    bool res = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return false;
+    }
+
     if (State == UROS2State::Created)
     {
-        InitializeService();
-
-        check(IsValid(Service));
+        if (!InitializeService())
+        {
+            return false;
+        }
 
         InitializeServiceComponent();
 
@@ -29,23 +32,40 @@ void UROS2Service::Init()
     }
 
     Ready = false;
+
+    return true;
 }
 
-void UROS2Service::InitializeService()
+bool UROS2Service::InitializeService()
 {
-    check(ServiceName != FString());
-    check(SrvClass);
+    if (ServiceName.IsEmpty())
+    {
+        UE_LOG_WITH_INFO(LogROS2Srv, Warning, TEXT("[%s] ServiceName can\'t be empty."), *GetName());
+        return false;
+    }
+
+    if (!IsValid(SrvClass) || SrvClass == UROS2GenericSrv::StaticClass())
+    {
+        UE_LOG_WITH_INFO(
+            LogROS2Srv, Warning, TEXT("[%s] SrvClass is empty or UROS2GenericSrv. Please set valid class."), *GetName());
+        return false;
+    }
 
     Service = NewObject<UROS2GenericSrv>(this, SrvClass);
 
-    check(IsValid(Service));
+    if (!IsValid(Service))
+    {
+        UE_LOG_WITH_INFO(LogROS2Srv, Warning, TEXT("[%s] Failed to create Service"), *GetName());
+        return false;
+    }
 
     Service->Init();
+    return true;
 }
 
 void UROS2Service::Destroy()
 {
-    if (Service != nullptr)
+    if (IsValid(Service))
     {
         Service->Fini();
     }

@@ -15,8 +15,26 @@
 //rclUE
 #include "ROS2NodeComponent.h"
 #include "Srvs/ROS2CancelGoal.h"
+#include "rclcUtilities.h"
 
 #include "ROS2Action.generated.h"
+
+DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
+
+#define IS_ACTION_INITED(InNode, InName, OutRes)                                                                  \
+    do                                                                                                            \
+    {                                                                                                             \
+        IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                               \
+                                                                                                                  \
+        if (State != UROS2State::Initialized)                                                                     \
+        {                                                                                                         \
+            UE_LOG_WITH_INFO(LogROS2Action,                                                                       \
+                             Warning,                                                                             \
+                             TEXT("[%s] Action Client/Server is not initialized yet. Please initialize Action."), \
+                             *InName);                                                                            \
+            OutRes = false;                                                                                       \
+        }                                                                                                         \
+    } while (0)
 
 /**
  * @brief Base class implementing ROS2 actions from which ActionServer and ActionClient should inherit
@@ -30,32 +48,31 @@ class RCLUE_API UROS2Action : public UObject
 
 public:
     /**
-     * @brief Construct a new UROS2Action object
-     *
-     */
-    UROS2Action();
-
-public:
-    /**
      * @brief Initialize Publisher
      *
      * @param InROS2Node ROS2Node which this publisher belongs to
-     */
-    void InitializeWithROS2(UROS2NodeComponent* InROS2Node);
+    * @return true
+    * @return false
+    */
+    virtual bool InitializeWithROS2(UROS2NodeComponent* InROS2Node);
 
     /**
      * @brief Initialize action and action component
      *
+     * @return true
+     * @return false
      */
     UFUNCTION(BlueprintCallable)
-    void Init();
+    virtual bool Init();
 
     /**
      * @brief Create and Initize action
      *
+     * @return true
+     * @return false
      */
     UFUNCTION(BlueprintCallable)
-    void InitializeAction();
+    virtual bool InitializeAction();
 
     /**
      * @brief Destroy this actor component.

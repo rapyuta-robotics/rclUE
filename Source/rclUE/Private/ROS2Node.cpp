@@ -20,7 +20,6 @@ AROS2Node::AROS2Node()
 
     RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
     ActorComponent = CreateDefaultSubobject<UROS2NodeComponent>(TEXT("ROS2NodeComponent"));
-    ActorComponent->RegisterComponent();
 }
 
 // This can't be pre-placed in AROS2Node::BeginPlay() as the order of rcl(c) instructions could be

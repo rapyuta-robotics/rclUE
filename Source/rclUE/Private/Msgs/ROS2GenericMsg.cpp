@@ -2,8 +2,6 @@
 
 #include "Msgs/ROS2GenericMsg.h"
 
-DEFINE_LOG_CATEGORY(LogROS2Msg);
-
 // Add default functionality here for any IROS2MsgInterface functions that are not pure virtual.
 
 const rosidl_message_type_support_t* UROS2GenericMsg::GetTypeSupport() const

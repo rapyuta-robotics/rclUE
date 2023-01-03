@@ -32,9 +32,11 @@ void UROS2ServiceClient::Destroy()
 {
     Super::Destroy();
 
-    if (OwnerNode != nullptr)
+    bool result = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), result);
+    if (result)
     {
-        UE_LOG(LogROS2Srv, Log, TEXT("Client Destroy - rcl_client_fini (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Srv, Log, TEXT("Client Destroy - rcl_client_fini "));
         RCSOFTCHECK(rcl_client_fini(&client, OwnerNode->GetNode()));
     }
 
@@ -43,14 +45,20 @@ void UROS2ServiceClient::Destroy()
 
 void UROS2ServiceClient::ProcessReady()
 {
+    bool result = true;
+    IS_SRV_INITED(OwnerNode, GetName(), result);
+    if (!result)
+    {
+        return;
+    }
+
     if (Ready == true)
     {
         rmw_service_info_t req_info;
         void* data = Service->GetResponse();
         RCSOFTCHECK(rcl_take_response_with_info(&client, &req_info, data));
 
-        UE_LOG(
-            LogROS2Srv, Log, TEXT("[%s] ROS2Node Executing Response delegate for Service Client (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Srv, Log, TEXT("[%s] ROS2Node Executing Response delegate for Service Client"), *GetName());
 
         ResponseDelegate.ExecuteIfBound(Service);
 
@@ -60,12 +68,16 @@ void UROS2ServiceClient::ProcessReady()
 
 void UROS2ServiceClient::SendRequest()
 {
-    UE_LOG(LogROS2Srv, Log, TEXT("%s"), *__LOG_INFO__);
-    check(State == UROS2State::Initialized);
-    check(IsValid(OwnerNode));
+    bool result = true;
+    IS_SRV_INITED(OwnerNode, GetName(), result);
+    if (!result)
+    {
+        return;
+    }
+
     if (!IsServiceReady())
     {
-        UE_LOG(LogROS2Srv, Error, TEXT("Service named %s is not ready yet (%s)"), *ServiceName, *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Srv, Error, TEXT("Service named %s is not ready yet"), *ServiceName);
         return;
     }
 
@@ -77,6 +89,13 @@ void UROS2ServiceClient::SendRequest()
 
 bool UROS2ServiceClient::IsServiceReady()
 {
+    bool result = true;
+    IS_SRV_INITED(OwnerNode, GetName(), result);
+    if (!result)
+    {
+        return false;
+    }
+
     bool is_ready;
     rcl_ret_t ret = rcl_service_server_is_available(OwnerNode->GetNode(), &client, &is_ready);
     if (RCL_RET_NODE_INVALID == ret)
@@ -90,7 +109,7 @@ bool UROS2ServiceClient::IsServiceReady()
     }
     if (ret != RCL_RET_OK)
     {
-        UE_LOG(LogROS2Srv, Error, TEXT("rcl_service_server_is_available failed (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Srv, Error, TEXT("rcl_service_server_is_available failed "));
     }
     return is_ready;
 }
@@ -99,7 +118,7 @@ void UROS2ServiceClient::SetDelegates(const FServiceCallback& InResponseDelegate
 {
     if (!InResponseDelegate.IsBound())
     {
-        UE_LOG(LogROS2Srv, Warning, TEXT("ResponseDelegate is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Srv, Warning, TEXT("ResponseDelegate is not set - is this on purpose? "));
     }
     ResponseDelegate.Unbind();
     ResponseDelegate = InResponseDelegate;

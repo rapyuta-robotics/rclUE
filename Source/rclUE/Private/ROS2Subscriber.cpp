@@ -35,9 +35,12 @@ void UROS2Subscriber::InitializeTopicComponent()
 void UROS2Subscriber::Destroy()
 {
     Super::Destroy();
-    if (OwnerNode != nullptr)
+
+    bool res = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
+    if (res)
     {
-        UE_LOG(LogROS2Topic, Log, TEXT("Subscriber Destroy - rcl_Subscriber_fini (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Topic, Log, TEXT("Subscriber Destroy - rcl_Subscriber_fini "));
         RCSOFTCHECK(rcl_subscription_fini(&rcl_subscription, OwnerNode->GetNode()));
     }
     Callback.Unbind();
@@ -45,6 +48,13 @@ void UROS2Subscriber::Destroy()
 
 void UROS2Subscriber::ProcessReady()
 {
+    bool res = true;
+    IS_TOPIC_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return;
+    }
+
     if (Ready == true)
     {
         void* data = TopicMessage->Get();
@@ -61,7 +71,7 @@ void UROS2Subscriber::SetDelegates(const FSubscriptionCallback& InCallback)
 {
     if (!InCallback.IsBound())
     {
-        UE_LOG(LogROS2Msg, Warning, TEXT("Callback is not set - is this on purpose? (%s)"), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Topic, Warning, TEXT("Callback is not set - is this on purpose? "));
     }
 
     Callback.Unbind();

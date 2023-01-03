@@ -44,10 +44,6 @@
     FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
-DECLARE_LOG_CATEGORY_EXTERN(LogROS2Node, Log, All);
-// DECLARE_LOG_CATEGORY_EXTERN(LogROS2Topic, Log, All);
-DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
-DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
 /// this macro can be used on rcl functions that return an error code
 #define RCSOFTCHECK(fn)                                                             \
@@ -65,13 +61,42 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
         }                                                                           \
     }
 
+/**
+* UE_LOG with function name with __FUNCTION__ and __LINE__ macro.
+* @param CategoryName name of the logging category
+* @param Verbosity, verbosity level to test against
+* @param Format, format text
+***/
+#define UE_LOG_WITH_INFO(CategoryName, Verbosity, ...)                                                  \
+    {                                                                                                   \
+        UE_LOG(CategoryName, Verbosity, TEXT("%s (%s)"), *FString::Printf(__VA_ARGS__), *__LOG_INFO__); \
+    }
+
+/**
+ * @brief UE_LOG will print a message at most once per InRate.
+ *
+ */
 #define UE_LOG_THROTTLE(InRate, InLastHit, ...)                                   \
     {                                                                             \
         float UE_LOG_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
-        if (InLastHit + InRate >= UE_LOG_THROTTLE_Now)                            \
+        if (InLastHit + InRate <= UE_LOG_THROTTLE_Now)                            \
         {                                                                         \
             InLastHit = UE_LOG_THROTTLE_Now;                                      \
             UE_LOG(__VA_ARGS__);                                                  \
+        }                                                                         \
+    }
+
+/**
+ * @brief UE_FUNCTION_LOG will print a message at most once per InRate.
+ *
+ */
+#define UE_LOG_WITH_INFO_THROTTLE(InRate, InLastHit, ...)                         \
+    {                                                                             \
+        float UE_LOG_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
+        if (InLastHit + InRate <= UE_LOG_THROTTLE_Now)                            \
+        {                                                                         \
+            InLastHit = UE_LOG_THROTTLE_Now;                                      \
+            UE_LOG_WITH_INFO(__VA_ARGS__);                                        \
         }                                                                         \
     }
 

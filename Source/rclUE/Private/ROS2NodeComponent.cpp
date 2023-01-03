@@ -16,7 +16,6 @@ UROS2NodeComponent* UROS2NodeComponent::CreateNewNode(UObject* InOwner,
                                                       bool Init)
 {
     UROS2NodeComponent* node = NewObject<UROS2NodeComponent>(InOwner, UROS2NodeComponent::StaticClass(), FName(*InCompName));
-    node->RegisterComponent();
     node->Name = InNodeName;
     node->Namespace = InNodeNamespace;
     if (Init)
@@ -65,7 +64,7 @@ void UROS2NodeComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
     RCSOFTCHECK(rcl_wait_set_fini(&wait_set));
 
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node EndPlay - rcl_node_fini"), *GetName());
+    UE_LOG_WITH_INFO(LogROS2Node, Log, TEXT("[%s] ROS2Node EndPlay - rcl_node_fini"), *GetName());
     RCSOFTCHECK(rcl_node_fini(&node));
 
     Super::EndPlay(EndPlayReason);
@@ -73,9 +72,18 @@ void UROS2NodeComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
 
 void UROS2NodeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
 {
-    check(State == UROS2State::Initialized);
-
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+    if (State != UROS2State::Initialized)
+    {
+        UE_LOG_WITH_INFO_THROTTLE(5,
+                                  LogLastHit,
+                                  LogROS2Node,
+                                  Warning,
+                                  TEXT("[%s] ROS2 Node is not initialized yet. Please initialize Node."),
+                                  *GetName());
+        return;
+    }
 
     if (Subscriptions.Num() > 0 || ServiceClients.Num() > 0 || ServiceServers.Num() > 0 || ActionClients.Num() > 0 ||
         ActionServers.Num() > 0)
@@ -89,22 +97,26 @@ void UROS2NodeComponent::TickComponent(float DeltaTime, ELevelTick TickType, FAc
 void UROS2NodeComponent::Init()
 {
     this->RegisterComponent();
+    if (Name.IsEmpty())
+    {
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ROS2 Node name can\'t be empty"), *GetName());
+        return;
+    }
     if (State == UROS2State::Created)
     {
-        UE_LOG(LogROS2Node, Log, TEXT("[%s] start initializing.."), *GetName());
+        UE_LOG_WITH_INFO(LogROS2Node, Log, TEXT("[%s] start initializing.."), *GetName());
         if (!rcl_node_is_valid(&node))    // ensures that it stays safe when called multiple times
         {
             Support = GetWorld()->GetGameInstance()->GetSubsystem<UROS2Subsystem>()->GetSupport();
 
-            UE_LOG(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
+            UE_LOG_WITH_INFO(LogROS2Node, Log, TEXT("[%s] rclc_node_init_default"), *GetName());
             node = rcl_get_zero_initialized_node();
             RCSOFTCHECK(rclc_node_init_default(&node, TCHAR_TO_UTF8(*Name), TCHAR_TO_UTF8(*Namespace), &Support->Get()));
         }
 
         State = UROS2State::Initialized;
+        UE_LOG_WITH_INFO(LogROS2Node, Log, TEXT("[%s] ROS2Node inited"), *GetName());
     }
-
-    UE_LOG(LogROS2Node, Log, TEXT("[%s] ROS2Node inited"), *GetName());
 }
 
 rcl_node_t* UROS2NodeComponent::GetNode()
@@ -115,16 +127,22 @@ rcl_node_t* UROS2NodeComponent::GetNode()
 // Publisher////////////////////
 void UROS2NodeComponent::AddPublisher(UROS2Publisher* InPublisher)
 {
-    check(IsValid(InPublisher));
+    if (!IsValid(InPublisher))
+    {
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] Publisher is not valid."), *GetName());
+        return;
+    }
 
     if (false == Publishers.Contains(InPublisher))
     {
-        InPublisher->InitializeWithROS2(this);
-        Publishers.Add(InPublisher);
+        if (InPublisher->InitializeWithROS2(this))
+        {
+            Publishers.Add(InPublisher);
+        }
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added (%s)"), *InPublisher->GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] Publisher is re-added"), *InPublisher->GetName());
     }
 }
 
@@ -186,17 +204,22 @@ UROS2Publisher* UROS2NodeComponent::CreatePublisher(const FString& InTopicName,
 // Subscriber////////////////////
 void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 {
-    check(IsValid(InSubscriber));
-
+    if (!IsValid(InSubscriber))
+    {
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] Subscriber is not valid."), *GetName());
+        return;
+    }
     if (false == Subscriptions.Contains(InSubscriber))
     {
-        InSubscriber->InitializeWithROS2(this);
-        Subscriptions.Add(InSubscriber);
-        InvalidateWaitSet();
+        if (InSubscriber->InitializeWithROS2(this))
+        {
+            Subscriptions.Add(InSubscriber);
+            InvalidateWaitSet();
+        }
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] Subscriber is re-added (%s)"), *InSubscriber->GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] Subscriber is re-added"), *InSubscriber->GetName());
     }
 }
 
@@ -217,16 +240,23 @@ UROS2Subscriber* UROS2NodeComponent::CreateSubscriber(const FString& InTopicName
 //service client
 void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
 {
-    check(IsValid(InServiceClient));
+    if (!IsValid(InServiceClient))
+    {
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ServiceClient is not valid."), *GetName());
+        return;
+    }
+
     if (false == ServiceClients.Contains(InServiceClient))
     {
-        InServiceClient->InitializeWithROS2(this);
-        ServiceClients.Add(InServiceClient);
-        InvalidateWaitSet();
+        if (InServiceClient->InitializeWithROS2(this))
+        {
+            ServiceClients.Add(InServiceClient);
+            InvalidateWaitSet();
+        }
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ServiceClient is re-added"), *GetName());
     }
 }
 
@@ -247,16 +277,23 @@ UROS2ServiceClient* UROS2NodeComponent::CreateServiceClient(const FString& InSer
 //service server
 void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
 {
-    check(IsValid(InServiceServer));
+    if (!IsValid(InServiceServer))
+    {
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ServiceServer is not valid."), *GetName());
+        return;
+    }
+
     if (false == ServiceServers.Contains(InServiceServer))
     {
-        InServiceServer->InitializeWithROS2(this);
-        ServiceServers.Add(InServiceServer);
-        InvalidateWaitSet();
+        if (InServiceServer->InitializeWithROS2(this))
+        {
+            ServiceServers.Add(InServiceServer);
+            InvalidateWaitSet();
+        }
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ServiceServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ServiceServer is re-added"), *GetName());
     }
 }
 
@@ -278,17 +315,23 @@ UROS2ServiceServer* UROS2NodeComponent::CreateServiceServer(const FString& InSer
 //action client
 void UROS2NodeComponent::AddActionClient(UROS2ActionClient* InActionClient)
 {
-    check(IsValid(InActionClient));
+    if (!IsValid(InActionClient))
+    {
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ActionClient is not valid."), *GetName());
+        return;
+    }
 
     if (false == ActionClients.Contains(InActionClient))
     {
-        InActionClient->InitializeWithROS2(this);
-        ActionClients.Add(InActionClient);
-        InvalidateWaitSet();
+        if (InActionClient->InitializeWithROS2(this))
+        {
+            ActionClients.Add(InActionClient);
+            InvalidateWaitSet();
+        }
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ActionClient is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ActionClient is re-added"), *GetName());
     }
 }
 
@@ -317,17 +360,23 @@ UROS2ActionClient* UROS2NodeComponent::CreateActionClient(const FString& InActio
 
 void UROS2NodeComponent::AddActionServer(UROS2ActionServer* InActionServer)
 {
-    check(IsValid(InActionServer));
+    if (!IsValid(InActionServer))
+    {
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ActionServer is not valid."), *GetName());
+        return;
+    }
 
     if (false == ActionServers.Contains(InActionServer))
     {
-        InActionServer->InitializeWithROS2(this);
-        ActionServers.Add(InActionServer);
-        InvalidateWaitSet();
+        if (InActionServer->InitializeWithROS2(this))
+        {
+            ActionServers.Add(InActionServer);
+            InvalidateWaitSet();
+        }
     }
     else
     {
-        UE_LOG(LogROS2Node, Warning, TEXT("[%s] ActionServer is re-added (%s)"), *GetName(), *__LOG_INFO__);
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ActionServer is re-added"), *GetName());
     }
 }
 

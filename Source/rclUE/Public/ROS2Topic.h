@@ -19,6 +19,21 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Topic, Log, All);
 
+#define IS_TOPIC_INITED(InNode, InName, OutRes)                                                                   \
+    do                                                                                                            \
+    {                                                                                                             \
+        IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                               \
+                                                                                                                  \
+        if (State != UROS2State::Initialized)                                                                     \
+        {                                                                                                         \
+            UE_LOG_WITH_INFO(LogROS2Topic,                                                                        \
+                             Warning,                                                                             \
+                             TEXT("[%s] Publisher/Subscriber is not initialized yet. Please initialize Action."), \
+                             *InName);                                                                            \
+            OutRes = false;                                                                                       \
+        }                                                                                                         \
+    } while (0)
+
 /**
  * @brief ROS2 Publisher class.
  *
@@ -30,31 +45,27 @@ class RCLUE_API UROS2Topic : public UObject
 
 public:
     /**
-     * @brief Construct a new UROS2Topic object
-     *
-     */
-    UROS2Topic();
-
-    /**
      * @brief Initialize Publisher
      *
      * @param InROS2Node ROS2Node which this publisher belongs to
      */
-    virtual void InitializeWithROS2(UROS2NodeComponent* InROS2Node);
+    virtual bool InitializeWithROS2(UROS2NodeComponent* InROS2Node);
 
     /**
      * @brief Initialize publisher with rcl_publisher_init, initialize message and start timer and
      *
+     * @return true
+     * @return false
      */
     UFUNCTION(BlueprintCallable)
-    virtual void Init();
+    virtual bool Init();
 
     /**
      * @brief Create #UROS2GenericMsg instance and initialize it.
      *
      */
     UFUNCTION(BlueprintCallable)
-    virtual void InitializeMessage();
+    virtual bool InitializeMessage();
 
     /**
      * @brief Destroy publisher with rcl_publisher_fini

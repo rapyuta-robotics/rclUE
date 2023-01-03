@@ -2,47 +2,70 @@
 
 #include "ROS2Action.h"
 
-UROS2Action::UROS2Action()
-{
-}
+DEFINE_LOG_CATEGORY(LogROS2Action);
 
-void UROS2Action::InitializeWithROS2(UROS2NodeComponent* InROS2Node)
+bool UROS2Action::InitializeWithROS2(UROS2NodeComponent* InROS2Node)
 {
     OwnerNode = InROS2Node;
-    Init();
+    return Init();
 }
 
-void UROS2Action::Init()
+bool UROS2Action::Init()
 {
-    check(OwnerNode != nullptr);
-    check(OwnerNode->State == UROS2State::Initialized);
+    bool res = true;
+    IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
+    if (!res)
+    {
+        return false;
+    }
+
     if (State == UROS2State::Created)
     {
-        InitializeAction();
-
-        check(IsValid(Action));
+        if (!InitializeAction())
+        {
+            return false;
+        }
 
         InitializeActionComponent();
 
         State = UROS2State::Initialized;
+
+        return true;
     }
+
+    return false;
 }
 
-void UROS2Action::InitializeAction()
+bool UROS2Action::InitializeAction()
 {
-    check(ActionName != FString());
-    check(ActionClass);
+    if (ActionName.IsEmpty())
+    {
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("[%s] ActionName can\'t be empty."), *GetName());
+        return false;
+    }
+
+    if (!IsValid(ActionClass) || ActionClass == UROS2GenericAction::StaticClass())
+    {
+        UE_LOG_WITH_INFO(
+            LogROS2Action, Warning, TEXT("[%s] ActionClass is empty or UROS2GenericAction. Please set valid class."), *GetName());
+        return false;
+    }
 
     Action = NewObject<UROS2GenericAction>(this, ActionClass);
 
-    check(IsValid(Action));
+    if (!IsValid(Action))
+    {
+        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("[%s] Failed to create Action"), *GetName());
+        return false;
+    }
 
     Action->Init();
+    return true;
 }
 
 void UROS2Action::Destroy()
 {
-    if (Action != nullptr)
+    if (IsValid(Action))
     {
         Action->Fini();
     }

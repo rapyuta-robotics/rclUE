@@ -2,8 +2,6 @@
 
 #include "Actions/ROS2GenericAction.h"
 
-DEFINE_LOG_CATEGORY(LogROS2Action);
-
 const rosidl_action_type_support_t* UROS2GenericAction::GetTypeSupport() const
 {
     checkNoEntry();
