@@ -69,7 +69,7 @@ void UROS2Publisher::StartPublishTimer()
     if (PublicationFrequencyHz > 0 && TimerManager != nullptr)
     {
         TimerManager->LogInfo = TopicName;
-        FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &UROS2Publisher::UpdateAndPublishMessage);
+        FTimerDelegate TimerDelegate = FTimerDelegate::CreateUObject(this, &UROS2Publisher::UpdateAndPublish);
         TimerManager->SetTimer(TimerDelegate, 1.f / PublicationFrequencyHz);
     }
 }
@@ -87,7 +87,7 @@ void UROS2Publisher::Destroy()
     UpdateDelegate.Unbind();
 }
 
-void UROS2Publisher::UpdateAndPublishMessage()
+void UROS2Publisher::UpdateAndPublish()
 {
     bool res = true;
     IS_TOPIC_INITED(OwnerNode, GetName(), res);

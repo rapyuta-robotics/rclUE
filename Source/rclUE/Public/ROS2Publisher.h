@@ -71,7 +71,7 @@ public:
      *
      */
     UFUNCTION(BlueprintCallable)
-    void UpdateAndPublishMessage();
+    void UpdateAndPublish();
 
     /**
      * @brief Publish msg
@@ -101,7 +101,7 @@ public:
         }
         else
         {
-            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("PublishMessage() [%s] Publisher or node is not yet initialized"), *GetName());
+            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("Publish() [%s] Publisher or node is not yet initialized"), *GetName());
         }
     }
 

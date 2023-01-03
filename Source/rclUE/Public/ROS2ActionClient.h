@@ -10,7 +10,7 @@
 #pragma once
 
 #include "ROS2Action.h"
-#include "ROS2Node.h"
+#include "ROS2NodeComponent.h"
 
 #include <rcl_action/action_client.h>
 
