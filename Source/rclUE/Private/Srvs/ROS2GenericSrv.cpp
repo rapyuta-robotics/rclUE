@@ -2,8 +2,6 @@
 
 #include "Srvs/ROS2GenericSrv.h"
 
-DEFINE_LOG_CATEGORY(LogROS2Srv);
-
 const rosidl_service_type_support_t* UROS2GenericSrv::GetTypeSupport() const
 {
     checkNoEntry();

@@ -10,13 +10,11 @@
 #pragma once
 
 #include "ROS2Action.h"
-#include "ROS2Node.h"
+#include "ROS2NodeComponent.h"
 
 #include <rcl_action/action_server.h>
 
 #include "ROS2ActionServer.generated.h"
-
-DECLARE_DYNAMIC_DELEGATE_RetVal_OneParam(bool, FActionGoalCallback, UROS2GenericAction*, InAction /*Action*/);
 
 /**
  * @brief  Class implementing ROS2 action servers. Wrapper class of rclc action server. Callbacks are set through the SetDelegates
@@ -25,12 +23,23 @@ DECLARE_DYNAMIC_DELEGATE_RetVal_OneParam(bool, FActionGoalCallback, UROS2Generic
  * @sa [Unreal Engine
  * Delegates](https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/Delegates/)
  */
-UCLASS(ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+UCLASS(ClassGroup = (Custom), Blueprintable, BlueprintType, meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionServer : public UROS2Action
 {
     GENERATED_BODY()
 
 public:
+    static UROS2ActionServer* CreateActionServer(UObject* InOwner,
+                                                 const FString& InActionName,
+                                                 const TSubclassOf<UROS2GenericAction>& InActionClass,
+                                                 const FActionCallback& InGoalDelegate,
+                                                 const FSimpleCallback& InResultDelegate,
+                                                 const FSimpleCallback& InCancelDelegate,
+                                                 const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
+                                                 const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
+                                                 const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                                 const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
+
     /**
      * @brief Destroy action server from rclc
      *
@@ -45,6 +54,14 @@ public:
     virtual void ProcessReady(rcl_wait_set_t* wait_set) override;
 
     /**
+     * @brief Process and send cancel response with rcl_action_process_cancel_request
+     * @param InReturnCode return code
+     * @sa [CancelGoal](https://docs.ros2.org/foxy/api/action_msgs/srv/CancelGoal.html)
+     */
+    UFUNCTION(BlueprintCallable)
+    void ProcessAndSendCancelResponse(const int InReturnCode);
+
+    /**
      * @brief Send action goal response with rcl_action_send_goal_response
      *
      */
@@ -52,41 +69,30 @@ public:
     void SendGoalResponse();
 
     /**
-     * @brief Process and send cancel response with rcl_action_process_cancel_request
-     *
-     */
-    UFUNCTION(BlueprintCallable)
-    void ProcessAndSendCancelResponse();
-
-    /**
      * @brief Update and send feedback with rcl_action_publish_feedback
      *
      */
     UFUNCTION(BlueprintCallable)
-    void UpdateAndSendFeedback();
+    void SendFeedback();
 
     /**
      * @brief Update and send feedback with rcl_action_send_result_response
      *
      */
     UFUNCTION(BlueprintCallable)
-    void UpdateAndSendResult();
+    void SendResultResponse();
 
     /**
      * @brief Set the Delegates object
      *
-     * @param UpdateFeedback
-     * @param UpdateResult
      * @param HandleGoal
      * @param HandleCancel
      * @param HandleAccepted
      */
     UFUNCTION(BlueprintCallable)
-    void SetDelegates(const FActionCallback& UpdateFeedback,
-                      const FActionCallback& UpdateResult,
-                      const FActionGoalCallback& HandleGoal,
-                      const FSimpleCallback& HandleCancel,
-                      const FSimpleCallback& HandleAccepted);
+    void SetDelegates(const FActionCallback& InGoalDelegate,
+                      const FSimpleCallback& InCancelDelegate,
+                      const FSimpleCallback& InResultDelegate);
 
     //! ROS2 action server from rclc
     rcl_action_server_t server;
@@ -97,18 +103,70 @@ private:
     rmw_request_id_t result_req_id;
     rmw_request_id_t cancel_req_id;
 
-    FActionCallback UpdateFeedbackDelegate;
-    FActionCallback UpdateResultDelegate;
-    FActionGoalCallback HandleGoalDelegate;
-    FSimpleCallback HandleCancelDelegate;
-    FSimpleCallback HandleAcceptedDelegate;
+    FActionCallback GoalDelegate;
+    FSimpleCallback ResultDelegate;
+    FSimpleCallback CancelDelegate;
 
     /**
      * @brief Initialize ROS2 action client with rcl_action_server_init.
      * Set QOS for all goal, result, cancel, feedback and status
      *
-     * @param QoS Quality of Service
-     * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */
-    virtual void InitializeActionComponent(const TEnumAsByte<UROS2QoS> QoS) override;
+    virtual void InitializeActionComponent() override;
+};
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2ActionServerComponent : public UActorComponent
+{
+    GENERATED_BODY()
+
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2ActionServer* ActionServer = nullptr;
+
+    //! this is pass to #UROS2ActionServer::ActionName in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString ActionName = TEXT("");
+
+    //! this is pass to #UROS2ActionServer::ActionClass in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSubclassOf<UROS2GenericAction> ActionClass;
+
+    //! this is pass to #UROS2ActionServer::CancelQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> CancelQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionServer::GoalQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> GoalQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionServer::ResultQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> ResultQoS = UROS2QoS::Services;
+
+    //! this is pass to #UROS2ActionServer::FeedbackQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
+
+    FActionCallback GoalDelegate;
+    FSimpleCallback ResultDelegate;
+    FSimpleCallback CancelDelegate;
+
+    virtual void BeginPlay() override
+    {
+        if (ActionServer == nullptr)
+        {
+            ActionServer = UROS2ActionServer::CreateActionServer(this,
+                                                                 ActionName,
+                                                                 ActionClass,
+                                                                 GoalDelegate,
+                                                                 ResultDelegate,
+                                                                 CancelDelegate,
+                                                                 GoalQoS,
+                                                                 ResultQoS,
+                                                                 FeedbackQoS,
+                                                                 CancelQoS);
+        }
+        Super::BeginPlay();
+    };
 };
