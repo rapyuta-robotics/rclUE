@@ -28,23 +28,21 @@ class RCLUE_API UROS2Publisher : public UROS2Topic
     GENERATED_BODY()
 
 public:
+
     /**
-     * @brief Create a new UROS2Publisher of custom type
-     *
+     * @brief Create a new UROS2Publisher of custom publisher class and andd to Node.
+     * Custom Publisher class is expected to override #UROS2Publisher::Update which in loop with frequency.
      * @param InOwner
      * @param InTopicName Topic name
      * @param InPublisherClass Custom output publisher type class
-     * @param InMsgClass Custom message type class
      * @param InPubFrequency Publishing frequency
-     * @param InQoS
-     * @return UROS2Publisher*
      */
-    static UROS2Publisher* CreatePublisher(UObject* InOwner,
-                                           const FString& InTopicName,
-                                           const TSubclassOf<UROS2Publisher>& InPublisherClass,
-                                           const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                           float InPubFrequency,
-                                           const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+    UFUNCTION(BlueprintCallable)
+    static UROS2Publisher* CreateLoopPublisherWithClass(UObject* InOwner,
+                                                 const FString& InTopicName,
+                                                 const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                 const float InPubFrequency);
+
 
     /**
      * @brief Create a Loop Publisher object
@@ -58,6 +56,7 @@ public:
      * @param InQoS
      * @return UROS2Publisher*
      */
+    UFUNCTION(BlueprintCallable)
     static UROS2Publisher* CreateLoopPublisher(UObject* InOwner,
                                                const FString& InTopicName,
                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
@@ -65,6 +64,37 @@ public:
                                                float InPubFrequency,
                                                const FTopicCallback& InUpdateDelegate,
                                                const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+    /**
+     * @brief Create a new UROS2Publisher and andd to Node.
+     *
+     * @param InOwner
+     * @param InPublisherClass
+     * @param InTopicName
+     * @return UROS2Publisher*
+     */
+    UFUNCTION(BlueprintCallable)
+    static UROS2Publisher* CreatePublisherWithClass(UObject* InOwner,
+                                             const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                             const FString& InTopicName = TEXT(""));
+
+    /**
+     * @brief Create a new UROS2Publisher of custom type
+     *
+     * @param InOwner
+     * @param InTopicName Topic name
+     * @param InPublisherClass Custom output publisher type class
+     * @param InMsgClass Custom message type class
+     * @param InPubFrequency Publishing frequency
+     * @param InQoS
+     * @return UROS2Publisher*
+     */
+    UFUNCTION(BlueprintCallable)
+    static UROS2Publisher* CreatePublisher(UObject* InOwner,
+                                           const FString& InTopicName,
+                                           const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                           const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                           float InPubFrequency,
+                                           const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
 
     /**
      * @brief Update Msg with delegate and publish msg.
@@ -216,7 +246,7 @@ public:
 
     virtual void BeginPlay() override
     {
-        if (Publisher == nullptr && PublisherClass == UROS2Publisher::StaticClass())
+        if (Publisher == nullptr)
         {
             Publisher = UROS2Publisher::CreateLoopPublisher(
                 this, TopicName, PublisherClass, MsgClass, PublicationFrequencyHz, UpdateDelegate, QoS);
@@ -224,7 +254,7 @@ public:
         else
         {
             UE_LOG_WITH_INFO(
-                LogTemp, Warning, TEXT("[UROS2PublisherComponent][BeginPlay] Publisher class is not created in BeginPlay."));
+                LogTemp, Warning, TEXT("[UROS2PublisherComponent][BeginPlay] Publisher is not created in BeginPlay."));
         }
         Super::BeginPlay();
     };
@@ -246,4 +276,25 @@ public:
             UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("[UROS2PublisherComponent][SetParams] Publisher is not created yet."));
         }
     }
+};
+
+UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
+class RCLUE_API UROS2CustomPublisherComponent : public UROS2PublisherComponent
+{
+    GENERATED_BODY()
+public:
+    virtual void BeginPlay() override
+    {
+        if (Publisher == nullptr)
+        {
+            Publisher = UROS2Publisher::CreateLoopPublisherWithClass(
+                this, TopicName, PublisherClass, PublicationFrequencyHz);
+        }
+        else
+        {
+            UE_LOG_WITH_INFO(
+                LogTemp, Warning, TEXT("[UROS2CustomPublisherComponent][BeginPlay] Publisher class is not created in BeginPlay."));
+        }
+        UActorComponent::BeginPlay();
+    };
 };
