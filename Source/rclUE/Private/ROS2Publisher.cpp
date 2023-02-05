@@ -5,18 +5,14 @@
 #include <Engine/World.h>
 #include <TimerManager.h>
 
-UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
-                                                const FString& InTopicName,
-                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
-                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                float InPubFrequency,
-                                                const TEnumAsByte<UROS2QoS> InQoS)
+UROS2Publisher* UROS2Publisher::CreateLoopPublisherWithClass(UObject* InOwner,
+                                                             const FString& InTopicName,
+                                                             const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                             const float InPubFrequency)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
-    publisher->MsgClass = InMsgClass;
     publisher->TopicName = InTopicName;
     publisher->PublicationFrequencyHz = InPubFrequency;
-    publisher->QoS = InQoS;
     publisher->SetDefaultDelegates();
     return publisher;
 }
@@ -35,6 +31,34 @@ UROS2Publisher* UROS2Publisher::CreateLoopPublisher(UObject* InOwner,
     publisher->PublicationFrequencyHz = InPubFrequency;
     publisher->QoS = InQoS;
     publisher->SetDelegates(InUpdateDelegate);
+    return publisher;
+}
+
+UROS2Publisher* UROS2Publisher::CreatePublisherWithClass(UObject* InOwner,
+                                                         const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                         const FString& InTopicName)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
+    if (!InTopicName.IsEmpty())
+    {
+        publisher->TopicName = InTopicName;
+    }
+    return publisher;
+}
+
+UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
+                                                const FString& InTopicName,
+                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                float InPubFrequency,
+                                                const TEnumAsByte<UROS2QoS> InQoS)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
+    publisher->MsgClass = InMsgClass;
+    publisher->TopicName = InTopicName;
+    publisher->PublicationFrequencyHz = InPubFrequency;
+    publisher->QoS = InQoS;
+    publisher->SetDefaultDelegates();
     return publisher;
 }
 
