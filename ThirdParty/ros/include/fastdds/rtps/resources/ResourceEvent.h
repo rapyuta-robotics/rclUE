@@ -156,6 +156,6 @@ private:
 } /* namespace fastrtps */
 } /* namespace eprosima */
 
-#endif    // DOXYGEN_SHOULD_SKIP_THIS_PUBLIC
+#endif    //DOXYGEN_SHOULD_SKIP_THIS_PUBLIC
 
 #endif    //_FASTDDS_RTPS_RESOURCES_RESOURCEEVENT_H_

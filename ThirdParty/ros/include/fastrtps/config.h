@@ -17,8 +17,8 @@
 
 #define FASTRTPS_VERSION_MAJOR 2
 #define FASTRTPS_VERSION_MINOR 1
-#define FASTRTPS_VERSION_MICRO 2
-#define FASTRTPS_VERSION_STR "2.1.2"
+#define FASTRTPS_VERSION_MICRO 3
+#define FASTRTPS_VERSION_STR "2.1.3"
 
 #define GEN_API_VER 1
 
@@ -68,7 +68,6 @@
 #define HAVE_SQLITE3 1
 #endif
 
-
 // TLS support
 #ifndef TLS_FOUND
 #define TLS_FOUND 1
@@ -81,13 +80,13 @@
 
 // Deprecated macro
 #if __cplusplus >= 201402L
-#define FASTRTPS_DEPRECATED(msg) [[ deprecated(msg) ]]
+#define FASTRTPS_DEPRECATED(msg) [[deprecated(msg)]]
 #elif defined(__GNUC__) || defined(__clang__)
-#define FASTRTPS_DEPRECATED(msg) __attribute__ ((deprecated(msg)))
+#define FASTRTPS_DEPRECATED(msg) __attribute__((deprecated(msg)))
 #elif defined(_MSC_VER)
 #define FASTRTPS_DEPRECATED(msg) __declspec(deprecated(msg))
 #else
 #define FASTRTPS_DEPRECATED(msg)
 #endif
 
-#endif // _FASTRTPS_CONFIG_H_
+#endif    // _FASTRTPS_CONFIG_H_
