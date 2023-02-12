@@ -8,7 +8,7 @@ https://rclUE.readthedocs.io/en/devel/
 
 Main support
 - Ubuntu 20.04
-- Unreal Engine 5.10
+- Unreal Engine 5.1
 - ROS2 Foxy
 - Clang: 13.0.1
 
@@ -21,9 +21,9 @@ Please download UE5.1 for Linux by following [Unreal Engine for Linux](https://w
 
 ## Branches
 
-- `devel`: This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20 and UE5.10.
-- `UE5_devel_humble`(experimental):  This build of the plugin is based on ROS2 humble and has been tested on Ubuntu 20 and UE5.10.
-
+- `devel`: This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20 and UE5.1.
+- `UE5_devel_humble_20.04`(experimental):  This build of the plugin is based on ROS2 humble and has been tested on Ubuntu 20.04 and UE5.10.
+- `UE5_devel_humble`(experimental):  This build of the plugin is based on ROS2 humble, Ubuntu 22.04 and UE5.1.
 ### Other branches
 
 Experimental and WIP
