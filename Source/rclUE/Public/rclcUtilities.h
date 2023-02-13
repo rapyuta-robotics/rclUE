@@ -235,16 +235,17 @@ public:
         float wt = DesiredTime - now;
         if (wt <= 0)
         {
-            UE_LOG_WITH_INFO_THROTTLE(5,
-                                      LogLastHit,
-                                      LogTemp,
-                                      Warning,
-                                      TEXT("[%s] Delegate function call take longer than Rate or StepSize is not "
-                                           "small enough to meet target Rate=%f, "
-                                           "StepSize=%f."),
-                                      *LogInfo,
-                                      Rate,
-                                      FApp::GetFixedDeltaTime());
+            UE_LOG_THROTTLE(
+                30,
+                LogLastHit,
+                LogTemp,
+                Warning,
+                TEXT("[URRTimerManager::SetTimerImple][%s] Delegate function call take longer than Rate or StepSize is not "
+                     "small enough to meet target Rate=%f, "
+                     "StepSize=%f."),
+                *LogInfo,
+                Rate,
+                FApp::GetFixedDeltaTime());
             // Make sure that function call happens at next tick.
             wt = FApp::GetFixedDeltaTime() * 0.5;
             DesiredTime = now + wt;
