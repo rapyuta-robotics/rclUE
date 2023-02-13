@@ -273,7 +273,7 @@ public:
         if (wt <= 0)
         {
             UE_LOG_THROTTLE(
-                5,
+                30,
                 LogLastHit,
                 LogTemp,
                 Warning,
