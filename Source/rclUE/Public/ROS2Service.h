@@ -23,6 +23,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
 
 #define IS_SRV_INITED(InNode, InName, OutRes)                                                                      \
+ /// \cond NOPE
     do                                                                                                             \
     {                                                                                                              \
         IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                                \
@@ -36,6 +37,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
             OutRes = false;                                                                                        \
         }                                                                                                          \
     } while (0)
+/// \endcond
 
 /**
  * @brief Class implementing ROS2 service clients.
@@ -49,7 +51,7 @@ class RCLUE_API UROS2Service : public UObject
 
 public:
     /**
-     * @brief Initialize Publisher
+     * @brief Initialize Service with ROS2Node
      *
      * @param InROS2Node ROS2Node which this publisher belongs to
     * @return true
@@ -58,7 +60,7 @@ public:
     virtual bool InitializeWithROS2(UROS2NodeComponent* InROS2Node);
 
     /**
-     * @brief Initialize ROS2 service client with rcl_client_init, set QoS, etc.
+     * @brief Initialize ROS2 service client with rcl_client_init, set QoS, #InitializeService and #InitializeServiceComponent .
      *
      * @return true
      * @return false
@@ -67,7 +69,7 @@ public:
     virtual bool Init();
 
     /**
-     * @brief Create #UROS2GenericSrv instance and initialize it.
+     * @brief Create #Service instance and initialize it.
      *
      * @return true
      * @return false
@@ -76,15 +78,15 @@ public:
     virtual bool InitializeService();
 
     /**
-     * @brief Destroy publisher with rcl_client_fini
+     * @brief Destroy service with rcl_client_fini
      *
      */
     UFUNCTION()
     virtual void Destroy();
 
     /**
-     * @brief Determine the relevant action client functions to call.
-     * Should be implemented in ActionServer and ActionClient
+     * @brief Determine the relevant service functions to call.
+     * Should be implemented in #UROS2ServiceServer and #UROS2ServiceClient
      */
     virtual void ProcessReady();
 
@@ -118,7 +120,7 @@ protected:
     bool Ready;
 
     /**
-     * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
+     * @brief Initialize ROS2 Action. Should be implemented in #UROS2ServiceServer and #UROS2ServiceClient
      *
      */
     UFUNCTION()

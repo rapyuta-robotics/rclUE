@@ -109,7 +109,7 @@ public:
     void SendCancelRequest();
 
     /**
-     * @brief Set the Delegates object
+     * @brief Set the Delegates
      *
      * @param SetGoal
      * @param Feedback
@@ -144,6 +144,10 @@ private:
     virtual void InitializeActionComponent() override;
 };
 
+/**
+ * @brief ROS2 Action client Component. Wrapper of #UROS2ActionClient for BP.
+ * 
+ */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionClientComponent : public UActorComponent
 {

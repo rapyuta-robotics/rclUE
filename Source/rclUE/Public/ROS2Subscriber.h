@@ -29,7 +29,7 @@ class RCLUE_API UROS2Subscriber : public UROS2Topic
 
 public:
     /**
-     * @brief Create a new UROS2Publisher of custom type
+     * @brief Create a new UROS2Subscriber of custom type
      *
      * @param InTopicName Topic name
      * @param InMsgClass Custom message type class
@@ -52,8 +52,7 @@ public:
     FSubscriptionCallback Callback;
 
     /**
-     * @brief Determine the relevant action client functions to call.
-     * Should be implemented in ActionServer and ActionClient
+     * @brief Determine the relevant subscriber functions to call.
      */
     virtual void ProcessReady();
 
@@ -67,12 +66,16 @@ public:
 
 protected:
     /**
-     * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
+     * @brief Initialize ROS2 Subscriber.
      *
      */
     virtual void InitializeTopicComponent();
 };
 
+/**
+ * @brief ROS2 Subscriber Component. Wrapper of #UROS2Subscriber for BP.
+ * 
+ */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2SubscriberComponent : public UActorComponent
 {

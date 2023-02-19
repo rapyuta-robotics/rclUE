@@ -65,7 +65,7 @@ public:
                                                const FTopicCallback& InUpdateDelegate,
                                                const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
     /**
-     * @brief Create a new UROS2Publisher and andd to Node.
+     * @brief Create a new UROS2Publisher and add to Node.
      *
      * @param InOwner
      * @param InPublisherClass
@@ -205,12 +205,16 @@ protected:
     URRTimerManager* TimerManager = nullptr;
 
     /**
-     * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
+     * @brief Initialize Publisher and start timer.
      *
      */
     virtual void InitializeTopicComponent();
 };
 
+/**
+ * @brief ROS2 Publisher Component. Wrapper of #UROS2Publisher for BP.
+ *
+ */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2PublisherComponent : public UActorComponent
 {
@@ -278,6 +282,11 @@ public:
     }
 };
 
+
+/**
+ * @brief ROS2 Custom Publisher Component. Wrapper of #UROS2Publisher for BP.
+ * 
+ */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2CustomPublisherComponent : public UROS2PublisherComponent
 {

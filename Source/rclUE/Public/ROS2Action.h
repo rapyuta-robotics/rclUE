@@ -22,6 +22,7 @@
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
 #define IS_ACTION_INITED(InNode, InName, OutRes)                                                                  \
+ /// \cond NOPE
     do                                                                                                            \
     {                                                                                                             \
         IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                               \
@@ -35,6 +36,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
             OutRes = false;                                                                                       \
         }                                                                                                         \
     } while (0)
+/// \endcond
 
 /**
  * @brief Base class implementing ROS2 actions from which ActionServer and ActionClient should inherit
@@ -48,9 +50,9 @@ class RCLUE_API UROS2Action : public UObject
 
 public:
     /**
-     * @brief Initialize Publisher
+     * @brief Initialize action
      *
-     * @param InROS2Node ROS2Node which this publisher belongs to
+     * @param InROS2Node ROS2Node which this action belongs to
     * @return true
     * @return false
     */
@@ -82,8 +84,8 @@ public:
     virtual void Destroy();
 
     /**
-     * @brief Determine the relevant action client functions to call.
-     * Should be implemented in ActionServer and ActionClient
+     * @brief Determine the relevant action functions to call.
+     * Should be implemented in #UROS2ActionServer and #UROS2ActionClient
      *
      * @param wait_set
      */
@@ -130,7 +132,7 @@ public:
 
 protected:
     /**
-     * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
+     * @brief Initialize ROS2 Action. Should be implemented in #UROS2ActionServer and #UROS2ActionClient
      *
      * @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
      */

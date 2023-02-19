@@ -1,6 +1,6 @@
 /**
  * @file ROS2Topic.h
- * @brief  Class implementing ROS2 publishers
+ * @brief  Class implementing ROS2 topic
  * Message type is defined by MsgClass
  * @copyright Copyright 2020-2022 Rapyuta Robotics Co., Ltd.
  *
@@ -19,7 +19,14 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Topic, Log, All);
 
+/**
+ * @brief Check if Topic is initialized
+ * @param InNode ROS2Node which this publisher/subscriber belongs to
+ * @param InName Name of this publisher/subscriber. Only used for logging.
+ * @param OutRes Result of the check true if initialized, false otherwise
+ */
 #define IS_TOPIC_INITED(InNode, InName, OutRes)                                                                   \
+ /// \cond NOPE
     do                                                                                                            \
     {                                                                                                             \
         IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                               \
@@ -33,9 +40,10 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Topic, Log, All);
             OutRes = false;                                                                                       \
         }                                                                                                         \
     } while (0)
+/// \endcond
 
 /**
- * @brief ROS2 Publisher class.
+ * @brief ROS2 topic class. Parent class of #UROS2Publisher and #UROS2Subscriber
  *
  */
 UCLASS(ClassGroup = (Custom), Blueprintable, meta = (BlueprintSpawnableComponent))
@@ -45,14 +53,14 @@ class RCLUE_API UROS2Topic : public UObject
 
 public:
     /**
-     * @brief Initialize Publisher
+     * @brief Initialize Topic with ROS2Node
      *
-     * @param InROS2Node ROS2Node which this publisher belongs to
+     * @param InROS2Node ROS2Node which this publisher/subscriber belongs to
      */
     virtual bool InitializeWithROS2(UROS2NodeComponent* InROS2Node);
 
     /**
-     * @brief Initialize publisher with rcl_publisher_init, initialize message and start timer and
+     * @brief Initialize topic, #InitializeMessage and #InitializeTopicComponent
      *
      * @return true
      * @return false
@@ -61,14 +69,14 @@ public:
     virtual bool Init();
 
     /**
-     * @brief Create #UROS2GenericMsg instance and initialize it.
+     * @brief Create #TopicMessage instance and initialize it.
      *
      */
     UFUNCTION(BlueprintCallable)
     virtual bool InitializeMessage();
 
     /**
-     * @brief Destroy publisher with rcl_publisher_fini
+     * @brief Destroy topic and #TopicMessage
      *
      */
     UFUNCTION()
@@ -82,11 +90,11 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TSubclassOf<UROS2GenericMsg> MsgClass;
 
-    //! ROS2Node which own this publisher.
+    //! ROS2Node which own this topic.
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
     UROS2NodeComponent* OwnerNode = nullptr;
 
-    //! Publisher state
+    //! State
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     TEnumAsByte<UROS2State> State = UROS2State::Created;
 
@@ -101,7 +109,7 @@ public:
 
 protected:
     /**
-     * @brief Initialize ROS2 Action. Should be implemented in ActionServer and ActionClient
+     * @brief Initialize ROS2 Topic. Should be implemented in #UROS2Publisher and #UROS2Subscriber
      *
      */
     UFUNCTION()
