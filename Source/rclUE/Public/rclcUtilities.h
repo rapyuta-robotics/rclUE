@@ -38,13 +38,24 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 
+// Ref "Misc/GeneratedTypeName.h"
+#if defined(_MSC_VER) && !defined(__clang__)
+#define RCLUE_FUNC_LOG __FUNCSIG__
+#else
+#define RCLUE_FUNC_LOG __PRETTY_FUNCTION__
+#endif
+
 //! Output Filename
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
 // clang-format off
 // to avoid change line by clang-format. Doxygen can't handle constant macro with multiple lines.
-//! Log info joint with `::`
-#define __LOG_INFO__  FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
+/**
+ * @brief Log info joint with `, `
+ * SIG is defined at GeneratedTypeName.h
+ *
+ */
+#define __LOG_INFO__  FString(__FILENAME__).Append(TEXT("@")).Append(FString::FromInt(__LINE__)).Append(TEXT(", ")).Append(RCLUE_FUNC_LOG)
 // clang-format on
 
 //! this macro can be used on rcl functions that return an error code
@@ -71,7 +82,7 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 */
 #define UE_LOG_WITH_INFO(CategoryName, Verbosity, ...)                                                  \
     {                                                                                                   \
-        UE_LOG(CategoryName, Verbosity, TEXT("%s (%s)"), *FString::Printf(__VA_ARGS__), *__LOG_INFO__); \
+        UE_LOG(CategoryName, Verbosity, TEXT("[%s] %s"), *__LOG_INFO__, *FString::Printf(__VA_ARGS__)); \
     }
 
 /**
