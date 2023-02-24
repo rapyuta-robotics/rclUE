@@ -16,7 +16,7 @@ UE_MACROS = {
 filename = sys.argv[1]
 
 # Exclude Generated Action/Srv/Msg
-InterfacePattern = '(Actions|Srvs|Msgs)/ROS2.+(Action|Srv|Msg).h'
+InterfacePattern = '(Actions|Srvs|Msgs)/ROS2.+.h'
 GeneratedInterfacePattern = '(Actions|Srvs|Msgs)/ROS2Generic(Action|Srv|Msg).h'
 if re.search(pattern=InterfacePattern, string=filename) and \
    not re.search(pattern=GeneratedInterfacePattern, string=filename):

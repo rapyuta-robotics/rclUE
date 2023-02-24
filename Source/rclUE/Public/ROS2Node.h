@@ -85,10 +85,8 @@ public:
 };
 
 /**
- * Class implementing ROS2 node.
- * This class also handles tasks performed by the executor in rclc.
- * Components of the node and not additional distinct entities Publishers, subscribers, services, service clients, action servers
- * and action clients should register to the node with the appropriate methods (Add*).
+ * @brief Wrapper Actor implementation of UROS2NodeComponent.
+ * @deprecated Use UROS2NodeComponent instead.
  */
 UCLASS(Blueprintable)
 class RCLUE_API AROS2Node : public AActor
@@ -97,9 +95,6 @@ class RCLUE_API AROS2Node : public AActor
 
 public:
     //! A constructor.
-    /*!
-      Constructor
-    */
     AROS2Node();
 
 public:

@@ -36,16 +36,18 @@
 
 #include "rclcUtilities.generated.h"
 
-/// Output Filename
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-
-/// Log info joint with `::`
-#define __LOG_INFO__ \
-    FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
-
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 
-/// this macro can be used on rcl functions that return an error code
+//! Output Filename
+#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
+
+// clang-format off
+// to avoid change line by clang-format. Doxygen can't handle constant macro with multiple lines.
+//! Log info joint with `::`
+#define __LOG_INFO__  FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
+// clang-format on
+
+//! this macro can be used on rcl functions that return an error code
 #define RCSOFTCHECK(fn)                                                             \
     {                                                                               \
         rcl_ret_t temp_rc = fn;                                                     \
@@ -62,11 +64,11 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
     }
 
 /**
-* UE_LOG with function name with __FUNCTION__ and __LINE__ macro.
-* @param CategoryName name of the logging category
-* @param Verbosity, verbosity level to test against
-* @param Format, format text
-***/
+ * UE_LOG with function name with __FUNCTION__ and __LINE__ macro.
+ * @param CategoryName name of the logging category
+ * @param Verbosity, verbosity level to test against
+ * @param Format, format text
+*/
 #define UE_LOG_WITH_INFO(CategoryName, Verbosity, ...)                                                  \
     {                                                                                                   \
         UE_LOG(CategoryName, Verbosity, TEXT("%s (%s)"), *FString::Printf(__VA_ARGS__), *__LOG_INFO__); \
@@ -74,7 +76,8 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 
 /**
  * @brief UE_LOG will print a message at most once per InRate.
- *
+ * @param InRate, time interval to print a message
+ * @param InLastHit, last time a message was printed
  */
 #define UE_LOG_THROTTLE(InRate, InLastHit, ...)                                   \
     {                                                                             \
@@ -88,7 +91,8 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 
 /**
  * @brief UE_FUNCTION_LOG will print a message at most once per InRate.
- *
+ * @param InRate, time interval to print a message
+ * @param InLastHit, last time a message was printed
  */
 #define UE_LOG_WITH_INFO_THROTTLE(InRate, InLastHit, ...)                         \
     {                                                                             \
@@ -131,7 +135,7 @@ enum UROS2QoS
     UnknownQoS UMETA(DisplayName = "UnknownQoS"),
 };
 
-// profiles provided by rclUE
+//! profiles provided by rclUE
 static const rmw_qos_profile_t rclUE_qos_profile_keep_last = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
                                                               1,
                                                               RMW_QOS_POLICY_RELIABILITY_RELIABLE,
@@ -142,6 +146,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_keep_last = {RMW_QOS_POLICY_HIS
                                                               RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
                                                               false};
 
+//! profiles provided by rclUE
 static const rmw_qos_profile_t rclUE_qos_profile_sensor_data = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
                                                                 5,
                                                                 RMW_QOS_POLICY_RELIABILITY_RELIABLE,
@@ -152,6 +157,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_sensor_data = {RMW_QOS_POLICY_H
                                                                 RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
                                                                 false};
 
+//! profiles provided by rclUE
 static const rmw_qos_profile_t rclUE_qos_profile_clock_pub = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
                                                               10,
                                                               RMW_QOS_POLICY_RELIABILITY_RELIABLE,
@@ -162,6 +168,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_clock_pub = {RMW_QOS_POLICY_HIS
                                                               RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
                                                               false};
 
+//! profiles provided by rclUE
 static const rmw_qos_profile_t rclUE_qos_profile_dynamic_broadcaster = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
                                                                         100,
                                                                         RMW_QOS_POLICY_RELIABILITY_RELIABLE,
@@ -172,6 +179,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_dynamic_broadcaster = {RMW_QOS_
                                                                         RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
                                                                         false};
 
+//! profiles provided by rclUE
 static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
                                                                        1,
                                                                        RMW_QOS_POLICY_RELIABILITY_RELIABLE,
@@ -182,7 +190,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_P
                                                                        RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
                                                                        false};
 
-// Look-Up Table matching enum with rcl profiles
+//! Look-Up Table matching enum with rcl profiles
 static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::Default, rmw_qos_profile_default},
     {UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
@@ -196,6 +204,10 @@ static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::System, rmw_qos_profile_system_default},
     {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
 
+/**
+ * @brief Custom timer manager.  This try to execute delegate at a given fixed rate.
+ * Default timer wait given rate from last execution, this timer wait given rate from desired execution time.
+ */
 UCLASS()
 class URRTimerManager : public UObject
 {

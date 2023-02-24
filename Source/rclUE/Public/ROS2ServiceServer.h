@@ -22,7 +22,7 @@
 #include "ROS2ServiceServer.generated.h"
 
 /**
- * @brief Class implementing ROS2 service clients.
+ * @brief Class implementing ROS2 service server.
  *  Service type is defined by SrvClass
  *
  */
@@ -33,7 +33,7 @@ class RCLUE_API UROS2ServiceServer : public UROS2Service
 
 public:
     /**
-     * @brief Create a new UROS2Publisher of custom type
+     * @brief Create a new UROS2ServiceServer of custom type
      *
      * @param InTopicName Topic name
      * @param InSrvClass Custom message type class
@@ -67,18 +67,27 @@ public:
     //! Service is ready or not
     bool Ready;
 
+    /**
+     * @brief Set #SrvCallback
+     * 
+     * @param InSrvCallback 
+     */
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FServiceCallback& InSrvCallback);
 
 protected:
     /**
-     * @brief Initialize ROS2 action client with rcl_action_client_init.
+     * @brief Initialize ROS2 service server with rcl_service_init.
      * Set QOS for all goal, result, cancel, feedback and status
      *
      */
     virtual void InitializeServiceComponent() override;
 };
 
+/**
+ * @brief ROS2 ServiceServer Component. Wrapper of #UROS2ServiceServer for BP.
+ * 
+ */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceServerComponent : public UActorComponent
 {

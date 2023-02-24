@@ -48,13 +48,13 @@ public:
                                                    const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
 
     /**
-     * @brief Destroy publisher with rcl_client_fini
+     * @brief Destroy service with rcl_client_fini
      *
      */
     virtual void Destroy();
 
     /**
-     * @brief Determine the relevant action client functions to call.
+     * @brief Determine the relevant service client functions to call.
      *
      */
     virtual void ProcessReady() override;
@@ -113,6 +113,11 @@ public:
     UFUNCTION(BlueprintCallable)
     bool IsServiceReady();
 
+    /**
+     * @brief Set #ResponseDelegate
+     * 
+     * @param InResponseCallback 
+     */
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FServiceCallback& InResponseCallback);
 
@@ -121,13 +126,17 @@ protected:
     const void* res;
 
     /**
-     * @brief Initialize ROS2 action client with rcl_action_client_init.
+     * @brief Initialize ROS2 service client with rcl_client_init.
      * Set QOS for all goal, result, cancel, feedback and status
      *
      */
     virtual void InitializeServiceComponent() override;
 };
 
+/**
+ * @brief ROS2 ServiceClient Component. Wrapper of #UROS2ServiceClient for BP.
+ * 
+ */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceClientComponent : public UActorComponent
 {
