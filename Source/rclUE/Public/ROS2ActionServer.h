@@ -83,7 +83,7 @@ public:
     void SendResultResponse();
 
     /**
-     * @brief Set the Delegates object
+     * @brief Set the Delegates
      *
      * @param HandleGoal
      * @param HandleCancel
@@ -108,13 +108,17 @@ private:
     FSimpleCallback CancelDelegate;
 
     /**
-     * @brief Initialize ROS2 action client with rcl_action_server_init.
+     * @brief Initialize ROS2 action server with rcl_action_server_init.
      * Set QOS for all goal, result, cancel, feedback and status
      *
      */
     virtual void InitializeActionComponent() override;
 };
 
+/**
+ * @brief ROS2 Action server Component. Wrapper of #UROS2ActionServer for BP.
+ * 
+ */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionServerComponent : public UActorComponent
 {
