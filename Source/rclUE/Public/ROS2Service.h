@@ -22,22 +22,15 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Srv, Log, All);
 
-#define IS_SRV_INITED(InNode, InName, OutRes)                                                                      \
- /// \cond NOPE
-    do                                                                                                             \
-    {                                                                                                              \
-        IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                                \
-                                                                                                                   \
-        if (State != UROS2State::Initialized)                                                                      \
-        {                                                                                                          \
-            UE_LOG_WITH_INFO(LogROS2Srv,                                                                           \
-                             Warning,                                                                              \
-                             TEXT("[%s] Service Client/Server is not initialized yet. Please initialize Action."), \
-                             *InName);                                                                             \
-            OutRes = false;                                                                                        \
-        }                                                                                                          \
-    } while (0)
-/// \endcond
+#define IS_SRV_INITED(InNode, InName, OutRes)                                                                                    \
+    IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                                                  \
+                                                                                                                                 \
+    if (State != UROS2State::Initialized)                                                                                        \
+    {                                                                                                                            \
+        UE_LOG_WITH_INFO(                                                                                                        \
+            LogROS2Srv, Warning, TEXT("[%s] Service Client/Server is not initialized yet. Please initialize Action."), *InName); \
+        OutRes = false;                                                                                                          \
+    }
 
 /**
  * @brief Class implementing ROS2 service clients.

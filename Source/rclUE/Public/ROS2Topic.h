@@ -25,22 +25,14 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2Topic, Log, All);
  * @param InName Name of this publisher/subscriber. Only used for logging.
  * @param OutRes Result of the check true if initialized, false otherwise
  */
-#define IS_TOPIC_INITED(InNode, InName, OutRes)                                                                   \
- /// \cond NOPE
-    do                                                                                                            \
-    {                                                                                                             \
-        IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                               \
-                                                                                                                  \
-        if (State != UROS2State::Initialized)                                                                     \
-        {                                                                                                         \
-            UE_LOG_WITH_INFO(LogROS2Topic,                                                                        \
-                             Warning,                                                                             \
-                             TEXT("[%s] Publisher/Subscriber is not initialized yet. Please initialize Action."), \
-                             *InName);                                                                            \
-            OutRes = false;                                                                                       \
-        }                                                                                                         \
-    } while (0)
-/// \endcond
+#define IS_TOPIC_INITED(InNode, InName, OutRes)                                                                                   \
+    IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                                                   \
+    if (State != UROS2State::Initialized)                                                                                         \
+    {                                                                                                                             \
+        UE_LOG_WITH_INFO(                                                                                                         \
+            LogROS2Topic, Warning, TEXT("[%s] Publisher/Subscriber is not initialized yet. Please initialize Action."), *InName); \
+        OutRes = false;                                                                                                           \
+    }
 
 /**
  * @brief ROS2 topic class. Parent class of #UROS2Publisher and #UROS2Subscriber

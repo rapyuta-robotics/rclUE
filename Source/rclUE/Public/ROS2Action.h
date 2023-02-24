@@ -21,22 +21,15 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2Action, Log, All);
 
-#define IS_ACTION_INITED(InNode, InName, OutRes)                                                                  \
- /// \cond NOPE
-    do                                                                                                            \
-    {                                                                                                             \
-        IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                               \
-                                                                                                                  \
-        if (State != UROS2State::Initialized)                                                                     \
-        {                                                                                                         \
-            UE_LOG_WITH_INFO(LogROS2Action,                                                                       \
-                             Warning,                                                                             \
-                             TEXT("[%s] Action Client/Server is not initialized yet. Please initialize Action."), \
-                             *InName);                                                                            \
-            OutRes = false;                                                                                       \
-        }                                                                                                         \
-    } while (0)
-/// \endcond
+#define IS_ACTION_INITED(InNode, InName, OutRes)                                                                                   \
+    IS_ROS2NODE_INITED(InNode, InName, OutRes);                                                                                    \
+                                                                                                                                   \
+    if (State != UROS2State::Initialized)                                                                                          \
+    {                                                                                                                              \
+        UE_LOG_WITH_INFO(                                                                                                          \
+            LogROS2Action, Warning, TEXT("[%s] Action Client/Server is not initialized yet. Please initialize Action."), *InName); \
+        OutRes = false;                                                                                                            \
+    }
 
 /**
  * @brief Base class implementing ROS2 actions from which ActionServer and ActionClient should inherit

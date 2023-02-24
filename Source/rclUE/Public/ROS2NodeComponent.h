@@ -80,7 +80,7 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
  * @param InCallback convert to #FTopicCallback and pass to #UROS2NodeComponent::CreateLoopPublisher
  * @param InQoS pass to #UROS2NodeComponent::CreateLoopPublisher
  * @param OutPublisher return value of #UROS2NodeComponent::CreateLoopPublisher
- * 
+ *
  */
 #define ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS(                                                                                  \
     InROS2Node, InUserObject, InTopicName, InPublisherClass, InMsgClass, InPubFrequency, InCallback, InQoS, OutPublisher)     \
@@ -357,35 +357,28 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
             InActionName, InActionClass, Goal, Result, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS); \
     }
 
-
 /**
  * @brief Check #UROS2NodeComponent is initialized or not.
  * @param InNode #UROS2NodeComponent
  * @param InName Node name. Used only for logging.
  * @param OutRes bool result. true if initialized, false otherwise.
  */
-#define IS_ROS2NODE_INITED(InNode, InName, OutRes)                                                                           \
- /// \cond NOPE
-    do                                                                                                                       \
-    {                                                                                                                        \
-        if (!IsValid(InNode))                                                                                                \
-        {                                                                                                                    \
-            UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ROS2 Node is nullptr. Please set OwnerNode."), *InName);       \
-            OutRes = false;                                                                                                  \
-        }                                                                                                                    \
-        else if (InNode->State != UROS2State::Initialized)                                                                   \
-        {                                                                                                                    \
-            UE_LOG_WITH_INFO(                                                                                                \
-                LogROS2Node, Warning, TEXT("[%s] ROS2 Node is not initialized yet. Please initialize OwnerNode."), *InName); \
-            OutRes = false;                                                                                                  \
-        }                                                                                                                    \
-        else                                                                                                                 \
-        {                                                                                                                    \
-            OutRes = true;                                                                                                   \
-        }                                                                                                                    \
-                                                                                                                             \
-    } while (0)
-/// \endcond
+#define IS_ROS2NODE_INITED(InNode, InName, OutRes)                                                                       \
+    if (!IsValid(InNode))                                                                                                \
+    {                                                                                                                    \
+        UE_LOG_WITH_INFO(LogROS2Node, Warning, TEXT("[%s] ROS2 Node is nullptr. Please set OwnerNode."), *InName);       \
+        OutRes = false;                                                                                                  \
+    }                                                                                                                    \
+    else if (InNode->State != UROS2State::Initialized)                                                                   \
+    {                                                                                                                    \
+        UE_LOG_WITH_INFO(                                                                                                \
+            LogROS2Node, Warning, TEXT("[%s] ROS2 Node is not initialized yet. Please initialize OwnerNode."), *InName); \
+        OutRes = false;                                                                                                  \
+    }                                                                                                                    \
+    else                                                                                                                 \
+    {                                                                                                                    \
+        OutRes = true;                                                                                                   \
+    }
 
 /**
  * @brief Class implementing ROS2 node.

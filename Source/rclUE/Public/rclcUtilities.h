@@ -41,8 +41,11 @@ DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 //! Output Filename
 #define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
 
+// clang-format off
+// to avoid change line by clang-format. Doxygen can't handle constant macro with multiple lines.
 //! Log info joint with `::`
 #define __LOG_INFO__  FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
+// clang-format on
 
 //! this macro can be used on rcl functions that return an error code
 #define RCSOFTCHECK(fn)                                                             \
@@ -201,9 +204,8 @@ static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
     {UROS2QoS::System, rmw_qos_profile_system_default},
     {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
 
-
 /**
- * @brief Custom timer manager.  is to try to execute delegate at a given fixed rate.
+ * @brief Custom timer manager.  This try to execute delegate at a given fixed rate.
  * Default timer wait given rate from last execution, this timer wait given rate from desired execution time.
  */
 UCLASS()
