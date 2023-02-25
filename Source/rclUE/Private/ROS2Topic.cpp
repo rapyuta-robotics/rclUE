@@ -43,21 +43,20 @@ bool UROS2Topic::InitializeMessage()
 {
     if (TopicName.IsEmpty())
     {
-        UE_LOG_WITH_INFO(LogROS2Topic, Warning, TEXT("[%s] TopicName can\'t be empty."), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Topic, Warning, TEXT("TopicName can\'t be empty."));
         return false;
     }
 
     if (!IsValid(MsgClass) || MsgClass == UROS2GenericMsg::StaticClass())
     {
-        UE_LOG_WITH_INFO(
-            LogROS2Topic, Warning, TEXT("[%s] MsgClass is empty or UROS2GenericMsg. Please set valid class."), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Topic, Warning, TEXT("MsgClass is empty or UROS2GenericMsg. Please set valid class."));
         return false;
     }
 
     TopicMessage = NewObject<UROS2GenericMsg>(this, MsgClass);
     if (!IsValid(TopicMessage))
     {
-        UE_LOG_WITH_INFO(LogROS2Topic, Warning, TEXT("[%s] Failed to create Msg"), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Topic, Warning, TEXT("Failed to create Msg"));
         return false;
     }
 

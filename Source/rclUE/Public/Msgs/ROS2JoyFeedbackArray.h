@@ -47,7 +47,7 @@ public:
         }
         if (!sensor_msgs__msg__JoyFeedback__Sequence__init(&out_ros_data.array, Array.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.array  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.array  "));
         }
         UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__JoyFeedback, FROSJoyFeedback>(
             Array, out_ros_data.array.data, Array.Num());

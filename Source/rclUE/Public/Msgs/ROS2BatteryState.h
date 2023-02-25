@@ -168,7 +168,7 @@ public:
         }
         if (!rosidl_runtime_c__float32__Sequence__init(&out_ros_data.cell_voltage, CellVoltage.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.cell_voltage  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.cell_voltage  "));
         }
         UROS2Utils::ArrayUEToROSSequence<float, float>(CellVoltage, out_ros_data.cell_voltage.data, CellVoltage.Num());
 
@@ -178,7 +178,7 @@ public:
         }
         if (!rosidl_runtime_c__float32__Sequence__init(&out_ros_data.cell_temperature, CellTemperature.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.cell_temperature  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.cell_temperature  "));
         }
         UROS2Utils::ArrayUEToROSSequence<float, float>(CellTemperature, out_ros_data.cell_temperature.data, CellTemperature.Num());
 

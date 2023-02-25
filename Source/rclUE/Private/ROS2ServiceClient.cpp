@@ -58,7 +58,7 @@ void UROS2ServiceClient::ProcessReady()
         void* data = Service->GetResponse();
         RCSOFTCHECK(rcl_take_response_with_info(&client, &req_info, data));
 
-        UE_LOG_WITH_INFO(LogROS2Srv, Log, TEXT("[%s] ROS2Node Executing Response delegate for Service Client"), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Srv, Log, TEXT("ROS2Node Executing Response delegate for Service Client"));
 
         ResponseDelegate.ExecuteIfBound(Service);
 

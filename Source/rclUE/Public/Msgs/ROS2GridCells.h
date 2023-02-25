@@ -67,7 +67,7 @@ public:
         }
         if (!geometry_msgs__msg__Point__Sequence__init(&out_ros_data.cells, Cells.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.cells  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.cells  "));
         }
         UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(Cells, out_ros_data.cells.data, Cells.Num());
     }

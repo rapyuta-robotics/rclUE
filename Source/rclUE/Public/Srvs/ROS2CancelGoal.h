@@ -84,7 +84,7 @@ public:
         }
         if (!action_msgs__msg__GoalInfo__Sequence__init(&out_ros_data.goals_canceling, GoalsCanceling.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.goals_canceling  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.goals_canceling  "));
         }
         UROS2Utils::ArrayUEToROSSequence<action_msgs__msg__GoalInfo, FROSGoalInfo>(
             GoalsCanceling, out_ros_data.goals_canceling.data, GoalsCanceling.Num());

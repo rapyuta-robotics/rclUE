@@ -63,7 +63,7 @@ public:
         }
         if (!pcl_msgs__msg__Vertices__Sequence__init(&out_ros_data.polygons, Polygons.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.polygons  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.polygons  "));
         }
         UROS2Utils::ArrayUEToROSSequence<pcl_msgs__msg__Vertices, FROSVertices>(
             Polygons, out_ros_data.polygons.data, Polygons.Num());

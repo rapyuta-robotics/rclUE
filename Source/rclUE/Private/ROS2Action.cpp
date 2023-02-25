@@ -40,14 +40,13 @@ bool UROS2Action::InitializeAction()
 {
     if (ActionName.IsEmpty())
     {
-        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("[%s] ActionName can\'t be empty."), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Action, Warning, TEXT("ActionName can\'t be empty."));
         return false;
     }
 
     if (!IsValid(ActionClass) || ActionClass == UROS2GenericAction::StaticClass())
     {
-        UE_LOG_WITH_INFO(
-            LogROS2Action, Warning, TEXT("[%s] ActionClass is empty or UROS2GenericAction. Please set valid class."), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Action, Warning, TEXT("ActionClass is empty or UROS2GenericAction. Please set valid class."));
         return false;
     }
 
@@ -55,7 +54,7 @@ bool UROS2Action::InitializeAction()
 
     if (!IsValid(Action))
     {
-        UE_LOG_WITH_INFO(LogROS2Action, Warning, TEXT("[%s] Failed to create Action"), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Action, Warning, TEXT("Failed to create Action"));
         return false;
     }
 
