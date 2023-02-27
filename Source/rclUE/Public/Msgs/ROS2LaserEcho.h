@@ -45,7 +45,7 @@ public:
         }
         if (!rosidl_runtime_c__float32__Sequence__init(&out_ros_data.echoes, Echoes.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.echoes  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.echoes  "));
         }
         UROS2Utils::ArrayUEToROSSequence<float, float>(Echoes, out_ros_data.echoes.data, Echoes.Num());
     }

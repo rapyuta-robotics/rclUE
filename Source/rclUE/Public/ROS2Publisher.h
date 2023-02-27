@@ -28,7 +28,6 @@ class RCLUE_API UROS2Publisher : public UROS2Topic
     GENERATED_BODY()
 
 public:
-
     /**
      * @brief Create a new UROS2Publisher of custom publisher class and andd to Node.
      * Custom Publisher class is expected to override #UROS2Publisher::Update which in loop with frequency.
@@ -39,10 +38,9 @@ public:
      */
     UFUNCTION(BlueprintCallable)
     static UROS2Publisher* CreateLoopPublisherWithClass(UObject* InOwner,
-                                                 const FString& InTopicName,
-                                                 const TSubclassOf<UROS2Publisher>& InPublisherClass,
-                                                 const float InPubFrequency);
-
+                                                        const FString& InTopicName,
+                                                        const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                        const float InPubFrequency);
 
     /**
      * @brief Create a Loop Publisher object
@@ -74,8 +72,8 @@ public:
      */
     UFUNCTION(BlueprintCallable)
     static UROS2Publisher* CreatePublisherWithClass(UObject* InOwner,
-                                             const TSubclassOf<UROS2Publisher>& InPublisherClass,
-                                             const FString& InTopicName = TEXT(""));
+                                                    const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                    const FString& InTopicName = TEXT(""));
 
     /**
      * @brief Create a new UROS2Publisher of custom type
@@ -131,7 +129,7 @@ public:
         }
         else
         {
-            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("Publish() [%s] Publisher or node is not yet initialized"), *GetName());
+            UE_LOG_WITH_INFO_NAMED(LogTemp, Log, TEXT("Publisher or node is not yet initialized"));
         }
     }
 
@@ -257,8 +255,7 @@ public:
         }
         else
         {
-            UE_LOG_WITH_INFO(
-                LogTemp, Warning, TEXT("[UROS2PublisherComponent][BeginPlay] Publisher is not created in BeginPlay."));
+            UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("Publisher is not created in BeginPlay."));
         }
         Super::BeginPlay();
     };
@@ -277,15 +274,14 @@ public:
         }
         else
         {
-            UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("[UROS2PublisherComponent][SetParams] Publisher is not created yet."));
+            UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("Publisher is not created yet."));
         }
     }
 };
 
-
 /**
  * @brief ROS2 Custom Publisher Component. Wrapper of #UROS2Publisher for BP.
- * 
+ *
  */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2CustomPublisherComponent : public UROS2PublisherComponent
@@ -296,13 +292,11 @@ public:
     {
         if (Publisher == nullptr)
         {
-            Publisher = UROS2Publisher::CreateLoopPublisherWithClass(
-                this, TopicName, PublisherClass, PublicationFrequencyHz);
+            Publisher = UROS2Publisher::CreateLoopPublisherWithClass(this, TopicName, PublisherClass, PublicationFrequencyHz);
         }
         else
         {
-            UE_LOG_WITH_INFO(
-                LogTemp, Warning, TEXT("[UROS2CustomPublisherComponent][BeginPlay] Publisher class is not created in BeginPlay."));
+            UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("Publisher class is not created in BeginPlay."));
         }
         UActorComponent::BeginPlay();
     };

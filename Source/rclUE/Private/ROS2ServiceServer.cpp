@@ -53,7 +53,7 @@ void UROS2ServiceServer::ProcessReady()
         void* data = Service->GetRequest();
         RCSOFTCHECK(rcl_take_request_with_info(&rcl_service, &req_info, data));
 
-        UE_LOG_WITH_INFO(LogROS2Node, Log, TEXT("[%s] ROS2Node Executing Service server callback"), *GetName());
+        UE_LOG_WITH_INFO_NAMED(LogROS2Node, Log, TEXT("ROS2Node Executing Service server callback"));
 
         SrvCallback.ExecuteIfBound(Service);
 

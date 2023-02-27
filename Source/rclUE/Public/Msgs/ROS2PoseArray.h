@@ -54,7 +54,7 @@ public:
         }
         if (!geometry_msgs__msg__Pose__Sequence__init(&out_ros_data.poses, Poses.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.poses  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.poses  "));
         }
         UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Pose, FROSPose>(Poses, out_ros_data.poses.data, Poses.Num());
     }

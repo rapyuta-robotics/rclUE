@@ -73,7 +73,7 @@ public:
         }
         if (!rosidl_runtime_c__String__Sequence__init(&out_ros_data.tags, Tags.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.tags  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.tags  "));
         }
         UROS2Utils::StringArrayUEToROSSequence(Tags, out_ros_data.tags.data, Tags.Num());
 

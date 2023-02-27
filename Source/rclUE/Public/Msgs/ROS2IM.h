@@ -92,7 +92,7 @@ public:
         }
         if (!visualization_msgs__msg__MenuEntry__Sequence__init(&out_ros_data.menu_entries, MenuEntries.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.menu_entries  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.menu_entries  "));
         }
         UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__MenuEntry, FROSMenuEntry>(
             MenuEntries, out_ros_data.menu_entries.data, MenuEntries.Num());
@@ -103,7 +103,7 @@ public:
         }
         if (!visualization_msgs__msg__InteractiveMarkerControl__Sequence__init(&out_ros_data.controls, Controls.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.controls  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.controls  "));
         }
         UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarkerControl, FROSIMCtrl>(
             Controls, out_ros_data.controls.data, Controls.Num());

@@ -52,7 +52,7 @@ public:
         }
         if (!example_interfaces__msg__MultiArrayDimension__Sequence__init(&out_ros_data.dim, Dim.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.dim  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.dim  "));
         }
         UROS2Utils::ArrayUEToROSSequence<example_interfaces__msg__MultiArrayDimension, FROSMADim>(
             Dim, out_ros_data.dim.data, Dim.Num());

@@ -67,7 +67,7 @@ public:
         }
         if (!rosidl_runtime_c__float64__Sequence__init(&out_ros_data.positions, Positions.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.positions  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.positions  "));
         }
         UROS2Utils::ArrayUEToROSSequence<double, double>(Positions, out_ros_data.positions.data, Positions.Num());
 
@@ -77,7 +77,7 @@ public:
         }
         if (!rosidl_runtime_c__float64__Sequence__init(&out_ros_data.velocities, Velocities.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.velocities  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.velocities  "));
         }
         UROS2Utils::ArrayUEToROSSequence<double, double>(Velocities, out_ros_data.velocities.data, Velocities.Num());
 
@@ -87,7 +87,7 @@ public:
         }
         if (!rosidl_runtime_c__float64__Sequence__init(&out_ros_data.accelerations, Accelerations.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.accelerations  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.accelerations  "));
         }
         UROS2Utils::ArrayUEToROSSequence<double, double>(Accelerations, out_ros_data.accelerations.data, Accelerations.Num());
 
@@ -97,7 +97,7 @@ public:
         }
         if (!rosidl_runtime_c__float64__Sequence__init(&out_ros_data.effort, Effort.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.effort  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.effort  "));
         }
         UROS2Utils::ArrayUEToROSSequence<double, double>(Effort, out_ros_data.effort.data, Effort.Num());
 

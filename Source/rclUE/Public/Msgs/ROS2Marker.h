@@ -183,7 +183,7 @@ public:
         }
         if (!geometry_msgs__msg__Point__Sequence__init(&out_ros_data.points, Points.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.points  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.points  "));
         }
         UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(Points, out_ros_data.points.data, Points.Num());
 
@@ -193,7 +193,7 @@ public:
         }
         if (!std_msgs__msg__ColorRGBA__Sequence__init(&out_ros_data.colors, Colors.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.colors  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.colors  "));
         }
         UROS2Utils::ArrayUEToROSSequence<std_msgs__msg__ColorRGBA, FROSColorRGBA>(Colors, out_ros_data.colors.data, Colors.Num());
 

@@ -80,7 +80,7 @@ public:
         }
         if (!diagnostic_msgs__msg__KeyValue__Sequence__init(&out_ros_data.values, Values.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.values  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.values  "));
         }
         UROS2Utils::ArrayUEToROSSequence<diagnostic_msgs__msg__KeyValue, FROSKeyValue>(
             Values, out_ros_data.values.data, Values.Num());
