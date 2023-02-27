@@ -82,7 +82,7 @@ public:
         }
         if (!diagnostic_msgs__msg__DiagnosticStatus__Sequence__init(&out_ros_data.status, Status.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.status  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.status  "));
         }
         UROS2Utils::ArrayUEToROSSequence<diagnostic_msgs__msg__DiagnosticStatus, FROSDiagnosticStatus>(
             Status, out_ros_data.status.data, Status.Num());

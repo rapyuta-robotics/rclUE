@@ -46,7 +46,7 @@ public:
         }
         if (!rosidl_runtime_c__uint32__Sequence__init(&out_ros_data.vertices, Vertices.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.vertices  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.vertices  "));
         }
         UROS2Utils::ArrayUEToROSSequence<unsigned int, unsigned int>(Vertices, out_ros_data.vertices.data, Vertices.Num());
     }

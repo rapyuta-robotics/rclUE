@@ -102,7 +102,7 @@ public:
         }
         else
         {
-            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("SendRequest() [%s] Service Client or node is not yet initialized"), *GetName());
+            UE_LOG_WITH_INFO_NAMED(LogTemp, Log, TEXT("Service Client or node is not yet initialized"));
         }
     }
 
@@ -115,8 +115,8 @@ public:
 
     /**
      * @brief Set #ResponseDelegate
-     * 
-     * @param InResponseCallback 
+     *
+     * @param InResponseCallback
      */
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FServiceCallback& InResponseCallback);
@@ -135,7 +135,7 @@ protected:
 
 /**
  * @brief ROS2 ServiceClient Component. Wrapper of #UROS2ServiceClient for BP.
- * 
+ *
  */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceClientComponent : public UActorComponent

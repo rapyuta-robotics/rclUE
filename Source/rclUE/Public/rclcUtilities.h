@@ -29,6 +29,7 @@
 #include "std_msgs/msg/string.h"
 
 // rclUE others
+#include "logUtilities.h"
 #include "rcl/graph.h"
 #include "rcl/wait.h"
 #include "rcl_action/wait.h"
@@ -38,70 +39,20 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 
-//! Output Filename
-#define __FILENAME__ (strrchr(__FILE__, '/') ? strrchr(__FILE__, '/') + 1 : __FILE__)
-
-// clang-format off
-// to avoid change line by clang-format. Doxygen can't handle constant macro with multiple lines.
-//! Log info joint with `::`
-#define __LOG_INFO__  FString(__FILENAME__).Append(TEXT("::")).Append(__FUNCTION__).Append(TEXT("::")).Append(FString::FromInt(__LINE__))
-// clang-format on
-
 //! this macro can be used on rcl functions that return an error code
-#define RCSOFTCHECK(fn)                                                             \
-    {                                                                               \
-        rcl_ret_t temp_rc = fn;                                                     \
-        if ((temp_rc != RCL_RET_OK))                                                \
-        {                                                                           \
-            UE_LOG(LogTemp,                                                         \
-                   Error,                                                           \
-                   TEXT("Failed status on line %d (function %s): %d. Continuing."), \
-                   __LINE__,                                                        \
-                   *FString(__FUNCTION__),                                          \
-                   (int)temp_rc);                                                   \
-            check(temp_rc == 0)                                                     \
-        }                                                                           \
-    }
-
-/**
- * UE_LOG with function name with __FUNCTION__ and __LINE__ macro.
- * @param CategoryName name of the logging category
- * @param Verbosity, verbosity level to test against
- * @param Format, format text
-*/
-#define UE_LOG_WITH_INFO(CategoryName, Verbosity, ...)                                                  \
-    {                                                                                                   \
-        UE_LOG(CategoryName, Verbosity, TEXT("%s (%s)"), *FString::Printf(__VA_ARGS__), *__LOG_INFO__); \
-    }
-
-/**
- * @brief UE_LOG will print a message at most once per InRate.
- * @param InRate, time interval to print a message
- * @param InLastHit, last time a message was printed
- */
-#define UE_LOG_THROTTLE(InRate, InLastHit, ...)                                   \
-    {                                                                             \
-        float UE_LOG_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
-        if (InLastHit + InRate <= UE_LOG_THROTTLE_Now)                            \
-        {                                                                         \
-            InLastHit = UE_LOG_THROTTLE_Now;                                      \
-            UE_LOG(__VA_ARGS__);                                                  \
-        }                                                                         \
-    }
-
-/**
- * @brief UE_FUNCTION_LOG will print a message at most once per InRate.
- * @param InRate, time interval to print a message
- * @param InLastHit, last time a message was printed
- */
-#define UE_LOG_WITH_INFO_THROTTLE(InRate, InLastHit, ...)                         \
-    {                                                                             \
-        float UE_LOG_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
-        if (InLastHit + InRate <= UE_LOG_THROTTLE_Now)                            \
-        {                                                                         \
-            InLastHit = UE_LOG_THROTTLE_Now;                                      \
-            UE_LOG_WITH_INFO(__VA_ARGS__);                                        \
-        }                                                                         \
+#define RCSOFTCHECK(fn)                                                                       \
+    {                                                                                         \
+        rcl_ret_t temp_rc = fn;                                                               \
+        if ((temp_rc != RCL_RET_OK))                                                          \
+        {                                                                                     \
+            UE_LOG_WITH_INFO(LogTemp,                                                         \
+                             Error,                                                           \
+                             TEXT("Failed status on line %d (function %s): %d. Continuing."), \
+                             __LINE__,                                                        \
+                             *FString(__FUNCTION__),                                          \
+                             (int)temp_rc);                                                   \
+            check(temp_rc == 0)                                                               \
+        }                                                                                     \
     }
 
 /**
@@ -242,7 +193,7 @@ public:
     {
         bEnabled = false;
         GetWorld()->GetTimerManager().ClearTimer(TimerHandle);
-        UE_LOG(LogTemp, Log, TEXT("[URRTimerManager::SetTimer][%s] Timer stopped"), *LogInfo);
+        UE_LOG_WITH_INFO(LogTemp, Log, TEXT("[%s] Timer stopped"), *LogInfo);
     }
 
     void SetTimer(FTimerDelegate const& InDelegate, float InRate)
@@ -255,7 +206,7 @@ public:
 
         TimerDelegate = FTimerDelegate::CreateUObject(this, &URRTimerManager::SetTimerImple);
         GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, Rate, false);
-        UE_LOG(LogTemp, Log, TEXT("[URRTimerManager::SetTimer][%s] Timer started"), *LogInfo);
+        UE_LOG_WITH_INFO(LogTemp, Log, TEXT("[%s] Timer started"), *LogInfo);
     }
 
     void SetTimerImple()
@@ -273,7 +224,7 @@ public:
         }
         else
         {
-            UE_LOG(LogTemp, Error, TEXT("[URRTimerManager::SetTimerImple][%s] Delegate is not bound"), *LogInfo);
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("[%s] Delegate is not bound"), *LogInfo);
         }
 
         float now = UGameplayStatics::GetTimeSeconds(GetWorld());
@@ -284,17 +235,16 @@ public:
         float wt = DesiredTime - now;
         if (wt <= 0)
         {
-            UE_LOG_THROTTLE(
-                5,
-                LogLastHit,
-                LogTemp,
-                Warning,
-                TEXT("[URRTimerManager::SetTimerImple][%s] Delegate function call take longer than Rate or StepSize is not "
-                     "small enough to meet target Rate=%f, "
-                     "StepSize=%f."),
-                *LogInfo,
-                Rate,
-                FApp::GetFixedDeltaTime());
+            UE_LOG_WITH_INFO_THROTTLE(5,
+                                      LogLastHit,
+                                      LogTemp,
+                                      Warning,
+                                      TEXT("[%s] Delegate function call take longer than Rate or StepSize is not "
+                                           "small enough to meet target Rate=%f, "
+                                           "StepSize=%f."),
+                                      *LogInfo,
+                                      Rate,
+                                      FApp::GetFixedDeltaTime());
             // Make sure that function call happens at next tick.
             wt = FApp::GetFixedDeltaTime() * 0.5;
             DesiredTime = now + wt;
@@ -494,7 +444,7 @@ public:
         bool succeeded = rosidl_runtime_c__String__assign(&OutStr, TCHAR_TO_ANSI(*InStr));
         if (!succeeded)
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to assign string : %s"), *InStr);
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to assign string : %s"), *InStr);
             return false;
         }
 
@@ -518,7 +468,7 @@ public:
         bool succeeded = rosidl_runtime_c__U16String__assignn_from_char(&OutStr, TCHAR_TO_ANSI(*InStr), InStr.Len());
         if (!succeeded)
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to assign u16string : %s"), *InStr);
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to assign u16string : %s"), *InStr);
             return false;
         }
 

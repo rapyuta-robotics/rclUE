@@ -47,7 +47,7 @@ public:
         }
         if (!geometry_msgs__msg__Point32__Sequence__init(&out_ros_data.points, Points.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.points  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.points  "));
         }
         UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Point32, FROSPoint32>(Points, out_ros_data.points.data, Points.Num());
     }

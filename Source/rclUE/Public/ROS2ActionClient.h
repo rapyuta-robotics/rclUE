@@ -90,7 +90,7 @@ public:
         }
         else
         {
-            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("Publish [%s] Action client or node is not yet initialized"), *GetName());
+            UE_LOG_WITH_INFO_NAMED(LogTemp, Log, TEXT("Action client or node is not yet initialized"));
         }
     }
 
@@ -146,7 +146,7 @@ private:
 
 /**
  * @brief ROS2 Action client Component. Wrapper of #UROS2ActionClient for BP.
- * 
+ *
  */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionClientComponent : public UActorComponent

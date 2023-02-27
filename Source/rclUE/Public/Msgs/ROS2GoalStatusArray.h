@@ -55,7 +55,7 @@ public:
         }
         if (!actionlib_msgs__msg__GoalStatus__Sequence__init(&out_ros_data.status_list, StatusList.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.status_list  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.status_list  "));
         }
         UROS2Utils::ArrayUEToROSSequence<actionlib_msgs__msg__GoalStatus, FROSGoalStatus>(
             StatusList, out_ros_data.status_list.data, StatusList.Num());

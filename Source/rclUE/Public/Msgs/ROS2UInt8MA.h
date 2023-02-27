@@ -53,7 +53,7 @@ public:
         }
         if (!rosidl_runtime_c__uint8__Sequence__init(&out_ros_data.data, Data.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.data  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.data  "));
         }
         UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Data, out_ros_data.data.data, Data.Num());
     }

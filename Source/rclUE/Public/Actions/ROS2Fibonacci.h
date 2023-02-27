@@ -145,7 +145,7 @@ public:
         }
         if (!rosidl_runtime_c__int32__Sequence__init(&out_ros_data.result.sequence, Sequence.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.result.sequence  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.result.sequence  "));
         }
         UROS2Utils::ArrayUEToROSSequence<int, int>(Sequence, out_ros_data.result.sequence.data, Sequence.Num());
     }
@@ -191,7 +191,7 @@ public:
         }
         if (!rosidl_runtime_c__int32__Sequence__init(&out_ros_data.feedback.sequence, Sequence.Num()))
         {
-            UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.feedback.sequence  "));
+            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.feedback.sequence  "));
         }
         UROS2Utils::ArrayUEToROSSequence<int, int>(Sequence, out_ros_data.feedback.sequence.data, Sequence.Num());
     }
