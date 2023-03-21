@@ -1,10 +1,10 @@
 Examples
 ========
-\* The content presented here can be found in the `ROS2Examples folder of the turtlebot3-UE sample code. <https://github.com/rapyuta-robotics/turtlebot3-UE/tree/devel/Source/turtlebot3/ROS2Examples>`_ sample code.
+\* The content presented here can be found in the `ROS2Examples folder of the turtlebot3-UE sample code. <https://github.com/rapyuta-robotics/turtlebot3-UE/tree/devel/Source/turtlebot3/ROS2Examples>`_ .
 
 Setup and run
 ---------------
-1. Download UE5.1 for Linux by following [Unreal Engine for Linux](https://www.unrealengine.com/en-US/linux)
+1. Download UE5.1 for Linux by following `Unreal Engine for Linux <https://www.unrealengine.com/en-US/linux>`_.
 2. Clone and build
 
 .. code-block:: shell
