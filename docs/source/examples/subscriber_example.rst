@@ -1,10 +1,10 @@
 
 
-Please follow  :ref:`setup_and_run_ue_project` to setup UE project 
+Please follow the instructions in  :ref:`setup_and_run_ue_project` to setup the UE project 
 and open  `ROS2TopicExample.umap <https://github.com/rapyuta-robotics/turtlebot3-UE/blob/devel/Content/Maps/ROS2TopicExamples.umap>`_.
 
 -----------------------------
-C++ Publisher
+C++ Subscriber
 -----------------------------
 
 ^^^^^^^^^^^^^^^^^^
@@ -47,189 +47,100 @@ C++ Publisher
 Examin the code
 ^^^^^^^^^^^^^^^^^^
 
-On a ROS2PublisherNode Actor, NodeComponent is created and initialized at constructor.
-NodeComponent is created.
-
-UROS2NodeComponent is created at here but ROS2 Node is not created/initialized yet.
-We initialize ROS2 Node at BeginPlay,
-a method for Actors that gets called when we start the simulation.
+On an AROS2SubscriberNode Actor, similar to the AROS2PublisherrNode, 
+NodeComponent is created and initialized in the constructor but ROS2 Node is not created here.
+Please check :ref:`publisher_examin_code` for the reason.
 
 .. code-block:: C++
 
-    AROS2PublisherNode::AROS2PublisherNode()
+    AROS2SubscriberNode::AROS2SubscriberNode()
     {
         Node = CreateDefaultSubobject<UROS2NodeComponent>(TEXT("ROS2NodeComponent"));
 
         // these parameters can be change from BP
-        Node->Name = TEXT("publisher_node");
+        Node->Name = TEXT("subscriber_node");
         Node->Namespace = TEXT("cpp");
     }
 
-One reason to initialize in Beginplay is that we want to create ROS2 Node when simulation is started.
-UE Class constructor is called before simulation start as well in some cases, e.g. Actor is placed in the level.
-Please check `UE actor LifeCycle <https://docs.unrealengine.com/5.1/en-US/unreal-engine-actor-lifecycle/>`_ 
-for more understanding of Actor Lifecycle but it is not required to understand fully to use rclUE.
 
-Another important distinction is that by initializing things in BeginPlay,
-variables (such as publication frequency) can be set in the editor
-and their change will be reflected when running the simulation.
-If, in contrast, we initialize things in the constructor,
-variables changed in the editor would not reflect in the simulation,
-unless we restart the editor.
-
-When simulation starts, BeginPlay is called. In the BeginPlay, firstly create and initialize ROS2 Node.
+When the simulation starts, BeginPlay is called. 
+In BeginPlay, firstly create and initialize the ROS2 Node by calling Node->Init().
 
 .. code-block:: C++
 
+    void AROS2SubscriberNode::BeginPlay()
+    {
+        Super::BeginPlay();
         Node->Init();
 
-then starts adding publishers. We intorduce 3 ways to add publisher here.
 
-
-Non Loop Publisher
-~~~~~~~~~~~~~~~~~~~~~~
-
-This will create publisher and publish message once. 
-It is very straightforward way to publish msg, i.e. create publisher, create msg, and publish msg.
-
-.. code-block:: C++
-
-        // 1. Non Loop Publisher
-        // 1.1 Create publisher
-        Publisher = Node->CreatePublisher(TopicName, UROS2Publisher::StaticClass(), UROS2StrMsg::StaticClass(), UROS2QoS::KeepLast);
-
-        // 1.2 Create msg
-        FROSStr msg;
-        msg.Data = FString::Printf(TEXT("%s from non loop publisher"), *Message);
-        CastChecked<UROS2StrMsg>(Publisher->TopicMessage)->SetMsg(msg);
-
-        // 1.3 publish
-        Publisher->Publish();
-
-Loop Publisher
-~~~~~~~~~~~~~~~~~~~~~~
-
-You can create Loop publisher by using ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS macro.
-This macro will create publisher and add it to node.
-Then it will call AROS2PublisherNode::UpdateMessage method periodically.
+You can create a subscriber by using the ROS2_CREATE_SUBSCRIBER macro, 
+which creates a subscriber and adds it to the node. 
+When the node receives a message, AROS2SubscriberNode::MsgCallback is called.
 
 
 .. code-block:: C++
 
-        // 2. Loop Publisher
-        ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS(Node,
-                                            this,
-                                            TopicName,
-                                            UROS2Publisher::StaticClass(),
-                                            UROS2StrMsg::StaticClass(),
-                                            PublicationFrequencyHz,
-                                            &AROS2PublisherNode::UpdateMessage,
-                                            UROS2QoS::Default,
-                                            LoopPublisher);
+    ROS2_CREATE_SUBSCRIBER(Node, this, TopicName, UROS2StrMsg::StaticClass(), &AROS2SubscriberNode::MsgCallback);
 
-UpdateMessage method do a simillar things as Non Loop Publisher.
-Since loop publisher will call Publish() method automatically, you just needs to create and set msg.
+MsgCallback method simply prints the received message in this example.
 
 .. code-block:: C++
 
-    void AROS2PublisherNode::UpdateMessage(UROS2GenericMsg* InMessage)
+    void AROS2SubscriberNode::MsgCallback(const UROS2GenericMsg* InMsg)
     {
-        FROSStr msg;
-        msg.Data = FString::Printf(TEXT("%s %d"), *Message, Count++);
-        CastChecked<UROS2StrMsg>(InMessage)->SetMsg(msg);
+        const UROS2StrMsg* stringMsg = Cast<UROS2StrMsg>(InMsg);
+        if (stringMsg)
+        {
+            FROSStr msg;
+            stringMsg->GetMsg(msg);
+            UE_LOG_WITH_INFO_NAMED(LogTurtlebot3, Log, TEXT("%s"), *msg.Data);
+        }
     }
 
-ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS 's implementation is following.
-It uses UE's dynamic delegate to call bound function periodically. 
-You can find more information about UE's dynamic delegate 
+The implementation of ROS2_CREATE_SUBSCRIBER is as follows. 
+It uses Unreal Engine's dynamic delegate to call the bound function 
+when the node receives the message. 
+You can find more information about Unreal Engine's dynamic delegate .
 `here <https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TDelegates/>`_.
 
 .. code-block:: C++
 
-    DECLARE_DYNAMIC_DELEGATE_OneParam(FTopicCallback, UROS2GenericMsg*, InTopicMessage);
+    DECLARE_DYNAMIC_DELEGATE_OneParam(FSubscriptionCallback, const UROS2GenericMsg*, InMessage);
 
-    #define ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS(                                                                                  \
-        InROS2Node, InUserObject, InTopicName, InPublisherClass, InMsgClass, InPubFrequency, InCallback, InQoS, OutPublisher)     \
-        if (ensure(IsValid(InROS2Node)))                                                                                          \
-        {                                                                                                                         \
-            FTopicCallback cb;                                                                                                    \
-            cb.BindDynamic(InUserObject, InCallback);                                                                             \
-            OutPublisher = InROS2Node->CreateLoopPublisher(InTopicName, InPublisherClass, InMsgClass, InPubFrequency, cb, InQoS); \
+    #define ROS2_CREATE_SUBSCRIBER(InROS2Node, InUserObject, InTopicName, InMsgClass, InCallback) \
+        if (ensure(IsValid(InROS2Node)))                                                          \
+        {                                                                                         \
+            FSubscriptionCallback cb;                                                             \
+            cb.BindDynamic(InUserObject, InCallback);                                             \
+            InROS2Node->CreateSubscriber(InTopicName, InMsgClass, cb);                            \
         }
 
 
-Custom Publisher class
-~~~~~~~~~~~~~~~~~~~~~~
-You can create publisher from user defined child class of UROS2Publisher.
-This is useful when you want to add some custom logic to publisher which is used in many places.
+-----------------------------
+BP Subscriber
+-----------------------------
 
-.. code-block:: C++
+Blueprint implementation of a subscriber is very similar to a C++ implementation. 
+Blueprints allow you to set logic/processes, parameters, and other details from the editor.
 
-        // 3. Use Custom Publisher class
-        // UpdateMessage is overriden in child class.
-        StringPublisher = CastChecked<URRROS2StringPublisher>(
-            Node->CreateLoopPublisherWithClass(TopicName, URRROS2StringPublisher::StaticClass(), 1.f));
-        StringPublisher->Message = FString::Printf(TEXT("%s from custom class"), *Message);
+The main difference from the C++ implementation is that 
+it uses UROS2SubscriberComponent instead of UROS2Subscriber. 
+As UROS2SubscriberComponent is a child class of UActorComponent, 
+you can easily add it to the Actor and set parameters from the editor.
 
-UROS2StringPublisher's implementation is following. 
-UROS2StringPublisher is a child class of UROS2Publisher and override constructor and UpdateMessage method.
+.. image:: ../images/subscriber_overview.png
 
-Constructor is used to set default publisher settings and 
-add user defined logic to UpdateMessage method which is called periodically if PublicationFrequencyHz > 0.
+The Subscriber component is attached to an Actor, which is displayed in the `components`` panel on the left.
 
-.. code-block:: C++
+.. image:: ../images/subscriber_node.png
 
-    // RRROS2StringPublisher.cpp
-    #include "Msgs/ROS2Str.h"
+Initialize the ROS2 Node using the BeginPlay event. 
+You can set the ROSNode parameters, such as Name and Namespace, 
+from the `detail` panel on the right.
 
-    URRROS2StringPublisher::URRROS2StringPublisher()
-    {
-        MsgClass = UROS2StrMsg::StaticClass();
-        PublicationFrequencyHz = 1;
-        QoS = UROS2QoS::DynamicBroadcaster;
-        SetDefaultDelegates();    //use UpdateMessage as update delegate
-    }
+.. image:: ../images/subscriber_component.png
 
-    void URRROS2StringPublisher::UpdateMessage(UROS2GenericMsg* InMessage)
-    {
-        FROSStr msg;
-        msg.Data = Message;
-        CastChecked<UROS2StrMsg>(InMessage)->SetMsg(msg);
-    }
+Callback function is bound to a custom event, indicated by the red node in the center. 
+This callback function is called when the node receives a message.
 
-
-
-
-To add a subscription, after the node is initialized,
-we bind a callback function to the object of type
-FSubscriptionCallback and call AddSubscription.
-
-In this example, we used a publisher and a subscriber node
-to keep it simple, but in practical use cases,
-the elements presented should be integrated
-in the actors that need these functionalities.
-
-Blueprint
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. raw:: html
-
-   <iframe width="560" height="315" src="https://www.youtube.com/embed/n40sYyrkAt0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-
-.. image:: images/publisher_bp.png
-
-Setup of a ROS2 Node with a string publisher: initialize
-the Actor ROS2Node actor, then add the ActorComponent
-Publisher and initialize it on the node that will publish the message.
-The node and publisher parameters (node name, message type,
-topic name and publication frequency) are set in the Details panel
-(note that the red line connects to the callback function shown at the bottom).
-
-.. image:: images/subscriber_bp.png
-
-Setup of a ROS2 Node with a string subscriber: initialize the Actor ROS2Node actor,
-then add the subscription and bind callback function which
-prints the logs on the window (note that the red line connects
-to the callback function shown at the bottom).
-
-Note that this is only one of the many ways in which a pubsub can be set up.

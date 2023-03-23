@@ -33,6 +33,11 @@ Blueprint classes are in `turtlebot3-UE/Content/Blueprints/ROS2Examples <https:/
 
 C++ classes are in `turtlebot3-UE/Source/turtlebot3/ROS2Examples <https://github.com/rapyuta-robotics/turtlebot3-UE/tree/devel/Source/turtlebot3/ROS2Examples>`_.
 
+In the following examples, we used communication components and node
+to keep it simple, but in practical use cases,
+the elements presented should be integrated
+in the actors that need these functionalities.
+
 .. toctree::
     examples/publisher_example
     examples/subscriber_example

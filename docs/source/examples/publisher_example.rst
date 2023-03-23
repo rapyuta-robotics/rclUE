@@ -71,16 +71,30 @@ C++ Publisher
         CastChecked<UROS2StrMsg>(InMessage)->SetMsg(msg);
     }
 
+
+.. _publisher_examin_code:
+
 ^^^^^^^^^^^^^^^^^^
 Examin the code
 ^^^^^^^^^^^^^^^^^^
 
-On a ROS2PublisherNode Actor, NodeComponent is created and initialized at constructor.
-NodeComponent is created.
+The UROS2NodeComponent is created and initialized in the constructor of the ROS2PublisherNode Actor. 
+However, the ROS2 Node is not yet created/initialized at this point. 
+The initialization of the ROS2 Node occurs during the BeginPlay method, 
+which is called when the simulation starts.
 
-UROS2NodeComponent is created at here but ROS2 Node is not created/initialized yet.
-We initialize ROS2 Node at BeginPlay,
-a method for Actors that gets called when we start the simulation.
+One reason to initialize in BeginPlay is to create a ROS2 Node when the simulation starts. 
+It is important to note that the UE Class constructor may also be called before simulation start, for example, 
+when an Actor is placed in the level. For a better understanding of Actor Lifecycle, please refer to the
+`UE Actor LifeCycle <https://docs.unrealengine.com/5.1/en-US/unreal-engine-actor-lifecycle/>`_ 
+However, understanding the entire lifecycle is not necessary to use rclUE.
+
+Another significant difference is that by initializing in BeginPlay, 
+variables such as publication frequency can be set in the editor and 
+their changes will be reflected when running the simulation.
+If, in contrast, we initialize things in the constructor,
+variables changed in the editor would not reflect in the simulation,
+unless we restart the editor.
 
 .. code-block:: C++
 
@@ -93,21 +107,14 @@ a method for Actors that gets called when we start the simulation.
         Node->Namespace = TEXT("cpp");
     }
 
-One reason to initialize in Beginplay is that we want to create ROS2 Node when simulation is started.
-UE Class constructor is called before simulation start as well in some cases, e.g. Actor is placed in the level.
-Please check `UE actor LifeCycle <https://docs.unrealengine.com/5.1/en-US/unreal-engine-actor-lifecycle/>`_ 
-for more understanding of Actor Lifecycle but it is not required to understand fully to use rclUE.
-
-Another important distinction is that by initializing things in BeginPlay,
-variables (such as publication frequency) can be set in the editor
-and their change will be reflected when running the simulation.
-If, in contrast, we initialize things in the constructor,
-variables changed in the editor would not reflect in the simulation,
-unless we restart the editor.
-
-When simulation starts, BeginPlay is called. In the BeginPlay, firstly create and initialize ROS2 Node.
+When simulation starts, BeginPlay is called. In the BeginPlay, 
+firstly create and initialize ROS2 Node by Node->Init().
 
 .. code-block:: C++
+
+    void AROS2PublisherNode::BeginPlay()
+    {
+        Super::BeginPlay();
 
         Node->Init();
 
@@ -118,7 +125,8 @@ Non Loop Publisher
 ~~~~~~~~~~~~~~~~~~~~~~
 
 This will create publisher and publish message once. 
-It is very straightforward way to publish msg, i.e. create publisher, create msg, and publish msg.
+It is a very straightforward way to publish a message, 
+which involves creating a publisher, creating a message, and publishing the message.
 
 .. code-block:: C++
 
@@ -137,10 +145,9 @@ It is very straightforward way to publish msg, i.e. create publisher, create msg
 Loop Publisher
 ~~~~~~~~~~~~~~~~~~~~~~
 
-You can create Loop publisher by using ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS macro.
-This macro will create publisher and add it to node.
-Then it will call AROS2PublisherNode::UpdateMessage method periodically.
-
+You can create a loop publisher by using the ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS macro. 
+This macro creates a publisher and adds it to the node, 
+and then it periodically calls the AROS2PublisherNode::UpdateMessage method.
 
 .. code-block:: C++
 
@@ -155,8 +162,9 @@ Then it will call AROS2PublisherNode::UpdateMessage method periodically.
                                             UROS2QoS::Default,
                                             LoopPublisher);
 
-UpdateMessage method do a simillar things as Non Loop Publisher.
-Since loop publisher will call Publish() method automatically, you just needs to create and set msg.
+UpdateMessage method does similar things as a non-loop publisher. 
+Since the loop publisher automatically calls the "Publish()" method, 
+you only need to create and set the message.
 
 .. code-block:: C++
 
@@ -167,9 +175,9 @@ Since loop publisher will call Publish() method automatically, you just needs to
         CastChecked<UROS2StrMsg>(InMessage)->SetMsg(msg);
     }
 
-ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS 's implementation is following.
-It uses UE's dynamic delegate to call bound function periodically. 
-You can find more information about UE's dynamic delegate 
+The implementation of ROS2_CREATE_LOOP_PUBLISHER_WITH_QOS is as follows. 
+It uses Unreal Engine's dynamic delegate to call a bound function periodically. 
+You can find more information about Unreal Engine's dynamic delegate 
 `here <https://docs.unrealengine.com/5.1/en-US/ProgrammingAndScripting/ProgrammingWithCPP/UnrealArchitecture/TDelegates/>`_.
 
 .. code-block:: C++
@@ -188,8 +196,9 @@ You can find more information about UE's dynamic delegate
 
 Custom Publisher class
 ~~~~~~~~~~~~~~~~~~~~~~
-You can create publisher from user defined child class of UROS2Publisher.
-This is useful when you want to add some custom logic to publisher which is used in many places.
+
+You can create a publisher by defining a child class of UROS2Publisher. 
+This is useful when you want to add some custom logic to the publisher that will be used in multiple places.
 
 .. code-block:: C++
 
@@ -199,11 +208,11 @@ This is useful when you want to add some custom logic to publisher which is used
             Node->CreateLoopPublisherWithClass(TopicName, URRROS2StringPublisher::StaticClass(), 1.f));
         StringPublisher->Message = FString::Printf(TEXT("%s from custom class"), *Message);
 
-UROS2StringPublisher's implementation is following. 
-UROS2StringPublisher is a child class of UROS2Publisher and override constructor and UpdateMessage method.
+The implementation of UROS2StringPublisher is as follows. 
+UROS2StringPublisher is a child class of UROS2Publisher.
 
-Constructor is used to set default publisher settings and 
-add user defined logic to UpdateMessage method which is called periodically if PublicationFrequencyHz > 0.
+The constructor is used to set default publisher settings. 
+You can add user-defined logic by overriding the UpdateMessage method, which is called periodically if PublicationFrequencyHz > 0.
 
 .. code-block:: C++
 
@@ -232,10 +241,10 @@ add user defined logic to UpdateMessage method which is called periodically if P
 BP Publisher
 -----------------------------
 
-Blueprint implementation of publisher is very similar to C++ implementation.
-Blueprint provide you to set logic/process, parametrs and etc from editor.
+Blueprint implementation of a publisher is very similar to a C++ implementation. 
+Blueprints allow you to set logic/processes, parameters, and other details from the editor.
 
-\* please enlarge image if font is too small or open BP class in the editor.
+\* Please enlarge the image if the font is too small, or open the BP class in the editor.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Overview of BP Publisher
@@ -243,13 +252,16 @@ Overview of BP Publisher
 
 .. image:: ../images/publisher_overview.png
 
-Same as C++, BP class has 3 type of publishers, Non Loop Publisher, Loop Publisher and Custom Publisher.
 
-The main difference of publishers is it uses UROS2PublisherComponent instead of UROS2Publisher.
-Since UROS2PublisherComponent is child class of UActorComponent, you can easily add to the Actor and set parameters 
-from editor. 
+Similar to the C++ implementation, the BP class has three types of publishers: 
+Non-Loop Publisher, Loop Publisher, and Custom Publisher.
 
-Each publisher is attached to Actor shown in left `components` panel.
+The main difference from the C++ implementation is that 
+it uses UROS2PublisherComponent instead of UROS2Publisher. 
+As UROS2PublisherComponent is a child class of UActorComponent, 
+you can easily add it to the Actor and set parameters from the editor.
+
+Each publisher is attached to an Actor, which is displayed in the `components`` panel on the left.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Detailes of BP Publisher
@@ -257,31 +269,34 @@ Detailes of BP Publisher
 
 .. image:: ../images/publisher_node.png
 
-Initialize ROS2 Node with BeginPlay event. You can set ROSNode parameters from right `detail` panel. 
-Name and Namespace are set in the panel.
+Initialize the ROS2 Node using the BeginPlay event. 
+You can set the ROSNode parameters, such as Name and Namespace, 
+from the `detail` panel on the right.
 
 Non Loop Publisher
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. image:: ../images/publisher_non_loop.png
 
-Compared to C++, in Blueprint, the Publisher is already generated as a Component before BeginPlay, 
-so instead we use AddPublisher. 
-AddPublisher initializes the Publisher. The CreatePublisher in C++ calls AddPublisher internally.
+Compared to C++, which uses CreatePublisher(), 
+in Blueprint, the Publisher is already generated as a Component before BeginPlay. 
+Therefore, we use AddPublisher to initialize the Publisher instead. 
+The CreatePublisher function in C++ internally calls AddPublisher.
 
-You can see parameters such as Topic Name, Publisher Class, Msg Class are set in the right `detail` panel.
+You can see that parameters such as Topic Name, Publisher Class, and Msg Class are set in the right `details`` panel..
 
 Loop Publisher
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. image:: ../images/publisher_loop.png
 
-Call back function is bounded with custom event, red node in the center.
-You can use UE function as a callback function as well.
+Callback function is bound to a custom event, indicated by the red node in the center. 
+This callback function is executed at regular intervals with a specified frequency.
 
 Custom Publisher class
 ~~~~~~~~~~~~~~~~~~~~~~
 
 .. image:: ../images/publisher_custom.png
 
-To set paramter to custom publisher object, we create a variable of custom publisher class and set it to the publisher component.
+To set parameters for a custom publisher object, 
+we need to create a variable of the custom publisher class and then assign it to the publisher component.
