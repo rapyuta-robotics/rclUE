@@ -17,8 +17,8 @@ read_the_docs_readthedocs = os.environ.get('READTHEDOCS', None) == 'True'
 
 # -- Doxygen and breath
 subprocess.call('ln -s ../../README.md README.md;', shell=True)
-subprocess.call('mkdir -p _readthedocs/html/; cd ..; doxygen', shell=True)
-# breathe_projects = { "rclUE": "_readthedocs/html/doxygen_generated/xml" }
+subprocess.call('mkdir -p ../../_readthedocs/html/; cd ..; doxygen', shell=True)
+# breathe_projects = { "rclUE": "../../_readthedocs/html/doxygen_generated/xml" }
 # breathe_projects_source = {
 #      "auto" : ( "../Private/rclUE", ["*.h"] )
 #      }
