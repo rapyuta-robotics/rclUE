@@ -88,8 +88,8 @@ documentation is built with three tools
    make --always-make html
    ```
 3. Open following in your browser.
-   - Sphinx at `file:///<path to cloned repo>/docs/source/_build/html/index.html`
-   - Original doxygen output at `file:///<path to cloned repo>/docs/source/_build/html/doxygen_generated/html/index.html`
+   - Sphinx at `file:///<path to cloned repo>/docs/source/_readthedocs/html/index.html`
+   - Original doxygen output at `file:///<path to cloned repo>/docs/source/_readthedocs/html/doxygen_generated/html/index.html`
 
 # Maintainer
 
