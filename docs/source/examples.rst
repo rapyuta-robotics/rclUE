@@ -43,3 +43,5 @@ in the actors that need these functionalities.
     examples/subscriber_example
     examples/service_client_example
     examples/service_server_example
+    examples/action_client_example
+    examples/action_server_example

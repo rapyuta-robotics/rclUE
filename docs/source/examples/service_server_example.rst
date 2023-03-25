@@ -131,10 +131,10 @@ When the node receives a service request, AROS2ServiceServerNode::SrvCallback is
 The SrvCallback method adds two integers and sets the result to the response. 
 
 To retrieve the request, you need to create a request structure (FROSAddTwoIntsReq) 
-for the corresponding service (AddTwoIntsService) and retrieve the request by calling GetRequest().
+for the corresponding service (UROS2AddTwoIntsSrv) and retrieve the request by calling GetRequest().
 
 To set the response, you need to create a response structure (FROSAddTwoIntsResp) 
-for the corresponding service (AddTwoIntsService) and set the response to the structure. 
+for the corresponding service (UROS2AddTwoIntsSrv) and set the response to the structure. 
 Then, call SetResponse() to set the structure to the response.
 
 Finally, log the request and the response.
@@ -210,7 +210,7 @@ Compared to C++, which uses ROS2_CREATE_SUBSCRIBER,
 in Blueprint, the Subscriber is already generated as a Component before BeginPlay. 
 Therefore, we use 
 `UROS2NodeComponent::AddServiceServer <../doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html#a88c4ddd3037e78b68f62c142015ea91e>`_
-to initialize the Subscriber and 
+to initialize the UROS2ServiceServer and 
 `UROS2ServiceServer::SetDelegates <../doxygen_generated/html/d8/d6e/class_u_r_o_s2_service_server.html#a3071892b4f131d18e9f5010077cad485>`_ 
 to bind callback method instead. 
 The ROS2_CREATE_SERVICE_SERVER macro in C++ internally calls CreateServiceServer which calls AddServiceServer and SetDelegates.

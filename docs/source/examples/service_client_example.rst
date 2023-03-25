@@ -10,6 +10,8 @@ and open  `ROS2ServiceExample.umap <https://github.com/rapyuta-robotics/turtlebo
 C++ Service Client
 -----------------------------
 
+This example send service request every 1 second.
+
 ^^^^^^^^^^^^^^^^^^
 Code
 ^^^^^^^^^^^^^^^^^^
@@ -153,7 +155,7 @@ In BeginPlay, firstly create and initialize the ROS2 Node by calling
 You can create a service client by using the 
 `ROS2_CREATE_SERVICE_CLIENT_WITH_QOS <../doxygen_generated/html/d1/d79/_r_o_s2_node_component_8h.html#afc35f3065562037d23b39eb0baa32f0d>`_ 
 macro, which creates a service client and adds it to the node. 
-When the node receives a service request, AROS2ServiceClientNode::SrvCallback is called.
+When the node receives a service response, AROS2ServiceClientNode::ReceiveResponse is called.
 
 
 .. code-block:: C++
@@ -193,7 +195,7 @@ In this example, service client is set to send request periodically by create
 We create a `FTimerDelegate <https://docs.unrealengine.com/5.1/en-US/API/Runtime/Engine/FTimerDelegate/>`_ 
 with a lambda function that will be called by the timer. 
 Inside the lambda function, create the request structure (FROSAddTwoIntsReq) 
-for the corresponding service (AddTwoIntsSrv). 
+for the corresponding service (UROS2AddTwoIntsSrv). 
 Set the value of the request structure, and then send the request by calling SendRequest().
 
 .. code-block:: C++
@@ -227,7 +229,7 @@ Then start a timer to call the sendRequest method every 1 second.
 When the node receives a service response, AROS2ServiceClientNode::ReceiveResponse is called.
 
 To retrieve the response, you need to create a response structure (FROSAddTwoIntsRes) 
-for the corresponding service (AddTwoIntsService) and retrieve the request by calling GetResponse().
+for the corresponding service (UROS2AddTwoIntsSrv) and retrieve the request by calling GetResponse().
 
 ReceiveResponse method simply prints the received response in this example.
 
@@ -276,10 +278,10 @@ Compared to C++, which uses ROS2_CREATE_SERVICE_CLIENT_WITH_QOS,
 in Blueprint, the service client is already generated as a Component before BeginPlay. 
 Therefore, we use 
 `UROS2NodeComponent::AddServiceClient <../doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html#a5e52bd6256f3c5db5c0392cee93d7156>`_
-to initialize the Subscriber and 
+to initialize the UROS2ServiceClient and 
 `UROS2ServiceClient::SetDelegates <../doxygen_generated/html/d7/df5/class_u_r_o_s2_service_client.html#ae965105e696c1662ce1655249b9d864b>`_ 
 to bind callback method instead. 
-The ROS2_CREATE_SERVICE_CLIENT_WITH_QOS macro in C++ internally calls CreateServiceServer which calls AddServiceClient and SetDelegates.
+The ROS2_CREATE_SERVICE_CLIENT_WITH_QOS macro in C++ internally calls CreateServiceClient which calls AddServiceClient and SetDelegates.
 
 We also create a UE Timer to send request every 1 second.
 

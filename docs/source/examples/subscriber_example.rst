@@ -183,7 +183,7 @@ Compared to C++, which uses ROS2_CREATE_SUBSCRIBER,
 in Blueprint, the Subscriber is already generated as a Component before BeginPlay. 
 Therefore, we use 
 `UROS2NodeComponent::AddSubscription <../doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html#a107bc4e732b592facd873ae0a37efe66>`_
-to initialize the Subscriber and 
+to initialize the UROS2Subscriber and 
 `UROS2Subscriber::SetDelegates <../doxygen_generated/html/de/d83/class_u_r_o_s2_subscriber.html#a1733472ccb6983bd0821d661419b379c>`_ 
 to bind callback method instead. 
 The ROS2_CREATE_SUBSCRIBER macro in C++ internally calls CreateSubscriber which calls AddSubscriber and SetDelegates.
