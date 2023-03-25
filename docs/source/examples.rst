@@ -41,3 +41,5 @@ in the actors that need these functionalities.
 .. toctree::
     examples/publisher_example
     examples/subscriber_example
+    examples/service_client_example
+    examples/service_server_example
