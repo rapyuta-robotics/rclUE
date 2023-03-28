@@ -50,9 +50,9 @@
  * @param Verbosity, verbosity level to test against
  * @param Format, format text
 */
-#define UE_LOG_WITH_INFO_NAMED(CategoryName, Verbosity, ...)                                                                      \
-    {                                                                                                                             \
-        UE_LOG_WITH_INFO(CategoryName, Verbosity, TEXT("[%s][%s] %s"), *__LOG_INFO__, *GetName(), *FString::Printf(__VA_ARGS__)); \
+#define UE_LOG_WITH_INFO_NAMED(CategoryName, Verbosity, ...)                                                   \
+    {                                                                                                          \
+        UE_LOG_WITH_INFO(CategoryName, Verbosity, TEXT("[%s] %s"), *GetName(), *FString::Printf(__VA_ARGS__)); \
     }
 
 /**
