@@ -315,7 +315,7 @@ Blueprint implementation of a publisher is very similar to a C++ implementation.
 Blueprints allow you to set logic/processes, parameters, and other details from the editor.
 
 You can add component such as UROS2Publisher from `Components` panel in the editor(left side in the fig below)
-and set each component parameters in `Detales` panel in the editor(right side in the fig below).
+and set each component parameters in `Details` panel in the editor(right side in the fig below).
 
 \* Please enlarge the image if the font is too small, or open the BP class in the editor.
 
