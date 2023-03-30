@@ -292,5 +292,5 @@ Then increment the value of A and B and print those.
 
 .. image:: ../images/service_client_res.png
 
-Callback function is bound to a custom event, indicated by the red node in the left. 
+Callback function is bound to a custom event, indicated by the red node on the left. 
 This callback function is called when the node receives a response.
