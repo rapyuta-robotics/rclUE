@@ -122,7 +122,7 @@ Code
 .. _publisher_examin_code:
 
 ^^^^^^^^^^^^^^^^^^
-Examin the code
+Code explanations
 ^^^^^^^^^^^^^^^^^^
 
 In the constructor, 
