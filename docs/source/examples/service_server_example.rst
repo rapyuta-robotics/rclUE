@@ -217,6 +217,6 @@ The ROS2_CREATE_SERVICE_SERVER macro in C++ internally calls CreateServiceServer
 
 .. image:: ../images/service_server_req.png
 
-Callback function is bound to a custom event, indicated by the red node in the left. 
+Callback function is bound to a custom event, indicated by the red node on the left. 
 This callback function is called when the node receives a request and send response.
 
