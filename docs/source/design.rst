@@ -74,7 +74,7 @@ The ROS2Node tracks and manages publishers, subscribers, service clients and ser
 
 ROS2 Publisher(Service/Action Client)
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-`ROS2Pulisher <doxygen_generated/html/d6/dd4/class_u_r_o_s2_publisher.html>`_
+`ROS2Publisher <doxygen_generated/html/d6/dd4/class_u_r_o_s2_publisher.html>`_
 is implemented as an `UObject <https://docs.unrealengine.com/5.0/en-US/API/Runtime/CoreUObject/UObject/UObject/>`_, 
 the base class for all UE objects. Publisher is handled by ROS2Node and associated with Actor via ROS2Node.
 There is a ActorComponent implementation as well for easy integration with BP.
