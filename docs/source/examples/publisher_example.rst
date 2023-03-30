@@ -76,7 +76,7 @@ Code
 
         Node->Init();
 
-        // Create publisher with 3 different way.
+        // Create publisher with 3 different ways.
         // 1. Non Loop Publisher
         // 2. Loop Publisher
         // 3. Custom Publisher class
