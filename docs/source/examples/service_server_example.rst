@@ -163,7 +163,7 @@ Finally, log the request and the response.
 The implementation of ROS2_CREATE_SERVICE_SERVER is as follows. 
 It uses Unreal Engine's dynamic delegate to call the bound function 
 when the node receives the message. 
-You can find more information about Unreal Engine's dynamic delegate .
+You can find more information about Unreal Engine's dynamic delegate
 `here <https://docs.unrealengine.com/5.1/en-US/dynamic-delegates-in-unreal-engine/>`_.
 
 .. code-block:: C++
