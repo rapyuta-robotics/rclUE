@@ -338,7 +338,7 @@ and has UROS2Publisher as a member variable, you can easily add it to the Actor 
 Each publisher is attached to an Actor, which is displayed in the `Components`` panel on the left.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Detailes of BP Publisher
+Details of BP Publisher
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. image:: ../images/publisher_node.png
