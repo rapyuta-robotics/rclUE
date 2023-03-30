@@ -9,7 +9,7 @@ You can find ROS2 Topic, Service and Action examples in
 ^^^^^^^^^^^^^^^^^^^^^^^^
 Setup and run UE Project
 ^^^^^^^^^^^^^^^^^^^^^^^^
-1. Download UE5.1 for Linux by following `Unreal Engine for Linux <https://www.unrealengine.com/en-US/linux>`_.
+1. Download the lastest UE5 for Linux by following `Unreal Engine for Linux <https://www.unrealengine.com/en-US/linux>`_.
 2. Clone and build
 
 .. code-block:: shell
