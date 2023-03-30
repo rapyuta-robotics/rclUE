@@ -254,7 +254,7 @@ BP Service Client
 Blueprint implementation of a service client is very similar to a C++ implementation. 
 Blueprints allow you to set logic/processes, parameters, and other details from the editor.
 
-You can add component such as UROS2Publisher from `Components` panel in the editor(left side in the fig below)
+You can add components such as UROS2Publisher from `Components` panel in the editor (left side in the fig below)
 and set each component parameters in `Details` panel in the editor(right side in the fig below).
 
 The main difference from the C++ implementation is that it uses 
