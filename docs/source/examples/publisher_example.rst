@@ -359,7 +359,7 @@ Therefore, we use
 to initialize the Publisher instead. 
 The CreatePublisher function in C++ internally calls AddPublisher.
 
-You can see that parameters such as Topic Name, Publisher Class, and Msg Class are set in the right `Details`` panel.
+You can see that parameters such as Topic Name, Publisher Class, and Msg Class are set in the right `Details` panel.
 
 Loop Publisher
 ~~~~~~~~~~~~~~~~~~~~~~
