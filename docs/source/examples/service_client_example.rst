@@ -10,7 +10,7 @@ and open  `ROS2ServiceExample.umap <https://github.com/rapyuta-robotics/turtlebo
 C++ Service Client
 -----------------------------
 
-This example send service request every 1 second.
+This example sends service request every 1 second.
 
 ^^^^^^^^^^^^^^^^^^
 Code
