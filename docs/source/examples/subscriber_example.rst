@@ -160,7 +160,7 @@ Blueprint implementation of a subscriber is very similar to a C++ implementation
 Blueprints allow you to set logic/processes, parameters, and other details from the editor.
 
 You can add component such as UROS2Publisher from `Components` panel in the editor(left side in the fig below)
-and set each component parameters in `Detals` panel in the editor(right side in the fig below).
+and set each component parameters in `Details` panel in the editor (right side in the fig below).
 
 The main difference from the C++ implementation is that it uses 
 `UROS2SubscriberComponent <../doxygen_generated/html/d5/d73/class_u_r_o_s2_subscriber_component.html>`_
