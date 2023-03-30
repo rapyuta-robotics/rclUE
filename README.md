@@ -24,7 +24,7 @@ Please download UE5.1 for Linux by following [Unreal Engine for Linux](https://w
 ## Branches
 
 - `devel`: This build of the plugin is based on ROS2 Foxy and has been tested on Ubuntu 20 and UE5.1.
-- `UE5_devel_humble_20.04`(experimental): This build of the plugin is based on ROS2 humble and has been tested on Ubuntu 20.04 and UE5.10.
+- `UE5_devel_humble_20.04`(experimental): This build of the plugin is based on ROS2 humble and has been tested on Ubuntu 20.04 and UE5.1.
 - `UE5_devel_humble`(experimental): This build of the plugin is based on ROS2 humble, Ubuntu 22.04 and UE5.1.
 
 ### Other branches
