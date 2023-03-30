@@ -255,7 +255,7 @@ Blueprint implementation of a service client is very similar to a C++ implementa
 Blueprints allow you to set logic/processes, parameters, and other details from the editor.
 
 You can add components such as UROS2Publisher from `Components` panel in the editor (left side in the fig below)
-and set each component parameters in `Details` panel in the editor(right side in the fig below).
+and set each component parameters in `Details` panel in the editor (right side in the fig below).
 
 The main difference from the C++ implementation is that it uses 
 `UROS2ServiceClientComponent <../doxygen_generated/html/d1/db9/class_u_r_o_s2_service_client_component.html>`_
