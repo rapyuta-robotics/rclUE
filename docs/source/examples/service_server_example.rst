@@ -90,7 +90,7 @@ Code
 Code explanations
 ^^^^^^^^^^^^^^^^^^
 
-On an AROS2ServiceServerNode Actor, similar to the AROS2PublisherrNode, 
+On an AROS2ServiceServerNode Actor, similar to the AROS2PublisherNode, 
 NodeComponent is created and initialized in the constructor but ROS2 Node is not created here.
 Please check :ref:`publisher_examin_code` for the reason.
 
