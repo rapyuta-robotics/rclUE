@@ -138,7 +138,7 @@ Initialization of the ROS2 Node occurs during the
 method, which is called when the simulation starts.
 
 One reason to initialize in BeginPlay is to create a ROS2 Node when the simulation starts. 
-It is important to note that the UE Class constructor may also be called before simulation start, for example, 
+It is important to note that the UE Class constructor may also be called before simulation starts, for example, 
 when an Actor is placed in the level. For a better understanding of Actor Lifecycle, please refer to the
 `UE Actor LifeCycle <https://docs.unrealengine.com/5.1/en-US/unreal-engine-actor-lifecycle/>`_ 
 However, understanding the entire lifecycle is not necessary to use rclUE.
