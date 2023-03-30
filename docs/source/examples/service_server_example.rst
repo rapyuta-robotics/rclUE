@@ -87,7 +87,7 @@ Code
 
 
 ^^^^^^^^^^^^^^^^^^
-Examin the code
+Code explanations
 ^^^^^^^^^^^^^^^^^^
 
 On an AROS2ServiceServerNode Actor, similar to the AROS2PublisherrNode, 
