@@ -335,7 +335,7 @@ instead of UROS2Publisher.
 As UROS2PublisherComponent is a child class of `UActorComponent <https://docs.unrealengine.com/5.1/en-US/API/Runtime/Engine/Components/UActorComponent/>`_
 and has UROS2Publisher as a member variable, you can easily add it to the Actor and set parameters from the editor.
 
-Each publisher is attached to an Actor, which is displayed in the `Components`` panel on the left.
+Each publisher is attached to an Actor, which is displayed in the `Components` panel on the left.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Details of BP Publisher
