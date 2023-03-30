@@ -72,7 +72,7 @@ Code
 
 
 ^^^^^^^^^^^^^^^^^^
-Examin the code
+Code explanations
 ^^^^^^^^^^^^^^^^^^
 
 On an AROS2SubscriberNode Actor, similar to the AROS2PublisherrNode, 
