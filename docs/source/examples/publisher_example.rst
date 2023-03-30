@@ -174,7 +174,7 @@ firstly create and initialize ROS2 Node by calling
 
         Node->Init();
 
-then starts adding publishers. We intorduce 3 ways to add publisher here.
+then starts adding publishers. We introduce 3 ways to add publisher here.
 
 
 Non Loop Publisher
