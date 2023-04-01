@@ -8,8 +8,8 @@ print('****************************************')
 print('conf.py')
 print('****************************************')
 
-read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
-#if read_the_docs_build:
+read_the_docs_readthedocs = os.environ.get('READTHEDOCS', None) == 'True'
+#if read_the_docs_readthedocs:
 #    pass
 #else :
 #    pass 
@@ -17,12 +17,12 @@ read_the_docs_build = os.environ.get('READTHEDOCS', None) == 'True'
 
 # -- Doxygen and breath
 subprocess.call('ln -s ../../README.md README.md;', shell=True)
-subprocess.call('mkdir -p _build/html/; cd ..; doxygen', shell=True)
-breathe_projects = { "rclUE": "_build/html/doxygen_generated/xml" }
+subprocess.call('mkdir -p ../../_readthedocs/html/; cd ..; doxygen', shell=True)
+# breathe_projects = { "rclUE": "../../_readthedocs/html/doxygen_generated/xml" }
 # breathe_projects_source = {
 #      "auto" : ( "../Private/rclUE", ["*.h"] )
 #      }
-breathe_default_project = "rclUE"
+# breathe_default_project = "rclUE"
 
 # -- Project information
 
@@ -59,6 +59,8 @@ templates_path = ['_templates']
 # -- Options for HTML output
 
 html_theme = 'sphinx_rtd_theme'
+# html_style = 'css/style.css'
+html_static_path = ['_static'] 
 
 # -- Options for EPUB output
 epub_show_urls = 'footnote'
@@ -69,3 +71,6 @@ source_suffix = {
     '.rst': 'restructuredtext',
     '.md': 'markdown',
 }
+
+def setup(app):
+    app.add_css_file('css/style.css')
