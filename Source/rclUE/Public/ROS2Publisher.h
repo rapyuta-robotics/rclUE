@@ -143,14 +143,15 @@ public:
      * @param InSimState
      */
     template<typename TUEMessage, typename TUEStruct>
-    void PublishWithSimState(const TUEStruct& InMessageData, ASimulationState* InSimState=nullptr)
+    void PublishWithSimState(const TUEStruct& InMessageData, ASimulationState* InSimState = nullptr)
     {
         // can't use macro in here.
         // if (IsValid(OwnerNode) && OwnerNode->State == UROS2State::Initialized && State == UROS2State::Initialized)
         if (State == UROS2State::Initialized)
         {
             // Update [TopicMessage] with [InMessageData]
-            CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData, InSimState);
+            CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData);
+            //CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData, InSimState);
 
             // Publish [TopicMessage]
             Publish();
@@ -160,7 +161,7 @@ public:
             UE_LOG_WITH_INFO(LogTemp, Log, TEXT("Publish() [%s] Publisher or node is not yet initialized"), *GetName());
         }
     }
-    
+
     /**
      * @brief Destroy publisher with rcl_publisher_fini
      *
