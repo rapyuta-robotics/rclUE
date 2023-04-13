@@ -39,20 +39,32 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogROS2, Log, All);
 
+static TAutoConsoleVariable<int32> CVarRclUERcsSoftCheck(
+    TEXT("RCLUE.RCSOFTCHECK"),
+    0,
+    TEXT("Exit UE with rcl function error or not.\n")
+        TEXT("<=0: Continue without exiting UE even with rcl functions return error code.")
+            TEXT("  1: Exit UE with rcl functions error code.)\n"),
+    ECVF_Scalability | ECVF_RenderThreadSafe);
+
 //! this macro can be used on rcl functions that return an error code
-#define RCSOFTCHECK(fn)                                                                       \
-    {                                                                                         \
-        rcl_ret_t temp_rc = fn;                                                               \
-        if ((temp_rc != RCL_RET_OK))                                                          \
-        {                                                                                     \
-            UE_LOG_WITH_INFO(LogTemp,                                                         \
-                             Error,                                                           \
-                             TEXT("Failed status on line %d (function %s): %d. Continuing."), \
-                             __LINE__,                                                        \
-                             *FString(__FUNCTION__),                                          \
-                             (int)temp_rc);                                                   \
-            check(temp_rc == 0)                                                               \
-        }                                                                                     \
+#define RCSOFTCHECK(fn)                                                                                     \
+    {                                                                                                       \
+        rcl_ret_t temp_rc = fn;                                                                             \
+        if ((temp_rc != RCL_RET_OK))                                                                        \
+        {                                                                                                   \
+            UE_LOG_WITH_INFO(LogTemp,                                                                       \
+                             Error,                                                                         \
+                             TEXT("Failed status on line %d (function %s): %d. Continuing."),               \
+                             __LINE__,                                                                      \
+                             *FString(__FUNCTION__),                                                        \
+                             (int)temp_rc);                                                                 \
+            static const auto CVar = IConsoleManager::Get().FindConsoleVariable(TEXT("RCLUE.RCSOFTCHECK")); \
+            if (CVar->GetInt())                                                                             \
+            {                                                                                               \
+                check(temp_rc == 0);                                                                        \
+            }                                                                                               \
+        }                                                                                                   \
     }
 
 /**
