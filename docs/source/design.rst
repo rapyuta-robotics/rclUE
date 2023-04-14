@@ -65,18 +65,23 @@ with other components (services, actions) following the same principles.
 
 ROS2 Node
 ^^^^^^^^^
-ROS2Node is implemented as UE Actor, the base class for objects that can be placed in a level
-(i.e. the simulation world). The ROS2Node tracks and manages publishers, subscribers,
-service clients and services (and thus contains a simplified equivalent of rclcpp’s executor).
+`ROS2Node <doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html>`_
+is implemented as UE ActorComponent, the base class for objects 
+that can be attached to the UE `Actor <https://docs.unrealengine.com/5.1/en-US/actors-in-unreal-engine/>`_ 
+such as Robot. 
+The ROS2Node tracks and manages publishers, subscribers, service clients and servers, action clients and servers 
+(and thus contains a simplified equivalent of rclcpp’s executor).
 
-ROS2 Publisher
-^^^^^^^^^^^^^^
-ROS2Pulisher is implemented as an ActorComponent, the base class for components that define
-reusable behavior that can be added to different types of Actors. As an ActorComponent,
-it can be attached to any actor that requires a publisher.
+ROS2 Publisher(Service/Action Client)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`ROS2Publisher <doxygen_generated/html/d6/dd4/class_u_r_o_s2_publisher.html>`_
+is implemented as an `UObject <https://docs.unrealengine.com/5.0/en-US/API/Runtime/CoreUObject/UObject/UObject/>`_, 
+the base class for all UE objects. Publisher is handled by ROS2Node and associated with Actor via ROS2Node.
+There is a ActorComponent implementation as well for easy integration with BP.
 
-ROS2 Subscriber
-^^^^^^^^^^^^^^^
-Topic subscription is implemented as a method of ROS2Node and is bound to a callback method
-through a UE delegate. An Actor that wants to subscribe to a topic therefore registers
-its callback function to a ROS2Node.
+ROS2 Subscriber(Service/Action Server)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+`ROS2Subscriber <doxygen_generated/html/de/d83/class_u_r_o_s2_subscriber.html>`_
+is implemented as UObject and user defined function is bound to a callback method
+through a UE delegate.
+There is a ActorComponent implementation as well for easy integration with BP.
