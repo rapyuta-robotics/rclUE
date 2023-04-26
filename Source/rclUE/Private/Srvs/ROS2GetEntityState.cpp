@@ -3,6 +3,10 @@
 
 #include "Srvs/ROS2GetEntityState.h"
 
+
+
+
+
 const rosidl_service_type_support_t* UROS2GetEntityStateSrv::GetTypeSupport() const
 {
     return ROSIDL_GET_SRV_TYPE_SUPPORT(ue_msgs, srv, GetEntityState);
@@ -53,13 +57,13 @@ void* UROS2GetEntityStateSrv::GetResponse()
 FString UROS2GetEntityStateSrv::SrvRequestToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
+	checkNoEntry();
     return FString();
 }
 
 FString UROS2GetEntityStateSrv::SrvResponseToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
+	checkNoEntry();
     return FString();
 }

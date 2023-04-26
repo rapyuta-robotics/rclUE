@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2Vec3StampedMsg::Init()
 {
-    geometry_msgs__msg__Vector3Stamped__init(&vector3_stamped_msg);
+	geometry_msgs__msg__Vector3Stamped__init(&vector3_stamped_msg);
 }
 
 void UROS2Vec3StampedMsg::Fini()
 {
-    geometry_msgs__msg__Vector3Stamped__fini(&vector3_stamped_msg);
+	geometry_msgs__msg__Vector3Stamped__fini(&vector3_stamped_msg);
 }
 
 const rosidl_message_type_support_t* UROS2Vec3StampedMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Vector3Stamped);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Vector3Stamped);
 }
 
 void UROS2Vec3StampedMsg::SetMsg(const FROSVec3Stamped& Inputs)
@@ -32,12 +34,12 @@ void UROS2Vec3StampedMsg::GetMsg(FROSVec3Stamped& Outputs) const
 
 void* UROS2Vec3StampedMsg::Get()
 {
-    return &vector3_stamped_msg;
+	return &vector3_stamped_msg;
 }
 
 FString UROS2Vec3StampedMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

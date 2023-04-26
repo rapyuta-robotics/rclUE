@@ -15,6 +15,8 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
+
 // Generated
 #include "ROS2Attach.generated.h"
 
@@ -22,95 +24,116 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSAttachReq
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Name1;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Name2;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name1;
 
-    FROSAttachReq()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name2;
 
-    void SetFromROS2(const ue_msgs__srv__Attach_Request& in_ros_data)
-    {
-        Name1 = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name1);
+	
 
-        Name2 = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name2);
-    }
+	FROSAttachReq()
+	{
+		
+	}
 
-    void SetROS2(ue_msgs__srv__Attach_Request& out_ros_data) const
-    {
-        UROS2Utils::StringUEToROS(Name1, out_ros_data.name1);
+	void SetFromROS2(const ue_msgs__srv__Attach_Request& in_ros_data)
+	{
+    	Name1 = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name1);
 
-        UROS2Utils::StringUEToROS(Name2, out_ros_data.name2);
-    }
+		Name2 = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name2);
+
+		
+	}
+
+	void SetROS2(ue_msgs__srv__Attach_Request& out_ros_data) const
+	{
+    	UROS2Utils::StringUEToROS(Name1, out_ros_data.name1);
+
+		UROS2Utils::StringUEToROS(Name2, out_ros_data.name2);
+
+		
+	}
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSAttachRes
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool bSuccess = false;
+	
 
-    FROSAttachRes()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bSuccess = false;
 
-    void SetFromROS2(const ue_msgs__srv__Attach_Response& in_ros_data)
-    {
-        bSuccess = in_ros_data.success;
-    }
+	
 
-    void SetROS2(ue_msgs__srv__Attach_Response& out_ros_data) const
-    {
-        out_ros_data.success = bSuccess;
-    }
+	FROSAttachRes()
+	{
+		
+	}
+
+	void SetFromROS2(const ue_msgs__srv__Attach_Response& in_ros_data)
+	{
+    	bSuccess = in_ros_data.success;
+
+		
+	}
+
+	void SetROS2(ue_msgs__srv__Attach_Response& out_ros_data) const
+	{
+    	out_ros_data.success = bSuccess;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2AttachSrv : public UROS2GenericSrv
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable)
-    virtual void Init() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Init() override;
 
-    UFUNCTION(BlueprintCallable)
-    virtual void Fini() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Fini() override;
 
-    virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void SetRequest(const FROSAttachReq& Request);
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void GetRequest(FROSAttachReq& Request) const;
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void SetResponse(const FROSAttachRes& Response);
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void GetResponse(FROSAttachRes& Response) const;
+	
+	virtual void* GetRequest() override;
+	virtual void* GetResponse() override;
 
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void SetRequest(const FROSAttachReq& Request);
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void GetRequest(FROSAttachReq& Request) const;
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void SetResponse(const FROSAttachRes& Response);
-
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void GetResponse(FROSAttachRes& Response) const;
-
-    virtual void* GetRequest() override;
-    virtual void* GetResponse() override;
+	
+	
 
 private:
-    virtual FString SrvRequestToString() const override;
-    virtual FString SrvResponseToString() const override;
+	virtual FString SrvRequestToString() const override;
+	virtual FString SrvResponseToString() const override;
 
-    ue_msgs__srv__Attach_Request Attach_req;
-    ue_msgs__srv__Attach_Response Attach_res;
+	ue_msgs__srv__Attach_Request Attach_req;
+	ue_msgs__srv__Attach_Response Attach_res;
 };

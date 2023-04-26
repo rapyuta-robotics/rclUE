@@ -18,123 +18,135 @@
 #include "Msgs/ROS2NavSatStatus.h"
 #include "rosidl_runtime_c/primitives_sequence_functions.h"
 
+
 // Generated
 #include "ROS2NavSatFix.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSNavSatFix
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    static constexpr uint8 COVARIANCE_TYPE_UNKNOWN = 0;
-    static constexpr uint8 COVARIANCE_TYPE_APPROXIMATED = 1;
-    static constexpr uint8 COVARIANCE_TYPE_DIAGONAL_KNOWN = 2;
-    static constexpr uint8 COVARIANCE_TYPE_KNOWN = 3;
+		static constexpr uint8 COVARIANCE_TYPE_UNKNOWN = 0;
+	static constexpr uint8 COVARIANCE_TYPE_APPROXIMATED = 1;
+	static constexpr uint8 COVARIANCE_TYPE_DIAGONAL_KNOWN = 2;
+	static constexpr uint8 COVARIANCE_TYPE_KNOWN = 3;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSNavSatStatus Status;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere)
-    double Latitude = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSNavSatStatus Status;
 
-    UPROPERTY(EditAnywhere)
-    double Longitude = 0.f;
+	UPROPERTY(EditAnywhere)
+	double Latitude = 0.f;
 
-    UPROPERTY(EditAnywhere)
-    double Altitude = 0.f;
+	UPROPERTY(EditAnywhere)
+	double Longitude = 0.f;
 
-    UPROPERTY(EditAnywhere)
-    TArray<double> PositionCovariance;
+	UPROPERTY(EditAnywhere)
+	double Altitude = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 PositionCovarianceType = 0;
+	UPROPERTY(EditAnywhere)
+	TArray<double> PositionCovariance;
 
-    FROSNavSatFix()
-    {
-        PositionCovariance.SetNumZeroed(9);
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 PositionCovarianceType = 0;
 
-    void SetFromROS2(const sensor_msgs__msg__NavSatFix& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Status.SetFromROS2(in_ros_data.status);
+	FROSNavSatFix()
+	{
+		PositionCovariance.SetNumZeroed(9);
 
-        Latitude = in_ros_data.latitude;
+		
+	}
 
-        Longitude = in_ros_data.longitude;
+	void SetFromROS2(const sensor_msgs__msg__NavSatFix& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Altitude = in_ros_data.altitude;
+		Status.SetFromROS2(in_ros_data.status);
 
-        UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.position_covariance, PositionCovariance, 9);
+		Latitude = in_ros_data.latitude;
 
-        PositionCovarianceType = in_ros_data.position_covariance_type;
-    }
+		Longitude = in_ros_data.longitude;
 
-    void SetROS2(sensor_msgs__msg__NavSatFix& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		Altitude = in_ros_data.altitude;
 
-        Status.SetROS2(out_ros_data.status);
+		UROS2Utils::SequenceROSToUEArray<double, double>(in_ros_data.position_covariance, PositionCovariance, 9);
 
-        out_ros_data.latitude = Latitude;
+		PositionCovarianceType = in_ros_data.position_covariance_type;
 
-        out_ros_data.longitude = Longitude;
+		
+	}
 
-        out_ros_data.altitude = Altitude;
+	void SetROS2(sensor_msgs__msg__NavSatFix& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
 
-        UROS2Utils::ArrayUEToROSSequence<double, double>(PositionCovariance, out_ros_data.position_covariance, 9);
+		Status.SetROS2(out_ros_data.status);
 
-        out_ros_data.position_covariance_type = PositionCovarianceType;
-    }
+		out_ros_data.latitude = Latitude;
+
+		out_ros_data.longitude = Longitude;
+
+		out_ros_data.altitude = Altitude;
+
+		UROS2Utils::ArrayUEToROSSequence<double, double>(PositionCovariance, out_ros_data.position_covariance, 9);
+
+		out_ros_data.position_covariance_type = PositionCovarianceType;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2NavSatFixMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSNavSatFix& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSNavSatFix& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSNavSatFix& Input);
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_COVARIANCE_TYPE_UNKNOWN()
+	{
+		return FROSNavSatFix::COVARIANCE_TYPE_UNKNOWN;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_COVARIANCE_TYPE_APPROXIMATED()
+	{
+		return FROSNavSatFix::COVARIANCE_TYPE_APPROXIMATED;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_COVARIANCE_TYPE_DIAGONAL_KNOWN()
+	{
+		return FROSNavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_COVARIANCE_TYPE_KNOWN()
+	{
+		return FROSNavSatFix::COVARIANCE_TYPE_KNOWN;
+	}
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSNavSatFix& Output) const;
-
-    virtual void* Get() override;
-
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_COVARIANCE_TYPE_UNKNOWN()
-    {
-        return FROSNavSatFix::COVARIANCE_TYPE_UNKNOWN;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_COVARIANCE_TYPE_APPROXIMATED()
-    {
-        return FROSNavSatFix::COVARIANCE_TYPE_APPROXIMATED;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_COVARIANCE_TYPE_DIAGONAL_KNOWN()
-    {
-        return FROSNavSatFix::COVARIANCE_TYPE_DIAGONAL_KNOWN;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_COVARIANCE_TYPE_KNOWN()
-    {
-        return FROSNavSatFix::COVARIANCE_TYPE_KNOWN;
-    }
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    sensor_msgs__msg__NavSatFix nav_sat_fix_msg;
+	sensor_msgs__msg__NavSatFix nav_sat_fix_msg;
 };

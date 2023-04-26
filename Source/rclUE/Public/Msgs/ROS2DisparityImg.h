@@ -18,103 +18,116 @@
 #include "Msgs/ROS2Img.h"
 #include "Msgs/ROS2RegionOfInterest.h"
 
+
 // Generated
 #include "ROS2DisparityImg.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSDisparityImg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSImg Image;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float F = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSImg Image;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float T = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float F = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSRegionOfInterest ValidWindow;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float T = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float MinDisparity = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSRegionOfInterest ValidWindow;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float MaxDisparity = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MinDisparity = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float DeltaD = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float MaxDisparity = 0.f;
 
-    FROSDisparityImg()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float DeltaD = 0.f;
 
-    void SetFromROS2(const stereo_msgs__msg__DisparityImage& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Image.SetFromROS2(in_ros_data.image);
+	FROSDisparityImg()
+	{
+		
+	}
 
-        F = in_ros_data.f;
+	void SetFromROS2(const stereo_msgs__msg__DisparityImage& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        T = in_ros_data.t;
+		Image.SetFromROS2(in_ros_data.image);
 
-        ValidWindow.SetFromROS2(in_ros_data.valid_window);
+		F = in_ros_data.f;
 
-        MinDisparity = in_ros_data.min_disparity;
+		T = in_ros_data.t;
 
-        MaxDisparity = in_ros_data.max_disparity;
+		ValidWindow.SetFromROS2(in_ros_data.valid_window);
 
-        DeltaD = in_ros_data.delta_d;
-    }
+		MinDisparity = in_ros_data.min_disparity;
 
-    void SetROS2(stereo_msgs__msg__DisparityImage& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		MaxDisparity = in_ros_data.max_disparity;
 
-        Image.SetROS2(out_ros_data.image);
+		DeltaD = in_ros_data.delta_d;
 
-        out_ros_data.f = F;
+		
+	}
 
-        out_ros_data.t = T;
+	void SetROS2(stereo_msgs__msg__DisparityImage& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
 
-        ValidWindow.SetROS2(out_ros_data.valid_window);
+		Image.SetROS2(out_ros_data.image);
 
-        out_ros_data.min_disparity = MinDisparity;
+		out_ros_data.f = F;
 
-        out_ros_data.max_disparity = MaxDisparity;
+		out_ros_data.t = T;
 
-        out_ros_data.delta_d = DeltaD;
-    }
+		ValidWindow.SetROS2(out_ros_data.valid_window);
+
+		out_ros_data.min_disparity = MinDisparity;
+
+		out_ros_data.max_disparity = MaxDisparity;
+
+		out_ros_data.delta_d = DeltaD;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2DisparityImgMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSDisparityImg& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSDisparityImg& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSDisparityImg& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSDisparityImg& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    stereo_msgs__msg__DisparityImage disparity_image_msg;
+	stereo_msgs__msg__DisparityImage disparity_image_msg;
 };

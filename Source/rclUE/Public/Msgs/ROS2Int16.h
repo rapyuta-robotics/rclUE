@@ -15,54 +15,67 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2Int16.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSInt16
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere)
-    int16 Data = 0;
+	
 
-    FROSInt16()
-    {
-    }
+	UPROPERTY(EditAnywhere)
+	int16 Data = 0;
 
-    void SetFromROS2(const example_interfaces__msg__Int16& in_ros_data)
-    {
-        Data = in_ros_data.data;
-    }
+	
 
-    void SetROS2(example_interfaces__msg__Int16& out_ros_data) const
-    {
-        out_ros_data.data = Data;
-    }
+	FROSInt16()
+	{
+		
+	}
+
+	void SetFromROS2(const example_interfaces__msg__Int16& in_ros_data)
+	{
+    	Data = in_ros_data.data;
+
+		
+	}
+
+	void SetROS2(example_interfaces__msg__Int16& out_ros_data) const
+	{
+    	out_ros_data.data = Data;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2Int16Msg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSInt16& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSInt16& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSInt16& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSInt16& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    example_interfaces__msg__Int16 int16_msg;
+	example_interfaces__msg__Int16 int16_msg;
 };

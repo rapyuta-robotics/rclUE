@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2VerticesMsg::Init()
 {
-    pcl_msgs__msg__Vertices__init(&vertices_msg);
+	pcl_msgs__msg__Vertices__init(&vertices_msg);
 }
 
 void UROS2VerticesMsg::Fini()
 {
-    pcl_msgs__msg__Vertices__fini(&vertices_msg);
+	pcl_msgs__msg__Vertices__fini(&vertices_msg);
 }
 
 const rosidl_message_type_support_t* UROS2VerticesMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(pcl_msgs, msg, Vertices);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(pcl_msgs, msg, Vertices);
 }
 
 void UROS2VerticesMsg::SetMsg(const FROSVertices& Inputs)
@@ -32,12 +34,12 @@ void UROS2VerticesMsg::GetMsg(FROSVertices& Outputs) const
 
 void* UROS2VerticesMsg::Get()
 {
-    return &vertices_msg;
+	return &vertices_msg;
 }
 
 FString UROS2VerticesMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2LaserEchoMsg::Init()
 {
-    sensor_msgs__msg__LaserEcho__init(&laser_echo_msg);
+	sensor_msgs__msg__LaserEcho__init(&laser_echo_msg);
 }
 
 void UROS2LaserEchoMsg::Fini()
 {
-    sensor_msgs__msg__LaserEcho__fini(&laser_echo_msg);
+	sensor_msgs__msg__LaserEcho__fini(&laser_echo_msg);
 }
 
 const rosidl_message_type_support_t* UROS2LaserEchoMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, LaserEcho);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, LaserEcho);
 }
 
 void UROS2LaserEchoMsg::SetMsg(const FROSLaserEcho& Inputs)
@@ -32,12 +34,12 @@ void UROS2LaserEchoMsg::GetMsg(FROSLaserEcho& Outputs) const
 
 void* UROS2LaserEchoMsg::Get()
 {
-    return &laser_echo_msg;
+	return &laser_echo_msg;
 }
 
 FString UROS2LaserEchoMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

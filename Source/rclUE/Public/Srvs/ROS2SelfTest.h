@@ -18,6 +18,7 @@
 #include "Msgs/ROS2DiagnosticStatus.h"
 #include "diagnostic_msgs/msg/detail/diagnostic_status__functions.h"
 
+
 // Generated
 #include "ROS2SelfTest.generated.h"
 
@@ -25,107 +26,120 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSSelfTestReq
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    FROSSelfTestReq()
-    {
-    }
+	
 
-    void SetFromROS2(const diagnostic_msgs__srv__SelfTest_Request& in_ros_data)
-    {
-    }
+	
 
-    void SetROS2(diagnostic_msgs__srv__SelfTest_Request& out_ros_data) const
-    {
-    }
+	FROSSelfTestReq()
+	{
+		
+	}
+
+	void SetFromROS2(const diagnostic_msgs__srv__SelfTest_Request& in_ros_data)
+	{
+    	
+	}
+
+	void SetROS2(diagnostic_msgs__srv__SelfTest_Request& out_ros_data) const
+	{
+    	
+	}
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSSelfTestRes
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Id;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 Passed = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Id;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSDiagnosticStatus> Status;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 Passed = 0;
 
-    FROSSelfTestRes()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSDiagnosticStatus> Status;
 
-    void SetFromROS2(const diagnostic_msgs__srv__SelfTest_Response& in_ros_data)
-    {
-        Id = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.id);
+	
 
-        Passed = in_ros_data.passed;
+	FROSSelfTestRes()
+	{
+		
+	}
 
-        UROS2Utils::SequenceROSToUEArray<diagnostic_msgs__msg__DiagnosticStatus, FROSDiagnosticStatus>(
-            in_ros_data.status.data, Status, in_ros_data.status.size);
-    }
+	void SetFromROS2(const diagnostic_msgs__srv__SelfTest_Response& in_ros_data)
+	{
+    	Id = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.id);
 
-    void SetROS2(diagnostic_msgs__srv__SelfTest_Response& out_ros_data) const
-    {
-        UROS2Utils::StringUEToROS(Id, out_ros_data.id);
+		Passed = in_ros_data.passed;
 
-        out_ros_data.passed = Passed;
+		UROS2Utils::SequenceROSToUEArray<diagnostic_msgs__msg__DiagnosticStatus, FROSDiagnosticStatus>(in_ros_data.status.data, Status, in_ros_data.status.size);
 
-        if (out_ros_data.status.data)
-        {
-            diagnostic_msgs__msg__DiagnosticStatus__Sequence__fini(&out_ros_data.status);
-        }
-        if (!diagnostic_msgs__msg__DiagnosticStatus__Sequence__init(&out_ros_data.status, Status.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.status  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<diagnostic_msgs__msg__DiagnosticStatus, FROSDiagnosticStatus>(
-            Status, out_ros_data.status.data, Status.Num());
-    }
+		
+	}
+
+	void SetROS2(diagnostic_msgs__srv__SelfTest_Response& out_ros_data) const
+	{
+    	UROS2Utils::StringUEToROS(Id, out_ros_data.id);
+
+		out_ros_data.passed = Passed;
+
+		if (out_ros_data.status.data) {
+		diagnostic_msgs__msg__DiagnosticStatus__Sequence__fini(&out_ros_data.status);
+		}
+		if (!diagnostic_msgs__msg__DiagnosticStatus__Sequence__init(&out_ros_data.status, Status.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.status  "));}
+		UROS2Utils::ArrayUEToROSSequence<diagnostic_msgs__msg__DiagnosticStatus, FROSDiagnosticStatus>(Status, out_ros_data.status.data, Status.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2SelfTestSrv : public UROS2GenericSrv
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable)
-    virtual void Init() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Init() override;
 
-    UFUNCTION(BlueprintCallable)
-    virtual void Fini() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Fini() override;
 
-    virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void SetRequest(const FROSSelfTestReq& Request);
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void GetRequest(FROSSelfTestReq& Request) const;
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void SetResponse(const FROSSelfTestRes& Response);
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void GetResponse(FROSSelfTestRes& Response) const;
+	
+	virtual void* GetRequest() override;
+	virtual void* GetResponse() override;
 
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void SetRequest(const FROSSelfTestReq& Request);
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void GetRequest(FROSSelfTestReq& Request) const;
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void SetResponse(const FROSSelfTestRes& Response);
-
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void GetResponse(FROSSelfTestRes& Response) const;
-
-    virtual void* GetRequest() override;
-    virtual void* GetResponse() override;
+	
+	
 
 private:
-    virtual FString SrvRequestToString() const override;
-    virtual FString SrvResponseToString() const override;
+	virtual FString SrvRequestToString() const override;
+	virtual FString SrvResponseToString() const override;
 
-    diagnostic_msgs__srv__SelfTest_Request SelfTest_req;
-    diagnostic_msgs__srv__SelfTest_Response SelfTest_res;
+	diagnostic_msgs__srv__SelfTest_Request SelfTest_req;
+	diagnostic_msgs__srv__SelfTest_Response SelfTest_res;
 };

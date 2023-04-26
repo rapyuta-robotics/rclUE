@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2SolidPrimitiveMsg::Init()
 {
-    shape_msgs__msg__SolidPrimitive__init(&solid_primitive_msg);
+	shape_msgs__msg__SolidPrimitive__init(&solid_primitive_msg);
 }
 
 void UROS2SolidPrimitiveMsg::Fini()
 {
-    shape_msgs__msg__SolidPrimitive__fini(&solid_primitive_msg);
+	shape_msgs__msg__SolidPrimitive__fini(&solid_primitive_msg);
 }
 
 const rosidl_message_type_support_t* UROS2SolidPrimitiveMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(shape_msgs, msg, SolidPrimitive);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(shape_msgs, msg, SolidPrimitive);
 }
 
 void UROS2SolidPrimitiveMsg::SetMsg(const FROSSolidPrimitive& Inputs)
@@ -32,12 +34,12 @@ void UROS2SolidPrimitiveMsg::GetMsg(FROSSolidPrimitive& Outputs) const
 
 void* UROS2SolidPrimitiveMsg::Get()
 {
-    return &solid_primitive_msg;
+	return &solid_primitive_msg;
 }
 
 FString UROS2SolidPrimitiveMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

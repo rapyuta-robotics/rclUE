@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2MeshTriangleMsg::Init()
 {
-    shape_msgs__msg__MeshTriangle__init(&mesh_triangle_msg);
+	shape_msgs__msg__MeshTriangle__init(&mesh_triangle_msg);
 }
 
 void UROS2MeshTriangleMsg::Fini()
 {
-    shape_msgs__msg__MeshTriangle__fini(&mesh_triangle_msg);
+	shape_msgs__msg__MeshTriangle__fini(&mesh_triangle_msg);
 }
 
 const rosidl_message_type_support_t* UROS2MeshTriangleMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(shape_msgs, msg, MeshTriangle);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(shape_msgs, msg, MeshTriangle);
 }
 
 void UROS2MeshTriangleMsg::SetMsg(const FROSMeshTriangle& Inputs)
@@ -32,12 +34,12 @@ void UROS2MeshTriangleMsg::GetMsg(FROSMeshTriangle& Outputs) const
 
 void* UROS2MeshTriangleMsg::Get()
 {
-    return &mesh_triangle_msg;
+	return &mesh_triangle_msg;
 }
 
 FString UROS2MeshTriangleMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2UVCoordinateMsg::Init()
 {
-    visualization_msgs__msg__UVCoordinate__init(&uv_coordinate_msg);
+	visualization_msgs__msg__UVCoordinate__init(&uv_coordinate_msg);
 }
 
 void UROS2UVCoordinateMsg::Fini()
 {
-    visualization_msgs__msg__UVCoordinate__fini(&uv_coordinate_msg);
+	visualization_msgs__msg__UVCoordinate__fini(&uv_coordinate_msg);
 }
 
 const rosidl_message_type_support_t* UROS2UVCoordinateMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(visualization_msgs, msg, UVCoordinate);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(visualization_msgs, msg, UVCoordinate);
 }
 
 void UROS2UVCoordinateMsg::SetMsg(const FROSUVCoordinate& Inputs)
@@ -32,12 +34,12 @@ void UROS2UVCoordinateMsg::GetMsg(FROSUVCoordinate& Outputs) const
 
 void* UROS2UVCoordinateMsg::Get()
 {
-    return &uv_coordinate_msg;
+	return &uv_coordinate_msg;
 }
 
 FString UROS2UVCoordinateMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2PointMsg::Init()
 {
-    geometry_msgs__msg__Point__init(&point_msg);
+	geometry_msgs__msg__Point__init(&point_msg);
 }
 
 void UROS2PointMsg::Fini()
 {
-    geometry_msgs__msg__Point__fini(&point_msg);
+	geometry_msgs__msg__Point__fini(&point_msg);
 }
 
 const rosidl_message_type_support_t* UROS2PointMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Point);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, Point);
 }
 
 void UROS2PointMsg::SetMsg(const FROSPoint& Inputs)
@@ -32,12 +34,12 @@ void UROS2PointMsg::GetMsg(FROSPoint& Outputs) const
 
 void* UROS2PointMsg::Get()
 {
-    return &point_msg;
+	return &point_msg;
 }
 
 FString UROS2PointMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

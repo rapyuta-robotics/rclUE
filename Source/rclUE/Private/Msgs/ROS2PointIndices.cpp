@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2PointIndicesMsg::Init()
 {
-    pcl_msgs__msg__PointIndices__init(&point_indices_msg);
+	pcl_msgs__msg__PointIndices__init(&point_indices_msg);
 }
 
 void UROS2PointIndicesMsg::Fini()
 {
-    pcl_msgs__msg__PointIndices__fini(&point_indices_msg);
+	pcl_msgs__msg__PointIndices__fini(&point_indices_msg);
 }
 
 const rosidl_message_type_support_t* UROS2PointIndicesMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(pcl_msgs, msg, PointIndices);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(pcl_msgs, msg, PointIndices);
 }
 
 void UROS2PointIndicesMsg::SetMsg(const FROSPointIndices& Inputs)
@@ -32,12 +34,12 @@ void UROS2PointIndicesMsg::GetMsg(FROSPointIndices& Outputs) const
 
 void* UROS2PointIndicesMsg::Get()
 {
-    return &point_indices_msg;
+	return &point_indices_msg;
 }
 
 FString UROS2PointIndicesMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

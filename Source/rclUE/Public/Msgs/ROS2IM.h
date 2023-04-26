@@ -15,11 +15,12 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Header.h"
-#include "Msgs/ROS2IMCtrl.h"
-#include "Msgs/ROS2MenuEntry.h"
 #include "Msgs/ROS2Pose.h"
-#include "visualization_msgs/msg/detail/interactive_marker_control__functions.h"
+#include "Msgs/ROS2MenuEntry.h"
 #include "visualization_msgs/msg/detail/menu_entry__functions.h"
+#include "Msgs/ROS2IMCtrl.h"
+#include "visualization_msgs/msg/detail/interactive_marker_control__functions.h"
+
 
 // Generated
 #include "ROS2IM.generated.h"
@@ -27,110 +28,110 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSIM
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSPose Pose;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Name;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSPose Pose;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Description;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float Scale = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Description;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSMenuEntry> MenuEntries;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Scale = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSIMCtrl> Controls;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSMenuEntry> MenuEntries;
 
-    FROSIM()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSIMCtrl> Controls;
 
-    void SetFromROS2(const visualization_msgs__msg__InteractiveMarker& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Pose.SetFromROS2(in_ros_data.pose);
+	FROSIM()
+	{
+		
+	}
 
-        Name = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
+	void SetFromROS2(const visualization_msgs__msg__InteractiveMarker& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Description = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.description);
+		Pose.SetFromROS2(in_ros_data.pose);
 
-        Scale = in_ros_data.scale;
+		Name = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
-        UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__MenuEntry, FROSMenuEntry>(
-            in_ros_data.menu_entries.data, MenuEntries, in_ros_data.menu_entries.size);
+		Description = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.description);
 
-        UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarkerControl, FROSIMCtrl>(
-            in_ros_data.controls.data, Controls, in_ros_data.controls.size);
-    }
+		Scale = in_ros_data.scale;
 
-    void SetROS2(visualization_msgs__msg__InteractiveMarker& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__MenuEntry, FROSMenuEntry>(in_ros_data.menu_entries.data, MenuEntries, in_ros_data.menu_entries.size);
 
-        Pose.SetROS2(out_ros_data.pose);
+		UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarkerControl, FROSIMCtrl>(in_ros_data.controls.data, Controls, in_ros_data.controls.size);
 
-        UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+		
+	}
 
-        UROS2Utils::StringUEToROS(Description, out_ros_data.description);
+	void SetROS2(visualization_msgs__msg__InteractiveMarker& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
 
-        out_ros_data.scale = Scale;
+		Pose.SetROS2(out_ros_data.pose);
 
-        if (out_ros_data.menu_entries.data)
-        {
-            visualization_msgs__msg__MenuEntry__Sequence__fini(&out_ros_data.menu_entries);
-        }
-        if (!visualization_msgs__msg__MenuEntry__Sequence__init(&out_ros_data.menu_entries, MenuEntries.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.menu_entries  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__MenuEntry, FROSMenuEntry>(
-            MenuEntries, out_ros_data.menu_entries.data, MenuEntries.Num());
+		UROS2Utils::StringUEToROS(Name, out_ros_data.name);
 
-        if (out_ros_data.controls.data)
-        {
-            visualization_msgs__msg__InteractiveMarkerControl__Sequence__fini(&out_ros_data.controls);
-        }
-        if (!visualization_msgs__msg__InteractiveMarkerControl__Sequence__init(&out_ros_data.controls, Controls.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.controls  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarkerControl, FROSIMCtrl>(
-            Controls, out_ros_data.controls.data, Controls.Num());
-    }
+		UROS2Utils::StringUEToROS(Description, out_ros_data.description);
+
+		out_ros_data.scale = Scale;
+
+		if (out_ros_data.menu_entries.data) {
+		visualization_msgs__msg__MenuEntry__Sequence__fini(&out_ros_data.menu_entries);
+		}
+		if (!visualization_msgs__msg__MenuEntry__Sequence__init(&out_ros_data.menu_entries, MenuEntries.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.menu_entries  "));}
+		UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__MenuEntry, FROSMenuEntry>(MenuEntries, out_ros_data.menu_entries.data, MenuEntries.Num());
+
+		if (out_ros_data.controls.data) {
+		visualization_msgs__msg__InteractiveMarkerControl__Sequence__fini(&out_ros_data.controls);
+		}
+		if (!visualization_msgs__msg__InteractiveMarkerControl__Sequence__init(&out_ros_data.controls, Controls.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.controls  "));}
+		UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarkerControl, FROSIMCtrl>(Controls, out_ros_data.controls.data, Controls.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2IMMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSIM& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSIM& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSIM& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSIM& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    visualization_msgs__msg__InteractiveMarker interactive_marker_msg;
+	visualization_msgs__msg__InteractiveMarker interactive_marker_msg;
 };

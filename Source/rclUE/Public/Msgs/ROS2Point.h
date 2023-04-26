@@ -15,68 +15,81 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2Point.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSPoint
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere)
-    double X = 0.f;
+	
 
-    UPROPERTY(EditAnywhere)
-    double Y = 0.f;
+	UPROPERTY(EditAnywhere)
+	double X = 0.f;
 
-    UPROPERTY(EditAnywhere)
-    double Z = 0.f;
+	UPROPERTY(EditAnywhere)
+	double Y = 0.f;
 
-    FROSPoint()
-    {
-    }
+	UPROPERTY(EditAnywhere)
+	double Z = 0.f;
 
-    void SetFromROS2(const geometry_msgs__msg__Point& in_ros_data)
-    {
-        X = in_ros_data.x;
+	
 
-        Y = in_ros_data.y;
+	FROSPoint()
+	{
+		
+	}
 
-        Z = in_ros_data.z;
-    }
+	void SetFromROS2(const geometry_msgs__msg__Point& in_ros_data)
+	{
+    	X = in_ros_data.x;
 
-    void SetROS2(geometry_msgs__msg__Point& out_ros_data) const
-    {
-        out_ros_data.x = X;
+		Y = in_ros_data.y;
 
-        out_ros_data.y = Y;
+		Z = in_ros_data.z;
 
-        out_ros_data.z = Z;
-    }
+		
+	}
+
+	void SetROS2(geometry_msgs__msg__Point& out_ros_data) const
+	{
+    	out_ros_data.x = X;
+
+		out_ros_data.y = Y;
+
+		out_ros_data.z = Z;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2PointMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSPoint& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSPoint& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSPoint& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSPoint& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    geometry_msgs__msg__Point point_msg;
+	geometry_msgs__msg__Point point_msg;
 };

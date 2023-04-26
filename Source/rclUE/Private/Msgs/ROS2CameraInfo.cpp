@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2CameraInfoMsg::Init()
 {
-    sensor_msgs__msg__CameraInfo__init(&camera_info_msg);
+	sensor_msgs__msg__CameraInfo__init(&camera_info_msg);
 }
 
 void UROS2CameraInfoMsg::Fini()
 {
-    sensor_msgs__msg__CameraInfo__fini(&camera_info_msg);
+	sensor_msgs__msg__CameraInfo__fini(&camera_info_msg);
 }
 
 const rosidl_message_type_support_t* UROS2CameraInfoMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, CameraInfo);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, CameraInfo);
 }
 
 void UROS2CameraInfoMsg::SetMsg(const FROSCameraInfo& Inputs)
@@ -32,12 +34,12 @@ void UROS2CameraInfoMsg::GetMsg(FROSCameraInfo& Outputs) const
 
 void* UROS2CameraInfoMsg::Get()
 {
-    return &camera_info_msg;
+	return &camera_info_msg;
 }
 
 FString UROS2CameraInfoMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

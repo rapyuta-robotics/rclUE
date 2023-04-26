@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2BoolMsg::Init()
 {
-    example_interfaces__msg__Bool__init(&bool_msg);
+	example_interfaces__msg__Bool__init(&bool_msg);
 }
 
 void UROS2BoolMsg::Fini()
 {
-    example_interfaces__msg__Bool__fini(&bool_msg);
+	example_interfaces__msg__Bool__fini(&bool_msg);
 }
 
 const rosidl_message_type_support_t* UROS2BoolMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, Bool);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, Bool);
 }
 
 void UROS2BoolMsg::SetMsg(const FROSBool& Inputs)
@@ -32,12 +34,12 @@ void UROS2BoolMsg::GetMsg(FROSBool& Outputs) const
 
 void* UROS2BoolMsg::Get()
 {
-    return &bool_msg;
+	return &bool_msg;
 }
 
 FString UROS2BoolMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

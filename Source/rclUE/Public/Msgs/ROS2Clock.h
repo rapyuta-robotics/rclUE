@@ -16,54 +16,67 @@
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Time.h"
 
+
 // Generated
 #include "ROS2Clock.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSClock
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSTime Clock;
+	
 
-    FROSClock()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSTime Clock;
 
-    void SetFromROS2(const rosgraph_msgs__msg__Clock& in_ros_data)
-    {
-        Clock.SetFromROS2(in_ros_data.clock);
-    }
+	
 
-    void SetROS2(rosgraph_msgs__msg__Clock& out_ros_data) const
-    {
-        Clock.SetROS2(out_ros_data.clock);
-    }
+	FROSClock()
+	{
+		
+	}
+
+	void SetFromROS2(const rosgraph_msgs__msg__Clock& in_ros_data)
+	{
+    	Clock.SetFromROS2(in_ros_data.clock);
+
+		
+	}
+
+	void SetROS2(rosgraph_msgs__msg__Clock& out_ros_data) const
+	{
+    	Clock.SetROS2(out_ros_data.clock);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2ClockMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSClock& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSClock& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSClock& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSClock& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    rosgraph_msgs__msg__Clock clock_msg;
+	rosgraph_msgs__msg__Clock clock_msg;
 };

@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2MALayoutMsg::Init()
 {
-    example_interfaces__msg__MultiArrayLayout__init(&multi_array_layout_msg);
+	example_interfaces__msg__MultiArrayLayout__init(&multi_array_layout_msg);
 }
 
 void UROS2MALayoutMsg::Fini()
 {
-    example_interfaces__msg__MultiArrayLayout__fini(&multi_array_layout_msg);
+	example_interfaces__msg__MultiArrayLayout__fini(&multi_array_layout_msg);
 }
 
 const rosidl_message_type_support_t* UROS2MALayoutMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, MultiArrayLayout);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, MultiArrayLayout);
 }
 
 void UROS2MALayoutMsg::SetMsg(const FROSMALayout& Inputs)
@@ -32,12 +34,12 @@ void UROS2MALayoutMsg::GetMsg(FROSMALayout& Outputs) const
 
 void* UROS2MALayoutMsg::Get()
 {
-    return &multi_array_layout_msg;
+	return &multi_array_layout_msg;
 }
 
 FString UROS2MALayoutMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

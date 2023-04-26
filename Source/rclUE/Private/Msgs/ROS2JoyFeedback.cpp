@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2JoyFeedbackMsg::Init()
 {
-    sensor_msgs__msg__JoyFeedback__init(&joy_feedback_msg);
+	sensor_msgs__msg__JoyFeedback__init(&joy_feedback_msg);
 }
 
 void UROS2JoyFeedbackMsg::Fini()
 {
-    sensor_msgs__msg__JoyFeedback__fini(&joy_feedback_msg);
+	sensor_msgs__msg__JoyFeedback__fini(&joy_feedback_msg);
 }
 
 const rosidl_message_type_support_t* UROS2JoyFeedbackMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, JoyFeedback);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, JoyFeedback);
 }
 
 void UROS2JoyFeedbackMsg::SetMsg(const FROSJoyFeedback& Inputs)
@@ -32,12 +34,12 @@ void UROS2JoyFeedbackMsg::GetMsg(FROSJoyFeedback& Outputs) const
 
 void* UROS2JoyFeedbackMsg::Get()
 {
-    return &joy_feedback_msg;
+	return &joy_feedback_msg;
 }
 
 FString UROS2JoyFeedbackMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

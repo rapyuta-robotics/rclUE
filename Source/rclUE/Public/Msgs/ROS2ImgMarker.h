@@ -14,11 +14,14 @@
 #include "rclcUtilities.h"
 
 // Generated Msg/Srv/Action(can be empty)
+#include "Msgs/ROS2Header.h"
+#include "Msgs/ROS2ColorRGBA.h"
 #include "Msgs/ROS2ColorRGBA.h"
 #include "Msgs/ROS2Duration.h"
-#include "Msgs/ROS2Header.h"
 #include "geometry_msgs/msg/detail/point__functions.h"
+#include "Msgs/ROS2ColorRGBA.h"
 #include "std_msgs/msg/detail/color_rgba__functions.h"
+
 
 // Generated
 #include "ROS2ImgMarker.generated.h"
@@ -26,194 +29,194 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSImgMarker
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    static constexpr int CIRCLE = 0;
-    static constexpr int LINE_STRIP = 1;
-    static constexpr int LINE_LIST = 2;
-    static constexpr int POLYGON = 3;
-    static constexpr int POINTS = 4;
-    static constexpr int ADD = 0;
-    static constexpr int REMOVE = 1;
+		static constexpr int CIRCLE = 0;
+	static constexpr int LINE_STRIP = 1;
+	static constexpr int LINE_LIST = 2;
+	static constexpr int POLYGON = 3;
+	static constexpr int POINTS = 4;
+	static constexpr int ADD = 0;
+	static constexpr int REMOVE = 1;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Ns;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int Id = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Ns;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int Type = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Id = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int Action = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Type = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FVector Position = FVector::ZeroVector;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Action = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float Scale = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector Position = FVector::ZeroVector;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSColorRGBA OutlineColor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Scale = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 Filled = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSColorRGBA OutlineColor;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSColorRGBA FillColor;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 Filled = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSDuration Lifetime;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSColorRGBA FillColor;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FVector> Points;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSDuration Lifetime;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSColorRGBA> OutlineColors;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FVector> Points;
 
-    FROSImgMarker()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSColorRGBA> OutlineColors;
 
-    void SetFromROS2(const visualization_msgs__msg__ImageMarker& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Ns = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.ns);
+	FROSImgMarker()
+	{
+		
+	}
 
-        Id = in_ros_data.id;
+	void SetFromROS2(const visualization_msgs__msg__ImageMarker& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Type = in_ros_data.type;
+		Ns = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.ns);
 
-        Action = in_ros_data.action;
+		Id = in_ros_data.id;
 
-        Position = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Point>(in_ros_data.position);
+		Type = in_ros_data.type;
 
-        Scale = in_ros_data.scale;
+		Action = in_ros_data.action;
 
-        OutlineColor.SetFromROS2(in_ros_data.outline_color);
+		Position = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Point>(in_ros_data.position);
 
-        Filled = in_ros_data.filled;
+		Scale = in_ros_data.scale;
 
-        FillColor.SetFromROS2(in_ros_data.fill_color);
+		OutlineColor.SetFromROS2(in_ros_data.outline_color);
 
-        Lifetime.SetFromROS2(in_ros_data.lifetime);
+		Filled = in_ros_data.filled;
 
-        UROS2Utils::VectorSequenceROSToUEArray<geometry_msgs__msg__Point>(in_ros_data.points.data, Points, in_ros_data.points.size);
+		FillColor.SetFromROS2(in_ros_data.fill_color);
 
-        UROS2Utils::SequenceROSToUEArray<std_msgs__msg__ColorRGBA, FROSColorRGBA>(
-            in_ros_data.outline_colors.data, OutlineColors, in_ros_data.outline_colors.size);
-    }
+		Lifetime.SetFromROS2(in_ros_data.lifetime);
 
-    void SetROS2(visualization_msgs__msg__ImageMarker& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		UROS2Utils::VectorSequenceROSToUEArray<geometry_msgs__msg__Point>(in_ros_data.points.data, Points, in_ros_data.points.size);
 
-        UROS2Utils::StringUEToROS(Ns, out_ros_data.ns);
+		UROS2Utils::SequenceROSToUEArray<std_msgs__msg__ColorRGBA, FROSColorRGBA>(in_ros_data.outline_colors.data, OutlineColors, in_ros_data.outline_colors.size);
 
-        out_ros_data.id = Id;
+		
+	}
 
-        out_ros_data.type = Type;
+	void SetROS2(visualization_msgs__msg__ImageMarker& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
 
-        out_ros_data.action = Action;
+		UROS2Utils::StringUEToROS(Ns, out_ros_data.ns);
 
-        out_ros_data.position = UROS2Utils::VectorUEToROS<geometry_msgs__msg__Point>(Position);
+		out_ros_data.id = Id;
 
-        out_ros_data.scale = Scale;
+		out_ros_data.type = Type;
 
-        OutlineColor.SetROS2(out_ros_data.outline_color);
+		out_ros_data.action = Action;
 
-        out_ros_data.filled = Filled;
+		out_ros_data.position = UROS2Utils::VectorUEToROS<geometry_msgs__msg__Point>(Position);
 
-        FillColor.SetROS2(out_ros_data.fill_color);
+		out_ros_data.scale = Scale;
 
-        Lifetime.SetROS2(out_ros_data.lifetime);
+		OutlineColor.SetROS2(out_ros_data.outline_color);
 
-        if (out_ros_data.points.data)
-        {
-            geometry_msgs__msg__Point__Sequence__fini(&out_ros_data.points);
-        }
-        if (!geometry_msgs__msg__Point__Sequence__init(&out_ros_data.points, Points.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.points  "));
-        }
-        UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(Points, out_ros_data.points.data, Points.Num());
+		out_ros_data.filled = Filled;
 
-        if (out_ros_data.outline_colors.data)
-        {
-            std_msgs__msg__ColorRGBA__Sequence__fini(&out_ros_data.outline_colors);
-        }
-        if (!std_msgs__msg__ColorRGBA__Sequence__init(&out_ros_data.outline_colors, OutlineColors.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.outline_colors  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<std_msgs__msg__ColorRGBA, FROSColorRGBA>(
-            OutlineColors, out_ros_data.outline_colors.data, OutlineColors.Num());
-    }
+		FillColor.SetROS2(out_ros_data.fill_color);
+
+		Lifetime.SetROS2(out_ros_data.lifetime);
+
+		if (out_ros_data.points.data) {
+		geometry_msgs__msg__Point__Sequence__fini(&out_ros_data.points);
+		}
+		if (!geometry_msgs__msg__Point__Sequence__init(&out_ros_data.points, Points.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.points  "));}
+		UROS2Utils::VectorArrayUEToROSSequence<geometry_msgs__msg__Point>(Points, out_ros_data.points.data, Points.Num());
+
+		if (out_ros_data.outline_colors.data) {
+		std_msgs__msg__ColorRGBA__Sequence__fini(&out_ros_data.outline_colors);
+		}
+		if (!std_msgs__msg__ColorRGBA__Sequence__init(&out_ros_data.outline_colors, OutlineColors.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.outline_colors  "));}
+		UROS2Utils::ArrayUEToROSSequence<std_msgs__msg__ColorRGBA, FROSColorRGBA>(OutlineColors, out_ros_data.outline_colors.data, OutlineColors.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2ImgMarkerMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSImgMarker& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSImgMarker& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSImgMarker& Input);
+	UFUNCTION(BlueprintCallable)
+	static int CONST_CIRCLE()
+	{
+		return FROSImgMarker::CIRCLE;
+	}
+	UFUNCTION(BlueprintCallable)
+	static int CONST_LINE_STRIP()
+	{
+		return FROSImgMarker::LINE_STRIP;
+	}
+	UFUNCTION(BlueprintCallable)
+	static int CONST_LINE_LIST()
+	{
+		return FROSImgMarker::LINE_LIST;
+	}
+	UFUNCTION(BlueprintCallable)
+	static int CONST_POLYGON()
+	{
+		return FROSImgMarker::POLYGON;
+	}
+	UFUNCTION(BlueprintCallable)
+	static int CONST_POINTS()
+	{
+		return FROSImgMarker::POINTS;
+	}
+	UFUNCTION(BlueprintCallable)
+	static int CONST_ADD()
+	{
+		return FROSImgMarker::ADD;
+	}
+	UFUNCTION(BlueprintCallable)
+	static int CONST_REMOVE()
+	{
+		return FROSImgMarker::REMOVE;
+	}
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSImgMarker& Output) const;
-
-    virtual void* Get() override;
-
-    UFUNCTION(BlueprintCallable)
-    static int CONST_CIRCLE()
-    {
-        return FROSImgMarker::CIRCLE;
-    }
-    UFUNCTION(BlueprintCallable)
-    static int CONST_LINE_STRIP()
-    {
-        return FROSImgMarker::LINE_STRIP;
-    }
-    UFUNCTION(BlueprintCallable)
-    static int CONST_LINE_LIST()
-    {
-        return FROSImgMarker::LINE_LIST;
-    }
-    UFUNCTION(BlueprintCallable)
-    static int CONST_POLYGON()
-    {
-        return FROSImgMarker::POLYGON;
-    }
-    UFUNCTION(BlueprintCallable)
-    static int CONST_POINTS()
-    {
-        return FROSImgMarker::POINTS;
-    }
-    UFUNCTION(BlueprintCallable)
-    static int CONST_ADD()
-    {
-        return FROSImgMarker::ADD;
-    }
-    UFUNCTION(BlueprintCallable)
-    static int CONST_REMOVE()
-    {
-        return FROSImgMarker::REMOVE;
-    }
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    visualization_msgs__msg__ImageMarker image_marker_msg;
+	visualization_msgs__msg__ImageMarker image_marker_msg;
 };

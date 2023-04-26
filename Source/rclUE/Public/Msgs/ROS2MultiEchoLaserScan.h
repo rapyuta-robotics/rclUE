@@ -17,6 +17,9 @@
 #include "Msgs/ROS2Header.h"
 #include "Msgs/ROS2LaserEcho.h"
 #include "sensor_msgs/msg/detail/laser_echo__functions.h"
+#include "Msgs/ROS2LaserEcho.h"
+#include "sensor_msgs/msg/detail/laser_echo__functions.h"
+
 
 // Generated
 #include "ROS2MultiEchoLaserScan.generated.h"
@@ -24,131 +27,131 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSMultiEchoLaserScan
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float AngleMin = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float AngleMax = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float AngleMin = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float AngleIncrement = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float AngleMax = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float TimeIncrement = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float AngleIncrement = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float ScanTime = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float TimeIncrement = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float RangeMin = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float ScanTime = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float RangeMax = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float RangeMin = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSLaserEcho> Ranges;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float RangeMax = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSLaserEcho> Intensities;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSLaserEcho> Ranges;
 
-    FROSMultiEchoLaserScan()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSLaserEcho> Intensities;
 
-    void SetFromROS2(const sensor_msgs__msg__MultiEchoLaserScan& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        AngleMin = in_ros_data.angle_min;
+	FROSMultiEchoLaserScan()
+	{
+		
+	}
 
-        AngleMax = in_ros_data.angle_max;
+	void SetFromROS2(const sensor_msgs__msg__MultiEchoLaserScan& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        AngleIncrement = in_ros_data.angle_increment;
+		AngleMin = in_ros_data.angle_min;
 
-        TimeIncrement = in_ros_data.time_increment;
+		AngleMax = in_ros_data.angle_max;
 
-        ScanTime = in_ros_data.scan_time;
+		AngleIncrement = in_ros_data.angle_increment;
 
-        RangeMin = in_ros_data.range_min;
+		TimeIncrement = in_ros_data.time_increment;
 
-        RangeMax = in_ros_data.range_max;
+		ScanTime = in_ros_data.scan_time;
 
-        UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(
-            in_ros_data.ranges.data, Ranges, in_ros_data.ranges.size);
+		RangeMin = in_ros_data.range_min;
 
-        UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(
-            in_ros_data.intensities.data, Intensities, in_ros_data.intensities.size);
-    }
+		RangeMax = in_ros_data.range_max;
 
-    void SetROS2(sensor_msgs__msg__MultiEchoLaserScan& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(in_ros_data.ranges.data, Ranges, in_ros_data.ranges.size);
 
-        out_ros_data.angle_min = AngleMin;
+		UROS2Utils::SequenceROSToUEArray<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(in_ros_data.intensities.data, Intensities, in_ros_data.intensities.size);
 
-        out_ros_data.angle_max = AngleMax;
+		
+	}
 
-        out_ros_data.angle_increment = AngleIncrement;
+	void SetROS2(sensor_msgs__msg__MultiEchoLaserScan& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
 
-        out_ros_data.time_increment = TimeIncrement;
+		out_ros_data.angle_min = AngleMin;
 
-        out_ros_data.scan_time = ScanTime;
+		out_ros_data.angle_max = AngleMax;
 
-        out_ros_data.range_min = RangeMin;
+		out_ros_data.angle_increment = AngleIncrement;
 
-        out_ros_data.range_max = RangeMax;
+		out_ros_data.time_increment = TimeIncrement;
 
-        if (out_ros_data.ranges.data)
-        {
-            sensor_msgs__msg__LaserEcho__Sequence__fini(&out_ros_data.ranges);
-        }
-        if (!sensor_msgs__msg__LaserEcho__Sequence__init(&out_ros_data.ranges, Ranges.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.ranges  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(
-            Ranges, out_ros_data.ranges.data, Ranges.Num());
+		out_ros_data.scan_time = ScanTime;
 
-        if (out_ros_data.intensities.data)
-        {
-            sensor_msgs__msg__LaserEcho__Sequence__fini(&out_ros_data.intensities);
-        }
-        if (!sensor_msgs__msg__LaserEcho__Sequence__init(&out_ros_data.intensities, Intensities.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.intensities  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(
-            Intensities, out_ros_data.intensities.data, Intensities.Num());
-    }
+		out_ros_data.range_min = RangeMin;
+
+		out_ros_data.range_max = RangeMax;
+
+		if (out_ros_data.ranges.data) {
+		sensor_msgs__msg__LaserEcho__Sequence__fini(&out_ros_data.ranges);
+		}
+		if (!sensor_msgs__msg__LaserEcho__Sequence__init(&out_ros_data.ranges, Ranges.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.ranges  "));}
+		UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(Ranges, out_ros_data.ranges.data, Ranges.Num());
+
+		if (out_ros_data.intensities.data) {
+		sensor_msgs__msg__LaserEcho__Sequence__fini(&out_ros_data.intensities);
+		}
+		if (!sensor_msgs__msg__LaserEcho__Sequence__init(&out_ros_data.intensities, Intensities.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.intensities  "));}
+		UROS2Utils::ArrayUEToROSSequence<sensor_msgs__msg__LaserEcho, FROSLaserEcho>(Intensities, out_ros_data.intensities.data, Intensities.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2MultiEchoLaserScanMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSMultiEchoLaserScan& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSMultiEchoLaserScan& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSMultiEchoLaserScan& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSMultiEchoLaserScan& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    sensor_msgs__msg__MultiEchoLaserScan multi_echo_laser_scan_msg;
+	sensor_msgs__msg__MultiEchoLaserScan multi_echo_laser_scan_msg;
 };

@@ -3,6 +3,10 @@
 
 #include "Srvs/ROS2GetMap.h"
 
+
+
+
+
 const rosidl_service_type_support_t* UROS2GetMapSrv::GetTypeSupport() const
 {
     return ROSIDL_GET_SRV_TYPE_SUPPORT(nav_msgs, srv, GetMap);
@@ -53,13 +57,13 @@ void* UROS2GetMapSrv::GetResponse()
 FString UROS2GetMapSrv::SrvRequestToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
+	checkNoEntry();
     return FString();
 }
 
 FString UROS2GetMapSrv::SrvResponseToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
+	checkNoEntry();
     return FString();
 }

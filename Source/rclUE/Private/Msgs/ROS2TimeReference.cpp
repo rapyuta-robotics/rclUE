@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2TimeReferenceMsg::Init()
 {
-    sensor_msgs__msg__TimeReference__init(&time_reference_msg);
+	sensor_msgs__msg__TimeReference__init(&time_reference_msg);
 }
 
 void UROS2TimeReferenceMsg::Fini()
 {
-    sensor_msgs__msg__TimeReference__fini(&time_reference_msg);
+	sensor_msgs__msg__TimeReference__fini(&time_reference_msg);
 }
 
 const rosidl_message_type_support_t* UROS2TimeReferenceMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, TimeReference);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, TimeReference);
 }
 
 void UROS2TimeReferenceMsg::SetMsg(const FROSTimeReference& Inputs)
@@ -32,12 +34,12 @@ void UROS2TimeReferenceMsg::GetMsg(FROSTimeReference& Outputs) const
 
 void* UROS2TimeReferenceMsg::Get()
 {
-    return &time_reference_msg;
+	return &time_reference_msg;
 }
 
 FString UROS2TimeReferenceMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

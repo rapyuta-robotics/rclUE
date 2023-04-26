@@ -15,61 +15,74 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2Duration.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSDuration
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int Sec = 0;
+	
 
-    UPROPERTY(EditAnywhere)
-    unsigned int Nanosec = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Sec = 0;
 
-    FROSDuration()
-    {
-    }
+	UPROPERTY(EditAnywhere)
+	unsigned int Nanosec = 0;
 
-    void SetFromROS2(const builtin_interfaces__msg__Duration& in_ros_data)
-    {
-        Sec = in_ros_data.sec;
+	
 
-        Nanosec = in_ros_data.nanosec;
-    }
+	FROSDuration()
+	{
+		
+	}
 
-    void SetROS2(builtin_interfaces__msg__Duration& out_ros_data) const
-    {
-        out_ros_data.sec = Sec;
+	void SetFromROS2(const builtin_interfaces__msg__Duration& in_ros_data)
+	{
+    	Sec = in_ros_data.sec;
 
-        out_ros_data.nanosec = Nanosec;
-    }
+		Nanosec = in_ros_data.nanosec;
+
+		
+	}
+
+	void SetROS2(builtin_interfaces__msg__Duration& out_ros_data) const
+	{
+    	out_ros_data.sec = Sec;
+
+		out_ros_data.nanosec = Nanosec;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2DurationMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSDuration& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSDuration& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSDuration& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSDuration& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    builtin_interfaces__msg__Duration duration_msg;
+	builtin_interfaces__msg__Duration duration_msg;
 };

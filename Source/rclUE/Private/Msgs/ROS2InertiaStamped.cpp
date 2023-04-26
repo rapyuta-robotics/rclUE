@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2InertiaStampedMsg::Init()
 {
-    geometry_msgs__msg__InertiaStamped__init(&inertia_stamped_msg);
+	geometry_msgs__msg__InertiaStamped__init(&inertia_stamped_msg);
 }
 
 void UROS2InertiaStampedMsg::Fini()
 {
-    geometry_msgs__msg__InertiaStamped__fini(&inertia_stamped_msg);
+	geometry_msgs__msg__InertiaStamped__fini(&inertia_stamped_msg);
 }
 
 const rosidl_message_type_support_t* UROS2InertiaStampedMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, InertiaStamped);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, InertiaStamped);
 }
 
 void UROS2InertiaStampedMsg::SetMsg(const FROSInertiaStamped& Inputs)
@@ -32,12 +34,12 @@ void UROS2InertiaStampedMsg::GetMsg(FROSInertiaStamped& Outputs) const
 
 void* UROS2InertiaStampedMsg::Get()
 {
-    return &inertia_stamped_msg;
+	return &inertia_stamped_msg;
 }
 
 FString UROS2InertiaStampedMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

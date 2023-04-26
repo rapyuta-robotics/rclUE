@@ -3,6 +3,10 @@
 
 #include "Srvs/ROS2DeleteEntity.h"
 
+
+
+
+
 const rosidl_service_type_support_t* UROS2DeleteEntitySrv::GetTypeSupport() const
 {
     return ROSIDL_GET_SRV_TYPE_SUPPORT(ue_msgs, srv, DeleteEntity);
@@ -53,13 +57,13 @@ void* UROS2DeleteEntitySrv::GetResponse()
 FString UROS2DeleteEntitySrv::SrvRequestToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
+	checkNoEntry();
     return FString();
 }
 
 FString UROS2DeleteEntitySrv::SrvResponseToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
+	checkNoEntry();
     return FString();
 }

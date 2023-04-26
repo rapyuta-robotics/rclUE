@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2MultiDOFJointTrajMsg::Init()
 {
-    trajectory_msgs__msg__MultiDOFJointTrajectory__init(&multi_dof_joint_trajectory_msg);
+	trajectory_msgs__msg__MultiDOFJointTrajectory__init(&multi_dof_joint_trajectory_msg);
 }
 
 void UROS2MultiDOFJointTrajMsg::Fini()
 {
-    trajectory_msgs__msg__MultiDOFJointTrajectory__fini(&multi_dof_joint_trajectory_msg);
+	trajectory_msgs__msg__MultiDOFJointTrajectory__fini(&multi_dof_joint_trajectory_msg);
 }
 
 const rosidl_message_type_support_t* UROS2MultiDOFJointTrajMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(trajectory_msgs, msg, MultiDOFJointTrajectory);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(trajectory_msgs, msg, MultiDOFJointTrajectory);
 }
 
 void UROS2MultiDOFJointTrajMsg::SetMsg(const FROSMultiDOFJointTraj& Inputs)
@@ -32,12 +34,12 @@ void UROS2MultiDOFJointTrajMsg::GetMsg(FROSMultiDOFJointTraj& Outputs) const
 
 void* UROS2MultiDOFJointTrajMsg::Get()
 {
-    return &multi_dof_joint_trajectory_msg;
+	return &multi_dof_joint_trajectory_msg;
 }
 
 FString UROS2MultiDOFJointTrajMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

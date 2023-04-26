@@ -17,61 +17,74 @@
 #include "Msgs/ROS2Header.h"
 #include "Msgs/ROS2Wrench.h"
 
+
 // Generated
 #include "ROS2WrenchStamped.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSWrenchStamped
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSWrench Wrench;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    FROSWrenchStamped()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSWrench Wrench;
 
-    void SetFromROS2(const geometry_msgs__msg__WrenchStamped& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Wrench.SetFromROS2(in_ros_data.wrench);
-    }
+	FROSWrenchStamped()
+	{
+		
+	}
 
-    void SetROS2(geometry_msgs__msg__WrenchStamped& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+	void SetFromROS2(const geometry_msgs__msg__WrenchStamped& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Wrench.SetROS2(out_ros_data.wrench);
-    }
+		Wrench.SetFromROS2(in_ros_data.wrench);
+
+		
+	}
+
+	void SetROS2(geometry_msgs__msg__WrenchStamped& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
+
+		Wrench.SetROS2(out_ros_data.wrench);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2WrenchStampedMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSWrenchStamped& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSWrenchStamped& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSWrenchStamped& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSWrenchStamped& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    geometry_msgs__msg__WrenchStamped wrench_stamped_msg;
+	geometry_msgs__msg__WrenchStamped wrench_stamped_msg;
 };

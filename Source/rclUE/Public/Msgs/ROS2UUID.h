@@ -16,55 +16,69 @@
 // Generated Msg/Srv/Action(can be empty)
 #include "rosidl_runtime_c/primitives_sequence_functions.h"
 
+
 // Generated
 #include "ROS2UUID.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSUUID
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere)
-    TArray<uint8> Uuid;
+	
 
-    FROSUUID()
-    {
-        Uuid.SetNumZeroed(16);
-    }
+	UPROPERTY(EditAnywhere)
+	TArray<uint8> Uuid;
 
-    void SetFromROS2(const unique_identifier_msgs__msg__UUID& in_ros_data)
-    {
-        UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.uuid, Uuid, 16);
-    }
+	
 
-    void SetROS2(unique_identifier_msgs__msg__UUID& out_ros_data) const
-    {
-        UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Uuid, out_ros_data.uuid, 16);
-    }
+	FROSUUID()
+	{
+		Uuid.SetNumZeroed(16);
+
+		
+	}
+
+	void SetFromROS2(const unique_identifier_msgs__msg__UUID& in_ros_data)
+	{
+    	UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.uuid, Uuid, 16);
+
+		
+	}
+
+	void SetROS2(unique_identifier_msgs__msg__UUID& out_ros_data) const
+	{
+    	UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Uuid, out_ros_data.uuid, 16);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2UUIDMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSUUID& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSUUID& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSUUID& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSUUID& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    unique_identifier_msgs__msg__UUID uuid_msg;
+	unique_identifier_msgs__msg__UUID uuid_msg;
 };

@@ -17,64 +17,71 @@
 #include "Msgs/ROS2TFStamped.h"
 #include "geometry_msgs/msg/detail/transform_stamped__functions.h"
 
+
 // Generated
 #include "ROS2TFMsg.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSTFMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSTFStamped> Transforms;
+	
 
-    FROSTFMsg()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSTFStamped> Transforms;
 
-    void SetFromROS2(const tf2_msgs__msg__TFMessage& in_ros_data)
-    {
-        UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__TransformStamped, FROSTFStamped>(
-            in_ros_data.transforms.data, Transforms, in_ros_data.transforms.size);
-    }
+	
 
-    void SetROS2(tf2_msgs__msg__TFMessage& out_ros_data) const
-    {
-        if (out_ros_data.transforms.data)
-        {
-            geometry_msgs__msg__TransformStamped__Sequence__fini(&out_ros_data.transforms);
-        }
-        if (!geometry_msgs__msg__TransformStamped__Sequence__init(&out_ros_data.transforms, Transforms.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.transforms  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__TransformStamped, FROSTFStamped>(
-            Transforms, out_ros_data.transforms.data, Transforms.Num());
-    }
+	FROSTFMsg()
+	{
+		
+	}
+
+	void SetFromROS2(const tf2_msgs__msg__TFMessage& in_ros_data)
+	{
+    	UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__TransformStamped, FROSTFStamped>(in_ros_data.transforms.data, Transforms, in_ros_data.transforms.size);
+
+		
+	}
+
+	void SetROS2(tf2_msgs__msg__TFMessage& out_ros_data) const
+	{
+    	if (out_ros_data.transforms.data) {
+		geometry_msgs__msg__TransformStamped__Sequence__fini(&out_ros_data.transforms);
+		}
+		if (!geometry_msgs__msg__TransformStamped__Sequence__init(&out_ros_data.transforms, Transforms.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.transforms  "));}
+		UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__TransformStamped, FROSTFStamped>(Transforms, out_ros_data.transforms.data, Transforms.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2TFMsgMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSTFMsg& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSTFMsg& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSTFMsg& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSTFMsg& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    tf2_msgs__msg__TFMessage tf_message_msg;
+	tf2_msgs__msg__TFMessage tf_message_msg;
 };

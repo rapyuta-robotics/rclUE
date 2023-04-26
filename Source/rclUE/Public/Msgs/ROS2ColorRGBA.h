@@ -15,75 +15,88 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2ColorRGBA.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSColorRGBA
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float R = 0.f;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float G = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float R = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float B = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float G = 0.f;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float A = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float B = 0.f;
 
-    FROSColorRGBA()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float A = 0.f;
 
-    void SetFromROS2(const std_msgs__msg__ColorRGBA& in_ros_data)
-    {
-        R = in_ros_data.r;
+	
 
-        G = in_ros_data.g;
+	FROSColorRGBA()
+	{
+		
+	}
 
-        B = in_ros_data.b;
+	void SetFromROS2(const std_msgs__msg__ColorRGBA& in_ros_data)
+	{
+    	R = in_ros_data.r;
 
-        A = in_ros_data.a;
-    }
+		G = in_ros_data.g;
 
-    void SetROS2(std_msgs__msg__ColorRGBA& out_ros_data) const
-    {
-        out_ros_data.r = R;
+		B = in_ros_data.b;
 
-        out_ros_data.g = G;
+		A = in_ros_data.a;
 
-        out_ros_data.b = B;
+		
+	}
 
-        out_ros_data.a = A;
-    }
+	void SetROS2(std_msgs__msg__ColorRGBA& out_ros_data) const
+	{
+    	out_ros_data.r = R;
+
+		out_ros_data.g = G;
+
+		out_ros_data.b = B;
+
+		out_ros_data.a = A;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2ColorRGBAMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSColorRGBA& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSColorRGBA& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSColorRGBA& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSColorRGBA& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    std_msgs__msg__ColorRGBA color_rgba_msg;
+	std_msgs__msg__ColorRGBA color_rgba_msg;
 };

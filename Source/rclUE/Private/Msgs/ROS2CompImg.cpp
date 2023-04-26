@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2CompImgMsg::Init()
 {
-    sensor_msgs__msg__CompressedImage__init(&compressed_image_msg);
+	sensor_msgs__msg__CompressedImage__init(&compressed_image_msg);
 }
 
 void UROS2CompImgMsg::Fini()
 {
-    sensor_msgs__msg__CompressedImage__fini(&compressed_image_msg);
+	sensor_msgs__msg__CompressedImage__fini(&compressed_image_msg);
 }
 
 const rosidl_message_type_support_t* UROS2CompImgMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, CompressedImage);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, CompressedImage);
 }
 
 void UROS2CompImgMsg::SetMsg(const FROSCompImg& Inputs)
@@ -32,12 +34,12 @@ void UROS2CompImgMsg::GetMsg(FROSCompImg& Outputs) const
 
 void* UROS2CompImgMsg::Get()
 {
-    return &compressed_image_msg;
+	return &compressed_image_msg;
 }
 
 FString UROS2CompImgMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

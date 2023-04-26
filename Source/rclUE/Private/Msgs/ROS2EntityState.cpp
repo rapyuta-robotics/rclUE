@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2EntityStateMsg::Init()
 {
-    ue_msgs__msg__EntityState__init(&entity_state_msg);
+	ue_msgs__msg__EntityState__init(&entity_state_msg);
 }
 
 void UROS2EntityStateMsg::Fini()
 {
-    ue_msgs__msg__EntityState__fini(&entity_state_msg);
+	ue_msgs__msg__EntityState__fini(&entity_state_msg);
 }
 
 const rosidl_message_type_support_t* UROS2EntityStateMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(ue_msgs, msg, EntityState);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(ue_msgs, msg, EntityState);
 }
 
 void UROS2EntityStateMsg::SetMsg(const FROSEntityState& Inputs)
@@ -32,12 +34,12 @@ void UROS2EntityStateMsg::GetMsg(FROSEntityState& Outputs) const
 
 void* UROS2EntityStateMsg::Get()
 {
-    return &entity_state_msg;
+	return &entity_state_msg;
 }
 
 FString UROS2EntityStateMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

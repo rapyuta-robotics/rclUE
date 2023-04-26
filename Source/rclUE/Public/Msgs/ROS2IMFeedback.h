@@ -17,148 +17,159 @@
 #include "Msgs/ROS2Header.h"
 #include "Msgs/ROS2Pose.h"
 
+
 // Generated
 #include "ROS2IMFeedback.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSIMFeedback
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    static constexpr uint8 KEEP_ALIVE = 0;
-    static constexpr uint8 POSE_UPDATE = 1;
-    static constexpr uint8 MENU_SELECT = 2;
-    static constexpr uint8 BUTTON_CLICK = 3;
-    static constexpr uint8 MOUSE_DOWN = 4;
-    static constexpr uint8 MOUSE_UP = 5;
+		static constexpr uint8 KEEP_ALIVE = 0;
+	static constexpr uint8 POSE_UPDATE = 1;
+	static constexpr uint8 MENU_SELECT = 2;
+	static constexpr uint8 BUTTON_CLICK = 3;
+	static constexpr uint8 MOUSE_DOWN = 4;
+	static constexpr uint8 MOUSE_UP = 5;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ClientId;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString MarkerName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ClientId;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ControlName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString MarkerName;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 EventType = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ControlName;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSPose Pose;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 EventType = 0;
 
-    UPROPERTY(EditAnywhere)
-    unsigned int MenuEntryId = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSPose Pose;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FVector MousePoint = FVector::ZeroVector;
+	UPROPERTY(EditAnywhere)
+	unsigned int MenuEntryId = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool bMousePointValid = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FVector MousePoint = FVector::ZeroVector;
 
-    FROSIMFeedback()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bMousePointValid = false;
 
-    void SetFromROS2(const visualization_msgs__msg__InteractiveMarkerFeedback& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        ClientId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.client_id);
+	FROSIMFeedback()
+	{
+		
+	}
 
-        MarkerName = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.marker_name);
+	void SetFromROS2(const visualization_msgs__msg__InteractiveMarkerFeedback& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        ControlName = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.control_name);
+		ClientId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.client_id);
 
-        EventType = in_ros_data.event_type;
+		MarkerName = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.marker_name);
 
-        Pose.SetFromROS2(in_ros_data.pose);
+		ControlName = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.control_name);
 
-        MenuEntryId = in_ros_data.menu_entry_id;
+		EventType = in_ros_data.event_type;
 
-        MousePoint = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Point>(in_ros_data.mouse_point);
+		Pose.SetFromROS2(in_ros_data.pose);
 
-        bMousePointValid = in_ros_data.mouse_point_valid;
-    }
+		MenuEntryId = in_ros_data.menu_entry_id;
 
-    void SetROS2(visualization_msgs__msg__InteractiveMarkerFeedback& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		MousePoint = UROS2Utils::VectorROSToUE<geometry_msgs__msg__Point>(in_ros_data.mouse_point);
 
-        UROS2Utils::StringUEToROS(ClientId, out_ros_data.client_id);
+		bMousePointValid = in_ros_data.mouse_point_valid;
 
-        UROS2Utils::StringUEToROS(MarkerName, out_ros_data.marker_name);
+		
+	}
 
-        UROS2Utils::StringUEToROS(ControlName, out_ros_data.control_name);
+	void SetROS2(visualization_msgs__msg__InteractiveMarkerFeedback& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
 
-        out_ros_data.event_type = EventType;
+		UROS2Utils::StringUEToROS(ClientId, out_ros_data.client_id);
 
-        Pose.SetROS2(out_ros_data.pose);
+		UROS2Utils::StringUEToROS(MarkerName, out_ros_data.marker_name);
 
-        out_ros_data.menu_entry_id = MenuEntryId;
+		UROS2Utils::StringUEToROS(ControlName, out_ros_data.control_name);
 
-        out_ros_data.mouse_point = UROS2Utils::VectorUEToROS<geometry_msgs__msg__Point>(MousePoint);
+		out_ros_data.event_type = EventType;
 
-        out_ros_data.mouse_point_valid = bMousePointValid;
-    }
+		Pose.SetROS2(out_ros_data.pose);
+
+		out_ros_data.menu_entry_id = MenuEntryId;
+
+		out_ros_data.mouse_point = UROS2Utils::VectorUEToROS<geometry_msgs__msg__Point>(MousePoint);
+
+		out_ros_data.mouse_point_valid = bMousePointValid;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2IMFeedbackMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSIMFeedback& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSIMFeedback& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSIMFeedback& Input);
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_KEEP_ALIVE()
+	{
+		return FROSIMFeedback::KEEP_ALIVE;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_POSE_UPDATE()
+	{
+		return FROSIMFeedback::POSE_UPDATE;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_MENU_SELECT()
+	{
+		return FROSIMFeedback::MENU_SELECT;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_BUTTON_CLICK()
+	{
+		return FROSIMFeedback::BUTTON_CLICK;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_MOUSE_DOWN()
+	{
+		return FROSIMFeedback::MOUSE_DOWN;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_MOUSE_UP()
+	{
+		return FROSIMFeedback::MOUSE_UP;
+	}
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSIMFeedback& Output) const;
-
-    virtual void* Get() override;
-
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_KEEP_ALIVE()
-    {
-        return FROSIMFeedback::KEEP_ALIVE;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_POSE_UPDATE()
-    {
-        return FROSIMFeedback::POSE_UPDATE;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_MENU_SELECT()
-    {
-        return FROSIMFeedback::MENU_SELECT;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_BUTTON_CLICK()
-    {
-        return FROSIMFeedback::BUTTON_CLICK;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_MOUSE_DOWN()
-    {
-        return FROSIMFeedback::MOUSE_DOWN;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_MOUSE_UP()
-    {
-        return FROSIMFeedback::MOUSE_UP;
-    }
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    visualization_msgs__msg__InteractiveMarkerFeedback interactive_marker_feedback_msg;
+	visualization_msgs__msg__InteractiveMarkerFeedback interactive_marker_feedback_msg;
 };

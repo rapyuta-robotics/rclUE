@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2JoyMsg::Init()
 {
-    sensor_msgs__msg__Joy__init(&joy_msg);
+	sensor_msgs__msg__Joy__init(&joy_msg);
 }
 
 void UROS2JoyMsg::Fini()
 {
-    sensor_msgs__msg__Joy__fini(&joy_msg);
+	sensor_msgs__msg__Joy__fini(&joy_msg);
 }
 
 const rosidl_message_type_support_t* UROS2JoyMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Joy);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, Joy);
 }
 
 void UROS2JoyMsg::SetMsg(const FROSJoy& Inputs)
@@ -32,12 +34,12 @@ void UROS2JoyMsg::GetMsg(FROSJoy& Outputs) const
 
 void* UROS2JoyMsg::Get()
 {
-    return &joy_msg;
+	return &joy_msg;
 }
 
 FString UROS2JoyMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

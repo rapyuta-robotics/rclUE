@@ -15,88 +15,99 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2JoyFeedback.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSJoyFeedback
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    static constexpr uint8 TYPE_LED = 0;
-    static constexpr uint8 TYPE_RUMBLE = 1;
-    static constexpr uint8 TYPE_BUZZER = 2;
+		static constexpr uint8 TYPE_LED = 0;
+	static constexpr uint8 TYPE_RUMBLE = 1;
+	static constexpr uint8 TYPE_BUZZER = 2;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 Type = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 Id = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 Type = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    float Intensity = 0.f;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 Id = 0;
 
-    FROSJoyFeedback()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float Intensity = 0.f;
 
-    void SetFromROS2(const sensor_msgs__msg__JoyFeedback& in_ros_data)
-    {
-        Type = in_ros_data.type;
+	
 
-        Id = in_ros_data.id;
+	FROSJoyFeedback()
+	{
+		
+	}
 
-        Intensity = in_ros_data.intensity;
-    }
+	void SetFromROS2(const sensor_msgs__msg__JoyFeedback& in_ros_data)
+	{
+    	Type = in_ros_data.type;
 
-    void SetROS2(sensor_msgs__msg__JoyFeedback& out_ros_data) const
-    {
-        out_ros_data.type = Type;
+		Id = in_ros_data.id;
 
-        out_ros_data.id = Id;
+		Intensity = in_ros_data.intensity;
 
-        out_ros_data.intensity = Intensity;
-    }
+		
+	}
+
+	void SetROS2(sensor_msgs__msg__JoyFeedback& out_ros_data) const
+	{
+    	out_ros_data.type = Type;
+
+		out_ros_data.id = Id;
+
+		out_ros_data.intensity = Intensity;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2JoyFeedbackMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSJoyFeedback& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSJoyFeedback& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSJoyFeedback& Input);
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_TYPE_LED()
+	{
+		return FROSJoyFeedback::TYPE_LED;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_TYPE_RUMBLE()
+	{
+		return FROSJoyFeedback::TYPE_RUMBLE;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_TYPE_BUZZER()
+	{
+		return FROSJoyFeedback::TYPE_BUZZER;
+	}
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSJoyFeedback& Output) const;
-
-    virtual void* Get() override;
-
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_TYPE_LED()
-    {
-        return FROSJoyFeedback::TYPE_LED;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_TYPE_RUMBLE()
-    {
-        return FROSJoyFeedback::TYPE_RUMBLE;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_TYPE_BUZZER()
-    {
-        return FROSJoyFeedback::TYPE_BUZZER;
-    }
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    sensor_msgs__msg__JoyFeedback joy_feedback_msg;
+	sensor_msgs__msg__JoyFeedback joy_feedback_msg;
 };

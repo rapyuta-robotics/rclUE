@@ -18,69 +18,78 @@
 #include "Msgs/ROS2Pose.h"
 #include "geometry_msgs/msg/detail/pose__functions.h"
 
+
 // Generated
 #include "ROS2PoseArray.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSPoseArray
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSPose> Poses;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    FROSPoseArray()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSPose> Poses;
 
-    void SetFromROS2(const geometry_msgs__msg__PoseArray& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Pose, FROSPose>(in_ros_data.poses.data, Poses, in_ros_data.poses.size);
-    }
+	FROSPoseArray()
+	{
+		
+	}
 
-    void SetROS2(geometry_msgs__msg__PoseArray& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+	void SetFromROS2(const geometry_msgs__msg__PoseArray& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        if (out_ros_data.poses.data)
-        {
-            geometry_msgs__msg__Pose__Sequence__fini(&out_ros_data.poses);
-        }
-        if (!geometry_msgs__msg__Pose__Sequence__init(&out_ros_data.poses, Poses.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.poses  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Pose, FROSPose>(Poses, out_ros_data.poses.data, Poses.Num());
-    }
+		UROS2Utils::SequenceROSToUEArray<geometry_msgs__msg__Pose, FROSPose>(in_ros_data.poses.data, Poses, in_ros_data.poses.size);
+
+		
+	}
+
+	void SetROS2(geometry_msgs__msg__PoseArray& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
+
+		if (out_ros_data.poses.data) {
+		geometry_msgs__msg__Pose__Sequence__fini(&out_ros_data.poses);
+		}
+		if (!geometry_msgs__msg__Pose__Sequence__init(&out_ros_data.poses, Poses.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.poses  "));}
+		UROS2Utils::ArrayUEToROSSequence<geometry_msgs__msg__Pose, FROSPose>(Poses, out_ros_data.poses.data, Poses.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2PoseArrayMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSPoseArray& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSPoseArray& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSPoseArray& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSPoseArray& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    geometry_msgs__msg__PoseArray pose_array_msg;
+	geometry_msgs__msg__PoseArray pose_array_msg;
 };

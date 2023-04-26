@@ -15,75 +15,88 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2Quat.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSQuat
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere)
-    double X = 0.f;
+	
 
-    UPROPERTY(EditAnywhere)
-    double Y = 0.f;
+	UPROPERTY(EditAnywhere)
+	double X = 0.f;
 
-    UPROPERTY(EditAnywhere)
-    double Z = 0.f;
+	UPROPERTY(EditAnywhere)
+	double Y = 0.f;
 
-    UPROPERTY(EditAnywhere)
-    double W = 0.f;
+	UPROPERTY(EditAnywhere)
+	double Z = 0.f;
 
-    FROSQuat()
-    {
-    }
+	UPROPERTY(EditAnywhere)
+	double W = 0.f;
 
-    void SetFromROS2(const geometry_msgs__msg__Quaternion& in_ros_data)
-    {
-        X = in_ros_data.x;
+	
 
-        Y = in_ros_data.y;
+	FROSQuat()
+	{
+		
+	}
 
-        Z = in_ros_data.z;
+	void SetFromROS2(const geometry_msgs__msg__Quaternion& in_ros_data)
+	{
+    	X = in_ros_data.x;
 
-        W = in_ros_data.w;
-    }
+		Y = in_ros_data.y;
 
-    void SetROS2(geometry_msgs__msg__Quaternion& out_ros_data) const
-    {
-        out_ros_data.x = X;
+		Z = in_ros_data.z;
 
-        out_ros_data.y = Y;
+		W = in_ros_data.w;
 
-        out_ros_data.z = Z;
+		
+	}
 
-        out_ros_data.w = W;
-    }
+	void SetROS2(geometry_msgs__msg__Quaternion& out_ros_data) const
+	{
+    	out_ros_data.x = X;
+
+		out_ros_data.y = Y;
+
+		out_ros_data.z = Z;
+
+		out_ros_data.w = W;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2QuatMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSQuat& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSQuat& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSQuat& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSQuat& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    geometry_msgs__msg__Quaternion quaternion_msg;
+	geometry_msgs__msg__Quaternion quaternion_msg;
 };

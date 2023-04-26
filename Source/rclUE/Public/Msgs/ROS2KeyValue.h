@@ -15,61 +15,74 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2KeyValue.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSKeyValue
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Key;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Value;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Key;
 
-    FROSKeyValue()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Value;
 
-    void SetFromROS2(const diagnostic_msgs__msg__KeyValue& in_ros_data)
-    {
-        Key = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.key);
+	
 
-        Value = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.value);
-    }
+	FROSKeyValue()
+	{
+		
+	}
 
-    void SetROS2(diagnostic_msgs__msg__KeyValue& out_ros_data) const
-    {
-        UROS2Utils::StringUEToROS(Key, out_ros_data.key);
+	void SetFromROS2(const diagnostic_msgs__msg__KeyValue& in_ros_data)
+	{
+    	Key = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.key);
 
-        UROS2Utils::StringUEToROS(Value, out_ros_data.value);
-    }
+		Value = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.value);
+
+		
+	}
+
+	void SetROS2(diagnostic_msgs__msg__KeyValue& out_ros_data) const
+	{
+    	UROS2Utils::StringUEToROS(Key, out_ros_data.key);
+
+		UROS2Utils::StringUEToROS(Value, out_ros_data.value);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2KeyValueMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSKeyValue& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSKeyValue& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSKeyValue& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSKeyValue& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    diagnostic_msgs__msg__KeyValue key_value_msg;
+	diagnostic_msgs__msg__KeyValue key_value_msg;
 };

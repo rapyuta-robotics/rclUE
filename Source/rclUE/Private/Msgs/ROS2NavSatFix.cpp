@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2NavSatFixMsg::Init()
 {
-    sensor_msgs__msg__NavSatFix__init(&nav_sat_fix_msg);
+	sensor_msgs__msg__NavSatFix__init(&nav_sat_fix_msg);
 }
 
 void UROS2NavSatFixMsg::Fini()
 {
-    sensor_msgs__msg__NavSatFix__fini(&nav_sat_fix_msg);
+	sensor_msgs__msg__NavSatFix__fini(&nav_sat_fix_msg);
 }
 
 const rosidl_message_type_support_t* UROS2NavSatFixMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, NavSatFix);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, NavSatFix);
 }
 
 void UROS2NavSatFixMsg::SetMsg(const FROSNavSatFix& Inputs)
@@ -32,12 +34,12 @@ void UROS2NavSatFixMsg::GetMsg(FROSNavSatFix& Outputs) const
 
 void* UROS2NavSatFixMsg::Get()
 {
-    return &nav_sat_fix_msg;
+	return &nav_sat_fix_msg;
 }
 
 FString UROS2NavSatFixMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

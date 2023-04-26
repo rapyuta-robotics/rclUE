@@ -15,102 +15,113 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2MenuEntry.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSMenuEntry
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    static constexpr uint8 FEEDBACK = 0;
-    static constexpr uint8 ROSRUN = 1;
-    static constexpr uint8 ROSLAUNCH = 2;
+		static constexpr uint8 FEEDBACK = 0;
+	static constexpr uint8 ROSRUN = 1;
+	static constexpr uint8 ROSLAUNCH = 2;
 
-    UPROPERTY(EditAnywhere)
-    unsigned int Id = 0;
 
-    UPROPERTY(EditAnywhere)
-    unsigned int ParentId = 0;
+	UPROPERTY(EditAnywhere)
+	unsigned int Id = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Title;
+	UPROPERTY(EditAnywhere)
+	unsigned int ParentId = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Command;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Title;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 CommandType = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Command;
 
-    FROSMenuEntry()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 CommandType = 0;
 
-    void SetFromROS2(const visualization_msgs__msg__MenuEntry& in_ros_data)
-    {
-        Id = in_ros_data.id;
+	
 
-        ParentId = in_ros_data.parent_id;
+	FROSMenuEntry()
+	{
+		
+	}
 
-        Title = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.title);
+	void SetFromROS2(const visualization_msgs__msg__MenuEntry& in_ros_data)
+	{
+    	Id = in_ros_data.id;
 
-        Command = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.command);
+		ParentId = in_ros_data.parent_id;
 
-        CommandType = in_ros_data.command_type;
-    }
+		Title = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.title);
 
-    void SetROS2(visualization_msgs__msg__MenuEntry& out_ros_data) const
-    {
-        out_ros_data.id = Id;
+		Command = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.command);
 
-        out_ros_data.parent_id = ParentId;
+		CommandType = in_ros_data.command_type;
 
-        UROS2Utils::StringUEToROS(Title, out_ros_data.title);
+		
+	}
 
-        UROS2Utils::StringUEToROS(Command, out_ros_data.command);
+	void SetROS2(visualization_msgs__msg__MenuEntry& out_ros_data) const
+	{
+    	out_ros_data.id = Id;
 
-        out_ros_data.command_type = CommandType;
-    }
+		out_ros_data.parent_id = ParentId;
+
+		UROS2Utils::StringUEToROS(Title, out_ros_data.title);
+
+		UROS2Utils::StringUEToROS(Command, out_ros_data.command);
+
+		out_ros_data.command_type = CommandType;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2MenuEntryMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSMenuEntry& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSMenuEntry& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSMenuEntry& Input);
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_FEEDBACK()
+	{
+		return FROSMenuEntry::FEEDBACK;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_ROSRUN()
+	{
+		return FROSMenuEntry::ROSRUN;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_ROSLAUNCH()
+	{
+		return FROSMenuEntry::ROSLAUNCH;
+	}
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSMenuEntry& Output) const;
-
-    virtual void* Get() override;
-
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_FEEDBACK()
-    {
-        return FROSMenuEntry::FEEDBACK;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_ROSRUN()
-    {
-        return FROSMenuEntry::ROSRUN;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_ROSLAUNCH()
-    {
-        return FROSMenuEntry::ROSLAUNCH;
-    }
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    visualization_msgs__msg__MenuEntry menu_entry_msg;
+	visualization_msgs__msg__MenuEntry menu_entry_msg;
 };

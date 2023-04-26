@@ -17,61 +17,74 @@
 #include "Msgs/ROS2Header.h"
 #include "Msgs/ROS2Polygon.h"
 
+
 // Generated
 #include "ROS2PolygonStamped.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSPolygonStamped
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSPolygon Polygon;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    FROSPolygonStamped()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSPolygon Polygon;
 
-    void SetFromROS2(const geometry_msgs__msg__PolygonStamped& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Polygon.SetFromROS2(in_ros_data.polygon);
-    }
+	FROSPolygonStamped()
+	{
+		
+	}
 
-    void SetROS2(geometry_msgs__msg__PolygonStamped& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+	void SetFromROS2(const geometry_msgs__msg__PolygonStamped& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Polygon.SetROS2(out_ros_data.polygon);
-    }
+		Polygon.SetFromROS2(in_ros_data.polygon);
+
+		
+	}
+
+	void SetROS2(geometry_msgs__msg__PolygonStamped& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
+
+		Polygon.SetROS2(out_ros_data.polygon);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2PolygonStampedMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSPolygonStamped& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSPolygonStamped& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSPolygonStamped& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSPolygonStamped& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    geometry_msgs__msg__PolygonStamped polygon_stamped_msg;
+	geometry_msgs__msg__PolygonStamped polygon_stamped_msg;
 };

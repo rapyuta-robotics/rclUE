@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2PointCloudMsg::Init()
 {
-    sensor_msgs__msg__PointCloud__init(&point_cloud_msg);
+	sensor_msgs__msg__PointCloud__init(&point_cloud_msg);
 }
 
 void UROS2PointCloudMsg::Fini()
 {
-    sensor_msgs__msg__PointCloud__fini(&point_cloud_msg);
+	sensor_msgs__msg__PointCloud__fini(&point_cloud_msg);
 }
 
 const rosidl_message_type_support_t* UROS2PointCloudMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, PointCloud);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(sensor_msgs, msg, PointCloud);
 }
 
 void UROS2PointCloudMsg::SetMsg(const FROSPointCloud& Inputs)
@@ -32,12 +34,12 @@ void UROS2PointCloudMsg::GetMsg(FROSPointCloud& Outputs) const
 
 void* UROS2PointCloudMsg::Get()
 {
-    return &point_cloud_msg;
+	return &point_cloud_msg;
 }
 
 FString UROS2PointCloudMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

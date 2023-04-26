@@ -18,76 +18,85 @@
 #include "Msgs/ROS2MapMetaData.h"
 #include "rosidl_runtime_c/primitives_sequence_functions.h"
 
+
 // Generated
 #include "ROS2OccupancyGrid.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSOccupancyGrid
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSMapMetaData Info;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere)
-    TArray<int8> Data;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSMapMetaData Info;
 
-    FROSOccupancyGrid()
-    {
-    }
+	UPROPERTY(EditAnywhere)
+	TArray<int8> Data;
 
-    void SetFromROS2(const nav_msgs__msg__OccupancyGrid& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Info.SetFromROS2(in_ros_data.info);
+	FROSOccupancyGrid()
+	{
+		
+	}
 
-        UROS2Utils::SequenceROSToUEArray<int8, int8>(in_ros_data.data.data, Data, in_ros_data.data.size);
-    }
+	void SetFromROS2(const nav_msgs__msg__OccupancyGrid& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-    void SetROS2(nav_msgs__msg__OccupancyGrid& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		Info.SetFromROS2(in_ros_data.info);
 
-        Info.SetROS2(out_ros_data.info);
+		UROS2Utils::SequenceROSToUEArray<int8, int8>(in_ros_data.data.data, Data, in_ros_data.data.size);
 
-        if (out_ros_data.data.data)
-        {
-            rosidl_runtime_c__int8__Sequence__fini(&out_ros_data.data);
-        }
-        if (!rosidl_runtime_c__int8__Sequence__init(&out_ros_data.data, Data.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.data  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<int8, int8>(Data, out_ros_data.data.data, Data.Num());
-    }
+		
+	}
+
+	void SetROS2(nav_msgs__msg__OccupancyGrid& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
+
+		Info.SetROS2(out_ros_data.info);
+
+		if (out_ros_data.data.data) {
+		rosidl_runtime_c__int8__Sequence__fini(&out_ros_data.data);
+		}
+		if (!rosidl_runtime_c__int8__Sequence__init(&out_ros_data.data, Data.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.data  "));}
+		UROS2Utils::ArrayUEToROSSequence<int8, int8>(Data, out_ros_data.data.data, Data.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2OccupancyGridMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSOccupancyGrid& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSOccupancyGrid& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSOccupancyGrid& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSOccupancyGrid& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    nav_msgs__msg__OccupancyGrid occupancy_grid_msg;
+	nav_msgs__msg__OccupancyGrid occupancy_grid_msg;
 };

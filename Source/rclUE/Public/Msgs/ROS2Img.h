@@ -17,104 +17,113 @@
 #include "Msgs/ROS2Header.h"
 #include "rosidl_runtime_c/primitives_sequence_functions.h"
 
+
 // Generated
 #include "ROS2Img.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSImg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere)
-    unsigned int Height = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere)
-    unsigned int Width = 0;
+	UPROPERTY(EditAnywhere)
+	unsigned int Height = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Encoding;
+	UPROPERTY(EditAnywhere)
+	unsigned int Width = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 IsBigendian = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Encoding;
 
-    UPROPERTY(EditAnywhere)
-    unsigned int Step = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 IsBigendian = 0;
 
-    UPROPERTY(EditAnywhere)
-    TArray<uint8> Data;
+	UPROPERTY(EditAnywhere)
+	unsigned int Step = 0;
 
-    FROSImg()
-    {
-    }
+	UPROPERTY(EditAnywhere)
+	TArray<uint8> Data;
 
-    void SetFromROS2(const sensor_msgs__msg__Image& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Height = in_ros_data.height;
+	FROSImg()
+	{
+		
+	}
 
-        Width = in_ros_data.width;
+	void SetFromROS2(const sensor_msgs__msg__Image& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Encoding = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.encoding);
+		Height = in_ros_data.height;
 
-        IsBigendian = in_ros_data.is_bigendian;
+		Width = in_ros_data.width;
 
-        Step = in_ros_data.step;
+		Encoding = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.encoding);
 
-        UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.data.data, Data, in_ros_data.data.size);
-    }
+		IsBigendian = in_ros_data.is_bigendian;
 
-    void SetROS2(sensor_msgs__msg__Image& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		Step = in_ros_data.step;
 
-        out_ros_data.height = Height;
+		UROS2Utils::SequenceROSToUEArray<uint8, uint8>(in_ros_data.data.data, Data, in_ros_data.data.size);
 
-        out_ros_data.width = Width;
+		
+	}
 
-        UROS2Utils::StringUEToROS(Encoding, out_ros_data.encoding);
+	void SetROS2(sensor_msgs__msg__Image& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
 
-        out_ros_data.is_bigendian = IsBigendian;
+		out_ros_data.height = Height;
 
-        out_ros_data.step = Step;
+		out_ros_data.width = Width;
 
-        if (out_ros_data.data.data)
-        {
-            rosidl_runtime_c__uint8__Sequence__fini(&out_ros_data.data);
-        }
-        if (!rosidl_runtime_c__uint8__Sequence__init(&out_ros_data.data, Data.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.data  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Data, out_ros_data.data.data, Data.Num());
-    }
+		UROS2Utils::StringUEToROS(Encoding, out_ros_data.encoding);
+
+		out_ros_data.is_bigendian = IsBigendian;
+
+		out_ros_data.step = Step;
+
+		if (out_ros_data.data.data) {
+		rosidl_runtime_c__uint8__Sequence__fini(&out_ros_data.data);
+		}
+		if (!rosidl_runtime_c__uint8__Sequence__init(&out_ros_data.data, Data.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.data  "));}
+		UROS2Utils::ArrayUEToROSSequence<uint8, uint8>(Data, out_ros_data.data.data, Data.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2ImgMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSImg& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSImg& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSImg& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSImg& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    sensor_msgs__msg__Image image_msg;
+	sensor_msgs__msg__Image image_msg;
 };

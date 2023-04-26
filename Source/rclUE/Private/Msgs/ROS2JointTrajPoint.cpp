@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2JointTrajPointMsg::Init()
 {
-    trajectory_msgs__msg__JointTrajectoryPoint__init(&joint_trajectory_point_msg);
+	trajectory_msgs__msg__JointTrajectoryPoint__init(&joint_trajectory_point_msg);
 }
 
 void UROS2JointTrajPointMsg::Fini()
 {
-    trajectory_msgs__msg__JointTrajectoryPoint__fini(&joint_trajectory_point_msg);
+	trajectory_msgs__msg__JointTrajectoryPoint__fini(&joint_trajectory_point_msg);
 }
 
 const rosidl_message_type_support_t* UROS2JointTrajPointMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(trajectory_msgs, msg, JointTrajectoryPoint);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(trajectory_msgs, msg, JointTrajectoryPoint);
 }
 
 void UROS2JointTrajPointMsg::SetMsg(const FROSJointTrajPoint& Inputs)
@@ -32,12 +34,12 @@ void UROS2JointTrajPointMsg::GetMsg(FROSJointTrajPoint& Outputs) const
 
 void* UROS2JointTrajPointMsg::Get()
 {
-    return &joint_trajectory_point_msg;
+	return &joint_trajectory_point_msg;
 }
 
 FString UROS2JointTrajPointMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

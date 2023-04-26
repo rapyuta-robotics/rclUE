@@ -15,6 +15,8 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
+
 // Generated
 #include "ROS2GetInt32FromId.generated.h"
 
@@ -22,102 +24,123 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSGetInt32FromIdReq
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int Id = 0;
+	
 
-    FROSGetInt32FromIdReq()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Id = 0;
 
-    void SetFromROS2(const ue_msgs__srv__GetInt32FromId_Request& in_ros_data)
-    {
-        Id = in_ros_data.id;
-    }
+	
 
-    void SetROS2(ue_msgs__srv__GetInt32FromId_Request& out_ros_data) const
-    {
-        out_ros_data.id = Id;
-    }
+	FROSGetInt32FromIdReq()
+	{
+		
+	}
+
+	void SetFromROS2(const ue_msgs__srv__GetInt32FromId_Request& in_ros_data)
+	{
+    	Id = in_ros_data.id;
+
+		
+	}
+
+	void SetROS2(ue_msgs__srv__GetInt32FromId_Request& out_ros_data) const
+	{
+    	out_ros_data.id = Id;
+
+		
+	}
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSGetInt32FromIdRes
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool bSuccess = false;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Remarks;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bSuccess = false;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    int Data = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Remarks;
 
-    FROSGetInt32FromIdRes()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int Data = 0;
 
-    void SetFromROS2(const ue_msgs__srv__GetInt32FromId_Response& in_ros_data)
-    {
-        bSuccess = in_ros_data.success;
+	
 
-        Remarks = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.remarks);
+	FROSGetInt32FromIdRes()
+	{
+		
+	}
 
-        Data = in_ros_data.data;
-    }
+	void SetFromROS2(const ue_msgs__srv__GetInt32FromId_Response& in_ros_data)
+	{
+    	bSuccess = in_ros_data.success;
 
-    void SetROS2(ue_msgs__srv__GetInt32FromId_Response& out_ros_data) const
-    {
-        out_ros_data.success = bSuccess;
+		Remarks = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.remarks);
 
-        UROS2Utils::StringUEToROS(Remarks, out_ros_data.remarks);
+		Data = in_ros_data.data;
 
-        out_ros_data.data = Data;
-    }
+		
+	}
+
+	void SetROS2(ue_msgs__srv__GetInt32FromId_Response& out_ros_data) const
+	{
+    	out_ros_data.success = bSuccess;
+
+		UROS2Utils::StringUEToROS(Remarks, out_ros_data.remarks);
+
+		out_ros_data.data = Data;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2GetInt32FromIdSrv : public UROS2GenericSrv
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable)
-    virtual void Init() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Init() override;
 
-    UFUNCTION(BlueprintCallable)
-    virtual void Fini() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Fini() override;
 
-    virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void SetRequest(const FROSGetInt32FromIdReq& Request);
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void GetRequest(FROSGetInt32FromIdReq& Request) const;
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void SetResponse(const FROSGetInt32FromIdRes& Response);
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void GetResponse(FROSGetInt32FromIdRes& Response) const;
+	
+	virtual void* GetRequest() override;
+	virtual void* GetResponse() override;
 
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void SetRequest(const FROSGetInt32FromIdReq& Request);
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void GetRequest(FROSGetInt32FromIdReq& Request) const;
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void SetResponse(const FROSGetInt32FromIdRes& Response);
-
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void GetResponse(FROSGetInt32FromIdRes& Response) const;
-
-    virtual void* GetRequest() override;
-    virtual void* GetResponse() override;
+	
+	
 
 private:
-    virtual FString SrvRequestToString() const override;
-    virtual FString SrvResponseToString() const override;
+	virtual FString SrvRequestToString() const override;
+	virtual FString SrvResponseToString() const override;
 
-    ue_msgs__srv__GetInt32FromId_Request GetInt32FromId_req;
-    ue_msgs__srv__GetInt32FromId_Response GetInt32FromId_res;
+	ue_msgs__srv__GetInt32FromId_Request GetInt32FromId_req;
+	ue_msgs__srv__GetInt32FromId_Response GetInt32FromId_res;
 };

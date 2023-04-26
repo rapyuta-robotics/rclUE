@@ -17,6 +17,7 @@
 
 #include "Msgs/ROS2EntityState.h"
 
+
 // Generated
 #include "ROS2GetEntityState.generated.h"
 
@@ -24,102 +25,123 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSGetEntityStateReq
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Name;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ReferenceFrame;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
 
-    FROSGetEntityStateReq()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ReferenceFrame;
 
-    void SetFromROS2(const ue_msgs__srv__GetEntityState_Request& in_ros_data)
-    {
-        Name = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
+	
 
-        ReferenceFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.reference_frame);
-    }
+	FROSGetEntityStateReq()
+	{
+		
+	}
 
-    void SetROS2(ue_msgs__srv__GetEntityState_Request& out_ros_data) const
-    {
-        UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+	void SetFromROS2(const ue_msgs__srv__GetEntityState_Request& in_ros_data)
+	{
+    	Name = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
-        UROS2Utils::StringUEToROS(ReferenceFrame, out_ros_data.reference_frame);
-    }
+		ReferenceFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.reference_frame);
+
+		
+	}
+
+	void SetROS2(ue_msgs__srv__GetEntityState_Request& out_ros_data) const
+	{
+    	UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+
+		UROS2Utils::StringUEToROS(ReferenceFrame, out_ros_data.reference_frame);
+
+		
+	}
 };
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSGetEntityStateRes
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSEntityState State;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    bool bSuccess = false;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSEntityState State;
 
-    FROSGetEntityStateRes()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bSuccess = false;
 
-    void SetFromROS2(const ue_msgs__srv__GetEntityState_Response& in_ros_data)
-    {
-        State.SetFromROS2(in_ros_data.state);
+	
 
-        bSuccess = in_ros_data.success;
-    }
+	FROSGetEntityStateRes()
+	{
+		
+	}
 
-    void SetROS2(ue_msgs__srv__GetEntityState_Response& out_ros_data) const
-    {
-        State.SetROS2(out_ros_data.state);
+	void SetFromROS2(const ue_msgs__srv__GetEntityState_Response& in_ros_data)
+	{
+    	State.SetFromROS2(in_ros_data.state);
 
-        out_ros_data.success = bSuccess;
-    }
+		bSuccess = in_ros_data.success;
+
+		
+	}
+
+	void SetROS2(ue_msgs__srv__GetEntityState_Response& out_ros_data) const
+	{
+    	State.SetROS2(out_ros_data.state);
+
+		out_ros_data.success = bSuccess;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2GetEntityStateSrv : public UROS2GenericSrv
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UFUNCTION(BlueprintCallable)
-    virtual void Init() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Init() override;
 
-    UFUNCTION(BlueprintCallable)
-    virtual void Fini() override;
+  	UFUNCTION(BlueprintCallable)
+	virtual void Fini() override;
 
-    virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_service_type_support_t* GetTypeSupport() const override;
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void SetRequest(const FROSGetEntityStateReq& Request);
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void GetRequest(FROSGetEntityStateReq& Request) const;
+	
+	// used by service
+  	UFUNCTION(BlueprintCallable)
+	void SetResponse(const FROSGetEntityStateRes& Response);
+	
+	// used by client
+  	UFUNCTION(BlueprintCallable)
+	void GetResponse(FROSGetEntityStateRes& Response) const;
+	
+	virtual void* GetRequest() override;
+	virtual void* GetResponse() override;
 
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void SetRequest(const FROSGetEntityStateReq& Request);
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void GetRequest(FROSGetEntityStateReq& Request) const;
-
-    // used by service
-    UFUNCTION(BlueprintCallable)
-    void SetResponse(const FROSGetEntityStateRes& Response);
-
-    // used by client
-    UFUNCTION(BlueprintCallable)
-    void GetResponse(FROSGetEntityStateRes& Response) const;
-
-    virtual void* GetRequest() override;
-    virtual void* GetResponse() override;
+	
+	
 
 private:
-    virtual FString SrvRequestToString() const override;
-    virtual FString SrvResponseToString() const override;
+	virtual FString SrvRequestToString() const override;
+	virtual FString SrvResponseToString() const override;
 
-    ue_msgs__srv__GetEntityState_Request GetEntityState_req;
-    ue_msgs__srv__GetEntityState_Response GetEntityState_res;
+	ue_msgs__srv__GetEntityState_Request GetEntityState_req;
+	ue_msgs__srv__GetEntityState_Response GetEntityState_res;
 };

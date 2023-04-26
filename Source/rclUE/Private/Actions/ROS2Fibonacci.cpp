@@ -3,6 +3,10 @@
 
 #include "Actions/ROS2Fibonacci.h"
 
+
+
+
+
 const rosidl_action_type_support_t* UROS2FibonacciAction::GetTypeSupport() const
 {
     return ROSIDL_GET_ACTION_TYPE_SUPPORT(example_interfaces, Fibonacci);
@@ -67,6 +71,7 @@ void UROS2FibonacciAction::GetResultResponse(FROSFibonacciGRRes& Result) const
 {
     Result.SetFromROS2(Fibonacci_result_response);
 }
+
 
 void UROS2FibonacciAction::SetFeedback(const FROSFibonacciFB& Feedback)
 {

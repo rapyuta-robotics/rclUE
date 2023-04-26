@@ -15,68 +15,81 @@
 
 // Generated Msg/Srv/Action(can be empty)
 
+
 // Generated
 #include "ROS2Pose2D.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSPose2D
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere)
-    double X = 0.f;
+	
 
-    UPROPERTY(EditAnywhere)
-    double Y = 0.f;
+	UPROPERTY(EditAnywhere)
+	double X = 0.f;
 
-    UPROPERTY(EditAnywhere)
-    double Theta = 0.f;
+	UPROPERTY(EditAnywhere)
+	double Y = 0.f;
 
-    FROSPose2D()
-    {
-    }
+	UPROPERTY(EditAnywhere)
+	double Theta = 0.f;
 
-    void SetFromROS2(const geometry_msgs__msg__Pose2D& in_ros_data)
-    {
-        X = in_ros_data.x;
+	
 
-        Y = in_ros_data.y;
+	FROSPose2D()
+	{
+		
+	}
 
-        Theta = in_ros_data.theta;
-    }
+	void SetFromROS2(const geometry_msgs__msg__Pose2D& in_ros_data)
+	{
+    	X = in_ros_data.x;
 
-    void SetROS2(geometry_msgs__msg__Pose2D& out_ros_data) const
-    {
-        out_ros_data.x = X;
+		Y = in_ros_data.y;
 
-        out_ros_data.y = Y;
+		Theta = in_ros_data.theta;
 
-        out_ros_data.theta = Theta;
-    }
+		
+	}
+
+	void SetROS2(geometry_msgs__msg__Pose2D& out_ros_data) const
+	{
+    	out_ros_data.x = X;
+
+		out_ros_data.y = Y;
+
+		out_ros_data.theta = Theta;
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2Pose2DMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSPose2D& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSPose2D& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSPose2D& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSPose2D& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    geometry_msgs__msg__Pose2D pose2_d_msg;
+	geometry_msgs__msg__Pose2D pose2_d_msg;
 };

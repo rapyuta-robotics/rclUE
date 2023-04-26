@@ -18,75 +18,88 @@
 #include "Msgs/ROS2PoseCov.h"
 #include "Msgs/ROS2TwistCov.h"
 
+
 // Generated
 #include "ROS2Odom.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSOdom
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ChildFrameId;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSPoseCov Pose;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ChildFrameId;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSTwistCov Twist;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSPoseCov Pose;
 
-    FROSOdom()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSTwistCov Twist;
 
-    void SetFromROS2(const nav_msgs__msg__Odometry& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        ChildFrameId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.child_frame_id);
+	FROSOdom()
+	{
+		
+	}
 
-        Pose.SetFromROS2(in_ros_data.pose);
+	void SetFromROS2(const nav_msgs__msg__Odometry& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Twist.SetFromROS2(in_ros_data.twist);
-    }
+		ChildFrameId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.child_frame_id);
 
-    void SetROS2(nav_msgs__msg__Odometry& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+		Pose.SetFromROS2(in_ros_data.pose);
 
-        UROS2Utils::StringUEToROS(ChildFrameId, out_ros_data.child_frame_id);
+		Twist.SetFromROS2(in_ros_data.twist);
 
-        Pose.SetROS2(out_ros_data.pose);
+		
+	}
 
-        Twist.SetROS2(out_ros_data.twist);
-    }
+	void SetROS2(nav_msgs__msg__Odometry& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
+
+		UROS2Utils::StringUEToROS(ChildFrameId, out_ros_data.child_frame_id);
+
+		Pose.SetROS2(out_ros_data.pose);
+
+		Twist.SetROS2(out_ros_data.twist);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2OdomMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSOdom& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSOdom& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSOdom& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSOdom& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    nav_msgs__msg__Odometry odometry_msg;
+	nav_msgs__msg__Odometry odometry_msg;
 };

@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2QuatStampedMsg::Init()
 {
-    geometry_msgs__msg__QuaternionStamped__init(&quaternion_stamped_msg);
+	geometry_msgs__msg__QuaternionStamped__init(&quaternion_stamped_msg);
 }
 
 void UROS2QuatStampedMsg::Fini()
 {
-    geometry_msgs__msg__QuaternionStamped__fini(&quaternion_stamped_msg);
+	geometry_msgs__msg__QuaternionStamped__fini(&quaternion_stamped_msg);
 }
 
 const rosidl_message_type_support_t* UROS2QuatStampedMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, QuaternionStamped);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(geometry_msgs, msg, QuaternionStamped);
 }
 
 void UROS2QuatStampedMsg::SetMsg(const FROSQuatStamped& Inputs)
@@ -32,12 +34,12 @@ void UROS2QuatStampedMsg::GetMsg(FROSQuatStamped& Outputs) const
 
 void* UROS2QuatStampedMsg::Get()
 {
-    return &quaternion_stamped_msg;
+	return &quaternion_stamped_msg;
 }
 
 FString UROS2QuatStampedMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

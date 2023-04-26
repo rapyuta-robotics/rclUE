@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2UInt8Msg::Init()
 {
-    example_interfaces__msg__UInt8__init(&u_int8_msg);
+	example_interfaces__msg__UInt8__init(&u_int8_msg);
 }
 
 void UROS2UInt8Msg::Fini()
 {
-    example_interfaces__msg__UInt8__fini(&u_int8_msg);
+	example_interfaces__msg__UInt8__fini(&u_int8_msg);
 }
 
 const rosidl_message_type_support_t* UROS2UInt8Msg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, UInt8);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(example_interfaces, msg, UInt8);
 }
 
 void UROS2UInt8Msg::SetMsg(const FROSUInt8& Inputs)
@@ -32,12 +34,12 @@ void UROS2UInt8Msg::GetMsg(FROSUInt8& Outputs) const
 
 void* UROS2UInt8Msg::Get()
 {
-    return &u_int8_msg;
+	return &u_int8_msg;
 }
 
 FString UROS2UInt8Msg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

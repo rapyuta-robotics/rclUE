@@ -17,61 +17,74 @@
 #include "Msgs/ROS2Header.h"
 #include "Msgs/ROS2Inertia.h"
 
+
 // Generated
 #include "ROS2InertiaStamped.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSInertiaStamped
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHeader Header;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSInertia Inertia;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSHeader Header;
 
-    FROSInertiaStamped()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSInertia Inertia;
 
-    void SetFromROS2(const geometry_msgs__msg__InertiaStamped& in_ros_data)
-    {
-        Header.SetFromROS2(in_ros_data.header);
+	
 
-        Inertia.SetFromROS2(in_ros_data.inertia);
-    }
+	FROSInertiaStamped()
+	{
+		
+	}
 
-    void SetROS2(geometry_msgs__msg__InertiaStamped& out_ros_data) const
-    {
-        Header.SetROS2(out_ros_data.header);
+	void SetFromROS2(const geometry_msgs__msg__InertiaStamped& in_ros_data)
+	{
+    	Header.SetFromROS2(in_ros_data.header);
 
-        Inertia.SetROS2(out_ros_data.inertia);
-    }
+		Inertia.SetFromROS2(in_ros_data.inertia);
+
+		
+	}
+
+	void SetROS2(geometry_msgs__msg__InertiaStamped& out_ros_data) const
+	{
+    	Header.SetROS2(out_ros_data.header);
+
+		Inertia.SetROS2(out_ros_data.inertia);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2InertiaStampedMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSInertiaStamped& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSInertiaStamped& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSInertiaStamped& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSInertiaStamped& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    geometry_msgs__msg__InertiaStamped inertia_stamped_msg;
+	geometry_msgs__msg__InertiaStamped inertia_stamped_msg;
 };

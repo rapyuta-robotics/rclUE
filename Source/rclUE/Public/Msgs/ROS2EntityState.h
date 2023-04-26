@@ -17,75 +17,88 @@
 #include "Msgs/ROS2Pose.h"
 #include "Msgs/ROS2Twist.h"
 
+
 // Generated
 #include "ROS2EntityState.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSEntityState
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Name;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSPose Pose;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Name;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSTwist Twist;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSPose Pose;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ReferenceFrame;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSTwist Twist;
 
-    FROSEntityState()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ReferenceFrame;
 
-    void SetFromROS2(const ue_msgs__msg__EntityState& in_ros_data)
-    {
-        Name = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
+	
 
-        Pose.SetFromROS2(in_ros_data.pose);
+	FROSEntityState()
+	{
+		
+	}
 
-        Twist.SetFromROS2(in_ros_data.twist);
+	void SetFromROS2(const ue_msgs__msg__EntityState& in_ros_data)
+	{
+    	Name = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.name);
 
-        ReferenceFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.reference_frame);
-    }
+		Pose.SetFromROS2(in_ros_data.pose);
 
-    void SetROS2(ue_msgs__msg__EntityState& out_ros_data) const
-    {
-        UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+		Twist.SetFromROS2(in_ros_data.twist);
 
-        Pose.SetROS2(out_ros_data.pose);
+		ReferenceFrame = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.reference_frame);
 
-        Twist.SetROS2(out_ros_data.twist);
+		
+	}
 
-        UROS2Utils::StringUEToROS(ReferenceFrame, out_ros_data.reference_frame);
-    }
+	void SetROS2(ue_msgs__msg__EntityState& out_ros_data) const
+	{
+    	UROS2Utils::StringUEToROS(Name, out_ros_data.name);
+
+		Pose.SetROS2(out_ros_data.pose);
+
+		Twist.SetROS2(out_ros_data.twist);
+
+		UROS2Utils::StringUEToROS(ReferenceFrame, out_ros_data.reference_frame);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2EntityStateMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSEntityState& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSEntityState& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSEntityState& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSEntityState& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    ue_msgs__msg__EntityState entity_state_msg;
+	ue_msgs__msg__EntityState entity_state_msg;
 };

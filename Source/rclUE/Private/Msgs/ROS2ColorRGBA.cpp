@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2ColorRGBAMsg::Init()
 {
-    std_msgs__msg__ColorRGBA__init(&color_rgba_msg);
+	std_msgs__msg__ColorRGBA__init(&color_rgba_msg);
 }
 
 void UROS2ColorRGBAMsg::Fini()
 {
-    std_msgs__msg__ColorRGBA__fini(&color_rgba_msg);
+	std_msgs__msg__ColorRGBA__fini(&color_rgba_msg);
 }
 
 const rosidl_message_type_support_t* UROS2ColorRGBAMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, ColorRGBA);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, ColorRGBA);
 }
 
 void UROS2ColorRGBAMsg::SetMsg(const FROSColorRGBA& Inputs)
@@ -32,12 +34,12 @@ void UROS2ColorRGBAMsg::GetMsg(FROSColorRGBA& Outputs) const
 
 void* UROS2ColorRGBAMsg::Get()
 {
-    return &color_rgba_msg;
+	return &color_rgba_msg;
 }
 
 FString UROS2ColorRGBAMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2DisparityImgMsg::Init()
 {
-    stereo_msgs__msg__DisparityImage__init(&disparity_image_msg);
+	stereo_msgs__msg__DisparityImage__init(&disparity_image_msg);
 }
 
 void UROS2DisparityImgMsg::Fini()
 {
-    stereo_msgs__msg__DisparityImage__fini(&disparity_image_msg);
+	stereo_msgs__msg__DisparityImage__fini(&disparity_image_msg);
 }
 
 const rosidl_message_type_support_t* UROS2DisparityImgMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(stereo_msgs, msg, DisparityImage);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(stereo_msgs, msg, DisparityImage);
 }
 
 void UROS2DisparityImgMsg::SetMsg(const FROSDisparityImg& Inputs)
@@ -32,12 +34,12 @@ void UROS2DisparityImgMsg::GetMsg(FROSDisparityImg& Outputs) const
 
 void* UROS2DisparityImgMsg::Get()
 {
-    return &disparity_image_msg;
+	return &disparity_image_msg;
 }
 
 FString UROS2DisparityImgMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

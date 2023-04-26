@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2HeaderMsg::Init()
 {
-    std_msgs__msg__Header__init(&header_msg);
+	std_msgs__msg__Header__init(&header_msg);
 }
 
 void UROS2HeaderMsg::Fini()
 {
-    std_msgs__msg__Header__fini(&header_msg);
+	std_msgs__msg__Header__fini(&header_msg);
 }
 
 const rosidl_message_type_support_t* UROS2HeaderMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(std_msgs, msg, Header);
 }
 
 void UROS2HeaderMsg::SetMsg(const FROSHeader& Inputs)
@@ -32,12 +34,12 @@ void UROS2HeaderMsg::GetMsg(FROSHeader& Outputs) const
 
 void* UROS2HeaderMsg::Get()
 {
-    return &header_msg;
+	return &header_msg;
 }
 
 FString UROS2HeaderMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

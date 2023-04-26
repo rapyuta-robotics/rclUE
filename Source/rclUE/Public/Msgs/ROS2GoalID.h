@@ -16,61 +16,74 @@
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2Time.h"
 
+
 // Generated
 #include "ROS2GoalID.generated.h"
 
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSGoalID
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSTime Stamp;
+	
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString Id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FROSTime Stamp;
 
-    FROSGoalID()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString Id;
 
-    void SetFromROS2(const actionlib_msgs__msg__GoalID& in_ros_data)
-    {
-        Stamp.SetFromROS2(in_ros_data.stamp);
+	
 
-        Id = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.id);
-    }
+	FROSGoalID()
+	{
+		
+	}
 
-    void SetROS2(actionlib_msgs__msg__GoalID& out_ros_data) const
-    {
-        Stamp.SetROS2(out_ros_data.stamp);
+	void SetFromROS2(const actionlib_msgs__msg__GoalID& in_ros_data)
+	{
+    	Stamp.SetFromROS2(in_ros_data.stamp);
 
-        UROS2Utils::StringUEToROS(Id, out_ros_data.id);
-    }
+		Id = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.id);
+
+		
+	}
+
+	void SetROS2(actionlib_msgs__msg__GoalID& out_ros_data) const
+	{
+    	Stamp.SetROS2(out_ros_data.stamp);
+
+		UROS2Utils::StringUEToROS(Id, out_ros_data.id);
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2GoalIDMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSGoalID& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSGoalID& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSGoalID& Input);
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSGoalID& Output) const;
-
-    virtual void* Get() override;
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    actionlib_msgs__msg__GoalID goal_id_msg;
+	actionlib_msgs__msg__GoalID goal_id_msg;
 };

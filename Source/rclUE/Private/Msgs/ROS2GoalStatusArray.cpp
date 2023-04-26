@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2GoalStatusArrayMsg::Init()
 {
-    actionlib_msgs__msg__GoalStatusArray__init(&goal_status_array_msg);
+	actionlib_msgs__msg__GoalStatusArray__init(&goal_status_array_msg);
 }
 
 void UROS2GoalStatusArrayMsg::Fini()
 {
-    actionlib_msgs__msg__GoalStatusArray__fini(&goal_status_array_msg);
+	actionlib_msgs__msg__GoalStatusArray__fini(&goal_status_array_msg);
 }
 
 const rosidl_message_type_support_t* UROS2GoalStatusArrayMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(actionlib_msgs, msg, GoalStatusArray);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(actionlib_msgs, msg, GoalStatusArray);
 }
 
 void UROS2GoalStatusArrayMsg::SetMsg(const FROSGoalStatusArray& Inputs)
@@ -32,12 +34,12 @@ void UROS2GoalStatusArrayMsg::GetMsg(FROSGoalStatusArray& Outputs) const
 
 void* UROS2GoalStatusArrayMsg::Get()
 {
-    return &goal_status_array_msg;
+	return &goal_status_array_msg;
 }
 
 FString UROS2GoalStatusArrayMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }

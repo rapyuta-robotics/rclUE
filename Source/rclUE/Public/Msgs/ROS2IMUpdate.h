@@ -15,10 +15,11 @@
 
 // Generated Msg/Srv/Action(can be empty)
 #include "Msgs/ROS2IM.h"
-#include "Msgs/ROS2IMPose.h"
-#include "rosidl_runtime_c/string_functions.h"
 #include "visualization_msgs/msg/detail/interactive_marker__functions.h"
+#include "Msgs/ROS2IMPose.h"
 #include "visualization_msgs/msg/detail/interactive_marker_pose__functions.h"
+#include "rosidl_runtime_c/string_functions.h"
+
 
 // Generated
 #include "ROS2IMUpdate.generated.h"
@@ -26,125 +27,119 @@
 USTRUCT(Blueprintable)
 struct RCLUE_API FROSIMUpdate
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    static constexpr uint8 KEEP_ALIVE = 0;
-    static constexpr uint8 UPDATE = 1;
+		static constexpr uint8 KEEP_ALIVE = 0;
+	static constexpr uint8 UPDATE = 1;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FString ServerId;
 
-    UPROPERTY(EditAnywhere)
-    uint64 SeqNum = 0;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FString ServerId;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    uint8 Type = 0;
+	UPROPERTY(EditAnywhere)
+	uint64 SeqNum = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSIM> Markers;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	uint8 Type = 0;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FROSIMPose> Poses;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSIM> Markers;
 
-    UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TArray<FString> Erases;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FROSIMPose> Poses;
 
-    FROSIMUpdate()
-    {
-    }
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FString> Erases;
 
-    void SetFromROS2(const visualization_msgs__msg__InteractiveMarkerUpdate& in_ros_data)
-    {
-        ServerId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.server_id);
+	
 
-        SeqNum = in_ros_data.seq_num;
+	FROSIMUpdate()
+	{
+		
+	}
 
-        Type = in_ros_data.type;
+	void SetFromROS2(const visualization_msgs__msg__InteractiveMarkerUpdate& in_ros_data)
+	{
+    	ServerId = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(in_ros_data.server_id);
 
-        UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarker, FROSIM>(
-            in_ros_data.markers.data, Markers, in_ros_data.markers.size);
+		SeqNum = in_ros_data.seq_num;
 
-        UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
-            in_ros_data.poses.data, Poses, in_ros_data.poses.size);
+		Type = in_ros_data.type;
 
-        UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(in_ros_data.erases.data, Erases, in_ros_data.erases.size);
-    }
+		UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarker, FROSIM>(in_ros_data.markers.data, Markers, in_ros_data.markers.size);
 
-    void SetROS2(visualization_msgs__msg__InteractiveMarkerUpdate& out_ros_data) const
-    {
-        UROS2Utils::StringUEToROS(ServerId, out_ros_data.server_id);
+		UROS2Utils::SequenceROSToUEArray<visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(in_ros_data.poses.data, Poses, in_ros_data.poses.size);
 
-        out_ros_data.seq_num = SeqNum;
+		UROS2Utils::StringSequenceROSToUEArray<rosidl_runtime_c__String>(in_ros_data.erases.data, Erases, in_ros_data.erases.size);
 
-        out_ros_data.type = Type;
+		
+	}
 
-        if (out_ros_data.markers.data)
-        {
-            visualization_msgs__msg__InteractiveMarker__Sequence__fini(&out_ros_data.markers);
-        }
-        if (!visualization_msgs__msg__InteractiveMarker__Sequence__init(&out_ros_data.markers, Markers.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.markers  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarker, FROSIM>(
-            Markers, out_ros_data.markers.data, Markers.Num());
+	void SetROS2(visualization_msgs__msg__InteractiveMarkerUpdate& out_ros_data) const
+	{
+    	UROS2Utils::StringUEToROS(ServerId, out_ros_data.server_id);
 
-        if (out_ros_data.poses.data)
-        {
-            visualization_msgs__msg__InteractiveMarkerPose__Sequence__fini(&out_ros_data.poses);
-        }
-        if (!visualization_msgs__msg__InteractiveMarkerPose__Sequence__init(&out_ros_data.poses, Poses.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.poses  "));
-        }
-        UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(
-            Poses, out_ros_data.poses.data, Poses.Num());
+		out_ros_data.seq_num = SeqNum;
 
-        if (out_ros_data.erases.data)
-        {
-            rosidl_runtime_c__String__Sequence__fini(&out_ros_data.erases);
-        }
-        if (!rosidl_runtime_c__String__Sequence__init(&out_ros_data.erases, Erases.Num()))
-        {
-            UE_LOG_WITH_INFO(LogTemp, Error, TEXT("failed to create array for field out_ros_data.erases  "));
-        }
-        UROS2Utils::StringArrayUEToROSSequence(Erases, out_ros_data.erases.data, Erases.Num());
-    }
+		out_ros_data.type = Type;
+
+		if (out_ros_data.markers.data) {
+		visualization_msgs__msg__InteractiveMarker__Sequence__fini(&out_ros_data.markers);
+		}
+		if (!visualization_msgs__msg__InteractiveMarker__Sequence__init(&out_ros_data.markers, Markers.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.markers  "));}
+		UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarker, FROSIM>(Markers, out_ros_data.markers.data, Markers.Num());
+
+		if (out_ros_data.poses.data) {
+		visualization_msgs__msg__InteractiveMarkerPose__Sequence__fini(&out_ros_data.poses);
+		}
+		if (!visualization_msgs__msg__InteractiveMarkerPose__Sequence__init(&out_ros_data.poses, Poses.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.poses  "));}
+		UROS2Utils::ArrayUEToROSSequence<visualization_msgs__msg__InteractiveMarkerPose, FROSIMPose>(Poses, out_ros_data.poses.data, Poses.Num());
+
+		if (out_ros_data.erases.data) {
+		rosidl_runtime_c__String__Sequence__fini(&out_ros_data.erases);
+		}
+		if (!rosidl_runtime_c__String__Sequence__init(&out_ros_data.erases, Erases.Num())) {UE_LOG(LogTemp, Error, TEXT("failed to create array for field out_ros_data.erases  "));}
+		UROS2Utils::StringArrayUEToROSSequence(Erases, out_ros_data.erases.data, Erases.Num());
+
+		
+	}
 };
 
 UCLASS()
 class RCLUE_API UROS2IMUpdateMsg : public UROS2GenericMsg
 {
-    GENERATED_BODY()
+	GENERATED_BODY()
 
 public:
-    virtual void Init() override;
-    virtual void Fini() override;
+	virtual void Init() override;
+	virtual void Fini() override;
 
-    virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	virtual const rosidl_message_type_support_t* GetTypeSupport() const override;
+	
+  	UFUNCTION(BlueprintCallable)
+	void SetMsg(const FROSIMUpdate& Input);
+	
+  	UFUNCTION(BlueprintCallable)
+	void GetMsg(FROSIMUpdate& Output) const;
+	
+	virtual void* Get() override;
 
-    UFUNCTION(BlueprintCallable)
-    void SetMsg(const FROSIMUpdate& Input);
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_KEEP_ALIVE()
+	{
+		return FROSIMUpdate::KEEP_ALIVE;
+	}
+	UFUNCTION(BlueprintCallable)
+	static uint8 CONST_UPDATE()
+	{
+		return FROSIMUpdate::UPDATE;
+	}
+	
 
-    UFUNCTION(BlueprintCallable)
-    void GetMsg(FROSIMUpdate& Output) const;
-
-    virtual void* Get() override;
-
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_KEEP_ALIVE()
-    {
-        return FROSIMUpdate::KEEP_ALIVE;
-    }
-    UFUNCTION(BlueprintCallable)
-    static uint8 CONST_UPDATE()
-    {
-        return FROSIMUpdate::UPDATE;
-    }
 
 private:
-    virtual FString MsgToString() const override;
+	virtual FString MsgToString() const override;
 
-    visualization_msgs__msg__InteractiveMarkerUpdate interactive_marker_update_msg;
+	visualization_msgs__msg__InteractiveMarkerUpdate interactive_marker_update_msg;
 };

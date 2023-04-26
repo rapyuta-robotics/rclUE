@@ -5,19 +5,21 @@
 
 #include "Kismet/GameplayStatics.h"
 
+
+
 void UROS2PolygonMeshMsg::Init()
 {
-    pcl_msgs__msg__PolygonMesh__init(&polygon_mesh_msg);
+	pcl_msgs__msg__PolygonMesh__init(&polygon_mesh_msg);
 }
 
 void UROS2PolygonMeshMsg::Fini()
 {
-    pcl_msgs__msg__PolygonMesh__fini(&polygon_mesh_msg);
+	pcl_msgs__msg__PolygonMesh__fini(&polygon_mesh_msg);
 }
 
 const rosidl_message_type_support_t* UROS2PolygonMeshMsg::GetTypeSupport() const
 {
-    return ROSIDL_GET_MSG_TYPE_SUPPORT(pcl_msgs, msg, PolygonMesh);
+	return ROSIDL_GET_MSG_TYPE_SUPPORT(pcl_msgs, msg, PolygonMesh);
 }
 
 void UROS2PolygonMeshMsg::SetMsg(const FROSPolygonMesh& Inputs)
@@ -32,12 +34,12 @@ void UROS2PolygonMeshMsg::GetMsg(FROSPolygonMesh& Outputs) const
 
 void* UROS2PolygonMeshMsg::Get()
 {
-    return &polygon_mesh_msg;
+	return &polygon_mesh_msg;
 }
 
 FString UROS2PolygonMeshMsg::MsgToString() const
 {
     /* TODO: Fill here */
-    checkNoEntry();
-    return FString();
+	checkNoEntry();
+	return FString();
 }
