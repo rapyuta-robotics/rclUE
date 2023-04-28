@@ -150,8 +150,7 @@ public:
         if (State == UROS2State::Initialized)
         {
             // Update [TopicMessage] with [InMessageData]
-            CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData);
-            //CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData, InSimState);
+            CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData, InSimState);
 
             // Publish [TopicMessage]
             Publish();
