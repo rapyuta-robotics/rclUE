@@ -39,7 +39,7 @@ public:
                                              const FString& InTopicName,
                                              const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                              const FSubscriptionCallback& InCallback,
-                                             const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                             const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::DefaultQoS);
 
     /**
      * @brief Destroy subscriber with rcl_subscriber_fini
@@ -95,7 +95,7 @@ public:
 
     //! this is pass to #UROS2Subscriber::QoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Default;
+    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::DefaultQoS;
 
     //! this is pass to #UROS2Subscriber::Callback in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)

@@ -121,7 +121,7 @@ public:
     //! Quality of Feedback
     //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
+    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::DefaultQoS;
 
 protected:
     /**

@@ -468,7 +468,7 @@ public:
      * @param InMsgClass Custom message type class
      * @param InPubFrequency Publishing frequency
      * @param InUpdateDelegate Delegate which is called with given frequency.
-     * @param InQoS QoS. Default is #UROS2QoS::Default
+     * @param InQoS QoS. Default is #UROS2QoS::DefaultQoS
      */
     UFUNCTION(BlueprintCallable)
     UROS2Publisher* CreateLoopPublisher(const FString& InTopicName,
@@ -476,7 +476,7 @@ public:
                                         const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                         const float InPubFrequency,
                                         const FTopicCallback& InUpdateDelegate,
-                                        const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                        const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::DefaultQoS);
 
     /**
      * @brief Create a new #UROS2Publisher of custom publisher class and add to Node.
@@ -495,13 +495,13 @@ public:
      * @param InTopicName Topic name
      * @param InPublisherClass Custom output publisher type class
      * @param InMsgClass Custom message type class
-     * @param InQoS QoS. Default is #UROS2QoS::Default
+     * @param InQoS QoS. Default is #UROS2QoS::DefaultQoS
      */
     UFUNCTION(BlueprintCallable)
     UROS2Publisher* CreatePublisher(const FString& InTopicName,
                                     const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                     const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                    const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                    const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::DefaultQoS);
 
     /**
      * @brief Methods to register subscribers.
@@ -524,7 +524,7 @@ public:
     UROS2Subscriber* CreateSubscriber(const FString& InTopicName,
                                       const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                       const FSubscriptionCallback& InCallback,
-                                      const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                      const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::DefaultQoS);
 
     /**
      * @brief Set this node to #UROS2ServiceClient::OwnerNode and add to #ServiceClients.
@@ -541,7 +541,7 @@ public:
      * @param InSrvClass
      * @param InRequestDelegate
      * @param InResponseDelegate
-     * @param InQoS QoS. Default is #UROS2QoS::Default
+     * @param InQoS QoS. Default is #UROS2QoS::DefaultQoS
      * @return UROS2NodeComponent*
      */
     UFUNCTION(BlueprintCallable)
@@ -604,7 +604,7 @@ public:
                                           const FSimpleCallback& InCancelResponseDelegate,
                                           const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
                                           const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
-                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::DefaultQoS,
                                           const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
     /**
      * @brief Set this node to #UROS2ActionClient::OwnerNode and add to #ActionServers.
@@ -635,7 +635,7 @@ public:
                                           const FSimpleCallback& InCancelDelegate,
                                           const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
                                           const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
-                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::DefaultQoS,
                                           const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
 
     //! Node state

@@ -36,7 +36,7 @@ void UROS2ActionServer::InitializeActionComponent()
     server_opt.result_service_qos = QoS_LUT[ResultQoS];
     server_opt.cancel_service_qos = QoS_LUT[CancelQoS];
     server_opt.feedback_topic_qos = QoS_LUT[FeedbackQoS];
-    server_opt.status_topic_qos = QoS_LUT[UROS2QoS::Default];    // status is not supported yet.
+    server_opt.status_topic_qos = QoS_LUT[UROS2QoS::DefaultQoS];    // status is not supported yet.
 
     rcl_allocator_t allocator = rcl_get_default_allocator();
     RCSOFTCHECK(rcl_ros_clock_init(&ros_clock, &allocator));

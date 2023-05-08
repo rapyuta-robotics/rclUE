@@ -61,7 +61,7 @@ public:
                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                                float InPubFrequency,
                                                const FTopicCallback& InUpdateDelegate,
-                                               const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                               const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::DefaultQoS);
     /**
      * @brief Create a new UROS2Publisher and add to Node.
      *
@@ -92,7 +92,7 @@ public:
                                            const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                            const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                            float InPubFrequency,
-                                           const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                           const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::DefaultQoS);
 
     /**
      * @brief Update Msg with delegate and publish msg.
@@ -240,7 +240,7 @@ public:
 
     //! this is pass to #UROS2Publisher::QoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Default;
+    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::DefaultQoS;
 
     //! this is pass to #UROS2Publisher::UpdateDelegate in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)

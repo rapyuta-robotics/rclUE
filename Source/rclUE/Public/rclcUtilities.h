@@ -85,7 +85,7 @@ enum UROS2State
 UENUM()
 enum UROS2QoS
 {
-    Default UMETA(DisplayName = "Default"),
+    DefaultQoS UMETA(DisplayName = "Default"),
     SensorData UMETA(DisplayName = "SensorData"),
     DynamicBroadcaster UMETA(DisplayName = "DynamicBroadcaster"),
     StaticBroadcaster UMETA(DisplayName = "StaticBroadcaster"),
@@ -155,7 +155,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_P
 
 //! Look-Up Table matching enum with rcl profiles
 static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
-    {UROS2QoS::Default, rmw_qos_profile_default},
+    {UROS2QoS::DefaultQoS, rmw_qos_profile_default},
     {UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
     {UROS2QoS::DynamicBroadcaster, rclUE_qos_profile_dynamic_broadcaster},
     {UROS2QoS::StaticBroadcaster, rclUE_qos_profile_static_broadcaster},

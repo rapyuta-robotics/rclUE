@@ -49,7 +49,7 @@ public:
                                                  const FSimpleCallback& InCancelResponseDelegate,
                                                  const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
                                                  const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
-                                                 const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
+                                                 const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::DefaultQoS,
                                                  const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
     /**
      * @brief Destroy action client from rclc
@@ -179,7 +179,7 @@ public:
 
     //! this is pass to #UROS2ActionClient::FeedbackQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
+    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::DefaultQoS;
 
     FActionCallback GoalResponseDelegate;
     FActionCallback ResultResponseDelegate;
