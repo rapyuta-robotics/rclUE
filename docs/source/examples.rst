@@ -35,6 +35,7 @@ Since the prooject is set to use
 `ROS2 with Discovery Server <https://docs.ros.org/en/foxy/Tutorials/Advanced/Discovery-Server/Discovery-Server.html>`_
 to communicate with ROS2 Node in UE, you needs to execute `source turtlebot3_UE/fastdds_setup.sh`.
 
+\* In `jammy` branch, you can execute `./run_editor false` to run project without Discovery Server.
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Topic/Service/Action Examples
