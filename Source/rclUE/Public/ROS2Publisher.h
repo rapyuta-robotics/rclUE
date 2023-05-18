@@ -18,8 +18,6 @@
 
 #include "ROS2Publisher.generated.h"
 
-class ASimulationState;
-
 /**
  * @brief ROS2 Publisher class.
  *
