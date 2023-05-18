@@ -18,8 +18,6 @@
 
 #include "ROS2Publisher.generated.h"
 
-class ASimulationState;
-
 /**
  * @brief ROS2 Publisher class.
  *
@@ -132,32 +130,6 @@ public:
         else
         {
             UE_LOG_WITH_INFO_NAMED(LogTemp, Log, TEXT("Publisher or node is not yet initialized"));
-        }
-    }
-
-    /**
-     * @brief Publish a message, sends the simulationState
-     *
-     * @tparam TMessageStruct
-     * @param InMessage
-     * @param InSimState
-     */
-    template<typename TUEMessage, typename TUEStruct>
-    void PublishWithSimState(const TUEStruct& InMessageData, ASimulationState* InSimState = nullptr)
-    {
-        // can't use macro in here.
-        // if (IsValid(OwnerNode) && OwnerNode->State == UROS2State::Initialized && State == UROS2State::Initialized)
-        if (State == UROS2State::Initialized)
-        {
-            // Update [TopicMessage] with [InMessageData]
-            CastChecked<TUEMessage>(TopicMessage)->SetMsg(InMessageData, InSimState);
-
-            // Publish [TopicMessage]
-            Publish();
-        }
-        else
-        {
-            UE_LOG_WITH_INFO(LogTemp, Log, TEXT("Publish() [%s] Publisher or node is not yet initialized"), *GetName());
         }
     }
 
