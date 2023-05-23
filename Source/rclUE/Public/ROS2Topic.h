@@ -93,7 +93,7 @@ public:
     //! Quality of service
     //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Default;
+    UROS2QoS QoS = UROS2QoS::Default;
 
     //! Message Instance
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

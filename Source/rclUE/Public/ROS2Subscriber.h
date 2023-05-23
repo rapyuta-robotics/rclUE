@@ -39,7 +39,7 @@ public:
                                              const FString& InTopicName,
                                              const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                              const FSubscriptionCallback& InCallback,
-                                             const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                             const UROS2QoS InQoS = UROS2QoS::Default);
 
     /**
      * @brief Destroy subscriber with rcl_subscriber_fini
@@ -74,7 +74,7 @@ protected:
 
 /**
  * @brief ROS2 Subscriber Component. Wrapper of #UROS2Subscriber for BP.
- * 
+ *
  */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2SubscriberComponent : public UActorComponent
@@ -95,7 +95,7 @@ public:
 
     //! this is pass to #UROS2Subscriber::QoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Default;
+    UROS2QoS QoS = UROS2QoS::Default;
 
     //! this is pass to #UROS2Subscriber::Callback in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)

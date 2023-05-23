@@ -83,7 +83,7 @@ enum UROS2State
  * also check rmw/types.h for details
  */
 UENUM()
-enum UROS2QoS
+enum class UROS2QoS : uint8
 {
     Default UMETA(DisplayName = "Default"),
     SensorData UMETA(DisplayName = "SensorData"),
@@ -154,18 +154,17 @@ static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_P
                                                                        false};
 
 //! Look-Up Table matching enum with rcl profiles
-static const TMap<TEnumAsByte<UROS2QoS>, rmw_qos_profile_t> QoS_LUT = {
-    {UROS2QoS::Default, rmw_qos_profile_default},
-    {UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
-    {UROS2QoS::DynamicBroadcaster, rclUE_qos_profile_dynamic_broadcaster},
-    {UROS2QoS::StaticBroadcaster, rclUE_qos_profile_static_broadcaster},
-    {UROS2QoS::ClockPub, rclUE_qos_profile_clock_pub},
-    {UROS2QoS::KeepLast, rclUE_qos_profile_keep_last},
-    {UROS2QoS::Parameters, rmw_qos_profile_parameters},
-    {UROS2QoS::Services, rmw_qos_profile_services_default},
-    {UROS2QoS::ParameterEvents, rmw_qos_profile_parameter_events},
-    {UROS2QoS::System, rmw_qos_profile_system_default},
-    {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
+static const TMap<UROS2QoS, rmw_qos_profile_t> QoS_LUT = {{UROS2QoS::Default, rmw_qos_profile_default},
+                                                          {UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
+                                                          {UROS2QoS::DynamicBroadcaster, rclUE_qos_profile_dynamic_broadcaster},
+                                                          {UROS2QoS::StaticBroadcaster, rclUE_qos_profile_static_broadcaster},
+                                                          {UROS2QoS::ClockPub, rclUE_qos_profile_clock_pub},
+                                                          {UROS2QoS::KeepLast, rclUE_qos_profile_keep_last},
+                                                          {UROS2QoS::Parameters, rmw_qos_profile_parameters},
+                                                          {UROS2QoS::Services, rmw_qos_profile_services_default},
+                                                          {UROS2QoS::ParameterEvents, rmw_qos_profile_parameter_events},
+                                                          {UROS2QoS::System, rmw_qos_profile_system_default},
+                                                          {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
 
 /**
  * @brief Custom timer manager.  This try to execute delegate at a given fixed rate.

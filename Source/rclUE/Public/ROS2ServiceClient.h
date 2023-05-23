@@ -45,7 +45,7 @@ public:
                                                    const FString& InServiceName,
                                                    const TSubclassOf<UROS2GenericSrv>& InSrvClass,
                                                    const FServiceCallback& InResponseDelegate,
-                                                   const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
+                                                   const UROS2QoS InQoS = UROS2QoS::Services);
 
     /**
      * @brief Destroy service with rcl_client_fini
@@ -156,7 +156,7 @@ public:
 
     //! this is pass to #UROS2ServiceClient::QoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Services;
+    UROS2QoS QoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ServiceClient::ResponseDelegate in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
