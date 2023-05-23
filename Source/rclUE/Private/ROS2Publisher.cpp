@@ -23,7 +23,7 @@ UROS2Publisher* UROS2Publisher::CreateLoopPublisher(UObject* InOwner,
                                                     const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                                     float InPubFrequency,
                                                     const FTopicCallback& InUpdateDelegate,
-                                                    const TEnumAsByte<UROS2QoS> InQoS)
+                                                    const UROS2QoS InQoS)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
     publisher->MsgClass = InMsgClass;
@@ -51,7 +51,7 @@ UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
                                                 const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                                 const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                                 float InPubFrequency,
-                                                const TEnumAsByte<UROS2QoS> InQoS)
+                                                const UROS2QoS InQoS)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
     publisher->MsgClass = InMsgClass;

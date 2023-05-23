@@ -11,10 +11,10 @@ UROS2ActionClient* UROS2ActionClient::CreateActionClient(UObject* InOwner,
                                                          const FActionCallback& InResultResponseDelegate,
                                                          const FActionCallback& InFeedbackDelegate,
                                                          const FSimpleCallback& InCancelResponseDelegate,
-                                                         const TEnumAsByte<UROS2QoS> InGoalQoS,
-                                                         const TEnumAsByte<UROS2QoS> InResultQoS,
-                                                         const TEnumAsByte<UROS2QoS> InFeedbackQoS,
-                                                         const TEnumAsByte<UROS2QoS> InCancelQoS)
+                                                         const UROS2QoS InGoalQoS,
+                                                         const UROS2QoS InResultQoS,
+                                                         const UROS2QoS InFeedbackQoS,
+                                                         const UROS2QoS InCancelQoS)
 {
     UROS2ActionClient* client = NewObject<UROS2ActionClient>(InOwner);
     client->ActionClass = InActionClass;
