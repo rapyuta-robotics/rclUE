@@ -47,10 +47,10 @@ public:
                                                  const FActionCallback& InResultResponseDelegate,
                                                  const FActionCallback& InFeedbackDelegate,
                                                  const FSimpleCallback& InCancelResponseDelegate,
-                                                 const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
-                                                 const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
-                                                 const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
-                                                 const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
+                                                 const UROS2QoS InGoalQoS = UROS2QoS::Services,
+                                                 const UROS2QoS InResultQoS = UROS2QoS::Services,
+                                                 const UROS2QoS InFeedbackQoS = UROS2QoS::Default,
+                                                 const UROS2QoS InCancelQoS = UROS2QoS::Services);
     /**
      * @brief Destroy action client from rclc
      *
@@ -167,19 +167,19 @@ public:
 
     //! this is pass to #UROS2ActionClient::CancelQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> CancelQoS = UROS2QoS::Services;
+    UROS2QoS CancelQoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ActionClient::GoalQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> GoalQoS = UROS2QoS::Services;
+    UROS2QoS GoalQoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ActionClient::ResultQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> ResultQoS = UROS2QoS::Services;
+    UROS2QoS ResultQoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ActionClient::FeedbackQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
+    UROS2QoS FeedbackQoS = UROS2QoS::Default;
 
     FActionCallback GoalResponseDelegate;
     FActionCallback ResultResponseDelegate;

@@ -35,10 +35,10 @@ public:
                                                  const FActionCallback& InGoalDelegate,
                                                  const FSimpleCallback& InResultDelegate,
                                                  const FSimpleCallback& InCancelDelegate,
-                                                 const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
-                                                 const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
-                                                 const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
-                                                 const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
+                                                 const UROS2QoS InGoalQoS = UROS2QoS::Services,
+                                                 const UROS2QoS InResultQoS = UROS2QoS::Services,
+                                                 const UROS2QoS InFeedbackQoS = UROS2QoS::Default,
+                                                 const UROS2QoS InCancelQoS = UROS2QoS::Services);
 
     /**
      * @brief Destroy action server from rclc
@@ -117,7 +117,7 @@ private:
 
 /**
  * @brief ROS2 Action server Component. Wrapper of #UROS2ActionServer for BP.
- * 
+ *
  */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ActionServerComponent : public UActorComponent
@@ -138,19 +138,19 @@ public:
 
     //! this is pass to #UROS2ActionServer::CancelQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> CancelQoS = UROS2QoS::Services;
+    UROS2QoS CancelQoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ActionServer::GoalQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> GoalQoS = UROS2QoS::Services;
+    UROS2QoS GoalQoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ActionServer::ResultQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> ResultQoS = UROS2QoS::Services;
+    UROS2QoS ResultQoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ActionServer::FeedbackQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> FeedbackQoS = UROS2QoS::Default;
+    UROS2QoS FeedbackQoS = UROS2QoS::Default;
 
     FActionCallback GoalDelegate;
     FSimpleCallback ResultDelegate;

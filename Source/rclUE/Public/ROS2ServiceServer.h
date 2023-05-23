@@ -43,7 +43,7 @@ public:
                                                    const FString& InServiceName,
                                                    const TSubclassOf<UROS2GenericSrv>& InSrvClass,
                                                    const FServiceCallback& InCallback,
-                                                   const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
+                                                   const UROS2QoS InQoS = UROS2QoS::Services);
 
     /**
      * @brief Destroy publisher with rcl_client_fini
@@ -69,8 +69,8 @@ public:
 
     /**
      * @brief Set #SrvCallback
-     * 
-     * @param InSrvCallback 
+     *
+     * @param InSrvCallback
      */
     UFUNCTION(BlueprintCallable)
     void SetDelegates(const FServiceCallback& InSrvCallback);
@@ -86,7 +86,7 @@ protected:
 
 /**
  * @brief ROS2 ServiceServer Component. Wrapper of #UROS2ServiceServer for BP.
- * 
+ *
  */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
 class RCLUE_API UROS2ServiceServerComponent : public UActorComponent
@@ -107,7 +107,7 @@ public:
 
     //! this is pass to #UROS2ServiceServer::QoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    TEnumAsByte<UROS2QoS> QoS = UROS2QoS::Services;
+    UROS2QoS QoS = UROS2QoS::Services;
 
     //! this is pass to #UROS2ServiceServer::ResponseDelegate in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)

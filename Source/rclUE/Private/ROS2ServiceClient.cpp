@@ -6,7 +6,7 @@ UROS2ServiceClient* UROS2ServiceClient::CreateServiceClient(UObject* InOwner,
                                                             const FString& InServiceName,
                                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
                                                             const FServiceCallback& InResponseDelegate,
-                                                            const TEnumAsByte<UROS2QoS> InQoS)
+                                                            const UROS2QoS InQoS)
 {
     UROS2ServiceClient* client = NewObject<UROS2ServiceClient>(InOwner);
     client->SrvClass = InSrvClass;

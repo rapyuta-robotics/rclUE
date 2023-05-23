@@ -476,7 +476,7 @@ public:
                                         const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                         const float InPubFrequency,
                                         const FTopicCallback& InUpdateDelegate,
-                                        const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                        const UROS2QoS InQoS = UROS2QoS::Default);
 
     /**
      * @brief Create a new #UROS2Publisher of custom publisher class and add to Node.
@@ -501,7 +501,7 @@ public:
     UROS2Publisher* CreatePublisher(const FString& InTopicName,
                                     const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                     const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                    const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                    const UROS2QoS InQoS = UROS2QoS::Default);
 
     /**
      * @brief Methods to register subscribers.
@@ -524,7 +524,7 @@ public:
     UROS2Subscriber* CreateSubscriber(const FString& InTopicName,
                                       const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                       const FSubscriptionCallback& InCallback,
-                                      const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Default);
+                                      const UROS2QoS InQoS = UROS2QoS::Default);
 
     /**
      * @brief Set this node to #UROS2ServiceClient::OwnerNode and add to #ServiceClients.
@@ -548,7 +548,7 @@ public:
     UROS2ServiceClient* CreateServiceClient(const FString& InServiceName,
                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
                                             const FServiceCallback& InResponseDelegate,
-                                            const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
+                                            const UROS2QoS InQoS = UROS2QoS::Services);
 
     /**
      * @brief Create ServiceServer with rcl_service_init and add to #ServiceServers.
@@ -571,7 +571,7 @@ public:
     UROS2ServiceServer* CreateServiceServer(const FString& InServiceName,
                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
                                             const FServiceCallback& InCallback,
-                                            const TEnumAsByte<UROS2QoS> InQoS = UROS2QoS::Services);
+                                            const UROS2QoS InQoS = UROS2QoS::Services);
 
     /**
      * @brief Set this node to #UROS2ActionClient::OwnerNode and add to #ActionClients.
@@ -602,10 +602,10 @@ public:
                                           const FActionCallback& InResultResponseDelegate,
                                           const FActionCallback& InFeedbackDelegate,
                                           const FSimpleCallback& InCancelResponseDelegate,
-                                          const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
-                                          const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
-                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
-                                          const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
+                                          const UROS2QoS InGoalQoS = UROS2QoS::Services,
+                                          const UROS2QoS InResultQoS = UROS2QoS::Services,
+                                          const UROS2QoS InFeedbackQoS = UROS2QoS::Default,
+                                          const UROS2QoS InCancelQoS = UROS2QoS::Services);
     /**
      * @brief Set this node to #UROS2ActionClient::OwnerNode and add to #ActionServers.
      *
@@ -633,10 +633,10 @@ public:
                                           const FActionCallback& InGoalDelegate,
                                           const FSimpleCallback& InResultDelegate,
                                           const FSimpleCallback& InCancelDelegate,
-                                          const TEnumAsByte<UROS2QoS> InGoalQoS = UROS2QoS::Services,
-                                          const TEnumAsByte<UROS2QoS> InResultQoS = UROS2QoS::Services,
-                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS = UROS2QoS::Default,
-                                          const TEnumAsByte<UROS2QoS> InCancelQoS = UROS2QoS::Services);
+                                          const UROS2QoS InGoalQoS = UROS2QoS::Services,
+                                          const UROS2QoS InResultQoS = UROS2QoS::Services,
+                                          const UROS2QoS InFeedbackQoS = UROS2QoS::Default,
+                                          const UROS2QoS InCancelQoS = UROS2QoS::Services);
 
     //! Node state
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

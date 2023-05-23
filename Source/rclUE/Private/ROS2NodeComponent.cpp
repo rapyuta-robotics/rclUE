@@ -159,7 +159,7 @@ UROS2Publisher* UROS2NodeComponent::CreateLoopPublisher(const FString& InTopicNa
                                                         const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                                         const float InPubFrequency,
                                                         const FTopicCallback& InUpdateDelegate,
-                                                        const TEnumAsByte<UROS2QoS> InQoS)
+                                                        const UROS2QoS InQoS)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
     publisher->MsgClass = InMsgClass;
@@ -186,7 +186,7 @@ UROS2Publisher* UROS2NodeComponent::CreatePublisherWithClass(const TSubclassOf<U
 UROS2Publisher* UROS2NodeComponent::CreatePublisher(const FString& InTopicName,
                                                     const TSubclassOf<UROS2Publisher>& InPublisherClass,
                                                     const TSubclassOf<UROS2GenericMsg>& InMsgClass,
-                                                    const TEnumAsByte<UROS2QoS> InQoS)
+                                                    const UROS2QoS InQoS)
 {
     UROS2Publisher* publisher = NewObject<UROS2Publisher>(this, InPublisherClass);
     publisher->MsgClass = InMsgClass;
@@ -222,7 +222,7 @@ void UROS2NodeComponent::AddSubscription(UROS2Subscriber* InSubscriber)
 UROS2Subscriber* UROS2NodeComponent::CreateSubscriber(const FString& InTopicName,
                                                       const TSubclassOf<UROS2GenericMsg>& InMsgClass,
                                                       const FSubscriptionCallback& InCallback,
-                                                      const TEnumAsByte<UROS2QoS> InQoS)
+                                                      const UROS2QoS InQoS)
 {
     UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(this);
     subscriber->MsgClass = InMsgClass;
@@ -259,7 +259,7 @@ void UROS2NodeComponent::AddServiceClient(UROS2ServiceClient* InServiceClient)
 UROS2ServiceClient* UROS2NodeComponent::CreateServiceClient(const FString& InServiceName,
                                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
                                                             const FServiceCallback& InResponseDelegate,
-                                                            const TEnumAsByte<UROS2QoS> InQoS)
+                                                            const UROS2QoS InQoS)
 {
     UROS2ServiceClient* client = NewObject<UROS2ServiceClient>(this);
     client->SrvClass = InSrvClass;
@@ -296,7 +296,7 @@ void UROS2NodeComponent::AddServiceServer(UROS2ServiceServer* InServiceServer)
 UROS2ServiceServer* UROS2NodeComponent::CreateServiceServer(const FString& InServiceName,
                                                             const TSubclassOf<UROS2GenericSrv>& InSrvClass,
                                                             const FServiceCallback& InCallback,
-                                                            const TEnumAsByte<UROS2QoS> InQoS)
+                                                            const UROS2QoS InQoS)
 
 {
     UROS2ServiceServer* server = NewObject<UROS2ServiceServer>(this);
@@ -337,10 +337,10 @@ UROS2ActionClient* UROS2NodeComponent::CreateActionClient(const FString& InActio
                                                           const FActionCallback& InResultResponseDelegate,
                                                           const FActionCallback& InFeedbackDelegate,
                                                           const FSimpleCallback& InCancelResponseDelegate,
-                                                          const TEnumAsByte<UROS2QoS> InGoalQoS,
-                                                          const TEnumAsByte<UROS2QoS> InResultQoS,
-                                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS,
-                                                          const TEnumAsByte<UROS2QoS> InCancelQoS)
+                                                          const UROS2QoS InGoalQoS,
+                                                          const UROS2QoS InResultQoS,
+                                                          const UROS2QoS InFeedbackQoS,
+                                                          const UROS2QoS InCancelQoS)
 {
     UROS2ActionClient* client = NewObject<UROS2ActionClient>(this);
     client->ActionClass = InActionClass;
@@ -381,10 +381,10 @@ UROS2ActionServer* UROS2NodeComponent::CreateActionServer(const FString& InActio
                                                           const FActionCallback& InGoalDelegate,
                                                           const FSimpleCallback& InResultDelegate,
                                                           const FSimpleCallback& InCancelDelegate,
-                                                          const TEnumAsByte<UROS2QoS> InGoalQoS,
-                                                          const TEnumAsByte<UROS2QoS> InResultQoS,
-                                                          const TEnumAsByte<UROS2QoS> InFeedbackQoS,
-                                                          const TEnumAsByte<UROS2QoS> InCancelQoS)
+                                                          const UROS2QoS InGoalQoS,
+                                                          const UROS2QoS InResultQoS,
+                                                          const UROS2QoS InFeedbackQoS,
+                                                          const UROS2QoS InCancelQoS)
 {
     UROS2ActionServer* server = NewObject<UROS2ActionServer>(this);
     server->ActionClass = InActionClass;
