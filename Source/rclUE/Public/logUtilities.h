@@ -45,6 +45,23 @@
     }
 
 /**
+ * UE_LOG with function info with <class name>::<func name>@<line number> .
+ * @param CategoryName name of the logging category
+ * @param Verbosity, verbosity level to test against
+ * @param Format, format text
+*/
+#define UE_LOG_WITH_INFO_SHORT(CategoryName, Verbosity, ...)                                                                     \
+    {                                                                                                                            \
+        FString UE_LOG_WITH_INFO_Temp1, UE_LOG_WITH_INFO_Temp2;                                                                  \
+        FString(RCLUE_FUNC_LOG)                                                                                                  \
+            .Split(                                                                                                              \
+                TEXT("("), &UE_LOG_WITH_INFO_Temp1, &UE_LOG_WITH_INFO_Temp2, ESearchCase::CaseSensitive, ESearchDir::FromStart); \
+        UE_LOG_WITH_INFO_Temp1.Split(                                                                                            \
+            TEXT(" "), &UE_LOG_WITH_INFO_Temp1, &UE_LOG_WITH_INFO_Temp2, ESearchCase::CaseSensitive, ESearchDir::FromEnd);       \
+        UE_LOG(CategoryName, Verbosity, TEXT("[%s@%d] %s"), *UE_LOG_WITH_INFO_Temp2, __LINE__, *FString::Printf(__VA_ARGS__));   \
+    }
+
+/**
  * UE_LOG_WITH_INFO with GetName()
  * @param CategoryName name of the logging category
  * @param Verbosity, verbosity level to test against
@@ -53,6 +70,17 @@
 #define UE_LOG_WITH_INFO_NAMED(CategoryName, Verbosity, ...)                                                   \
     {                                                                                                          \
         UE_LOG_WITH_INFO(CategoryName, Verbosity, TEXT("[%s] %s"), *GetName(), *FString::Printf(__VA_ARGS__)); \
+    }
+
+/**
+ * UE_LOG_WITH_INFO_SHORT with GetName()
+ * @param CategoryName name of the logging category
+ * @param Verbosity, verbosity level to test against
+ * @param Format, format text
+*/
+#define UE_LOG_WITH_INFO_SHORT_NAMED(CategoryName, Verbosity, ...)                                                   \
+    {                                                                                                                \
+        UE_LOG_WITH_INFO_SHORT(CategoryName, Verbosity, TEXT("[%s] %s"), *GetName(), *FString::Printf(__VA_ARGS__)); \
     }
 
 /**
@@ -86,6 +114,21 @@
     }
 
 /**
+ * @brief UE_LOG_WITH_INFO_SHORT_THROTTLE will print a message at most once per InRate.
+ * @param InRate, time interval to print a message
+ * @param InLastHit, last time a message was printed
+ */
+#define UE_LOG_WITH_INFO_SHORT_THROTTLE(InRate, InLastHit, ...)                             \
+    {                                                                                       \
+        float UE_LOG_WITH_INFO_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
+        if (InLastHit + InRate <= UE_LOG_WITH_INFO_THROTTLE_Now)                            \
+        {                                                                                   \
+            InLastHit = UE_LOG_WITH_INFO_THROTTLE_Now;                                      \
+            UE_LOG_WITH_INFO_SHORT(__VA_ARGS__);                                            \
+        }                                                                                   \
+    }
+
+/**
  * @brief UE_LOG_WITH_INFO_NAMED_THROTTLE will print a message at most once per InRate.
  * @param InRate, time interval to print a message
  * @param InLastHit, last time a message was printed
@@ -97,5 +140,20 @@
         {                                                                                         \
             InLastHit = UE_LOG_WITH_INFO_NAMED_THROTTLE_Now;                                      \
             UE_LOG_WITH_INFO_NAMED(__VA_ARGS__);                                                  \
+        }                                                                                         \
+    }
+
+/**
+ * @brief UE_LOG_WITH_INFO_SHORT_NAMED_THROTTLE will print a message at most once per InRate.
+ * @param InRate, time interval to print a message
+ * @param InLastHit, last time a message was printed
+ */
+#define UE_LOG_WITH_INFO_SHORT_NAMED_THROTTLE(InRate, InLastHit, ...)                             \
+    {                                                                                             \
+        float UE_LOG_WITH_INFO_NAMED_THROTTLE_Now = UGameplayStatics::GetTimeSeconds(GetWorld()); \
+        if (InLastHit + InRate <= UE_LOG_WITH_INFO_NAMED_THROTTLE_Now)                            \
+        {                                                                                         \
+            InLastHit = UE_LOG_WITH_INFO_NAMED_THROTTLE_Now;                                      \
+            UE_LOG_WITH_INFO_SHORT_NAMED(__VA_ARGS__);                                            \
         }                                                                                         \
     }
