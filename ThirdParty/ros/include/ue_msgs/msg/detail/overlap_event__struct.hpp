@@ -14,7 +14,7 @@
 #include <vector>
 
 // Include directives for member types
-// Member 'hit_result'
+// Member 'sweep_result'
 #include "ue_msgs/msg/detail/hit_result__struct.hpp"
 
 #ifndef _WIN32
@@ -36,7 +36,7 @@ struct OverlapEvent_
     using Type = OverlapEvent_<ContainerAllocator>;
 
     explicit OverlapEvent_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-        : hit_result(_init)
+        : sweep_result(_init)
     {
         if (rosidl_runtime_cpp::MessageInitialization::ALL == _init || rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
         {
@@ -51,7 +51,7 @@ struct OverlapEvent_
 
     explicit OverlapEvent_(const ContainerAllocator& _alloc,
                            rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
-        : self_name(_alloc), other_actor_name(_alloc), other_component_name(_alloc), hit_result(_alloc, _init)
+        : self_name(_alloc), other_actor_name(_alloc), other_component_name(_alloc), sweep_result(_alloc, _init)
     {
         if (rosidl_runtime_cpp::MessageInitialization::ALL == _init || rosidl_runtime_cpp::MessageInitialization::ZERO == _init)
         {
@@ -80,8 +80,8 @@ struct OverlapEvent_
     _other_body_index_type other_body_index;
     using _from_sweep_type = bool;
     _from_sweep_type from_sweep;
-    using _hit_result_type = ue_msgs::msg::HitResult_<ContainerAllocator>;
-    _hit_result_type hit_result;
+    using _sweep_result_type = ue_msgs::msg::HitResult_<ContainerAllocator>;
+    _sweep_result_type sweep_result;
 
     // setters for named parameter idiom
     Type& set__begin(const bool& _arg)
@@ -117,9 +117,9 @@ struct OverlapEvent_
         this->from_sweep = _arg;
         return *this;
     }
-    Type& set__hit_result(const ue_msgs::msg::HitResult_<ContainerAllocator>& _arg)
+    Type& set__sweep_result(const ue_msgs::msg::HitResult_<ContainerAllocator>& _arg)
     {
-        this->hit_result = _arg;
+        this->sweep_result = _arg;
         return *this;
     }
 
@@ -175,7 +175,7 @@ struct OverlapEvent_
         {
             return false;
         }
-        if (this->hit_result != other.hit_result)
+        if (this->sweep_result != other.sweep_result)
         {
             return false;
         }

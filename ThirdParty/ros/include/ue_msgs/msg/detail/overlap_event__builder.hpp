@@ -20,15 +20,15 @@ namespace msg
 namespace builder
 {
 
-class Init_OverlapEvent_hit_result
+class Init_OverlapEvent_sweep_result
 {
 public:
-    explicit Init_OverlapEvent_hit_result(::ue_msgs::msg::OverlapEvent& msg) : msg_(msg)
+    explicit Init_OverlapEvent_sweep_result(::ue_msgs::msg::OverlapEvent& msg) : msg_(msg)
     {
     }
-    ::ue_msgs::msg::OverlapEvent hit_result(::ue_msgs::msg::OverlapEvent::_hit_result_type arg)
+    ::ue_msgs::msg::OverlapEvent sweep_result(::ue_msgs::msg::OverlapEvent::_sweep_result_type arg)
     {
-        msg_.hit_result = std::move(arg);
+        msg_.sweep_result = std::move(arg);
         return std::move(msg_);
     }
 
@@ -42,10 +42,10 @@ public:
     explicit Init_OverlapEvent_from_sweep(::ue_msgs::msg::OverlapEvent& msg) : msg_(msg)
     {
     }
-    Init_OverlapEvent_hit_result from_sweep(::ue_msgs::msg::OverlapEvent::_from_sweep_type arg)
+    Init_OverlapEvent_sweep_result from_sweep(::ue_msgs::msg::OverlapEvent::_from_sweep_type arg)
     {
         msg_.from_sweep = std::move(arg);
-        return Init_OverlapEvent_hit_result(msg_);
+        return Init_OverlapEvent_sweep_result(msg_);
     }
 
 private:

@@ -17,9 +17,9 @@
 // Member `other_actor_name`
 // Member `other_component_name`
 #include "rosidl_runtime_c/string_functions.h"
-// Member `hit_result`
+// Member `sweep_result`
 #include "ue_msgs/msg/hit_result.h"
-// Member `hit_result`
+// Member `sweep_result`
 #include "ue_msgs/msg/detail/hit_result__rosidl_typesupport_introspection_c.h"
 
 #ifdef __cplusplus
@@ -135,14 +135,14 @@ extern "C"
                 NULL                                                     // resize(index) function pointer
             },
             {
-                "hit_result",                                            // name
+                "sweep_result",                                          // name
                 rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,    // type
                 0,                                                       // upper bound of string
                 NULL,                                                    // members of sub message (initialized later)
                 false,                                                   // is array
                 0,                                                       // array size
                 false,                                                   // is upper bound
-                offsetof(ue_msgs__msg__OverlapEvent, hit_result),        // bytes offset in struct
+                offsetof(ue_msgs__msg__OverlapEvent, sweep_result),      // bytes offset in struct
                 NULL,                                                    // default value
                 NULL,                                                    // size() function pointer
                 NULL,                                                    // get_const(index) function pointer

@@ -15,7 +15,7 @@
 // Member `other_actor_name`
 // Member `other_component_name`
 #include "rosidl_runtime_c/string_functions.h"
-// Member `hit_result`
+// Member `sweep_result`
 #include "ue_msgs/msg/detail/hit_result__functions.h"
 
 bool ue_msgs__msg__OverlapEvent__init(ue_msgs__msg__OverlapEvent* msg)
@@ -45,8 +45,8 @@ bool ue_msgs__msg__OverlapEvent__init(ue_msgs__msg__OverlapEvent* msg)
     }
     // other_body_index
     // from_sweep
-    // hit_result
-    if (!ue_msgs__msg__HitResult__init(&msg->hit_result))
+    // sweep_result
+    if (!ue_msgs__msg__HitResult__init(&msg->sweep_result))
     {
         ue_msgs__msg__OverlapEvent__fini(msg);
         return false;
@@ -69,8 +69,8 @@ void ue_msgs__msg__OverlapEvent__fini(ue_msgs__msg__OverlapEvent* msg)
     rosidl_runtime_c__String__fini(&msg->other_component_name);
     // other_body_index
     // from_sweep
-    // hit_result
-    ue_msgs__msg__HitResult__fini(&msg->hit_result);
+    // sweep_result
+    ue_msgs__msg__HitResult__fini(&msg->sweep_result);
 }
 
 bool ue_msgs__msg__OverlapEvent__are_equal(const ue_msgs__msg__OverlapEvent* lhs, const ue_msgs__msg__OverlapEvent* rhs)
@@ -109,8 +109,8 @@ bool ue_msgs__msg__OverlapEvent__are_equal(const ue_msgs__msg__OverlapEvent* lhs
     {
         return false;
     }
-    // hit_result
-    if (!ue_msgs__msg__HitResult__are_equal(&(lhs->hit_result), &(rhs->hit_result)))
+    // sweep_result
+    if (!ue_msgs__msg__HitResult__are_equal(&(lhs->sweep_result), &(rhs->sweep_result)))
     {
         return false;
     }
@@ -144,8 +144,8 @@ bool ue_msgs__msg__OverlapEvent__copy(const ue_msgs__msg__OverlapEvent* input, u
     output->other_body_index = input->other_body_index;
     // from_sweep
     output->from_sweep = input->from_sweep;
-    // hit_result
-    if (!ue_msgs__msg__HitResult__copy(&(input->hit_result), &(output->hit_result)))
+    // sweep_result
+    if (!ue_msgs__msg__HitResult__copy(&(input->sweep_result), &(output->sweep_result)))
     {
         return false;
     }

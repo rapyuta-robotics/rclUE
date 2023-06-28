@@ -21,7 +21,7 @@ extern "C"
 // Member 'other_actor_name'
 // Member 'other_component_name'
 #include "rosidl_runtime_c/string.h"
-// Member 'hit_result'
+// Member 'sweep_result'
 #include "ue_msgs/msg/detail/hit_result__struct.h"
 
     // Struct defined in msg/OverlapEvent in the package ue_msgs.
@@ -33,7 +33,7 @@ extern "C"
         rosidl_runtime_c__String other_component_name;
         int32_t other_body_index;
         bool from_sweep;
-        ue_msgs__msg__HitResult hit_result;
+        ue_msgs__msg__HitResult sweep_result;
     } ue_msgs__msg__OverlapEvent;
 
     // Struct for a sequence of ue_msgs__msg__OverlapEvent.

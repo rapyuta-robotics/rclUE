@@ -44,7 +44,7 @@ public:
     bool bFromSweep = false;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
-    FROSHitResult HitResult;
+    FROSHitResult SweepResult;
 
     FROSOverlapEvent()
     {
@@ -64,7 +64,7 @@ public:
 
         bFromSweep = in_ros_data.from_sweep;
 
-        HitResult.SetFromROS2(in_ros_data.hit_result);
+        SweepResult.SetFromROS2(in_ros_data.sweep_result);
     }
 
     void SetROS2(ue_msgs__msg__OverlapEvent& out_ros_data) const
@@ -81,7 +81,7 @@ public:
 
         out_ros_data.from_sweep = bFromSweep;
 
-        HitResult.SetROS2(out_ros_data.hit_result);
+        SweepResult.SetROS2(out_ros_data.sweep_result);
     }
 };
 

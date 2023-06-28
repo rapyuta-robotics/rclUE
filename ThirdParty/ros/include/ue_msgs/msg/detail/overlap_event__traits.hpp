@@ -13,7 +13,7 @@
 #include <type_traits>
 
 // Include directives for member types
-// Member 'hit_result'
+// Member 'sweep_result'
 #include "ue_msgs/msg/detail/hit_result__traits.hpp"
 
 namespace rosidl_generator_traits
