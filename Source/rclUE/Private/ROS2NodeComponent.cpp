@@ -2,6 +2,12 @@
 
 #include "ROS2NodeComponent.h"
 
+#include "ROS2ActionClient.h"
+#include "ROS2ActionServer.h"
+#include "ROS2Publisher.h"
+#include "ROS2ServiceClient.h"
+#include "ROS2ServiceServer.h"
+#include "ROS2Subscriber.h"
 #include "ROS2Subsystem.h"
 
 #include <Engine/GameInstance.h>
