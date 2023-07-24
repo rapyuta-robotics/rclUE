@@ -105,9 +105,10 @@ void UROS2Publisher::Destroy()
     IS_ROS2NODE_INITED(OwnerNode, GetName(), res);
     if (res)
     {
-        UE_LOG_WITH_INFO(LogROS2Topic, Log, TEXT("Publisher Destroy - rcl_publisher_fini "));
+        UE_LOG_WITH_INFO_SHORT_NAMED(LogROS2Topic, Log, TEXT("Publisher Destroy - rcl_publisher_fini "));
         RCSOFTCHECK(rcl_publisher_fini(&RclPublisher, OwnerNode->GetNode()));
     }
+    StopPublishTimer();
     UpdateDelegate.Unbind();
 }
 
@@ -117,7 +118,7 @@ void UROS2Publisher::UpdateAndPublish()
     IS_TOPIC_INITED(OwnerNode, GetName(), res);
     if (!res)
     {
-        UE_LOG_WITH_INFO(LogROS2Topic, Error, TEXT("Publisher is not initialized yet "));
+        UE_LOG_WITH_INFO_SHORT_NAMED(LogROS2Topic, Error, TEXT("Publisher is not initialized yet "));
         return;
     }
 
@@ -142,7 +143,7 @@ void UROS2Publisher::SetDelegates(const FTopicCallback& InUpdateDelegate)
 {
     if (!InUpdateDelegate.IsBound())
     {
-        UE_LOG_WITH_INFO(LogROS2Topic, Warning, TEXT("UpdateDelegate is not set - is this on purpose? "));
+        UE_LOG_WITH_INFO_SHORT_NAMED(LogROS2Topic, Warning, TEXT("UpdateDelegate is not set - is this on purpose? "));
     }
     UpdateDelegate.Unbind();
     UpdateDelegate = InUpdateDelegate;
