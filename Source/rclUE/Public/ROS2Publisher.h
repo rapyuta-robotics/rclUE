@@ -143,14 +143,14 @@ public:
      * @brief Stope publishing timer
      *
      */
-    UFUNCTION()
+    UFUNCTION(BlueprintCallable)
     void StopPublishTimer();
 
     /**
      * @brief Start publishing topic with #PublicationFrequencyHz
      *
      */
-    UFUNCTION()
+    UFUNCTION(BlueprintCallable)
     void StartPublishTimer();
 
     //! Publish frequency. if this value > 0, this will update and publish msg periodically.
