@@ -284,10 +284,26 @@ public:
  *
  */
 UCLASS(Blueprintable, BlueprintType, ClassGroup = (Custom), meta = (BlueprintSpawnableComponent))
-class RCLUE_API UROS2CustomPublisherComponent : public UROS2PublisherComponent
+class RCLUE_API UROS2CustomPublisherComponent : public UActorComponent
 {
     GENERATED_BODY()
+
 public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2Publisher* Publisher = nullptr;
+
+    //! this is pass to #UROS2Publisher::TopicName in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString TopicName = TEXT("");
+
+    //! this is pass to #UROS2Publisher::PublisherClass in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    TSubclassOf<UROS2Publisher> PublisherClass = UROS2Publisher::StaticClass();
+
+    //! this is pass to #UROS2Publisher::PublicationFrequencyHz in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    float PublicationFrequencyHz = 1.f;
+
     virtual void BeginPlay() override
     {
         if (Publisher == nullptr)
@@ -298,6 +314,6 @@ public:
         {
             UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("Publisher class is not created in BeginPlay."));
         }
-        UActorComponent::BeginPlay();
+        Super::BeginPlay();
     };
 };
