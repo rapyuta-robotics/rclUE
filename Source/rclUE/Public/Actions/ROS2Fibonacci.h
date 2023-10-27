@@ -28,7 +28,7 @@ struct RCLUE_API FROSFibonacciSGReq
     GENERATED_BODY()
 
 public:
-    TArray<uint, TFixedAllocator<16>> GoalId;
+    TArray<uint8, TFixedAllocator<16>> GoalId;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     int Order = 0;
@@ -90,7 +90,7 @@ struct RCLUE_API FROSFibonacciGRReq
     GENERATED_BODY()
 
 public:
-    TArray<uint, TFixedAllocator<16>> GoalId;
+    TArray<uint8, TFixedAllocator<16>> GoalId;
 
     FROSFibonacciGRReq()
     {
@@ -157,7 +157,7 @@ struct RCLUE_API FROSFibonacciFB
     GENERATED_BODY()
 
 public:
-    TArray<uint, TFixedAllocator<16>> GoalId;
+    TArray<uint8, TFixedAllocator<16>> GoalId;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     TArray<int> Sequence;
