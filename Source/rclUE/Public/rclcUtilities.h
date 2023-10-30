@@ -289,7 +289,7 @@ public:
         return InTimeStamp.sec + InTimeStamp.nanosec * 1e-09f;
     }
 
-    static void GenerateRandomUUID16(TArray<uint, TFixedAllocator<16>>& OutUUID)
+    static void GenerateRandomUUID16(TArray<uint8, TFixedAllocator<16>>& OutUUID)
     {
         OutUUID.Reset();
         for (int8 i = 0; i < 16; i++)

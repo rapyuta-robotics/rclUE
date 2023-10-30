@@ -30,7 +30,7 @@ struct RCLUE_API FROSLookupTFSGReq
     GENERATED_BODY()
 
 public:
-    TArray<uint, TFixedAllocator<16>> GoalId;
+    TArray<uint8, TFixedAllocator<16>> GoalId;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FString TargetFrame;
@@ -134,7 +134,7 @@ struct RCLUE_API FROSLookupTFGRReq
     GENERATED_BODY()
 
 public:
-    TArray<uint, TFixedAllocator<16>> GoalId;
+    TArray<uint8, TFixedAllocator<16>> GoalId;
 
     FROSLookupTFGRReq()
     {
@@ -200,7 +200,7 @@ struct RCLUE_API FROSLookupTFFB
     GENERATED_BODY()
 
 public:
-    TArray<uint, TFixedAllocator<16>> GoalId;
+    TArray<uint8, TFixedAllocator<16>> GoalId;
 
     FROSLookupTFFB()
     {
