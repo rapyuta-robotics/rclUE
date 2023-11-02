@@ -1,1 +1,7 @@
-
+on: workflow_dispatch
+jobs:
+  echo_ref:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo $GITHUB_REF
