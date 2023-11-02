@@ -26,12 +26,13 @@ jobs:
           - devel
           - UE5_devel_humble
           - test_action
-    if: ${{ matrix.version }} != ${{ github.base_ref }}
     steps:
     - uses: actions/checkout@v4
+      if: ${{ matrix.version }} == ${{ github.base_ref }}
       with:
         ref: ${{ matrix.version }}
     - name: create branch
+      if: ${{ matrix.version }} == ${{ github.base_ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
@@ -40,6 +41,7 @@ jobs:
         git cherry-pick $GITHUB_SHA
         git push -u origin auto_created_${{ matrix.version }}_$GITHUB_SHA
     - name: Create pull request
+      if: ${{ matrix.version }} == ${{ github.base_ref }}
       uses: repo-sync/pull-request@v2
       with:
         source_branch: auto_created_${{ matrix.version }}_$GITHUB_SHA
