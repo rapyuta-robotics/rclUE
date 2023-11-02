@@ -30,6 +30,8 @@ jobs:
       with:
         ref: ${{ matrix.version }}
     - run: |
+        echo $GITHUB_SHA
+        env | grep GITHUB
         echo The PR was merged, ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
     # todo
     # 1. create branch
