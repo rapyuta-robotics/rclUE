@@ -1,7 +1,44 @@
-on: workflow_dispatch
+name: Create a pull request to other versions
+
+on:
+  # pull_request:
+  push: # for test
+    branches:
+      - test_action
+      # - devel
+      # - UE5_devel_humble
+    types:
+      - closed
+
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
-  echo_ref:
+  create_pr:
+    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version:
+          - devel
+          - UE5_devel_humble
     steps:
-      - run: |
-          echo $GITHUB_REF
+    - uses: actions/checkout@v4
+      with:
+        ref: ${{ matrix.version }}
+    - run: |
+        echo The PR was merged, ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
+    # todo
+    # 1. create branch
+    # 2. cherry-pick merge commit
+    # 3. create PR, assign same author, assign same reviewer
+
+    # - uses: peter-evans/create-pull-request@v5
+    #   with:
+    #     commit-message: Update xxxx file
+    #     delete-branch: true
+    #     title: Update xxxx file
+    #     reviewers: mziyut
