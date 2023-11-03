@@ -13,8 +13,19 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
+  checks: write
   contents: write
+  deployments: write
+  id-token: write
+  issues: write
+  discussions: write
+  packages: write
+  pages: write
   pull-requests: write
+  repository-projects: write
+  security-events: write
+  statuses: write
 
 jobs:
   create_pr:
@@ -32,37 +43,37 @@ jobs:
       if: ${{ matrix.version }} != ${{ github.base_ref }}
       with:
         ref: ${{ matrix.version }}
-    # - name: Cherry pick and create PR
-    #   if: ${{ matrix.version }} != ${{ github.base_ref }}
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
-    #   with:
-    #     branch: ${{ matrix.version }}
-    #     labels: |
-    #       cherry-pick
-    #     reviewers: |
-    #       ${{ github.event.pull_request.user.login }}
-
-    - name: create branch
+    - name: Cherry pick and create PR
       if: ${{ matrix.version }} != ${{ github.base_ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        echo The PR was merged, ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
-        git checkout -b auto_created_${{ matrix.version }}_$GITHUB_SHA
-        git remote update
-        git fetch --all
-        git cherry-pick -m 1 --strategy=recursive --strategy-option=theirs $GITHUB_SHA
-        git push -u origin auto_created_${{ matrix.version }}_$GITHUB_SHA
-    - name: Create pull request
-      if: ${{ matrix.version }} == ${{ github.base_ref }}
-      uses: repo-sync/pull-request@v2
+      uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
       with:
-        source_branch: auto_created_${{ matrix.version }}_$GITHUB_SHA
-        destination_branch: ${{ matrix.version }}
-        pr_title: auto_created_${{ matrix.version }}_$GITHUB_SHA
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ matrix.version }}
+        labels: |
+          cherry-pick
+        reviewers: |
+          ${{ github.event.pull_request.user.login }}
+
+    # - name: create branch
+    #   if: ${{ matrix.version }} != ${{ github.base_ref }}
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   run: |
+    #     echo The PR was merged, ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
+    #     git checkout -b auto_created_${{ matrix.version }}_$GITHUB_SHA
+    #     git remote update
+    #     git fetch --all
+    #     git cherry-pick -m 1 --strategy=recursive --strategy-option=theirs $GITHUB_SHA
+    #     git push -u origin auto_created_${{ matrix.version }}_$GITHUB_SHA
+    # - name: Create pull request
+    #   if: ${{ matrix.version }} == ${{ github.base_ref }}
+    #   uses: repo-sync/pull-request@v2
+    #   with:
+    #     source_branch: auto_created_${{ matrix.version }}_$GITHUB_SHA
+    #     destination_branch: ${{ matrix.version }}
+    #     pr_title: auto_created_${{ matrix.version }}_$GITHUB_SHA
+    #     github_token: ${{ secrets.GITHUB_TOKEN }}
 
     # todo
     # check base_ref == martrix.version
