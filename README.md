@@ -49,7 +49,7 @@ The plugin folder contains a video "Example_BP_PubSub.mp4" demonstrating how to 
 
 An example setup using this plugin can be found at [turtlebot3-UE](https://github.com/rapyuta-robotics/turtlebot3-UE)
 
-# Notes on working with ROS2 and UE
+# Notes on working with ROS 2 and UE
 
 - rcl and void\* types cannot be managed by UE (no UPROPERTY) and therefore can't be used directly in Blueprint. Whenever access to these variables is needed, the user should write a class to wrap it and all of their handling must be done in C++.
 - some basic numerical types are not natively supported in Blueprint (e.g. double, unsigned int). In order to use these, a workaround is needed (a plugin implementing those types for BP, a modified UE or a custom implementation).
