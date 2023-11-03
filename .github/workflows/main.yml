@@ -30,7 +30,7 @@ permissions:
 jobs:
   create_pr:
     name: create_pr to other branchs
-    # if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -40,7 +40,7 @@ jobs:
           - test_action
     steps:
     - uses: actions/checkout@v4
-      # if: ${{ matrix.version }} != ${{ github.base_ref }}
+      if: ${{ matrix.version }} != ${{ github.base_ref }}
       with:
         ref: ${{ matrix.version }}
     - name: Debug
@@ -49,7 +49,7 @@ jobs:
       run: |
         echo ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
     - name: Cherry pick and create PR
-      # if: ${{ matrix.version }} != ${{ github.base_ref }}
+      if: ${{ matrix.version }} != ${{ github.base_ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: carloscastrojumo/github-cherry-pick-action@v1.0.9
@@ -60,40 +60,6 @@ jobs:
         reviewers: |
           ${{ github.event.pull_request.user.login }}
         token: ${{ secrets.GITHUB_TOKEN }}
-        cherry-pick-branch: auto_created_${{ matrix.version }}_$GITHUB_SHA
+        cherry-pick-branch: auto_created_${{ matrix.version }}_{old_pull_request_id}
         title: '[cherry-pick to ${{ matrix.version }} from  ${{ github.base_ref }}] {old_title}'
         body: 'Cherry picking #{old_pull_request_id} onto this branch'
-
-
-    # - name: create branch
-    #   if: ${{ matrix.version }} != ${{ github.base_ref }}
-    #   env:
-    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    #   run: |
-    #     echo The PR was merged, ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
-    #     git checkout -b auto_created_${{ matrix.version }}_$GITHUB_SHA
-    #     git remote update
-    #     git fetch --all
-    #     git cherry-pick -m 1 --strategy=recursive --strategy-option=theirs $GITHUB_SHA
-    #     git push -u origin auto_created_${{ matrix.version }}_$GITHUB_SHA
-    # - name: Create pull request
-    #   if: ${{ matrix.version }} == ${{ github.base_ref }}
-    #   uses: repo-sync/pull-request@v2
-    #   with:
-    #     source_branch: auto_created_${{ matrix.version }}_$GITHUB_SHA
-    #     destination_branch: ${{ matrix.version }}
-    #     pr_title: auto_created_${{ matrix.version }}_$GITHUB_SHA
-    #     github_token: ${{ secrets.GITHUB_TOKEN }}
-
-    # todo
-    # check base_ref == martrix.version
-    # 1. create branch
-    # 2. cherry-pick merge commit
-    # 3. create PR, assign same author, assign same reviewer
-
-    # - uses: peter-evans/create-pull-request@v5
-    #   with:
-    #     commit-message: Update xxxx file
-    #     delete-branch: true
-    #     title: Update xxxx file
-    #     reviewers: mziyut
