@@ -51,6 +51,8 @@ jobs:
       run: |
         echo The PR was merged, ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
         git checkout -b auto_created_${{ matrix.version }}_$GITHUB_SHA
+        git remote update
+        git fetch --all
         git cherry-pick -m 1 --strategy=recursive --strategy-option=theirs $GITHUB_SHA
         git push -u origin auto_created_${{ matrix.version }}_$GITHUB_SHA
     - name: Create pull request
