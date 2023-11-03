@@ -15,6 +15,7 @@ Main support
 
 Maintenance/experimental
 
+- Ubuntu 22.04
 - ROS2 Humble(`UE5_devel_humble` branch)
 - UE4.27: 11.0.1
 - Clang: 11.0.1
