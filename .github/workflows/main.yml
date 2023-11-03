@@ -5,7 +5,7 @@ on:
     branches:
       - devel
       - UE5_devel_humble
-  types: ["closed"]
+    types: ["closed"]
 
   workflow_dispatch:
 
