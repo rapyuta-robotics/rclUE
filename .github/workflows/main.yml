@@ -30,7 +30,7 @@ permissions:
 jobs:
   create_pr:
     name: create_pr to other branchs
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -40,11 +40,11 @@ jobs:
           - test_action
     steps:
     - uses: actions/checkout@v4
-      if: ${{ matrix.version }} != ${{ github.base_ref }}
+      # if: ${{ matrix.version }} != ${{ github.base_ref }}
       with:
         ref: ${{ matrix.version }}
     - name: Cherry pick and create PR
-      if: ${{ matrix.version }} != ${{ github.base_ref }}
+      # if: ${{ matrix.version }} != ${{ github.base_ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
