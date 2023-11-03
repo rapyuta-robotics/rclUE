@@ -2,44 +2,30 @@ name: Create a pull request to other versions
 
 on:
   pull_request:
-  # push: # for test
     branches:
-      - test_action
-      # - devel
-      # - UE5_devel_humble
-    types:
-      - closed
+      - devel
+      - UE5_devel_humble
+  types: ["closed"]
 
   workflow_dispatch:
 
 permissions:
-  actions: write
-  checks: write
   contents: write
-  deployments: write
-  id-token: write
-  issues: write
-  discussions: write
-  packages: write
-  pages: write
   pull-requests: write
-  repository-projects: write
-  security-events: write
-  statuses: write
 
 jobs:
   create_pr:
+    runs-on: ubuntu-latest
     name: create_pr to other branchs
     if: github.event.pull_request.merged == true
-    runs-on: ubuntu-latest
     strategy:
       matrix:
         version:
           - devel
           - UE5_devel_humble
-          - test_action
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
       if: matrix.version != github.base_ref
       with:
         ref: ${{ matrix.version }}
@@ -60,6 +46,6 @@ jobs:
         reviewers: |
           ${{ github.event.pull_request.user.login }}
         token: ${{ secrets.GITHUB_TOKEN }}
-        cherry-pick-branch: auto_created_${{ matrix.version }}_${{ github.event.pull_request.title }}
+        cherry-pick-branch: auto_created_${{ matrix.version }}_${{ github.sha }}
         title: '[cherry-pick to ${{ matrix.version }} from ${{ github.base_ref }}] ${{ github.event.pull_request.title }}'
         body: 'Cherry picking ${{ github.event.pull_request.title }} onto this branch'
