@@ -48,13 +48,11 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         echo ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
-        echo $GITHUB_TOKEN
-        echo ${{ secrets.GITHUB_TOKEN }}
     - name: Cherry pick and create PR
       # if: ${{ matrix.version }} != ${{ github.base_ref }}
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      uses: carloscastrojumo/github-cherry-pick-action@v1.0.1
+      uses: carloscastrojumo/github-cherry-pick-action@v1.0.9
       with:
         branch: ${{ matrix.version }}
         labels: |
