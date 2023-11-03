@@ -40,7 +40,7 @@ jobs:
           - test_action
     steps:
     - uses: actions/checkout@v4
-      if: ${{ matrix.version }} != ${{ github.base_ref }}
+      if: '${{ matrix.version }}' != '${{ github.base_ref }}'
       with:
         ref: ${{ matrix.version }}
     - name: Debug
@@ -49,7 +49,7 @@ jobs:
       run: |
         echo ${{ matrix.version }}, ${{ github.base_ref }}, $GITHUB_SHA. ${{ github.event.pull_request.user.login }}
     - name: Cherry pick and create PR
-      if: ${{ matrix.version }} != ${{ github.base_ref }}
+      if: '${{ matrix.version }}' != '${{ github.base_ref }}'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       uses: carloscastrojumo/github-cherry-pick-action@v1.0.9
@@ -60,6 +60,6 @@ jobs:
         reviewers: |
           ${{ github.event.pull_request.user.login }}
         token: ${{ secrets.GITHUB_TOKEN }}
-        cherry-pick-branch: auto_created_${{ matrix.version }}_{old_pull_request_id}
-        title: '[cherry-pick to ${{ matrix.version }} from  ${{ github.base_ref }}] {old_title}'
-        body: 'Cherry picking #{old_pull_request_id} onto this branch'
+        cherry-pick-branch: auto_created_${{ matrix.version }}_${{ github.event.pull_request.title }}
+        title: '[cherry-pick to ${{ matrix.version }} from ${{ github.base_ref }}] ${{ github.event.pull_request.title }}'
+        body: 'Cherry picking ${{ github.event.pull_request.title }} onto this branch'
