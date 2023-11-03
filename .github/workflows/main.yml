@@ -62,6 +62,10 @@ jobs:
         reviewers: |
           ${{ github.event.pull_request.user.login }}
         token: ${{ secrets.GITHUB_TOKEN }}
+        cherry-pick-branch: auto_created_${{ matrix.version }}_$GITHUB_SHA
+        title: '[cherry-pick to ${{ matrix.version }} from  ${{ github.base_ref }}] {old_title}'
+        body: 'Cherry picking #{old_pull_request_id} onto this branch'
+
 
     # - name: create branch
     #   if: ${{ matrix.version }} != ${{ github.base_ref }}
