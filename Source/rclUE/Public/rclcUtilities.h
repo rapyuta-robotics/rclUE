@@ -112,7 +112,7 @@ static const rmw_qos_profile_t rclUE_qos_profile_keep_last = {RMW_QOS_POLICY_HIS
 //! profiles provided by rclUE
 static const rmw_qos_profile_t rclUE_qos_profile_sensor_data = {RMW_QOS_POLICY_HISTORY_KEEP_LAST,
                                                                 5,
-                                                                RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+                                                                RMW_QOS_POLICY_RELIABILITY_BEST_EFFORT,
                                                                 RMW_QOS_POLICY_DURABILITY_VOLATILE,
                                                                 RMW_QOS_DEADLINE_DEFAULT,
                                                                 RMW_QOS_LIFESPAN_DEFAULT,
