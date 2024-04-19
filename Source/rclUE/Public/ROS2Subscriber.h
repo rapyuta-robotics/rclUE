@@ -101,12 +101,18 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FSubscriptionCallback Callback;
 
-    virtual void BeginPlay() override
+    UFUNCTION(BlueprintCallable)
+    virtual void DefaultCreateSubscriber()
     {
         if (Subscriber == nullptr)
         {
             Subscriber = UROS2Subscriber::CreateSubscriber(this, TopicName, MsgClass, Callback, QoS);
         }
+    }
+
+    virtual void BeginPlay() override
+    {
+        DefaultCreateSubscriber();
         Super::BeginPlay();
     };
 };

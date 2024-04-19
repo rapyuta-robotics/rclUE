@@ -186,7 +186,8 @@ public:
     FActionCallback FeedbackDelegate;
     FSimpleCallback CancelResponseDelegate;
 
-    virtual void BeginPlay() override
+    UFUNCTION(BlueprintCallable)
+    virtual void DefaultCreateActionClient()
     {
         if (ActionClient == nullptr)
         {
@@ -202,6 +203,11 @@ public:
                                                                  FeedbackQoS,
                                                                  CancelQoS);
         }
+    }
+
+    virtual void BeginPlay() override
+    {
+        DefaultCreateActionClient();
         Super::BeginPlay();
     };
 };
