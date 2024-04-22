@@ -113,12 +113,17 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceCallback SrvCallback;
 
-    virtual void BeginPlay() override
+    UFUNCTION(BlueprintCallable)
+    virtual void DefaultCreateServiceServer()
     {
         if (ServiceServer == nullptr)
         {
             ServiceServer = UROS2ServiceServer::CreateServiceServer(this, ServiceName, SrvClass, SrvCallback, QoS);
         }
+    }
+    virtual void BeginPlay() override
+    {
+        DefaultCreateServiceServer();
         Super::BeginPlay();
     };
 };

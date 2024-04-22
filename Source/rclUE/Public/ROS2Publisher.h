@@ -304,16 +304,17 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     float PublicationFrequencyHz = 1.f;
 
-    virtual void BeginPlay() override
+    UFUNCTION(BlueprintCallable)
+    virtual void DefaultCreatePublisher()
     {
         if (Publisher == nullptr)
         {
             Publisher = UROS2Publisher::CreateLoopPublisherWithClass(this, TopicName, PublisherClass, PublicationFrequencyHz);
         }
-        else
-        {
-            UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("Publisher class is not created in BeginPlay."));
-        }
+    }
+    virtual void BeginPlay() override
+    {
+        DefaultCreatePublisher();
         Super::BeginPlay();
     };
 };

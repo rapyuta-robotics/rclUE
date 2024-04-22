@@ -156,7 +156,8 @@ public:
     FSimpleCallback ResultDelegate;
     FSimpleCallback CancelDelegate;
 
-    virtual void BeginPlay() override
+    UFUNCTION(BlueprintCallable)
+    virtual void DefaultCreateActionServer()
     {
         if (ActionServer == nullptr)
         {
@@ -171,6 +172,11 @@ public:
                                                                  FeedbackQoS,
                                                                  CancelQoS);
         }
+    }
+
+    virtual void BeginPlay() override
+    {
+        DefaultCreateActionServer();
         Super::BeginPlay();
     };
 };

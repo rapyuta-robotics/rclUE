@@ -162,12 +162,17 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FServiceCallback ResponseDelegate;
 
-    virtual void BeginPlay() override
+    UFUNCTION(BlueprintCallable)
+    virtual void DefaultCreateServiceClient()
     {
         if (ServiceClient == nullptr)
         {
             ServiceClient = UROS2ServiceClient::CreateServiceClient(this, ServiceName, SrvClass, ResponseDelegate, QoS);
         }
+    }
+    virtual void BeginPlay() override
+    {
+        DefaultCreateServiceClient();
         Super::BeginPlay();
     };
 };
