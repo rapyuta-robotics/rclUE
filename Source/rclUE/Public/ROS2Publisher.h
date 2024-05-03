@@ -246,17 +246,19 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     FTopicCallback UpdateDelegate;
 
-    virtual void BeginPlay() override
+    UFUNCTION(BlueprintCallable)
+    virtual void DefaultCreatePublisher()
     {
         if (Publisher == nullptr)
         {
             Publisher = UROS2Publisher::CreateLoopPublisher(
                 this, TopicName, PublisherClass, MsgClass, PublicationFrequencyHz, UpdateDelegate, QoS);
         }
-        else
-        {
-            UE_LOG_WITH_INFO(LogTemp, Warning, TEXT("Publisher is not created in BeginPlay."));
-        }
+    }
+
+    virtual void BeginPlay() override
+    {
+        DefaultCreatePublisher();
         Super::BeginPlay();
     };
 
