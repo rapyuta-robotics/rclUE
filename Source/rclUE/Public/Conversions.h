@@ -11,6 +11,7 @@
 #include "geometry_msgs/msg/polygon.h"
 #include "builtin_interfaces/msg/time.h"
 #include "unique_identifier_msgs/msg/uuid.h"
+#include "std_msgs/msg/color_rgba.h"
 
 #include "GeographicCoordinates.h"
 #include "Engine/Polys.h"
@@ -140,6 +141,11 @@ inline FDateTime From(const builtin_interfaces__msg__Time & in)
 {
   return FDateTime::FromUnixTimestamp(in.sec) + FTimespan(0, 0, 0, 0, in.nanosec);
 }
+
+  inline FColor From(const std_msgs__msg__ColorRGBA & in)
+  {
+    return FColor(in.r * 255, in.g * 255, in.b * 255, in.a * 255);
+  }
 
 template <typename T, size_t N, std::enable_if_t<std::is_same<T, uint8>::value, bool> = false>
 inline TArray<int> FromArray(const T (&in)[N])
@@ -323,6 +329,14 @@ inline void Set(const FQuat & in, geometry_msgs__msg__Quaternion & out)
   out.z = in.Z;
   out.w = in.W;
 }
+
+  inline void Set(const FColor & in, std_msgs__msg__ColorRGBA & out)
+  {
+    out.r = in.R / 255.0;
+    out.g = in.G / 255.0;
+    out.b = in.B / 255.0;
+    out.a = in.A / 255.0;
+  }
 
 template <typename T, typename ROST>
 inline void SetStructSequence(const TArray<T> & in, ROST & out)

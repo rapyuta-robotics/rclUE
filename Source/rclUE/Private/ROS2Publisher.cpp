@@ -194,6 +194,6 @@ void UROS2Publisher::PublishMsg(UROS2GenericMsg* Message, bool async)
 
 void UROS2Publisher::WhenNodeInits()
 {
-    UE_LOG(LogROS2Publisher, Verbose, TEXT("[%s] Node is ready!."), *GetName());
+    UE_LOG(LogROS2Publisher, Verbose, TEXT("[%s] Node is ready."), *GetName());
     ROSNode->AddPublisher(this);
 }
