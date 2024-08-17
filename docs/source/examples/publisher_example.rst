@@ -355,7 +355,7 @@ Non Loop Publisher
 Compared to C++, which uses CreatePublisher(),
 in Blueprint, the Publisher is already generated as a Component before BeginPlay.
 Therefore, we use
-`UROS2NodeComponent::AddPublisher <../doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html#a582299af64efaaa34b046c00b1c96828>_`
+`UROS2NodeComponent::AddPublisher <../doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html#a582299af64efaaa34b046c00b1c96828>`_
 to initialize the Publisher instead.
 The CreatePublisher function in C++ internally calls AddPublisher.
 
