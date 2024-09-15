@@ -121,7 +121,7 @@ Code
     }
 
 ^^^^^^^^^^^^^^^^^^
-Examin the code
+Examining the code
 ^^^^^^^^^^^^^^^^^^
 
 On an AROS2ServiceClientNode Actor, similar to the AROS2PublisherrNode,
