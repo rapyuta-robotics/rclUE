@@ -1,5 +1,5 @@
 Overview of a group of **rclUE** software
-=====================================
+==========================================
 
 Features
 --------
@@ -15,10 +15,11 @@ Above figure shows overview of related repositories. Please reference this struc
 
 `turtlebot3-UE <https://github.com/rapyuta-robotics/turtlebot3-UE>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Example repository of ROS2 UE simulation.
+Basic example repository of ROS2 UE simulation.
 
-rclUE(this repository)
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+`rclUE(this repository) <https://github.com/rapyuta-robotics/rclUE>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 ROS2 integration features such as creating ROS2 Node, publisher/subscriber and etc.
 
 `RapyutaSimulationPlugins <https://rapyutasimulationplugins.readthedocs.io/en/devel/index.html>`_
@@ -38,3 +39,15 @@ Please follow README to add new msgs to rclUE.
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Includes ROS2 msg/srv/action files. Please use `UE_tools <https://github.com/rapyuta-robotics/UE_tools>`_
 to generate necessary C++ files for UE plugins.
+
+
+Other example repositories
+--------------------------
+
+`rclUE-Examples <https://github.com/yuokamoto/rclUE-Examples>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Complicated example repository of ROS2 UE simulation including warehouse, human character, etc.
+
+`rclUE_client_example <https://github.com/yuokamoto/rclUE_client_example>`_
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ROS2 Client example repository to control rclUE-Example project.

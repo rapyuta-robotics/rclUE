@@ -3,7 +3,7 @@
 Service Client Example
 =============================
 
-Please follow the instructions in  :ref:`setup_and_run_ue_project` to setup the UE project 
+Please follow the instructions in  :ref:`setup_and_run_ue_project` to setup the UE project
 and open  `ROS2ServiceExample.umap <https://github.com/rapyuta-robotics/turtlebot3-UE/blob/devel/Content/Maps/ROS2TopicExamples.umap>`_.
 
 -----------------------------
@@ -121,10 +121,10 @@ Code
     }
 
 ^^^^^^^^^^^^^^^^^^
-Examin the code
+Examining the code
 ^^^^^^^^^^^^^^^^^^
 
-On an AROS2ServiceClientNode Actor, similar to the AROS2PublisherrNode, 
+On an AROS2ServiceClientNode Actor, similar to the AROS2PublisherNode,
 NodeComponent is created and initialized in the constructor but ROS2 Node is not created here.
 Please check :ref:`publisher_examin_code` for the reason.
 
@@ -140,8 +140,8 @@ Please check :ref:`publisher_examin_code` for the reason.
     }
 
 
-When the simulation starts, BeginPlay is called. 
-In BeginPlay, firstly create and initialize the ROS2 Node by calling 
+When the simulation starts, BeginPlay is called.
+In BeginPlay, firstly create and initialize the ROS2 Node by calling
 `UROS2NodeComponent::Init  <../doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html#ab9b7b990c4ca38eb60acf8e0a53c3e52>`_
 .
 
@@ -152,9 +152,9 @@ In BeginPlay, firstly create and initialize the ROS2 Node by calling
         Super::BeginPlay();
         Node->Init();
 
-You can create a service client by using the 
-`ROS2_CREATE_SERVICE_CLIENT_WITH_QOS <../doxygen_generated/html/d1/d79/_r_o_s2_node_component_8h.html#afc35f3065562037d23b39eb0baa32f0d>`_ 
-macro, which creates a service client and adds it to the node. 
+You can create a service client by using the
+`ROS2_CREATE_SERVICE_CLIENT_WITH_QOS <../doxygen_generated/html/d1/d79/_r_o_s2_node_component_8h.html#afc35f3065562037d23b39eb0baa32f0d>`_
+macro, which creates a service client and adds it to the node.
 When the node receives a service response, AROS2ServiceClientNode::ReceiveResponse is called.
 
 
@@ -168,10 +168,10 @@ When the node receives a service response, AROS2ServiceClientNode::ReceiveRespon
                                         &AROS2ServiceClientNode::ReceiveResponse,    // Callback for response
                                         UROS2QoS::DynamicBroadcaster,
                                         AddTwoIntsSrvClient)
-                                        
-The implementation of ROS2_CREATE_SERVICE_CLIENT_WITH_QOS is as follows. 
-It uses Unreal Engine's dynamic delegate to call the bound function 
-when the node receives the message. 
+
+The implementation of ROS2_CREATE_SERVICE_CLIENT_WITH_QOS is as follows.
+It uses Unreal Engine's dynamic delegate to call the bound function
+when the node receives the message.
 You can find more information about Unreal Engine's dynamic delegate .
 `here <https://docs.unrealengine.com/5.1/en-US/dynamic-delegates-in-unreal-engine/>`_.
 
@@ -189,13 +189,13 @@ You can find more information about Unreal Engine's dynamic delegate .
         }
 
 In this example, service client is set to send request periodically by create
-`UE Timer  <https://docs.unrealengine.com/5.1/en-US/quick-start-guide-to-variables-timers-and-events-in-unreal-engine-cpp/>`_ 
+`UE Timer  <https://docs.unrealengine.com/5.1/en-US/quick-start-guide-to-variables-timers-and-events-in-unreal-engine-cpp/>`_
 .
 
-We create a `FTimerDelegate <https://docs.unrealengine.com/5.1/en-US/API/Runtime/Engine/FTimerDelegate/>`_ 
-with a lambda function that will be called by the timer. 
-Inside the lambda function, create the request structure (FROSAddTwoIntsReq) 
-for the corresponding service (UROS2AddTwoIntsSrv). 
+We create a FTimerDelegate
+with a lambda function that will be called by the timer.
+Inside the lambda function, create the request structure (FROSAddTwoIntsReq)
+for the corresponding service (UROS2AddTwoIntsSrv).
 Set the value of the request structure, and then send the request by calling SendRequest().
 
 .. code-block:: C++
@@ -228,7 +228,7 @@ Then start a timer to call the sendRequest method every 1 second.
 
 When the node receives a service response, AROS2ServiceClientNode::ReceiveResponse is called.
 
-To retrieve the response, you need to create a response structure (FROSAddTwoIntsRes) 
+To retrieve the response, you need to create a response structure (FROSAddTwoIntsRes)
 for the corresponding service (UROS2AddTwoIntsSrv) and retrieve the request by calling GetResponse().
 
 ReceiveResponse method simply prints the received response in this example.
@@ -251,16 +251,16 @@ ReceiveResponse method simply prints the received response in this example.
 BP Service Client
 -----------------------------
 
-Blueprint implementation of a service client is very similar to a C++ implementation. 
+Blueprint implementation of a service client is very similar to a C++ implementation.
 Blueprints allow you to set logic/processes, parameters, and other details from the editor.
 
 You can add components such as UROS2Publisher from `Components` panel in the editor (left side in the fig below)
 and set each component parameters in `Details` panel in the editor (right side in the fig below).
 
-The main difference from the C++ implementation is that it uses 
+The main difference from the C++ implementation is that it uses
 `UROS2ServiceClientComponent <../doxygen_generated/html/d1/db9/class_u_r_o_s2_service_client_component.html>`_
-instead of UROS2ServiceClient. 
-As UROS2ServiceClientComponent is a child class of 
+instead of UROS2ServiceClient.
+As UROS2ServiceClientComponent is a child class of
 `UActorComponent <https://docs.unrealengine.com/5.1/en-US/API/Runtime/Engine/Components/UActorComponent/>`_
 and has UROS2ServiceClient as a member variable, you can easily add it to the Actor and set parameters from the editor.
 
@@ -270,17 +270,17 @@ The Service client component is attached to an Actor, which is displayed in the 
 
 .. image:: ../images/service_client_node.png
 
-Initialize the ROS2 Node using the BeginPlay event. 
-You can set the ROSNode parameters, such as Name and Namespace, 
+Initialize the ROS2 Node using the BeginPlay event.
+You can set the ROSNode parameters, such as Name and Namespace,
 from the `Details` panel on the right.
 
-Compared to C++, which uses ROS2_CREATE_SERVICE_CLIENT_WITH_QOS, 
-in Blueprint, the service client is already generated as a Component before BeginPlay. 
-Therefore, we use 
+Compared to C++, which uses ROS2_CREATE_SERVICE_CLIENT_WITH_QOS,
+in Blueprint, the service client is already generated as a Component before BeginPlay.
+Therefore, we use
 `UROS2NodeComponent::AddServiceClient <../doxygen_generated/html/d7/d68/class_u_r_o_s2_node_component.html#a5e52bd6256f3c5db5c0392cee93d7156>`_
-to initialize the UROS2ServiceClient and 
-`UROS2ServiceClient::SetDelegates <../doxygen_generated/html/d7/df5/class_u_r_o_s2_service_client.html#ae965105e696c1662ce1655249b9d864b>`_ 
-to bind callback method instead. 
+to initialize the UROS2ServiceClient and
+`UROS2ServiceClient::SetDelegates <../doxygen_generated/html/d7/df5/class_u_r_o_s2_service_client.html#ae965105e696c1662ce1655249b9d864b>`_
+to bind callback method instead.
 The ROS2_CREATE_SERVICE_CLIENT_WITH_QOS macro in C++ internally calls CreateServiceClient which calls AddServiceClient and SetDelegates.
 
 We also create a UE Timer to send request every 1 second.
@@ -292,5 +292,5 @@ Then increment the value of A and B and print those.
 
 .. image:: ../images/service_client_res.png
 
-Callback function is bound to a custom event, indicated by the red node on the left. 
+Callback function is bound to a custom event, indicated by the red node on the left.
 This callback function is called when the node receives a response.
