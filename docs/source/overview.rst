@@ -33,7 +33,7 @@ Please check `overview of RapyutaSimulationPlugins <https://rapyutasimulationplu
 Provides non UE plugin tools such as custom msg generation for UE.
 Please follow README to add new msgs to rclUE.
 
-\* todo: support adding msg to other place than rclUE.
+\* *Please check [CustomMsgExample](https://github.com/yuokamoto/rclUE-Examples/blob/custom_msg_example/Plugins/CustomMsgExample/README.md) as a example of custom msg in different plugin then rclUE.
 
 `UE_msgs <https://github.com/rapyuta-robotics/UE_msgs>`_
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

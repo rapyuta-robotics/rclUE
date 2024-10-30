@@ -69,6 +69,10 @@ An example setup using this plugin can be found at [turtlebot3-UE](https://githu
 
 Currently there is a scripts in [UE_tools](https://github.com/rapyuta-robotics/UE_tools) to automatically build and update ROS2 libraries. Please follow [steps](https://github.com/rapyuta-robotics/UE_tools#general-usage)
 
+# Add CustomMsg in rclUE or other Plugins
+Please check [CustomMsgExample](https://github.com/yuokamoto/rclUE-Examples/blob/custom_msg_example/Plugins/CustomMsgExample/README.md) as a example of custom msg in different plugin then rclUE.
+
+
 # Install pre-commit
 
 Please install pre-commit before commiting your changes.
