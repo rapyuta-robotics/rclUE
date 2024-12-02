@@ -82,6 +82,12 @@ protected:
      *
      */
     virtual void InitializeServiceComponent() override;
+
+    rmw_service_info_t LastReqInfo;
+
+    //! Rejct consecutive identical requests
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    bool bRejectConsecutiveIdenticalRequest = true;
 };
 
 /**
