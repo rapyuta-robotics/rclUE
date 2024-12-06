@@ -12,6 +12,11 @@
 #include "HAL/UnrealMemory.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
+#include "Misc/EngineVersionComparison.h" 
+
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
+#include "Engine/World.h"
+#endif
 
 // Ref "Misc/GeneratedTypeName.h"
 #if defined(_MSC_VER) && !defined(__clang__)

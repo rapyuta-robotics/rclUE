@@ -17,6 +17,12 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "UObject/Object.h"
+#include "Misc/EngineVersionComparison.h" 
+
+#if UE_VERSION_NEWER_THAN(5, 5, 0)
+#include "Misc/App.h"
+#include "TimerManager.h"
+#endif
 
 // rclUE msgs
 #include "builtin_interfaces/msg/detail/time__struct.h"
