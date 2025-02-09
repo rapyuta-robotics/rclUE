@@ -69,7 +69,7 @@ public class rclUE : ModuleRules
 		}
 
 		PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
-		CppStandard = CppStandardVersion.Latest;
+		CppStandard = CppStandardVersion.Cpp17;
 		if (Target.Platform == UnrealTargetPlatform.Linux)
 		{
 			// In order to ROS shared libs to be linkable by client UE app & for sake of portability, they need to all co-locate in the same folder
