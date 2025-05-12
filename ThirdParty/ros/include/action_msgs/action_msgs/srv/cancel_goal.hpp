@@ -7,5 +7,6 @@
 #include "action_msgs/srv/detail/cancel_goal__struct.hpp"
 #include "action_msgs/srv/detail/cancel_goal__builder.hpp"
 #include "action_msgs/srv/detail/cancel_goal__traits.hpp"
+#include "action_msgs/srv/detail/cancel_goal__type_support.hpp"
 
 #endif  // ACTION_MSGS__SRV__CANCEL_GOAL_HPP_

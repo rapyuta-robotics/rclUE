@@ -7,5 +7,6 @@
 #include "ue_msgs/srv/detail/get_entity_state__struct.hpp"
 #include "ue_msgs/srv/detail/get_entity_state__builder.hpp"
 #include "ue_msgs/srv/detail/get_entity_state__traits.hpp"
+#include "ue_msgs/srv/detail/get_entity_state__type_support.hpp"
 
 #endif  // UE_MSGS__SRV__GET_ENTITY_STATE_HPP_

@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/pose_array__struct.hpp"
 #include "geometry_msgs/msg/detail/pose_array__builder.hpp"
 #include "geometry_msgs/msg/detail/pose_array__traits.hpp"
+#include "geometry_msgs/msg/detail/pose_array__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__POSE_ARRAY_HPP_

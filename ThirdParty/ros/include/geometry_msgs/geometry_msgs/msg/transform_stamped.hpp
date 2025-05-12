@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/transform_stamped__struct.hpp"
 #include "geometry_msgs/msg/detail/transform_stamped__builder.hpp"
 #include "geometry_msgs/msg/detail/transform_stamped__traits.hpp"
+#include "geometry_msgs/msg/detail/transform_stamped__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__TRANSFORM_STAMPED_HPP_

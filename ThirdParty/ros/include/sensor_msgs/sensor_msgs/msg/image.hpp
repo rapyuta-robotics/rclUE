@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/image__struct.hpp"
 #include "sensor_msgs/msg/detail/image__builder.hpp"
 #include "sensor_msgs/msg/detail/image__traits.hpp"
+#include "sensor_msgs/msg/detail/image__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__IMAGE_HPP_

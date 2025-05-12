@@ -7,5 +7,6 @@
 #include "tf2_msgs/msg/detail/tf_message__struct.hpp"
 #include "tf2_msgs/msg/detail/tf_message__builder.hpp"
 #include "tf2_msgs/msg/detail/tf_message__traits.hpp"
+#include "tf2_msgs/msg/detail/tf_message__type_support.hpp"
 
 #endif  // TF2_MSGS__MSG__TF_MESSAGE_HPP_

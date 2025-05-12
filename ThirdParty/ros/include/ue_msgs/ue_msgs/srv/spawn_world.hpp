@@ -7,5 +7,6 @@
 #include "ue_msgs/srv/detail/spawn_world__struct.hpp"
 #include "ue_msgs/srv/detail/spawn_world__builder.hpp"
 #include "ue_msgs/srv/detail/spawn_world__traits.hpp"
+#include "ue_msgs/srv/detail/spawn_world__type_support.hpp"
 
 #endif  // UE_MSGS__SRV__SPAWN_WORLD_HPP_

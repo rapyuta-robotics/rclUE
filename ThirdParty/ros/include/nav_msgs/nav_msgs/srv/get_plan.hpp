@@ -7,5 +7,6 @@
 #include "nav_msgs/srv/detail/get_plan__struct.hpp"
 #include "nav_msgs/srv/detail/get_plan__builder.hpp"
 #include "nav_msgs/srv/detail/get_plan__traits.hpp"
+#include "nav_msgs/srv/detail/get_plan__type_support.hpp"
 
 #endif  // NAV_MSGS__SRV__GET_PLAN_HPP_

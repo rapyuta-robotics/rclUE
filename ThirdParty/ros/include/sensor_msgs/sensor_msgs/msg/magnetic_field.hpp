@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/magnetic_field__struct.hpp"
 #include "sensor_msgs/msg/detail/magnetic_field__builder.hpp"
 #include "sensor_msgs/msg/detail/magnetic_field__traits.hpp"
+#include "sensor_msgs/msg/detail/magnetic_field__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__MAGNETIC_FIELD_HPP_

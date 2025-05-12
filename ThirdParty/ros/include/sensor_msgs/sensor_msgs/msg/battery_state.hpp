@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/battery_state__struct.hpp"
 #include "sensor_msgs/msg/detail/battery_state__builder.hpp"
 #include "sensor_msgs/msg/detail/battery_state__traits.hpp"
+#include "sensor_msgs/msg/detail/battery_state__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__BATTERY_STATE_HPP_

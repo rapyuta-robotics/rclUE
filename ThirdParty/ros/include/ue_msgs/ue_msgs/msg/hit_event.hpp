@@ -7,5 +7,6 @@
 #include "ue_msgs/msg/detail/hit_event__struct.hpp"
 #include "ue_msgs/msg/detail/hit_event__builder.hpp"
 #include "ue_msgs/msg/detail/hit_event__traits.hpp"
+#include "ue_msgs/msg/detail/hit_event__type_support.hpp"
 
 #endif  // UE_MSGS__MSG__HIT_EVENT_HPP_

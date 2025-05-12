@@ -7,5 +7,6 @@
 #include "tf2_msgs/srv/detail/frame_graph__struct.hpp"
 #include "tf2_msgs/srv/detail/frame_graph__builder.hpp"
 #include "tf2_msgs/srv/detail/frame_graph__traits.hpp"
+#include "tf2_msgs/srv/detail/frame_graph__type_support.hpp"
 
 #endif  // TF2_MSGS__SRV__FRAME_GRAPH_HPP_

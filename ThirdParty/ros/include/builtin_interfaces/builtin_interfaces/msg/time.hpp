@@ -7,5 +7,6 @@
 #include "builtin_interfaces/msg/detail/time__struct.hpp"
 #include "builtin_interfaces/msg/detail/time__builder.hpp"
 #include "builtin_interfaces/msg/detail/time__traits.hpp"
+#include "builtin_interfaces/msg/detail/time__type_support.hpp"
 
 #endif  // BUILTIN_INTERFACES__MSG__TIME_HPP_

@@ -7,5 +7,6 @@
 #include "std_srvs/srv/detail/trigger__struct.hpp"
 #include "std_srvs/srv/detail/trigger__builder.hpp"
 #include "std_srvs/srv/detail/trigger__traits.hpp"
+#include "std_srvs/srv/detail/trigger__type_support.hpp"
 
 #endif  // STD_SRVS__SRV__TRIGGER_HPP_

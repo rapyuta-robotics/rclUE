@@ -7,5 +7,6 @@
 #include "example_interfaces/srv/detail/set_bool__struct.hpp"
 #include "example_interfaces/srv/detail/set_bool__builder.hpp"
 #include "example_interfaces/srv/detail/set_bool__traits.hpp"
+#include "example_interfaces/srv/detail/set_bool__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__SRV__SET_BOOL_HPP_

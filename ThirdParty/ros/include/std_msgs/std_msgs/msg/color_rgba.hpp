@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/color_rgba__struct.hpp"
 #include "std_msgs/msg/detail/color_rgba__builder.hpp"
 #include "std_msgs/msg/detail/color_rgba__traits.hpp"
+#include "std_msgs/msg/detail/color_rgba__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__COLOR_RGBA_HPP_

@@ -376,48 +376,111 @@ using BatteryState =
   sensor_msgs::msg::BatteryState_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_STATUS_UNKNOWN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_STATUS_CHARGING;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_STATUS_DISCHARGING;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_STATUS_NOT_CHARGING;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_STATUS_FULL;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_UNKNOWN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_GOOD;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_OVERHEAT;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_DEAD;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_OVERVOLTAGE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_UNSPEC_FAILURE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_COLD;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_WATCHDOG_TIMER_EXPIRE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_HEALTH_SAFETY_TIMER_EXPIRE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_TECHNOLOGY_UNKNOWN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_TECHNOLOGY_NIMH;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_TECHNOLOGY_LION;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_TECHNOLOGY_LIPO;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_TECHNOLOGY_LIFE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_TECHNOLOGY_NICD;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t BatteryState_<ContainerAllocator>::POWER_SUPPLY_TECHNOLOGY_LIMN;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

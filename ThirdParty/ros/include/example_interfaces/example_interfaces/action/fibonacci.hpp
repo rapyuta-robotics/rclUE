@@ -7,5 +7,6 @@
 #include "example_interfaces/action/detail/fibonacci__struct.hpp"
 #include "example_interfaces/action/detail/fibonacci__builder.hpp"
 #include "example_interfaces/action/detail/fibonacci__traits.hpp"
+#include "example_interfaces/action/detail/fibonacci__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__ACTION__FIBONACCI_HPP_

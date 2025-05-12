@@ -202,10 +202,16 @@ using DiagnosticStatus =
   diagnostic_msgs::msg::DiagnosticStatus_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr unsigned char DiagnosticStatus_<ContainerAllocator>::OK;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr unsigned char DiagnosticStatus_<ContainerAllocator>::WARN;
+#endif  // __cplusplus < 201703L
 // guard against 'ERROR' being predefined by MSVC by temporarily undefining it
 #if defined(_WIN32)
 #  if defined(ERROR)
@@ -213,14 +219,20 @@ constexpr unsigned char DiagnosticStatus_<ContainerAllocator>::WARN;
 #    undef ERROR
 #  endif
 #endif
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr unsigned char DiagnosticStatus_<ContainerAllocator>::ERROR;
+#endif  // __cplusplus < 201703L
 #if defined(_WIN32)
 #  pragma warning(suppress : 4602)
 #  pragma pop_macro("ERROR")
 #endif
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr unsigned char DiagnosticStatus_<ContainerAllocator>::STALE;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

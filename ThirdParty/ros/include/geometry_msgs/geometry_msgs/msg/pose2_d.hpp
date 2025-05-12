@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/pose2_d__struct.hpp"
 #include "geometry_msgs/msg/detail/pose2_d__builder.hpp"
 #include "geometry_msgs/msg/detail/pose2_d__traits.hpp"
+#include "geometry_msgs/msg/detail/pose2_d__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__POSE2_D_HPP_

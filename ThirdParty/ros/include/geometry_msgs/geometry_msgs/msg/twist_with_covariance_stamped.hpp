@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/twist_with_covariance_stamped__struct.hpp"
 #include "geometry_msgs/msg/detail/twist_with_covariance_stamped__builder.hpp"
 #include "geometry_msgs/msg/detail/twist_with_covariance_stamped__traits.hpp"
+#include "geometry_msgs/msg/detail/twist_with_covariance_stamped__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__TWIST_WITH_COVARIANCE_STAMPED_HPP_

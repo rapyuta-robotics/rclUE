@@ -7,5 +7,6 @@
 #include "visualization_msgs/msg/detail/uv_coordinate__struct.hpp"
 #include "visualization_msgs/msg/detail/uv_coordinate__builder.hpp"
 #include "visualization_msgs/msg/detail/uv_coordinate__traits.hpp"
+#include "visualization_msgs/msg/detail/uv_coordinate__type_support.hpp"
 
 #endif  // VISUALIZATION_MSGS__MSG__UV_COORDINATE_HPP_

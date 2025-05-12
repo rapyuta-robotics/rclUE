@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/float32__struct.hpp"
 #include "std_msgs/msg/detail/float32__builder.hpp"
 #include "std_msgs/msg/detail/float32__traits.hpp"
+#include "std_msgs/msg/detail/float32__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__FLOAT32_HPP_

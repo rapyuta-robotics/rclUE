@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/joy_feedback_array__struct.hpp"
 #include "sensor_msgs/msg/detail/joy_feedback_array__builder.hpp"
 #include "sensor_msgs/msg/detail/joy_feedback_array__traits.hpp"
+#include "sensor_msgs/msg/detail/joy_feedback_array__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__JOY_FEEDBACK_ARRAY_HPP_

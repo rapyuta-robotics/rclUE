@@ -7,5 +7,6 @@
 #include "nav_msgs/msg/detail/path__struct.hpp"
 #include "nav_msgs/msg/detail/path__builder.hpp"
 #include "nav_msgs/msg/detail/path__traits.hpp"
+#include "nav_msgs/msg/detail/path__type_support.hpp"
 
 #endif  // NAV_MSGS__MSG__PATH_HPP_

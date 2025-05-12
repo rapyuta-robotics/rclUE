@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/empty__struct.hpp"
 #include "std_msgs/msg/detail/empty__builder.hpp"
 #include "std_msgs/msg/detail/empty__traits.hpp"
+#include "std_msgs/msg/detail/empty__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__EMPTY_HPP_

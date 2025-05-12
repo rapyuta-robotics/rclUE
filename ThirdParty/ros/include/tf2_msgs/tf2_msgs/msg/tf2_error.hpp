@@ -7,5 +7,6 @@
 #include "tf2_msgs/msg/detail/tf2_error__struct.hpp"
 #include "tf2_msgs/msg/detail/tf2_error__builder.hpp"
 #include "tf2_msgs/msg/detail/tf2_error__traits.hpp"
+#include "tf2_msgs/msg/detail/tf2_error__type_support.hpp"
 
 #endif  // TF2_MSGS__MSG__TF2_ERROR_HPP_

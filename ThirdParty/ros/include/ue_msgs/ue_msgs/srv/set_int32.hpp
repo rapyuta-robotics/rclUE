@@ -7,5 +7,6 @@
 #include "ue_msgs/srv/detail/set_int32__struct.hpp"
 #include "ue_msgs/srv/detail/set_int32__builder.hpp"
 #include "ue_msgs/srv/detail/set_int32__traits.hpp"
+#include "ue_msgs/srv/detail/set_int32__type_support.hpp"
 
 #endif  // UE_MSGS__SRV__SET_INT32_HPP_

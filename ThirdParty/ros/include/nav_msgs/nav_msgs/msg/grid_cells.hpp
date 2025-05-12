@@ -7,5 +7,6 @@
 #include "nav_msgs/msg/detail/grid_cells__struct.hpp"
 #include "nav_msgs/msg/detail/grid_cells__builder.hpp"
 #include "nav_msgs/msg/detail/grid_cells__traits.hpp"
+#include "nav_msgs/msg/detail/grid_cells__type_support.hpp"
 
 #endif  // NAV_MSGS__MSG__GRID_CELLS_HPP_

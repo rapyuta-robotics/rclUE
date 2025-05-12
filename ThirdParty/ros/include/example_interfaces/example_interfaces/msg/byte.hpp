@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/byte__struct.hpp"
 #include "example_interfaces/msg/detail/byte__builder.hpp"
 #include "example_interfaces/msg/detail/byte__traits.hpp"
+#include "example_interfaces/msg/detail/byte__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__BYTE_HPP_

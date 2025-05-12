@@ -7,5 +7,6 @@
 #include "diagnostic_msgs/srv/detail/self_test__struct.hpp"
 #include "diagnostic_msgs/srv/detail/self_test__builder.hpp"
 #include "diagnostic_msgs/srv/detail/self_test__traits.hpp"
+#include "diagnostic_msgs/srv/detail/self_test__type_support.hpp"
 
 #endif  // DIAGNOSTIC_MSGS__SRV__SELF_TEST_HPP_

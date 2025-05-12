@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/channel_float32__struct.hpp"
 #include "sensor_msgs/msg/detail/channel_float32__builder.hpp"
 #include "sensor_msgs/msg/detail/channel_float32__traits.hpp"
+#include "sensor_msgs/msg/detail/channel_float32__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__CHANNEL_FLOAT32_HPP_

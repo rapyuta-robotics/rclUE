@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/twist__struct.hpp"
 #include "geometry_msgs/msg/detail/twist__builder.hpp"
 #include "geometry_msgs/msg/detail/twist__traits.hpp"
+#include "geometry_msgs/msg/detail/twist__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__TWIST_HPP_

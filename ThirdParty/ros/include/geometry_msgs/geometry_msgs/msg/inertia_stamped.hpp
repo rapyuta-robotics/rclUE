@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/inertia_stamped__struct.hpp"
 #include "geometry_msgs/msg/detail/inertia_stamped__builder.hpp"
 #include "geometry_msgs/msg/detail/inertia_stamped__traits.hpp"
+#include "geometry_msgs/msg/detail/inertia_stamped__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__INERTIA_STAMPED_HPP_

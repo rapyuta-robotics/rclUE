@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/vector3__struct.hpp"
 #include "geometry_msgs/msg/detail/vector3__builder.hpp"
 #include "geometry_msgs/msg/detail/vector3__traits.hpp"
+#include "geometry_msgs/msg/detail/vector3__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__VECTOR3_HPP_

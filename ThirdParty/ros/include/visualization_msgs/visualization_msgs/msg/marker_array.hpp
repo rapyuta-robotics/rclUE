@@ -7,5 +7,6 @@
 #include "visualization_msgs/msg/detail/marker_array__struct.hpp"
 #include "visualization_msgs/msg/detail/marker_array__builder.hpp"
 #include "visualization_msgs/msg/detail/marker_array__traits.hpp"
+#include "visualization_msgs/msg/detail/marker_array__type_support.hpp"
 
 #endif  // VISUALIZATION_MSGS__MSG__MARKER_ARRAY_HPP_

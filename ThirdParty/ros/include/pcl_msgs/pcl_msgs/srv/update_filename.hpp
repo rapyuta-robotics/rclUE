@@ -7,5 +7,6 @@
 #include "pcl_msgs/srv/detail/update_filename__struct.hpp"
 #include "pcl_msgs/srv/detail/update_filename__builder.hpp"
 #include "pcl_msgs/srv/detail/update_filename__traits.hpp"
+#include "pcl_msgs/srv/detail/update_filename__type_support.hpp"
 
 #endif  // PCL_MSGS__SRV__UPDATE_FILENAME_HPP_

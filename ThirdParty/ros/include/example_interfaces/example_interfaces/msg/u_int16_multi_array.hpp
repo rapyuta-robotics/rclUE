@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/u_int16_multi_array__struct.hpp"
 #include "example_interfaces/msg/detail/u_int16_multi_array__builder.hpp"
 #include "example_interfaces/msg/detail/u_int16_multi_array__traits.hpp"
+#include "example_interfaces/msg/detail/u_int16_multi_array__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__U_INT16_MULTI_ARRAY_HPP_

@@ -7,5 +7,6 @@
 #include "diagnostic_msgs/msg/detail/diagnostic_array__struct.hpp"
 #include "diagnostic_msgs/msg/detail/diagnostic_array__builder.hpp"
 #include "diagnostic_msgs/msg/detail/diagnostic_array__traits.hpp"
+#include "diagnostic_msgs/msg/detail/diagnostic_array__type_support.hpp"
 
 #endif  // DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_ARRAY_HPP_

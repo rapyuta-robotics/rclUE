@@ -7,5 +7,6 @@
 #include "shape_msgs/msg/detail/plane__struct.hpp"
 #include "shape_msgs/msg/detail/plane__builder.hpp"
 #include "shape_msgs/msg/detail/plane__traits.hpp"
+#include "shape_msgs/msg/detail/plane__type_support.hpp"
 
 #endif  // SHAPE_MSGS__MSG__PLANE_HPP_

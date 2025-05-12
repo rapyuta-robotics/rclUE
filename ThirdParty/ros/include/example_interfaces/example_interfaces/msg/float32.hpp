@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/float32__struct.hpp"
 #include "example_interfaces/msg/detail/float32__builder.hpp"
 #include "example_interfaces/msg/detail/float32__traits.hpp"
+#include "example_interfaces/msg/detail/float32__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__FLOAT32_HPP_

@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/int32__struct.hpp"
 #include "example_interfaces/msg/detail/int32__builder.hpp"
 #include "example_interfaces/msg/detail/int32__traits.hpp"
+#include "example_interfaces/msg/detail/int32__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__INT32_HPP_

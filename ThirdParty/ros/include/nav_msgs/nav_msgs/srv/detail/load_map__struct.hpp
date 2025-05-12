@@ -264,16 +264,31 @@ using LoadMap_Response =
   nav_msgs::srv::LoadMap_Response_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t LoadMap_Response_<ContainerAllocator>::RESULT_SUCCESS;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t LoadMap_Response_<ContainerAllocator>::RESULT_MAP_DOES_NOT_EXIST;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t LoadMap_Response_<ContainerAllocator>::RESULT_INVALID_MAP_DATA;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t LoadMap_Response_<ContainerAllocator>::RESULT_INVALID_MAP_METADATA;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t LoadMap_Response_<ContainerAllocator>::RESULT_UNDEFINED_FAILURE;
+#endif  // __cplusplus < 201703L
 
 }  // namespace srv
 

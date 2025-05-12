@@ -7,5 +7,6 @@
 #include "nav_msgs/msg/detail/occupancy_grid__struct.hpp"
 #include "nav_msgs/msg/detail/occupancy_grid__builder.hpp"
 #include "nav_msgs/msg/detail/occupancy_grid__traits.hpp"
+#include "nav_msgs/msg/detail/occupancy_grid__type_support.hpp"
 
 #endif  // NAV_MSGS__MSG__OCCUPANCY_GRID_HPP_

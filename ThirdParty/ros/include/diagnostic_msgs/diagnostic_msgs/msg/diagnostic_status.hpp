@@ -7,5 +7,6 @@
 #include "diagnostic_msgs/msg/detail/diagnostic_status__struct.hpp"
 #include "diagnostic_msgs/msg/detail/diagnostic_status__builder.hpp"
 #include "diagnostic_msgs/msg/detail/diagnostic_status__traits.hpp"
+#include "diagnostic_msgs/msg/detail/diagnostic_status__type_support.hpp"
 
 #endif  // DIAGNOSTIC_MSGS__MSG__DIAGNOSTIC_STATUS_HPP_

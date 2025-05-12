@@ -7,5 +7,6 @@
 #include "visualization_msgs/msg/detail/marker__struct.hpp"
 #include "visualization_msgs/msg/detail/marker__builder.hpp"
 #include "visualization_msgs/msg/detail/marker__traits.hpp"
+#include "visualization_msgs/msg/detail/marker__type_support.hpp"
 
 #endif  // VISUALIZATION_MSGS__MSG__MARKER_HPP_

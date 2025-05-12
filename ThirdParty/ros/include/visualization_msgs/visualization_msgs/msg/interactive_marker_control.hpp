@@ -7,5 +7,6 @@
 #include "visualization_msgs/msg/detail/interactive_marker_control__struct.hpp"
 #include "visualization_msgs/msg/detail/interactive_marker_control__builder.hpp"
 #include "visualization_msgs/msg/detail/interactive_marker_control__traits.hpp"
+#include "visualization_msgs/msg/detail/interactive_marker_control__type_support.hpp"
 
 #endif  // VISUALIZATION_MSGS__MSG__INTERACTIVE_MARKER_CONTROL_HPP_

@@ -7,5 +7,6 @@
 #include "diagnostic_msgs/msg/detail/key_value__struct.hpp"
 #include "diagnostic_msgs/msg/detail/key_value__builder.hpp"
 #include "diagnostic_msgs/msg/detail/key_value__traits.hpp"
+#include "diagnostic_msgs/msg/detail/key_value__type_support.hpp"
 
 #endif  // DIAGNOSTIC_MSGS__MSG__KEY_VALUE_HPP_

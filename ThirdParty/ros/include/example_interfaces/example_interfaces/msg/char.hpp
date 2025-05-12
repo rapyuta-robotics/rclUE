@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/char__struct.hpp"
 #include "example_interfaces/msg/detail/char__builder.hpp"
 #include "example_interfaces/msg/detail/char__traits.hpp"
+#include "example_interfaces/msg/detail/char__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__CHAR_HPP_

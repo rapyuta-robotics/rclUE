@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/region_of_interest__struct.hpp"
 #include "sensor_msgs/msg/detail/region_of_interest__builder.hpp"
 #include "sensor_msgs/msg/detail/region_of_interest__traits.hpp"
+#include "sensor_msgs/msg/detail/region_of_interest__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__REGION_OF_INTEREST_HPP_

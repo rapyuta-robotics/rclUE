@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/polygon_stamped__struct.hpp"
 #include "geometry_msgs/msg/detail/polygon_stamped__builder.hpp"
 #include "geometry_msgs/msg/detail/polygon_stamped__traits.hpp"
+#include "geometry_msgs/msg/detail/polygon_stamped__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__POLYGON_STAMPED_HPP_

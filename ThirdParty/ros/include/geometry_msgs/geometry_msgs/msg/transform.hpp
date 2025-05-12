@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/transform__struct.hpp"
 #include "geometry_msgs/msg/detail/transform__builder.hpp"
 #include "geometry_msgs/msg/detail/transform__traits.hpp"
+#include "geometry_msgs/msg/detail/transform__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__TRANSFORM_HPP_

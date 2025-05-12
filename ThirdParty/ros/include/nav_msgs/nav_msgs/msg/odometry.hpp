@@ -7,5 +7,6 @@
 #include "nav_msgs/msg/detail/odometry__struct.hpp"
 #include "nav_msgs/msg/detail/odometry__builder.hpp"
 #include "nav_msgs/msg/detail/odometry__traits.hpp"
+#include "nav_msgs/msg/detail/odometry__type_support.hpp"
 
 #endif  // NAV_MSGS__MSG__ODOMETRY_HPP_

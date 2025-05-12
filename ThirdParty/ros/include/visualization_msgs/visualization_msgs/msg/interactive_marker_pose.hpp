@@ -7,5 +7,6 @@
 #include "visualization_msgs/msg/detail/interactive_marker_pose__struct.hpp"
 #include "visualization_msgs/msg/detail/interactive_marker_pose__builder.hpp"
 #include "visualization_msgs/msg/detail/interactive_marker_pose__traits.hpp"
+#include "visualization_msgs/msg/detail/interactive_marker_pose__type_support.hpp"
 
 #endif  // VISUALIZATION_MSGS__MSG__INTERACTIVE_MARKER_POSE_HPP_
