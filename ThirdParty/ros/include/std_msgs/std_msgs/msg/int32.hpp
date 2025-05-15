@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/int32__struct.hpp"
 #include "std_msgs/msg/detail/int32__builder.hpp"
 #include "std_msgs/msg/detail/int32__traits.hpp"
+#include "std_msgs/msg/detail/int32__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__INT32_HPP_

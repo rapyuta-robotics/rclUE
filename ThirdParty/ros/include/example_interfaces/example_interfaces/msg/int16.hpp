@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/int16__struct.hpp"
 #include "example_interfaces/msg/detail/int16__builder.hpp"
 #include "example_interfaces/msg/detail/int16__traits.hpp"
+#include "example_interfaces/msg/detail/int16__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__INT16_HPP_

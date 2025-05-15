@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/relative_humidity__struct.hpp"
 #include "sensor_msgs/msg/detail/relative_humidity__builder.hpp"
 #include "sensor_msgs/msg/detail/relative_humidity__traits.hpp"
+#include "sensor_msgs/msg/detail/relative_humidity__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__RELATIVE_HUMIDITY_HPP_

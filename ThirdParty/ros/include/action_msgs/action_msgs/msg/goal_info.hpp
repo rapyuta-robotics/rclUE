@@ -7,5 +7,6 @@
 #include "action_msgs/msg/detail/goal_info__struct.hpp"
 #include "action_msgs/msg/detail/goal_info__builder.hpp"
 #include "action_msgs/msg/detail/goal_info__traits.hpp"
+#include "action_msgs/msg/detail/goal_info__type_support.hpp"
 
 #endif  // ACTION_MSGS__MSG__GOAL_INFO_HPP_

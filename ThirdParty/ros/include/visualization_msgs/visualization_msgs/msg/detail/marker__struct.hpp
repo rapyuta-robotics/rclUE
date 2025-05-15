@@ -436,34 +436,76 @@ using Marker =
   visualization_msgs::msg::Marker_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::ARROW;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::CUBE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::SPHERE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::CYLINDER;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::LINE_STRIP;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::LINE_LIST;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::CUBE_LIST;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::SPHERE_LIST;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::POINTS;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::TEXT_VIEW_FACING;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::MESH_RESOURCE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::TRIANGLE_LIST;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::ADD;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::MODIFY;
+#endif  // __cplusplus < 201703L
 // guard against 'DELETE' being predefined by MSVC by temporarily undefining it
 #if defined(_WIN32)
 #  if defined(DELETE)
@@ -471,14 +513,20 @@ constexpr int32_t Marker_<ContainerAllocator>::MODIFY;
 #    undef DELETE
 #  endif
 #endif
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::DELETE;
+#endif  // __cplusplus < 201703L
 #if defined(_WIN32)
 #  pragma warning(suppress : 4602)
 #  pragma pop_macro("DELETE")
 #endif
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int32_t Marker_<ContainerAllocator>::DELETEALL;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

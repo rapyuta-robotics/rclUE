@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/temperature__struct.hpp"
 #include "sensor_msgs/msg/detail/temperature__builder.hpp"
 #include "sensor_msgs/msg/detail/temperature__traits.hpp"
+#include "sensor_msgs/msg/detail/temperature__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__TEMPERATURE_HPP_

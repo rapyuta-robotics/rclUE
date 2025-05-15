@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/float64__struct.hpp"
 #include "example_interfaces/msg/detail/float64__builder.hpp"
 #include "example_interfaces/msg/detail/float64__traits.hpp"
+#include "example_interfaces/msg/detail/float64__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__FLOAT64_HPP_

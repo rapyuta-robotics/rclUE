@@ -7,5 +7,6 @@
 #include "ue_msgs/srv/detail/spawn_entity__struct.hpp"
 #include "ue_msgs/srv/detail/spawn_entity__builder.hpp"
 #include "ue_msgs/srv/detail/spawn_entity__traits.hpp"
+#include "ue_msgs/srv/detail/spawn_entity__type_support.hpp"
 
 #endif  // UE_MSGS__SRV__SPAWN_ENTITY_HPP_

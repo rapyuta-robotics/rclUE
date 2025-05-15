@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/polygon__struct.hpp"
 #include "geometry_msgs/msg/detail/polygon__builder.hpp"
 #include "geometry_msgs/msg/detail/polygon__traits.hpp"
+#include "geometry_msgs/msg/detail/polygon__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__POLYGON_HPP_

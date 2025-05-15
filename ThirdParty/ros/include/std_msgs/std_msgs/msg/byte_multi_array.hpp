@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/byte_multi_array__struct.hpp"
 #include "std_msgs/msg/detail/byte_multi_array__builder.hpp"
 #include "std_msgs/msg/detail/byte_multi_array__traits.hpp"
+#include "std_msgs/msg/detail/byte_multi_array__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__BYTE_MULTI_ARRAY_HPP_

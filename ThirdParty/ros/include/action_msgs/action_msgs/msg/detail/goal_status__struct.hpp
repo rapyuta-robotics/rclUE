@@ -154,20 +154,41 @@ using GoalStatus =
   action_msgs::msg::GoalStatus_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t GoalStatus_<ContainerAllocator>::STATUS_UNKNOWN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t GoalStatus_<ContainerAllocator>::STATUS_ACCEPTED;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t GoalStatus_<ContainerAllocator>::STATUS_EXECUTING;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t GoalStatus_<ContainerAllocator>::STATUS_CANCELING;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t GoalStatus_<ContainerAllocator>::STATUS_SUCCEEDED;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t GoalStatus_<ContainerAllocator>::STATUS_CANCELED;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t GoalStatus_<ContainerAllocator>::STATUS_ABORTED;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

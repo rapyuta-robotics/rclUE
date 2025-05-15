@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/camera_info__struct.hpp"
 #include "sensor_msgs/msg/detail/camera_info__builder.hpp"
 #include "sensor_msgs/msg/detail/camera_info__traits.hpp"
+#include "sensor_msgs/msg/detail/camera_info__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__CAMERA_INFO_HPP_

@@ -7,5 +7,6 @@
 #include "nav_msgs/srv/detail/set_map__struct.hpp"
 #include "nav_msgs/srv/detail/set_map__builder.hpp"
 #include "nav_msgs/srv/detail/set_map__traits.hpp"
+#include "nav_msgs/srv/detail/set_map__type_support.hpp"
 
 #endif  // NAV_MSGS__SRV__SET_MAP_HPP_

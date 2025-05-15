@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/int8__struct.hpp"
 #include "example_interfaces/msg/detail/int8__builder.hpp"
 #include "example_interfaces/msg/detail/int8__traits.hpp"
+#include "example_interfaces/msg/detail/int8__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__INT8_HPP_

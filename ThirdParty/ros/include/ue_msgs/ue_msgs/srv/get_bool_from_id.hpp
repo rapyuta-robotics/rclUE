@@ -7,5 +7,6 @@
 #include "ue_msgs/srv/detail/get_bool_from_id__struct.hpp"
 #include "ue_msgs/srv/detail/get_bool_from_id__builder.hpp"
 #include "ue_msgs/srv/detail/get_bool_from_id__traits.hpp"
+#include "ue_msgs/srv/detail/get_bool_from_id__type_support.hpp"
 
 #endif  // UE_MSGS__SRV__GET_BOOL_FROM_ID_HPP_

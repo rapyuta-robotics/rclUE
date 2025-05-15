@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/string__struct.hpp"
 #include "std_msgs/msg/detail/string__builder.hpp"
 #include "std_msgs/msg/detail/string__traits.hpp"
+#include "std_msgs/msg/detail/string__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__STRING_HPP_

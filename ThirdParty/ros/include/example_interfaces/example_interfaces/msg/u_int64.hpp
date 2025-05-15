@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/u_int64__struct.hpp"
 #include "example_interfaces/msg/detail/u_int64__builder.hpp"
 #include "example_interfaces/msg/detail/u_int64__traits.hpp"
+#include "example_interfaces/msg/detail/u_int64__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__U_INT64_HPP_

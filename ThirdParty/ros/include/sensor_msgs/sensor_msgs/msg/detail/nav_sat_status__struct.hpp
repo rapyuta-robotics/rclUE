@@ -153,22 +153,46 @@ using NavSatStatus =
   sensor_msgs::msg::NavSatStatus_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t NavSatStatus_<ContainerAllocator>::STATUS_NO_FIX;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t NavSatStatus_<ContainerAllocator>::STATUS_FIX;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t NavSatStatus_<ContainerAllocator>::STATUS_SBAS_FIX;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t NavSatStatus_<ContainerAllocator>::STATUS_GBAS_FIX;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint16_t NavSatStatus_<ContainerAllocator>::SERVICE_GPS;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint16_t NavSatStatus_<ContainerAllocator>::SERVICE_GLONASS;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint16_t NavSatStatus_<ContainerAllocator>::SERVICE_COMPASS;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint16_t NavSatStatus_<ContainerAllocator>::SERVICE_GALILEO;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

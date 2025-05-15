@@ -7,5 +7,6 @@
 #include "diagnostic_msgs/srv/detail/add_diagnostics__struct.hpp"
 #include "diagnostic_msgs/srv/detail/add_diagnostics__builder.hpp"
 #include "diagnostic_msgs/srv/detail/add_diagnostics__traits.hpp"
+#include "diagnostic_msgs/srv/detail/add_diagnostics__type_support.hpp"
 
 #endif  // DIAGNOSTIC_MSGS__SRV__ADD_DIAGNOSTICS_HPP_

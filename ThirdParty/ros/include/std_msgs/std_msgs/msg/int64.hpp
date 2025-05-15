@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/int64__struct.hpp"
 #include "std_msgs/msg/detail/int64__builder.hpp"
 #include "std_msgs/msg/detail/int64__traits.hpp"
+#include "std_msgs/msg/detail/int64__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__INT64_HPP_

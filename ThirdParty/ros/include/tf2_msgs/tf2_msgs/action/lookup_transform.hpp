@@ -7,5 +7,6 @@
 #include "tf2_msgs/action/detail/lookup_transform__struct.hpp"
 #include "tf2_msgs/action/detail/lookup_transform__builder.hpp"
 #include "tf2_msgs/action/detail/lookup_transform__traits.hpp"
+#include "tf2_msgs/action/detail/lookup_transform__type_support.hpp"
 
 #endif  // TF2_MSGS__ACTION__LOOKUP_TRANSFORM_HPP_

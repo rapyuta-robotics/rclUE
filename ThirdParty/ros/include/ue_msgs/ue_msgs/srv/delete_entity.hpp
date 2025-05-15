@@ -7,5 +7,6 @@
 #include "ue_msgs/srv/detail/delete_entity__struct.hpp"
 #include "ue_msgs/srv/detail/delete_entity__builder.hpp"
 #include "ue_msgs/srv/detail/delete_entity__traits.hpp"
+#include "ue_msgs/srv/detail/delete_entity__type_support.hpp"
 
 #endif  // UE_MSGS__SRV__DELETE_ENTITY_HPP_

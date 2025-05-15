@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/u_int16__struct.hpp"
 #include "std_msgs/msg/detail/u_int16__builder.hpp"
 #include "std_msgs/msg/detail/u_int16__traits.hpp"
+#include "std_msgs/msg/detail/u_int16__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__U_INT16_HPP_

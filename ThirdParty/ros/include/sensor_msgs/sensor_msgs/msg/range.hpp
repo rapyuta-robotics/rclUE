@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/range__struct.hpp"
 #include "sensor_msgs/msg/detail/range__builder.hpp"
 #include "sensor_msgs/msg/detail/range__traits.hpp"
+#include "sensor_msgs/msg/detail/range__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__RANGE_HPP_

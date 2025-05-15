@@ -7,5 +7,6 @@
 #include "pcl_msgs/msg/detail/vertices__struct.hpp"
 #include "pcl_msgs/msg/detail/vertices__builder.hpp"
 #include "pcl_msgs/msg/detail/vertices__traits.hpp"
+#include "pcl_msgs/msg/detail/vertices__type_support.hpp"
 
 #endif  // PCL_MSGS__MSG__VERTICES_HPP_

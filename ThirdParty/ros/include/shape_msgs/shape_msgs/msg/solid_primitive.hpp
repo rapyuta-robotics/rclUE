@@ -7,5 +7,6 @@
 #include "shape_msgs/msg/detail/solid_primitive__struct.hpp"
 #include "shape_msgs/msg/detail/solid_primitive__builder.hpp"
 #include "shape_msgs/msg/detail/solid_primitive__traits.hpp"
+#include "shape_msgs/msg/detail/solid_primitive__type_support.hpp"
 
 #endif  // SHAPE_MSGS__MSG__SOLID_PRIMITIVE_HPP_

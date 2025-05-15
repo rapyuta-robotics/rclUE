@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/u_int64_multi_array__struct.hpp"
 #include "std_msgs/msg/detail/u_int64_multi_array__builder.hpp"
 #include "std_msgs/msg/detail/u_int64_multi_array__traits.hpp"
+#include "std_msgs/msg/detail/u_int64_multi_array__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__U_INT64_MULTI_ARRAY_HPP_

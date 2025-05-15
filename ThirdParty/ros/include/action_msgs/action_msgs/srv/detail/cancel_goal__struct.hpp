@@ -259,14 +259,26 @@ using CancelGoal_Response =
   action_msgs::srv::CancelGoal_Response_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t CancelGoal_Response_<ContainerAllocator>::ERROR_NONE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t CancelGoal_Response_<ContainerAllocator>::ERROR_REJECTED;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t CancelGoal_Response_<ContainerAllocator>::ERROR_UNKNOWN_GOAL_ID;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr int8_t CancelGoal_Response_<ContainerAllocator>::ERROR_GOAL_TERMINATED;
+#endif  // __cplusplus < 201703L
 
 }  // namespace srv
 

@@ -7,5 +7,6 @@
 #include "actionlib_msgs/msg/detail/goal_status__struct.hpp"
 #include "actionlib_msgs/msg/detail/goal_status__builder.hpp"
 #include "actionlib_msgs/msg/detail/goal_status__traits.hpp"
+#include "actionlib_msgs/msg/detail/goal_status__type_support.hpp"
 
 #endif  // ACTIONLIB_MSGS__MSG__GOAL_STATUS_HPP_

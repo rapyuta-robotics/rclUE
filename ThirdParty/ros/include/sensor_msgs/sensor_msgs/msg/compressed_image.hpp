@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/compressed_image__struct.hpp"
 #include "sensor_msgs/msg/detail/compressed_image__builder.hpp"
 #include "sensor_msgs/msg/detail/compressed_image__traits.hpp"
+#include "sensor_msgs/msg/detail/compressed_image__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__COMPRESSED_IMAGE_HPP_

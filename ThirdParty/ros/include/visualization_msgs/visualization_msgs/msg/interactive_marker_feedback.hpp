@@ -7,5 +7,6 @@
 #include "visualization_msgs/msg/detail/interactive_marker_feedback__struct.hpp"
 #include "visualization_msgs/msg/detail/interactive_marker_feedback__builder.hpp"
 #include "visualization_msgs/msg/detail/interactive_marker_feedback__traits.hpp"
+#include "visualization_msgs/msg/detail/interactive_marker_feedback__type_support.hpp"
 
 #endif  // VISUALIZATION_MSGS__MSG__INTERACTIVE_MARKER_FEEDBACK_HPP_

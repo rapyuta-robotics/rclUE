@@ -257,18 +257,36 @@ using InteractiveMarkerFeedback =
   visualization_msgs::msg::InteractiveMarkerFeedback_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t InteractiveMarkerFeedback_<ContainerAllocator>::KEEP_ALIVE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t InteractiveMarkerFeedback_<ContainerAllocator>::POSE_UPDATE;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t InteractiveMarkerFeedback_<ContainerAllocator>::MENU_SELECT;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t InteractiveMarkerFeedback_<ContainerAllocator>::BUTTON_CLICK;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t InteractiveMarkerFeedback_<ContainerAllocator>::MOUSE_DOWN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t InteractiveMarkerFeedback_<ContainerAllocator>::MOUSE_UP;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

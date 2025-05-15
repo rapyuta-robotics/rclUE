@@ -221,14 +221,26 @@ using NavSatFix =
   sensor_msgs::msg::NavSatFix_<std::allocator<void>>;
 
 // constant definitions
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t NavSatFix_<ContainerAllocator>::COVARIANCE_TYPE_UNKNOWN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t NavSatFix_<ContainerAllocator>::COVARIANCE_TYPE_APPROXIMATED;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t NavSatFix_<ContainerAllocator>::COVARIANCE_TYPE_DIAGONAL_KNOWN;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t NavSatFix_<ContainerAllocator>::COVARIANCE_TYPE_KNOWN;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

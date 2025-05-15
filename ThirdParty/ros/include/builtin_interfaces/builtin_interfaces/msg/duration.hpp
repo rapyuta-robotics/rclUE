@@ -7,5 +7,6 @@
 #include "builtin_interfaces/msg/detail/duration__struct.hpp"
 #include "builtin_interfaces/msg/detail/duration__builder.hpp"
 #include "builtin_interfaces/msg/detail/duration__traits.hpp"
+#include "builtin_interfaces/msg/detail/duration__type_support.hpp"
 
 #endif  // BUILTIN_INTERFACES__MSG__DURATION_HPP_

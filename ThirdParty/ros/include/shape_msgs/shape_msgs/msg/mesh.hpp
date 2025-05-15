@@ -7,5 +7,6 @@
 #include "shape_msgs/msg/detail/mesh__struct.hpp"
 #include "shape_msgs/msg/detail/mesh__builder.hpp"
 #include "shape_msgs/msg/detail/mesh__traits.hpp"
+#include "shape_msgs/msg/detail/mesh__type_support.hpp"
 
 #endif  // SHAPE_MSGS__MSG__MESH_HPP_

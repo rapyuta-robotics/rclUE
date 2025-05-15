@@ -7,5 +7,6 @@
 #include "geometry_msgs/msg/detail/accel__struct.hpp"
 #include "geometry_msgs/msg/detail/accel__builder.hpp"
 #include "geometry_msgs/msg/detail/accel__traits.hpp"
+#include "geometry_msgs/msg/detail/accel__type_support.hpp"
 
 #endif  // GEOMETRY_MSGS__MSG__ACCEL_HPP_

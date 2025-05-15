@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/nav_sat_status__struct.hpp"
 #include "sensor_msgs/msg/detail/nav_sat_status__builder.hpp"
 #include "sensor_msgs/msg/detail/nav_sat_status__traits.hpp"
+#include "sensor_msgs/msg/detail/nav_sat_status__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__NAV_SAT_STATUS_HPP_

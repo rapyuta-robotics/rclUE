@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/byte__struct.hpp"
 #include "std_msgs/msg/detail/byte__builder.hpp"
 #include "std_msgs/msg/detail/byte__traits.hpp"
+#include "std_msgs/msg/detail/byte__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__BYTE_HPP_

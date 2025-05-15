@@ -169,24 +169,45 @@ using TF2Error =
 #    undef NO_ERROR
 #  endif
 #endif
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t TF2Error_<ContainerAllocator>::NO_ERROR;
+#endif  // __cplusplus < 201703L
 #if defined(_WIN32)
 #  pragma warning(suppress : 4602)
 #  pragma pop_macro("NO_ERROR")
 #endif
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t TF2Error_<ContainerAllocator>::LOOKUP_ERROR;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t TF2Error_<ContainerAllocator>::CONNECTIVITY_ERROR;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t TF2Error_<ContainerAllocator>::EXTRAPOLATION_ERROR;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t TF2Error_<ContainerAllocator>::INVALID_ARGUMENT_ERROR;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t TF2Error_<ContainerAllocator>::TIMEOUT_ERROR;
+#endif  // __cplusplus < 201703L
+#if __cplusplus < 201703L
+// static constexpr member variable definitions are only needed in C++14 and below, deprecated in C++17
 template<typename ContainerAllocator>
 constexpr uint8_t TF2Error_<ContainerAllocator>::TRANSFORM_ERROR;
+#endif  // __cplusplus < 201703L
 
 }  // namespace msg
 

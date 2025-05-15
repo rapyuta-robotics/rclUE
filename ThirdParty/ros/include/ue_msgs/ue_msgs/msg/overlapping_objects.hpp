@@ -7,5 +7,6 @@
 #include "ue_msgs/msg/detail/overlapping_objects__struct.hpp"
 #include "ue_msgs/msg/detail/overlapping_objects__builder.hpp"
 #include "ue_msgs/msg/detail/overlapping_objects__traits.hpp"
+#include "ue_msgs/msg/detail/overlapping_objects__type_support.hpp"
 
 #endif  // UE_MSGS__MSG__OVERLAPPING_OBJECTS_HPP_

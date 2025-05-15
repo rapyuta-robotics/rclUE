@@ -7,5 +7,6 @@
 #include "pcl_msgs/msg/detail/model_coefficients__struct.hpp"
 #include "pcl_msgs/msg/detail/model_coefficients__builder.hpp"
 #include "pcl_msgs/msg/detail/model_coefficients__traits.hpp"
+#include "pcl_msgs/msg/detail/model_coefficients__type_support.hpp"
 
 #endif  // PCL_MSGS__MSG__MODEL_COEFFICIENTS_HPP_

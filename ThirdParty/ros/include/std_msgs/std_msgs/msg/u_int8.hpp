@@ -7,5 +7,6 @@
 #include "std_msgs/msg/detail/u_int8__struct.hpp"
 #include "std_msgs/msg/detail/u_int8__builder.hpp"
 #include "std_msgs/msg/detail/u_int8__traits.hpp"
+#include "std_msgs/msg/detail/u_int8__type_support.hpp"
 
 #endif  // STD_MSGS__MSG__U_INT8_HPP_

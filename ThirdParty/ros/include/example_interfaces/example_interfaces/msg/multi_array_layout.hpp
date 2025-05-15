@@ -7,5 +7,6 @@
 #include "example_interfaces/msg/detail/multi_array_layout__struct.hpp"
 #include "example_interfaces/msg/detail/multi_array_layout__builder.hpp"
 #include "example_interfaces/msg/detail/multi_array_layout__traits.hpp"
+#include "example_interfaces/msg/detail/multi_array_layout__type_support.hpp"
 
 #endif  // EXAMPLE_INTERFACES__MSG__MULTI_ARRAY_LAYOUT_HPP_

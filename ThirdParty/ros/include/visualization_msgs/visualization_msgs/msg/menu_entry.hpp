@@ -7,5 +7,6 @@
 #include "visualization_msgs/msg/detail/menu_entry__struct.hpp"
 #include "visualization_msgs/msg/detail/menu_entry__builder.hpp"
 #include "visualization_msgs/msg/detail/menu_entry__traits.hpp"
+#include "visualization_msgs/msg/detail/menu_entry__type_support.hpp"
 
 #endif  // VISUALIZATION_MSGS__MSG__MENU_ENTRY_HPP_

@@ -7,5 +7,6 @@
 #include "sensor_msgs/msg/detail/fluid_pressure__struct.hpp"
 #include "sensor_msgs/msg/detail/fluid_pressure__builder.hpp"
 #include "sensor_msgs/msg/detail/fluid_pressure__traits.hpp"
+#include "sensor_msgs/msg/detail/fluid_pressure__type_support.hpp"
 
 #endif  // SENSOR_MSGS__MSG__FLUID_PRESSURE_HPP_
