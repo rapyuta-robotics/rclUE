@@ -3,6 +3,7 @@
 #include "ROS2ActionClient.h"
 
 #include "rclcUtilities.h"
+#include "rcl/error_handling.h"
 
 UROS2ActionClient* UROS2ActionClient::CreateActionClient(UObject* InOwner,
                                                          const FString& InActionName,
@@ -14,7 +15,8 @@ UROS2ActionClient* UROS2ActionClient::CreateActionClient(UObject* InOwner,
                                                          const UROS2QoS InGoalQoS,
                                                          const UROS2QoS InResultQoS,
                                                          const UROS2QoS InFeedbackQoS,
-                                                         const UROS2QoS InCancelQoS)
+                                                         const UROS2QoS InCancelQoS,
+                                                         const UROS2QoS InStatusQoS)
 {
     UROS2ActionClient* client = NewObject<UROS2ActionClient>(InOwner);
     client->ActionClass = InActionClass;
@@ -23,6 +25,7 @@ UROS2ActionClient* UROS2ActionClient::CreateActionClient(UObject* InOwner,
     client->ResultQoS = InResultQoS;
     client->FeedbackQoS = InFeedbackQoS;
     client->CancelQoS = InCancelQoS;
+    client->StatusQoS = InStatusQoS;
     client->SetDelegates(InFeedbackDelegate, InResultResponseDelegate, InGoalResponseDelegate, InCancelResponseDelegate);
     return client;
 }
@@ -38,7 +41,7 @@ void UROS2ActionClient::InitializeActionComponent()
     client_opt.result_service_qos = QoS_LUT[ResultQoS];
     client_opt.cancel_service_qos = QoS_LUT[CancelQoS];
     client_opt.feedback_topic_qos = QoS_LUT[FeedbackQoS];
-    client_opt.status_topic_qos = QoS_LUT[UROS2QoS::Default];    // status is not supported yet.
+    client_opt.status_topic_qos = QoS_LUT[StatusQoS];
 
     rcl_ret_t rc =
         rcl_action_client_init(&client, OwnerNode->GetNode(), action_type_support, TCHAR_TO_UTF8(*ActionName), &client_opt);
@@ -79,8 +82,44 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
 
     if (IsReady[1])
     {
-        ensureMsgf(false, TEXT("Action Client take status not implemented yet"));
+        UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT("2. Action Client - Attempting to take goal status message"));
+
+        action_msgs__msg__GoalStatusArray StatusMsg;
+        if (!action_msgs__msg__GoalStatusArray__init(&StatusMsg))
+        {
+            UE_LOG_WITH_INFO(LogROS2Action, Error, TEXT("Failed to initialize GoalStatusArray message"));
+            return;
+        }
+
+        rcl_ret_t Ret = rcl_action_take_status(&client, &StatusMsg);
+        if (Ret != RCL_RET_OK)
+        {
+            const rcl_error_string_t ErrorStr = rcl_get_error_string();
+            UE_LOG_WITH_INFO(LogROS2Action, Error, TEXT("rcl_action_take_status failed: %s"), UTF8_TO_TCHAR(ErrorStr.str));
+            rcl_reset_error();
+        }
+        else
+        {
+            UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT(" → Received %d goal status entries"), StatusMsg.status_list.size);
+
+            for (size_t i = 0; i < StatusMsg.status_list.size; ++i)
+            {
+                const action_msgs__msg__GoalStatus& GoalStatus = StatusMsg.status_list.data[i];
+
+                FString UuidStr;
+                for (int j = 0; j < 16; ++j)
+                {
+                    UuidStr += FString::Printf(TEXT("%02X"), GoalStatus.goal_info.goal_id.uuid[j]);
+                }
+
+                FString StatusStr = FString::Printf(TEXT("Goal %s has status %d"), *UuidStr, GoalStatus.status);
+                UE_LOG_WITH_INFO(LogROS2Action, Log, TEXT(" → %s"), *StatusStr);
+            }
+        }
+
+        action_msgs__msg__GoalStatusArray__fini(&StatusMsg);
     }
+
 
     if (IsReady[2])
     {

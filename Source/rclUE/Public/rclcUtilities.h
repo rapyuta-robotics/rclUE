@@ -17,7 +17,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetSystemLibrary.h"
 #include "UObject/Object.h"
-#include "Misc/EngineVersionComparison.h" 
+#include "Misc/EngineVersionComparison.h"
 
 #if UE_VERSION_NEWER_THAN(5, 5, 0)
 #include "Misc/App.h"
@@ -102,6 +102,7 @@ enum class UROS2QoS : uint8
     ParameterEvents UMETA(DisplayName = "ParameterEvents"),
     System UMETA(DisplayName = "System"),
     UnknownQoS UMETA(DisplayName = "UnknownQoS"),
+    ActionStatus UMETA(DisplayName = "ActionStatus"),
 };
 
 //! profiles provided by rclUE
@@ -159,6 +160,17 @@ static const rmw_qos_profile_t rclUE_qos_profile_static_broadcaster = {RMW_QOS_P
                                                                        RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
                                                                        false};
 
+//! profiles provided by rclUE
+static const rmw_qos_profile_t rclUE_qos_profile_action_status = { RMW_QOS_POLICY_HISTORY_KEEP_LAST,
+                                                            10,
+                                                            RMW_QOS_POLICY_RELIABILITY_RELIABLE,
+                                                            RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL,
+                                                            RMW_QOS_DEADLINE_DEFAULT,
+                                                            RMW_QOS_LIFESPAN_DEFAULT,
+                                                            RMW_QOS_POLICY_LIVELINESS_SYSTEM_DEFAULT,
+                                                            RMW_QOS_LIVELINESS_LEASE_DURATION_DEFAULT,
+                                                            false};
+
 //! Look-Up Table matching enum with rcl profiles
 static const TMap<UROS2QoS, rmw_qos_profile_t> QoS_LUT = {{UROS2QoS::Default, rmw_qos_profile_default},
                                                           {UROS2QoS::SensorData, rclUE_qos_profile_sensor_data},
@@ -170,7 +182,8 @@ static const TMap<UROS2QoS, rmw_qos_profile_t> QoS_LUT = {{UROS2QoS::Default, rm
                                                           {UROS2QoS::Services, rmw_qos_profile_services_default},
                                                           {UROS2QoS::ParameterEvents, rmw_qos_profile_parameter_events},
                                                           {UROS2QoS::System, rmw_qos_profile_system_default},
-                                                          {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown}};
+                                                          {UROS2QoS::UnknownQoS, rmw_qos_profile_unknown},
+                                                          {UROS2QoS::ActionStatus, rclUE_qos_profile_action_status}};
 
 /**
  * @brief Custom timer manager.  This try to execute delegate at a given fixed rate.
