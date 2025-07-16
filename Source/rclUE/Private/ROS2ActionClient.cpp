@@ -94,8 +94,8 @@ void UROS2ActionClient::ProcessReady(rcl_wait_set_t* wait_set)
         rcl_ret_t Ret = rcl_action_take_status(&client, &StatusMsg);
         if (Ret != RCL_RET_OK)
         {
-            const rcl_error_string_t ErrorStr = rcl_get_error_string();
-            UE_LOG_WITH_INFO(LogROS2Action, Error, TEXT("rcl_action_take_status failed: %s"), UTF8_TO_TCHAR(ErrorStr.str));
+            const rcl_error_string_t RclErrorString = rcl_get_error_string();
+            UE_LOG_WITH_INFO(LogROS2Action, Error, TEXT("rcl_action_take_status failed: %s"), UTF8_TO_TCHAR(RclErrorString.str));
             rcl_reset_error();
         }
         else
