@@ -153,7 +153,7 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2QoS FeedbackQoS = UROS2QoS::Default;
 
-    //! this is pass to #UROS2ActionServer::FeedbackQoS in #BeginPlay
+    //! this is pass to #UROS2ActionServer::StatusQoS in #BeginPlay
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2QoS StatusQoS = UROS2QoS::ActionStatus;
 
