@@ -50,7 +50,8 @@ public:
                                                  const UROS2QoS InGoalQoS = UROS2QoS::Services,
                                                  const UROS2QoS InResultQoS = UROS2QoS::Services,
                                                  const UROS2QoS InFeedbackQoS = UROS2QoS::Default,
-                                                 const UROS2QoS InCancelQoS = UROS2QoS::Services);
+                                                 const UROS2QoS InCancelQoS = UROS2QoS::Services,
+                                                 const UROS2QoS InStatusQoS = UROS2QoS::ActionStatus);
     /**
      * @brief Destroy action client from rclc
      *
@@ -181,6 +182,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2QoS FeedbackQoS = UROS2QoS::Default;
 
+    //! this is pass to #UROS2ActionClient::StatusQoS in #BeginPlay
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2QoS StatusQoS = UROS2QoS::ActionStatus;
+
     FActionCallback GoalResponseDelegate;
     FActionCallback ResultResponseDelegate;
     FActionCallback FeedbackDelegate;
@@ -201,7 +206,8 @@ public:
                                                                  GoalQoS,
                                                                  ResultQoS,
                                                                  FeedbackQoS,
-                                                                 CancelQoS);
+                                                                 CancelQoS,
+                                                                 StatusQoS);
         }
     }
 

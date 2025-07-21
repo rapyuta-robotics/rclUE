@@ -346,7 +346,8 @@ UROS2ActionClient* UROS2NodeComponent::CreateActionClient(const FString& InActio
                                                           const UROS2QoS InGoalQoS,
                                                           const UROS2QoS InResultQoS,
                                                           const UROS2QoS InFeedbackQoS,
-                                                          const UROS2QoS InCancelQoS)
+                                                          const UROS2QoS InCancelQoS,
+                                                          const UROS2QoS InStatusQoS)
 {
     UROS2ActionClient* client = NewObject<UROS2ActionClient>(this);
     client->ActionClass = InActionClass;
@@ -355,6 +356,7 @@ UROS2ActionClient* UROS2NodeComponent::CreateActionClient(const FString& InActio
     client->ResultQoS = InResultQoS;
     client->FeedbackQoS = InFeedbackQoS;
     client->CancelQoS = InCancelQoS;
+    client->StatusQoS = InStatusQoS;
     client->SetDelegates(InFeedbackDelegate, InResultResponseDelegate, InGoalResponseDelegate, InCancelResponseDelegate);
     AddActionClient(client);
     return client;
@@ -390,7 +392,8 @@ UROS2ActionServer* UROS2NodeComponent::CreateActionServer(const FString& InActio
                                                           const UROS2QoS InGoalQoS,
                                                           const UROS2QoS InResultQoS,
                                                           const UROS2QoS InFeedbackQoS,
-                                                          const UROS2QoS InCancelQoS)
+                                                          const UROS2QoS InCancelQoS,
+                                                          const UROS2QoS InStatusQoS)
 {
     UROS2ActionServer* server = NewObject<UROS2ActionServer>(this);
     server->ActionClass = InActionClass;
@@ -399,6 +402,7 @@ UROS2ActionServer* UROS2NodeComponent::CreateActionServer(const FString& InActio
     server->ResultQoS = InResultQoS;
     server->FeedbackQoS = InFeedbackQoS;
     server->CancelQoS = InCancelQoS;
+    server->StatusQoS = InStatusQoS;
     server->SetDelegates(InGoalDelegate, InCancelDelegate, InResultDelegate);
     AddActionServer(server);
     return server;

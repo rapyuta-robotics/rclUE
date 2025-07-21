@@ -263,31 +263,33 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
  * @param InResultQoS pass to #UROS2NodeComponent::CreateActionClient
  * @param InFeedbackQoS pass to #UROS2NodeComponent::CreateActionClient
  * @param InCancelQoS pass to #UROS2NodeComponent::CreateActionClient
+ * @param InStatusQoS pass to #UROS2NodeComponent::CreateActionClient
  * @param OutClient return value of #UROS2NodeComponent::CreateActionClient
  */
-#define ROS2_CREATE_ACTION_CLIENT_WITH_QOS(InROS2Node,                                                                        \
-                                           InUserObject,                                                                      \
-                                           InActionName,                                                                      \
-                                           InActionClass,                                                                     \
-                                           InGoalResponseDelegate,                                                            \
-                                           InResultResponseDelegate,                                                          \
-                                           InFeedbackDelegate,                                                                \
-                                           InCancelResponseDelegate,                                                          \
-                                           InGoalQoS,                                                                         \
-                                           InResultQoS,                                                                       \
-                                           InFeedbackQoS,                                                                     \
-                                           InCancelQoS,                                                                       \
-                                           OutClient)                                                                         \
-    if (ensure(IsValid(InROS2Node)))                                                                                          \
-    {                                                                                                                         \
-        FActionCallback Feedback, Result, Goal;                                                                               \
-        FSimpleCallback Cancel;                                                                                               \
-        Goal.BindDynamic(InUserObject, InGoalResponseDelegate);                                                               \
-        Result.BindDynamic(InUserObject, InResultResponseDelegate);                                                           \
-        Feedback.BindDynamic(InUserObject, InFeedbackDelegate);                                                               \
-        Cancel.BindDynamic(InUserObject, InCancelResponseDelegate);                                                           \
-        OutClient = InROS2Node->CreateActionClient(                                                                           \
-            InActionName, InActionClass, Goal, Result, Feedback, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS); \
+#define ROS2_CREATE_ACTION_CLIENT_WITH_QOS(InROS2Node,                                                                                      \
+                                           InUserObject,                                                                                    \
+                                           InActionName,                                                                                    \
+                                           InActionClass,                                                                                   \
+                                           InGoalResponseDelegate,                                                                          \
+                                           InResultResponseDelegate,                                                                        \
+                                           InFeedbackDelegate,                                                                              \
+                                           InCancelResponseDelegate,                                                                        \
+                                           InGoalQoS,                                                                                       \
+                                           InResultQoS,                                                                                     \
+                                           InFeedbackQoS,                                                                                   \
+                                           InCancelQoS,                                                                                     \
+                                           InStatusQoS,                                                                                     \
+                                           OutClient)                                                                                       \
+    if (ensure(IsValid(InROS2Node)))                                                                                                        \
+    {                                                                                                                                       \
+        FActionCallback Feedback, Result, Goal;                                                                                             \
+        FSimpleCallback Cancel;                                                                                                             \
+        Goal.BindDynamic(InUserObject, InGoalResponseDelegate);                                                                             \
+        Result.BindDynamic(InUserObject, InResultResponseDelegate);                                                                         \
+        Feedback.BindDynamic(InUserObject, InFeedbackDelegate);                                                                             \
+        Cancel.BindDynamic(InUserObject, InCancelResponseDelegate);                                                                         \
+        OutClient = InROS2Node->CreateActionClient(                                                                                         \
+            InActionName, InActionClass, Goal, Result, Feedback, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS, InStatusQoS);  \
     }
 
 /**
@@ -332,29 +334,31 @@ DECLARE_DYNAMIC_DELEGATE_OneParam(FServiceCallback, UROS2GenericSrv*, InService 
  * @param InResultQoS pass to #UROS2NodeComponent::CreateActionServer
  * @param InFeedbackQoS pass to #UROS2NodeComponent::CreateActionServer
  * @param InCancelQoS pass to #UROS2NodeComponent::CreateActionServer
+ * @param InStatusQoS pass to #UROS2NodeComponent::CreateActionServer
  * @param OutServer return value of #UROS2NodeComponent::CreateActionServer
  */
-#define ROS2_CREATE_ACTION_SERVER_WITH_QOS(InROS2Node,                                                              \
-                                           InUserObject,                                                            \
-                                           InActionName,                                                            \
-                                           InActionClass,                                                           \
-                                           InGoalDelegate,                                                          \
-                                           InResultDelegate,                                                        \
-                                           InCancelDelegate,                                                        \
-                                           InGoalQoS,                                                               \
-                                           InResultQoS,                                                             \
-                                           InFeedbackQoS,                                                           \
-                                           InCancelQoS,                                                             \
-                                           OutServer)                                                               \
-    if (ensure(IsValid(InROS2Node)))                                                                                \
-    {                                                                                                               \
-        FActionCallback Goal;                                                                                       \
-        FSimpleCallback Result, Cancel;                                                                             \
-        Goal.BindDynamic(InUserObject, InGoalDelegate);                                                             \
-        Result.BindDynamic(InUserObject, InResultDelegate);                                                         \
-        Cancel.BindDynamic(InUserObject, InCancelDelegate);                                                         \
-        OutServer = InROS2Node->CreateActionServer(                                                                 \
-            InActionName, InActionClass, Goal, Result, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS); \
+#define ROS2_CREATE_ACTION_SERVER_WITH_QOS(InROS2Node,                                                                              \
+                                           InUserObject,                                                                            \
+                                           InActionName,                                                                            \
+                                           InActionClass,                                                                           \
+                                           InGoalDelegate,                                                                          \
+                                           InResultDelegate,                                                                        \
+                                           InCancelDelegate,                                                                        \
+                                           InGoalQoS,                                                                               \
+                                           InResultQoS,                                                                             \
+                                           InFeedbackQoS,                                                                           \
+                                           InCancelQoS,                                                                             \
+                                           InStatusQoS,                                                                             \
+                                           OutServer)                                                                               \
+    if (ensure(IsValid(InROS2Node)))                                                                                                \
+    {                                                                                                                               \
+        FActionCallback Goal;                                                                                                       \
+        FSimpleCallback Result, Cancel;                                                                                             \
+        Goal.BindDynamic(InUserObject, InGoalDelegate);                                                                             \
+        Result.BindDynamic(InUserObject, InResultDelegate);                                                                         \
+        Cancel.BindDynamic(InUserObject, InCancelDelegate);                                                                         \
+        OutServer = InROS2Node->CreateActionServer(                                                                                 \
+            InActionName, InActionClass, Goal, Result, Cancel, InGoalQoS, InResultQoS, InFeedbackQoS, InCancelQoS, InStatusQoS);    \
     }
 
 /**
@@ -594,6 +598,7 @@ public:
      * @param InResultQoS
      * @param InGoalQoS
      * @param InCancelQoS
+     * @param InStatusQoS
      * @return UROS2ActionClient*
      */
     UROS2ActionClient* CreateActionClient(const FString& InActionName,
@@ -605,7 +610,8 @@ public:
                                           const UROS2QoS InGoalQoS = UROS2QoS::Services,
                                           const UROS2QoS InResultQoS = UROS2QoS::Services,
                                           const UROS2QoS InFeedbackQoS = UROS2QoS::Default,
-                                          const UROS2QoS InCancelQoS = UROS2QoS::Services);
+                                          const UROS2QoS InCancelQoS = UROS2QoS::Services,
+                                          const UROS2QoS InStatusQoS = UROS2QoS::ActionStatus);
     /**
      * @brief Set this node to #UROS2ActionClient::OwnerNode and add to #ActionServers.
      *
@@ -626,6 +632,7 @@ public:
      * @param InResultQoS
      * @param InGoalQoS
      * @param InCancelQoS
+     * @param InStatusQoS
      * @return UROS2ActionServer*
      */
     UROS2ActionServer* CreateActionServer(const FString& InActionName,
@@ -636,7 +643,8 @@ public:
                                           const UROS2QoS InGoalQoS = UROS2QoS::Services,
                                           const UROS2QoS InResultQoS = UROS2QoS::Services,
                                           const UROS2QoS InFeedbackQoS = UROS2QoS::Default,
-                                          const UROS2QoS InCancelQoS = UROS2QoS::Services);
+                                          const UROS2QoS InCancelQoS = UROS2QoS::Services,
+                                          const UROS2QoS InStatusQoS = UROS2QoS::ActionStatus);
 
     //! Node state
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

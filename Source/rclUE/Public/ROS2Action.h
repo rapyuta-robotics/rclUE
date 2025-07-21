@@ -123,6 +123,10 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2QoS FeedbackQoS = UROS2QoS::Default;
 
+    //! Quality of Status
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    UROS2QoS StatusQoS = UROS2QoS::ActionStatus;
+
 protected:
     /**
      * @brief Initialize ROS2 Action. Should be implemented in #UROS2ActionServer and #UROS2ActionClient
