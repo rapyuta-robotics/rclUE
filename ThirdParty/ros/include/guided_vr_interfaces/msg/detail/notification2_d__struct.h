@@ -19,6 +19,7 @@ extern "C"
 
 // Include directives for member types
 // Member 'source'
+// Member 'desc'
 #include "std_msgs/msg/detail/string__struct.h"
 // Member 'level'
 #include "std_msgs/msg/detail/u_int8__struct.h"
@@ -31,6 +32,7 @@ extern "C"
 typedef struct guided_vr_interfaces__msg__Notification2D
 {
   std_msgs__msg__String source;
+  std_msgs__msg__String desc;
   std_msgs__msg__UInt8 level;
   builtin_interfaces__msg__Time stamp;
   uint32_t id;

@@ -13,6 +13,7 @@
 
 // Include directives for member types
 // Member `source`
+// Member `desc`
 #include "std_msgs/msg/detail/string__functions.h"
 // Member `level`
 #include "std_msgs/msg/detail/u_int8__functions.h"
@@ -29,6 +30,11 @@ guided_vr_interfaces__msg__Notification2D__init(guided_vr_interfaces__msg__Notif
   }
   // source
   if (!std_msgs__msg__String__init(&msg->source)) {
+    guided_vr_interfaces__msg__Notification2D__fini(msg);
+    return false;
+  }
+  // desc
+  if (!std_msgs__msg__String__init(&msg->desc)) {
     guided_vr_interfaces__msg__Notification2D__fini(msg);
     return false;
   }
@@ -59,6 +65,8 @@ guided_vr_interfaces__msg__Notification2D__fini(guided_vr_interfaces__msg__Notif
   }
   // source
   std_msgs__msg__String__fini(&msg->source);
+  // desc
+  std_msgs__msg__String__fini(&msg->desc);
   // level
   std_msgs__msg__UInt8__fini(&msg->level);
   // stamp
@@ -77,6 +85,12 @@ guided_vr_interfaces__msg__Notification2D__are_equal(const guided_vr_interfaces_
   // source
   if (!std_msgs__msg__String__are_equal(
       &(lhs->source), &(rhs->source)))
+  {
+    return false;
+  }
+  // desc
+  if (!std_msgs__msg__String__are_equal(
+      &(lhs->desc), &(rhs->desc)))
   {
     return false;
   }
@@ -116,6 +130,12 @@ guided_vr_interfaces__msg__Notification2D__copy(
   // source
   if (!std_msgs__msg__String__copy(
       &(input->source), &(output->source)))
+  {
+    return false;
+  }
+  // desc
+  if (!std_msgs__msg__String__copy(
+      &(input->desc), &(output->desc)))
   {
     return false;
   }

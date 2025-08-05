@@ -16,6 +16,7 @@
 
 // Include directives for member types
 // Member 'source'
+// Member 'desc'
 #include "std_msgs/msg/detail/string__traits.hpp"
 // Member 'level'
 #include "std_msgs/msg/detail/u_int8__traits.hpp"
@@ -39,6 +40,13 @@ inline void to_flow_style_yaml(
   {
     out << "source: ";
     to_flow_style_yaml(msg.source, out);
+    out << ", ";
+  }
+
+  // member: desc
+  {
+    out << "desc: ";
+    to_flow_style_yaml(msg.desc, out);
     out << ", ";
   }
 
@@ -93,6 +101,15 @@ inline void to_block_style_yaml(
     }
     out << "source:\n";
     to_block_style_yaml(msg.source, out, indentation + 2);
+  }
+
+  // member: desc
+  {
+    if (indentation > 0) {
+      out << std::string(indentation, ' ');
+    }
+    out << "desc:\n";
+    to_block_style_yaml(msg.desc, out, indentation + 2);
   }
 
   // member: level

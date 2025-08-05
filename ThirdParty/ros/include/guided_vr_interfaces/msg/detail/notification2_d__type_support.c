@@ -14,8 +14,10 @@
 
 // Include directives for member types
 // Member `source`
+// Member `desc`
 #include "std_msgs/msg/string.h"
 // Member `source`
+// Member `desc`
 #include "std_msgs/msg/detail/string__rosidl_typesupport_introspection_c.h"
 // Member `level`
 #include "std_msgs/msg/u_int8.h"
@@ -104,7 +106,7 @@ bool guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection
   return geometry_msgs__msg__Point__Sequence__init(member, size);
 }
 
-static rosidl_typesupport_introspection_c__MessageMember guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[5] = {
+static rosidl_typesupport_introspection_c__MessageMember guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[6] = {
   {
     "source",  // name
     rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
@@ -114,6 +116,23 @@ static rosidl_typesupport_introspection_c__MessageMember guided_vr_interfaces__m
     0,  // array size
     false,  // is upper bound
     offsetof(guided_vr_interfaces__msg__Notification2D, source),  // bytes offset in struct
+    NULL,  // default value
+    NULL,  // size() function pointer
+    NULL,  // get_const(index) function pointer
+    NULL,  // get(index) function pointer
+    NULL,  // fetch(index, &value) function pointer
+    NULL,  // assign(index, value) function pointer
+    NULL  // resize(index) function pointer
+  },
+  {
+    "desc",  // name
+    rosidl_typesupport_introspection_c__ROS_TYPE_MESSAGE,  // type
+    0,  // upper bound of string
+    NULL,  // members of sub message (initialized later)
+    false,  // is array
+    0,  // array size
+    false,  // is upper bound
+    offsetof(guided_vr_interfaces__msg__Notification2D, desc),  // bytes offset in struct
     NULL,  // default value
     NULL,  // size() function pointer
     NULL,  // get_const(index) function pointer
@@ -195,7 +214,7 @@ static rosidl_typesupport_introspection_c__MessageMember guided_vr_interfaces__m
 static const rosidl_typesupport_introspection_c__MessageMembers guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_members = {
   "guided_vr_interfaces__msg",  // message namespace
   "Notification2D",  // message name
-  5,  // number of fields
+  6,  // number of fields
   sizeof(guided_vr_interfaces__msg__Notification2D),
   guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array,  // message members
   guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_init_function,  // function to initialize message memory (memory has to be allocated)
@@ -216,10 +235,12 @@ ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspecti
   guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[0].members_ =
     ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, String)();
   guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[1].members_ =
-    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, UInt8)();
+    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, String)();
   guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[2].members_ =
+    ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, std_msgs, msg, UInt8)();
+  guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[3].members_ =
     ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, builtin_interfaces, msg, Time)();
-  guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[4].members_ =
+  guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_member_array[5].members_ =
     ROSIDL_TYPESUPPORT_INTERFACE__MESSAGE_SYMBOL_NAME(rosidl_typesupport_introspection_c, geometry_msgs, msg, Point)();
   if (!guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_type_support_handle.typesupport_identifier) {
     guided_vr_interfaces__msg__Notification2D__rosidl_typesupport_introspection_c__Notification2D_message_type_support_handle.typesupport_identifier =

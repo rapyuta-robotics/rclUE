@@ -17,6 +17,9 @@ struct RCLUE_API FROSNotification2D
     FString Source;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
+    FString Desc;
+
+    UPROPERTY(EditAnywhere, BlueprintReadWrite)
     uint8 Level;
 
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
@@ -31,6 +34,7 @@ struct RCLUE_API FROSNotification2D
     void SetROS2(guided_vr_interfaces__msg__Notification2D& OutROSData) const
     {
         UROS2Utils::StringUEToROS(Source, OutROSData.source.data);
+        UROS2Utils::StringUEToROS(Source, OutROSData.desc.data);
         OutROSData.level.data = Level;
         Stamp.SetROS2(OutROSData.stamp);
         OutROSData.id = Id;
@@ -50,6 +54,7 @@ struct RCLUE_API FROSNotification2D
     void SetFromROS2(const guided_vr_interfaces__msg__Notification2D& InROSData)
     {
         Source = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(InROSData.source.data);
+        Desc = UROS2Utils::StringROSToUE<rosidl_runtime_c__String>(InROSData.desc.data);
         Level = InROSData.level.data;
         Stamp.SetFromROS2(InROSData.stamp);
         Id = InROSData.id;

@@ -17,6 +17,7 @@
 
 // Include directives for member types
 // Member 'source'
+// Member 'desc'
 #include "std_msgs/msg/detail/string__struct.hpp"
 // Member 'level'
 #include "std_msgs/msg/detail/u_int8__struct.hpp"
@@ -45,6 +46,7 @@ struct Notification2D_
 
   explicit Notification2D_(rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : source(_init),
+    desc(_init),
     level(_init),
     stamp(_init)
   {
@@ -57,6 +59,7 @@ struct Notification2D_
 
   explicit Notification2D_(const ContainerAllocator & _alloc, rosidl_runtime_cpp::MessageInitialization _init = rosidl_runtime_cpp::MessageInitialization::ALL)
   : source(_alloc, _init),
+    desc(_alloc, _init),
     level(_alloc, _init),
     stamp(_alloc, _init)
   {
@@ -71,6 +74,9 @@ struct Notification2D_
   using _source_type =
     std_msgs::msg::String_<ContainerAllocator>;
   _source_type source;
+  using _desc_type =
+    std_msgs::msg::String_<ContainerAllocator>;
+  _desc_type desc;
   using _level_type =
     std_msgs::msg::UInt8_<ContainerAllocator>;
   _level_type level;
@@ -89,6 +95,12 @@ struct Notification2D_
     const std_msgs::msg::String_<ContainerAllocator> & _arg)
   {
     this->source = _arg;
+    return *this;
+  }
+  Type & set__desc(
+    const std_msgs::msg::String_<ContainerAllocator> & _arg)
+  {
+    this->desc = _arg;
     return *this;
   }
   Type & set__level(
@@ -159,6 +171,9 @@ struct Notification2D_
   bool operator==(const Notification2D_ & other) const
   {
     if (this->source != other.source) {
+      return false;
+    }
+    if (this->desc != other.desc) {
       return false;
     }
     if (this->level != other.level) {

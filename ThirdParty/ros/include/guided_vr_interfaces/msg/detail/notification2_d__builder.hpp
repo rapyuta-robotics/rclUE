@@ -85,16 +85,32 @@ private:
   ::guided_vr_interfaces::msg::Notification2D msg_;
 };
 
+class Init_Notification2D_desc
+{
+public:
+  explicit Init_Notification2D_desc(::guided_vr_interfaces::msg::Notification2D & msg)
+  : msg_(msg)
+  {}
+  Init_Notification2D_level desc(::guided_vr_interfaces::msg::Notification2D::_desc_type arg)
+  {
+    msg_.desc = std::move(arg);
+    return Init_Notification2D_level(msg_);
+  }
+
+private:
+  ::guided_vr_interfaces::msg::Notification2D msg_;
+};
+
 class Init_Notification2D_source
 {
 public:
   Init_Notification2D_source()
   : msg_(::rosidl_runtime_cpp::MessageInitialization::SKIP)
   {}
-  Init_Notification2D_level source(::guided_vr_interfaces::msg::Notification2D::_source_type arg)
+  Init_Notification2D_desc source(::guided_vr_interfaces::msg::Notification2D::_source_type arg)
   {
     msg_.source = std::move(arg);
-    return Init_Notification2D_level(msg_);
+    return Init_Notification2D_desc(msg_);
   }
 
 private:
