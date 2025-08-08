@@ -1,0 +1,4 @@
+source;share/guided_vr_interfaces/environment/ament_prefix_path.sh
+source;share/guided_vr_interfaces/environment/library_path.sh
+source;share/guided_vr_interfaces/environment/path.sh
+source;share/guided_vr_interfaces/environment/pythonpath.sh
