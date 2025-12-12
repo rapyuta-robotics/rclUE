@@ -1,0 +1,105 @@
+// generated from rosidl_generator_c/resource/idl__struct.h.em
+// with input from simulation_interfaces:srv/GetSimulationState.idl
+// generated code does not contain a copyright notice
+
+// IWYU pragma: private, include "simulation_interfaces/srv/get_simulation_state.h"
+
+
+#ifndef SIMULATION_INTERFACES__SRV__DETAIL__GET_SIMULATION_STATE__STRUCT_H_
+#define SIMULATION_INTERFACES__SRV__DETAIL__GET_SIMULATION_STATE__STRUCT_H_
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
+
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+
+
+// Constants defined in the message
+
+/// Struct defined in srv/GetSimulationState in the package simulation_interfaces.
+typedef struct simulation_interfaces__srv__GetSimulationState_Request
+{
+  uint8_t structure_needs_at_least_one_member;
+} simulation_interfaces__srv__GetSimulationState_Request;
+
+// Struct for a sequence of simulation_interfaces__srv__GetSimulationState_Request.
+typedef struct simulation_interfaces__srv__GetSimulationState_Request__Sequence
+{
+  simulation_interfaces__srv__GetSimulationState_Request * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} simulation_interfaces__srv__GetSimulationState_Request__Sequence;
+
+// Constants defined in the message
+
+// Include directives for member types
+// Member 'state'
+#include "simulation_interfaces/msg/detail/simulation_state__struct.h"
+// Member 'result'
+#include "simulation_interfaces/msg/detail/result__struct.h"
+
+/// Struct defined in srv/GetSimulationState in the package simulation_interfaces.
+typedef struct simulation_interfaces__srv__GetSimulationState_Response
+{
+  /// Current state of the simulation.
+  simulation_interfaces__msg__SimulationState state;
+  simulation_interfaces__msg__Result result;
+} simulation_interfaces__srv__GetSimulationState_Response;
+
+// Struct for a sequence of simulation_interfaces__srv__GetSimulationState_Response.
+typedef struct simulation_interfaces__srv__GetSimulationState_Response__Sequence
+{
+  simulation_interfaces__srv__GetSimulationState_Response * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} simulation_interfaces__srv__GetSimulationState_Response__Sequence;
+
+// Constants defined in the message
+
+// Include directives for member types
+// Member 'info'
+#include "service_msgs/msg/detail/service_event_info__struct.h"
+
+// constants for array fields with an upper bound
+// request
+enum
+{
+  simulation_interfaces__srv__GetSimulationState_Event__request__MAX_SIZE = 1
+};
+// response
+enum
+{
+  simulation_interfaces__srv__GetSimulationState_Event__response__MAX_SIZE = 1
+};
+
+/// Struct defined in srv/GetSimulationState in the package simulation_interfaces.
+typedef struct simulation_interfaces__srv__GetSimulationState_Event
+{
+  service_msgs__msg__ServiceEventInfo info;
+  simulation_interfaces__srv__GetSimulationState_Request__Sequence request;
+  simulation_interfaces__srv__GetSimulationState_Response__Sequence response;
+} simulation_interfaces__srv__GetSimulationState_Event;
+
+// Struct for a sequence of simulation_interfaces__srv__GetSimulationState_Event.
+typedef struct simulation_interfaces__srv__GetSimulationState_Event__Sequence
+{
+  simulation_interfaces__srv__GetSimulationState_Event * data;
+  /// The number of valid items in data
+  size_t size;
+  /// The number of allocated items in data
+  size_t capacity;
+} simulation_interfaces__srv__GetSimulationState_Event__Sequence;
+
+#ifdef __cplusplus
+}
+#endif
+
+#endif  // SIMULATION_INTERFACES__SRV__DETAIL__GET_SIMULATION_STATE__STRUCT_H_
