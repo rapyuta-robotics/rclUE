@@ -57,11 +57,25 @@ void UROS2Subscriber::ProcessReady()
 
     if (Ready == true)
     {
+        // Process all messages in the queue (not just one)
         void* data = TopicMessage->Get();
         rmw_message_info_t messageInfo;
-        RCSOFTCHECK(rcl_take(&rcl_subscription, data, &messageInfo, nullptr));
 
-        Callback.ExecuteIfBound(TopicMessage);
+        int32 ProcessedCount = 0;
+        while (true)
+        {
+            rcl_ret_t ret = rcl_take(&rcl_subscription, data, &messageInfo, nullptr);
+
+            // RCL_RET_OK means message was received successfully
+            // RCL_RET_SUBSCRIPTION_TAKE_FAILED means no more messages in queue
+            if (ret != RCL_RET_OK)
+            {
+                break;    // No more messages available
+            }
+
+            ProcessedCount++;
+            Callback.ExecuteIfBound(TopicMessage);
+        }
 
         Ready = false;
     }
