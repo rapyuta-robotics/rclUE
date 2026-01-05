@@ -45,7 +45,8 @@ void UROS2Subscriber::InitializeTopicComponent()
     if (QoSProfile.IsSet())
     {
         sub_opt.qos = QoSProfile.GetValue();
-        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%zu)"), *TopicName, QoSProfile.GetValue().depth);
+        const uint32 QoSDepth = static_cast<uint32>(QoSProfile.GetValue().depth);
+        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%u)"), *TopicName, QoSDepth);
     }
     else
     {
