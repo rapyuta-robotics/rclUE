@@ -14,6 +14,7 @@
 // rclUE
 #include "Msgs/ROS2GenericMsg.h"
 #include "ROS2NodeComponent.h"
+#include "rclcUtilities.h"
 
 #include "ROS2Topic.generated.h"
 
@@ -95,11 +96,50 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2QoS QoS = UROS2QoS::Default;
 
+    /**
+     * @brief Optional custom QoS profile.
+     *
+     * Use this when you need fine-grained QoS settings that are not covered by the #UROS2QoS
+     * enum presets (for example, custom reliability, durability, history depth, deadline,
+     * or lifespan values).
+     *
+     * If this optional has a value, it takes precedence over the QoS enum above and the stored
+     * rmw_qos_profile_t is passed directly to the underlying RMW layer. If it is not set, the
+     * QoS enum is used to derive the effective QoS settings.
+     *
+     * Example usage in C++:
+     * @code{.cpp}
+     *   rmw_qos_profile_t CustomProfile = rmw_qos_profile_default;
+     *   CustomProfile.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
+     *   CustomProfile.durability  = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+     *   CustomProfile.depth       = 10;
+     *
+     *   MyTopic->QoS = UROS2QoS::Default;   // used only if QoSProfile is not set
+     *   MyTopic->QoSProfile = CustomProfile; // overrides the enum-based QoS
+     * @endcode
+     */
+    TOptional<rmw_qos_profile_t> QoSProfile;
+
     //! Message Instance
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
     UROS2GenericMsg* TopicMessage;
 
 protected:
+    /**
+     * @brief Get the effective QoS profile to use for this topic
+     * Returns custom QoS if set, otherwise returns the QoS from QoS_LUT
+     *
+     * @return rmw_qos_profile_t The QoS profile to use
+     */
+    rmw_qos_profile_t GetEffectiveQoS() const
+    {
+        if (QoSProfile.IsSet())
+        {
+            return QoSProfile.GetValue();
+        }
+        return QoS_LUT[QoS];
+    }
+
     /**
      * @brief Initialize ROS2 Topic. Should be implemented in #UROS2Publisher and #UROS2Subscriber
      *
