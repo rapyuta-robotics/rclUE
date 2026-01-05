@@ -91,7 +91,7 @@ void UROS2Publisher::InitializeTopicComponent()
     if (QoSProfile.IsSet())
     {
         pub_opt.qos = QoSProfile.GetValue();
-        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%zu)"), *TopicName, QoSProfile.GetValue().depth);
+        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%u)"), *TopicName, static_cast<uint32>(QoSProfile.GetValue().depth));
     }
     else
     {
