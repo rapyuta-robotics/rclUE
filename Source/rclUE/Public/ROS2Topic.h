@@ -96,7 +96,28 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2QoS QoS = UROS2QoS::Default;
 
-    //! Optional custom QoS profile (overrides QoS enum when set)
+    /**
+     * @brief Optional custom QoS profile.
+     *
+     * Use this when you need fine‑grained QoS settings that are not covered by the #UROS2QoS
+     * enum presets (for example, custom reliability, durability, history depth, deadline,
+     * or lifespan values).
+     *
+     * If this optional has a value, it takes precedence over the QoS enum above and the stored
+     * rmw_qos_profile_t is passed directly to the underlying RMW layer. If it is not set, the
+     * QoS enum is used to derive the effective QoS settings.
+     *
+     * Example usage in C++:
+     * @code{.cpp}
+     *   rmw_qos_profile_t CustomProfile = rmw_qos_profile_default;
+     *   CustomProfile.reliability = RMW_QOS_POLICY_RELIABILITY_RELIABLE;
+     *   CustomProfile.durability  = RMW_QOS_POLICY_DURABILITY_TRANSIENT_LOCAL;
+     *   CustomProfile.depth       = 10;
+     *
+     *   MyTopic->QoS = UROS2QoS::Default;   // used only if QoSProfile is not set
+     *   MyTopic->QoSProfile = CustomProfile; // overrides the enum-based QoS
+     * @endcode
+     */
     TOptional<rmw_qos_profile_t> QoSProfile;
 
     //! Message Instance
