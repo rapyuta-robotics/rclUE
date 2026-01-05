@@ -42,6 +42,21 @@ public:
                                              const UROS2QoS InQoS = UROS2QoS::Default);
 
     /**
+     * @brief Create a new UROS2Subscriber with custom QoS profile
+     *
+     * @param InOwner Owner object
+     * @param InTopicName Topic name
+     * @param InMsgClass Custom message type class
+     * @param InCallback Callback function
+     * @param InCustomQoS Custom QoS profile
+     */
+    static UROS2Subscriber* CreateSubscriber(UObject* InOwner,
+                                             const FString& InTopicName,
+                                             const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                             const FSubscriptionCallback& InCallback,
+                                             const rmw_qos_profile_t& InCustomQoS);
+
+    /**
      * @brief Destroy subscriber with rcl_subscriber_fini
      *
      */
