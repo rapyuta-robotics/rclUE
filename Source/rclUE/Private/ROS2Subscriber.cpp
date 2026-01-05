@@ -68,13 +68,25 @@ void UROS2Subscriber::ProcessReady()
 
             // RCL_RET_OK means message was received successfully
             // RCL_RET_SUBSCRIPTION_TAKE_FAILED means no more messages in queue
-            if (ret != RCL_RET_OK)
+            if (ret == RCL_RET_OK)
             {
-                break;    // No more messages available
+                ProcessedCount++;
+                Callback.ExecuteIfBound(TopicMessage);
+                continue;
             }
 
-            ProcessedCount++;
-            Callback.ExecuteIfBound(TopicMessage);
+            if (ret == RCL_RET_SUBSCRIPTION_TAKE_FAILED)
+            {
+                // No more messages available in the queue
+                break;
+            }
+
+            // Genuine error: log and break to avoid spinning on an error condition
+            UE_LOG_WITH_INFO(LogROS2Topic,
+                             Error,
+                             TEXT("rcl_take failed in UROS2Subscriber::ProcessReady with return code: %d"),
+                             static_cast<int32>(ret));
+            break;
         }
 
         Ready = false;
