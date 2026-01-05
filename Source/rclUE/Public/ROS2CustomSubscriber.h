@@ -53,7 +53,7 @@ public:
         UROS2CustomSubscriber* subscriber = NewObject<UROS2CustomSubscriber>(InOwner);
         subscriber->MsgClass = InMsgClass;
         subscriber->TopicName = InTopicName;
-        subscriber->Callback = InCallback;
+        subscriber->SetDelegates(InCallback);
         subscriber->CustomQoSProfile = InCustomQoS;
         subscriber->bUseCustomQoS = true;
         return subscriber;
