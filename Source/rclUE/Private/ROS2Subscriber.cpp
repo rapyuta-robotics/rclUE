@@ -29,6 +29,9 @@ UROS2Subscriber* UROS2Subscriber::CreateSubscriber(UObject* InOwner,
     subscriber->MsgClass = InMsgClass;
     subscriber->TopicName = InTopicName;
     subscriber->QoSProfile = InCustomQoS;
+    // When a custom QoS profile is provided, mark the enum QoS as unknown to
+    // make it explicit that the standard QoS setting is not used.
+    subscriber->QoS = UROS2QoS::UnknownQoS;
     subscriber->SetDelegates(InCallback);
     return subscriber;
 }
