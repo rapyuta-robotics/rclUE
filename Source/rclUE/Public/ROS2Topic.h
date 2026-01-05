@@ -99,7 +99,7 @@ public:
     /**
      * @brief Optional custom QoS profile.
      *
-     * Use this when you need fine‑grained QoS settings that are not covered by the #UROS2QoS
+     * Use this when you need fine-grained QoS settings that are not covered by the #UROS2QoS
      * enum presets (for example, custom reliability, durability, history depth, deadline,
      * or lifespan values).
      *
