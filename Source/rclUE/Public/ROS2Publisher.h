@@ -95,6 +95,24 @@ public:
                                            const UROS2QoS InQoS = UROS2QoS::Default);
 
     /**
+     * @brief Create a new UROS2Publisher with custom QoS profile
+     *
+     * @param InOwner Owner object
+     * @param InTopicName Topic name
+     * @param InPublisherClass Custom publisher type class
+     * @param InMsgClass Custom message type class
+     * @param InPubFrequency Publishing frequency
+     * @param InCustomQoS Custom QoS profile
+     * @return UROS2Publisher*
+     */
+    static UROS2Publisher* CreatePublisher(UObject* InOwner,
+                                           const FString& InTopicName,
+                                           const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                           const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                           float InPubFrequency,
+                                           const rmw_qos_profile_t& InCustomQoS);
+
+    /**
      * @brief Update Msg with delegate and publish msg.
      *
      */

@@ -19,6 +19,20 @@ UROS2Subscriber* UROS2Subscriber::CreateSubscriber(UObject* InOwner,
     return subscriber;
 }
 
+UROS2Subscriber* UROS2Subscriber::CreateSubscriber(UObject* InOwner,
+                                                   const FString& InTopicName,
+                                                   const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                   const FSubscriptionCallback& InCallback,
+                                                   const rmw_qos_profile_t& InCustomQoS)
+{
+    UROS2Subscriber* subscriber = NewObject<UROS2Subscriber>(InOwner);
+    subscriber->MsgClass = InMsgClass;
+    subscriber->TopicName = InTopicName;
+    subscriber->QoSProfile = InCustomQoS;
+    subscriber->SetDelegates(InCallback);
+    return subscriber;
+}
+
 void UROS2Subscriber::InitializeTopicComponent()
 {
     const rosidl_message_type_support_t* msg_type_support = TopicMessage->GetTypeSupport();
@@ -26,7 +40,18 @@ void UROS2Subscriber::InitializeTopicComponent()
     rcl_subscription = rcl_get_zero_initialized_subscription();
     const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
     rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
-    sub_opt.qos = QoS_LUT[QoS];
+    
+    // Use custom QoS if set, otherwise use standard QoS_LUT
+    if (QoSProfile.IsSet())
+    {
+        sub_opt.qos = QoSProfile.GetValue();
+        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%zu)"), *TopicName, QoSProfile.GetValue().depth);
+    }
+    else
+    {
+        sub_opt.qos = QoS_LUT[QoS];
+    }
+    
     RCSOFTCHECK(rcl_subscription_init(&rcl_subscription, OwnerNode->GetNode(), type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
     State = UROS2State::Initialized;
@@ -61,7 +86,6 @@ void UROS2Subscriber::ProcessReady()
         void* data = TopicMessage->Get();
         rmw_message_info_t messageInfo;
 
-        int32 ProcessedCount = 0;
         while (true)
         {
             rcl_ret_t ret = rcl_take(&rcl_subscription, data, &messageInfo, nullptr);
@@ -70,7 +94,6 @@ void UROS2Subscriber::ProcessReady()
             // RCL_RET_SUBSCRIPTION_TAKE_FAILED means no more messages in queue
             if (ret == RCL_RET_OK)
             {
-                ProcessedCount++;
                 Callback.ExecuteIfBound(TopicMessage);
                 continue;
             }

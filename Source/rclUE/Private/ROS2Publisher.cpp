@@ -62,6 +62,22 @@ UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
     return publisher;
 }
 
+UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
+                                                const FString& InTopicName,
+                                                const TSubclassOf<UROS2Publisher>& InPublisherClass,
+                                                const TSubclassOf<UROS2GenericMsg>& InMsgClass,
+                                                float InPubFrequency,
+                                                const rmw_qos_profile_t& InCustomQoS)
+{
+    UROS2Publisher* publisher = NewObject<UROS2Publisher>(InOwner, InPublisherClass);
+    publisher->MsgClass = InMsgClass;
+    publisher->TopicName = InTopicName;
+    publisher->PublicationFrequencyHz = InPubFrequency;
+    publisher->QoSProfile = InCustomQoS;
+    publisher->SetDefaultDelegates();
+    return publisher;
+}
+
 void UROS2Publisher::InitializeTopicComponent()
 {
     TimerManager = NewObject<URRTimerManager>(
@@ -71,7 +87,16 @@ void UROS2Publisher::InitializeTopicComponent()
     RclPublisher = rcl_get_zero_initialized_publisher();
     rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
-    pub_opt.qos = QoS_LUT[QoS];
+    // Use custom QoS if set, otherwise use standard QoS_LUT
+    if (QoSProfile.IsSet())
+    {
+        pub_opt.qos = QoSProfile.GetValue();
+        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%zu)"), *TopicName, QoSProfile.GetValue().depth);
+    }
+    else
+    {
+        pub_opt.qos = QoS_LUT[QoS];
+    }
 
     RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 

@@ -14,6 +14,7 @@
 // rclUE
 #include "Msgs/ROS2GenericMsg.h"
 #include "ROS2NodeComponent.h"
+#include "rclcUtilities.h"
 
 #include "ROS2Topic.generated.h"
 
@@ -94,6 +95,9 @@ public:
     //! @sa [ROS2 QoS](https://docs.ros.org/en/rolling/Concepts/About-Quality-of-Service-Settings.html)
     UPROPERTY(EditAnywhere, BlueprintReadWrite)
     UROS2QoS QoS = UROS2QoS::Default;
+
+    //! Optional custom QoS profile (overrides QoS enum when set)
+    TOptional<rmw_qos_profile_t> QoSProfile;
 
     //! Message Instance
     UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
