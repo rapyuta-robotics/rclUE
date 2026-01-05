@@ -5,6 +5,8 @@ on:
     branches:
       - devel
       - UE5_devel_humble
+      - UE5_devel_foxy
+      - UE5_devel_jazzy
     types: ["closed"]
 
   workflow_dispatch:
