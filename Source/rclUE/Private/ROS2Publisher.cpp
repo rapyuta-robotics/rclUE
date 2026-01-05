@@ -74,6 +74,9 @@ UROS2Publisher* UROS2Publisher::CreatePublisher(UObject* InOwner,
     publisher->TopicName = InTopicName;
     publisher->PublicationFrequencyHz = InPubFrequency;
     publisher->QoSProfile = InCustomQoS;
+    // When a custom QoS profile is provided, mark the enum QoS as unknown to
+    // make it explicit that the standard QoS setting is not used.
+    publisher->QoS = UROS2QoS::UnknownQoS;
     publisher->SetDefaultDelegates();
     return publisher;
 }
@@ -87,16 +90,7 @@ void UROS2Publisher::InitializeTopicComponent()
     RclPublisher = rcl_get_zero_initialized_publisher();
     rcl_publisher_options_t pub_opt = rcl_publisher_get_default_options();
 
-    // Use custom QoS if set, otherwise use standard QoS_LUT
-    if (QoSProfile.IsSet())
-    {
-        pub_opt.qos = QoSProfile.GetValue();
-        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%u)"), *TopicName, static_cast<uint32>(QoSProfile.GetValue().depth));
-    }
-    else
-    {
-        pub_opt.qos = QoS_LUT[QoS];
-    }
+    pub_opt.qos = GetEffectiveQoS();
 
     RCSOFTCHECK(rcl_publisher_init(&RclPublisher, OwnerNode->GetNode(), msg_type_support, TCHAR_TO_UTF8(*TopicName), &pub_opt));
 

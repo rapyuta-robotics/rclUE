@@ -126,6 +126,21 @@ public:
 
 protected:
     /**
+     * @brief Get the effective QoS profile to use for this topic
+     * Returns custom QoS if set, otherwise returns the QoS from QoS_LUT
+     *
+     * @return rmw_qos_profile_t The QoS profile to use
+     */
+    rmw_qos_profile_t GetEffectiveQoS() const
+    {
+        if (QoSProfile.IsSet())
+        {
+            return QoSProfile.GetValue();
+        }
+        return QoS_LUT[QoS];
+    }
+
+    /**
      * @brief Initialize ROS2 Topic. Should be implemented in #UROS2Publisher and #UROS2Subscriber
      *
      */

@@ -44,17 +44,7 @@ void UROS2Subscriber::InitializeTopicComponent()
     const rosidl_message_type_support_t* type_support = TopicMessage->GetTypeSupport();
     rcl_subscription_options_t sub_opt = rcl_subscription_get_default_options();
     
-    // Use custom QoS if set, otherwise use standard QoS_LUT
-    if (QoSProfile.IsSet())
-    {
-        sub_opt.qos = QoSProfile.GetValue();
-        const uint32 QoSDepth = static_cast<uint32>(QoSProfile.GetValue().depth);
-        UE_LOG(LogROS2Topic, Log, TEXT("[%s] Using custom QoS profile (depth=%u)"), *TopicName, QoSDepth);
-    }
-    else
-    {
-        sub_opt.qos = QoS_LUT[QoS];
-    }
+    sub_opt.qos = GetEffectiveQoS();
     
     RCSOFTCHECK(rcl_subscription_init(&rcl_subscription, OwnerNode->GetNode(), type_support, TCHAR_TO_UTF8(*TopicName), &sub_opt));
 
