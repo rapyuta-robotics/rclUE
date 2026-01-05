@@ -8,6 +8,7 @@
 
 #include "CoreMinimal.h"
 #include "ROS2Subscriber.h"
+#include "rclcUtilities.h"
 
 #include "ROS2CustomSubscriber.generated.h"
 
