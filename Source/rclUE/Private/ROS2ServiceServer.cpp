@@ -53,6 +53,13 @@ void UROS2ServiceServer::ProcessReady()
         void* data = Service->GetRequest();
         RCSOFTCHECK(rcl_take_request_with_info(&rcl_service, &req_info, data));
 
+        if (bRejectConsecutiveIdenticalRequest && UROS2Utils::IsEqualWMSrvInfo(req_info, LastReqInfo, true))
+        {
+            UE_LOG_WITH_INFO(LogROS2Srv, Warning, TEXT("Rejecting consecutive identical request"));
+            return;
+        }
+        LastReqInfo = req_info;
+
         UE_LOG_WITH_INFO_NAMED(LogROS2Node, Log, TEXT("ROS2Node Executing Service server callback"));
 
         SrvCallback.ExecuteIfBound(Service);

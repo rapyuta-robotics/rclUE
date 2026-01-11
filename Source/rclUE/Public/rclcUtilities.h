@@ -272,6 +272,39 @@ class UROS2Utils : public UBlueprintFunctionLibrary
     GENERATED_BODY()
 
 public:
+    static bool IsEqualRWMRequestId(rmw_request_id_t service1, rmw_request_id_t service2)
+    {
+        if (service1.sequence_number != service2.sequence_number)
+        {
+            return false;
+        }
+        for (int i = 0; i < 16; i++)
+        {
+            if (service1.writer_guid[i] != service2.writer_guid[i])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    static bool IsEqualWMSrvInfo(rmw_service_info_t service1, rmw_service_info_t service2, bool check_received_timestamp = true)
+    {
+        if (!UROS2Utils::IsEqualRWMRequestId(service1.request_id, service2.request_id))
+        {
+            return false;
+        }
+        if (service1.source_timestamp != service2.source_timestamp)
+        {
+            return false;
+        }
+        if (check_received_timestamp && service1.received_timestamp != service2.received_timestamp)
+        {
+            return false;
+        }
+        return true;
+    }
+
     static builtin_interfaces__msg__Time FloatToROSStamp(const float InTimeSec)
     {
         builtin_interfaces__msg__Time stamp;
