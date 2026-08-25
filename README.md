@@ -16,7 +16,7 @@ Main support
 Maintenance/experimental
 
 - Ubuntu 22.04 and ROS2 Humble(`UE5_devel_humble` branch)
-- Ubuntu 24.04 and ROS2 Humble(`UE5_devel_jazzy` branch)
+- Ubuntu 24.04 and ROS2 Jazzy (`UE5_devel_jazzy` branch)
 
 Please download UE5.10 for Linux by following [Unreal Engine for Linux](https://www.unrealengine.com/en-US/linux)
 
